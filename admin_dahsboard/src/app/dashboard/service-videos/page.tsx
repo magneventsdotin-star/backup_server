@@ -118,6 +118,17 @@ export default function ServiceVideos() {
     };
   }, []);
 
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isModalOpen]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -405,7 +416,7 @@ export default function ServiceVideos() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           {/* High-end cinematic dark glassmorphic backdrop */}
           <div 
-            className="absolute inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity duration-300"
+            className="absolute inset-0 bg-slate-950/85 backdrop-blur-xl transition-opacity duration-300"
             onClick={() => !uploading && setIsModalOpen(false)}
           />
           
