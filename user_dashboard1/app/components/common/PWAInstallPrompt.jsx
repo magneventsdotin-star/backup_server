@@ -12,6 +12,9 @@ export default function PWAInstallPrompt() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    // 🧪 TESTING OVERRIDE: Bypassed to persistently display the install banner on every page refresh.
+    // ⚠️ IN PRODUCTION: Simply uncomment the blocks below to restore dismissal and standalone state checks!
+    /*
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
     if (isStandalone) {
       return;
@@ -21,6 +24,7 @@ export default function PWAInstallPrompt() {
     if (isDismissed === 'true') {
       return;
     }
+    */
 
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
