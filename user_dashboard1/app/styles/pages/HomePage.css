@@ -3430,7 +3430,7 @@
 }
 
 .hp-cat-label-v2 {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 900;
   color: #fff;
   letter-spacing: 0.15em;
@@ -3443,7 +3443,7 @@
 }
 
 .hp-cat-sub-label {
-  font-size: 11px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3470,8 +3470,11 @@
     height: 140px !important;
   }
   .hp-cat-label-v2 {
-    font-size: 17px !important;
+    font-size: 21px !important;
     letter-spacing: 0.1em !important;
+  }
+  .hp-cat-sub-label {
+    font-size: 14px !important;
   }
   .hp-cat-card-v2::before {
     height: 70px !important;
@@ -3509,11 +3512,11 @@
     height: 12px !important;
   }
   .hp-cat-label-v2 {
-    font-size: 16px !important;
+    font-size: 20px !important;
     letter-spacing: 0.08em !important;
   }
   .hp-cat-sub-label {
-    font-size: 10px !important;
+    font-size: 13px !important;
   }
   .hp-cat-card-v2::before {
     height: 60px !important;
