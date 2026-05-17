@@ -9,17 +9,11 @@ import { useMouseGlow } from '@/app/hooks/useMouseGlow';
 
 const HIDE_CHROME_ON = ['/checkout', '/confirmed', '/login', '/signup', '/onboarding', '/chat'];
 
-/**
- * AppShellWrapper Component
- * 
- * Provides the core layout shell, including global Navigation, 
- * Footer, and interactive background effects.
- */
 export function AppShellWrapper({ children }) {
   const pathname = usePathname();
   const hideChrome = HIDE_CHROME_ON.some(p => pathname.startsWith(p));
 
-  // Initialize interactive background glow effect
+
   useMouseGlow();
 
   const routeTransitionClass = ['/artists', '/services', '/gallery', '/events', '/pricing', '/book', '/blog-post', '/contact', '/search', '/markets']
@@ -31,7 +25,7 @@ export function AppShellWrapper({ children }) {
     <div className="flow-unify-shell">
       <div className="flow-unify-atmos" aria-hidden="true" />
       <div className="ambient-canvas" aria-hidden="true" />
-      
+
       {!hideChrome && <Nav />}
 
       <div className={`page-enter ${routeTransitionClass}`} style={{ minHeight: '100vh', paddingTop: '72px' }}>

@@ -1,4 +1,4 @@
-/* Home page styles: clean rebuild after corrupted CSS merge */
+
 
 :root {
   --hp-bg: #0d0b09;
@@ -74,7 +74,6 @@
   text-shadow: 0 0 30px rgba(214, 80, 80, 0.2);
 }
 
-
 .hp-section-head p,
 .hp-how-desc {
   font-size: 18px;
@@ -90,7 +89,6 @@
   color: #f7e7ca;
 }
 
-/* Hero */
 .hp-hero {
   position: relative;
   min-height: 50vh;
@@ -98,7 +96,7 @@
   align-items: center;
   isolation: isolate;
   overflow: hidden;
-  background: 
+  background:
     radial-gradient(circle at 20% 0%, var(--glow-red) 0%, transparent 50%),
     radial-gradient(circle at 80% 10%, rgba(255, 224, 50, 0.05) 0%, transparent 50%),
     var(--bg-main);
@@ -250,7 +248,6 @@
   text-shadow: 0 1px 10px rgba(9, 6, 4, 0.34);
 }
 
-/* Override global paragraph tint from flow-unify for hero readability */
 .flow-unify-shell .page-enter .hp-hero-sub {
   color: #f3e5cf;
 }
@@ -321,7 +318,7 @@
 }
 
 .hp-btn-shine {
-  display: none; /* Removing flashy animations for premium clean look */
+  display: none;
 }
 
 .hp-btn-ghost {
@@ -352,29 +349,26 @@
   padding: 0 40px;
 }
 
-
-
 .hp-stat-card {
   background: rgba(20, 10, 10, 0.6);
   backdrop-filter: blur(40px);
   border: 1px solid rgba(214, 80, 80, 0.2);
   border-radius: 20px;
-  padding: 26px 24px; /* Decreased vertical padding by 10% */
+  padding: 26px 24px;
   flex: 1;
   position: relative;
   text-align: center;
   overflow: hidden;
-  box-shadow: 
+  box-shadow:
     0 30px 60px rgba(0, 0, 0, 0.5),
     inset 0 0 30px rgba(214, 80, 80, 0.05);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 220px; /* Decreasedight by 10% (from 252px to 227px) */
+  min-height: 220px;
   transition: all 0.4s ease;
 }
 
-/* Elegant Red Top Accent Line */
 .hp-stat-card::before {
   content: '';
   position: absolute;
@@ -388,7 +382,6 @@
   box-shadow: 0 0 15px var(--glow-red);
 }
 
-/* Red Background Glow */
 .hp-stat-card::after {
   content: '';
   position: absolute;
@@ -400,7 +393,7 @@
 .hp-stat-card strong {
   display: block;
   color: var(--brand-ruby);
-  font-size: clamp(4.2rem, 7.4vw, 5.8rem); /* Increased by another ~2% */
+  font-size: clamp(4.2rem, 7.4vw, 5.8rem);
   font-weight: 900;
   margin-bottom: 12px;
   letter-spacing: -0.05em;
@@ -410,7 +403,7 @@
 
 .hp-stat-card span {
   color: #fff;
-  font-size: 17px; /* Increased from 16.5px (~2%) */
+  font-size: 17px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.25em;
@@ -418,9 +411,6 @@
   position: relative;
 }
 
-
-
-/* Decorative Line below label */
 .hp-stat-card span::after {
   content: '';
   display: block;
@@ -438,8 +428,8 @@
     padding: 0 24px;
   }
   .hp-stat-card {
-    min-height: 198px; /* Decreased height by 10% (from 220px to 198px) */
-    padding: 36px 20px; /* Adjusted padding accordingly */
+    min-height: 198px;
+    padding: 36px 20px;
   }
   .hp-stat-card strong {
     font-size: 3.5rem;
@@ -448,9 +438,6 @@
     font-size: 14px;
   }
 }
-
-
-
 
 .hp-hero-spotlight-wrapper {
   perspective: 1000px;
@@ -560,7 +547,6 @@
   color: var(--text-muted);
 }
 
-
 .hp-hero-spotlight-body ul {
   margin: 0;
   padding-left: 18px;
@@ -579,7 +565,6 @@
   z-index: 2;
 }
 
-/* Shared micro components */
 .music-bars {
   display: inline-grid;
   grid-auto-flow: column;
@@ -598,7 +583,6 @@
 .stars-row { display: inline-flex; gap: 2px; }
 .star { color: #d48922; font-size: 13px; }
 
-/* Artist of month */
 .hp-month-card {
   display: grid;
   grid-template-columns: 1.08fr 0.92fr;
@@ -618,16 +602,16 @@
   box-shadow: var(--shadow-card-hover);
 }
 
-.hp-month-img-wrap { 
-  position: relative; 
-  border-radius: var(--radius-lg); 
-  overflow: hidden; 
+.hp-month-img-wrap {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
-.hp-month-img-wrap img { 
-  width: 100%; 
-  height: 400px; 
-  object-fit: cover; 
-  display: block; 
+.hp-month-img-wrap img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
   transition: transform 0.4s ease;
 }
 
@@ -635,10 +619,10 @@
   transform: scale(1.02);
 }
 
-.hp-month-img-glow { 
-  position: absolute; 
-  inset: 0; 
-  background: linear-gradient(to top, rgba(36, 36, 36, 0.6), transparent 60%); 
+.hp-month-img-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(36, 36, 36, 0.6), transparent 60%);
 }
 
 .hp-month-badge {
@@ -857,7 +841,6 @@
   }
 }
 
-/* Categories */
 .hp-cat-shell {
   border: 1px solid var(--hp-card-border);
   background: var(--hp-card);
@@ -915,7 +898,6 @@
 .hp-cat-price strong { font-size: 13px; }
 .hp-cat-price span { font-size: 11px; color: var(--hp-brand-deep); }
 
-/* Featured artists */
 .hp-feat-head {
   display: flex;
   justify-content: space-between;
@@ -958,15 +940,14 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  scrollbar-width: none; /* Hide scrollbar */
+  scrollbar-width: none;
   padding: 10px 0 30px;
 }
 
 .hp-feat-carousel::-webkit-scrollbar {
-  display: none; /* Hide scrollbar */
+  display: none;
 }
 
-/* Positioning for Featured Controls */
 .hp-feat-head {
   position: relative;
   display: flex;
@@ -985,15 +966,14 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  scrollbar-width: none; /* Hide scrollbar */
-  padding: 10px 80px 30px; /* Added 80px side padding for arrows */
+  scrollbar-width: none;
+  padding: 10px 80px 30px;
 }
 
 .hp-feat-carousel::-webkit-scrollbar {
-  display: none; /* Hide scrollbar */
+  display: none;
 }
 
-/* Positioning for Featured Controls */
 .hp-feat-head {
   position: relative;
   display: flex;
@@ -1020,7 +1000,6 @@
   background: var(--brand-gold);
 }
 
-/* Category Slider Adjustments */
 .hp-cat-carousel-wrap {
   display: flex;
   align-items: center;
@@ -1033,7 +1012,7 @@
   flex: 1;
   overflow: visible;
   scrollbar-width: none;
-  padding: 0 80px; /* Added 80px side padding for arrows */
+  padding: 0 80px;
 }
 
 .hp-cat-carousel::-webkit-scrollbar {
@@ -1055,7 +1034,6 @@
   right: 20px;
 }
 
-/* Review Slider Adjustments */
 .hp-reviews-slider-wrap {
   display: flex;
   align-items: center;
@@ -1067,7 +1045,7 @@
 .hp-reviews-slider-viewport {
   flex: 1;
   overflow: hidden;
-  padding: 20px 80px; /* Added 80px side padding for arrows */
+  padding: 20px 80px;
 }
 
 .hp-reviews-slider-wrap .lux-arrow-btn {
@@ -1090,15 +1068,11 @@
   transform: translateY(-50%) scale(1.1);
 }
 
-
-
-
-
 @media (max-width: 1400px) {
   .hp-feat-controls,
   .hp-cat-carousel-wrap .lux-arrow-btn,
   .hp-reviews-slider-wrap .lux-arrow-btn {
-    display: none; /* Hide side arrows on small screens or move them inside */
+    display: none;
   }
   .hp-cat-carousel {
     padding: 0 16px;
@@ -1107,8 +1081,6 @@
     padding: 20px 16px;
   }
 }
-
-
 
 .hp-feat-slide { scroll-snap-align: start; }
 
@@ -1133,12 +1105,11 @@
 
 .hp-feat-img-wrap {
   position: relative;
-  aspect-ratio: 16/10.5; /* Increased height by 5% */
+  aspect-ratio: 16/10.5;
   overflow: hidden;
   margin: 0;
   border-bottom: 1px solid rgba(214, 80, 80, 0.1);
 }
-
 
 .hp-feat-img-wrap img {
   width: 100%;
@@ -1290,7 +1261,6 @@
   border-color: #D65050;
 }
 
-/* How it works */
 .hp-how-dark {
   border: 1px solid rgba(255, 219, 173, 0.14);
   border-radius: 22px;
@@ -1331,7 +1301,6 @@
 .hp-step-card p { margin: 0; color: rgba(255, 236, 210, 0.84); font-size: 13px; }
 .hp-ref-link { display: inline-flex; margin-top: 14px; color: #ffc57d; text-decoration: none; font-size: 13px; }
 
-/* Services */
 .hp-services-head { max-width: 780px; }
 .hp-services-intro { margin: 10px 0 0; color: var(--hp-ink-soft); }
 
@@ -1408,14 +1377,13 @@
 .hp-service-meta { margin-top: 8px; display: flex; gap: 7px; flex-wrap: wrap; }
 .hp-service-meta span { font-size: 11px; border: 1px solid rgba(220, 122, 18, 0.2); border-radius: 999px; padding: 4px 8px; color: var(--hp-ink-soft); }
 
-/* Why */
 .hp-why-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.hp-why-card { 
-  border: 1px solid rgba(255, 255, 255, 0.1); 
-  background: rgba(255, 255, 255, 0.04); 
-  border-radius: 20px; 
-  padding: 24px; 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+.hp-why-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   transition: all 250ms ease;
 }
 .hp-why-card:hover {
@@ -1427,7 +1395,6 @@
 .hp-why-card h3 { margin: 0 0 6px; }
 .hp-why-card p { margin: 0; color: var(--hp-ink-soft); }
 
-/* CTA */
 .hp-cta-strip { margin-top: clamp(48px, 7.6vw, 86px); }
 .hp-cta-strip-inner {
   display: grid;
@@ -1454,7 +1421,6 @@
   box-shadow: 0 16px 30px rgba(20, 14, 8, 0.12);
 }
 
-/* Testimonials */
 .hp-testi-wrap { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 16px; }
 .hp-testi-video { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid var(--hp-card-border); box-shadow: var(--hp-shadow); }
 .hp-testi-video img { width: 100%; height: 100%; min-height: 280px; object-fit: cover; display: block; }
@@ -1475,7 +1441,6 @@
 .hp-testi-card p { margin: 8px 0; color: var(--hp-ink-soft); }
 .hp-testi-card h4 { margin: 0; font-size: 12px; color: var(--hp-ink-faint); }
 
-/* --- FAQ Section (Premium Glassmorphism) ------------------------------- */
 .hp-faqs {
   padding: 12px 0;
   position: relative;
@@ -1575,7 +1540,6 @@
   }
 }
 
-/* Contact */
 .hp-contact-inner {
   display: grid;
   grid-template-columns: 0.95fr 1.05fr;
@@ -1759,8 +1723,6 @@
 
 .hp-form-success-icon { font-size: 40px; display: block; margin-bottom: 16px; }
 
-
-/* Ambient layers */
 .glow-orbs { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 .glow-orb { position: absolute; border-radius: 999px; filter: blur(2px); animation: drift 18s ease-in-out infinite alternate; }
 .glow-orb-1 { width: 280px; height: 280px; left: -100px; top: -60px; background: radial-gradient(circle, rgba(245, 158, 11, 0.35) 0, transparent 72%); }
@@ -1775,7 +1737,6 @@
   animation: floatUp linear infinite;
 }
 
-/* Animations */
 @keyframes floatUp {
   0% { transform: translateY(0) rotate(0deg); opacity: 0; }
   12% { opacity: 1; }
@@ -1812,7 +1773,6 @@
   to { transform: rotate(360deg); }
 }
 
-/* Responsive */
 @media (max-width: 1080px) {
   .hp-hero-grid {
     grid-template-columns: 1fr;
@@ -1933,7 +1893,6 @@
   }
 }
 
-/* LUX PRICING (MATCHING SCREENSHOT) */
 .lux-pricing-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2084,7 +2043,6 @@
   }
 }
 
-/* â”€â”€ Artist Categories Carousel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hp-cat-section {
   padding: 20px 0;
 }
@@ -2149,8 +2107,6 @@
   width: 100%;
 }
 
-/* Arrow button styles moved to global .lux-arrow-btn in tokens.css */
-
 .hp-cat-section {
   padding: 40px 0;
   background: radial-gradient(circle at center, var(--glow-sky) 0%, var(--glow-orange) 30%, transparent 70%);
@@ -2167,7 +2123,6 @@
 .hp-cat-carousel::-webkit-scrollbar {
   display: none;
 }
-
 
 .hp-cat-grid {
   display: grid;
@@ -2338,7 +2293,6 @@
   }
 }
 
-/* Artist of the Month / Spotlight */
 .hp-aom-box {
   background: var(--bg-raised);
   border: 1px solid var(--border-subtle);
@@ -2456,7 +2410,6 @@
   }
 }
 
-/* -- Google Trust Header ------------------------------------------ */
 .hp-trust-header {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
@@ -2616,7 +2569,6 @@
   font-weight: 700;
 }
 
-/* -- Slider Uniformity ------------------------------------------ */
 .hp-reviews-slider-wrap {
   display: flex;
   align-items: center;
@@ -2638,12 +2590,12 @@
 
 .hp-review-slide {
   flex: 0 0 calc(33.333% - 16px);
-  width: calc(33.333% - 16px); /* Force exact same width */
-  min-width: 0; /* Allow flex to control width strictly */
+  width: calc(33.333% - 16px);
+  min-width: 0;
 }
 
 .hp-review-card {
-  height: 100%; /* Ensure same height */
+  height: 100%;
   background: var(--bg-raised);
   border: 1px solid var(--border-subtle);
   border-radius: 28px;
@@ -2652,7 +2604,7 @@
   flex-direction: column;
   transition: all 400ms var(--ease-smooth);
   backdrop-filter: blur(20px);
-  font-family: var(--font-sans); /* Same font */
+  font-family: var(--font-sans);
 }
 
 @media (max-width: 1024px) {
@@ -2673,7 +2625,7 @@
 }
 
 .hp-review-card {
-  height: 100%; /* Ensure same height */
+  height: 100%;
   background: rgba(15, 15, 15, 0.7);
   border: 1px solid rgba(214, 80, 80, 0.15);
   border-radius: 32px;
@@ -2764,7 +2716,7 @@
 }
 
 .hp-star {
-  color: #FFD700; /* Richer Gold */
+  color: #FFD700;
   font-size: 18px;
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
@@ -2772,12 +2724,11 @@
 .hp-review-text {
   font-size: 16px;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.9); /* Increased opacity for readability */
+  color: rgba(255, 255, 255, 0.9);
   margin: 0 0 28px;
   font-style: italic;
   flex: 1;
 }
-
 
 .hp-review-footer {
   padding-top: 20px;
@@ -2789,14 +2740,13 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #34a853; /* Google Verified Green */
+  color: #34a853;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-/* -- 3. How to Book (4 Steps) ------------------------------------------ */
 .hp-how-section {
   padding: 12px 0;
 }
@@ -2827,7 +2777,6 @@
   font-family: var(--font-serif, "Times New Roman", serif);
 }
 
-/* -- 4. Minimal Contact Form & Socials --------------------------------- */
 .hp-contact-social {
   margin-top: 40px;
   display: flex;
@@ -2921,7 +2870,6 @@
   line-height: 1.6;
 }
 
-/* -- Responsive Overrides --------------------------------------------- */
 @media (max-width: 1200px) {
   .hp-steps-grid--4 {
     grid-template-columns: repeat(2, 1fr) !important;
@@ -2932,7 +2880,7 @@
   .hp-reviews-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .hp-why-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -2943,22 +2891,21 @@
   .hp-steps-grid--4 {
     grid-template-columns: 1fr !important;
   }
-  
+
   .hp-quote-form {
     padding: 32px 24px;
   }
-  
+
   .hp-how-footer {
     padding: 32px 20px;
   }
-  
+
   .hp-contact-social {
     justify-content: center;
     gap: 20px;
   }
 }
 
-/* â”€â”€ Artist of the Month â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hp-top-performer-title {
   font-family: var(--font-display, serif);
   font-size: 32px;
@@ -3008,9 +2955,9 @@
   position: absolute;
   top: 40px;
   left: 40px;
-  background: rgba(214, 80, 80, 0.9); /* Red Background */
+  background: rgba(214, 80, 80, 0.9);
   color: #fff;
-  padding: 11px 20px; /* Increased height by ~30% from 8px */
+  padding: 11px 20px;
   border-radius: 99px;
   font-size: 12px;
   font-weight: 800;
@@ -3123,9 +3070,6 @@
   }
 }
 
-/* -- Orthogonal Steps Flow (Zig-Zag Process Map) -------------------------- */
-/* Consolidated into earlier definition */
-
 .hp-orthogonal-flow {
   display: flex;
   flex-direction: column;
@@ -3141,7 +3085,6 @@
   z-index: 5;
 }
 
-/* Alternating positions */
 .hp-flow-step:nth-child(odd) {
   align-self: flex-start;
 }
@@ -3209,31 +3152,26 @@
   font-weight: 400;
 }
 
-/* Elbow Connectors (Orthogonal Lines) */
 .hp-flow-step::before {
   content: '';
   position: absolute;
-  border: 4px solid var(--brand-gold); /* Thicker line */
-  opacity: 0.6; /* More visible */
+  border: 4px solid var(--brand-gold);
+  opacity: 0.6;
   z-index: 1;
   pointer-events: none;
   filter: drop-shadow(0 0 8px var(--glow-gold));
 }
 
-/* Arrowheads removed for a simpler continuous line */
-
-/* Step 1 to Step 2 Elbow (Right then Down) */
 .hp-flow-step:nth-child(1)::before {
   top: 50%;
   left: 100%;
-  width: 67.4%; 
+  width: 67.4%;
   height: calc(70% + 110px);
   border-left: none;
   border-bottom: none;
   border-radius: 0 40px 0 0;
 }
 
-/* Step 2 to Step 3 Elbow (Left then Down) */
 .hp-flow-step:nth-child(2)::before {
   top: 50%;
   right: 100%;
@@ -3244,7 +3182,6 @@
   border-radius: 40px 0 0 0;
 }
 
-/* Step 3 to Step 4 Elbow (Right then Down) */
 .hp-flow-step:nth-child(3)::before {
   top: 50%;
   left: 100%;
@@ -3255,7 +3192,6 @@
   border-radius: 0 40px 0 0;
 }
 
-/* Hide line on the last step */
 .hp-flow-step:last-child::before {
   display: none;
 }
@@ -3270,7 +3206,6 @@
   }
 }
 
-/* Premium Why Choose Section */
 .hp-why-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -3289,7 +3224,7 @@
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  box-shadow: 
+  box-shadow:
     0 20px 50px rgba(0, 0, 0, 0.4),
     inset 0 0 0 1px rgba(255, 255, 255, 0.03);
   position: relative;
@@ -3304,7 +3239,7 @@
 .hp-why-card:hover {
   transform: translateY(-10px);
   border-color: rgba(255, 224, 50, 0.4);
-  box-shadow: 
+  box-shadow:
     0 30px 60px rgba(0, 0, 0, 0.6),
     0 0 40px rgba(255, 224, 50, 0.15),
     inset 0 0 0 1px rgba(255, 224, 50, 0.1);
@@ -3335,8 +3270,6 @@
   font-size: 16px;
   margin: 0;
 }
-
-/* ── Category Card V2 (Black and Redish) ──────────────────────────────── */
 
 .hp-cat-card-v2 {
   display: flex;
@@ -3381,7 +3314,7 @@
   left: 0;
   right: 0;
   height: 120px;
-  /* Restored the gorgeous neon blue wavy lines at the bottom to contrast beautifully with our dark layout */
+
   background-image: url("data:image/svg+xml,%3Csvg width='400' height='120' viewBox='0 0 400 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 80 Q 50 60 100 80 T 200 80 T 300 80 T 400 80' fill='none' stroke='%230EA5E9' stroke-width='3' opacity='0.7'/%3E%3Cpath d='M0 95 Q 50 75 100 95 T 200 95 T 300 95 T 400 95' fill='none' stroke='%2338BDF8' stroke-width='3' opacity='0.5'/%3E%3Cpath d='M0 110 Q 50 90 100 110 T 200 110 T 300 110 T 400 110' fill='none' stroke='%237DD3FC' stroke-width='3' opacity='0.3'/%3E%3C/svg%3E");
   background-size: cover;
   pointer-events: none;
@@ -3485,9 +3418,9 @@
   }
   .hp-cat-card-v2 {
     width: 100% !important;
-    max-width: 352px !important; /* Scaled up 10% from 320px */
+    max-width: 352px !important;
     margin: 0 auto !important;
-    min-height: 418px !important; /* Scaled up 10% from 380px */
+    min-height: 418px !important;
     height: auto !important;
     padding: 36px 24px !important;
     border-radius: 40px !important;
@@ -3496,12 +3429,12 @@
     flex-direction: column !important;
     justify-content: center !important;
     align-items: center !important;
-    background: linear-gradient(135deg, #181212 0%, #0d0606 100%) !important; /* Luxurious brand dark background */
-    border: 1px solid rgba(214, 80, 80, 0.3) !important; /* Glowing thin red border */
+    background: linear-gradient(135deg, #181212 0%, #0d0606 100%) !important;
+    border: 1px solid rgba(214, 80, 80, 0.3) !important;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 0 15px rgba(214, 80, 80, 0.08) !important;
   }
   .hp-cat-avatar-ring {
-    width: 154px !important; /* Scaled up 10% from 140px */
+    width: 154px !important;
     height: 154px !important;
   }
   .hp-cat-label-v2 {
@@ -3528,20 +3461,20 @@
     width: 100% !important;
     padding: 32px 20px !important;
     border-radius: 36px !important;
-    max-width: 330px !important; /* Scaled up 10% from 300px */
+    max-width: 330px !important;
     margin: 0 auto !important;
-    min-height: 385px !important; /* Scaled up 10% from 350px */
+    min-height: 385px !important;
     gap: 20px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
     align-items: center !important;
-    background: linear-gradient(135deg, #181212 0%, #0d0606 100%) !important; /* Luxurious brand dark background */
-    border: 1px solid rgba(214, 80, 80, 0.3) !important; /* Glowing thin red border */
+    background: linear-gradient(135deg, #181212 0%, #0d0606 100%) !important;
+    border: 1px solid rgba(214, 80, 80, 0.3) !important;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 0 15px rgba(214, 80, 80, 0.08) !important;
   }
   .hp-cat-avatar-ring {
-    width: 143px !important; /* Scaled up 10% from 130px */
+    width: 143px !important;
     height: 143px !important;
   }
   .hp-cat-note-badge {
@@ -3569,8 +3502,6 @@
     height: 120px !important;
   }
 }
-
-/* ── Featured Artists V2 (Screenshot Match) ────────────────────────── */
 
 .hp-feat-head-v2 {
   display: flex;
@@ -3613,7 +3544,7 @@
   height: 44px;
   border-radius: 50%;
   background: #000;
-  color: #FFE032; /* Brighter Gold */
+  color: #FFE032;
   border: none;
   display: flex;
   align-items: center;
@@ -3629,13 +3560,11 @@
   color: #FFF;
 }
 
-
 .lux-arrow-mini svg {
   width: 20px;
   height: 20px;
 }
 
-/* Card V2 */
 .hp-feat-card-v2 {
   background: #111;
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -3755,7 +3684,7 @@
 .hp-reviews-slider-wrap-v2 {
   position: relative;
   margin-top: 60px;
-  padding: 0 80px; /* Increased to push arrows completely outside cards */
+  padding: 0 80px;
 }
 
 .lux-arrow-v2 {
@@ -3766,7 +3695,7 @@
   height: 50px;
   border-radius: 50%;
   background: #0a0a0a;
-  color: var(--brand-gold, #FFE032); /* Yellow Arrow */
+  color: var(--brand-gold, #FFE032);
   border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
@@ -3805,8 +3734,6 @@
 .lux-arrow-v2.is-left { left: 10px; }
 .lux-arrow-v2.is-right { right: 10px; }
 
-
-
 .hp-review-card-v2 {
   background: #0d0d0d;
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -3835,14 +3762,14 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: #fca5a5; /* Light Red/Pinkish Avatar */
+  background: #fca5a5;
   color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
   font-size: 18px;
-  box-shadow: 0 0 20px rgba(214, 80, 80, 0.5); /* Avatar Glow */
+  box-shadow: 0 0 20px rgba(214, 80, 80, 0.5);
   border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -3861,7 +3788,7 @@
 .hp-review-stars-v2 {
   display: flex;
   gap: 4px;
-  color: #fbbf24; /* Star Yellow */
+  color: #fbbf24;
   font-size: 14px;
 }
 
@@ -3884,24 +3811,21 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #10b981; /* Verified Green */
+  color: #10b981;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.05em;
 }
 
-/* ==========================================
-   PREMIUM MOBILE RESPONSIVE DESIGN OVERRIDES
-   ========================================== */
 @media (max-width: 768px) {
-  /* 1. Featured Artists Carousel Mobile Peek Experience */
+
   .hp-feat-carousel {
-    padding: 10px 16px 24px !important; /* Reclaim 128px of width by reducing desktop 80px padding */
-    grid-auto-columns: 85% !important; /* Premium card peek layout */
+    padding: 10px 16px 24px !important;
+    grid-auto-columns: 85% !important;
     gap: 16px !important;
   }
 
-  /* 2. Touch-Friendly Vertical Button Stack to Prevent cramped labels */
+
   .hp-feat-btn-grid {
     grid-template-columns: 1fr !important;
     gap: 8px !important;
@@ -3910,7 +3834,7 @@
 
   .hp-btn-book-v2, .hp-btn-view-v2 {
     font-size: 12.5px !important;
-    padding: 14px !important; /* Optimized touch targets */
+    padding: 14px !important;
     border-radius: 14px !important;
     letter-spacing: 0.05em !important;
     text-align: center !important;
@@ -3920,7 +3844,7 @@
     height: 48px !important;
   }
 
-  /* 3. Sleek Mobile Adjustments for Top Performers Section */
+
   .hp-feat-head-v2 {
     padding: 0 16px !important;
     flex-direction: column !important;
@@ -3933,37 +3857,37 @@
     justify-content: space-between !important;
   }
 
-  /* 4. Elegant Mobile Cards Shadows & Spacing */
+
   .hp-feat-card-v2 {
     border-radius: 24px !important;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4) !important;
   }
 
-  /* 5. Mobile Reviews Carousel Padding & Squish Fix */
+
   .hp-reviews-slider-wrap-v2 {
-    padding: 0 48px !important; /* Reclaim maximum available width for cards */
+    padding: 0 48px !important;
     margin-top: 30px !important;
   }
 
   .hp-reviews-slider-track {
-    gap: 0px !important; /* Eliminate gap on mobile for perfect 100% sliding transition alignment */
+    gap: 0px !important;
   }
 
   .hp-review-slide {
     flex: 0 0 100% !important;
     width: 100% !important;
-    padding: 0 4px !important; /* Subtle safe slide inset gap */
+    padding: 0 4px !important;
     box-sizing: border-box !important;
   }
 
   .hp-review-card-v2 {
-    padding: 24px !important; /* Shrunk padding to give text maximum breathing room */
+    padding: 24px !important;
     border-radius: 20px !important;
     box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
     gap: 16px !important;
   }
 
-  /* Compact Arrow Positioning outside the card viewport boundary */
+
   .lux-arrow-v2 {
     width: 38px !important;
     height: 38px !important;
@@ -3983,7 +3907,7 @@
   }
 
   .hp-review-name-v2 {
-    font-size: 15px !important; /* Premium typography scaling */
+    font-size: 15px !important;
   }
 
   .hp-review-text-v2 {
@@ -3991,7 +3915,7 @@
     line-height: 1.5 !important;
   }
 
-  /* 6. Why Choose Us Mobile Card Height and Width Reduction */
+
   .hp-why-grid {
     gap: 20px !important;
     margin-top: 24px !important;
@@ -3999,25 +3923,25 @@
   }
 
   .hp-why-card {
-    padding: 24px 20px !important; /* Decrease padding to significantly reduce card height */
-    border-radius: 24px !important; /* Premium rounded corner styling */
-    max-width: 320px !important; /* Decrease card width on mobile for elegant compact look */
-    margin: 0 auto !important; /* Centered card placement */
+    padding: 24px 20px !important;
+    border-radius: 24px !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
   }
 
   .hp-why-icon {
-    font-size: 38px !important; /* Decrease icon size */
-    margin-bottom: 12px !important; /* Decrease icon margin to reduce height */
+    font-size: 38px !important;
+    margin-bottom: 12px !important;
   }
 
   .hp-why-card h3 {
-    font-size: 19px !important; /* Sized to perfectly fit mobile dimensions */
-    margin-bottom: 8px !important; /* Compact margin */
+    font-size: 19px !important;
+    margin-bottom: 8px !important;
   }
 
   .hp-why-card p {
-    font-size: 13.5px !important; /* Fits readable layout text precisely */
+    font-size: 13.5px !important;
     line-height: 1.5 !important;
   }
 }

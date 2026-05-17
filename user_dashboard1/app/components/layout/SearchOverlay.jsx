@@ -6,14 +6,14 @@ export default function SearchOverlay({ isOpen, onClose, query, onQueryChange, o
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div 
+        <motion.div
           className="lux-search-overlay"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <button type="button" className="lux-search-dismiss" aria-label="Close search" onClick={onClose} />
-          <motion.div 
+          <motion.div
             className="lux-search-panel"
             initial={{ scale: 0.9, y: -20 }}
             animate={{ scale: 1, y: 0 }}

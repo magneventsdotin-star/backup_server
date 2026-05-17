@@ -3,19 +3,14 @@
 import { motion } from 'framer-motion'
 import { AppShellWrapper } from '@/app/layouts/AppShellWrapper'
 import { BOOKING_STEPS } from '@/app/constants'
-import '@/app/styles/pages/HomePage.css' 
+import '@/app/styles/pages/HomePage.css'
 import '@/app/styles/pages/HowToBook.css'
 
-/**
- * HowToBookPage Component
- * 
- * Explains the artist booking process using the orthogonal flow layout.
- */
 export default function HowToBookPage() {
   return (
     <main className="lux-page how-to-book-page">
       <div className="lux-container">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="how-header"
@@ -49,4 +44,3 @@ export default function HowToBookPage() {
   )
 }
 
-// Next HMR Cache Invalidation Trigger: Compact timeline styles verified 2026-05-17

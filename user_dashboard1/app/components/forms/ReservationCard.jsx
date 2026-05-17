@@ -20,7 +20,7 @@ export default function ReservationCard({ title, desc, actionLabel, onAction, is
   )
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, x: direction === 'left' ? -40 : 40 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}

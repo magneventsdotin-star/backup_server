@@ -8,12 +8,6 @@ import { searchService } from '@/app/services/searchService'
 import { TRENDING_SEARCHES } from '@/app/constants'
 import '@/app/styles/pages/SearchPage.css'
 
-/**
- * SearchPage Component
- * 
- * Provides a dedicated search interface for the platform.
- * Refactored to use searchService for logic extraction.
- */
 export default function SearchPage() {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
@@ -23,7 +17,7 @@ export default function SearchPage() {
     if (e) e.preventDefault()
     if (!query) return
     setIsSearching(true)
-    
+
     try {
       const searchResults = await searchService.searchArtists(query)
       setResults(searchResults)
@@ -36,7 +30,7 @@ export default function SearchPage() {
 
   const handleTrendingClick = (tag) => {
     setQuery(tag)
-    // Trigger immediate search
+
     setIsSearching(true)
     searchService.searchArtists(tag).then(res => {
       setResults(res)
@@ -53,9 +47,9 @@ export default function SearchPage() {
         </header>
 
         <form className="search-large-bar" onSubmit={handleSearch}>
-          <input 
-            type="text" 
-            placeholder="Search for 'Sufi Singers', 'Wedding Bands'..." 
+          <input
+            type="text"
+            placeholder="Search for 'Sufi Singers', 'Wedding Bands'..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoFocus
@@ -70,20 +64,20 @@ export default function SearchPage() {
             {results.length > 0 ? (
               <div className="results-grid">
                 {results.map((res, idx) => (
-                  <SearchResultItem 
-                    key={res.id} 
-                    result={res} 
-                    index={idx} 
+                  <SearchResultItem
+                    key={res.id}
+                    result={res}
+                    index={idx}
                   />
                 ))}
               </div>
             ) : query && !isSearching ? (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="search-empty"
               >
-                <p>No results found for "{query}". Try searching for categories like "Singers" or "Bands".</p>
+                <p>No results found for &ldquo;{query}&rdquo;. Try searching for categories like &ldquo;Singers&rdquo; or &ldquo;Bands&rdquo;.</p>
               </motion.div>
             ) : null}
           </AnimatePresence>

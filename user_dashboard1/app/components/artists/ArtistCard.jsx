@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 export default function ArtistCard({ artist, onBook }) {
   const [imageError, setImageError] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
-  
+
   const firstLetter = artist.name ? artist.name.charAt(0).toUpperCase() : 'A'
 
   useEffect(() => {
@@ -34,8 +34,8 @@ export default function ArtistCard({ artist, onBook }) {
                 {(!artist.img || imageError) ? (
                   <span style={{ fontSize: '50px', fontWeight: 'bold', color: '#fff', opacity: 0.2 }}>{firstLetter}</span>
                 ) : (
-                  <img 
-                    src={artist.img} 
+                  <img
+                    src={artist.img}
                     alt={artist.name}
                     className="artist-avatar-img w-full h-full object-cover"
                     onError={() => setImageError(true)}
@@ -73,7 +73,7 @@ export default function ArtistCard({ artist, onBook }) {
       <AnimatePresence>
         {showDetails && (
           <div className="artist-details-overlay" onClick={() => setShowDetails(false)}>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
@@ -81,9 +81,9 @@ export default function ArtistCard({ artist, onBook }) {
               onClick={e => e.stopPropagation()}
             >
               <button className="proper-close-btn" onClick={() => setShowDetails(false)}>&times;</button>
-              
+
               <div className="proper-modal-content">
-                {/* Left Side: Visual Profile */}
+
                 <div className="proper-modal-left">
                   <div className="proper-avatar-wrap">
                     <div className="proper-avatar-img">
@@ -97,14 +97,14 @@ export default function ArtistCard({ artist, onBook }) {
                   </div>
                   <h2 className="proper-name">{artist.name}</h2>
                   <span className="proper-tag">{artist.subCategory || artist.category}</span>
-                  
+
                   <div className="proper-stats-row">
                     <div className="p-stat"><strong>5.0</strong><span>RATING</span></div>
                     <div className="p-stat"><strong>150+</strong><span>SHOWS</span></div>
                   </div>
                 </div>
 
-                {/* Right Side: Detailed Information */}
+
                 <div className="proper-modal-right">
                   <div className="proper-section">
                     <h4 className="proper-section-title">Artist Information</h4>
@@ -149,7 +149,7 @@ export default function ArtistCard({ artist, onBook }) {
                   </div>
 
                   <div className="proper-modal-footer">
-                    <button 
+                    <button
                       className="proper-book-btn"
                       onClick={() => {
                         setShowDetails(false);

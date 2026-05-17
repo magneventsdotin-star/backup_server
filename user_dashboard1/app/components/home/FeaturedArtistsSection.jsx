@@ -79,7 +79,7 @@ export default function FeaturedArtistsSection() {
         <div className="hp-section-head">
           <h2>Featured Artists</h2>
         </div>
-        
+
         <div className="hp-feat-actions-row">
           <Link href="/artists" className="hp-see-all-v2">See all →</Link>
           <div className="hp-feat-controls-v2">
@@ -125,11 +125,11 @@ export default function FeaturedArtistsSection() {
           >
             <TiltCard className="hp-feat-card-v2">
               <div className="hp-feat-img-wrap-v2">
-                <Image 
-                  src={artist.image} 
-                  alt={artist.name} 
-                  width={320} 
-                  height={400} 
+                <Image
+                  src={artist.image}
+                  alt={artist.name}
+                  width={320}
+                  height={400}
                   style={{ objectFit: 'cover' }}
                 />
                 <div className="hp-feat-overlay-v2">
@@ -140,7 +140,7 @@ export default function FeaturedArtistsSection() {
                 <span className="hp-feat-genre-v2">{artist.genre}</span>
                 <h3 className="hp-feat-name-v2">{artist.name}</h3>
                 <span className="hp-feat-loc-v2">{artist.location || 'Jaipur'}</span>
-                
+
                 <div className="hp-feat-rating-v2">
                   <Stars count={Math.round(Number(artist.rating))} />
                   <span className="hp-feat-score-v2">{artist.rating} · 146 bookings</span>
@@ -148,8 +148,8 @@ export default function FeaturedArtistsSection() {
 
                 <div className="hp-feat-btn-grid">
                   <button
-                    onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal', { 
-                      detail: { type: 'booking', artist: artist } 
+                    onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal', {
+                      detail: { type: 'booking', artist: artist }
                      }))}
                     className="hp-btn-book-v2"
                   >

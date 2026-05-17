@@ -4,12 +4,6 @@ import Link from 'next/link';
 import BrandMark from '@/app/components/common/BrandMark';
 import '@/app/styles/components/Footer.css';
 
-/**
- * Footer Component
- * 
- * A premium, full-width footer with brand information, structured links, 
- * and social media integration. Supports responsive accordion columns on mobile viewports.
- */
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const [openSections, setOpenSections] = useState({
@@ -34,8 +28,8 @@ export default function Footer() {
     <footer className="lux-footer">
       <div className="lux-footer-container">
         <div className="lux-footer-grid">
-          
-          {/* Brand Column */}
+
+
           <div className="lux-footer-brand">
             <div className="lux-footer-brand-wrap">
               <Link href="/">
@@ -58,7 +52,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Navigation Columns */}
+
           <div className={`lux-footer-col ${openSections.platform ? 'is-open' : ''}`}>
             <h4 onClick={() => toggleSection('platform')} className="lux-footer-mobile-trigger">
               Platform
@@ -106,7 +100,7 @@ export default function Footer() {
 
         </div>
 
-        {/* Bottom Bar */}
+
         <div className="lux-footer-bottom">
           <div className="lux-footer-copyright">
             © {currentYear} Magnevents. All rights reserved. Designed for Excellence.

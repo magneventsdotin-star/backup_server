@@ -2,12 +2,6 @@
 
 import { useEffect } from 'react';
 
-/**
- * useMouseGlow Hook
- * 
- * Manages the interactive background glow effect tracking the mouse position.
- * Uses requestAnimationFrame for smooth performance.
- */
 export function useMouseGlow() {
   useEffect(() => {
     const root = document.documentElement;
@@ -20,16 +14,16 @@ export function useMouseGlow() {
     const tick = () => {
       const dx = targetX - currentX;
       const dy = targetY - currentY;
-      
-      // Only update if movement is significant (> 0.05%)
+
+
       if (Math.abs(dx) > 0.05 || Math.abs(dy) > 0.05) {
         currentX += dx * 0.07;
         currentY += dy * 0.07;
-        
+
         root.style.setProperty('--mx', `${currentX.toFixed(1)}%`);
         root.style.setProperty('--my', `${currentY.toFixed(1)}%`);
       }
-      
+
       rafId = globalThis.requestAnimationFrame(tick);
     };
 

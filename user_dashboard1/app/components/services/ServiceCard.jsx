@@ -2,14 +2,9 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
-/**
- * ServiceCard Component
- * 
- * Displays a single service offering with an image and description.
- */
 export default function ServiceCard({ service, index }) {
   return (
-    <motion.article 
+    <motion.article
       className="service-item-card fx-soft-card"
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}

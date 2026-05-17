@@ -171,15 +171,15 @@ export default function PWAInstallPrompt() {
               <div className="ios-steps-list">
                 <div className="ios-step-row">
                   <span className="ios-step-badge">1</span>
-                  <p>Tap the **Share** button <code>📤</code> at the bottom of Safari.</p>
+                  <p>Tap the Share button <code>📤</code> at the bottom of Safari.</p>
                 </div>
                 <div className="ios-step-row">
                   <span className="ios-step-badge">2</span>
-                  <p>Scroll down the list and tap **"Add to Home Screen"** <code>➕</code>.</p>
+                  <p>Scroll down the list and tap &ldquo;Add to Home Screen&rdquo; <code>➕</code>.</p>
                 </div>
                 <div className="ios-step-row">
                   <span className="ios-step-badge">3</span>
-                  <p>Tap **"Add"** in the top right corner!</p>
+                  <p>Tap &ldquo;Add&rdquo; in the top right corner!</p>
                 </div>
               </div>
 
@@ -230,15 +230,15 @@ export default function PWAInstallPrompt() {
               <div className="ios-steps-list">
                 <div className="ios-step-row">
                   <span className="ios-step-badge">1</span>
-                  <p>Tap the browser menu button <code>⋮</code> (top-right of Chrome) or click the **install icon** <code>⊕</code> in the address bar.</p>
+                  <p>Tap the browser menu button <code>⋮</code> (top-right of Chrome) or click the install icon <code>⊕</code> in the address bar.</p>
                 </div>
                 <div className="ios-step-row">
                   <span className="ios-step-badge">2</span>
-                  <p>Select **"Install App"** or **"Add to Home Screen"** from the list.</p>
+                  <p>Select &ldquo;Install App&rdquo; or &ldquo;Add to Home Screen&rdquo; from the list.</p>
                 </div>
                 <div className="ios-step-row">
                   <span className="ios-step-badge">3</span>
-                  <p>Tap **"Install"** to confirm!</p>
+                  <p>Tap &ldquo;Install&rdquo; to confirm!</p>
                 </div>
               </div>
 

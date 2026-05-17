@@ -45,11 +45,11 @@ export default function BlogPostPage() {
 
   return (
     <main className="blog-page-wrapper">
-      
-      {/* MODERN BLOG HERO */}
+
+
       <section className="blog-modern-hero">
         <div className="lux-container">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="hero-badge"
@@ -68,8 +68,8 @@ export default function BlogPostPage() {
       </section>
 
       <div className="lux-container">
-        
-        {/* FEATURED POST - MODERN 2-COL LAYOUT */}
+
+
         {featuredPost && (
           <section className="featured-section">
             <Link href={`/blog-post/${featuredPost.slug}`} className="featured-card">
@@ -89,17 +89,17 @@ export default function BlogPostPage() {
           </section>
         )}
 
-        {/* RECENT ARTICLES GRID */}
+
         <section className="recent-articles">
           <div className="section-header">
             <h3>Latest From The Blog</h3>
             <div className="header-line" />
           </div>
-          
+
           <div className="blog-modern-grid">
             {remainingPosts.map((blog) => (
               <Link key={blog.id} href={`/blog-post/${blog.slug}`} className="modern-card-link">
-                <motion.div 
+                <motion.div
                   className="modern-blog-card"
                   whileHover={{ y: -10 }}
                 >
@@ -119,7 +119,7 @@ export default function BlogPostPage() {
               </Link>
             ))}
 
-            {/* Dynamic blogs from DB */}
+
             {!loading && blogs.map((blog) => (
               <Link key={blog.id} href={`/blog-post/${blog.id}`} className="modern-card-link">
                 <motion.div className="modern-blog-card" whileHover={{ y: -10 }}>
@@ -141,25 +141,25 @@ export default function BlogPostPage() {
           </div>
         </section>
 
-        {/* MODERN VALUES SECTION - ICON CARDS */}
+
         <section className="modern-values">
           <div className="section-header centered">
             <h3>Why Choose Magnevents?</h3>
             <p>Setting the standard for luxury entertainment booking.</p>
           </div>
-          
+
           <div className="values-grid">
-            <ModernValueCard 
+            <ModernValueCard
               num="01"
               title="Handpicked for You"
               desc="Every singer and band is carefully selected to match your unique event style, vibe, and budget."
             />
-            <ModernValueCard 
+            <ModernValueCard
               num="02"
               title="Hassle-Free Booking"
               desc="From your first call to the final song, our team takes care of every detail. Enjoy a smooth service."
             />
-            <ModernValueCard 
+            <ModernValueCard
               num="03"
               title="Complete Setup"
               desc="We provide great artists plus professional sound engineers and equipment—so you enjoy music without zero hassle."
@@ -167,7 +167,7 @@ export default function BlogPostPage() {
           </div>
         </section>
 
-        {/* NEWSLETTER / CONTACT CTA */}
+
         <section className="blog-cta-banner">
           <div className="cta-inner">
             <div className="cta-text">
@@ -175,7 +175,7 @@ export default function BlogPostPage() {
               <p>Consult with our entertainment experts today and get a curated list of artists for your event.</p>
             </div>
             <div className="cta-actions">
-              <button 
+              <button
                 onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal'))}
                 className="primary-cta-btn"
               >
@@ -193,7 +193,7 @@ export default function BlogPostPage() {
 
 function ModernValueCard({ num, title, desc }) {
   return (
-    <motion.div 
+    <motion.div
       whileHover={{ scale: 1.02 }}
       className="modern-value-card"
     >

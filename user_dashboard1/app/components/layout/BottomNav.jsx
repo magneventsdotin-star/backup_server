@@ -3,10 +3,6 @@
 import { useRouter, usePathname } from 'next/navigation'
 import { HomeIcon, ServicesIcon, AboutIcon, ContactIcon } from '@/app/components/icons/NavigationIcons'
 
-/**
- * Tab Component
- * Individual tab for Bottom Navigation
- */
 function Tab({ path, icon, label, onNavigate, isActive }) {
   const iconColor = isActive ? '#FFE032' : '#8a8f98'
 
@@ -37,10 +33,6 @@ function Tab({ path, icon, label, onNavigate, isActive }) {
   )
 }
 
-/**
- * BottomNav Component
- * Mobile-only bottom navigation bar
- */
 export default function BottomNav() {
   const router = useRouter()
   const pathname = usePathname()
@@ -70,14 +62,14 @@ export default function BottomNav() {
         <Tab path="/" icon={(color) => <HomeIcon color={color} />} label="Home" onNavigate={(p) => router.push(p)} isActive={active('/')} />
         <Tab path="/services" icon={(color) => <ServicesIcon color={color} />} label="Services" onNavigate={(p) => router.push(p)} isActive={active('/services')} />
         <Tab path="/blog-post" icon={(color) => <AboutIcon color={color} />} label="Blog" onNavigate={(p) => router.push(p)} isActive={active('/blog-post')} />
-        <Tab 
-          path="/contact" 
-          icon={(color) => <ContactIcon color={color} />} 
-          label="Contact Us" 
+        <Tab
+          path="/contact"
+          icon={(color) => <ContactIcon color={color} />}
+          label="Contact Us"
           onNavigate={(p) => {
             window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'contact' } }));
-          }} 
-          isActive={active('/contact')} 
+          }}
+          isActive={active('/contact')}
         />
       </div>
 

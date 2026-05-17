@@ -104,29 +104,29 @@ export const TESTIMONIALS = [
 ]
 
 export const FAQS = [
-  { 
-    q: 'How soon can I get artist options?', 
-    a: 'Most requests receive curated options within 2 to 6 hours. For peak wedding dates or celebrity artists, it may take up to 24 hours to verify availability.' 
+  {
+    q: 'How soon can I get artist options?',
+    a: 'Most requests receive curated options within 2 to 6 hours. For peak wedding dates or celebrity artists, it may take up to 24 hours to verify availability.'
   },
-  { 
-    q: 'Can I book multiple artist categories for one event?', 
-    a: 'Yes. We specialize in "Full-Show Flow." You can combine a Sufi singer for welcoming, an Anchor for hosting, and a DJ for the after-party in one single booking.' 
+  {
+    q: 'Can I book multiple artist categories for one event?',
+    a: 'Yes. We specialize in "Full-Show Flow." You can combine a Sufi singer for welcoming, an Anchor for hosting, and a DJ for the after-party in one single booking.'
   },
-  { 
-    q: 'Do you handle sound and technical coordination?', 
-    a: 'Yes. Most of our packages include professional sound engineers and equipment. We ensure the artist’s technical rider is met without you worrying about cables or mixers.' 
+  {
+    q: 'Do you handle sound and technical coordination?',
+    a: 'Yes. Most of our packages include professional sound engineers and equipment. We ensure the artist’s technical rider is met without you worrying about cables or mixers.'
   },
-  { 
-    q: 'What if an artist is unable to perform last minute?', 
-    a: 'Peace of mind is our priority. In the rare case of a medical emergency, Magnevents guarantees a replacement of equal or higher caliber through our verified artist network.' 
+  {
+    q: 'What if an artist is unable to perform last minute?',
+    a: 'Peace of mind is our priority. In the rare case of a medical emergency, Magnevents guarantees a replacement of equal or higher caliber through our verified artist network.'
   },
-  { 
-    q: 'Can we request specific songs or a customized setlist?', 
-    a: 'Absolutely. We encourage you to share your "Must-Play" list. Whether it’s a specific entry song for a bride or a corporate anthem, our artists will tailor their performance.' 
+  {
+    q: 'Can we request specific songs or a customized setlist?',
+    a: 'Absolutely. We encourage you to share your "Must-Play" list. Whether it’s a specific entry song for a bride or a corporate anthem, our artists will tailor their performance.'
   },
-  { 
-    q: 'How far in advance should I book my entertainment?', 
-    a: 'For peak wedding seasons (Nov-Feb), we recommend booking 3-4 months in advance. For corporate mixers or house parties, 2-3 weeks is usually sufficient.' 
+  {
+    q: 'How far in advance should I book my entertainment?',
+    a: 'For peak wedding seasons (Nov-Feb), we recommend booking 3-4 months in advance. For corporate mixers or house parties, 2-3 weeks is usually sufficient.'
   },
 ]
 
@@ -222,27 +222,27 @@ export const GALLERY_ITEMS = [
 ]
 
 export const HOW_TO_BOOK_STEPS = [
-  { 
-    title: "Share Your Event", 
-    desc: "Tell us about your occasion via form, call, or WhatsApp.", 
+  {
+    title: "Share Your Event",
+    desc: "Tell us about your occasion via form, call, or WhatsApp.",
     icon: "📝",
     color: "#FFE032"
   },
-  { 
-    title: "Get Handpicked Options", 
-    desc: "We curate the best artists matching your vibe and budget.", 
+  {
+    title: "Get Handpicked Options",
+    desc: "We curate the best artists matching your vibe and budget.",
     icon: "🔍",
     color: "#ff8da1"
   },
-  { 
-    title: "Confirm & Book", 
-    desc: "Secure your favorite artist with a simple booking process.", 
+  {
+    title: "Confirm & Book",
+    desc: "Secure your favorite artist with a simple booking process.",
     icon: "✅",
     color: "#FFE032"
   },
-  { 
-    title: "Relax & Enjoy", 
-    desc: "We manage the setup and show. You focus on the magic.", 
+  {
+    title: "Relax & Enjoy",
+    desc: "We manage the setup and show. You focus on the magic.",
     icon: "🎸",
     color: "#ff8da1"
   },
@@ -363,10 +363,10 @@ export const PRICING_PLANS = [
 ]
 
 export const TRENDING_SEARCHES = [
-  'Sufi Singers', 
-  'Live Wedding Bands', 
-  'Corporate DJs', 
-  'Violinists', 
+  'Sufi Singers',
+  'Live Wedding Bands',
+  'Corporate DJs',
+  'Violinists',
   'Jazz Ensembles'
 ]
 

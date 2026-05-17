@@ -71,7 +71,7 @@
 .video-aspect-ratio {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 ratio */
+  padding-bottom: 56.25%;
   background: #000;
   overflow: hidden;
 }
@@ -104,7 +104,7 @@
 .book-now-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4); /* subtle dark overlay over the playing video */
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,7 +138,6 @@
   box-shadow: 0 10px 25px rgba(255, 224, 50, 0.5);
 }
 
-/* Premium Video Card Interaction Styles */
 .premium-video-card:hover {
   transform: translateY(-8px) scale(1.02);
   border-color: rgba(255, 224, 50, 0.4) !important;
@@ -160,7 +159,6 @@
   fill: #000 !important;
 }
 
-/* Modal Booking Button Shimmer */
 .services-page-layout button:hover {
   transform: translateY(-2px) scale(1.03);
   box-shadow: 0 12px 30px rgba(255, 224, 50, 0.5) !important;

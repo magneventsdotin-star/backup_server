@@ -6,8 +6,8 @@ import { bookingService } from '@/app/services/bookingService'
 import '@/app/styles/components/ContactModal.css'
 
 export default function ContactModal({ isOpen, onClose, initialType = 'booking', initialArtist = null }) {
-  const [formType, setFormType] = useState(initialType) // 'booking' | 'contact' | 'register'
-  
+  const [formType, setFormType] = useState(initialType)
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,11 +21,11 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
     message: '',
     selectedArtist: initialArtist
   })
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
-  // Sync with initial props when modal opens
+
   useEffect(() => {
     if (isOpen) {
       setFormType(initialType)
@@ -43,17 +43,17 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
+
     try {
       await bookingService.submitRequest({ ...formData, formType })
       setIsSubmitting(false)
       setSubmitted(true)
-      
-      // Auto close after success
+
+
       setTimeout(() => {
         onClose()
-        setFormData({ 
-          name: '', email: '', phone: '', eventType: '', 
+        setFormData({
+          name: '', email: '', phone: '', eventType: '',
           date: '', location: '', artistType: [], budget: '', message: '', selectedArtist: null
         })
       }, 2500)
@@ -68,15 +68,15 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
   return (
     <AnimatePresence>
       <div className="lux-modal-root">
-        <motion.div 
-          className="lux-modal-backdrop" 
+        <motion.div
+          className="lux-modal-backdrop"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
         />
-        
-        <motion.div 
+
+        <motion.div
           className={`lux-modal-content ${formType}`}
           initial={{ opacity: 0, scale: 0.95, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -84,7 +84,7 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
           transition={{ type: "spring", damping: 30, stiffness: 400 }}
         >
           <div className="modal-glow-bg" />
-          
+
           <button className="lux-modal-close" onClick={onClose} aria-label="Close modal">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
@@ -111,7 +111,7 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
           </div>
 
           {submitted ? (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               className="lux-modal-success"
@@ -127,7 +127,7 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
               <div className="lux-form-row">
                 <div className="lux-form-group">
                   <label>Name</label>
-                  <input 
+                  <input
                     type="text" required placeholder="e.g. Arjun Sharma"
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
@@ -135,7 +135,7 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
                 </div>
                 <div className="lux-form-group">
                   <label>Phone no.</label>
-                  <input 
+                  <input
                     type="tel" required placeholder="+91 9XXX-XXXXXX"
                     value={formData.phone}
                     onChange={e => setFormData({...formData, phone: e.target.value})}
@@ -146,7 +146,7 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
               <div className="lux-form-row">
                 <div className="lux-form-group">
                   <label>Email ID</label>
-                  <input 
+                  <input
                     type="email" required placeholder="name@email.com"
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
@@ -154,7 +154,7 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
                 </div>
                 <div className="lux-form-group">
                   <label>Event Type</label>
-                  <input 
+                  <input
                     type="text" required placeholder="Wedding, Sangeet, Corporate..."
                     value={formData.eventType}
                     onChange={e => setFormData({...formData, eventType: e.target.value})}
@@ -165,7 +165,7 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
               <div className="lux-form-row">
                 <div className="lux-form-group">
                   <label>Event Date</label>
-                  <input 
+                  <input
                     type="date" required
                     value={formData.date}
                     onChange={e => setFormData({...formData, date: e.target.value})}
@@ -173,7 +173,7 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
                 </div>
                 <div className="lux-form-group">
                   <label>Location</label>
-                  <input 
+                  <input
                     type="text" required placeholder="Delhi, Mumbai, Lucknow..."
                     value={formData.location}
                     onChange={e => setFormData({...formData, location: e.target.value})}
@@ -204,7 +204,7 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
                 </div>
                 <div className="lux-form-group">
                   <label>Budget range</label>
-                  <select 
+                  <select
                     required
                     value={formData.budget}
                     onChange={e => setFormData({...formData, budget: e.target.value})}
@@ -236,7 +236,7 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
                   <div className="btn-glow" />
                 </button>
 
-                <a 
+                <a
                   href={`https://wa.me/918076515257?text=Hi%20Magnevents,%20I'm%20interested%20in%20booking%20an%20artist!`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -250,7 +250,6 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
                   <span className="btn-text">Or Chat on WhatsApp</span>
                 </a>
               </div>
-
 
             </form>
           )}

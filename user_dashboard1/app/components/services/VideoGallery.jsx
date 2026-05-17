@@ -26,7 +26,7 @@ export default function VideoGallery() {
 
         if (error) {
            if (error.code === '42P01' || error.message?.includes('find the table') || error.code?.startsWith('PGRST')) {
-             // table doesn't exist yet
+
              setTopics([]);
              return;
            }
@@ -35,7 +35,7 @@ export default function VideoGallery() {
            return;
         }
 
-        // Group by topic
+
         const grouped = (data || []).reduce((acc, video) => {
           const topicName = video.topic || 'Other';
           if (!acc[topicName]) {
@@ -70,7 +70,7 @@ export default function VideoGallery() {
   }
 
   if (topics.length === 0) {
-    return null; // Don't show the gallery if there are no valid videos in the DB
+    return null;
   }
 
   return (
@@ -85,9 +85,9 @@ export default function VideoGallery() {
         {topics.map((topic, topicIdx) => (
           <div key={topic.name} className="topic-group" style={{ marginBottom: '60px' }}>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '30px' }}>
-              <h3 style={{ 
-                fontSize: '28px', 
-                color: '#fff', 
+              <h3 style={{
+                fontSize: '28px',
+                color: '#fff',
                 fontFamily: 'var(--font-display, serif)',
                 margin: 0,
                 paddingRight: '20px'
@@ -96,12 +96,12 @@ export default function VideoGallery() {
               </h3>
               <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%)' }}></div>
             </div>
-            
+
             <div className="video-grid">
               {topic.videos.map((video, idx) => {
                 const ytId = getYoutubeId(video.video_url);
                 return (
-                  <motion.div 
+                  <motion.div
                     key={video.id + '-' + idx}
                     className="video-card"
                     initial={{ opacity: 0, y: 30 }}
@@ -118,9 +118,9 @@ export default function VideoGallery() {
                           allowFullScreen
                         />
                       ) : (
-                        <video 
-                          src={video.video_url} 
-                          controls 
+                        <video
+                          src={video.video_url}
+                          controls
                           controlsList="nodownload"
                           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                         ></video>

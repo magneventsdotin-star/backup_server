@@ -26,12 +26,12 @@ export default function HeroSection() {
     <section className="hp-hero">
       <div className="hp-hero-bg" style={{ pointerEvents: 'none' }}>
         {HERO_SPOTLIGHT_SLIDES.map((src, idx) => (
-          <div 
+          <div
             key={src}
             className={`hp-hero-slide ${heroSlide === idx ? 'is-active' : ''}`}
-            style={{ 
-              position: 'absolute', 
-              inset: 0, 
+            style={{
+              position: 'absolute',
+              inset: 0,
               opacity: heroSlide === idx ? 1 : 0,
               zIndex: heroSlide === idx ? 2 : 1,
               transition: 'opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -85,7 +85,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.45 }}
             >
-              <button 
+              <button
                 onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }))}
                 className="hp-btn hp-btn-primary"
               >

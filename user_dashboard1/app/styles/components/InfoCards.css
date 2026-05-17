@@ -1,6 +1,6 @@
 .hp-journey-section {
   padding: 80px 0;
-  background: #0d0b09; /* Matched to global --hp-bg */
+  background: #0d0b09;
 
   position: relative;
   overflow: hidden;
@@ -18,7 +18,7 @@
 
 .journey-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Single row (4 columns) */
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   position: relative;
   z-index: 5;
@@ -39,7 +39,7 @@
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 24px;
-  padding: 32px 24px; /* Reduced padding (~20% smaller) */
+  padding: 32px 24px;
   height: 100%;
   transition: all 0.6s var(--ease-premium);
   backdrop-filter: blur(20px);
@@ -67,7 +67,7 @@
   transform: translateY(-8px);
   background: rgba(214, 80, 80, 0.05);
   border-color: var(--brand-ruby);
-  box-shadow: 
+  box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.5),
     0 0 20px rgba(214, 80, 80, 0.15);
 }
@@ -107,14 +107,14 @@
 }
 
 .card-text h4 {
-  font-size: 18px; /* ~20% smaller */
+  font-size: 18px;
   margin: 0 0 4px;
   font-weight: 800;
   letter-spacing: -0.01em;
 }
 
 .card-text p {
-  font-size: 12px; /* ~20% smaller */
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.4);
   margin: 0;
 }
@@ -127,7 +127,7 @@
 }
 
 .card-points li {
-  font-size: 13px; /* ~20% smaller */
+  font-size: 13px;
   color: rgba(255, 255, 255, 0.5);
   margin-bottom: 12px;
   display: flex;
@@ -163,7 +163,6 @@
   transform: translateX(4px);
 }
 
-/* Responsive */
 @media (max-width: 1200px) {
   .journey-cards { grid-template-columns: repeat(2, 1fr); }
 }

@@ -9,13 +9,6 @@ import { ARTISTS_CAT_FILTER } from '@/app/constants'
 import { supabase } from '@/app/lib/supabase'
 import '@/app/styles/pages/Artists.css'
 
-/**
- * ArtistsPage Component
- * 
- * Displays a filterable grid of elite performers.
- * Fetches standard artist profiles from Supabase.
- */
-// Global in-memory cache to load profiles instantly without database fetching delay
 let cachedArtistsData = null;
 
 export default function ArtistsPage() {
@@ -37,9 +30,9 @@ export default function ArtistsPage() {
           .select('*, artist_images(image_url)')
           .eq('is_popular', false)
           .eq('is_artist_of_month', false)
-        
+
         if (error) throw error
- 
+
         const formattedArtists = data.map(artist => ({
           id: artist.id,
           name: artist.name,
@@ -55,7 +48,7 @@ export default function ArtistsPage() {
           img: artist.artist_images?.[0]?.image_url || null,
           quote: artist.bio || '',
         }))
-        
+
         cachedArtistsData = formattedArtists
         setArtists(formattedArtists)
       } catch (err) {
@@ -69,14 +62,14 @@ export default function ArtistsPage() {
   }, [])
 
   useEffect(() => {
-    // Read category from URL if present
+
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search)
       const catParam = params.get('category')
       if (catParam) {
-        // Find matching category in ARTISTS_CAT_FILTER (case insensitive, handle plurals)
+
         const match = ARTISTS_CAT_FILTER.find(
-          c => c.toLowerCase() === catParam.toLowerCase() || 
+          c => c.toLowerCase() === catParam.toLowerCase() ||
                c.toLowerCase() === catParam.toLowerCase() + 's' ||
                c.toLowerCase().replace(/s$/, '') === catParam.toLowerCase()
         )
@@ -85,8 +78,8 @@ export default function ArtistsPage() {
     }
   }, [])
 
-  const filteredArtists = activeCategory === 'All' 
-    ? artists 
+  const filteredArtists = activeCategory === 'All'
+    ? artists
     : artists.filter(a => {
         const aCat = (a.category || '').toLowerCase()
         const filterCat = activeCategory.toLowerCase()
@@ -100,7 +93,6 @@ export default function ArtistsPage() {
   return (
     <main className="artists-page">
       <div className="lux-container">
-        
 
 
         <div className="artists-filters">
@@ -125,10 +117,10 @@ export default function ArtistsPage() {
             <AnimatePresence mode='popLayout'>
               {filteredArtists.length > 0 ? (
                 filteredArtists.map((artist) => (
-                  <ArtistCard 
-                    key={artist.id} 
-                    artist={artist} 
-                    onBook={handleBook} 
+                  <ArtistCard
+                    key={artist.id}
+                    artist={artist}
+                    onBook={handleBook}
                   />
                 ))
               ) : (

@@ -1,14 +1,9 @@
 "use client"
 import { motion } from 'framer-motion'
 
-/**
- * SearchResultItem Component
- * 
- * Displays an individual search result card.
- */
 export default function SearchResultItem({ result, index }) {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}

@@ -4,24 +4,24 @@ export async function POST(req) {
   try {
     const data = await req.json();
 
-    // Configure the email transport using Gmail
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER, // Your Gmail address
-        pass: process.env.EMAIL_PASS, // Your Gmail App Password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
-    // Determine the subject based on the form type
+
     const isRegister = data.type === 'register' || data.formType === 'register' || data.type === 'artist_registration';
     const isCallRequest = data.type === 'call_request';
     const artistName = typeof data.selectedArtist === 'object' && data.selectedArtist !== null ? data.selectedArtist.name : (data.selectedArtist || '');
-    
+
     let subjectPrefix = "New Booking Inquiry";
     if (isRegister) subjectPrefix = "Artist Registration";
     else if (isCallRequest) subjectPrefix = "Call Request";
-    
+
     let emailBody = '';
 
     if (isRegister) {
@@ -96,26 +96,26 @@ ${artistDetailsString}
       `;
     }
 
-    // Format the email content
+
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // Send it to yourself
+      to: process.env.EMAIL_USER,
       subject: `${subjectPrefix} - ${data.name}`,
       text: emailBody,
     };
 
-    // Send the email
+
     await transporter.sendMail(mailOptions);
 
-    return new Response(JSON.stringify({ success: true, message: 'Email sent successfully!' }), { 
-      status: 200, 
-      headers: { 'Content-Type': 'application/json' } 
+    return new Response(JSON.stringify({ success: true, message: 'Email sent successfully!' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
     });
   } catch (error) {
     console.error("Email send error:", error);
-    return new Response(JSON.stringify({ error: "Failed to send email" }), { 
+    return new Response(JSON.stringify({ error: "Failed to send email" }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' } 
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 }

@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import FadeSection from '@/app/components/common/FadeSection'
 import { FAQS } from '@/app/constants'
 
-export default function FaqSection({ 
-  eyebrow = "🤔 Common Questions", 
+export default function FaqSection({
+  eyebrow = "🤔 Common Questions",
   title = "Frequently Asked Questions",
   titleGradient = false
 }) {

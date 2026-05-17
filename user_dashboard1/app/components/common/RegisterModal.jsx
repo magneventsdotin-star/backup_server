@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { bookingService } from '@/app/services/bookingService'
-import '@/app/styles/components/ContactModal.css' // Reuse base modal styles
+import '@/app/styles/components/ContactModal.css'
 
 export default function RegisterModal() {
   const [isOpen, setIsOpen] = useState(false)
@@ -56,7 +56,7 @@ export default function RegisterModal() {
       {isOpen && (
         <div className="lux-modal-root">
           <div className="lux-modal-backdrop" onClick={() => setIsOpen(false)} />
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -66,7 +66,7 @@ export default function RegisterModal() {
             <button className="lux-modal-close" onClick={() => setIsOpen(false)} aria-label="Close modal">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
-            
+
             <div className="lux-modal-header">
               <p className="header-badge">JOIN THE ELITE</p>
               <h3 className="lux-modal-title">Artist Registration</h3>
@@ -74,7 +74,7 @@ export default function RegisterModal() {
             </div>
 
             {submitted ? (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="lux-modal-success"
@@ -93,7 +93,7 @@ export default function RegisterModal() {
                 <div className="lux-form-row">
                   <div className="lux-form-group">
                     <label>FULL NAME</label>
-                    <input 
+                    <input
                       type="text" required placeholder="e.g. Rahul Verma"
                       value={formData.name}
                       onChange={e => setFormData({...formData, name: e.target.value})}
@@ -101,7 +101,7 @@ export default function RegisterModal() {
                   </div>
                   <div className="lux-form-group">
                     <label>PHONE NUMBER</label>
-                    <input 
+                    <input
                       type="tel" required placeholder="+91 9XXX-XXXXXX"
                       value={formData.phone}
                       onChange={e => setFormData({...formData, phone: e.target.value})}
@@ -111,7 +111,7 @@ export default function RegisterModal() {
 
                 <div className="lux-form-group">
                   <label>EMAIL ADDRESS</label>
-                  <input 
+                  <input
                     type="email" required placeholder="name@email.in"
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
@@ -121,7 +121,7 @@ export default function RegisterModal() {
                 <div className="lux-form-row">
                   <div className="lux-form-group">
                     <label>ARTIST CATEGORY</label>
-                    <select 
+                    <select
                       required
                       value={formData.category}
                       onChange={e => setFormData({...formData, category: e.target.value})}
@@ -139,7 +139,7 @@ export default function RegisterModal() {
                   </div>
                   <div className="lux-form-group">
                     <label>PORTFOLIO / SOCIAL LINK</label>
-                    <input 
+                    <input
                       type="url" required placeholder="Instagram, YouTube or Website"
                       value={formData.portfolio}
                       onChange={e => setFormData({...formData, portfolio: e.target.value})}
@@ -149,8 +149,8 @@ export default function RegisterModal() {
 
                 <div className="lux-form-group">
                   <label>BIO & EXPERIENCE</label>
-                  <textarea 
-                    rows="4" required 
+                  <textarea
+                    rows="4" required
                     placeholder="Briefly describe your performances, experience, and what makes you unique..."
                     value={formData.bio}
                     onChange={e => setFormData({...formData, bio: e.target.value})}

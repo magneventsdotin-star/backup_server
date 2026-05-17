@@ -6,7 +6,6 @@ const ThemeContext = createContext(null)
 
 const STORAGE_KEY = 'haat_theme'
 
-// Resolve what data-theme to actually set on <html>
 function resolveTheme(pref) {
   if (typeof window === 'undefined') return 'dark'
   if (pref === 'system') {
@@ -25,13 +24,13 @@ export function ThemeProvider({ children }) {
     } catch {}
   }, [])
 
-  // Apply data-theme to <html> whenever preference changes
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', resolveTheme(theme))
     try { localStorage.setItem(STORAGE_KEY, theme) } catch {}
   }, [theme])
 
-  // When theme === 'system', track OS preference changes in real time
+
   useEffect(() => {
     if (theme !== 'system') return
     const mq = window.matchMedia('(prefers-color-scheme: dark)')
@@ -46,7 +45,7 @@ export function ThemeProvider({ children }) {
     setThemeState(pref)
   }
 
-  // The resolved actual theme (dark or light — not system)
+
   const resolvedTheme = resolveTheme(theme)
 
   return (

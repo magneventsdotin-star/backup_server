@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { AppShellWrapper } from '@/app/layouts/AppShellWrapper'
 import { bookingService } from '@/app/services/bookingService'
-import '@/app/styles/components/ContactModal.css' // Reuse modal styles for consistency
+import '@/app/styles/components/ContactModal.css'
 import '@/app/styles/pages/Register.css'
 
 export default function RegisterPage() {
@@ -16,7 +16,7 @@ export default function RegisterPage() {
     portfolio: '',
     bio: ''
   })
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
@@ -38,7 +38,7 @@ export default function RegisterPage() {
       <div className="lux-container">
         <div className="register-card-container">
           {submitted ? (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               className="registration-success-box"
@@ -62,7 +62,7 @@ export default function RegisterPage() {
                 <div className="lux-form-grid">
                   <div className="lux-form-group">
                     <label>FULL NAME</label>
-                    <input 
+                    <input
                       type="text" required placeholder="e.g. Rahul Verma"
                       value={formData.name}
                       onChange={e => setFormData({...formData, name: e.target.value})}
@@ -70,7 +70,7 @@ export default function RegisterPage() {
                   </div>
                   <div className="lux-form-group">
                     <label>PHONE NUMBER</label>
-                    <input 
+                    <input
                       type="tel" required placeholder="+91 9XXX-XXXXXX"
                       value={formData.phone}
                       onChange={e => setFormData({...formData, phone: e.target.value})}
@@ -80,7 +80,7 @@ export default function RegisterPage() {
 
                 <div className="lux-form-group">
                   <label>EMAIL ADDRESS</label>
-                  <input 
+                  <input
                     type="email" required placeholder="name@email.in"
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
@@ -90,7 +90,7 @@ export default function RegisterPage() {
                 <div className="lux-form-grid">
                   <div className="lux-form-group">
                     <label>ARTIST CATEGORY</label>
-                    <select 
+                    <select
                       required
                       value={formData.category}
                       onChange={e => setFormData({...formData, category: e.target.value})}
@@ -106,7 +106,7 @@ export default function RegisterPage() {
                   </div>
                   <div className="lux-form-group">
                     <label>PORTFOLIO / SOCIAL LINK</label>
-                    <input 
+                    <input
                       type="url" required placeholder="Instagram, YouTube or Website"
                       value={formData.portfolio}
                       onChange={e => setFormData({...formData, portfolio: e.target.value})}
@@ -116,8 +116,8 @@ export default function RegisterPage() {
 
                 <div className="lux-form-group">
                   <label>BIO & EXPERIENCE</label>
-                  <textarea 
-                    rows="4" required 
+                  <textarea
+                    rows="4" required
                     placeholder="Briefly describe your performances, experience, and what makes you unique..."
                     value={formData.bio}
                     onChange={e => setFormData({...formData, bio: e.target.value})}

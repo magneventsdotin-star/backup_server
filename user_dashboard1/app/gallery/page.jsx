@@ -5,7 +5,6 @@ import { AppShellWrapper } from '@/app/layouts/AppShellWrapper'
 import '@/app/styles/pages/Gallery.css'
 import { GALLERY_ITEMS } from '@/app/constants'
 
-
 export default function GalleryPage() {
   return (
     <main className="gallery-page-layout">
@@ -18,7 +17,7 @@ export default function GalleryPage() {
 
         <div className="gallery-masonry">
           {GALLERY_ITEMS.map((item, idx) => (
-            <motion.div 
+            <motion.div
               key={item.id}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}

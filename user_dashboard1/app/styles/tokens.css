@@ -1,52 +1,48 @@
-/* ============================================
-   MAGNEVENTS PREMIUM DESIGN SYSTEM
-   Theme: Dark Luxury (Black + Red/Sky/Gold)
-   ============================================ */
+
 
 :root {
-  /* ─── CORE BACKGROUNDS ─── */
+
   --bg-base:     #050505;
   --bg-card:     rgba(255, 255, 255, 0.05);
   --bg-raised:   rgba(255, 255, 255, 0.08);
   --bg-overlay:  rgba(0, 0, 0, 0.85);
-  
-  /* ─── ACCENT COLORS ─── */
-  --brand-ruby:     #D65050; /* Red - Premium Music */
-  --brand-sky:      #00d4ff; /* Sky Blue - Modern Tech */
-  --brand-gold:     #FFE032; /* Yellow - Highlights */
-  --brand-choc:     #8b4513; /* Chocolate - Warm Premium */
-  
-  /* ─── GLOWS (Subtle Ambient) ─── */
+
+
+  --brand-ruby:     #D65050;
+  --brand-sky:      #00d4ff;
+  --brand-gold:     #FFE032;
+  --brand-choc:     #8b4513;
+
+
   --glow-red:       rgba(214, 80, 80, 0.15);
   --glow-blue:      rgba(0, 210, 255, 0.12);
   --glow-warm:      rgba(139, 69, 19, 0.1);
   --glow-gold:      rgba(255, 224, 50, 0.1);
 
-  /* ─── BORDERS & SEPARATORS ─── */
+
   --border-subtle:  rgba(255, 255, 255, 0.06);
   --border-glow:    rgba(255, 255, 255, 0.1);
   --border-accent:  rgba(214, 80, 80, 0.2);
 
-  /* ─── TEXT ─── */
+
   --text-main:      #ffffff;
   --text-muted:     rgba(255, 255, 255, 0.6);
   --text-faint:     rgba(255, 255, 255, 0.3);
 
-  /* ─── SHADOWS ─── */
+
   --shadow-premium: 0 30px 60px rgba(0, 0, 0, 0.6);
   --shadow-glow:    0 0 20px var(--glow-red);
 
-  /* ─── RADIUS ─── */
+
   --radius-lg:      24px;
   --radius-xl:      32px;
   --radius-full:    999px;
 
-  /* ─── MOTION ─── */
+
   --ease-premium:   cubic-bezier(0.23, 1, 0.32, 1);
   --trans-normal:   0.4s var(--ease-premium);
 }
 
-/* ─── GLOBAL RESET & BASE ─── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -59,7 +55,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ─── MESH GRADIENT BLOBS ─── */
 body::before,
 body::after {
   content: '';
@@ -80,7 +75,7 @@ body::before {
   height: 100vw;
   background: radial-gradient(circle, var(--brand-ruby), transparent);
   animation: drift 20s ease-in-out infinite alternate;
-  opacity: 0.18; /* Increased opacity for more red presence */
+  opacity: 0.18;
 }
 
 body::after {
@@ -88,7 +83,7 @@ body::after {
   right: -10%;
   width: 90vw;
   height: 90vw;
-  background: radial-gradient(circle, var(--brand-ruby), transparent); /* Second blob also red for more impact */
+  background: radial-gradient(circle, var(--brand-ruby), transparent);
   animation: drift 25s ease-in-out infinite alternate-reverse;
   opacity: 0.15;
 }
@@ -99,7 +94,6 @@ body::after {
   100% { transform: translate(-10%, 20%) rotate(360deg); }
 }
 
-/* Additional Red & Gold Glows for the background */
 .hp::before {
   content: '';
   position: fixed;
@@ -108,7 +102,7 @@ body::after {
   transform: translate(-50%, -50%);
   width: 90vw;
   height: 90vw;
-  background: 
+  background:
     radial-gradient(circle at 30% 40%, var(--brand-ruby), transparent 50%),
     radial-gradient(circle at 70% 60%, var(--brand-gold), transparent 50%);
   filter: blur(150px);
@@ -123,9 +117,6 @@ body::after {
   to { opacity: 0.15; transform: translate(-50%, -50%) scale(1.1); }
 }
 
-/* ─── REUSABLE PREMIUM CLASSES ─── */
-
-/* Glassmorphism Card Base */
 .glass-card, .premium-card {
   background: var(--bg-card);
   backdrop-filter: blur(20px);
@@ -143,14 +134,12 @@ body::after {
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 20px var(--glow-red);
 }
 
-/* Consistent Typography Gradients */
 .text-premium {
   background: linear-gradient(135deg, #fff 0%, #a1a1a1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Button Standard (Music Red Default) */
 .btn-premium {
   background: linear-gradient(135deg, var(--brand-ruby) 0%, #8b2d2d 100%);
   color: #fff;
@@ -171,7 +160,6 @@ body::after {
   filter: brightness(1.2);
 }
 
-/* Input Styles */
 input, select, textarea {
   background: rgba(255, 255, 255, 0.03) !important;
   border: 1px solid var(--border-subtle) !important;
@@ -188,13 +176,12 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 15px var(--glow-red);
 }
 
-/* ─── GLOBAL SLIDER ARROWS ─── */
 .lux-arrow-btn {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #000; /* Simple Black */
-  color: var(--brand-gold); /* Simple Yellow */
+  background: #000;
+  color: var(--brand-gold);
   border: none;
   display: flex;
   align-items: center;
@@ -213,8 +200,6 @@ input:focus, select:focus, textarea:focus {
   color: #000;
 }
 
-
-
 .lux-arrow-btn:active {
   transform: scale(0.95);
 }
@@ -229,9 +214,6 @@ input:focus, select:focus, textarea:focus {
 .lux-arrow-btn.is-left svg {
   transform: rotate(180deg);
 }
-
-
-
 
 @media (max-width: 768px) {
   .lux-arrow-btn {

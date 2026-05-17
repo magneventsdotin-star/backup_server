@@ -144,7 +144,6 @@
   }
 }
 
-/* NEW MODERN GRID UI CSS */
 .how-section-wrapper {
   position: relative;
   overflow: hidden;
@@ -279,7 +278,7 @@
 
 .how-card-inner:hover {
   transform: translateY(-8px);
-  border-color: rgba(255, 224, 50, 0.3); /* Using brand gold approximation */
+  border-color: rgba(255, 224, 50, 0.3);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 224, 50, 0.05);
 }
 
@@ -382,30 +381,27 @@
   opacity: 0.15;
 }
 
-/* ============================================================
-   COMPACT & PREMIUM TIMELINE FLOW OVERRIDES
-   ============================================================ */
 .how-to-book-page {
-  padding: 80px 0 60px !important; /* Shrink top and bottom empty zones */
+  padding: 80px 0 60px !important;
 }
 
 .how-header {
-  margin-bottom: 40px !important; /* Decrease margin below header */
+  margin-bottom: 40px !important;
 }
 
 .hp-orthogonal-flow {
-  gap: 50px !important; /* Drastically reduce card gaps from 120px to 50px */
-  margin: 40px auto 20px !important; /* Compress top/bottom margin */
+  gap: 50px !important;
+  margin: 40px auto 20px !important;
 }
 
 .hp-step-card {
-  padding: 24px 28px !important; /* Shrink card padding by 50% for high density and modern look */
-  border-radius: 24px !important; /* Sleek premium rounding */
+  padding: 24px 28px !important;
+  border-radius: 24px !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
 .hp-step-header {
-  margin-bottom: 12px !important; /* Shrink inner element spacing */
+  margin-bottom: 12px !important;
   gap: 12px !important;
 }
 
@@ -421,17 +417,16 @@
 }
 
 .hp-step-card h3 {
-  font-size: 20px !important; /* Optimize card title size */
+  font-size: 20px !important;
   margin-bottom: 10px !important;
 }
 
 .hp-step-card p {
-  font-size: 14px !important; /* Balanced body text */
+  font-size: 14px !important;
   line-height: 1.6 !important;
   color: rgba(255, 255, 255, 0.7) !important;
 }
 
-/* Adjust elbow connector coordinates to match the new 50px gap height */
 .hp-flow-step:nth-child(1)::before {
   height: calc(50% + 54px) !important;
   border-radius: 0 24px 0 0 !important;
@@ -452,7 +447,7 @@
 
 @media (max-width: 900px) {
   .hp-orthogonal-flow {
-    gap: 24px !important; /* Keep mobile cards close together */
+    gap: 24px !important;
   }
   .hp-step-card {
     padding: 20px !important;

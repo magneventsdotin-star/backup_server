@@ -12,7 +12,7 @@ export default function HowToBookSection() {
 
       <div className="hp-how-section">
         <div className="how-header-modern">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -21,7 +21,7 @@ export default function HowToBookSection() {
             <span className="how-badge-icon">🎵</span>
             <span className="how-badge-text">Simple Process</span>
           </motion.div>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -30,7 +30,7 @@ export default function HowToBookSection() {
           >
             How to book a <span>musician</span>
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -45,7 +45,7 @@ export default function HowToBookSection() {
           <div className="how-connecting-line" />
 
           {HOW_TO_BOOK_STEPS.map((step, idx) => (
-            <motion.div 
+            <motion.div
               key={idx}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}

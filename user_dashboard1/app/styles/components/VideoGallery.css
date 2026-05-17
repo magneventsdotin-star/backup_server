@@ -47,7 +47,7 @@
 
 .video-wrapper {
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
   background: #000;
@@ -103,11 +103,11 @@
   .video-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .video-info {
     padding: 16px;
   }
-  
+
   .video-info h4 {
     font-size: 16px;
   }

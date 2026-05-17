@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import FadeSection from '@/app/components/common/FadeSection'
 import { TESTIMONIALS } from '@/app/constants'
 
-// Adding more testimonials for a better slider experience
 const EXTENDED_TESTIMONIALS = [
   ...TESTIMONIALS,
   {
@@ -67,8 +66,8 @@ export default function TestimonialsSection() {
               <div key={rating} className="hp-rating-bar-row">
                 <span className="hp-bar-label">{rating}</span>
                 <div className="hp-bar-wrap">
-                  <div 
-                    className="hp-bar-fill" 
+                  <div
+                    className="hp-bar-fill"
                     style={{ width: rating === 5 ? '92%' : rating === 4 ? '15%' : '0%' }}
                   />
                 </div>
@@ -126,7 +125,7 @@ export default function TestimonialsSection() {
         </button>
 
         <div className="hp-reviews-slider-viewport">
-          <motion.div 
+          <motion.div
             className="hp-reviews-slider-track"
             animate={{ x: `-${index * (100 / itemsPerPage)}%` }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -161,7 +160,7 @@ export default function TestimonialsSection() {
                   </div>
 
                   <p className="hp-review-text-v2">&ldquo;{item.text}&rdquo;</p>
-                  
+
                   <div className="hp-review-footer-v2">
                     <div className="hp-verified-line-v2">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -182,6 +181,4 @@ export default function TestimonialsSection() {
     </FadeSection>
   )
 }
-
-// Next HMR Cache Invalidation Trigger: Testimonials Carousel Squish Bug Resolved 2026-05-17
 

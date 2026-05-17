@@ -13,9 +13,6 @@ const ContactModal = dynamic(() => import('@/app/components/common/ContactModal'
 const SearchOverlay = dynamic(() => import('./SearchOverlay'), { ssr: false });
 const MobilePanel = dynamic(() => import('./MobilePanel'), { ssr: false });
 
-/**
- * Custom hook to track scroll state
- */
 function useScrolled(threshold = 20) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -32,14 +29,14 @@ export default function Nav() {
   const { resolvedTheme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
-  
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [modalType, setModalType] = useState('booking');
   const [selectedArtist, setSelectedArtist] = useState('');
-  
+
   const searchRef = useRef(null);
   const scrolled = useScrolled(20);
   const isLight = resolvedTheme === 'light';
@@ -79,7 +76,7 @@ export default function Nav() {
       <nav className={`lux-nav ${isLight ? 'is-light' : 'is-dark'} ${scrolled ? 'is-scrolled' : ''}`}>
         <div className="lux-nav-glow" aria-hidden="true" />
         <div className="lux-nav-inner">
-          
+
           <Link href="/" className="lux-nav-brand">
             <BrandMark size="md" light={false} />
           </Link>
@@ -87,8 +84,8 @@ export default function Nav() {
           <div className="lux-nav-center">
             {NAV_LINKS.map(link => (
               <div key={link.label} className={`lux-nav-dropdown-wrap ${link.isMega ? 'is-mega' : ''}`}>
-                <Link 
-                  href={link.path || '#'} 
+                <Link
+                  href={link.path || '#'}
                   className={`lux-nav-link ${pathname === link.path ? 'is-active' : ''}`}
                 >
                   {link.label} {link.children && <span className="lux-dropdown-icon">▾</span>}
@@ -114,8 +111,8 @@ export default function Nav() {
               Contact Us
             </button>
 
-            <button 
-              onClick={() => window.dispatchEvent(new CustomEvent('open-register-modal'))} 
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-register-modal'))}
               className="lux-nav-cta secondary"
             >
               Artist Register
@@ -131,26 +128,26 @@ export default function Nav() {
         </div>
       </nav>
 
-      <MobilePanel 
-        isOpen={menuOpen} 
-        onClose={() => setMenuOpen(false)} 
-        isLight={isLight} 
+      <MobilePanel
+        isOpen={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        isLight={isLight}
         pathname={pathname}
         onOpenContactModal={openContactModal}
       />
 
-      <SearchOverlay 
-        isOpen={searchOpen} 
-        onClose={() => setSearchOpen(false)} 
-        query={query} 
+      <SearchOverlay
+        isOpen={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        query={query}
         onQueryChange={e => setQuery(e.target.value)}
         onSubmit={handleSearchSubmit}
         searchRef={searchRef}
       />
 
-      <ContactModal 
-        isOpen={contactModalOpen} 
-        onClose={() => setContactModalOpen(false)} 
+      <ContactModal
+        isOpen={contactModalOpen}
+        onClose={() => setContactModalOpen(false)}
         initialType={modalType}
         initialArtist={selectedArtist}
       />

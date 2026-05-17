@@ -60,11 +60,11 @@ export default function TopPerformerSection() {
       </div>
       <div className="hp-aom-card">
         <div className="hp-aom-img-wrap">
-          <Image 
-            src={artist.image} 
-            alt={artist.name} 
-            width={400} 
-            height={400} 
+          <Image
+            src={artist.image}
+            alt={artist.name}
+            width={400}
+            height={400}
             style={{ objectFit: 'cover' }}
           />
           <div className="hp-aom-badge">
@@ -75,7 +75,7 @@ export default function TopPerformerSection() {
         <div className="hp-aom-content">
           <p className="hp-aom-genres">{(artist.genres || []).join(', ')}</p>
           <h3 className="hp-aom-name">{artist.name}</h3>
-          
+
           <div className="hp-aom-stats-grid">
             <div className="hp-aom-stat-row">
               <span>Original Price</span>
@@ -98,9 +98,9 @@ export default function TopPerformerSection() {
             </div>
           </div>
 
-          <button 
-            onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal', { 
-              detail: { type: 'booking', artist: artist } 
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal', {
+              detail: { type: 'booking', artist: artist }
             }))}
             className="hp-btn hp-aom-btn"
           >

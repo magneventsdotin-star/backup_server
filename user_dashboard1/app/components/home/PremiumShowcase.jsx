@@ -5,18 +5,12 @@ import Link from 'next/link'
 import { PREMIUM_CARDS } from '@/app/constants'
 import '@/app/styles/components/PremiumShowcase.css'
 
-/**
- * PremiumShowcase Component
- * 
- * A high-end visual section highlighting core company advantages.
- * Refactored to use centralized constants.
- */
 export default function PremiumShowcase() {
   return (
     <section className="premium-section">
       <div className="premium-container">
         <div className="premium-header">
-          <motion.span 
+          <motion.span
             className="premium-eyebrow"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -24,7 +18,7 @@ export default function PremiumShowcase() {
           >
             EXCEPTIONAL SERVICE
           </motion.span>
-          <motion.h2 
+          <motion.h2
             className="premium-title"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -45,8 +39,8 @@ export default function PremiumShowcase() {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
             >
-              <Link 
-                href={card.path} 
+              <Link
+                href={card.path}
                 className="premium-card"
                 onClick={(e) => {
                   if (card.path === '/contact') {

@@ -15,7 +15,7 @@ export default function BlogDetailPage() {
 
   useEffect(() => {
     const loadBlog = async () => {
-      // 1. Try finding in default static blogs
+
       const staticBlog = defaultBlogs.find(b => b.slug === id || b.id === id);
       if (staticBlog) {
         setBlog(staticBlog);
@@ -23,7 +23,7 @@ export default function BlogDetailPage() {
         return;
       }
 
-      // 2. Otherwise fetch from dynamic database
+
       try {
         const { data, error } = await supabase
           .from('hero_slides')
@@ -33,7 +33,7 @@ export default function BlogDetailPage() {
 
         if (error) {
           if (error.code === 'PGRST116' || error.code === '42P01') {
-            // Not found or table doesn't exist
+
             setBlog(null);
           } else {
             console.error("Error fetching dynamic blog:", error);
@@ -83,10 +83,10 @@ export default function BlogDetailPage() {
     return content.split('\n').map((line, i) => {
       let trimmed = line.trim();
       if (!trimmed) return <br key={i} />;
-      
+
       // Headers
       if (trimmed.startsWith('###')) return <h3 key={i} className="blog-h3">{trimmed.replace('###', '').trim()}</h3>;
-      
+
       // Bold
       let parts = trimmed.split('**');
       let renderedLine = parts.map((part, index) => {
@@ -107,15 +107,15 @@ export default function BlogDetailPage() {
 
   return (
     <main className="blog-detail-layout">
-      
-      {/* HERO SECTION */}
+
+
       <section className="blog-detail-hero">
         <div className="blog-hero-image">
           <img src={blog.img} alt={blog.title} />
           <div className="blog-hero-overlay">
             <div className="lux-container">
               <span className="blog-cat-pill">ARTIST INSIGHTS</span>
-              <motion.h1 
+              <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="blog-main-title"
@@ -127,28 +127,28 @@ export default function BlogDetailPage() {
         </div>
       </section>
 
-      {/* CONTENT & SIDEBAR */}
+
       <section className="blog-detail-main">
         <div className="lux-container blog-flex-layout">
-          
-          {/* ARTICLE BODY */}
+
+
           <article className="blog-article-body">
             {blog.subtitle && <h2 className="blog-lead-text">{blog.subtitle}</h2>}
-            
+
             <div className="blog-rich-content">
               {renderContent(blog.content)}
             </div>
 
-            {/* FINAL FOOTER ACTIONS */}
+
             <div className="blog-article-footer">
               <div className="footer-divider" />
-              
+
               <div className="consult-box">
                 <h3>Want a similar vibe for your event?</h3>
                 <p>Our experts can help you book the perfect artist based on this article.</p>
-                
+
                 <div className="consult-actions">
-                  <button 
+                  <button
                     onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal'))}
                     className="consult-btn"
                   >
@@ -160,7 +160,7 @@ export default function BlogDetailPage() {
                 </div>
               </div>
 
-              {/* MOVED TO BOTTOM AS REQUESTED */}
+
               <div className="back-to-last-section">
                 <Link href="/blog-post" className="final-back-btn">
                   ← BACK TO BLOG MAIN PAGE
@@ -169,7 +169,7 @@ export default function BlogDetailPage() {
             </div>
           </article>
 
-          {/* STICKY SIDEBAR */}
+
           <aside className="blog-sidebar">
             <div className="sidebar-sticky-wrap">
               <h4 className="sidebar-title">Must Read</h4>

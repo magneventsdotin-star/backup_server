@@ -27,7 +27,7 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
   }
 
   const handleInstallClick = async () => {
-    // Check if already in standalone mode (installed app)
+
     if (typeof window !== 'undefined' && window.matchMedia('(display-mode: standalone)').matches) {
       alert("Magnevents is already running as an installed App! 🎉")
       return
@@ -42,7 +42,7 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
         setIsInstallable(false)
       }
     } else {
-      // Check if iOS Safari
+
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
       if (isIOS) {
         setShowiOSGuide(true)
@@ -58,9 +58,9 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
       <aside className={`lux-mobile-panel ${isOpen ? 'open' : ''} ${isLight ? 'is-light' : 'is-dark'}`}>
         <div className="lux-mobile-panel-head">
           <BrandMark size="sm" light={false} />
-          <button 
-            type="button" 
-            className="lux-mobile-close" 
+          <button
+            type="button"
+            className="lux-mobile-close"
             onClick={onClose}
             aria-label="Close menu"
           >
@@ -73,8 +73,8 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
 
         {NAV_LINKS.map(link => (
           <div key={link.label}>
-            <Link 
-              href={link.label === 'Contact Us' ? '#' : link.path} 
+            <Link
+              href={link.label === 'Contact Us' ? '#' : link.path}
               className={`lux-mobile-link ${isLinkActive(link.path) ? 'is-active' : ''}`}
               onClick={(e) => {
                 if (link.label === 'Contact Us') {
@@ -99,9 +99,9 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
             )}
           </div>
         ))}
-        
+
         <div className="lux-mobile-actions" style={{ marginTop: '32px', display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative' }}>
-          <button 
+          <button
             onClick={handleInstallClick}
             className="lux-mobile-cta pwa-install-trigger"
             style={{
@@ -116,21 +116,21 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
             📲 Install Web App
           </button>
 
-          <button 
+          <button
             onClick={() => {
               onOpenContactModal('contact');
               onClose();
-            }} 
+            }}
             className="lux-mobile-cta secondary"
           >
             Contact Us
           </button>
-          
-          <button 
+
+          <button
             onClick={() => {
               window.dispatchEvent(new CustomEvent('open-register-modal'));
               onClose();
-            }} 
+            }}
             className="lux-mobile-cta"
           >
             Artist Register
@@ -138,7 +138,7 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
 
           {showiOSGuide && (
             <div className="ios-install-guide-toast">
-              <p>To install: Tap the share button <span style={{fontSize: '16px'}}>📤</span> in Safari & select <strong>'Add to Home Screen'</strong> <span style={{fontSize: '16px'}}>📲</span>!</p>
+              <p>To install: Tap the share button <span style={{fontSize: '16px'}}>📤</span> in Safari & select <strong>&ldquo;Add to Home Screen&rdquo;</strong> <span style={{fontSize: '16px'}}>📲</span>!</p>
             </div>
           )}
         </div>

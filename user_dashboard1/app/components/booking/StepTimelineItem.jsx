@@ -1,16 +1,11 @@
 "use client"
 import { motion } from 'framer-motion'
 
-/**
- * StepTimelineItem Component
- * 
- * Displays a single step in a vertical timeline.
- */
 export default function StepTimelineItem({ step, index, isLast }) {
   const isEven = index % 2 === 0
-  
+
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, x: isEven ? -30 : 30 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}

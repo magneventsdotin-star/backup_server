@@ -1,6 +1,4 @@
-/* ============================================================
-   PREMIUM FLOATING WHATSAPP CHAT WIDGET
-   ============================================================ */
+
 .lux-floating-whatsapp-root {
   position: fixed;
   bottom: 30px;
@@ -24,7 +22,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4), 
+  box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4),
               0 0 0 1px rgba(255, 255, 255, 0.15) inset;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 2;
@@ -58,7 +56,6 @@
   }
 }
 
-/* Tooltip badge text */
 .whatsapp-tooltip-glow {
   position: absolute;
   right: 76px;
@@ -94,10 +91,9 @@
   font-weight: 700;
 }
 
-/* Hover States */
 .lux-floating-whatsapp-root:hover .whatsapp-icon-wrapper {
   transform: translateY(-4px) rotate(-8deg);
-  box-shadow: 0 15px 35px rgba(37, 211, 102, 0.55), 
+  box-shadow: 0 15px 35px rgba(37, 211, 102, 0.55),
               0 0 20px rgba(37, 211, 102, 0.3);
 }
 
@@ -106,30 +102,29 @@
   opacity: 1;
 }
 
-/* Mobile responsive positioning adjustment: Float safely above bottom tab menu */
 @media (max-width: 768px) {
   .lux-floating-whatsapp-root {
-    bottom: 90px !important; /* Offset by 90px so it sits beautifully above the bottom tab navigation */
+    bottom: 90px !important;
     right: 18px !important;
   }
-  
+
   .whatsapp-icon-wrapper {
     width: 52px;
     height: 52px;
   }
-  
+
   .whatsapp-icon-wrapper svg {
     width: 24px;
     height: 24px;
   }
-  
+
   .whatsapp-pulse-glow {
     width: 52px;
     height: 52px;
   }
 
-  /* Automatically show pulsing tooltip on mobile briefly */
+
   .whatsapp-tooltip-glow {
-    display: none !important; /* Tooltips are hidden on small touch screens to save layout space */
+    display: none !important;
   }
 }

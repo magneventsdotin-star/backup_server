@@ -1,14 +1,9 @@
 "use client"
 import { motion } from 'framer-motion'
 
-/**
- * FeatureCard Component
- * 
- * A reusable card for displaying features with an icon and border accent.
- */
 export default function FeatureCard({ icon, title, desc, accent = 'matrix', index }) {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}

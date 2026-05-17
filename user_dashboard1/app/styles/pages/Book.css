@@ -7,7 +7,6 @@
   overflow: hidden;
 }
 
-/* Ambient Background Blobs */
 .book-page::before {
   content: '';
   position: absolute;
@@ -121,8 +120,8 @@
   letter-spacing: 0.1em;
 }
 
-.form-group input, 
-.form-group select, 
+.form-group input,
+.form-group select,
 .form-group textarea {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -133,8 +132,8 @@
   transition: all 0.3s ease;
 }
 
-.form-group input:focus, 
-.form-group select:focus, 
+.form-group input:focus,
+.form-group select:focus,
 .form-group textarea:focus {
   outline: none;
   border-color: #FFE032;
@@ -192,7 +191,6 @@
   100% { left: 100%; }
 }
 
-/* Success State */
 .booking-success-box {
   text-align: center;
   padding: 40px 0;

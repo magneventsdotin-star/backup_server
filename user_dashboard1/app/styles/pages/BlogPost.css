@@ -1,8 +1,5 @@
-/* ============================================================
-   BLOG POST PAGE STYLES (COMPLETE PREMIUM SYSTEM)
-   ============================================================ */
 
-/* --- GLOBAL WRAPPER --- */
+
 .blog-page-wrapper, .blog-detail-layout {
   background: #000;
   color: #fff;
@@ -10,11 +7,6 @@
   padding-bottom: 120px;
 }
 
-/* ============================================================
-   BLOG LIST PAGE (MODERN MAGAZINE DESIGN)
-   ============================================================ */
-
-/* Modern Hero */
 .blog-modern-hero {
   padding: 160px 0 80px;
   background: radial-gradient(circle at 50% 0%, rgba(214, 80, 80, 0.12) 0%, transparent 80%);
@@ -57,7 +49,6 @@
   line-height: 1.6;
 }
 
-/* Featured Section */
 .featured-section {
   margin-bottom: 100px;
 }
@@ -118,7 +109,6 @@
 
 .read-more { color: #FFE032; font-weight: 900; font-size: 14px; letter-spacing: 0.1em; }
 
-/* Modern Grid */
 .blog-modern-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -146,7 +136,6 @@
 .card-body p { color: rgba(255, 255, 255, 0.4); font-size: 15px; line-height: 1.6; margin-bottom: 25px; }
 .cta-link { color: #FFE032; font-weight: 900; font-size: 12px; }
 
-/* Modern Values Section */
 .modern-values { padding: 120px 0; }
 .section-header.centered { text-align: center; margin-bottom: 80px; }
 .section-header h3 { font-size: 42px; font-family: 'Playfair Display', serif; margin-bottom: 15px; }
@@ -167,7 +156,6 @@
 .card-accent { position: absolute; bottom: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(to right, #D65050, #FFE032); transition: width 0.4s ease; }
 .modern-value-card:hover .card-accent { width: 100%; }
 
-/* CTA Banner */
 .blog-cta-banner { padding: 100px 0; }
 .cta-inner {
   background: linear-gradient(135deg, #1a0505 0%, #000 100%);
@@ -216,10 +204,6 @@
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
 }
 
-/* ============================================================
-   BLOG DETAIL PAGE (ULTRA PREMIUM EDITORIAL)
-   ============================================================ */
-
 .blog-detail-nav {
   position: fixed;
   top: 80px;
@@ -246,13 +230,11 @@
 .blog-article-body { flex: 1; max-width: 800px; }
 .blog-lead-text { font-size: 32px; color: #FFE032; font-weight: 700; line-height: 1.4; margin-bottom: 60px; border-left: 6px solid #D65050; padding-left: 30px; }
 
-/* Content Rendering */
 .blog-rich-content p { font-size: 20px; color: rgba(255, 255, 255, 0.7); line-height: 1.9; margin-bottom: 30px; }
 .blog-h3 { font-size: 32px; font-family: 'Playfair Display', serif; margin: 60px 0 30px; }
 .blog-li { font-size: 19px; color: rgba(255, 255, 255, 0.7); margin-bottom: 15px; padding-left: 20px; position: relative; }
 .blog-li::before { content: '•'; color: #D65050; position: absolute; left: 0; font-weight: 900; }
 
-/* Sidebar */
 .blog-sidebar { width: 380px; }
 .sidebar-sticky-wrap { position: sticky; top: 150px; }
 .sidebar-title { font-size: 12px; font-weight: 900; color: #D65050; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 40px; display: block; }
@@ -263,7 +245,6 @@
 .side-info h5 { font-size: 16px; color: #fff; line-height: 1.4; margin-bottom: 10px; font-family: 'Playfair Display', serif; }
 .side-link { font-size: 11px; font-weight: 800; color: #FFE032; }
 
-/* --- ELEGANT FOOTER NAVIGATION --- */
 .post-navigation {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -294,7 +275,6 @@
 .nav-card.next .label { color: #FFE032; }
 .nav-card .title { font-size: 18px; font-weight: 700; color: #fff; font-family: 'Playfair Display', serif; line-height: 1.4; }
 
-/* Elegant Consult Box */
 .consult-box {
   padding: 80px 40px;
   background: radial-gradient(circle at center, rgba(214, 80, 80, 0.1) 0%, transparent 100%);
@@ -344,7 +324,6 @@
   filter: brightness(1.1) !important;
 }
 
-/* MOVED BACK BUTTON */
 .back-to-last-section {
   margin-top: 60px;
   text-align: center;
@@ -369,10 +348,6 @@
   background: rgba(255, 224, 50, 0.05);
   transform: translateY(-3px);
 }
-
-/* ============================================================
-   RESPONSIVE DESIGN & MOBILE OVERRIDES
-   ============================================================ */
 
 @media (max-width: 1200px) {
   .blog-flex-layout {

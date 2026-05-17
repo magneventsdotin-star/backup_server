@@ -22,9 +22,9 @@ export default function BrandMark({ size = 'md', showTag = false, light = false,
           position: 'relative',
         }}
       >
-        <img 
-          src="/assets/magnevents-logo.jpg" 
-          alt="Magnevents" 
+        <img
+          src="/assets/magnevents-logo.jpg"
+          alt="Magnevents"
           style={{
             width: '100%',
             height: '100%',

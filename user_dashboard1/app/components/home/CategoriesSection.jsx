@@ -71,9 +71,9 @@ export default function CategoriesSection() {
                   <Link key={cat.label} href={`/artists?category=${cat.query}`} className="hp-cat-card-v2">
                     <div className="hp-cat-avatar-ring">
                       <div className="hp-cat-img-wrapper">
-                        <Image 
-                          src={cat.image} 
-                          alt={cat.label} 
+                        <Image
+                          src={cat.image}
+                          alt={cat.label}
                           fill
                           sizes="200px"
                           style={{ objectFit: 'cover' }}

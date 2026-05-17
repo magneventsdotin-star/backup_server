@@ -5,7 +5,7 @@ import '@/app/styles/components/FloatingWhatsApp.css'
 
 export default function FloatingWhatsApp() {
   return (
-    <a 
+    <a
       href="https://wa.me/918076515257?text=Hi%20Magnevents,%20I'm%20interested%20in%20booking%20an%20artist!"
       target="_blank"
       rel="noopener noreferrer"

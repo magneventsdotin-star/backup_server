@@ -5,9 +5,9 @@ export const defaultBlogs = [
     title: "Personal Concerts at Home: The Rising Trend of Booking Singers for House Parties",
     subtitle: "Book a Singer for House Party",
     img: "/assets/male-singer-acoustic.jpg",
-    content: `House parties are getting a major upgrade. Instead of relying on generic background playlists, more people are choosing to book a live singer for their parties. It's like bringing a private concert right into your living room! 
+    content: `House parties are getting a major upgrade. Instead of relying on generic background playlists, more people are choosing to book a live singer for their parties. It's like bringing a private concert right into your living room!
 
-At Magnevents, we specialize in curating these intimate musical experiences. Whether it's an acoustic singer for a birthday dinner or a high-energy performer for a terrace party, the impact of live music is unmatched. 
+At Magnevents, we specialize in curating these intimate musical experiences. Whether it's an acoustic singer for a birthday dinner or a high-energy performer for a terrace party, the impact of live music is unmatched.
 
 ### Why Book a Singer for a House Party?
 1. **Personalized Setlists**: Your favorite songs performed live just for you.

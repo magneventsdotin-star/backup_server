@@ -218,7 +218,6 @@
   background: transparent;
 }
 
-/* Strong mobile bottom-nav contrast (overrides generic button tint) */
 .flow-unify-shell .booking-bottom-nav {
   background: linear-gradient(180deg, rgba(20, 20, 20, 0.99) 0%, rgba(10, 10, 10, 0.99) 100%) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
