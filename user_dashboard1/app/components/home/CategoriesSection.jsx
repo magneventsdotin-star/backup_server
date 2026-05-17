@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -9,7 +9,21 @@ import { ARTIST_CATEGORIES } from '@/app/constants'
 
 export default function CategoriesSection() {
   const [catPage, setCatPage] = useState(0)
-  const catPerPage = 4
+  const [catPerPage, setCatPerPage] = useState(4)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setCatPerPage(2)
+      } else {
+        setCatPerPage(4)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const totalCatPages = Math.ceil(ARTIST_CATEGORIES.length / catPerPage)
   const moveCat = (dir) => setCatPage(p => (p + dir + totalCatPages) % totalCatPages)
 
@@ -34,6 +48,18 @@ export default function CategoriesSection() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -60 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={(event, info) => {
+                  const swipeThreshold = 50;
+                  if (info.offset.x < -swipeThreshold) {
+                    moveCat(1);
+                  } else if (info.offset.x > swipeThreshold) {
+                    moveCat(-1);
+                  }
+                }}
+                style={{ touchAction: 'pan-y' }}
               >
                 {ARTIST_CATEGORIES.slice(catPage * catPerPage, catPage * catPerPage + catPerPage).map((cat, i) => (
                   <Link key={cat.label} href={`/artists?category=${cat.query}`} className="hp-cat-card-v2">
@@ -84,3 +110,6 @@ export default function CategoriesSection() {
     </FadeSection>
   )
 }
+
+// Next HMR Cache Invalidation Trigger: Categories Carousel Mobile 2/2 Swipe Fixed 2026-05-17
+
