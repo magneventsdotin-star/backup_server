@@ -36,6 +36,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                window.deferredPrompt = e;
+                window.dispatchEvent(new CustomEvent('pwa-installable'));
+              });
+            `
+          }}
+        />
+      </head>
       <body className="antialiased" suppressHydrationWarning>
         <Providers>
           <AppShellWrapper>

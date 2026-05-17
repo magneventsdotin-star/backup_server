@@ -19,20 +19,6 @@ export function AppShellWrapper({ children }) {
   const pathname = usePathname();
   const hideChrome = HIDE_CHROME_ON.some(p => pathname.startsWith(p));
 
-  // Listen for the Progressive Web App install prompt globally
-  useEffect(() => {
-    const handleBeforeInstallPrompt = (e) => {
-      e.preventDefault();
-      window.deferredPrompt = e;
-      window.dispatchEvent(new CustomEvent('pwa-installable'));
-    };
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
-  }, []);
-
   // Initialize interactive background glow effect
   useMouseGlow();
 
