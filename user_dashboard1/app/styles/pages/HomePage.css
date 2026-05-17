@@ -3512,10 +3512,10 @@
     font-size: 14px !important;
   }
   .hp-cat-card-v2::before {
-    height: 70px !important;
+    height: 120px !important;
   }
   .hp-cat-card-v2::after {
-    height: 70px !important;
+    height: 120px !important;
   }
 }
 
@@ -3563,10 +3563,10 @@
     font-size: 13px !important;
   }
   .hp-cat-card-v2::before {
-    height: 60px !important;
+    height: 120px !important;
   }
   .hp-cat-card-v2::after {
-    height: 60px !important;
+    height: 120px !important;
   }
 }
 
