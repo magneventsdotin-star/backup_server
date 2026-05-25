@@ -337,13 +337,15 @@
 .hp-btn-sm { font-size: 0.875rem; padding: 8px 16px; border-radius: var(--radius-sm); }
 .hp-btn-lg { font-size: 1.125rem; padding: 16px 32px; border-radius: var(--radius-lg); }
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+
 .hp-stats {
-  margin-top: 80px;
+  margin-top: 30px; /* Reduced empty space */
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1000px; /* Reduced box width */
   margin-left: auto;
   margin-right: auto;
   
@@ -352,12 +354,20 @@
   backdrop-filter: blur(40px);
   border: 1px solid rgba(214, 80, 80, 0.2);
   border-radius: 24px;
-  padding: 40px;
+  padding: 30px 20px; /* Decreased box height/padding */
   box-shadow:
     0 30px 60px rgba(0, 0, 0, 0.5),
     inset 0 0 30px rgba(214, 80, 80, 0.05);
   position: relative;
   overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.hp-stats:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.6),
+    inset 0 0 40px rgba(214, 80, 80, 0.1);
 }
 
 .hp-stats::before {
@@ -373,6 +383,30 @@
   box-shadow: 0 0 15px var(--glow-red);
 }
 
+/* Subtle glowing shimmer moving across the single card */
+.hp-stats::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(214, 80, 80, 0.05) 50%,
+    transparent 100%
+  );
+  animation: stats-shimmer 6s infinite;
+  pointer-events: none;
+}
+
+@keyframes stats-shimmer {
+  0% { left: -100%; }
+  50% { left: 200%; }
+  100% { left: 200%; }
+}
+
 .hp-stat-card {
   flex: 1;
   position: relative;
@@ -381,6 +415,11 @@
   flex-direction: column;
   justify-content: center;
   padding: 0 20px;
+  transition: transform 0.3s ease;
+}
+
+.hp-stat-card:hover {
+  transform: scale(1.05);
 }
 
 /* Add dividers between items */
@@ -396,9 +435,11 @@
 
 .hp-stat-card strong {
   display: block;
+  font-family: 'Playfair Display', serif; /* Fancy Font */
   color: rgba(214, 80, 80, 0.85); /* Slightly darker/less bright red */
-  font-size: clamp(1.6rem, 3.2vw, 2.4rem); /* Reduced by 20% */
+  font-size: clamp(2.58rem, 5.17vw, 3.9rem); /* Increased by 25% */
   font-weight: 700; /* Decreased boldness */
+  padding: 15px 0; /* Added text padding */
   margin-bottom: 8px;
   letter-spacing: -0.01em;
   line-height: 1;
@@ -412,6 +453,7 @@
   text-transform: inherit;
   letter-spacing: inherit;
   opacity: 1;
+  font-family: inherit;
 }
 
 .hp-stat-card > span {
@@ -422,6 +464,11 @@
   letter-spacing: 0.2em;
   opacity: 0.9;
   position: relative;
+  transition: color 0.3s ease;
+}
+
+.hp-stat-card:hover > span {
+  color: var(--brand-ruby);
 }
 
 .hp-stat-card > span::before {
@@ -432,6 +479,12 @@
   background: var(--brand-ruby);
   margin: 0 auto 10px;
   opacity: 0.6;
+  transition: width 0.3s ease;
+}
+
+.hp-stat-card:hover > span::before {
+  width: 50px;
+  background: #fff;
 }
 
 @media (max-width: 1024px) {
