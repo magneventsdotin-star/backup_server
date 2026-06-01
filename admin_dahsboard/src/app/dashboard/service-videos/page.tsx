@@ -267,11 +267,20 @@ export default function ServiceVideos() {
     }));
 
     try {
-      const { error } = await (supabase.from('service_videos') as any)
-        .update({ main_headingvideo: newValue })
-        .eq('id', video.id);
+      const res = await fetch('/api/update-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: video.id,
+          updates: { main_headingvideo: newValue }
+        })
+      });
 
-      if (error) throw error;
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Failed to update video');
+      }
+
       toast({ title: newValue ? 'Promoted' : 'Unpromoted', description: 'Video feature status updated.' });
       // We don't need to fetchVideos() here because the optimistic update and Realtime sync handles it.
     } catch (err: any) {
