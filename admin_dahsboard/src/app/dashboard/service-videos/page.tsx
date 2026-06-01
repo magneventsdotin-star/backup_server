@@ -402,7 +402,7 @@ export default function ServiceVideos() {
                       key={video.id} 
                       className={cn(
                         "rounded-[24px] overflow-hidden transition-all duration-300 group flex flex-col justify-between border relative",
-                        video._is_featured 
+                        video.main_headingvideo 
                           ? "bg-amber-50/30 border-amber-300 shadow-md shadow-amber-500/10" 
                           : "bg-white border-slate-100 shadow-sm hover:shadow-md"
                       )}
@@ -486,7 +486,7 @@ export default function ServiceVideos() {
                               MAIN HEADING VIDEOS
                             </Label>
                             <Switch 
-                              checked={video._is_featured}
+                              checked={video.main_headingvideo}
                               onCheckedChange={() => handleToggleFeature(video)}
                               className="data-[state=checked]:bg-amber-500"
                             />
