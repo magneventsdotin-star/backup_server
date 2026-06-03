@@ -81,13 +81,7 @@ export default function ReelsSection() {
           .order('created_at', { ascending: false });
 
         if (data && !error) {
-          const groups = {
-            'Singers & Vocalists': [],
-            'Live Bands': [],
-            'Club DJs': [],
-            'Anchors & Talents': [],
-            'Featured Showcases': []
-          };
+          const groups = {};
           
           // Set background video first if available
           const bgVideo = data.find(v => v.topic === 'Live Performance Background');
@@ -98,31 +92,11 @@ export default function ReelsSection() {
               return;
             }
 
-            const catField = (video.category || '').toLowerCase();
-            const topicField = (video.topic || '').toLowerCase();
-            
-            let matched = false;
-            
-            if (catField.includes('sing') || catField.includes('voice') || topicField.includes('sing')) {
-               groups['Singers & Vocalists'].push(video);
-               matched = true;
+            const key = video.topic || 'Featured Showcases';
+            if (!groups[key]) {
+              groups[key] = [];
             }
-            else if (catField.includes('band') || catField.includes('symphony') || topicField.includes('band')) {
-               groups['Live Bands'].push(video);
-               matched = true;
-            }
-            else if (catField.includes('dj') || catField.includes('music') || topicField.includes('dj')) {
-               groups['Club DJs'].push(video);
-               matched = true;
-            }
-            else if (catField.includes('anchor') || catField.includes('emcee') || catField.includes('talent') || topicField.includes('anchor')) {
-               groups['Anchors & Talents'].push(video);
-               matched = true;
-            }
-            
-            if (!matched) {
-               groups['Featured Showcases'].push(video);
-            }
+            groups[key].push(video);
           });
 
           // Filter out empty groups
@@ -269,10 +243,9 @@ export default function ReelsSection() {
 
           <button style={{
             marginTop: '30px',
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: '#E7286A',
             color: 'white',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
+            border: 'none',
             padding: '16px 40px',
             borderRadius: '100px',
             fontSize: '15px',
@@ -283,18 +256,17 @@ export default function ReelsSection() {
             transition: 'all 0.3s ease',
             display: 'flex',
             alignItems: 'center',
-            gap: '10px'
+            gap: '10px',
+            boxShadow: '0 4px 15px rgba(231, 40, 106, 0.4)'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(231, 40, 106, 0.15)';
-            e.currentTarget.style.borderColor = 'rgba(231, 40, 106, 0.5)';
-            e.currentTarget.style.boxShadow = '0 8px 24px rgba(231, 40, 106, 0.2)';
+            e.currentTarget.style.background = '#d61b5c';
+            e.currentTarget.style.boxShadow = '0 8px 24px rgba(231, 40, 106, 0.6)';
             e.currentTarget.style.transform = 'translateY(-2px)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-            e.currentTarget.style.boxShadow = 'none';
+            e.currentTarget.style.background = '#E7286A';
+            e.currentTarget.style.boxShadow = '0 4px 15px rgba(231, 40, 106, 0.4)';
             e.currentTarget.style.transform = 'translateY(0)';
           }}
           >
@@ -308,9 +280,10 @@ export default function ReelsSection() {
       
       {(() => {
         const categoryDescriptions = {
-          'Singers & Vocalists': 'Looking to hire a singer for a party or wedding? Our solo singers for hire are handpicked for their talent, stage presence, and ability to light up any event. Whether you need an acoustic guitarist singer for hire or a powerhouse vocalist, we’ve got you covered.',
-          'Live Bands': 'Turn your party or corporate gathering into an unforgettable experience. Hire a band for your party and enjoy a full, energetic live sound that gets every guest on their feet. Our live musicians for hire know how to read the crowd and keep the vibes just right.',
-          'Sufi Bands': 'Add a spiritual touch to your event with our authentic Sufi bands. Hire live musicians for soulful evenings, cultural nights, or traditional gatherings that create unforgettable memories.',
+          'Singers': 'Looking to hire a singer for a party or wedding? Our solo singers for hire are handpicked for their talent, stage presence, and ability to light up any event. Whether you need an acoustic guitarist singer for hire or a powerhouse vocalist, we’ve got you covered.',
+          'Live Solo Singers': 'Book Solo Singers for Hire Near You',
+          'Live Bands': 'Hire a Band for Your Party or Event',
+          'Sufi Bands': 'Book Soulful Sufi Bands & Live Musicians for Events',
           'Club DJs': 'Looking to hire a DJ for an unforgettable night? Our club DJs bring high-energy beats and keep the dance floor packed.',
           'Anchors & Talents': 'Hire professional anchors, emcees, and talents to host your event and keep your audience fully engaged.',
           'Featured Showcases': 'Discover our premium selection of top-tier talent and exclusive performances curated just for you.'
@@ -450,11 +423,9 @@ export default function ReelsSection() {
                     />
                   )}
                   
-                  {/* Play Overlay */}
-                  <div className="play-overlay">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
+                  {/* Book Now Overlay */}
+                  <div className="book-now-overlay">
+                    Book Now
                   </div>
 
                 </div>

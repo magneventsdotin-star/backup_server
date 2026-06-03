@@ -172,21 +172,22 @@
 }
 
 .reels-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 40px;
 }
 
 @media (max-width: 1024px) {
   .reels-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
 }
 
 @media (max-width: 640px) {
   .reels-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
@@ -194,7 +195,8 @@
 .reel-card {
   position: relative;
   width: 100%;
-  flex-shrink: 0;
+  max-width: 580px;
+  flex: 1 1 450px;
   aspect-ratio: 16/9;
   background: #000;
   border-radius: 16px;
@@ -253,15 +255,24 @@ iframe.reel-video {
   text-shadow: 0 4px 20px rgba(0,0,0,0.9);
 }
 
-.play-overlay {
+.book-now-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.8);
-  width: 64px;
-  height: 64px;
-  background: rgba(231, 40, 106, 0.8);
-  border-radius: 50%;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px 24px;
+  line-height: 1;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -270,17 +281,12 @@ iframe.reel-video {
   transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   pointer-events: none;
   backdrop-filter: blur(4px);
-  box-shadow: 0 8px 32px rgba(231, 40, 106, 0.4);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.play-overlay svg {
-  width: 24px;
-  height: 24px;
-  fill: white;
-  margin-left: 4px; /* optical center */
-}
-
-.reel-card:hover .play-overlay {
+.reel-card:hover .book-now-overlay {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
 }
