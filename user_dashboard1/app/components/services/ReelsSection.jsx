@@ -67,6 +67,7 @@ const getCategoryIcon = (category) => {
 
 export default function ReelsSection() {
   const [groupedVideos, setGroupedVideos] = useState({});
+  const [backgroundVideo, setBackgroundVideo] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -86,7 +87,15 @@ export default function ReelsSection() {
             'Featured Showcases': []
           };
           
+          // Set background video first if available
+          const bgVideo = data.find(v => v.topic === 'Live Performance Background');
+          if (bgVideo) setBackgroundVideo(bgVideo);
+
           data.forEach((video) => {
+            if (video.topic === 'Live Performance Background') {
+              return;
+            }
+
             const catField = (video.category || '').toLowerCase();
             const topicField = (video.topic || '').toLowerCase();
             
@@ -175,23 +184,111 @@ export default function ReelsSection() {
     );
   }
 
-  // If no videos, show some fallback data grouped
-  const fallbackGroups = {
-    'Singers & Vocalists': [
-      { id: '1', video_url: "https://assets.mixkit.co/videos/preview/mixkit-singer-performing-on-stage-with-microphone-34374-large.mp4", topic: "" },
-      { id: '2', video_url: "https://assets.mixkit.co/videos/preview/mixkit-singer-performing-on-stage-with-microphone-34374-large.mp4", topic: "Pov : you want that one person in your life" },
-      { id: '3', video_url: "https://assets.mixkit.co/videos/preview/mixkit-singer-performing-on-stage-with-microphone-34374-large.mp4", topic: "" }
-    ]
-  };
-
-  const finalGroups = Object.keys(groupedVideos).length > 0 ? groupedVideos : fallbackGroups;
+  const finalGroups = groupedVideos;
 
   return (
-    <section className="reels-section-wrapper">
-      <div className="reels-page-heading">
-        <h1 className="reels-page-title">Live Performance Showcase</h1>
-        <p className="reels-page-subtitle">Discover the incredible talent available to book for your next event.</p>
-      </div>
+    <div>
+      <section className="reels-hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '65vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '100px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        {backgroundVideo && (
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
+            {getYoutubeId(backgroundVideo.video_url) ? (
+              <iframe
+                src={`https://www.youtube.com/embed/${getYoutubeId(backgroundVideo.video_url)}?rel=0&modestbranding=1&controls=0&showinfo=0&autoplay=1&mute=1&loop=1&playlist=${getYoutubeId(backgroundVideo.video_url)}`}
+                style={{ border: 'none', objectFit: 'cover', width: '100%', height: '100vw', transform: 'scale(1.5)', pointerEvents: 'none' }}
+                allow="autoplay; encrypted-media"
+              />
+            ) : (
+              <video 
+                src={backgroundVideo.video_url}
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+              />
+            )}
+            {/* Subtle gradient to ensure text readability without hiding the video */}
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 40%, rgba(5,5,5,0.8) 100%)' }} />
+          </div>
+        )}
+        
+        <div style={{ position: 'relative', zIndex: 1, padding: '20px', maxWidth: '1000px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          
+          <div style={{ 
+            marginBottom: '20px',
+            padding: '8px 20px',
+            background: 'linear-gradient(90deg, rgba(231,40,106,0.15) 0%, rgba(255,138,171,0.05) 100%)',
+            border: '1px solid rgba(231,40,106,0.3)',
+            borderRadius: '100px',
+            color: '#ff8aab',
+            fontSize: '13px',
+            fontWeight: '800',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            boxShadow: '0 0 20px rgba(231,40,106,0.2)'
+          }}>
+            <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: '#E7286A', boxShadow: '0 0 10px #E7286A' }}></span>
+            Premium Artists
+          </div>
+
+          <h1 className="reels-page-title" style={{ 
+            fontSize: 'clamp(44px, 7vw, 84px)', 
+            marginBottom: '20px', 
+            letterSpacing: '-0.02em', 
+            fontWeight: '900',
+            textShadow: '0 10px 30px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.5)'
+          }}>
+            Live Performance <br />
+            <span style={{ 
+              background: 'linear-gradient(135deg, #E7286A, #ff8aab)', 
+              WebkitBackgroundClip: 'text', 
+              WebkitTextFillColor: 'transparent',
+              display: 'inline-block',
+              textShadow: 'none',
+              filter: 'drop-shadow(0 4px 15px rgba(231,40,106,0.4))'
+            }}>Showcase</span>
+          </h1>
+          
+          <p className="reels-page-subtitle" style={{ 
+            fontSize: 'clamp(16px, 2vw, 22px)', 
+            color: 'rgba(255,255,255,0.95)', 
+            lineHeight: '1.6', 
+            maxWidth: '700px',
+            margin: '0 auto',
+            fontWeight: '400',
+            textShadow: '0 4px 15px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,1)' 
+          }}>
+            Discover the incredible talent available to book for your next event. Browse live performances, exclusive reels, and instantly book the perfect artist for your occasion.
+          </p>
+
+          <button style={{
+            marginTop: '30px',
+            background: 'linear-gradient(135deg, #E7286A 0%, #ff8aab 100%)',
+            color: '#fff',
+            padding: '16px 40px',
+            borderRadius: '100px',
+            fontSize: '15px',
+            fontWeight: '900',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            border: 'none',
+            cursor: 'pointer',
+            boxShadow: '0 10px 25px rgba(231,40,106,0.4)',
+            transition: 'all 0.3s ease',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+            Book Now
+            <span style={{ fontSize: '18px' }}>→</span>
+          </button>
+        </div>
+      </section>
+
+      <section className="reels-content-section" style={{ padding: '60px 0', background: '#050505' }}>
       
       {Object.entries(finalGroups).map(([category, videos]) => {
         // Filter videos to only show those that are explicitly featured (toggled ON)
@@ -202,40 +299,44 @@ export default function ReelsSection() {
         return (
         <div className="reels-container" key={category} style={{ marginBottom: '80px' }}>
           <div className="reels-header">
-            {/* Running Text Marquee Background */}
+            {/* First Row: Scrolling Text (Marquee) */}
             <div className="marquee-container">
               <div className="marquee-content">
                 ★ RECOMMENDED ★ TRENDING ★ EXCLUSIVE ★ TOP RATED ★ PREMIUM ★ RECOMMENDED ★ TRENDING ★ EXCLUSIVE ★ TOP RATED ★ PREMIUM ★ RECOMMENDED ★ TRENDING ★ EXCLUSIVE ★ TOP RATED ★ PREMIUM ★ RECOMMENDED ★ TRENDING ★ EXCLUSIVE ★ TOP RATED ★ PREMIUM
               </div>
             </div>
 
-            <div className="reels-header-left" style={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{
-                background: 'linear-gradient(135deg, #E7286A, #ff8aab)',
-                color: '#fff',
-                padding: '6px 14px',
-                borderRadius: '100px',
-                fontSize: '11px',
-                fontWeight: '900',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                boxShadow: '0 4px 15px rgba(231, 40, 106, 0.4)'
-              }}>
-                Trending
+            {/* Second Row: Main Heading, Badge, and Button */}
+            <div className="reels-header-content">
+              <div className="reels-header-left" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+                <div style={{
+                  background: 'linear-gradient(135deg, #E7286A, #ff8aab)',
+                  color: '#fff',
+                  padding: '4px 12px',
+                  borderRadius: '100px',
+                  fontSize: '10px',
+                  fontWeight: '900',
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  boxShadow: '0 4px 15px rgba(231, 40, 106, 0.4)'
+                }}>
+                  ★ Trending
+                </div>
+                <h2 className="reels-title" style={{ margin: 0, fontSize: 'clamp(24px, 4vw, 36px)', lineHeight: '1.2', fontWeight: '900' }}>{category}</h2>
               </div>
-              <h2 className="reels-title">{category}</h2>
+              
+              <button 
+                className="quick-book-btn"
+                style={{ position: 'relative', zIndex: 2 }}
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('open-contact-modal', { 
+                    detail: { type: 'booking', artist: { name: `Performer from ${category}` } } 
+                  }));
+                }}
+              >
+                Quick Book
+              </button>
             </div>
-            <button 
-              className="quick-book-btn"
-              style={{ position: 'relative', zIndex: 2 }}
-              onClick={() => {
-                window.dispatchEvent(new CustomEvent('open-contact-modal', { 
-                  detail: { type: 'booking', artist: { name: `Performer from ${category}` } } 
-                }));
-              }}
-            >
-              Quick Book
-            </button>
           </div>
           <div className="reels-grid">
             {visibleVideos.slice(0, 4).map((vid) => {
@@ -274,27 +375,14 @@ export default function ReelsSection() {
                       style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                     />
                   )}
-
-                  {/* Category Logo Icon */}
-                  <div 
-                    className="reel-overlay-icon"
-                    style={{
-                      position: 'absolute',
-                      bottom: '20px',
-                      left: '20px',
-                      zIndex: 3,
-                      background: 'rgba(0,0,0,0.6)',
-                      backdropFilter: 'blur(10px)',
-                      padding: '12px',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 4px 15px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,40,126,0.3)'
-                    }}
-                  >
-                    {getCategoryIcon(category)}
+                  
+                  {/* Play Overlay */}
+                  <div className="play-overlay">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
                   </div>
+
                 </div>
               );
             })}
@@ -302,6 +390,7 @@ export default function ReelsSection() {
         </div>
         );
       })}
-    </section>
+      </section>
+    </div>
   );
 }

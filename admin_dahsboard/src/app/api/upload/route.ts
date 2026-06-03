@@ -31,8 +31,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Image exceeds 5MB limit' }, { status: 400 });
     }
 
-    if (file.type.startsWith('video/') && file.size > 50 * 1024 * 1024) {
-      return NextResponse.json({ error: 'Video exceeds 50MB limit' }, { status: 400 });
+    if (file.type.startsWith('video/') && file.size > 200 * 1024 * 1024) {
+      return NextResponse.json({ error: 'Video exceeds 200MB limit' }, { status: 400 });
     }
 
     const arrayBuffer = await file.arrayBuffer();

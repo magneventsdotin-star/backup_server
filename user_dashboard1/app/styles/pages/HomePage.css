@@ -3001,7 +3001,7 @@
 .hp-aom-card {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 40px;
+  border-radius: 32px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   overflow: hidden;
@@ -3009,6 +3009,8 @@
   color: #fff;
   backdrop-filter: blur(40px);
   position: relative;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .hp-aom-card::after {
@@ -3021,28 +3023,30 @@
 
 .hp-aom-img-wrap {
   position: relative;
-  padding: 24px;
-  background: rgba(0, 0, 0, 0.4);
+  padding: 0;
+  background: none;
+  height: 100%;
 }
 
 .hp-aom-img-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  display: block;
 }
 
 .hp-aom-badge {
   position: absolute;
-  top: 40px;
-  left: 40px;
+  top: 20px;
+  left: 20px;
   background: rgba(214, 80, 80, 0.9);
   color: #fff;
-  padding: 11px 20px;
+  padding: 8px 16px;
   border-radius: 99px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -3052,45 +3056,45 @@
 }
 
 .hp-aom-content {
-  padding: 60px;
+  padding: 24px 32px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .hp-aom-genres {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 900;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   color: var(--brand-gold);
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   text-transform: uppercase;
 }
 
 .hp-aom-name {
-  font-size: 52px;
+  font-size: 32px;
   font-weight: 800;
   line-height: 1;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   color: #fff;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
 }
 
 .hp-aom-stats-grid {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin: 24px 0 32px;
+  gap: 8px;
+  margin: 12px 0 20px;
 }
 
 .hp-aom-stat-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  font-size: 15px;
+  border-radius: 10px;
+  font-size: 13px;
 }
 
 .hp-aom-stat-row span {
@@ -3125,10 +3129,10 @@
   background: linear-gradient(90deg, #D65050, #b53e3e);
   color: #fff;
   border: none;
-  padding: 16px 32px;
-  border-radius: 12px;
+  padding: 10px 20px;
+  border-radius: 8px;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   transition: all 0.3s ease;
   width: fit-content;

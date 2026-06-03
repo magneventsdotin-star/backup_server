@@ -79,8 +79,8 @@ export default function ServiceVideos() {
         toast({ variant: 'destructive', title: 'Invalid format', description: 'Please select a video file.' });
         return;
       }
-      if (file.size > 50 * 1024 * 1024) {
-        toast({ variant: 'destructive', title: 'Too large', description: 'Video must be less than 50MB.' });
+      if (file.size > 200 * 1024 * 1024) {
+        toast({ variant: 'destructive', title: 'Too large', description: 'Video must be less than 200MB.' });
         return;
       }
       setVideoFile(file);
@@ -152,8 +152,8 @@ export default function ServiceVideos() {
         toast({ variant: 'destructive', title: 'Invalid format', description: 'Please select a video file.' });
         return;
       }
-      if (file.size > 50 * 1024 * 1024) {
-        toast({ variant: 'destructive', title: 'Too large', description: 'Video must be less than 50MB.' });
+      if (file.size > 200 * 1024 * 1024) {
+        toast({ variant: 'destructive', title: 'Too large', description: 'Video must be less than 200MB.' });
         return;
       }
       setVideoFile(file);
@@ -289,9 +289,12 @@ export default function ServiceVideos() {
     }
   };
 
+  const backgroundVideos = videos.filter(v => v.topic === 'Live Performance Background');
+  const normalVideos = videos.filter(v => v.topic !== 'Live Performance Background');
+
   // Group videos dynamically by Category/Topic for "Category-Wise" Layout
   const groupedVideos: { [key: string]: any[] } = {};
-  videos.forEach(video => {
+  normalVideos.forEach(video => {
     const key = video.topic || 'General Spotlight';
     if (!groupedVideos[key]) {
       groupedVideos[key] = [];
@@ -344,6 +347,50 @@ export default function ServiceVideos() {
             <Plus size={16} strokeWidth={3} />
             Add New video
           </button>
+        </div>
+      </div>
+
+      {/* Background Video Section */}
+      <div className="bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative overflow-hidden min-h-[160px]">
+        <div className="absolute inset-0 pointer-events-none">
+          {backgroundVideos.length > 0 && backgroundVideos[0].video_url && !getYoutubeId(backgroundVideos[0].video_url) ? (
+            <>
+              <video src={backgroundVideos[0].video_url} autoPlay muted loop className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/50 to-slate-900/20" />
+            </>
+          ) : (
+             <div className="w-full h-full bg-gradient-to-r from-indigo-900 to-rose-900 opacity-30" />
+          )}
+        </div>
+        <div className="relative z-10 space-y-2 max-w-xl bg-slate-900/40 backdrop-blur-md p-5 rounded-2xl border border-white/10 shadow-lg">
+          <h2 className="text-xl font-black text-white flex items-center gap-2 drop-shadow-md">
+            <Video className="text-rose-400" size={24} />
+            Showcase Background Video
+          </h2>
+          <p className="text-slate-200 text-sm drop-shadow-sm font-medium">
+            Set a stunning background video that plays silently behind your Live Performance Showcase on the frontend.
+            {backgroundVideos.length > 0 && (
+               <span className="block mt-2 font-bold text-emerald-400">Current background is active.</span>
+            )}
+          </p>
+        </div>
+        <div className="relative z-10 flex gap-3 flex-shrink-0 bg-slate-900/40 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-lg">
+          <Button 
+            className="bg-white text-slate-900 hover:bg-slate-100 font-bold shadow-xl"
+            onClick={() => {
+               setTopic('Live Performance Background');
+               setCategory('Background Video');
+               setIsCustomTopic(false);
+               setIsModalOpen(true);
+            }}
+          >
+            {backgroundVideos.length > 0 ? 'Replace Video' : 'Add Video'}
+          </Button>
+          {backgroundVideos.length > 0 && (
+             <Button variant="destructive" className="font-bold shadow-xl" onClick={() => handleDelete(backgroundVideos[0].id)}>
+               Remove
+             </Button>
+          )}
         </div>
       </div>
 
@@ -687,7 +734,7 @@ export default function ServiceVideos() {
               {/* Dynamic input based on selected tab */}
               {uploadTab === 'file' ? (
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Video File (Max 50MB)</Label>
+                  <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Video File (Max 200MB)</Label>
                   <div 
                     onClick={() => fileInputRef.current?.click()}
                     onDragOver={handleDragOver}
@@ -725,7 +772,7 @@ export default function ServiceVideos() {
                       <>
                         <Upload className="w-7 h-7 text-slate-500 mb-2" />
                         <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Select or Drop MP4 Video File</span>
-                        <span className="text-[9px] text-slate-500 mt-1">Accepts standard video formats up to 50MB</span>
+                        <span className="text-[9px] text-slate-500 mt-1">Accepts standard video formats up to 200MB</span>
                       </>
                     )}
                   </div>
