@@ -86,13 +86,8 @@ npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
----
 
-## 📸 Preview
 
-*(Add your screenshots here to showcase the stunning Luxury Gold design)*
-
----
 
 ## 📄 License
 
