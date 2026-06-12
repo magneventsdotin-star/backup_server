@@ -285,9 +285,10 @@ export default function ServicesPage() {
                 )}
               </div>
 
-              <div className="p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gradient-to-t from-black to-[#0F1117]">
-                <div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white mb-1">{
+              <div className="p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-[#0F1117] border-t border-white/10 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-rose-500/10 to-transparent pointer-events-none"></div>
+                <div className="relative z-10">
+                  <h2 className="text-3xl sm:text-4xl font-black text-white mb-1 tracking-tight">{
                     (() => {
                       try {
                         const parsed = JSON.parse(selectedVideo.user_name);
@@ -311,17 +312,33 @@ export default function ServicesPage() {
                         {typeText}
                       </div>
                     ) : (
-                      <p className="text-[#B9B9C8] text-xs uppercase tracking-widest font-bold mt-2">Premium Live Entertainment</p>
+                      <p className="text-[#FF3D5E] text-sm uppercase tracking-widest font-bold mt-2">Premium Live Entertainment</p>
                     );
                   })()}
                 </div>
-                <div className="flex gap-4">
-                  <button className="h-12 px-8 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-full transition-colors flex items-center gap-2">
-                    Book {JSON.parse(selectedVideo.user_name || '{}').name || 'Featured Artist'} Now
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto relative z-10">
+                  <button className="h-14 px-10 bg-gradient-to-r from-[#FF3D5E] to-[#FF758C] hover:scale-105 text-white font-black rounded-full transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,61,94,0.4)] text-lg w-full sm:w-auto">
+                    Book {
+                      (() => {
+                        try {
+                          return JSON.parse(selectedVideo.user_name).name;
+                        } catch(e) {
+                          return selectedVideo.user_name || 'Featured Artist';
+                        }
+                      })()
+                    }
                   </button>
-                  <Link href={`/artist/${encodeURIComponent(JSON.parse(selectedVideo.user_name || '{}').name || 'Artist')}`}>
-                    <button className="h-12 px-8 bg-white/5 hover:bg-white/10 text-white font-bold rounded-full transition-colors">
-                      View Full Profile
+                  <Link href={`/artist/${encodeURIComponent(
+                    (() => {
+                      try {
+                        return JSON.parse(selectedVideo.user_name).name;
+                      } catch(e) {
+                        return selectedVideo.user_name || 'Artist';
+                      }
+                    })()
+                  )}`} className="w-full sm:w-auto">
+                    <button className="h-14 px-10 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full transition-all w-full sm:w-auto flex items-center justify-center whitespace-nowrap">
+                      View Profile
                     </button>
                   </Link>
                 </div>

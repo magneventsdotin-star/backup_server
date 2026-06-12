@@ -31,8 +31,6 @@ export const navItems = [
       { name: 'Pricing', href: '/dashboard/pricing' },
       { name: 'Blog Editing', href: '/dashboard/slider' },
       { name: 'Service Videos', href: '/dashboard/service-videos' },
-      { name: 'fourths', href: '#' },
-      { name: 'five', href: '#' },
     ]
   },
   { name: 'Artists', href: '/dashboard/artists', icon: Mic2 },
