@@ -11,18 +11,36 @@ import ContactSection from '@/app/components/home/ContactSection'
 import '@/app/styles/pages/HomePage.css'
 
 export default function HomePage() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Magnevents",
+    "url": "https://magnevents.com",
+    "logo": "https://magnevents.com/icon-512.png",
+    "sameAs": [
+      "https://instagram.com/magnevents",
+      "https://facebook.com/magnevents"
+    ]
+  };
+
   return (
-    <div className="hp">
-      <HeroSection />
-      <TopPerformerSection />
-      <CategoriesSection />
-      <FeaturedArtistsSection />
-      <WhyChooseSection />
-      <HowToBookSection />
-      <TestimonialsSection />
-      <FaqSection />
-      <InfoCards />
-      <ContactSection />
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <div className="hp">
+        <HeroSection />
+        <TopPerformerSection />
+        <CategoriesSection />
+        <FeaturedArtistsSection />
+        <WhyChooseSection />
+        <HowToBookSection />
+        <TestimonialsSection />
+        <FaqSection />
+        <InfoCards />
+        <ContactSection />
+      </div>
+    </>
   )
 }

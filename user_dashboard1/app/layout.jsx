@@ -25,6 +25,7 @@ export const viewport = {
 };
 
 export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://magnevents.com'),
   title: 'Magnevents — Premium Live Artist Booking',
   description: 'Artist-first booking for weddings, corporate nights, and concerts.',
   manifest: '/manifest.json',
@@ -36,6 +37,30 @@ export const metadata = {
     capable: true,
     title: 'Magnevents',
     statusBarStyle: 'default',
+  },
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Magnevents — Premium Live Artist Booking',
+    description: 'Artist-first booking for weddings, corporate nights, and concerts.',
+    url: '/',
+    siteName: 'Magnevents',
+    images: [
+      {
+        url: '/icon-512.png',
+        width: 512,
+        height: 512,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Magnevents — Premium Live Artist Booking',
+    description: 'Artist-first booking for weddings, corporate nights, and concerts.',
+    images: ['/icon-512.png'],
   },
 };
 

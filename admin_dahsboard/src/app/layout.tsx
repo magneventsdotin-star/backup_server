@@ -14,7 +14,20 @@ export const metadata: Metadata = {
   icons: {
     icon: '/logo.webp',
     apple: '/logo.webp',
-  }
+  },
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 import { Toaster } from '@/components/ui/toaster';

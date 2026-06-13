@@ -151,7 +151,7 @@ export default function CategoryManagement() {
                           <Pencil size={14} />
                         </button>
                         <button
-                          onClick={() => window.open(`http://localhost:3002/artists?category=${cat.query}`, '_blank')}
+                          onClick={() => window.open(`https://magnevents.in/artists?category=${cat.query}`, '_blank')}
                           className="w-9 h-9 rounded-lg flex items-center justify-center bg-white border border-slate-100 hover:border-indigo-600 hover:text-indigo-600 text-slate-400 transition-colors shadow-sm"
                           title="View on site"
                         >
