@@ -269,7 +269,7 @@ export function ManualBookingModal({ open, onOpenChange, onSuccess, initialArtis
                     <FormItem>
                       <FormLabel className="text-[11px] font-bold text-slate-500">Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Client Name" autoComplete="off" {...field} className="h-11 rounded-xl border-slate-200 bg-white font-bold" />
+                        <Input placeholder="e.g. Anjali Desai" autoComplete="off" {...field} className="h-11 rounded-xl border-slate-200 bg-white font-bold" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -283,7 +283,7 @@ export function ManualBookingModal({ open, onOpenChange, onSuccess, initialArtis
                     <FormItem>
                       <FormLabel className="text-[11px] font-bold text-slate-500">Email Address</FormLabel>
                       <FormControl>
-                        <Input placeholder="client@example.com" autoComplete="off" {...field} className="h-11 rounded-xl border-slate-200 bg-white font-bold" />
+                        <Input placeholder="anjali@example.com" autoComplete="off" {...field} className="h-11 rounded-xl border-slate-200 bg-white font-bold" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

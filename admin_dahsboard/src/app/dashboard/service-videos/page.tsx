@@ -49,15 +49,13 @@ export default function ServiceVideos() {
     if (!isSilent) setLoading(true);
     try {
       // Fetch dynamic categories
-      const { data: catData, error: catError } = await supabase
-        .from('service_categories')
+      const { data: catData, error: catError } = await (supabase.from('service_categories') as any)
         .select('*')
         .order('displayOrder', { ascending: true });
       if (!catError && catData) setCategories(catData.filter((c: any) => c.status !== false));
 
       // Fetch Hero Settings
-      const { data: settingsData } = await supabase
-        .from('service_page_settings')
+      const { data: settingsData } = await (supabase.from('service_page_settings') as any)
         .select('*')
         .limit(1)
         .single();
@@ -160,8 +158,7 @@ export default function ServiceVideos() {
           return;
         }
         // Auto-create the category
-        const { data: newCatData, error: newCatError } = await supabase
-          .from('service_categories')
+        const { data: newCatData, error: newCatError } = await (supabase.from('service_categories') as any)
           .insert([{ 
             title: customCategoryTitle.trim(), 
             slug: customCategoryTitle.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-'),
@@ -229,7 +226,7 @@ export default function ServiceVideos() {
         { title: 'Hire Live Solo Singers', slug: 'hire-live-solo-singers', status: true, displayOrder: 6 },
         { title: 'Background Performance Artists', slug: 'background-performance-artists', status: true, displayOrder: 7 }
       ];
-      const { error } = await supabase.from('service_categories').insert(categoriesToInsert);
+      const { error } = await (supabase.from('service_categories') as any).insert(categoriesToInsert);
       if (error) {
         throw new Error('Database error: Make sure you ran the SQL CREATE TABLE script first! (' + error.message + ')');
       }
@@ -284,11 +281,11 @@ export default function ServiceVideos() {
       setHeroBgVideo(newUrl);
 
       // Automatically save
-      const { data: existing } = await supabase.from('service_page_settings').select('*').limit(1);
+      const { data: existing } = await (supabase.from('service_page_settings') as any).select('*').limit(1);
       if (existing && existing.length > 0) {
-        await supabase.from('service_page_settings').update({ hero_bg_video: newUrl }).eq('id', existing[0].id);
+        await (supabase.from('service_page_settings') as any).update({ hero_bg_video: newUrl }).eq('id', existing[0].id);
       } else {
-        await supabase.from('service_page_settings').insert([{ hero_bg_video: newUrl }]);
+        await (supabase.from('service_page_settings') as any).insert([{ hero_bg_video: newUrl }]);
       }
 
       toast({ title: 'Success', description: 'Background video uploaded successfully!' });

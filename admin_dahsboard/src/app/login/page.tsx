@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ShieldCheck, Loader2, Mail, Lock, Sparkles } from 'lucide-react';
+import { ShieldCheck, Loader2, Mail, Lock, Sparkles, Eye, EyeOff } from 'lucide-react';
 
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
@@ -14,6 +14,7 @@ import NextImage from 'next/image';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const router = useRouter();
@@ -149,7 +150,7 @@ export default function LoginPage() {
                   autoCapitalize="none"
                   autoCorrect="off"
                   spellCheck="false"
-                  placeholder="admin@magnevents.com"
+                  placeholder="rahul@magnevents.com"
                   className="h-14 bg-slate-50/50 border border-slate-200 rounded-2xl pl-14 pr-6 font-bold text-[14px] focus-visible:ring-[#7578F2]/10 focus-visible:border-[#7578F2] transition-all text-slate-900 placeholder:text-slate-300"
                   required
                   value={email}
@@ -164,13 +165,20 @@ export default function LoginPage() {
                 <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#7578F2] transition-colors" size={20} />
                 <Input
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="••••••••••••••••"
-                  className="h-14 bg-slate-50/50 border border-slate-200 rounded-2xl pl-14 pr-6 font-bold text-[14px] focus-visible:ring-[#7578F2]/10 focus-visible:border-[#7578F2] transition-all text-slate-900 placeholder:text-slate-300"
+                  className="h-14 bg-slate-50/50 border border-slate-200 rounded-2xl pl-14 pr-12 font-bold text-[14px] focus-visible:ring-[#7578F2]/10 focus-visible:border-[#7578F2] transition-all text-slate-900 placeholder:text-slate-300"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#7578F2] transition-colors"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
             </div>
 

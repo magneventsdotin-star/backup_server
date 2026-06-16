@@ -9,11 +9,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    if (!email.toLowerCase().endsWith('@gmail.com')) {
-      return NextResponse.json({
-        error: 'Registration restricted to @gmail.com email addresses only.'
-      }, { status: 400 });
-    }
 
     const supabaseAdmin = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL || '',

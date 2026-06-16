@@ -33,7 +33,9 @@ import {
   Mail,
   Shield,
   Lock,
-  ShieldCheck
+  ShieldCheck,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { createClient } from '@supabase/supabase-js';
@@ -41,10 +43,7 @@ import { createClient } from '@supabase/supabase-js';
 const adminSchema = z.object({
   full_name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string()
-    .email({ message: "Invalid email address." })
-    .refine((val) => val.toLowerCase().endsWith("@gmail.com"), {
-      message: "Only @gmail.com addresses are allowed.",
-    }),
+    .email({ message: "Invalid email address." }),
   role: z.string({ required_error: "Please select a role." }),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
 });
@@ -59,6 +58,7 @@ interface CreateAdminModalProps {
 
 export function CreateAdminModal({ open, onOpenChange, onSuccess }: CreateAdminModalProps) {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<AdminFormValues>({
@@ -138,7 +138,7 @@ export function CreateAdminModal({ open, onOpenChange, onSuccess }: CreateAdminM
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                     <FormControl>
-                      <Input placeholder="Full name" className="h-12 border-slate-200 bg-white pl-11 rounded-xl focus-visible:ring-[#5B5AF7]/10 focus-visible:border-[#5B5AF7] transition-all font-medium text-sm" {...field} />
+                      <Input placeholder="e.g. Rahul Sharma" className="h-12 border-slate-200 bg-white pl-11 rounded-xl focus-visible:ring-[#5B5AF7]/10 focus-visible:border-[#5B5AF7] transition-all font-medium text-sm" {...field} />
                     </FormControl>
                   </div>
                   <FormMessage className="text-xs font-medium text-rose-500" />
@@ -155,7 +155,7 @@ export function CreateAdminModal({ open, onOpenChange, onSuccess }: CreateAdminM
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                     <FormControl>
-                      <Input type="email" placeholder="name@example.com" className="h-12 border-slate-200 bg-white pl-11 rounded-xl focus-visible:ring-[#5B5AF7]/10 focus-visible:border-[#5B5AF7] transition-all font-medium text-sm" {...field} />
+                      <Input type="email" placeholder="rahul@gmail.com" className="h-12 border-slate-200 bg-white pl-11 rounded-xl focus-visible:ring-[#5B5AF7]/10 focus-visible:border-[#5B5AF7] transition-all font-medium text-sm" {...field} />
                     </FormControl>
                   </div>
                   <FormMessage className="text-xs font-medium text-rose-500" />
@@ -194,8 +194,15 @@ export function CreateAdminModal({ open, onOpenChange, onSuccess }: CreateAdminM
                     <div className="relative">
                       <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                       <FormControl>
-                        <Input type="password" placeholder="••••••••" className="h-12 border-slate-200 bg-white pl-11 rounded-xl focus-visible:ring-[#5B5AF7]/10 focus-visible:border-[#5B5AF7] transition-all font-medium text-sm" {...field} />
+                        <Input type={showPassword ? "text" : "password"} placeholder="••••••••" className="h-12 border-slate-200 bg-white pl-11 pr-10 rounded-xl focus-visible:ring-[#5B5AF7]/10 focus-visible:border-[#5B5AF7] transition-all font-medium text-sm" {...field} />
                       </FormControl>
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#5B5AF7] transition-colors"
+                      >
+                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                      </button>
                     </div>
                   </FormItem>
                 )}

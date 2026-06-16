@@ -39,7 +39,7 @@ VALUES (
 ) ON CONFLICT DO NOTHING;
 
 -- Insert default categories
-INSERT INTO public.service_categories (title, slug, displayOrder) VALUES
+INSERT INTO public.service_categories (title, slug, "displayOrder") VALUES
 ('Book a Singer for House Parties', 'singer-house-parties', 1),
 ('Book a Live Band for Wedding', 'live-band-wedding', 2),
 ('Hire a Live Band for Corporate Event', 'live-band-corporate', 3),

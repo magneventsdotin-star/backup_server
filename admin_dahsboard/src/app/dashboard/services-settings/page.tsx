@@ -26,28 +26,26 @@ export default function ServicesSettingsPage() {
 
   const fetchSettings = async () => {
     try {
-      const { data, error } = await supabase
-        .from('service_page_settings')
+      const { data, error } = await (supabase.from('service_page_settings') as any)
         .select('*')
         .limit(1)
         .single();
       
       if (error && error.code !== 'PGRST116') throw error;
       if (data) setSettings(data);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching settings:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSave = async (e) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     try {
       if (settings.id) {
-        const { error } = await supabase
-          .from('service_page_settings')
+        const { error } = await (supabase.from('service_page_settings') as any)
           .update({
             hero_title: settings.hero_title,
             hero_subtitle: settings.hero_subtitle,
@@ -57,15 +55,14 @@ export default function ServicesSettingsPage() {
           .eq('id', settings.id);
         if (error) throw error;
       } else {
-        const { data, error } = await supabase
-          .from('service_page_settings')
+        const { data, error } = await (supabase.from('service_page_settings') as any)
           .insert([settings])
           .select();
         if (error) throw error;
         if (data) setSettings(data[0]);
       }
       toast({ title: 'Success', description: 'Services page settings updated.' });
-    } catch (error) {
+    } catch (error: any) {
       toast({ variant: 'destructive', title: 'Error', description: error.message });
     } finally {
       setSaving(false);

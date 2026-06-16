@@ -79,10 +79,7 @@ const artistSchema = z.object({
   phone_no: z.string().regex(/^[0-9]{10}$/, { message: "Phone number must be exactly 10 digits." }),
   phone_no_alt: z.string().regex(/^[0-9]{10}$/, { message: "Alt phone number must be 10 digits." }).optional().or(z.literal('')),
   email: z.string()
-    .email({ message: "Invalid email address." })
-    .refine((val) => val.toLowerCase().endsWith("@gmail.com"), {
-      message: "Only @gmail.com addresses are allowed.",
-    }),
+    .email({ message: "Invalid email address." }),
   spotlight_status: z.enum(['standard', 'featured', 'trending']).default('standard'),
   is_artist_of_month: z.boolean().default(false),
   images: z.array(z.string()).max(15, { message: "Maximum 15 photos allowed." }).optional().default([]),
