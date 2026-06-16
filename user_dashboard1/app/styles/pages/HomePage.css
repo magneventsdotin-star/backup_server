@@ -1043,7 +1043,7 @@
   margin-top: 18px;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 320px;
+  grid-auto-columns: 260px;
   gap: 24px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -3661,7 +3661,7 @@
   transition: all 0.4s var(--ease-premium);
   display: flex;
   flex-direction: column;
-  height: 550px;
+  height: 440px;
 }
 
 .hp-feat-card-v2:hover {
@@ -3705,10 +3705,13 @@
 }
 
 .hp-feat-name-v2 {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 800;
   color: #fff;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hp-feat-loc-v2 {

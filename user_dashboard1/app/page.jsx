@@ -18,7 +18,7 @@ export default function HomePage() {
     "url": "https://magnevents.com",
     "logo": "https://magnevents.com/icon-512.png",
     "sameAs": [
-      "https://instagram.com/magnevents",
+      "https://www.instagram.com/magnevents.in?igsh=MXY2NmtjMm82bTFnaA==",
       "https://facebook.com/magnevents"
     ]
   };

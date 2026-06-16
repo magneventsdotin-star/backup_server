@@ -74,8 +74,8 @@ export default function ContactSection() {
           </div>
 
           <div className="hp-contact-social">
-            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="hp-social-link">YouTube</a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hp-social-link">Instagram</a>
+            <a href="https://youtube.com/@magnevents?si=QsPkahKK-fjSUTe4" target="_blank" rel="noreferrer" className="hp-social-link">YouTube</a>
+            <a href="https://www.instagram.com/magnevents.in?igsh=MXY2NmtjMm82bTFnaA==" target="_blank" rel="noreferrer" className="hp-social-link">Instagram</a>
           </div>
         </div>
 
