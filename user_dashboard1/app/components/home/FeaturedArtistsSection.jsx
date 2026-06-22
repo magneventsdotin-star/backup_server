@@ -44,15 +44,27 @@ function FeaturedArtistsSection() {
             city: artist.city || 'India'
           }));
           
-          if (parsedArtists.length < 15) {
-            const needed = 15 - parsedArtists.length;
-            const padding = FEATURED_ARTISTS.filter(fa => !parsedArtists.find(pa => pa.name === fa.name)).slice(0, needed);
-            parsedArtists = [...parsedArtists, ...padding];
-          }
-          
           setFeaturedArtists(parsedArtists);
         } else {
-          setFeaturedArtists(FEATURED_ARTISTS.slice(0, 15));
+          // Fallback to any real artists if no featured ones are marked
+          const { data: anyData, error: anyError } = await supabase
+            .from('artists')
+            .select('*, artist_images(image_url)')
+            .limit(6);
+            
+          if (anyData && anyData.length > 0) {
+            let parsedAny = anyData.map(artist => ({
+              name: artist.alias || artist.name,
+              genre: artist.sub_category || artist.category || 'Performer',
+              bookings: `${artist.successful_bookings || Math.floor(Math.random() * 50) + 50} bookings`,
+              rating: artist.rating || '4.9',
+              image: artist.artist_images?.[0]?.image_url || '/assets/lux-singer-session.webp',
+              city: artist.city || 'India'
+            }));
+            setFeaturedArtists(parsedAny);
+          } else {
+            setFeaturedArtists(FEATURED_ARTISTS.slice(0, 15));
+          }
         }
       } catch (err) {
         console.error('Error fetching featured artists:', err);

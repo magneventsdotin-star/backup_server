@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { 
   Loader2, Mic2, Star, MapPin,
   ChevronLeft, ChevronRight, Globe,
-  Image as ImageIcon, IndianRupee, Trash2, Eye, Share2, PlayCircle, User, Mail, Phone, Music
+  Image as ImageIcon, IndianRupee, Trash2, Eye, Share2, PlayCircle, User, Mail, Phone, Music, Pencil
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -13,6 +13,7 @@ import { Suspense } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { ArtistFilters, ArtistFilterState, INITIAL_FILTER_STATE } from '@/components/artists/ArtistFilters';
 import { ManualBookingModal } from '@/components/bookings/ManualBookingModal';
+import { CreateArtistModal } from '@/components/artists/CreateArtistModal';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -27,6 +28,8 @@ function BrowseArtistsContent() {
   });
   const [selectedArtist, setSelectedArtist] = useState<any | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingArtist, setEditingArtist] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const ITEMS_PER_PAGE = 9;
@@ -629,6 +632,16 @@ function BrowseArtistsContent() {
                       Share Profile
                     </button>
                     <button
+                      onClick={() => {
+                        setEditingArtist(selectedArtist);
+                        setIsEditModalOpen(true);
+                      }}
+                      className="h-9 px-5 rounded-[10px] text-[11px] font-semibold uppercase tracking-wider flex items-center gap-2 transition-all bg-amber-50 text-amber-600 border border-amber-100 hover:bg-amber-600 hover:text-white"
+                    >
+                      <Pencil size={13} />
+                      Edit Profile
+                    </button>
+                    <button
                       onClick={() => handleDeleteArtist(selectedArtist.id, selectedArtist.name)}
                       className="h-9 px-5 rounded-[10px] text-[11px] font-semibold uppercase tracking-wider flex items-center gap-2 transition-all"
                       style={{ color: 'var(--danger)', background: 'var(--danger-bg)', border: '1px solid #FECDD3' }}
@@ -650,6 +663,19 @@ function BrowseArtistsContent() {
         open={isBookingModalOpen} 
         onOpenChange={setIsBookingModalOpen}
         initialArtistId={selectedArtist?.id}
+      />
+      <CreateArtistModal
+        key={editingArtist?.id || 'edit-browse'}
+        open={isEditModalOpen}
+        onOpenChange={(open) => {
+          setIsEditModalOpen(open);
+          if (!open) setTimeout(() => setEditingArtist(null), 200);
+        }}
+        onSuccess={() => {
+          fetchArtists();
+          setDetailOpen(false); // Optionally close details, or keep it open and re-fetch to show new details
+        }}
+        initialData={editingArtist}
       />
     </div>
   );

@@ -27,27 +27,40 @@ function TopPerformerSection() {
           .limit(1)
           .single();
 
-        if (error) {
-          console.warn('No artist of the month found in DB, using fallback.', error.message);
-          return;
+        let topArtist = data;
+
+        if (error || !data) {
+          // Fallback to any artist in the DB if none is marked as artist of the month
+          const { data: fallbackData } = await supabase
+            .from('artists')
+            .select('*, artist_images(image_url)')
+            .limit(1)
+            .single();
+            
+          if (fallbackData) {
+            topArtist = fallbackData;
+          } else {
+            console.warn('No artists found in DB, using fallback dummy.');
+            return;
+          }
         }
 
-        if (data) {
+        if (topArtist) {
           let genres = ARTIST_OF_MONTH.genres;
-          if (data.sub_categories && data.sub_categories.length > 0) {
-             genres = data.sub_categories;
-          } else if (data.sub_category) {
-             genres = data.sub_category.split(',').map(g => g.trim().toUpperCase());
+          if (topArtist.sub_categories && topArtist.sub_categories.length > 0) {
+             genres = topArtist.sub_categories;
+          } else if (topArtist.sub_category) {
+             genres = topArtist.sub_category.split(',').map(g => g.trim().toUpperCase());
           }
 
           const parsedArtist = {
-            name: data.alias || data.name || ARTIST_OF_MONTH.name,
-            image: data.artist_images?.[0]?.image_url || ARTIST_OF_MONTH.image,
+            name: topArtist.alias || topArtist.name || ARTIST_OF_MONTH.name,
+            image: topArtist.artist_images?.[0]?.image_url || ARTIST_OF_MONTH.image,
             genres: genres,
-            originalPrice: data.original_price || data.price_max || 0,
-            exclusivePrice: data.exclusive_price || data.price_min || 0,
-            rating: data.rating || 0,
-            bookings: data.successful_bookings || 0,
+            originalPrice: topArtist.original_price || topArtist.price_max || 0,
+            exclusivePrice: topArtist.exclusive_price || topArtist.price_min || 0,
+            rating: topArtist.rating || 0,
+            bookings: topArtist.successful_bookings || 0,
           };
 
           setArtist(parsedArtist);
@@ -86,15 +99,20 @@ function TopPerformerSection() {
         ) : (
           <>
             <div className="hp-aom-img-wrap">
+              {/* Blurred background layer to fill empty spaces */}
+              <div 
+                className="hp-aom-img-bg-blur" 
+                style={{ backgroundImage: `url(${artist.image})` }}
+              />
+              {/* Actual image contained so it's fully visible */}
               <Image
                 src={artist.image}
                 alt={artist.name}
-                width={400}
-                height={400}
-                style={{ objectFit: 'cover' }}
+                fill
+                style={{ objectFit: 'contain', zIndex: 2 }}
                 unoptimized
               />
-              <div className="hp-aom-badge">
+              <div className="hp-aom-badge" style={{ zIndex: 10 }}>
                 <span className="hp-aom-badge-icon">🏆</span>
                 Artist of the Month
               </div>

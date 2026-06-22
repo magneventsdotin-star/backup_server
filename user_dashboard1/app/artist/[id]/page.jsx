@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { supabase } from '@/app/lib/supabase';
 import '@/app/styles/pages/ArtistProfile.css';
 
@@ -20,9 +21,21 @@ export default function ArtistProfilePage({ params }) {
   const [artist, setArtist] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   // The id from params could be a uuid, an alias, or a userName
   const decodedId = decodeURIComponent(params.id);
+
+  useEffect(() => {
+    if (selectedImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedImage]);
 
   useEffect(() => {
     const fetchArtist = async () => {
@@ -208,7 +221,7 @@ export default function ArtistProfilePage({ params }) {
             <h2 className="section-title">Photo Gallery</h2>
             <div className="gallery-grid">
               {artist.artist_images.map((img, idx) => (
-                <div key={idx} className="gallery-item">
+                <div key={idx} className="gallery-item" onClick={() => setSelectedImage(img.image_url)} style={{ cursor: 'pointer' }}>
                   <img src={img.image_url} alt={`${name} gallery ${idx + 1}`} className="gallery-image" />
                 </div>
               ))}
@@ -267,6 +280,44 @@ export default function ArtistProfilePage({ params }) {
         </section>
 
       </div>
+
+      {/* IMAGE LIGHTBOX MODAL */}
+      {selectedImage && typeof document !== 'undefined' && createPortal(
+        <div 
+          style={{
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
+            backgroundColor: 'rgba(0,0,0,0.95)', zIndex: 2147483647,
+            display: 'flex', justifyContent: 'center', alignItems: 'center',
+            padding: '20px', cursor: 'zoom-out'
+          }}
+          onClick={() => setSelectedImage(null)}
+        >
+          <button 
+            style={{ 
+              position: 'absolute', top: '30px', right: '30px', 
+              background: '#fff', border: 'none', 
+              color: '#000', width: '44px', height: '44px', borderRadius: '50%',
+              fontSize: '32px', cursor: 'pointer', zIndex: 2147483647,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.5)', transition: 'transform 0.2s ease',
+              paddingBottom: '4px' // visual centering for times char
+            }}
+            onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
+            onMouseOver={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; }}
+            onMouseOut={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+            aria-label="Close"
+          >
+            &times;
+          </button>
+          <img 
+            src={selectedImage} 
+            alt="Expanded view" 
+            style={{ maxWidth: '90%', maxHeight: '90vh', objectFit: 'contain', borderRadius: '12px', boxShadow: '0 10px 40px rgba(0,0,0,0.5)', cursor: 'default' }} 
+            onClick={(e) => e.stopPropagation()} 
+          />
+        </div>,
+        document.body
+      )}
     </main>
   );
 }

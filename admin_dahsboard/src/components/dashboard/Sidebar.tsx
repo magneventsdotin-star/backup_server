@@ -48,8 +48,19 @@ export function Sidebar({ onClose, userRole = 'admin' }: { onClose?: () => void;
   const pathname = usePathname();
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
-  const [isEditOpen, setIsEditOpen] = useState(true);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [pendingRequestsCount, setPendingRequestsCount] = useState(0);
+
+  useEffect(() => {
+    if (
+      pathname.startsWith('/dashboard/categories') ||
+      pathname.startsWith('/dashboard/pricing') ||
+      pathname.startsWith('/dashboard/slider') ||
+      pathname.startsWith('/dashboard/service-videos')
+    ) {
+      setIsEditOpen(true);
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const getAuthUser = async () => {
