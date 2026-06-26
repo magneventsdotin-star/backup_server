@@ -17,6 +17,7 @@ import {
   Calendar,
   Zap,
   Edit3,
+  User,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -32,6 +33,7 @@ export default function AdminProfileDashboard() {
   const [uploadedArtists, setUploadedArtists] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [filterType, setFilterType] = useState<'all' | 'original' | 'duplicate'>('all');
 
   // Mock Stats to give the premium dashboard feel
   const [stats, setStats] = useState({
@@ -240,32 +242,57 @@ export default function AdminProfileDashboard() {
       </div>
 
       {/* Uploaded Profiles List */}
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
-        <div className="px-8 py-6 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
-          <h3 className="text-[14px] font-bold uppercase tracking-widest text-slate-800">Uploaded Profiles</h3>
-          <span className="bg-indigo-100 text-indigo-700 font-bold text-xs px-3 py-1 rounded-full">{uploadedArtists.length} Total</span>
-        </div>
-        <div className="p-0">
-          {uploadedArtists.length === 0 ? (
-            <div className="p-12 text-center flex flex-col items-center">
-              <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center mb-4">
-                <LayoutTemplate className="h-8 w-8 text-slate-300" />
-              </div>
-              <p className="text-slate-500 font-medium">No profiles uploaded by this admin yet.</p>
+      <div className="bg-white border border-slate-100 rounded-[32px] p-8 md:p-10 shadow-sm relative overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-6">
+          <h3 className="text-[13px] font-black tracking-[0.25em] text-slate-900 uppercase">
+            Uploaded Profiles
+          </h3>
+          <div className="flex items-center gap-4">
+            <div className="flex bg-slate-100/80 p-1 rounded-xl">
+              <button 
+                onClick={() => setFilterType('all')}
+                className={cn("text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg transition-all", filterType === 'all' ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700")}
+              >
+                All
+              </button>
+              <button 
+                onClick={() => setFilterType('original')}
+                className={cn("text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg transition-all", filterType === 'original' ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700")}
+              >
+                Original
+              </button>
+              <button 
+                onClick={() => setFilterType('duplicate')}
+                className={cn("text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg transition-all", filterType === 'duplicate' ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700")}
+              >
+                Duplicate
+              </button>
             </div>
-          ) : (
-            <div className="divide-y divide-slate-100">
-              {uploadedArtists.map((artist) => (
-                <div key={artist.id} className="p-6 sm:px-8 hover:bg-slate-50/50 transition-colors flex flex-col sm:flex-row items-center gap-6">
-                  <div className="w-16 h-16 rounded-2xl bg-slate-100 shrink-0 overflow-hidden shadow-sm flex items-center justify-center border border-slate-200">
-                    {artist.artist_images?.[0]?.image_url ? (
-                      <img src={artist.artist_images[0].image_url} alt={artist.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <span className="font-bold text-slate-400 text-xl">{artist.name[0]}</span>
-                    )}
-                  </div>
-                  
-                  <div className="flex-1 text-center sm:text-left">
+            <span className="bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full border border-indigo-100/50">
+              {uploadedArtists.filter(a => filterType === 'all' ? true : filterType === 'original' ? !a.is_duplicate_pending : a.is_duplicate_pending).length} Total
+            </span>
+          </div>
+        </div>
+
+        <div className="space-y-4 relative">
+          {uploadedArtists
+            .filter(a => filterType === 'all' ? true : filterType === 'original' ? !a.is_duplicate_pending : a.is_duplicate_pending)
+            .map((artist, i) => (
+            <div key={artist.id || i} className="group flex flex-col sm:flex-row items-center gap-6 p-6 rounded-[24px] border border-slate-50 hover:border-indigo-100 bg-white hover:bg-indigo-50/20 transition-all duration-300">
+              <div className="w-16 h-16 rounded-2xl overflow-hidden bg-slate-100 border-2 border-white shadow-sm shrink-0 flex items-center justify-center text-slate-400 font-bold text-xl relative">
+                {artist.artist_images?.[0]?.image_url ? (
+                  <img src={artist.artist_images[0].image_url} alt={artist.name} className="w-full h-full object-cover" />
+                ) : (
+                  artist.name.charAt(0)
+                )}
+                {artist.is_duplicate_pending && (
+                  <div className="absolute inset-0 bg-amber-500/10 border-2 border-amber-500/20 rounded-2xl" />
+                )}
+              </div>
+              
+              <div className="flex-1 text-center sm:text-left">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-between gap-4">
+                  <div>
                     <div className="flex items-center justify-center sm:justify-start gap-2 mb-1.5">
                       <h4 className="font-black text-slate-900 text-lg hover:text-indigo-600 transition-colors cursor-pointer">
                         {artist.name}
@@ -280,20 +307,31 @@ export default function AdminProfileDashboard() {
                         <span className="bg-slate-100 text-slate-500 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded border border-slate-200">Hidden</span>
                       )}
                     </div>
-                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 text-xs font-bold text-slate-500">
-                      <span className="bg-slate-100 px-2 py-1 rounded-lg text-slate-700 uppercase tracking-wider text-[10px]">{artist.category}</span>
-                      <span>@{artist.alias || 'anonymous'}</span>
-                      <span className="text-slate-300">•</span>
-                      <span>{artist.city}, {artist.state}</span>
+                    <div className="flex items-center justify-center sm:justify-start gap-3 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                      <span className="bg-slate-100 px-2 py-1 rounded-md text-slate-600">{artist.category}</span>
+                      {artist.alias && <span>{artist.alias}</span>}
+                      <span className="w-1 h-1 rounded-full bg-slate-300" />
+                      <span className="truncate max-w-[200px]">{artist.city}, {artist.state}</span>
                     </div>
                   </div>
-                  
-                  <div className="flex flex-col items-center sm:items-end gap-1 shrink-0">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Added</span>
-                    <span className="font-bold text-slate-700">{format(new Date(artist.created_at || new Date()), 'MMM dd, yyyy')}</span>
+
+                  <div className="text-center sm:text-right">
+                    <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Added</span>
+                    <span className="text-sm font-black text-slate-900">
+                      {new Date(artist.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
                   </div>
                 </div>
-              ))}
+              </div>
+            </div>
+          ))}
+          {uploadedArtists.filter(a => filterType === 'all' ? true : filterType === 'original' ? !a.is_duplicate_pending : a.is_duplicate_pending).length === 0 && (
+            <div className="py-12 text-center border-2 border-dashed border-slate-100 rounded-[24px]">
+              <div className="w-16 h-16 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-4 text-slate-300">
+                <User size={24} />
+              </div>
+              <h4 className="text-sm font-bold text-slate-900">No {filterType === 'all' ? '' : filterType} profiles found</h4>
+              <p className="text-xs font-medium text-slate-500 mt-1">This user hasn't uploaded any {filterType === 'all' ? '' : filterType} artist profiles yet.</p>
             </div>
           )}
         </div>
