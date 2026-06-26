@@ -24,6 +24,7 @@ import {
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { EditAdminModal } from '@/components/admins/EditAdminModal';
+import { CreateArtistModal } from '@/components/artists/CreateArtistModal';
 
 export default function AdminProfileDashboard() {
   const params = useParams();
@@ -36,6 +37,9 @@ export default function AdminProfileDashboard() {
   const [loading, setLoading] = useState(true);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [filterType, setFilterType] = useState<'all' | 'original' | 'duplicate'>('all');
+  
+  const [isArtistModalOpen, setIsArtistModalOpen] = useState(false);
+  const [editingArtist, setEditingArtist] = useState<any>(null);
 
   // Mock Stats to give the premium dashboard feel
   const [stats, setStats] = useState({
@@ -109,6 +113,22 @@ export default function AdminProfileDashboard() {
 
     if (id) fetchAdminProfile();
   }, [id, router, toast]);
+
+  const handleEditArtist = (artist: any) => {
+    setIsArtistModalOpen(false);
+    setEditingArtist(null);
+    setTimeout(() => {
+      setEditingArtist(artist);
+      setIsArtistModalOpen(true);
+    }, 100);
+  };
+
+  const handleArtistModalChange = (open: boolean) => {
+    setIsArtistModalOpen(open);
+    if (!open) {
+      setTimeout(() => setEditingArtist(null), 200);
+    }
+  };
 
   if (loading) {
     return (
@@ -284,7 +304,7 @@ export default function AdminProfileDashboard() {
             .map((artist, i) => (
             <div 
               key={artist.id || i} 
-              onClick={() => router.push(`/dashboard/browse?search=${encodeURIComponent(artist.name)}`)}
+              onClick={() => handleEditArtist(artist)}
               className="group flex flex-col sm:flex-row items-center gap-6 p-6 rounded-[24px] border border-slate-50 hover:border-indigo-100 bg-white hover:bg-indigo-50/20 transition-all duration-300 cursor-pointer"
             >
               <div className="w-16 h-16 rounded-2xl overflow-hidden bg-slate-100 border-2 border-white shadow-sm shrink-0 flex items-center justify-center text-slate-400 font-bold text-xl relative">
@@ -345,17 +365,23 @@ export default function AdminProfileDashboard() {
         </div>
       </div>
       
-      {isEditModalOpen && (
-        <EditAdminModal
-          open={isEditModalOpen}
-          onOpenChange={setIsEditModalOpen}
-          adminData={admin}
-          onSuccess={() => {
-            // Give API a moment to persist, then reload to fetch fresh admin info
-            setTimeout(() => window.location.reload(), 500);
-          }}
-        />
-      )}
+      {/* Modals */}
+      <EditAdminModal
+        open={isEditModalOpen}
+        onOpenChange={setIsEditModalOpen}
+        adminData={admin}
+        onSuccess={() => {
+          // Give API a moment to persist, then reload to fetch fresh admin info
+          setTimeout(() => window.location.reload(), 500);
+        }}
+      />
+      <CreateArtistModal
+        key={editingArtist?.id || 'new'}
+        open={isArtistModalOpen}
+        onOpenChange={handleArtistModalChange}
+        onSuccess={() => {}}
+        initialData={editingArtist}
+      />
     </div>
   );
 }
