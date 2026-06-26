@@ -282,10 +282,14 @@ export default function AdminProfileDashboard() {
           {uploadedArtists
             .filter(a => filterType === 'all' ? true : filterType === 'original' ? !a.is_duplicate_pending : a.is_duplicate_pending)
             .map((artist, i) => (
-            <div key={artist.id || i} className="group flex flex-col sm:flex-row items-center gap-6 p-6 rounded-[24px] border border-slate-50 hover:border-indigo-100 bg-white hover:bg-indigo-50/20 transition-all duration-300">
+            <div 
+              key={artist.id || i} 
+              onClick={() => router.push(`/dashboard/browse?search=${encodeURIComponent(artist.name)}`)}
+              className="group flex flex-col sm:flex-row items-center gap-6 p-6 rounded-[24px] border border-slate-50 hover:border-indigo-100 bg-white hover:bg-indigo-50/20 transition-all duration-300 cursor-pointer"
+            >
               <div className="w-16 h-16 rounded-2xl overflow-hidden bg-slate-100 border-2 border-white shadow-sm shrink-0 flex items-center justify-center text-slate-400 font-bold text-xl relative">
                 {artist.artist_images?.[0]?.image_url ? (
-                  <img src={artist.artist_images[0].image_url} alt={artist.name} className="w-full h-full object-cover" />
+                  <img src={artist.artist_images[0].image_url} alt={artist.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 ) : (
                   artist.name.charAt(0)
                 )}
@@ -298,7 +302,7 @@ export default function AdminProfileDashboard() {
                 <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-between gap-4">
                   <div>
                     <div className="flex items-center justify-center sm:justify-start gap-2 mb-1.5">
-                      <h4 className="font-black text-slate-900 text-lg hover:text-indigo-600 transition-colors cursor-pointer">
+                      <h4 className="font-black text-slate-900 text-lg group-hover:text-indigo-600 transition-colors">
                         {artist.name}
                       </h4>
                       {artist.is_duplicate_pending ? (
