@@ -53,7 +53,7 @@ export default function AdminProfileDashboard() {
       try {
         const [profileRes, artistsRes] = await Promise.all([
           supabase.from('profiles').select('*').eq('id', id).single(),
-          supabase.from('artists').select('id, name, alias, category, city, state, artist_images(image_url), created_at, is_live, artist_no').eq('created_by', id).order('created_at', { ascending: false })
+          supabase.from('artists').select('*, artist_images(image_url)').eq('created_by', id).order('created_at', { ascending: false })
         ]);
 
         if (profileRes.error) throw profileRes.error;
