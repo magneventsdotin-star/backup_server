@@ -17,6 +17,10 @@ if (typeof window !== 'undefined') {
       localStorage.removeItem('sb-lgtmmvztmelrmlzjppzx-auth-token');
       return;
     }
+    // Suppress harmless Turbopack HMR errors for country-state-city JSON files
+    if (errString.includes('Turbopack HMR') && errString.includes('Expected module to match pattern')) {
+      return;
+    }
     originalConsoleError(...args);
   };
 
