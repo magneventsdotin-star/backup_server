@@ -191,18 +191,28 @@
 /* Info Section */
 .info-section {
   margin-top: 40px;
-  border-top: 1px solid rgba(231, 40, 106, 0.2);
   padding-top: 40px;
+  position: relative;
 }
 
 .section-title {
   font-family: 'Outfit', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   color: #E7286A;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, rgba(231, 40, 106, 0.3) 0%, transparent 100%);
 }
 
 .info-grid {
@@ -212,34 +222,72 @@
 }
 
 .info-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
   padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  transition: all 0.3s ease;
+  gap: 4px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transform: skewX(-20deg);
+  transition: 0.5s;
+}
+
+.info-card:hover::before {
+  left: 150%;
 }
 
 .info-card:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(231, 40, 106, 0.3);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border-color: rgba(231, 40, 106, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px -10px rgba(231, 40, 106, 0.2);
+}
+
+.info-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(231, 40, 106, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #E7286A;
+  margin-bottom: 12px;
+  border: 1px solid rgba(231, 40, 106, 0.2);
+}
+
+.info-icon-wrapper svg {
+  width: 22px;
+  height: 22px;
 }
 
 .info-label {
-  font-size: 11px !important;
-  color: rgba(255,255,255,0.4) !important;
-  letter-spacing: 0.15em !important;
+  font-size: 12px !important;
+  color: rgba(255,255,255,0.5) !important;
+  letter-spacing: 0.1em !important;
   text-transform: uppercase !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
   display: block;
 }
 
 .info-value {
-  font-size: 18px !important;
-  font-weight: 600 !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
   color: #fff !important;
   margin: 0 !important;
   display: block;
@@ -249,28 +297,47 @@
   text-decoration: line-through;
   color: rgba(255,255,255,0.3) !important;
   font-size: 16px !important;
+  font-weight: 500 !important;
 }
 
 .price-exclusive {
-  color: #E7286A !important;
+  background: linear-gradient(90deg, #E7286A, #FFD166);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-size: 28px !important;
   font-weight: 900 !important;
 }
 
 .bio-block {
-  margin-top: 60px;
-  background: rgba(231, 40, 106, 0.03);
-  border: 1px solid rgba(231, 40, 106, 0.1);
+  margin-top: 40px;
+  background: linear-gradient(145deg, rgba(231, 40, 106, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+  border: 1px solid rgba(231, 40, 106, 0.15);
   border-radius: 24px;
-  padding: 40px;
+  padding: 40px 40px 40px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bio-block::before {
+  content: '"';
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font-size: 100px;
+  color: rgba(231, 40, 106, 0.1);
+  font-family: serif;
+  line-height: 1;
+  pointer-events: none;
 }
 
 .bio-block p {
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.8;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255,255,255,0.85);
   max-width: 1000px;
   font-weight: 400;
+  position: relative;
+  z-index: 1;
 }
 
 /* Photo Gallery */

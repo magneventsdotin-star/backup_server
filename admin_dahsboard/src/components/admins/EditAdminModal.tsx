@@ -43,6 +43,7 @@ const editSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }).optional().or(z.literal('')),
   role: z.string().optional(),
   password: z.string().optional(),
+  avatar_url: z.string().optional(),
 });
 
 type EditFormValues = z.infer<typeof editSchema>;
@@ -56,8 +57,10 @@ interface EditAdminModalProps {
 
 export function EditAdminModal({ open, onOpenChange, adminData, onSuccess }: EditAdminModalProps) {
   const [loading, setLoading] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const form = useForm<EditFormValues>({
     resolver: zodResolver(editSchema),
@@ -66,6 +69,7 @@ export function EditAdminModal({ open, onOpenChange, adminData, onSuccess }: Edi
       email: "",
       role: "admin",
       password: "",
+      avatar_url: "",
     },
   });
 
@@ -76,6 +80,7 @@ export function EditAdminModal({ open, onOpenChange, adminData, onSuccess }: Edi
         email: adminData.email || "",
         role: adminData.role || "admin",
         password: "",
+        avatar_url: adminData.avatar_url || "",
       });
     }
   }, [adminData, open, form]);
@@ -88,6 +93,7 @@ export function EditAdminModal({ open, onOpenChange, adminData, onSuccess }: Edi
       if (data.full_name !== adminData.full_name) payload.full_name = data.full_name;
       if (data.email !== adminData.email) payload.email = data.email;
       if (data.role !== adminData.role) payload.role = data.role;
+      if (data.avatar_url !== adminData.avatar_url) payload.avatar_url = data.avatar_url;
       if (data.password && data.password.length >= 6) payload.password = data.password;
 
       if (Object.keys(payload).length === 1) {
@@ -149,6 +155,61 @@ export function EditAdminModal({ open, onOpenChange, adminData, onSuccess }: Edi
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="p-8 space-y-6">
+            
+            {/* Avatar Upload Section */}
+            <FormField
+              control={form.control}
+              name="avatar_url"
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-center justify-center space-y-4 mb-4">
+                  <div className="relative group">
+                    <div className="w-24 h-24 rounded-full border-2 border-slate-200 overflow-hidden bg-slate-100 flex items-center justify-center cursor-pointer relative" onClick={() => fileInputRef.current?.click()}>
+                      {field.value ? (
+                        <img src={field.value} alt="Avatar" className="w-full h-full object-cover" />
+                      ) : (
+                        <User size={40} className="text-slate-300" />
+                      )}
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        {uploadingAvatar ? <Loader2 className="w-6 h-6 animate-spin text-white" /> : <Edit3 className="w-6 h-6 text-white" />}
+                      </div>
+                    </div>
+                  </div>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    className="hidden"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      setUploadingAvatar(true);
+                      try {
+                        const formData = new FormData();
+                        formData.append('file', file);
+                        const res = await fetch('/api/upload', {
+                          method: 'POST',
+                          body: formData,
+                        });
+                        const result = await res.json();
+                        if (!res.ok) throw new Error(result.error || 'Upload failed');
+                        if (result.url) {
+                          form.setValue('avatar_url', result.url, { shouldDirty: true });
+                          toast({ title: "Avatar Uploaded", description: "Successfully updated profile picture." });
+                        }
+                      } catch (err: any) {
+                        toast({ variant: "destructive", title: "Upload Error", description: err.message || "Failed to process image." });
+                      } finally {
+                        setUploadingAvatar(false);
+                      }
+                    }}
+                  />
+                  <div className="text-center">
+                    <FormLabel className="text-[11px] font-bold uppercase tracking-widest text-[#64748B]">Profile Picture</FormLabel>
+                    <p className="text-xs text-slate-400 mt-1">Click to upload a new photo</p>
+                  </div>
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="full_name"

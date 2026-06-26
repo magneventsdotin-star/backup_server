@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const { userId, email, password, full_name, role } = await request.json();
+    const { userId, email, password, full_name, role, avatar_url } = await request.json();
 
     if (!userId) {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
@@ -40,6 +40,7 @@ export async function POST(request: Request) {
     const profileData: any = {};
     if (full_name !== undefined) profileData.full_name = full_name;
     if (role !== undefined) profileData.role = role;
+    if (avatar_url !== undefined) profileData.avatar_url = avatar_url;
 
     if (Object.keys(profileData).length > 0) {
       const { error: profileError } = await supabaseAdmin

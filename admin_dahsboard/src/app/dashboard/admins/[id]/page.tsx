@@ -16,9 +16,11 @@ import {
   Activity,
   Calendar,
   Zap,
+  Edit3,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { EditAdminModal } from '@/components/admins/EditAdminModal';
 
 export default function AdminProfileDashboard() {
   const params = useParams();
@@ -29,6 +31,7 @@ export default function AdminProfileDashboard() {
   const [admin, setAdmin] = useState<any>(null);
   const [uploadedArtists, setUploadedArtists] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // Mock Stats to give the premium dashboard feel
   const [stats, setStats] = useState({
@@ -50,14 +53,41 @@ export default function AdminProfileDashboard() {
           console.warn('Warning fetching artists (Likely missing created_by column):', artistsRes.error.message || artistsRes.error);
         }
 
-        setAdmin(profileRes.data);
+        const adminData = profileRes.data;
         const fetchedArtists = artistsRes.data || [];
-        setUploadedArtists(fetchedArtists);
+        
+        let pendingDuplicates: any[] = [];
+        if (adminData?.email) {
+          const dupRes = await supabase.from('duplicate_approvals').select('*').eq('requested_by', adminData.email);
+          if (dupRes.data) pendingDuplicates = dupRes.data;
+        }
+
+        setAdmin(adminData);
+        
+        const mappedDuplicates = pendingDuplicates.map(dup => {
+          const draft = dup.draft_data || {};
+          return {
+            id: dup.id,
+            name: draft.name || dup.field_value,
+            alias: draft.alias || dup.field_value,
+            category: draft.category || 'Pending Duplicate',
+            city: draft.city || '-',
+            state: draft.state || '-',
+            artist_images: draft.images ? [{ image_url: draft.images[0] }] : [],
+            created_at: dup.created_at,
+            is_live: false,
+            is_duplicate_pending: true,
+            duplicate_status: dup.status,
+          };
+        });
+
+        const allProfiles = [...fetchedArtists, ...mappedDuplicates].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        setUploadedArtists(allProfiles);
 
         // Generate deterministic mock stats based on user id length/chars to keep them stable
         const charSum = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
         setStats({
-          cardsUploaded: fetchedArtists.length, // Now dynamic!
+          cardsUploaded: allProfiles.length, // Now dynamic with duplicates!
           hoursActive: (charSum % 100) + 45, // 45 to 144
           recentLogins: (charSum % 10) + 2, // 2 to 11
         });
@@ -95,19 +125,28 @@ export default function AdminProfileDashboard() {
     <div className="space-y-8 pb-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
       
       {/* Header / Navigation */}
-      <div className="flex items-center gap-4">
-        <Link 
-          href="/dashboard/admins"
-          className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50 transition-all shadow-sm"
-        >
-          <ArrowLeft size={18} />
-        </Link>
-        <div>
-          <span className="section-label">Team Member Profile</span>
-          <h1 className="text-2xl font-black text-slate-900 tracking-tight">
-            Administrator Dashboard
-          </h1>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Link 
+            href="/dashboard/admins"
+            className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50 transition-all shadow-sm"
+          >
+            <ArrowLeft size={18} />
+          </Link>
+          <div>
+            <span className="section-label">Team Member Profile</span>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+              Administrator Dashboard
+            </h1>
+          </div>
         </div>
+        <button
+          onClick={() => setIsEditModalOpen(true)}
+          className="bg-white border border-slate-200 shadow-sm text-slate-700 font-bold px-5 py-2.5 rounded-xl hover:bg-indigo-50 hover:text-indigo-600 transition-all text-sm flex items-center gap-2"
+        >
+          <Edit3 size={16} />
+          <span className="hidden sm:inline">Edit Profile</span>
+        </button>
       </div>
 
       {/* Main Profile Card (Glassmorphism + Gradients) */}
@@ -115,8 +154,12 @@ export default function AdminProfileDashboard() {
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-rose-500/5 opacity-50" />
         
         <div className="relative p-10 md:p-12 flex flex-col md:flex-row items-center md:items-start gap-8">
-          <div className="w-32 h-32 rounded-3xl bg-gradient-to-tr from-indigo-600 to-[#7578F2] flex items-center justify-center text-white font-black text-5xl shadow-xl shadow-indigo-200 shrink-0 transform hover:scale-105 transition-transform duration-300">
-            {admin.full_name?.[0]?.toUpperCase() || admin.email?.[0]?.toUpperCase() || 'A'}
+          <div className="w-32 h-32 rounded-3xl bg-gradient-to-tr from-indigo-600 to-[#7578F2] flex items-center justify-center text-white font-black text-5xl shadow-xl shadow-indigo-200 shrink-0 transform hover:scale-105 transition-transform duration-300 overflow-hidden relative">
+            {admin.avatar_url ? (
+              <img src={admin.avatar_url} alt="Admin Profile" className="w-full h-full object-cover" />
+            ) : (
+              admin.full_name?.[0]?.toUpperCase() || admin.email?.[0]?.toUpperCase() || 'A'
+            )}
           </div>
           
           <div className="flex-1 text-center md:text-left space-y-4">
@@ -227,7 +270,11 @@ export default function AdminProfileDashboard() {
                       <h4 className="font-black text-slate-900 text-lg hover:text-indigo-600 transition-colors cursor-pointer">
                         {artist.name}
                       </h4>
-                      {artist.is_live ? (
+                      {artist.is_duplicate_pending ? (
+                        <span className="bg-amber-100 text-amber-700 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded border border-amber-200">
+                          {artist.duplicate_status || 'Pending'} Dup
+                        </span>
+                      ) : artist.is_live ? (
                         <span className="bg-emerald-100 text-emerald-700 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded border border-emerald-200">Live</span>
                       ) : (
                         <span className="bg-slate-100 text-slate-500 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded border border-slate-200">Hidden</span>
@@ -252,6 +299,17 @@ export default function AdminProfileDashboard() {
         </div>
       </div>
       
+      {isEditModalOpen && (
+        <EditAdminModal
+          open={isEditModalOpen}
+          onOpenChange={setIsEditModalOpen}
+          adminData={admin}
+          onSuccess={() => {
+            // Give API a moment to persist, then reload to fetch fresh admin info
+            setTimeout(() => window.location.reload(), 500);
+          }}
+        />
+      )}
     </div>
   );
 }
