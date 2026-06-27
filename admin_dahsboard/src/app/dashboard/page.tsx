@@ -144,19 +144,29 @@ export default function DashboardOverview() {
 
       const user = session.user;
       let currentUserRole = 'admin';
+      let canViewAll = false;
+      let currentUserId = '';
       if (user) {
+        currentUserId = user.id;
         const email = user.email?.toLowerCase();
         const superAdminEmail = process.env.NEXT_PUBLIC_SUPER_ADMIN_EMAIL?.toLowerCase();
         if (email && superAdminEmail && email === superAdminEmail) {
           currentUserRole = 'super_admin';
+          canViewAll = true;
         } else {
-          const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+          const { data: profile } = await supabase.from('profiles').select('role, can_view_all_artists').eq('id', user.id).single();
           currentUserRole = (profile as any)?.role || 'admin';
+          canViewAll = currentUserRole === 'super_admin' || !!(profile as any)?.can_view_all_artists;
         }
         setUserRole(currentUserRole);
       }
 
-      const { count: artistCount } = await supabase.from('artists').select('*', { count: 'exact', head: true });
+      const shouldFilter = !canViewAll && currentUserId;
+
+      let countQuery = supabase.from('artists').select('*', { count: 'exact', head: true });
+      if (shouldFilter) countQuery = countQuery.eq('created_by', currentUserId);
+      const { count: artistCount } = await countQuery;
+      
       const { count: bookingCount } = await supabase.from('bookings').select('*', { count: 'exact', head: true });
       const { count: adminCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'admin');
 
@@ -172,25 +182,31 @@ export default function DashboardOverview() {
       setStats(newStats);
 
       // Fetch Recent Artists - Sorted by "First Come" (ASC)
-      const { data: recent } = await supabase
+      let recentQuery = supabase
         .from('artists')
         .select('*, artist_images!fk_artist_id(image_url)')
         .order('created_at', { ascending: true }) // Oldest first as requested
         .limit(20);
+      if (shouldFilter) recentQuery = recentQuery.eq('created_by', currentUserId);
+      const { data: recent } = await recentQuery;
 
-      const { data: aomData } = await supabase
+      let aomQuery = supabase
         .from('artists')
         .select('*, artist_images!fk_artist_id(image_url)')
         .eq('is_artist_of_month', true)
         .order('created_at', { ascending: true })
         .limit(5);
+      if (shouldFilter) aomQuery = aomQuery.eq('created_by', currentUserId);
+      const { data: aomData } = await aomQuery;
 
-      const { data: popularData } = await supabase
+      let popularQuery = supabase
         .from('artists')
         .select('*, artist_images!fk_artist_id(image_url)')
         .eq('is_trending', true)
         .order('created_at', { ascending: true })
         .limit(5);
+      if (shouldFilter) popularQuery = popularQuery.eq('created_by', currentUserId);
+      const { data: popularData } = await popularQuery;
 
       // Build the dynamic pool strictly from DB results
       const dbAll: any[] = [...(aomData || []), ...(popularData || []), ...(recent || [])];

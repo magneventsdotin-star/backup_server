@@ -22,6 +22,23 @@ function BrowseArtistsContent() {
   const initialSearch = searchParams.get('search') || '';
   const [filteredArtists, setFilteredArtists] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<{ id: string, canViewAll: boolean } | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          const { data } = await supabase.from('profiles').select('role, can_view_all_artists').eq('id', session.user.id).single();
+          const isSuperAdmin = data?.role === 'super_admin' || session.user.email?.toLowerCase() === process.env.NEXT_PUBLIC_SUPER_ADMIN_EMAIL?.toLowerCase();
+          setCurrentUser({ id: session.user.id, canViewAll: !!(isSuperAdmin || data?.can_view_all_artists) });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchUser();
+  }, []);
   const [filters, setFilters] = useState<ArtistFilterState>({
     ...INITIAL_FILTER_STATE,
     search: initialSearch
@@ -57,11 +74,16 @@ function BrowseArtistsContent() {
   }, [searchParams]);
 
   const fetchArtists = useCallback(async () => {
+    if (!currentUser) return;
     setLoading(true);
     try {
       let query = (supabase
         .from('artists') as any)
         .select('*, artist_images!fk_artist_id(image_url)');
+
+      if (!currentUser.canViewAll) {
+        query = query.eq('created_by', currentUser.id);
+      }
 
       if (filters.search) {
         query = query.or(`name.ilike.%${filters.search}%,alias.ilike.%${filters.search}%,category.ilike.%${filters.search}%,sub_category.ilike.%${filters.search}%,city.ilike.%${filters.search}%`);
@@ -127,7 +149,7 @@ function BrowseArtistsContent() {
     } finally {
       setLoading(false);
     }
-  }, [filters, toast]);
+  }, [filters, currentUser, toast]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
