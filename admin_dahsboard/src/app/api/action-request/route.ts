@@ -44,16 +44,18 @@ export async function GET(req: Request) {
       if (fetchErr) {
         error = fetchErr;
       } else {
+        let newStatus = 'cancelled';
+        if (action === 'confirm' || action === 'approve') newStatus = 'confirmed';
+        else if (action === 'more_info' || action === 'unavailable') newStatus = 'pending';
+
         const { error: err } = await supabase
           .from('bookings')
-          .update({
-            status: action === 'approve' ? 'confirmed' : 'cancelled'
-          })
+          .update({ status: newStatus })
           .eq('id', id);
         error = err;
 
-        // Send confirmation email to client if approved
-        if (!error && action === 'approve' && booking && booking.client_email && booking.client_email !== 'N/A') {
+        // Send confirmation email to client
+        if (!error && booking && booking.client_email && booking.client_email !== 'N/A') {
           try {
             const transporter = nodemailer.createTransport({
               service: 'gmail',
@@ -65,17 +67,24 @@ export async function GET(req: Request) {
 
             let clientMessage = '';
             let subject = 'Update on your Magnevents Request';
+            const artistName = booking.artists?.name ? ` for ${booking.artists.name}` : '';
 
-            if (booking.event_type === 'Artist Registration') {
-              subject = 'Welcome to Magnevents!';
-              clientMessage = `Your artist registration has been reviewed and approved by our team. Welcome aboard!`;
-            } else if (booking.event_type === 'Call Request') {
-              subject = 'Magnevents - We received your query';
-              clientMessage = `Thank you for reaching out to Magnevents! We have received your query and one of our specialists will call you shortly to discuss your specific needs.`;
-            } else {
-              const artistName = booking.artists?.name ? ` for ${booking.artists.name}` : '';
+            if (action === 'confirm' || action === 'approve') {
               subject = 'Your Magnevents Booking is Confirmed!';
-              clientMessage = `Great news! Your booking request${artistName} has been confirmed by our team. We will reach out shortly with the next steps.`;
+              clientMessage = `Great news! Your booking request${artistName} has been approved and confirmed by our team. We will reach out shortly with the final contract and next steps.`;
+              if (booking.event_type === 'Artist Registration') {
+                subject = 'Welcome to Magnevents!';
+                clientMessage = `Your artist registration has been reviewed and approved by our team. Welcome aboard!`;
+              }
+            } else if (action === 'more_info') {
+              subject = 'Magnevents - Action Required for your Request';
+              clientMessage = `Thank you for reaching out to Magnevents! We are reviewing your request, but we need a few more details to proceed. One of our specialists will call you shortly to discuss your specific needs.`;
+            } else if (action === 'unavailable') {
+              subject = 'Update regarding your Magnevents Booking';
+              clientMessage = `Thank you for your interest! Unfortunately, the requested artist is unavailable on your selected dates. However, we have several amazing alternative artists that fit your vibe and budget. Let us know when is a good time to call you to discuss options!`;
+            } else if (action === 'reject') {
+              subject = 'Update regarding your Magnevents Request';
+              clientMessage = `Thank you for reaching out to Magnevents. Unfortunately, we are unable to fulfill your request at this time. We apologize for the inconvenience and wish you the best for your event.`;
             }
 
             const htmlBody = `
@@ -93,9 +102,9 @@ export async function GET(req: Request) {
               subject: subject,
               html: htmlBody,
             });
-            console.log("Client confirmation email sent successfully");
+            console.log(`Client email sent successfully for action: ${action}`);
           } catch (mailErr) {
-            console.error("Failed to send client confirmation email:", mailErr);
+            console.error("Failed to send client email:", mailErr);
           }
         }
       }
@@ -106,8 +115,32 @@ export async function GET(req: Request) {
     if (error) throw error;
 
     // Return a simple success page
-    const bgColor = action === 'approve' ? '#10b981' : '#ef4444';
-    const text = action === 'approve' ? 'Request Approved Successfully!' : 'Request Rejected Successfully!';
+    let bgColor = '#10b981'; // default green
+    let text = 'Action Processed Successfully!';
+    let titleStr = 'Success';
+    let icon = '✓';
+
+    if (action === 'approve' || action === 'confirm') {
+      bgColor = '#10b981';
+      text = 'Request Approved Successfully!';
+      titleStr = 'Approved';
+      icon = '✓';
+    } else if (action === 'more_info') {
+      bgColor = '#3b82f6'; // blue
+      text = 'Client Notified for More Info!';
+      titleStr = 'More Info';
+      icon = '📞';
+    } else if (action === 'unavailable') {
+      bgColor = '#f59e0b'; // orange
+      text = 'Client Notified: Artist Unavailable';
+      titleStr = 'Unavailable';
+      icon = '🗓️';
+    } else if (action === 'reject') {
+      bgColor = '#ef4444'; // red
+      text = 'Request Rejected Successfully!';
+      titleStr = 'Rejected';
+      icon = '✕';
+    }
     
     return new NextResponse(`
       <!DOCTYPE html>
@@ -115,7 +148,7 @@ export async function GET(req: Request) {
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>${action === 'approve' ? 'Approved' : 'Rejected'} - Magnevents</title>
+          <title>${titleStr} - Magnevents</title>
           <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
             
@@ -208,7 +241,7 @@ export async function GET(req: Request) {
               <img src="/logo.webp" alt="Magnevents Logo" onerror="this.src='https://ui-avatars.com/api/?name=Magnevents&background=0D8ABC&color=fff&rounded=true'"/>
             </div>
             <div class="icon-circle">
-              ${action === 'approve' ? '✓' : '✕'}
+              ${icon}
             </div>
             <h1>${text}</h1>
             <p>Your action has been recorded in the database and confirmation emails have been dispatched.</p>
