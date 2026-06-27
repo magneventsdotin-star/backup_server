@@ -162,6 +162,9 @@ export async function GET(req: Request) {
                       <a href="https://facebook.com/magnevents" style="display: inline-block; margin: 0 8px; text-decoration: none;">
                         <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" width="24" height="24" style="opacity: 0.6;">
                       </a>
+                      <a href="https://x.com/magnevents94" style="display: inline-block; margin: 0 8px; text-decoration: none;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/5969/5969020.png" alt="X (Twitter)" width="24" height="24" style="opacity: 0.6;">
+                      </a>
                       <a href="https://linkedin.com/company/magnevents" style="display: inline-block; margin: 0 8px; text-decoration: none;">
                         <img src="https://cdn-icons-png.flaticon.com/512/3536/3536505.png" alt="LinkedIn" width="24" height="24" style="opacity: 0.6;">
                       </a>
