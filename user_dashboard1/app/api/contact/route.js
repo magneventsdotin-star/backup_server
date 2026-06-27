@@ -190,6 +190,7 @@ ${artistDetailsString}${planDetailsString}${serviceDetailsString}
       const btnBase = "display: inline-block; color: #ffffff; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 13px; margin-right: 8px; margin-bottom: 8px;";
       
       const confirmLink = `${adminUrl}/api/action-request?id=${bookingId}&type=client_request&action=confirm`;
+      const approveLink = `${adminUrl}/api/action-request?id=${bookingId}&type=client_request&action=approve`;
       const moreInfoLink = `${adminUrl}/api/action-request?id=${bookingId}&type=client_request&action=more_info`;
       const unavailableLink = `${adminUrl}/api/action-request?id=${bookingId}&type=client_request&action=unavailable`;
       const rejectLink = `${adminUrl}/api/action-request?id=${bookingId}&type=client_request&action=reject`;
@@ -202,6 +203,7 @@ ${artistDetailsString}${planDetailsString}${serviceDetailsString}
           <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">Clicking these buttons will <b>instantly</b> send a standard email to the client. Use Custom Reply to write your own message.</p>
           <div style="display: flex; flex-wrap: wrap;">
             <a href="${confirmLink}" style="${btnBase} background-color: #10b981;">✅ Confirm Booking</a>
+            <a href="${approveLink}" style="${btnBase} background-color: #059669;">👍 Approve Booking</a>
             <a href="${moreInfoLink}" style="${btnBase} background-color: #3b82f6;">📞 Request More Info</a>
             <a href="${customReplyLink}" style="${btnBase} background-color: #8b5cf6;">✍️ Custom Reply</a>
             <a href="${unavailableLink}" style="${btnBase} background-color: #f59e0b;">🗓️ Artist Unavailable</a>
