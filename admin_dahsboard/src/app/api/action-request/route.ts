@@ -110,19 +110,114 @@ export async function GET(req: Request) {
     const text = action === 'approve' ? 'Request Approved Successfully!' : 'Request Rejected Successfully!';
     
     return new NextResponse(`
-      <html>
-        <body style="font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f8fafc;">
-          <div style="text-align: center; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-            <div style="background-color: ${bgColor}; color: white; width: 64px; height: 64px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px auto; font-size: 32px;">
-              ✓
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>${action === 'approve' ? 'Approved' : 'Rejected'} - Magnevents</title>
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+            
+            body {
+              font-family: 'Inter', sans-serif;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100vh;
+              margin: 0;
+              background-color: #0B0E14; /* Dark sleek background */
+              background-image: radial-gradient(circle at top right, rgba(91, 90, 247, 0.1), transparent 400px), 
+                                radial-gradient(circle at bottom left, rgba(91, 90, 247, 0.05), transparent 400px);
+            }
+            .card {
+              text-align: center;
+              background: #141824;
+              padding: 48px 40px;
+              border-radius: 24px;
+              box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+              border: 1px solid rgba(255, 255, 255, 0.05);
+              max-width: 400px;
+              width: 90%;
+              animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .logo-container {
+              margin-bottom: 32px;
+            }
+            .logo-container img {
+              height: 48px;
+              width: auto;
+            }
+            .icon-circle {
+              background-color: ${bgColor};
+              color: white;
+              width: 72px;
+              height: 72px;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin: 0 auto 24px auto;
+              font-size: 36px;
+              box-shadow: 0 0 24px ${bgColor}66;
+              animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
+            }
+            h1 {
+              color: #ffffff;
+              margin: 0 0 12px 0;
+              font-size: 24px;
+              font-weight: 800;
+              letter-spacing: -0.02em;
+            }
+            p {
+              color: #94a3b8;
+              font-size: 15px;
+              line-height: 1.6;
+              margin: 0;
+            }
+            .button {
+              display: inline-block;
+              margin-top: 32px;
+              padding: 12px 24px;
+              background-color: rgba(255, 255, 255, 0.05);
+              color: #ffffff;
+              text-decoration: none;
+              border-radius: 12px;
+              font-weight: 600;
+              font-size: 14px;
+              transition: all 0.2s;
+              border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .button:hover {
+              background-color: rgba(255, 255, 255, 0.1);
+            }
+            @keyframes slideUp {
+              from { opacity: 0; transform: translateY(20px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes scaleIn {
+              from { opacity: 0; transform: scale(0.5); }
+              to { opacity: 1; transform: scale(1); }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="card">
+            <div class="logo-container">
+              <!-- Using the same logo as the dashboard -->
+              <img src="/logo.webp" alt="Magnevents Logo" onerror="this.src='https://ui-avatars.com/api/?name=Magnevents&background=0D8ABC&color=fff&rounded=true'"/>
             </div>
-            <h1 style="color: #0f172a; margin-bottom: 10px;">${text}</h1>
-            <p style="color: #64748b;">You can safely close this window.</p>
+            <div class="icon-circle">
+              ${action === 'approve' ? '✓' : '✕'}
+            </div>
+            <h1>${text}</h1>
+            <p>Your action has been recorded in the database and confirmation emails have been dispatched.</p>
+            <a href="javascript:window.close();" class="button">Close Window</a>
           </div>
         </body>
       </html>
     `, {
-      headers: { 'Content-Type': 'text/html' }
+      headers: { 'Content-Type': 'text/html; charset=utf-8' }
     });
   } catch (err: any) {
     console.error("Action error:", err);
