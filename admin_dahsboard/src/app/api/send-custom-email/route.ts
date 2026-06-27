@@ -10,6 +10,13 @@ export async function POST(req: Request) {
       return new NextResponse('Missing required parameters', { status: 400 });
     }
 
+    // Fetch booking details for context
+    const { data: booking, error: fetchErr } = await supabase
+      .from('bookings')
+      .select('*, artists(name)')
+      .eq('id', bookingId)
+      .single();
+
     // Update booking status to pending as we are starting a dialogue
     const { error: err } = await supabase
       .from('bookings')
@@ -27,11 +34,29 @@ export async function POST(req: Request) {
       },
     });
 
+    let contextHtml = '';
+    if (booking) {
+      const createdDate = new Date(booking.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      contextHtml = `
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; font-family: sans-serif;">
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">On ${createdDate}, you submitted the following request:</p>
+          <div style="background-color: #f8fafc; padding: 16px; border-radius: 8px; font-size: 13px; color: #475569; border-left: 3px solid #cbd5e1;">
+            <p style="margin: 0 0 8px 0;"><strong>Event Type:</strong> ${booking.event_type || 'N/A'}</p>
+            ${booking.artists?.name ? `<p style="margin: 0 0 8px 0;"><strong>Requested Artist:</strong> ${booking.artists.name}</p>` : ''}
+            ${booking.event_date ? `<p style="margin: 0 0 8px 0;"><strong>Event Date:</strong> ${booking.event_date}</p>` : ''}
+            ${booking.venue ? `<p style="margin: 0 0 8px 0;"><strong>Venue:</strong> ${booking.venue}</p>` : ''}
+            ${booking.notes ? `<p style="margin: 8px 0 0 0; padding-top: 8px; border-top: 1px solid #e2e8f0;"><strong>Your Message:</strong><br/>${booking.notes}</p>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
     const htmlBody = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <p style="font-size: 16px; color: #334155; line-height: 1.6; white-space: pre-wrap;">${message}</p>
         <br/>
         <p style="font-size: 14px; color: #64748b;">Best regards,<br/><strong>The Magnevents Team</strong></p>
+        ${contextHtml}
       </div>
     `;
 
