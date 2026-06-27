@@ -19,12 +19,13 @@ export default function PricingPage() {
         const { data, error } = await supabase
           .from('pricing_plans')
           .select('*')
+          .eq('is_live', true)
           .order('created_at', { ascending: true });
 
         if (error) {
           console.error('Error fetching plans:', error);
-        } else if (data && data.length > 0) {
-          const formattedPlans = data.map(p => ({
+        } else {
+          const formattedPlans = (data || []).map(p => ({
             name: p.name,
             tagline: p.copy,
             price: `₹${p.price}`,

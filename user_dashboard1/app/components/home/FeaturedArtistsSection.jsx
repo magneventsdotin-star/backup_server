@@ -47,7 +47,6 @@ function FeaturedArtistsSection() {
           
           setFeaturedArtists(parsedArtists);
         } else {
-          // Fallback to any real artists if no featured ones are marked
           const { data: anyData, error: anyError } = await supabase
             .from('artists')
             .select('*, artist_images(image_url)')

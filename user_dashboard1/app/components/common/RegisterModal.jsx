@@ -7,11 +7,10 @@ import '@/app/styles/components/ContactModal.css'
 
 export default function RegisterModal() {
   const [isOpen, setIsOpen] = useState(false)
-  const [view, setView] = useState('selection') // 'selection', 'artist', 'event'
+  const [view, setView] = useState('selection')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
-  // Artist Registration Refs
   const nameRef = useRef(null)
   const phoneRef = useRef(null)
   const emailRef = useRef(null)
@@ -19,7 +18,6 @@ export default function RegisterModal() {
   const portfolioRef = useRef(null)
   const bioRef = useRef(null)
 
-  // Event Registration Refs
   const eventNameRef = useRef(null)
   const eventPhoneRef = useRef(null)
   const eventEmailRef = useRef(null)
@@ -112,12 +110,10 @@ export default function RegisterModal() {
           >
             <div className="modal-glow-bg" style={{ background: 'radial-gradient(ellipse at center, rgba(255, 224, 50, 0.06) 0%, transparent 70%)' }} />
             
-            {/* Close Button */}
             <button className="lux-modal-close" onClick={() => setIsOpen(false)} aria-label="Close modal">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
 
-            {/* Back Button */}
             {view !== 'selection' && !submitted && (
               <button 
                 onClick={() => setView('selection')} 
@@ -147,7 +143,6 @@ export default function RegisterModal() {
               </button>
             )}
 
-            {/* 1. SELECTION SCREEN VIEW */}
             {view === 'selection' && (
               <>
                 <div className="lux-modal-header" style={{ textAlign: 'center', marginBottom: '0px' }}>
@@ -161,7 +156,6 @@ export default function RegisterModal() {
                 </div>
 
                 <div className="registration-options-grid">
-                  {/* Event Registration Card */}
                   <div 
                     className="registration-option-card card-event"
                     onClick={() => setView('event')}
@@ -177,7 +171,6 @@ export default function RegisterModal() {
                     </button>
                   </div>
 
-                  {/* Artist Registration Card */}
                   <div 
                     className="registration-option-card card-artist"
                     onClick={() => setView('artist')}
@@ -196,7 +189,6 @@ export default function RegisterModal() {
               </>
             )}
 
-            {/* Success View */}
             {submitted && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -218,7 +210,6 @@ export default function RegisterModal() {
               </motion.div>
             )}
 
-            {/* 2. ARTIST REGISTRATION VIEW */}
             {view === 'artist' && !submitted && (
               <>
                 <div className="lux-modal-header" style={{ marginBottom: '16px' }}>
@@ -302,7 +293,6 @@ export default function RegisterModal() {
               </>
             )}
 
-            {/* 3. EVENT REGISTRATION VIEW */}
             {view === 'event' && !submitted && (
               <>
                 <div className="lux-modal-header" style={{ marginBottom: '16px' }}>
@@ -442,7 +432,6 @@ export default function RegisterModal() {
         </div>
       )}
 
-      {/* Internal Premium Options Styles */}
       <style jsx global>{`
         /* Avoid top/bottom truncation on mobile viewports */
         .lux-modal-root {

@@ -17,7 +17,6 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
     setMounted(true)
   }, [])
 
-  // Provide defaults similar to featured section
   const genre = artist.subCategory || artist.category || 'Performer'
   const location = [artist.city, artist.state].filter(Boolean).join(', ') || 'Jaipur'
   const rating = artist.rating || '4.9'

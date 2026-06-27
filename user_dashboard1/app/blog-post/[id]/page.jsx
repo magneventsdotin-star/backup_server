@@ -79,22 +79,18 @@ export default function BlogDetailPage() {
     );
   }
 
-  // Helper to render simple markdown-like content
   const renderContent = (content) => {
     return content.split('\n').map((line, i) => {
       let trimmed = line.trim();
       if (!trimmed) return <br key={i} />;
-
-      // Headers
       if (trimmed.startsWith('###')) return <h3 key={i} className="blog-h3">{trimmed.replace('###', '').trim()}</h3>;
 
-      // Bold
+
       let parts = trimmed.split('**');
       let renderedLine = parts.map((part, index) => {
         return index % 2 === 1 ? <strong key={index}>{part}</strong> : part;
       });
 
-      // Lists
       if (trimmed.startsWith('-') || trimmed.startsWith('*')) {
         return <li key={i} className="blog-li">{renderedLine.slice(1)}</li>;
       }

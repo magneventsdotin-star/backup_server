@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import Image from 'next/image'
 
 export default function BrandMark({ size = 'md', showTag = false, light = false, hideText = false }) {
@@ -13,7 +12,7 @@ export default function BrandMark({ size = 'md', showTag = false, light = false,
       <span
         aria-hidden="true"
         style={{
-          width: `${markSize * 1.5}px`, /* Adjusted to fix the large gap */
+          width: `${markSize * 1.5}px`, 
           height: `${markSize * 1.5}px`,
           display: 'inline-flex',
           alignItems: 'center',
@@ -27,12 +26,10 @@ export default function BrandMark({ size = 'md', showTag = false, light = false,
           fill
           style={{
             objectFit: 'contain',
-            filter: 'invert(1) brightness(2)' /* Make black logo white for dark theme */
+            filter: 'invert(1) brightness(2)' 
           }}
         />
       </span>
-
-      {/* Show the text as requested by the user */}
       {!hideText && (
         <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
           <span

@@ -69,7 +69,6 @@ Artist Name:    ${artistName}
 `;
       }
 
-      // Add Selected Package/Pricing Plan details block
       let planDetailsString = '';
       if (data.selectedPlan && typeof data.selectedPlan === 'object') {
         const p = data.selectedPlan;
@@ -83,8 +82,6 @@ Tagline:        ${p.tagline || 'N/A'}
 Features:       ${p.features && p.features.length > 0 ? p.features.join(', ') : 'N/A'}
 `;
       }
-
-      // Add Selected Service details block
       let serviceDetailsString = '';
       if (data.selectedService && typeof data.selectedService === 'object') {
         const s = data.selectedService;
@@ -125,67 +122,111 @@ ${artistDetailsString}${planDetailsString}${serviceDetailsString}
     }
 
 
+    let bookingId = null;
+
+    // 1. Insert ALL requests into Supabase to track them and enable buttons
+    try {
+      const { createClient } = require('@supabase/supabase-js');
+      const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '');
+      
+      let numericBudget = 0;
+      if (data.budget) {
+        if (data.budget.includes('5k_10k')) numericBudget = 10000;
+        else if (data.budget.includes('10k_20k')) numericBudget = 20000;
+        else if (data.budget.includes('20k_35k')) numericBudget = 35000;
+        else if (data.budget.includes('35k_50k')) numericBudget = 50000;
+        else if (data.budget.includes('50k_80k')) numericBudget = 80000;
+        else if (data.budget.includes('80k_1.2L')) numericBudget = 120000;
+        else if (data.budget.includes('1.2L_1.5L')) numericBudget = 150000;
+        else if (data.budget.includes('1.5L_2L')) numericBudget = 200000;
+        else if (data.budget.includes('2L_3L')) numericBudget = 300000;
+        else if (data.budget.includes('3L_5L')) numericBudget = 500000;
+        else if (data.budget.includes('5L_plus')) numericBudget = 500000;
+        else numericBudget = 5000;
+      }
+
+      let evType = data.eventType || 'N/A';
+      let extraNotes = data.message || (data.artistType ? `Requested Types: ${data.artistType.join(', ')}` : '');
+
+      if (isRegister) {
+        evType = 'Artist Registration';
+        extraNotes = `Category: ${data.category || 'N/A'}\nPortfolio: ${data.portfolio || 'N/A'}\nBio: ${data.bio || 'N/A'}`;
+      } else if (isCallRequest) {
+        evType = 'Call Request';
+      }
+
+      const bookingData = {
+        client_name: data.name || 'Unknown',
+        client_email: data.email || 'N/A',
+        client_phone: data.phone || 'N/A',
+        event_type: evType,
+        event_date: data.date || null,
+        venue: data.location || 'TBD',
+        budget: numericBudget,
+        notes: extraNotes,
+        status: 'pending',
+        booking_source: 'client',
+      };
+
+      if (data.selectedArtist && data.selectedArtist.id) {
+        bookingData.fk_artist_id = data.selectedArtist.id;
+      }
+
+      const { data: insertedData, error } = await supabase.from('bookings').insert([bookingData]).select().single();
+      if (error) {
+        console.error("Supabase insert error:", error);
+      } else {
+        console.log("Successfully saved booking to Supabase");
+        bookingId = insertedData.id;
+      }
+    } catch (dbErr) {
+      console.error("Failed to connect to Supabase:", dbErr);
+    }
+
+    // 2. Prepare HTML Email body with action buttons if bookingId exists
+    let htmlBody = `<div style="font-family: sans-serif; white-space: pre-wrap;">${emailBody}</div>`;
+    if (bookingId) {
+      const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:9002';
+      const btnBase = "display: inline-block; color: #ffffff; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 13px; margin-right: 8px; margin-bottom: 8px;";
+      
+      const confirmLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=confirm`;
+      const moreInfoLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=more_info`;
+      const unavailableLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=unavailable`;
+      const rejectLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=reject`;
+      const customReplyLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=custom`;
+      const previewLink = `${adminUrl}/dashboard/requests`;
+
+      htmlBody += `
+        <div style="margin-top: 24px; font-family: sans-serif; border-top: 1px solid #e2e8f0; padding-top: 16px;">
+          <h3 style="margin-top: 0; color: #334155; font-size: 16px;">Quick Replies</h3>
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">Click a button below to open the dashboard and review your email response before sending.</p>
+          <div style="display: flex; flex-wrap: wrap;">
+            <a href="${confirmLink}" style="${btnBase} background-color: #10b981;">✅ Confirm Booking</a>
+            <a href="${moreInfoLink}" style="${btnBase} background-color: #3b82f6;">📞 Request More Info</a>
+            <a href="${unavailableLink}" style="${btnBase} background-color: #f59e0b;">🗓️ Artist Unavailable</a>
+            <a href="${rejectLink}" style="${btnBase} background-color: #ef4444;">❌ Reject / Not Possible</a>
+            <a href="${customReplyLink}" style="${btnBase} background-color: #8b5cf6;">✍️ Custom Reply</a>
+          </div>
+          <div style="margin-top: 12px;">
+            <a href="${previewLink}" style="display: inline-block; background-color: #f1f5f9; color: #475569; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 13px; border: 1px solid #cbd5e1;">Preview in Dashboard</a>
+          </div>
+        </div>
+      `;
+    }
+
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
       subject: `${subjectPrefix} - ${data.name}`,
       text: emailBody,
+      html: htmlBody,
     };
-
 
     try {
       await transporter.sendMail(mailOptions);
       console.log("Email dispatched successfully.");
     } catch (err) {
       console.error("Email sending error:", err);
-    }
-
-    // Also save to Supabase bookings table for admin dashboard
-    if (!isRegister && !isCallRequest) {
-      try {
-        const { createClient } = require('@supabase/supabase-js');
-        const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '');
-        
-        let numericBudget = 0;
-        if (data.budget) {
-          // extract some numeric budget if possible
-          if (data.budget.includes('5k_10k')) numericBudget = 10000;
-          else if (data.budget.includes('10k_20k')) numericBudget = 20000;
-          else if (data.budget.includes('20k_35k')) numericBudget = 35000;
-          else if (data.budget.includes('35k_50k')) numericBudget = 50000;
-          else if (data.budget.includes('50k_80k')) numericBudget = 80000;
-          else if (data.budget.includes('80k_1.2L')) numericBudget = 120000;
-          else if (data.budget.includes('1.2L_1.5L')) numericBudget = 150000;
-          else if (data.budget.includes('1.5L_2L')) numericBudget = 200000;
-          else if (data.budget.includes('2L_3L')) numericBudget = 300000;
-          else if (data.budget.includes('3L_5L')) numericBudget = 500000;
-          else if (data.budget.includes('5L_plus')) numericBudget = 500000;
-          else numericBudget = 5000;
-        }
-
-        const bookingData = {
-          client_name: data.name || 'Unknown',
-          client_email: data.email || 'N/A',
-          client_phone: data.phone || 'N/A',
-          event_type: data.eventType || 'N/A',
-          event_date: data.date || null,
-          venue: data.location || 'TBD',
-          budget: numericBudget,
-          notes: data.message || (data.artistType ? `Requested Types: ${data.artistType.join(', ')}` : ''),
-          status: 'pending',
-          booking_source: 'client',
-        };
-
-        if (data.selectedArtist && data.selectedArtist.id) {
-          bookingData.fk_artist_id = data.selectedArtist.id;
-        }
-
-        const { error } = await supabase.from('bookings').insert([bookingData]);
-        if (error) console.error("Supabase insert error:", error);
-        else console.log("Successfully saved booking to Supabase");
-      } catch (dbErr) {
-        console.error("Failed to connect to Supabase:", dbErr);
-      }
     }
 
     return new Response(JSON.stringify({ success: true, message: 'Request processed successfully!' }), {

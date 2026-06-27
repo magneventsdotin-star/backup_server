@@ -17,7 +17,6 @@ export default function PWAInstallPrompt() {
       return;
     }
 
-    // 🔒 Limit display to the very first visit only
     const hasBeenShown = localStorage.getItem('magnevents-pwa-shown');
     if (hasBeenShown === 'true') {
       return;

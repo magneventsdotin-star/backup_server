@@ -119,5 +119,4 @@ function CategoriesSection() {
 
 export default React.memo(CategoriesSection);
 
-// Next HMR Cache Invalidation Trigger: Categories Carousel Mobile 2/2 Swipe Fixed 2026-05-17
 

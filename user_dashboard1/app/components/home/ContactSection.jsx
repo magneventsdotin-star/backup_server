@@ -31,7 +31,7 @@ export default function ContactSection() {
         if (nameRef.current) nameRef.current.value = '';
         if (emailRef.current) emailRef.current.value = '';
         if (phoneRef.current) phoneRef.current.value = '';
-        setTimeout(() => setSubmitted(false), 5000);
+        setTimeout(() => setSubmitted(false), 3000);
       }
     } catch (error) {
       console.error("Failed to send contact inquiry:", error);

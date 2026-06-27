@@ -27,7 +27,6 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
       document.body.style.overflow = 'hidden'
       document.body.classList.add('modal-open')
 
-      // Smart auto-fill depending on selected item details
       if (initialPlan) {
         const planName = initialPlan.name.toLowerCase();
         if (planName.includes('singer')) {
@@ -98,7 +97,7 @@ export default function ContactModal({ isOpen, onClose, initialType = 'booking',
         setSelectedEventType('')
         setSelectedBudget('')
         setSelectedArtistTypes([])
-      }, 3000)
+      }, 1800)
     } catch (error) {
       console.error("Booking error:", error)
       setIsSubmitting(false)

@@ -3,8 +3,6 @@ import { defaultBlogs } from '../data';
 
 export async function generateMetadata({ params }) {
   const { id } = params;
-  
-  // Try static first
   const staticBlog = defaultBlogs.find(b => b.slug === id || b.id === id);
   
   let title = 'Blog | Magnevents';
@@ -16,7 +14,6 @@ export async function generateMetadata({ params }) {
     description = staticBlog.subtitle || description;
     image = staticBlog.img || image;
   } else {
-    // Try dynamic
     const { data } = await supabase.from('hero_slides').select('title, subtitle, image_url').eq('id', id).single();
     if (data) {
       title = `${data.title} | Magnevents`;
