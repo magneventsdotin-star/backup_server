@@ -374,7 +374,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
       const { data: { session } } = await supabase.auth.getSession();
       const userEmail = session?.user?.email || 'admin@magnevents.com';
       
-      const { error } = await (supabase
+      const { data, error } = await (supabase
         .from('duplicate_approvals') as any)
         .insert({
           field_name: duplicateConflict?.field,
@@ -382,9 +382,28 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
           requested_by: userEmail,
           reason: approvalReason,
           draft_data: form.getValues() // Save the entire draft payload
-        });
+        })
+        .select()
+        .single();
       
       if (error) throw error;
+
+      try {
+        await fetch('/api/send-approval-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: data.id,
+            type: 'duplicate_approval',
+            title: `Duplicate ${duplicateConflict?.field === 'phone_no' ? 'Phone' : 'Alias'} Approval`,
+            description: `Requested to use ${duplicateConflict?.field}: ${form.getValues('phone_no')}. Reason: ${approvalReason}`,
+            submittedBy: userEmail,
+            previewLink: `${window.location.origin}/dashboard/team-requests`
+          })
+        });
+      } catch (err) {
+        console.error("Failed to send email notification", err);
+      }
 
       toast({ title: 'Request Sent', description: 'Approval request sent to Super Admin.' });
       setDuplicateConflict(null);

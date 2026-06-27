@@ -192,10 +192,12 @@ export default function TeamRequestsPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          id: newReq.id,
+          type: 'duplicate_approval',
           title: newReq.title,
           description: newReq.description,
           submittedBy: newReq.submittedBy.name,
-          approvalLink: `${window.location.origin}/dashboard/team-requests`
+          previewLink: `${window.location.origin}/dashboard/team-requests`
         })
       });
     } catch (err) {
