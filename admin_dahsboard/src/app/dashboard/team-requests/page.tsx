@@ -56,7 +56,16 @@ export default function TeamRequestsPage() {
         .select('*')
         .order('created_at', { ascending: false });
 
+      const { data: pricingData, error: pricingError } = await supabase
+        .from('pricing_plans')
+        .select('*')
+        .eq('pending_approval', true)
+        .order('created_at', { ascending: false });
+
       if (error) throw error;
+      if (pricingError) throw pricingError;
+
+      let allFormatted: any[] = [];
 
       if (data) {
         const formatted = data.map((d: any) => ({
@@ -76,8 +85,34 @@ export default function TeamRequestsPage() {
           ],
           comments: []
         }));
-        setRequests(formatted);
+        allFormatted = [...allFormatted, ...formatted];
       }
+
+      if (pricingData) {
+         const pricingFormatted = pricingData.map((d: any) => ({
+          id: `pricing-${d.id}`,
+          originalId: d.id,
+          isPricingPlan: true,
+          title: `Pricing Plan Approval: ${d.name}`,
+          description: `Requested to publish pricing plan: ${d.name} for ₹${d.price}.`,
+          type: 'Content Update',
+          priority: 'High',
+          status: 'pending',
+          draft_data: d,
+          field_name: 'pricing_plan',
+          field_value: d.name,
+          submittedBy: { name: 'Editor', role: 'Editor', email: 'editor@magnevents.in' },
+          createdAt: d.created_at,
+          history: [
+            { action: 'Submitted', user: 'Editor', timestamp: d.created_at, comment: 'Submitted pricing plan for review.' }
+          ],
+          comments: []
+        }));
+        allFormatted = [...allFormatted, ...pricingFormatted];
+      }
+
+      allFormatted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      setRequests(allFormatted);
     } catch (err) {
       console.error('Error fetching duplicate approvals:', err);
     }
@@ -218,16 +253,28 @@ export default function TeamRequestsPage() {
         }
       }
 
-      const { error } = await supabase
-        .from('duplicate_approvals')
-        .update({
-          status: newStatus,
-          approved_by: userName,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', id);
+      if (selectedRequest?.isPricingPlan) {
+        const { error } = await supabase
+          .from('pricing_plans')
+          .update({
+            is_live: newStatus === 'approved',
+            pending_approval: false
+          })
+          .eq('id', selectedRequest.originalId);
 
-      if (error) throw error;
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('duplicate_approvals')
+          .update({
+            status: newStatus,
+            approved_by: userName,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', id);
+
+        if (error) throw error;
+      }
       
       setRequests(prev => prev.map(r => {
         if (r.id === id) {
@@ -314,8 +361,8 @@ export default function TeamRequestsPage() {
       <div className="flex justify-between items-end">
         <div className="section-header">
           <span className="section-label">Workflow Management</span>
-          <h1 className="section-title text-slate-900">Team Requests</h1>
-          <p className="text-body mt-1 max-w-2xl font-medium">Manage and track internal approval workflows.</p>
+          <h1 className="section-title text-slate-900">Admin Approvals</h1>
+          <p className="text-body mt-1 max-w-2xl font-medium">Manage and track admin approval workflows.</p>
         </div>
         
         <button
