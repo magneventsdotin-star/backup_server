@@ -25,21 +25,21 @@ export async function POST(req) {
         let emailBody = '';
     const row = (label, value, isLink = false, href = '') => {
       if (!value || value === 'N/A') return '';
-      const displayValue = isLink ? `<a href="${href}" style="color: #3b82f6; text-decoration: none; font-weight: 600; word-break: break-word;">${value}</a>` : `<span style="color: #0f172a; font-weight: 600; word-break: break-word; font-size: 15px;">${value}</span>`;
+      const displayValue = isLink ? `<a href="${href}" style="color: #fbbf24; text-decoration: none; font-weight: 600; word-break: break-word;">${value}</a>` : `<span style="color: #f8fafc; font-weight: 500; word-break: break-word; font-size: 15px;">${value}</span>`;
       return `<tr>
-        <td style="padding: 14px 0; width: 35%; max-width: 140px; color: #64748b; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; vertical-align: top; border-bottom: 1px dashed #e2e8f0;">${label}</td>
-        <td style="padding: 14px 0; vertical-align: top; border-bottom: 1px dashed #e2e8f0;">${displayValue}</td>
+        <td style="padding: 16px 0; width: 35%; max-width: 140px; color: #94a3b8; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.05);">${label}</td>
+        <td style="padding: 16px 0; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.05);">${displayValue}</td>
       </tr>`;
     };
 
     const buildSection = (title, contentHTML) => {
       if (!contentHTML || contentHTML.trim() === '') return '';
       return `
-        <div style="margin-bottom: 32px; background-color: #ffffff; border: 1px solid #f1f5f9; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.02);">
-          <div style="background: linear-gradient(to right, #f8fafc, #f1f5f9); padding: 16px 24px; border-bottom: 1px solid #f1f5f9; border-top-left-radius: 16px; border-top-right-radius: 16px;">
-            <h4 style="font-size: 13px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 1px; margin: 0;">${title}</h4>
+        <div style="margin-bottom: 32px; background-color: #1e293b; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
+          <div style="background: linear-gradient(90deg, rgba(251, 191, 36, 0.1) 0%, transparent 100%); padding: 18px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); border-top-left-radius: 16px; border-top-right-radius: 16px;">
+            <h4 style="font-size: 12px; font-weight: 700; color: #fbbf24; text-transform: uppercase; letter-spacing: 2px; margin: 0;">${title}</h4>
           </div>
-          <div style="padding: 16px 24px;">
+          <div style="padding: 8px 24px;">
             <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
               ${contentHTML}
             </table>
@@ -221,16 +221,16 @@ export async function POST(req) {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
       </head>
-      <body style="background-color: #f8fafc; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 40px 10px; -webkit-font-smoothing: antialiased;">
-        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01); border: 1px solid #e2e8f0;">
+      <body style="background-color: #020617; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 40px 10px; -webkit-font-smoothing: antialiased;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #0f172a; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);">
           
-          <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 48px 20px; text-align: center; border-top-left-radius: 24px; border-top-right-radius: 24px;">
-            <h1 style="color: #ffffff; font-size: 28px; font-weight: 900; margin: 0; letter-spacing: -0.5px;">MAGNEVENTS</h1>
-            <p style="color: #94a3b8; font-size: 14px; margin: 12px 0 0 0; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;">${subjectPrefix}</p>
+          <div style="background: url('https://www.transparenttextures.com/patterns/stardust.png'), linear-gradient(135deg, #020617 0%, #0f172a 100%); padding: 50px 20px; text-align: center; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <h1 style="color: #ffffff; font-size: 32px; font-weight: 900; margin: 0; letter-spacing: 2px;">MAGNEVENTS</h1>
+            <p style="color: #fbbf24; font-size: 12px; margin: 16px 0 0 0; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;">${subjectPrefix}</p>
           </div>
 
-          <div style="padding: 40px 24px; background-color: #fcfcfd;">
-            <h2 style="margin-top: 0; font-size: 22px; color: #0f172a; font-weight: 800; margin-bottom: 32px; text-align: center;">You have a new inquiry!</h2>
+          <div style="padding: 40px 24px; background-color: #0f172a;">
+            <h2 style="margin-top: 0; font-size: 24px; color: #ffffff; font-weight: 700; margin-bottom: 32px; text-align: center;">You have a new inquiry!</h2>
             ${contentSections}
           </div>
     `;
@@ -249,42 +249,44 @@ export async function POST(req) {
 
       let buttonsHtml = '';
       
+      const premiumBtnBase = "display: block; width: 100%; box-sizing: border-box; color: #ffffff; padding: 16px 16px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 14px; margin-bottom: 12px; text-align: center; letter-spacing: 0.5px; border: 1px solid rgba(255,255,255,0.1);";
+
       if (isRegister) {
         buttonsHtml = `
-            <a href="${approveLink}" style="${btnBase} background-color: #059669; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);">✅ Approve Registration</a>
-            <div style="height: 1px; background-color: #e2e8f0; margin: 20px 0;"></div>
-            <a href="${moreInfoLink}" style="${btnBase} background-color: #2563eb; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">📞 Request Portfolio / Info</a>
-            <a href="${customReplyLink}" style="${btnBase} background-color: #7c3aed; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);">✍️ Custom Reply</a>
-            <div style="height: 1px; background-color: #e2e8f0; margin: 20px 0;"></div>
-            <a href="${rejectLink}" style="${btnBase} background-color: #dc2626; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);">❌ Reject Application</a>
+            <a href="${approveLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">Approve Registration</a>
+            <div style="height: 1px; background-color: rgba(255,255,255,0.05); margin: 24px 0;"></div>
+            <a href="${moreInfoLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);">Request Portfolio</a>
+            <a href="${customReplyLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);">Custom Reply</a>
+            <div style="height: 1px; background-color: rgba(255,255,255,0.05); margin: 24px 0;"></div>
+            <a href="${rejectLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">Reject Application</a>
         `;
       } else if (isCallRequest) {
         buttonsHtml = `
-            <a href="${confirmLink}" style="${btnBase} background-color: #10b981; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);">📞 Mark Call as Done</a>
-            <a href="${customReplyLink}" style="${btnBase} background-color: #7c3aed; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);">✍️ Send Email Reply</a>
+            <a href="${confirmLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);">Mark Call as Done</a>
+            <a href="${customReplyLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);">Send Email Reply</a>
         `;
       } else {
         buttonsHtml = `
-            <a href="${confirmLink}" style="${btnBase} background-color: #10b981; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);">✅ Confirm Booking</a>
-            <a href="${approveLink}" style="${btnBase} background-color: #059669; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);">👍 Approve Booking</a>
+            <a href="${confirmLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);">Confirm Booking</a>
+            <a href="${approveLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">Approve Booking</a>
             
-            <div style="height: 1px; background-color: #e2e8f0; margin: 20px 0;"></div>
+            <div style="height: 1px; background-color: rgba(255,255,255,0.05); margin: 24px 0;"></div>
             
-            <a href="${moreInfoLink}" style="${btnBase} background-color: #2563eb; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">📞 Request More Info</a>
-            <a href="${customReplyLink}" style="${btnBase} background-color: #7c3aed; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);">✍️ Custom Reply</a>
+            <a href="${moreInfoLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);">Request More Info</a>
+            <a href="${customReplyLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);">Custom Reply</a>
             
-            <div style="height: 1px; background-color: #e2e8f0; margin: 20px 0;"></div>
+            <div style="height: 1px; background-color: rgba(255,255,255,0.05); margin: 24px 0;"></div>
             
-            <a href="${unavailableLink}" style="${btnBase} background-color: #ea580c; box-shadow: 0 4px 6px -1px rgba(234, 88, 12, 0.2);">🗓️ Artist Unavailable</a>
-            <a href="${rejectLink}" style="${btnBase} background-color: #dc2626; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);">❌ Reject / Not Possible</a>
+            <a href="${unavailableLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);">Artist Unavailable</a>
+            <a href="${rejectLink}" style="${premiumBtnBase} background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">Reject / Not Possible</a>
         `;
       }
 
       htmlBody += `
-        <div style="background-color: #f8fafc; padding: 40px 24px; border-top: 1px solid #e2e8f0; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
+        <div style="background-color: #020617; padding: 40px 24px; border-top: 1px solid rgba(255,255,255,0.05); border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
           <div style="text-align: center; margin-bottom: 32px;">
-            <h3 style="margin: 0 0 8px 0; color: #0f172a; font-size: 20px; font-weight: 900; letter-spacing: -0.5px;">Quick Actions</h3>
-            <p style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.6;">Review and respond to the client instantly.</p>
+            <h3 style="margin: 0 0 8px 0; color: #ffffff; font-size: 20px; font-weight: 700; letter-spacing: 1px;">QUICK ACTIONS</h3>
+            <p style="font-size: 13px; color: #94a3b8; margin: 0; line-height: 1.6;">Review and respond to the client instantly.</p>
           </div>
           
           <div style="max-width: 320px; margin: 0 auto;">
@@ -292,7 +294,7 @@ export async function POST(req) {
           </div>
           
           <div style="margin-top: 40px; text-align: center;">
-            <a href="${previewLink}" style="display: inline-block; background-color: #ffffff; color: #0f172a; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 14px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">Open Request in Dashboard</a>
+            <a href="${previewLink}" style="display: inline-block; background-color: transparent; color: #fbbf24; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 13px; border: 1px solid #fbbf24; letter-spacing: 1px; text-transform: uppercase;">Open in Dashboard</a>
           </div>
         </div>
       `;
