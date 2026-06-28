@@ -258,17 +258,17 @@ export async function POST(req) {
                 </div>
       `;
 
-    if (bookingId) {
       const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.magnevents.in';
       const btnBase = "display: block; width: 100%; box-sizing: border-box; color: #ffffff; padding: 14px 16px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px; margin-bottom: 12px; text-align: center; border: 1px solid rgba(0,0,0,0.1);";
       
-      const confirmLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=confirm`;
-      const approveLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=approve`;
-      const moreInfoLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=more_info`;
-      const unavailableLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=unavailable`;
-      const rejectLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=reject`;
-      const customReplyLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=custom`;
-      const previewLink = `${adminUrl}/dashboard/requests?reply=${bookingId}`;
+      const bId = bookingId || 'unknown';
+      const confirmLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=confirm`;
+      const approveLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=approve`;
+      const moreInfoLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=more_info`;
+      const unavailableLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=unavailable`;
+      const rejectLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=reject`;
+      const customReplyLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=custom`;
+      const previewLink = `${adminUrl}/dashboard/requests?reply=${bId}`;
 
       let buttonsHtml = '';
       
@@ -324,13 +324,9 @@ export async function POST(req) {
             </td>
           </tr>
         </table>
-      </body>
-      </html>
       `;
-    }
-
+    
     htmlBody += `
-        </div>
         <div style="text-align: center; margin-top: 24px;">
           <p style="color: #94a3b8; font-size: 12px; margin: 0;">Sent securely by Magnevents Admin System</p>
         </div>
