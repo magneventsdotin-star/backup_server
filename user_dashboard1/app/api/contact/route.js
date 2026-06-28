@@ -214,7 +214,17 @@ export async function POST(req) {
 
 
     // 2. Prepare HTML Email body with action buttons if bookingId exists
-        let htmlBody = `
+    
+    let coverPhotoHtml = '';
+    if (dbArtistInfo && dbArtistInfo.cover_image_url) {
+      coverPhotoHtml = `
+        <div style="margin-bottom: 32px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
+          <img src="${dbArtistInfo.cover_image_url}" alt="${dbArtistInfo.name || dbArtistInfo.alias}" style="width: 100%; height: auto; display: block;" />
+        </div>
+      `;
+    }
+    
+    let htmlBody = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -222,18 +232,22 @@ export async function POST(req) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
       </head>
       <body style="background-color: #f1f5f9; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 40px 10px; -webkit-font-smoothing: antialiased;">
-        <div style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #0f172a; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; overflow: hidden;">
-          
-          <div style="background: url('https://www.transparenttextures.com/patterns/stardust.png'), linear-gradient(135deg, #020617 0%, #0f172a 100%); padding: 50px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05);">
-            <h1 style="color: #ffffff; font-size: 32px; font-weight: 900; margin: 0; letter-spacing: 2px;">MAGNEVENTS</h1>
-            <p style="color: #fbbf24; font-size: 12px; margin: 16px 0 0 0; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;">${subjectPrefix}</p>
-          </div>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f1f5f9; width: 100%;">
+          <tr>
+            <td align="center">
+              <div style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #0f172a; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; overflow: hidden; text-align: left;">
+                
+                <div style="background: url('https://www.transparenttextures.com/patterns/stardust.png'), linear-gradient(135deg, #020617 0%, #0f172a 100%); padding: 50px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                  <h1 style="color: #ffffff; font-size: 32px; font-weight: 900; margin: 0; letter-spacing: 2px;">MAGNEVENTS</h1>
+                  <p style="color: #fbbf24; font-size: 12px; margin: 16px 0 0 0; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;">${subjectPrefix}</p>
+                </div>
 
-          <div style="padding: 40px 24px; background-color: #0f172a;">
-            <h2 style="margin-top: 0; font-size: 24px; color: #ffffff; font-weight: 700; margin-bottom: 32px; text-align: center;">You have a new inquiry!</h2>
-            ${contentSections}
-          </div>
-    `;
+                <div style="padding: 40px 24px; background-color: #0f172a;">
+                  <h2 style="margin-top: 0; font-size: 24px; color: #ffffff; font-weight: 700; margin-bottom: 32px; text-align: center;">You have a new inquiry!</h2>
+                  ${coverPhotoHtml}
+                  ${contentSections}
+                </div>
+      `;
 
     if (bookingId) {
       const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.magnevents.in';
@@ -297,6 +311,12 @@ export async function POST(req) {
             <a href="${previewLink}" style="display: inline-block; background-color: transparent; color: #fbbf24; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 13px; border: 1px solid #fbbf24; letter-spacing: 1px; text-transform: uppercase;">Open in Dashboard</a>
           </div>
         </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </body>
+      </html>
       `;
     }
 
