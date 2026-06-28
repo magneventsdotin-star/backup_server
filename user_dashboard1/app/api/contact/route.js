@@ -141,6 +141,34 @@ export async function POST(req) {
       console.error("Failed to connect to Supabase:", dbErr);
     }
 
+    let coverPhotoHtml = '';
+    if (dbArtistInfo && dbArtistInfo.cover_image_url) {
+      const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.magnevents.in';
+      const profileLink = dbArtistInfo.id ? `${adminUrl}/dashboard/artists?id=${dbArtistInfo.id}` : '#';
+      
+      let extraInfoHtml = '';
+      if (dbArtistInfo.email) extraInfoHtml += `<span style="display: block; color: #94a3b8; font-size: 13px; margin-bottom: 4px;">📧 ${dbArtistInfo.email}</span>`;
+      if (dbArtistInfo.phone_no) extraInfoHtml += `<span style="display: block; color: #94a3b8; font-size: 13px; margin-bottom: 4px;">📞 ${dbArtistInfo.phone_no}</span>`;
+      if (dbArtistInfo.available_bookings !== undefined && dbArtistInfo.available_bookings !== null) extraInfoHtml += `<span style="display: block; color: #10b981; font-size: 13px; font-weight: 600; margin-top: 8px;">📅 ${dbArtistInfo.available_bookings} Bookings Available</span>`;
+
+      coverPhotoHtml = `
+        <div style="margin-bottom: 32px; border-radius: 16px; overflow: hidden; background-color: #1e293b; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
+          <img src="${dbArtistInfo.cover_image_url}" alt="${dbArtistInfo.name || dbArtistInfo.alias}" style="width: 100%; max-height: 250px; object-fit: cover; display: block;" />
+          <div style="padding: 24px 20px; text-align: center;">
+            <h3 style="margin: 0 0 12px 0; color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: 0.5px;">${dbArtistInfo.name || dbArtistInfo.alias}</h3>
+            <div style="margin: 0 0 16px 0;">
+              <span style="display: inline-block; background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 12px; margin: 4px;">${dbArtistInfo.category || 'Artist'}</span>
+              ${dbArtistInfo.city ? `<span style="display: inline-block; background: rgba(255, 255, 255, 0.1); color: #cbd5e1; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 12px; margin: 4px;">📍 ${dbArtistInfo.city}</span>` : ''}
+            </div>
+            <div style="margin-bottom: 20px;">
+              ${extraInfoHtml}
+            </div>
+            <a href="${profileLink}" target="_blank" style="display: inline-block; background-color: #0284c7; color: #ffffff; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 13px; box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.2);">Open Full Artist Profile</a>
+          </div>
+        </div>
+      `;
+    }
+
     let contentSections = '';    if (isRegister) {
       emailBody = `New Artist Registration from ${data.name || 'Unknown'}\nPhone: ${data.phone || 'N/A'}\nEmail: ${data.email || 'N/A'}`;
       contentSections += buildSection('👤 Artist Details', 
@@ -165,6 +193,10 @@ export async function POST(req) {
         row('Requested Type', data.artistType && data.artistType.length > 0 ? data.artistType.join(', ') : '') +
         row('Budget', data.budget)
       );
+
+      if (coverPhotoHtml) {
+        contentSections += coverPhotoHtml;
+      }
 
       contentSections += buildSection('📝 Additional Message', `<tr><td style="padding: 16px; background-color: #f8fafc; border-radius: 8px; font-style: italic; color: #475569; border: 1px solid #e2e8f0;">"${data.message || 'No additional message provided.'}"</td></tr>`);
 
@@ -211,27 +243,7 @@ export async function POST(req) {
 
 
 
-    // 2. Prepare HTML Email body with action buttons if bookingId exists
-    
-    let coverPhotoHtml = '';
-    if (dbArtistInfo && dbArtistInfo.cover_image_url) {
-      const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.magnevents.in';
-      const profileLink = dbArtistInfo.id ? `${adminUrl}/dashboard/artists?id=${dbArtistInfo.id}` : '#';
-      
-      coverPhotoHtml = `
-        <div style="margin-bottom: 32px; border-radius: 16px; overflow: hidden; background-color: #1e293b; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
-          <img src="${dbArtistInfo.cover_image_url}" alt="${dbArtistInfo.name || dbArtistInfo.alias}" style="width: 100%; max-height: 250px; object-fit: cover; display: block;" />
-          <div style="padding: 24px 20px; text-align: center;">
-            <h3 style="margin: 0 0 12px 0; color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: 0.5px;">${dbArtistInfo.name || dbArtistInfo.alias}</h3>
-            <div style="margin: 0 0 20px 0;">
-              <span style="display: inline-block; background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 12px; margin: 4px;">${dbArtistInfo.category || 'Artist'}</span>
-              ${dbArtistInfo.city ? `<span style="display: inline-block; background: rgba(255, 255, 255, 0.1); color: #cbd5e1; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 12px; margin: 4px;">📍 ${dbArtistInfo.city}</span>` : ''}
-            </div>
-            <a href="${profileLink}" target="_blank" style="display: inline-block; background-color: #0284c7; color: #ffffff; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 13px; box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.2);">Open Full Artist Profile</a>
-          </div>
-        </div>
-      `;
-    }
+    // 2. Prepare HTML Email body with action buttons
     
     let htmlBody = `
       <!DOCTYPE html>
@@ -254,7 +266,6 @@ export async function POST(req) {
                 <div style="padding: 40px 24px; background-color: #0f172a;">
                   <h2 style="margin-top: 0; font-size: 24px; color: #ffffff; font-weight: 700; margin-bottom: 32px; text-align: center;">You have a new inquiry!</h2>
                   ${contentSections}
-                  ${coverPhotoHtml}
                 </div>
       `;
 
