@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
 import nodemailer from 'nodemailer';
+import { createClient } from '@supabase/supabase-js';
 
 export async function GET(req: Request) {
   try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
     const type = searchParams.get('type');
@@ -199,12 +203,7 @@ export async function GET(req: Request) {
             
             // Log email to database
             try {
-              const { createClient } = require('@supabase/supabase-js');
-              const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-              const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-              const serverSupabase = createClient(supabaseUrl, supabaseKey);
-
-              await serverSupabase.from('emails').insert([{
+              await supabase.from('emails').insert([{
                 booking_id: booking.id,
                 recipient_email: booking.client_email,
                 subject: subject,
