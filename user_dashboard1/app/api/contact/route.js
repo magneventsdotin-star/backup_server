@@ -247,14 +247,24 @@ export async function POST(req) {
       const customReplyLink = `${adminUrl}/dashboard/requests?reply=${bookingId}&action=custom`;
       const previewLink = `${adminUrl}/dashboard/requests?reply=${bookingId}`;
 
-      htmlBody += `
-        <div style="background-color: #f8fafc; padding: 30px 20px; border-top: 1px solid #e2e8f0;">
-          <div style="text-align: center; margin-bottom: 24px;">
-            <h3 style="margin: 0 0 8px 0; color: #0f172a; font-size: 18px; font-weight: 800;">Quick Actions</h3>
-            <p style="font-size: 13px; color: #64748b; margin: 0; line-height: 1.5;">Click a button below to review and instantly respond to the client from the dashboard.</p>
-          </div>
-          
-          <div style="max-width: 320px; margin: 0 auto;">
+      let buttonsHtml = '';
+      
+      if (isRegister) {
+        buttonsHtml = `
+            <a href="${approveLink}" style="${btnBase} background-color: #059669; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);">✅ Approve Registration</a>
+            <div style="height: 1px; background-color: #e2e8f0; margin: 20px 0;"></div>
+            <a href="${moreInfoLink}" style="${btnBase} background-color: #2563eb; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">📞 Request Portfolio / Info</a>
+            <a href="${customReplyLink}" style="${btnBase} background-color: #7c3aed; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);">✍️ Custom Reply</a>
+            <div style="height: 1px; background-color: #e2e8f0; margin: 20px 0;"></div>
+            <a href="${rejectLink}" style="${btnBase} background-color: #dc2626; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);">❌ Reject Application</a>
+        `;
+      } else if (isCallRequest) {
+        buttonsHtml = `
+            <a href="${confirmLink}" style="${btnBase} background-color: #10b981; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);">📞 Mark Call as Done</a>
+            <a href="${customReplyLink}" style="${btnBase} background-color: #7c3aed; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);">✍️ Send Email Reply</a>
+        `;
+      } else {
+        buttonsHtml = `
             <a href="${confirmLink}" style="${btnBase} background-color: #10b981; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);">✅ Confirm Booking</a>
             <a href="${approveLink}" style="${btnBase} background-color: #059669; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);">👍 Approve Booking</a>
             
@@ -267,6 +277,18 @@ export async function POST(req) {
             
             <a href="${unavailableLink}" style="${btnBase} background-color: #ea580c; box-shadow: 0 4px 6px -1px rgba(234, 88, 12, 0.2);">🗓️ Artist Unavailable</a>
             <a href="${rejectLink}" style="${btnBase} background-color: #dc2626; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);">❌ Reject / Not Possible</a>
+        `;
+      }
+
+      htmlBody += `
+        <div style="background-color: #f8fafc; padding: 30px 20px; border-top: 1px solid #e2e8f0;">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <h3 style="margin: 0 0 8px 0; color: #0f172a; font-size: 18px; font-weight: 800;">Quick Actions</h3>
+            <p style="font-size: 13px; color: #64748b; margin: 0; line-height: 1.5;">Click a button below to review and instantly respond to the client from the dashboard.</p>
+          </div>
+          
+          <div style="max-width: 320px; margin: 0 auto;">
+            ${buttonsHtml}
           </div>
           
           <div style="margin-top: 32px; text-align: center;">
