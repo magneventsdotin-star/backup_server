@@ -137,6 +137,12 @@ export async function POST(req) {
         }
       }
 
+      // Fetch the admin who created the artist profile
+      if (dbArtistInfo && dbArtistInfo.created_by) {
+        const { data: profileData } = await supabase.from('profiles').select('*').eq('id', dbArtistInfo.created_by).single();
+        if (profileData) dbArtistInfo.adminProfile = profileData;
+      }
+
     } catch (dbErr) {
       console.error("Failed to connect to Supabase:", dbErr);
     }
@@ -204,7 +210,7 @@ export async function POST(req) {
         let details = '';
         const keys = Object.keys(a);
         for (const key of keys) {
-            if (['id', 'created_at', 'updated_at', 'artist_images', 'images', 'bio', 'cover_image_url'].includes(key)) continue;
+            if (['id', 'created_at', 'updated_at', 'artist_images', 'images', 'bio', 'cover_image_url', 'created_by', 'adminProfile'].includes(key)) continue;
             if (a[key] === null || a[key] === undefined || a[key] === '') continue;
             
             const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -217,6 +223,19 @@ export async function POST(req) {
 
       if (dbArtistInfo) {
         contentSections += renderArtistDetails(dbArtistInfo);
+        
+        if (dbArtistInfo.adminProfile) {
+          const ap = dbArtistInfo.adminProfile;
+          let adminDetails = '';
+          if (ap.avatar_url) {
+            adminDetails += `<tr><td colspan="2" style="text-align: center; padding-bottom: 24px;"><img src="${ap.avatar_url}" alt="Admin Avatar" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #3b82f6; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);" /></td></tr>`;
+          }
+          if (ap.full_name) adminDetails += row('Admin Name', ap.full_name);
+          if (ap.email) adminDetails += row('Admin Email', ap.email, true, `mailto:${ap.email}`);
+          if (ap.phone_no) adminDetails += row('Admin Phone', ap.phone_no, true, `tel:${ap.phone_no}`);
+          
+          contentSections += buildSection('🛡️ Profile Managed By', adminDetails);
+        }
       } else if (data.selectedArtist && typeof data.selectedArtist === 'object') {
         contentSections += renderArtistDetails(data.selectedArtist);
       } else if (artistName) {
