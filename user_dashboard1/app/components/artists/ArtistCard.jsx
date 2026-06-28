@@ -3,6 +3,7 @@
 import { useState, useEffect, forwardRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import TiltCard from '@/app/components/common/TiltCard'
 import Stars from '@/app/components/common/Stars'
@@ -36,11 +37,11 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
       transition={{ duration: 0.3 }}
       style={{ display: 'flex', width: '100%', height: '100%' }}
     >
-      <TiltCard 
-        className="hp-feat-card-v2"
-        onClick={() => window.open(`/artist/${encodeURIComponent(artist.name)}`, '_blank')}
-        style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
-      >
+      <Link href={`/artist/${encodeURIComponent(artist.name)}`} target="_blank" style={{ textDecoration: 'none', display: 'flex', width: '100%', height: '100%' }}>
+        <TiltCard 
+          className="hp-feat-card-v2"
+          style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+        >
         <div className="hp-feat-img-wrap-v2" style={{ flex: 1, minHeight: '300px', position: 'relative' }}>
           <Image
             src={imgSrc}
@@ -61,10 +62,9 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
             <Stars count={Math.round(Number(rating))} />
             <span className="hp-feat-score-v2">{rating} · {bookings} bookings</span>
           </div>
-
-
         </div>
       </TiltCard>
+      </Link>
     </motion.div>
   )
 })

@@ -39,7 +39,7 @@ function FeaturedArtistsSection() {
           let parsedArtists = data.map(artist => ({
             name: artist.alias || artist.name,
             genre: artist.sub_category || artist.category || 'Performer',
-            bookings: `${artist.successful_bookings || Math.floor(Math.random() * 50) + 50} bookings`,
+            bookings: artist.successful_bookings || Math.floor(Math.random() * 50) + 50,
             rating: artist.rating || '4.9',
             image: artist.artist_images?.[0]?.image_url || '/assets/lux-singer-session.webp',
             city: artist.city || 'India'
@@ -57,7 +57,7 @@ function FeaturedArtistsSection() {
             let parsedAny = anyData.map(artist => ({
               name: artist.alias || artist.name,
               genre: artist.sub_category || artist.category || 'Performer',
-              bookings: `${artist.successful_bookings || Math.floor(Math.random() * 50) + 50} bookings`,
+              bookings: artist.successful_bookings || Math.floor(Math.random() * 50) + 50,
               rating: artist.rating || '4.9',
               image: artist.artist_images?.[0]?.image_url || '/assets/lux-singer-session.webp',
               city: artist.city || 'India'
@@ -206,33 +206,32 @@ function FeaturedArtistsSection() {
               viewport={{ once: true, margin: '-20px' }}
               transition={{ duration: 0.45, delay: (i % 3) * 0.1 }}
             >
-              <TiltCard 
-                className="hp-feat-card-v2"
-                onClick={() => window.open(`/artist/${encodeURIComponent(artist.name)}`, '_blank')}
-                style={{ cursor: 'pointer' }}
-              >
-                <div className="hp-feat-img-wrap-v2">
-                  <Image
-                    src={artist.image}
-                    alt={artist.name}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    quality={100}
-                  />
-                </div>
-                <div className="hp-feat-info-v2">
-                  <span className="hp-feat-genre-v2">{artist.genre}</span>
-                  <h3 className="hp-feat-name-v2">{artist.name}</h3>
-                  <span className="hp-feat-loc-v2">{artist.location || 'Jaipur'}</span>
-
-                  <div className="hp-feat-rating-v2">
-                    <Stars count={Math.round(Number(artist.rating))} />
-                    <span className="hp-feat-score-v2">{artist.rating} · 146 bookings</span>
+              <Link href={`/artist/${encodeURIComponent(artist.name)}`} target="_blank" style={{ textDecoration: 'none', display: 'flex', width: '100%', height: '100%' }}>
+                <TiltCard 
+                  className="hp-feat-card-v2"
+                  style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+                >
+                  <div className="hp-feat-img-wrap-v2">
+                    <Image
+                      src={artist.image}
+                      alt={artist.name}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      quality={100}
+                    />
                   </div>
+                  <div className="hp-feat-info-v2">
+                    <span className="hp-feat-genre-v2">{artist.genre}</span>
+                    <h3 className="hp-feat-name-v2">{artist.name}</h3>
+                    <span className="hp-feat-loc-v2">{artist.city || 'India'}</span>
 
-
-                </div>
-              </TiltCard>
+                    <div className="hp-feat-rating-v2">
+                      <Stars count={Math.round(Number(artist.rating))} />
+                      <span className="hp-feat-score-v2">{artist.rating} · {artist.bookings} bookings</span>
+                    </div>
+                  </div>
+                </TiltCard>
+              </Link>
             </motion.div>
           ))
         )}

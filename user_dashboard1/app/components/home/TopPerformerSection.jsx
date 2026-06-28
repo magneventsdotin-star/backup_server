@@ -155,27 +155,28 @@ function TopPerformerSection() {
                 >
                   Book Now
                 </button>
-                <button
-                  onClick={() => window.open(`/artist/${encodeURIComponent(artist.name)}`, '_blank')}
-                  className="hp-btn"
-                  style={{ 
-                    flex: 1, 
-                    background: '#fff', 
-                    border: 'none', 
-                    color: '#000',
-                    fontWeight: '600',
-                    whiteSpace: 'nowrap',
-                    padding: '12px 10px'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.background = '#e0e0e0';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.background = '#fff';
-                  }}
-                >
-                  View Profile
-                </button>
+                <Link href={`/artist/${encodeURIComponent(artist.name)}`} target="_blank" style={{ flex: 1, textDecoration: 'none', display: 'flex' }}>
+                  <button
+                    className="hp-btn"
+                    style={{ 
+                      flex: 1, 
+                      background: '#fff', 
+                      border: 'none', 
+                      color: '#000',
+                      fontWeight: '600',
+                      whiteSpace: 'nowrap',
+                      padding: '12px 10px'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = '#e0e0e0';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = '#fff';
+                    }}
+                  >
+                    View Profile
+                  </button>
+                </Link>
               </div>
             </div>
           </>
