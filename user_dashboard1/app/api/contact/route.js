@@ -168,7 +168,28 @@ export async function POST(req) {
 
       contentSections += buildSection('📝 Additional Message', `<tr><td style="padding: 16px; background-color: #f8fafc; border-radius: 8px; font-style: italic; color: #475569; border: 1px solid #e2e8f0;">"${data.message || 'No additional message provided.'}"</td></tr>`);
 
-      // Render Artist Details logic replaced by Premium Artist Card
+      const renderArtistDetails = (a) => {
+        let details = '';
+        const keys = Object.keys(a);
+        for (const key of keys) {
+            if (['id', 'created_at', 'updated_at', 'artist_images', 'images', 'bio', 'cover_image_url'].includes(key)) continue;
+            if (a[key] === null || a[key] === undefined || a[key] === '') continue;
+            
+            const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            let valStr = String(a[key]);
+            if (valStr.length > 200) valStr = valStr.substring(0, 200) + '...';
+            details += row(label, valStr);
+        }
+        return buildSection('✨ Requested Artist Details', details);
+      };
+
+      if (dbArtistInfo) {
+        contentSections += renderArtistDetails(dbArtistInfo);
+      } else if (data.selectedArtist && typeof data.selectedArtist === 'object') {
+        contentSections += renderArtistDetails(data.selectedArtist);
+      } else if (artistName) {
+        contentSections += buildSection('✨ Requested Artist Details', row('Artist Name', artistName));
+      }
 
       if (data.selectedPlan && typeof data.selectedPlan === 'object') {
         const p = data.selectedPlan;
@@ -232,8 +253,8 @@ export async function POST(req) {
 
                 <div style="padding: 40px 24px; background-color: #0f172a;">
                   <h2 style="margin-top: 0; font-size: 24px; color: #ffffff; font-weight: 700; margin-bottom: 32px; text-align: center;">You have a new inquiry!</h2>
-                  ${coverPhotoHtml}
                   ${contentSections}
+                  ${coverPhotoHtml}
                 </div>
       `;
 
