@@ -131,35 +131,7 @@ export async function POST(req) {
       console.error("Failed to connect to Supabase:", dbErr);
     }
 
-    let contentSections = '';
-
-    const renderDbUserProfile = () => {
-      if (dbUserProfile) {
-        const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.magnevents.in';
-        const profileLink = `${adminUrl}/dashboard/admins/${dbUserProfile.id}`;
-        
-        let profileDetails = '';
-        const keys = Object.keys(dbUserProfile);
-        for (const key of keys) {
-            if (['id', 'avatar_url', 'created_at', 'updated_at'].includes(key)) continue;
-            if (dbUserProfile[key] === null || dbUserProfile[key] === undefined || dbUserProfile[key] === '') continue;
-            
-            const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-            profileDetails += row(label, String(dbUserProfile[key]));
-        }
-        
-        return buildSection('🔍 Registered User Profile Details', 
-          profileDetails +
-          `<tr><td colspan="2" style="padding: 16px 0 10px 0; text-align: center;"><a href="${profileLink}" target="_blank" style="display: inline-block; background-color: #2563eb; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">Tap to Open User Profile</a></td></tr>`
-        );
-      } else {
-         return buildSection('🔍 Registered User Status', 
-          `<tr><td style="padding: 10px 0; color: #64748b; font-size: 14px; text-align: center; font-style: italic;">This user is not registered in the database.</td></tr>`
-        );
-      }
-    };
-
-    if (isRegister) {
+    let contentSections = '';    if (isRegister) {
       emailBody = `New Artist Registration from ${data.name || 'Unknown'}\nPhone: ${data.phone || 'N/A'}\nEmail: ${data.email || 'N/A'}`;
       contentSections += buildSection('👤 Artist Details', 
         row('Name', data.name) +
@@ -167,7 +139,6 @@ export async function POST(req) {
         row('Phone', data.phone, true, `tel:${data.phone}`) +
         row('Category', data.category)
       );
-      contentSections += renderDbUserProfile();
       contentSections += buildSection('🔗 Portfolio & Socials', row('Link', data.portfolio, true, data.portfolio));
       contentSections += buildSection('📝 Bio & Experience', `<tr><td style="padding: 8px 0; color: #0f172a;">${data.bio || 'No bio provided.'}</td></tr>`);
     } else {
@@ -177,9 +148,6 @@ export async function POST(req) {
         row('Email', data.email, true, `mailto:${data.email}`) +
         row('Phone', data.phone, true, `tel:${data.phone}`)
       );
-      
-      contentSections += renderDbUserProfile();
-
       contentSections += buildSection('📅 Event Details', 
         row('Event Type', data.eventType) +
         row('Event Date', data.date) +
