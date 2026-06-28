@@ -106,6 +106,14 @@ export async function POST(req) {
         bookingData.fk_artist_id = data.selectedArtist.id;
       }
 
+      if (!bookingData.fk_artist_id && artistName) {
+        const { data: artistDataList } = await supabase.from('artists').select('*').or(`name.ilike.${artistName},alias.ilike.${artistName}`).limit(1);
+        if (artistDataList && artistDataList.length > 0) {
+          dbArtistInfo = artistDataList[0];
+          bookingData.fk_artist_id = dbArtistInfo.id;
+        }
+      }
+
       const { data: insertedData, error } = await supabase.from('bookings').insert([bookingData]).select().single();
       if (error) {
         console.error("Supabase insert error:", error);
@@ -114,7 +122,7 @@ export async function POST(req) {
         bookingId = insertedData.id;
       }
       
-      if (bookingData.fk_artist_id) {
+      if (!dbArtistInfo && bookingData.fk_artist_id) {
         const { data: artistData } = await supabase.from('artists').select('*').eq('id', bookingData.fk_artist_id).single();
         if (artistData) dbArtistInfo = artistData;
       }
