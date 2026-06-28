@@ -171,7 +171,7 @@ export async function GET(req: Request) {
                     <p style="font-size: 16px; line-height: 1.7; color: #475569; margin-bottom: 32px; white-space: pre-wrap;">${clientMessage}</p>
                     
                     <div style="text-align: center; margin: 32px 0;">
-                      <a href="https://magnevents.in/track" style="display: inline-block; background-color: ${actionColor}; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                      <a href="https://magnevents.in/track" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: ${actionColor}; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
                         Status: ${actionLabel}
                       </a>
                     </div>
@@ -232,12 +232,15 @@ export async function GET(req: Request) {
             // Log email to database
             try {
               await supabase.from('emails')
-                .update({
+                .insert([{
+                  booking_id: booking.id,
+                  recipient_email: booking.client_email,
+                  subject: subject,
+                  body: htmlBody,
                   email_type: action,
                   status: emailStatus,
                   sent_at: new Date().toISOString()
-                })
-                .eq('booking_id', booking.id);
+                }]);
             } catch (dbErr) {
               console.error("Failed to log email to database:", dbErr);
             }

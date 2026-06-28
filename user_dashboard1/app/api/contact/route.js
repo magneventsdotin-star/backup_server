@@ -293,28 +293,28 @@ export async function POST(req) {
       
       const bId = bookingId || 'unknown';
       const confirmLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=confirm`;
-      const approveLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=approve`;
+      const approveLink = `${adminUrl}/api/action-request?id=${bId}&type=client_request&action=approve`;
       const moreInfoLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=more_info`;
-      const unavailableLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=unavailable`;
-      const rejectLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=reject`;
+      const unavailableLink = `${adminUrl}/api/action-request?id=${bId}&type=client_request&action=unavailable`;
+      const rejectLink = `${adminUrl}/api/action-request?id=${bId}&type=client_request&action=reject`;
       const customReplyLink = `${adminUrl}/dashboard/requests?reply=${bId}&action=custom`;
       const previewLink = `${adminUrl}/dashboard/requests?reply=${bId}`;
 
       const premiumBtnBase = "display: block; width: 100%; box-sizing: border-box; color: #ffffff; padding: 14px 16px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px; margin-bottom: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1);";
       
       let buttonsHtml = `
-            <a href="${confirmLink}" style="${premiumBtnBase} background-color: #10b981; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);">✅ Confirm Booking</a>
-            <a href="${approveLink}" style="${premiumBtnBase} background-color: #059669; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);">👍 Approve Booking</a>
+            <a href="${confirmLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #10b981; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);">✅ Confirm Booking</a>
+            <a href="${approveLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #059669; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);">👍 Approve Booking</a>
             
             <div style="height: 1px; background-color: rgba(255,255,255,0.05); margin: 24px 0;"></div>
             
-            <a href="${moreInfoLink}" style="${premiumBtnBase} background-color: #2563eb; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">📞 Request More Info</a>
-            <a href="${customReplyLink}" style="${premiumBtnBase} background-color: #7c3aed; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);">✍️ Custom Reply</a>
+            <a href="${moreInfoLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #2563eb; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">📞 Request More Info</a>
+            <a href="${customReplyLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #7c3aed; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);">✍️ Custom Reply</a>
             
             <div style="height: 1px; background-color: rgba(255,255,255,0.05); margin: 24px 0;"></div>
             
-            <a href="${unavailableLink}" style="${premiumBtnBase} background-color: #ea580c; box-shadow: 0 4px 6px -1px rgba(234, 88, 12, 0.2);">🗓️ Artist Unavailable</a>
-            <a href="${rejectLink}" style="${premiumBtnBase} background-color: #dc2626; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);">❌ Reject / Not Possible</a>
+            <a href="${unavailableLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #ea580c; box-shadow: 0 4px 6px -1px rgba(234, 88, 12, 0.2);">🗓️ Artist Unavailable</a>
+            <a href="${rejectLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #dc2626; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);">❌ Reject / Not Possible</a>
         `;
 
       htmlBody += `
@@ -329,7 +329,7 @@ export async function POST(req) {
           </div>
           
           <div style="margin-top: 40px; text-align: center;">
-            <a href="${previewLink}" style="display: inline-block; background-color: transparent; color: #fbbf24; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 13px; border: 1px solid #fbbf24; letter-spacing: 1px; text-transform: uppercase;">Open in Dashboard</a>
+            <a href="${previewLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: transparent; color: #fbbf24; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 13px; border: 1px solid #fbbf24; letter-spacing: 1px; text-transform: uppercase;">Open in Dashboard</a>
           </div>
         </div>
               </div>
@@ -355,11 +355,33 @@ export async function POST(req) {
       html: htmlBody,
     };
 
+    let emailStatus = 'sent';
     try {
       await transporter.sendMail(mailOptions);
       console.log("Email dispatched successfully.");
     } catch (err) {
       console.error("Email sending error:", err);
+      emailStatus = 'failed';
+    }
+    
+    // Log email to database
+    try {
+      const { createClient } = require('@supabase/supabase-js');
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+      // Use service role key if available for server-side insertions, else anon key
+      const supabaseClient = createClient(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY || supabaseKey);
+      
+      await supabaseClient.from('emails').insert([{
+        booking_id: bookingId,
+        recipient_email: process.env.EMAIL_USER,
+        subject: `${subjectPrefix} - ${data.name}`,
+        body: emailBody + '\\n\\n' + htmlBody, // simplified storage
+        email_type: isRegister ? 'artist_registration_inquiry' : 'client_inquiry',
+        status: emailStatus
+      }]);
+    } catch (dbErr) {
+      console.error("Failed to log email to database:", dbErr);
     }
     }; // End of processRequestInBackground
 

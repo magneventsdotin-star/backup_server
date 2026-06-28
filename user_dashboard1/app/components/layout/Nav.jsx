@@ -9,7 +9,6 @@ import BrandMark from '@/app/components/common/BrandMark';
 import { NAV_LINKS } from '@/app/constants';
 import '@/app/styles/components/Nav.css';
 
-const ContactModal = dynamic(() => import('@/app/components/common/ContactModal'), { ssr: false });
 const SearchOverlay = dynamic(() => import('./SearchOverlay'), { ssr: false });
 const MobilePanel = dynamic(() => import('./MobilePanel'), { ssr: false });
 
@@ -32,11 +31,6 @@ export default function Nav() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [contactModalOpen, setContactModalOpen] = useState(false);
-  const [modalType, setModalType] = useState('booking');
-  const [selectedArtist, setSelectedArtist] = useState('');
-  const [selectedPlan, setSelectedPlan] = useState(null);
-  const [selectedService, setSelectedService] = useState(null);
 
   const searchRef = useRef(null);
   const scrolled = useScrolled(20);
@@ -47,19 +41,7 @@ export default function Nav() {
   }, [pathname]);
 
   useEffect(() => {
-    const handleOpenModal = (e) => {
-      if (e.detail?.type) setModalType(e.detail.type);
-      
-      if (e.detail?.artist) setSelectedArtist(e.detail.artist);
-      else setSelectedArtist('');
-
-      if (e.detail?.pricingPlan) setSelectedPlan(e.detail.pricingPlan);
-      else setSelectedPlan(null);
-
-      if (e.detail?.service) setSelectedService(e.detail.service);
-      else setSelectedService(null);
-
-      setContactModalOpen(true);
+    const handleOpenModal = () => {
       setMenuOpen(false);
     };
     window.addEventListener('open-contact-modal', handleOpenModal);
@@ -76,11 +58,7 @@ export default function Nav() {
   }
 
   const openContactModal = (type) => {
-    setModalType(type);
-    setSelectedArtist('');
-    setSelectedPlan(null);
-    setSelectedService(null);
-    setContactModalOpen(true);
+    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type } }));
   };
 
   return (
@@ -154,15 +132,6 @@ export default function Nav() {
         onClose={() => setSearchOpen(false)}
         onSubmit={handleSearchSubmit}
         searchRef={searchRef}
-      />
-
-      <ContactModal
-        isOpen={contactModalOpen}
-        onClose={() => setContactModalOpen(false)}
-        initialType={modalType}
-        initialArtist={selectedArtist}
-        initialPlan={selectedPlan}
-        initialService={selectedService}
       />
     </>
   );
