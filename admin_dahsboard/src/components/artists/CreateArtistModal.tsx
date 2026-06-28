@@ -77,6 +77,7 @@ const artistSchema = z.object({
   address: z.string().min(5, { message: "Full address is required." }),
   rating: z.string().optional(),
   successful_bookings: z.string().optional(),
+  available_bookings: z.string().optional(),
   members_min: z.string().min(1, { message: "Min members required." }),
   members_max: z.string().min(1, { message: "Max members required." }),
   performance_duration: z.string().optional(),
@@ -108,86 +109,6 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
   const [customLanguage, setCustomLanguage] = useState("");
   const [duplicateConflict, setDuplicateConflict] = useState<{ field: string, message: string, existingArtist: any } | null>(null);
   const [approvalReason, setApprovalReason] = useState("");
-  
-  // Successful Bookings Log State
-  const [bookingLogs, setBookingLogs] = useState<any[]>([]);
-  const [newLogClient, setNewLogClient] = useState("");
-  const [newLogDate, setNewLogDate] = useState("");
-  const [newLogLocation, setNewLogLocation] = useState("");
-  const [newLogNotes, setNewLogNotes] = useState("");
-  const [isAddingLog, setIsAddingLog] = useState(false);
-  const [fetchingLogs, setFetchingLogs] = useState(false);
-
-  const fetchBookingLogs = async () => {
-    if (!initialData?.id) return;
-    setFetchingLogs(true);
-    try {
-      const { data, error } = await supabase
-        .from('successful_bookings_log')
-        .select(`*, added_by_profile:profiles!added_by(full_name, email)`)
-        .eq('artist_id', initialData.id)
-        .order('created_at', { ascending: false });
-      if (!error && data) {
-        setBookingLogs(data);
-      }
-    } catch (err) {
-      console.error("Error fetching logs", err);
-    } finally {
-      setFetchingLogs(false);
-    }
-  };
-
-  const handleAddBookingLog = async () => {
-    if (!newLogClient || !initialData?.id) return;
-    setIsAddingLog(true);
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      const newLog = {
-        artist_id: initialData.id,
-        client_name: newLogClient,
-        event_date: newLogDate,
-        location: newLogLocation,
-        notes: newLogNotes,
-        added_by: session?.user?.id || null
-      };
-      
-      const { error } = await supabase.from('successful_bookings_log').insert([newLog]);
-      if (!error) {
-        setNewLogClient("");
-        setNewLogDate("");
-        setNewLogLocation("");
-        setNewLogNotes("");
-        await fetchBookingLogs();
-        // Update the main successful_bookings count field to match the new total
-        form.setValue('successful_bookings', (bookingLogs.length + 1).toString());
-        toast({
-          title: "Booking Logged!",
-          description: "The successful booking record has been added.",
-          variant: "default",
-        });
-      } else {
-        throw error;
-      }
-    } catch (err: any) {
-      toast({
-        title: "Error",
-        description: err.message || "Could not add booking log.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsAddingLog(false);
-    }
-  };
-  
-  useEffect(() => {
-    if (open && initialData?.id) {
-      fetchBookingLogs();
-    } else {
-      setBookingLogs([]);
-    }
-  }, [open, initialData]);
-
   const [requestingApproval, setRequestingApproval] = useState(false);
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -247,6 +168,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
           address: initialData.address || "",
           rating: initialData.rating?.toString() || "5.0",
           successful_bookings: initialData.successful_bookings?.toString() || "0",
+          available_bookings: initialData.available_bookings?.toString() || "0",
           members_min: initialData.members_min?.toString() || "1",
           members_max: initialData.members_max?.toString() || "1",
           performance_duration: initialData.performance_duration || "60-90 mins",
@@ -285,6 +207,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
           address: "",
           rating: "5.0",
           successful_bookings: "0",
+          available_bookings: "0",
           members_min: "1",
           members_max: "1",
           performance_duration: "60-90 mins",
@@ -334,6 +257,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
         members_max: parseInt(values.members_max || '1'),
         performance_duration: values.performance_duration || null,
         successful_bookings: parseInt(values.successful_bookings || '0'),
+        available_bookings: parseInt(values.available_bookings || '0'),
         video_url: values.video_urls?.filter(Boolean).join(', ') || null,
       };
 
@@ -1086,7 +1010,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 col-span-full pt-4 border-t border-slate-50">
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 col-span-full pt-4 border-t border-slate-50">
                       <FormField
                         control={form.control}
                         name="rating"
@@ -1138,79 +1062,26 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
                           </FormItem>
                         )}
                       />
+                      <FormField
+                        control={form.control}
+                        name="available_bookings"
+                        render={({ field }) => (
+                          <FormItem className="space-y-1.5">
+                            <FormLabel className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Avail. Bookings</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                className="h-11 rounded-xl border-slate-100 bg-slate-50/30 font-bold focus:bg-white transition-all shadow-inner"
+                                {...field}
+                                value={field.value ?? ''}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
                     </div>
                   </div>
-                  
-                  {/* Successful Bookings Log Section */}
-                  {initialData?.id && (
-                    <div className="mt-8 border border-slate-200 rounded-[24px] p-6 bg-slate-50 overflow-hidden">
-                      <div className="flex justify-between items-center mb-6">
-                        <div>
-                          <h4 className="text-[13px] font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
-                            <Calendar size={14} className="text-indigo-500" /> Booking History Log
-                          </h4>
-                          <p className="text-[10px] text-slate-500 mt-1 font-semibold">Track confirmed client bookings for this artist.</p>
-                        </div>
-                      </div>
-
-                      <div className="bg-white rounded-[16px] p-5 shadow-sm border border-slate-100 mb-6">
-                        <h5 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-4">Log a New Booking</h5>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="space-y-1.5">
-                            <label className="text-[10px] text-slate-500 font-bold uppercase">Client Name *</label>
-                            <Input placeholder="E.g. Rohit Sharma" className="h-10 text-[12px] bg-slate-50/50" value={newLogClient} onChange={(e) => setNewLogClient(e.target.value)} />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-[10px] text-slate-500 font-bold uppercase">Event Date</label>
-                            <Input placeholder="E.g. 24th Oct 2026" className="h-10 text-[12px] bg-slate-50/50" value={newLogDate} onChange={(e) => setNewLogDate(e.target.value)} />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-[10px] text-slate-500 font-bold uppercase">Location</label>
-                            <Input placeholder="E.g. Delhi, India" className="h-10 text-[12px] bg-slate-50/50" value={newLogLocation} onChange={(e) => setNewLogLocation(e.target.value)} />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-[10px] text-slate-500 font-bold uppercase">Notes</label>
-                            <Input placeholder="E.g. Budget 1.2L" className="h-10 text-[12px] bg-slate-50/50" value={newLogNotes} onChange={(e) => setNewLogNotes(e.target.value)} />
-                          </div>
-                        </div>
-                        <Button 
-                          type="button" 
-                          onClick={handleAddBookingLog} 
-                          disabled={!newLogClient || isAddingLog}
-                          className="mt-4 w-full h-10 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[12px]"
-                        >
-                          {isAddingLog ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Plus className="w-4 h-4 mr-2" />}
-                          Add Booking Log
-                        </Button>
-                      </div>
-
-                      <div className="space-y-3">
-                        {fetchingLogs ? (
-                          <div className="flex justify-center p-4"><Loader2 className="w-5 h-5 animate-spin text-slate-400" /></div>
-                        ) : bookingLogs.length === 0 ? (
-                          <div className="text-center p-6 text-slate-400 text-[12px] font-semibold bg-white rounded-[16px] border border-slate-100 border-dashed">No bookings logged yet.</div>
-                        ) : (
-                          bookingLogs.map((log) => (
-                            <div key={log.id} className="bg-white p-4 rounded-[16px] border border-slate-100 shadow-sm flex flex-col md:flex-row justify-between gap-4">
-                              <div className="flex-1">
-                                <h6 className="font-bold text-slate-800 text-[13px]">{log.client_name}</h6>
-                                <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[11px] text-slate-500 font-medium">
-                                  {log.event_date && <span className="flex items-center gap-1"><Calendar size={10} /> {log.event_date}</span>}
-                                  {log.location && <span className="flex items-center gap-1"><MapPin size={10} /> {log.location}</span>}
-                                </div>
-                                {log.notes && <p className="text-[11px] text-slate-600 mt-2 bg-slate-50 p-2 rounded-lg italic">{log.notes}</p>}
-                              </div>
-                              <div className="text-right text-[10px] text-slate-400 flex flex-col justify-end">
-                                <div>Added by: {log.added_by_profile?.full_name || 'Admin'}</div>
-                                <div>{new Date(log.created_at).toLocaleDateString()}</div>
-                              </div>
-                            </div>
-                          ))
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  
                 </div>
 
                 <div className="space-y-6">
