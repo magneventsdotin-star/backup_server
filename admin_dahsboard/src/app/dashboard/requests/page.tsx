@@ -140,12 +140,31 @@ function ClientRequestsContent() {
       if (req) {
         setSelectedRequest(req);
         
+        if (!actionType) {
+          // Button 7: Just open details in dashboard
+          setDetailOpen(true);
+          router.replace('/dashboard/requests', { scroll: false });
+          return;
+        }
+
+        if (actionType === 'approve') {
+          // Button 2: Just confirm booking directly without email modal
+          supabase.from('bookings').update({ status: 'confirmed' }).eq('id', req.id).then(({error}) => {
+             if (!error) {
+               toast({ title: '✅ Confirmed!', description: 'Request confirmed instantly from email.' });
+               fetchRequests(false);
+             }
+          });
+          router.replace('/dashboard/requests', { scroll: false });
+          return;
+        }
+
         let subject = 'Update on your Magnevents Request';
         let msg = '';
         let newActionStatus = 'pending';
         const artistName = req.artists?.name ? ` for ${req.artists.name}` : '';
 
-        if (actionType === 'confirm' || actionType === 'approve') {
+        if (actionType === 'confirm') {
           subject = 'Your Magnevents Booking is Confirmed!';
           msg = `Great news! Your booking request${artistName} has been approved and confirmed by our team. We will reach out shortly with the final contract and next steps.`;
           newActionStatus = 'confirmed';
