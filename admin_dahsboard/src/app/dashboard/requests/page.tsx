@@ -140,10 +140,10 @@ function ClientRequestsContent() {
       const req = requests.find(r => r.id === replyId);
       if (req) {
         setSelectedRequest(req);
+        setDetailOpen(true); // Always open the event details in the background
         
         if (!actionType) {
           // Button 7: Just open details in dashboard
-          setDetailOpen(true);
           router.replace('/dashboard/requests', { scroll: false });
           return;
         }
