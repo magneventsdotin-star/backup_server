@@ -65,8 +65,8 @@ const artistSchema = z.object({
   languages: z.array(z.string()).min(1, { message: "Select at least one language." }),
   bio: z.string().min(1, { message: "Bio is required." }).refine(val => {
     const wordCount = val.trim().split(/\s+/).filter(Boolean).length;
-    return wordCount >= 70 && wordCount <= 1500;
-  }, { message: "Bio must be between 70 and 1500 words." }),
+    return wordCount >= 30 && wordCount <= 1500;
+  }, { message: "Bio must be between 30 and 1500 words." }),
   price_min: z.string().min(1, { message: "Min price is required." }),
   price_max: z.string().min(1, { message: "Max price is required." }),
   original_price: z.string().optional(),
@@ -1261,8 +1261,8 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
                         <FormItem className="space-y-1.5 col-span-full">
                           <div className="flex items-center justify-between">
                             <FormLabel className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Professional Bio / Description</FormLabel>
-                            <span className={cn("text-[10px] font-black uppercase tracking-widest", (wordCount < 70 || wordCount > 1500) ? "text-rose-500" : "text-slate-400")}>
-                              {wordCount} / 1500 words (Min 70)
+                            <span className={cn("text-[10px] font-black uppercase tracking-widest", (wordCount < 30 || wordCount > 1500) ? "text-rose-500" : "text-slate-400")}>
+                              {wordCount} / 1500 words (Min 30)
                             </span>
                           </div>
                           <FormControl><Textarea placeholder="Describe the artist's journey, achievements, and performance style..." className="min-h-[120px] rounded-[20px] border-slate-100 bg-slate-50/30 font-medium focus:bg-white transition-all p-4 resize-none shadow-inner leading-relaxed" {...field} /></FormControl>
