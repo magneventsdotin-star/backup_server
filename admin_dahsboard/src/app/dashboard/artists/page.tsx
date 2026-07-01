@@ -123,7 +123,7 @@ export default function ArtistManagement() {
         query = query.eq('is_artist_of_month', true);
       }
       const { data, count, error } = await query
-        .order('name', { ascending: true });
+        .order('artist_no', { ascending: true });
       if (error) throw error;
       setArtists(data || []);
       setTotalCount(count || 0);

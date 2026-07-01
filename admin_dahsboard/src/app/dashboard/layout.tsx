@@ -166,6 +166,10 @@ export default function DashboardLayout({
         >
           {children}
         </main>
+        
+        <footer className="p-4 text-center border-t border-slate-200 mt-auto">
+          <span className="text-[12px] font-medium text-slate-400 tracking-wider">v0.1.2</span>
+        </footer>
       </div>
     </div>
   );
