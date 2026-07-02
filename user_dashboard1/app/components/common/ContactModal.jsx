@@ -15,6 +15,7 @@ export default function ContactModal() {
   const [selectedArtistTypes, setSelectedArtistTypes] = useState([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [formError, setFormError] = useState('')
 
   const [selectedBudget, setSelectedBudget] = useState('')
   const [selectedEventType, setSelectedEventType] = useState('')
@@ -38,6 +39,7 @@ export default function ContactModal() {
       setInitialService(service);
       setIsOpen(true);
       setSubmitted(false);
+      setFormError('');
 
       if (plan) {
         const planName = plan.name.toLowerCase();
@@ -90,25 +92,26 @@ export default function ContactModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setFormError('')
 
     const phoneVal = phoneRef.current?.value || ''
     const emailVal = emailRef.current?.value || ''
 
     if (!phoneVal && !emailVal) {
-      alert('Please provide either a Phone number or an Email ID.')
+      setFormError('Please provide either a Phone number or an Email ID.')
       return
     }
     
     if (phoneVal) {
       const digits = phoneVal.replace(/\D/g, '')
       if (digits.length !== 10) {
-        alert('Phone number must be exactly 10 digits.')
+        setFormError('Phone number must be exactly 10 digits.')
         return
       }
     }
     
     if (emailVal && !emailVal.includes('@')) {
-      alert('Please enter a valid email address containing @.')
+      setFormError('Please enter a valid email address containing @.')
       return
     }
 
@@ -326,6 +329,13 @@ export default function ContactModal() {
                   </select>
                 </div>
               </div>
+
+              {formError && (
+                <div style={{ color: '#D65050', fontSize: '13px', marginTop: '5px', marginBottom: '15px', padding: '10px 14px', background: 'rgba(214, 80, 80, 0.1)', borderRadius: '8px', border: '1px solid rgba(214, 80, 80, 0.2)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                  {formError}
+                </div>
+              )}
 
               <div className="lux-modal-footer" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <button type="submit" className="btn-submit-premium" disabled={isSubmitting}>
