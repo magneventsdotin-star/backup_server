@@ -18,13 +18,17 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
     setMounted(true)
   }, [])
 
-  const genre = artist.subCategory || artist.category || 'Performer'
+  const rawGenre = artist.subCategory || artist.category || 'Performer'
+  const genres = rawGenre.split(',').map(g => g.trim()).filter(Boolean)
+  const displayGenres = genres.slice(0, 2)
+  const hasMore = genres.length > 2
+
   const location = [artist.city, artist.state].filter(Boolean).join(', ') || 'Jaipur'
   const rating = artist.rating || '4.9'
   const bookings = artist.successful_bookings || Math.floor(Math.random() * 50) + 50
   
   const imgSrc = (!artist.img || imageError) 
-    ? `https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name || 'A')}&background=111111&color=D65050&size=400&font-size=0.33&bold=true`
+    ? `https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name || 'A')}&background=1A1A1A&color=FFE032&size=400&font-size=0.33&bold=true`
     : artist.img
 
   return (
@@ -54,7 +58,12 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
           />
         </div>
         <div className="hp-feat-info-v2" style={{ flexShrink: 0 }}>
-          <span className="hp-feat-genre-v2">{genre}</span>
+          <div className="hp-feat-genres-wrapper" style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+            {displayGenres.map((g, idx) => (
+              <span key={idx} className="hp-feat-genre-v2">{g}</span>
+            ))}
+            {hasMore && <span className="hp-feat-genre-v2" style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.6)' }}>+{genres.length - 2}</span>}
+          </div>
           <h3 className="hp-feat-name-v2">{artist.name}</h3>
           <span className="hp-feat-loc-v2">{location}</span>
 
