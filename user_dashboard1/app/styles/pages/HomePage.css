@@ -1151,16 +1151,22 @@
 }
 
 @media (max-width: 1400px) {
-  .hp-feat-controls,
-  .hp-cat-carousel-wrap .lux-arrow-btn,
-  .hp-reviews-slider-wrap .lux-arrow-btn {
+  .hp-cat-carousel::-webkit-scrollbar {
     display: none;
   }
-  .hp-cat-carousel {
-    padding: 0 16px;
-  }
-  .hp-reviews-slider-viewport {
-    padding: 20px 16px;
+
+  @media (max-width: 768px) {
+    .hp-feat-controls,
+    .hp-cat-carousel-wrap .lux-arrow-btn,
+    .hp-reviews-slider-wrap .lux-arrow-btn {
+      display: none;
+    }
+    .hp-cat-carousel {
+      padding: 0 16px;
+    }
+    .hp-reviews-slider-viewport {
+      padding: 20px 16px;
+    }
   }
 }
 

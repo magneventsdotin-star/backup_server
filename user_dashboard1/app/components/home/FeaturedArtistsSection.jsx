@@ -209,7 +209,7 @@ function FeaturedArtistsSection() {
               <Link href={`/artist/${encodeURIComponent(artist.name)}`} target="_blank" style={{ textDecoration: 'none', display: 'flex', width: '100%', height: '100%' }}>
                 <TiltCard 
                   className="hp-feat-card-v2"
-                  style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+                  style={{ cursor: 'pointer', width: '100%', display: 'flex', flexDirection: 'column' }}
                 >
                   <div className="hp-feat-img-wrap-v2">
                     <Image
@@ -221,13 +221,15 @@ function FeaturedArtistsSection() {
                     />
                   </div>
                   <div className="hp-feat-info-v2">
-                    <span className="hp-feat-genre-v2">{artist.genre}</span>
-                    <h3 className="hp-feat-name-v2">{artist.name}</h3>
-                    <span className="hp-feat-loc-v2">{artist.city || 'India'}</span>
+                    <div>
+                      <span className="hp-feat-genre-v2">{artist.genre}</span>
+                      <h3 className="hp-feat-name-v2">{artist.name}</h3>
+                      <span className="hp-feat-loc-v2">{artist.city || 'India'}</span>
 
-                    <div className="hp-feat-rating-v2">
-                      <Stars count={Math.round(Number(artist.rating))} />
-                      <span className="hp-feat-score-v2">{artist.rating} · {artist.bookings} bookings</span>
+                      <div className="hp-feat-rating-v2">
+                        <Stars count={Math.round(Number(artist.rating))} />
+                        <span className="hp-feat-score-v2">{artist.rating} · {artist.bookings} bookings</span>
+                      </div>
                     </div>
                   </div>
                 </TiltCard>
