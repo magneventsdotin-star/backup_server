@@ -247,7 +247,7 @@ export default function ArtistProfilePage({ params }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px', marginTop: '30px' }}>
             {videos.length > 0 ? videos.map((vid, idx) => {
               const url = vid.video_url;
-              const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+              const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
               const match = url?.match(regExp);
               const ytId = (match && match[2].length === 11) ? match[2] : null;
 
@@ -333,12 +333,57 @@ export default function ArtistProfilePage({ params }) {
           >
             &times;
           </button>
+          
+          {artist?.artist_images && artist.artist_images.findIndex((img) => img.image_url === selectedImage) > 0 && (
+            <button
+              style={{
+                position: 'absolute', left: '30px', top: '50%', transform: 'translateY(-50%)',
+                background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+                color: '#fff', width: '50px', height: '50px', borderRadius: '50%',
+                cursor: 'pointer', zIndex: 2147483647,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                backdropFilter: 'blur(4px)', transition: 'all 0.2s ease'
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                const idx = artist.artist_images.findIndex((img) => img.image_url === selectedImage);
+                if (idx > 0) setSelectedImage(artist.artist_images[idx - 1].image_url);
+              }}
+              onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+              onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+          )}
+
           <img 
             src={selectedImage} 
             alt="Expanded view" 
             style={{ maxWidth: '90%', maxHeight: '90vh', objectFit: 'contain', borderRadius: '12px', boxShadow: '0 10px 40px rgba(0,0,0,0.5)', cursor: 'default' }} 
             onClick={(e) => e.stopPropagation()} 
           />
+          
+          {artist?.artist_images && artist.artist_images.findIndex((img) => img.image_url === selectedImage) < artist.artist_images.length - 1 && (
+            <button
+              style={{
+                position: 'absolute', right: '30px', top: '50%', transform: 'translateY(-50%)',
+                background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+                color: '#fff', width: '50px', height: '50px', borderRadius: '50%',
+                cursor: 'pointer', zIndex: 2147483647,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                backdropFilter: 'blur(4px)', transition: 'all 0.2s ease'
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                const idx = artist.artist_images.findIndex((img) => img.image_url === selectedImage);
+                if (idx < artist.artist_images.length - 1) setSelectedImage(artist.artist_images[idx + 1].image_url);
+              }}
+              onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+              onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          )}
         </div>,
         document.body
       )}

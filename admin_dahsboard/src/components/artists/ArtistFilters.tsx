@@ -22,6 +22,8 @@ export interface ArtistFilterState {
   isPopular: boolean;
   isArtistOfMonth: boolean;
   isStandard: boolean;
+  registrationDate: string;
+  sortBy: string;
 }
 
 export const INITIAL_FILTER_STATE: ArtistFilterState = {
@@ -35,7 +37,9 @@ export const INITIAL_FILTER_STATE: ArtistFilterState = {
   memberCount: '',
   isPopular: false,
   isArtistOfMonth: false,
-  isStandard: false
+  isStandard: false,
+  registrationDate: 'all',
+  sortBy: 'artist_no_asc'
 };
 
 interface ArtistFiltersProps {
@@ -403,6 +407,46 @@ export function ArtistFilters({ onFilterChange }: ArtistFiltersProps) {
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="col-span-full flex flex-col md:flex-row gap-4 pt-4 border-t border-slate-50">
+            <div className="space-y-2 flex-1">
+              <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Sort By</Label>
+              <Select
+                value={filters.sortBy}
+                onValueChange={(val) => handleUpdate({ sortBy: val })}
+              >
+                <SelectTrigger className="h-11 rounded-xl font-bold text-[12px] bg-white border-slate-200">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="artist_no_asc">Artist Number (Ascending)</SelectItem>
+                  <SelectItem value="artist_no_desc">Artist Number (Descending)</SelectItem>
+                  <SelectItem value="name_asc">Name (A-Z)</SelectItem>
+                  <SelectItem value="name_desc">Name (Z-A)</SelectItem>
+                  <SelectItem value="date_desc">Registration Date (Newest)</SelectItem>
+                  <SelectItem value="date_asc">Registration Date (Oldest)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2 flex-1">
+              <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Date Uploaded</Label>
+              <Select
+                value={filters.registrationDate}
+                onValueChange={(val) => handleUpdate({ registrationDate: val })}
+              >
+                <SelectTrigger className="h-11 rounded-xl font-bold text-[12px] bg-white border-slate-200">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Time</SelectItem>
+                  <SelectItem value="today">Today</SelectItem>
+                  <SelectItem value="this_week">This Week</SelectItem>
+                  <SelectItem value="this_month">This Month</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 

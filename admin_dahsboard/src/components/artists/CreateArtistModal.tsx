@@ -4,6 +4,7 @@ import { State, City } from 'country-state-city';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import * as XLSX from 'xlsx';
 import {
   Dialog,
   DialogContent,
@@ -65,8 +66,8 @@ const artistSchema = z.object({
   languages: z.array(z.string()).min(1, { message: "Select at least one language." }),
   bio: z.string().min(1, { message: "Bio is required." }).refine(val => {
     const wordCount = val.trim().split(/\s+/).filter(Boolean).length;
-    return wordCount >= 30 && wordCount <= 1500;
-  }, { message: "Bio must be between 30 and 1500 words." }),
+    return wordCount >= 10 && wordCount <= 1500;
+  }, { message: "Bio must be between 10 and 1500 words." }),
   price_min: z.string().min(1, { message: "Min price is required." }),
   price_max: z.string().min(1, { message: "Max price is required." }),
   original_price: z.string().optional(),
@@ -91,7 +92,7 @@ const artistSchema = z.object({
   is_artist_of_month: z.boolean().default(false),
   images: z.array(z.string()).max(15, { message: "Maximum 15 photos allowed." }).optional().default([]),
   cover_image_url: z.string().optional(),
-  is_live: z.boolean().default(true),
+  is_live: z.boolean().default(false),
 });
 type ArtistFormValues = z.infer<typeof artistSchema>;
 interface CreateArtistModalProps {
@@ -112,6 +113,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
   const [requestingApproval, setRequestingApproval] = useState(false);
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const form = useForm<ArtistFormValues>({
     resolver: zodResolver(artistSchema),
     defaultValues: {
@@ -139,7 +141,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
       phone_no_alt: initialData?.phone_no_alt || "",
       spotlight_status: initialData?.is_trending ? 'trending' : (initialData?.is_featured ? 'featured' : 'standard'),
       is_artist_of_month: initialData?.is_artist_of_month ?? false,
-      is_live: initialData?.is_live ?? true,
+      is_live: initialData?.is_live ?? false,
       images: initialData?.artist_images?.map((img: any) => img.image_url) || [],
       cover_image_url: initialData?.cover_image_url || initialData?.artist_images?.[0]?.image_url || "",
       sub_categories: (initialData?.sub_categories && initialData.sub_categories.length > 0)
@@ -150,6 +152,156 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
         : (initialData?.performing_language ? initialData.performing_language.split(',').map((s: string) => s.trim()).filter(Boolean) : []),
     },
   });
+
+  const handleDownloadTemplate = () => {
+    const templateData = [{
+      name: 'Artist Name',
+      alias: 'Stage Name',
+      category: 'Singer',
+      sub_categories: 'Pop, Rock',
+      languages: 'English, Hindi',
+      bio: 'This is a sample bio that must be at least 10 words long to pass the validation check.',
+      price_min: '10000',
+      price_max: '50000',
+      original_price: '60000',
+      city: 'Mumbai',
+      state: 'Maharashtra',
+      locality: 'Bandra',
+      address: '123 Street Name',
+      members_min: '1',
+      members_max: '5',
+      contact_person: 'Manager Name',
+      phone_no: '9876543210',
+      email: 'artist@example.com',
+      is_live: 'true',
+      rating: '5.0'
+    }];
+    
+    const ws = XLSX.utils.json_to_sheet(templateData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Artists");
+    XLSX.writeFile(wb, "Artist_Bulk_Upload_Template.xlsx");
+  };
+
+  const handleExcelUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (evt) => {
+      try {
+        const bstr = evt.target?.result;
+        const wb = XLSX.read(bstr, { type: 'binary' });
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        const data = XLSX.utils.sheet_to_json(ws);
+        
+        if (data.length === 1) {
+          const row: any = data[0];
+          const newValues = { ...form.getValues() };
+          
+          Object.keys(row).forEach(key => {
+            const normalizedKey = key.trim().toLowerCase();
+            const matchingKey = Object.keys(newValues).find(k => k.toLowerCase() === normalizedKey);
+            
+            if (matchingKey) {
+              if (matchingKey === 'languages' || matchingKey === 'sub_categories') {
+                (newValues as any)[matchingKey] = typeof row[key] === 'string' ? row[key].split(',').map((s: string) => s.trim()) : Array.isArray(row[key]) ? row[key] : [row[key]];
+              } else if (matchingKey === 'is_live' || matchingKey === 'is_artist_of_month') {
+                (newValues as any)[matchingKey] = row[key] === true || row[key] === 'true' || row[key] === 'Yes';
+              } else {
+                (newValues as any)[matchingKey] = String(row[key]);
+              }
+            }
+          });
+          
+          form.reset(newValues);
+          toast({ title: "Excel Autofilled", description: "Form fields populated from the first row." });
+        } else if (data.length > 1) {
+          setLoading(true);
+          let successCount = 0;
+          let failCount = 0;
+          
+          const { data: { session } } = await supabase.auth.getSession();
+          
+          for (const row of data) {
+            try {
+              const normalizedRow: any = {};
+              Object.keys(row).forEach(key => {
+                normalizedRow[key.trim().toLowerCase()] = row[key];
+              });
+              
+              const subcats = typeof normalizedRow.sub_categories === 'string' ? normalizedRow.sub_categories.split(',').map((s:any)=>s.trim()) : [];
+              const langs = typeof normalizedRow.languages === 'string' ? normalizedRow.languages.split(',').map((s:any)=>s.trim()) : [];
+              
+              const artistData = {
+                name: String(normalizedRow.name || ''),
+                alias: String(normalizedRow.alias || ''),
+                category: String(normalizedRow.category || ''),
+                sub_category: subcats.join(', '),
+                sub_categories: subcats,
+                performing_language: langs.join(', '),
+                languages: langs,
+                bio: String(normalizedRow.bio || ''),
+                price_min: parseInt(normalizedRow.price_min) || 0,
+                price_max: parseInt(normalizedRow.price_max) || 0,
+                original_price: parseInt(normalizedRow.original_price) || null,
+                price_range: `${parseInt(normalizedRow.price_min) || 0}-${parseInt(normalizedRow.price_max) || 0}`,
+                city: String(normalizedRow.city || ''),
+                state: String(normalizedRow.state || ''),
+                locality: String(normalizedRow.locality || ''),
+                address: String(normalizedRow.address || ''),
+                contact_person: String(normalizedRow.contact_person || ''),
+                phone_no: String(normalizedRow.phone_no || ''),
+                email: String(normalizedRow.email || ''),
+                rating: parseFloat(normalizedRow.rating) || 5.0,
+                members_min: parseInt(normalizedRow.members_min) || 1,
+                members_max: parseInt(normalizedRow.members_max) || 1,
+                is_live: false, // Force all newly imported artists to be hidden by default
+                created_by: session?.user?.id,
+                is_featured: false,
+                is_trending: false,
+                is_artist_of_month: false
+              };
+              
+              if (!artistData.name || !artistData.phone_no || !artistData.category) {
+                 failCount++;
+                 continue;
+              }
+              
+              const { error } = await supabase.from('artists').insert([artistData as any]);
+              if (error) {
+                 console.error("Insert error for", artistData.name, "-> Code:", error.code, "Msg:", error.message, "Details:", error.details, "Hint:", error.hint);
+                 failCount++;
+              } else {
+                 successCount++;
+              }
+            } catch (e) {
+              failCount++;
+            }
+          }
+          
+          toast({ 
+            title: "Bulk Import Complete", 
+            description: `Successfully imported ${successCount} artists. ${failCount > 0 ? `Failed: ${failCount} rows.` : ''}` 
+          });
+          
+          if (successCount > 0) {
+             onOpenChange(false);
+             onSuccess?.();
+          }
+          setLoading(false);
+        }
+      } catch (err) {
+        console.error(err);
+        toast({ title: "Upload Failed", description: "Could not parse Excel file.", variant: "destructive" });
+        setLoading(false);
+      }
+    };
+    reader.readAsBinaryString(file);
+    e.target.value = '';
+  };
+
   useEffect(() => {
     if (open) {
       if (initialData) {
@@ -179,7 +331,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
           phone_no_alt: initialData.phone_no_alt || "",
           spotlight_status: initialData.is_trending ? 'trending' : (initialData.is_featured ? 'featured' : 'standard'),
           is_artist_of_month: initialData.is_artist_of_month ?? false,
-          is_live: initialData.is_live ?? true,
+          is_live: initialData.is_live ?? false,
           images: initialData.artist_images?.map((img: any) => img.image_url) || [],
           cover_image_url: initialData.cover_image_url || initialData.artist_images?.[0]?.image_url || "",
           sub_categories: (initialData.sub_categories && initialData.sub_categories.length > 0)
@@ -215,7 +367,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
           email: "",
           spotlight_status: 'standard',
           is_artist_of_month: false,
-          is_live: true,
+          is_live: false,
           images: [],
           cover_image_url: "",
         });
@@ -375,6 +527,37 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
       setLoading(false);
     }
   }
+
+  const handleDelete = async () => {
+    if (!initialData?.id) return;
+    
+    if (window.confirm("Are you sure you want to completely delete this artist profile? This action cannot be undone.")) {
+      setLoading(true);
+      try {
+        await supabase.from('artist_images').delete().eq('artist_id', initialData.id);
+        
+        const { error } = await supabase.from('artists').delete().eq('id', initialData.id);
+        
+        if (error) throw error;
+        
+        toast({
+          title: "Artist Deleted",
+          description: `The artist profile has been permanently removed.`,
+        });
+        
+        onOpenChange(false);
+        onSuccess?.();
+      } catch (error: any) {
+        toast({
+          variant: "destructive",
+          title: "Delete Failed",
+          description: error.message || "An unexpected error occurred while deleting the artist.",
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
 
   const handleSendApprovalRequest = async () => {
     setRequestingApproval(true);
@@ -538,6 +721,35 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
                         : "Register a new artist into the system by providing their profile details and media."}
                     </DialogDescription>
                   </div>
+                  
+                  {!initialData && (
+                    <div className="mt-4 sm:mt-0 flex-shrink-0 flex items-center gap-2">
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        onClick={handleDownloadTemplate}
+                        className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:text-white rounded-xl h-10 font-bold"
+                      >
+                        Download Template
+                      </Button>
+                      <input 
+                        type="file" 
+                        accept=".xlsx, .xls, .csv" 
+                        ref={fileInputRef} 
+                        onChange={handleExcelUpload} 
+                        className="hidden" 
+                      />
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        onClick={() => fileInputRef.current?.click()}
+                        className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:text-white rounded-xl h-10 font-bold"
+                      >
+                        <Globe size={16} className="mr-2" />
+                        Upload Excel
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -1264,8 +1476,8 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
                         <FormItem className="space-y-1.5 col-span-full">
                           <div className="flex items-center justify-between">
                             <FormLabel className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Professional Bio / Description</FormLabel>
-                            <span className={cn("text-[10px] font-black uppercase tracking-widest", (wordCount < 30 || wordCount > 1500) ? "text-rose-500" : "text-slate-400")}>
-                              {wordCount} / 1500 words (Min 30)
+                            <span className={cn("text-[10px] font-black uppercase tracking-widest", (wordCount < 10 || wordCount > 1500) ? "text-rose-500" : "text-slate-400")}>
+                              {wordCount} / 1500 words (Min 10)
                             </span>
                           </div>
                           <FormControl><Textarea placeholder="Describe the artist's journey, achievements, and performance style..." className="min-h-[120px] rounded-[20px] border-slate-100 bg-slate-50/30 font-medium focus:bg-white transition-all p-4 resize-none shadow-inner leading-relaxed" {...field} /></FormControl>
@@ -1460,6 +1672,16 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
           </div>
         </div>
         <div className="px-6 sm:px-10 py-4 bg-slate-50 border-t border-slate-200 flex flex-col-reverse sm:flex-row justify-end gap-3 rounded-none flex-shrink-0 z-40">
+                {initialData && (
+                  <button
+                    type="button"
+                    onClick={handleDelete}
+                    disabled={loading}
+                    className="mr-auto rounded-xl px-6 h-10 font-black text-[10px] uppercase tracking-[0.2em] text-red-500 bg-red-50 hover:bg-red-100 border border-red-100 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    Delete Profile
+                  </button>
+                )}
                <button
                   type="button"
                   onClick={() => onOpenChange(false)}

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ArtistFilters, ArtistFilterState, INITIAL_FILTER_STATE } from '@/components/artists/ArtistFilters';
 import { Button } from '@/components/ui/button';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
-import { Plus, Loader2, Mic2, Star, Info, ChevronLeft, ChevronRight, Pencil, Eye, EyeOff, Trash2, Image as ImageIcon, Share2, PlayCircle, MapPin, Music, User, ChevronDown, Layers } from 'lucide-react';
+import { Plus, Loader2, Mic2, Star, Info, ChevronLeft, ChevronRight, Pencil, Eye, EyeOff, Trash2, Image as ImageIcon, Share2, PlayCircle, MapPin, Music, User, ChevronDown, Layers, Calendar } from 'lucide-react';
 import { CreateArtistModal } from '@/components/artists/CreateArtistModal';
 import { supabase } from '@/lib/supabase';
 import { cn } from '@/lib/utils';
@@ -19,7 +19,7 @@ export default function ArtistManagement() {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState<ArtistFilterState>(INITIAL_FILTER_STATE);
-  const [activeTab, setActiveTab] = useState<'all' | 'original' | 'duplicate' | 'live' | 'hidden'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'original' | 'duplicate' | 'date' | 'live' | 'hidden'>('all');
   const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null);
 
   const ITEMS_PER_PAGE = 10;
@@ -45,10 +45,11 @@ export default function ArtistManagement() {
     fetchUser();
   }, []);
 
-  const { originalArtists, duplicateGroups, liveArtists, hiddenArtists } = useMemo(() => {
+  const { originalArtists, duplicateGroups, liveArtists, hiddenArtists, dateGroups } = useMemo(() => {
     const groups = new Map<string, any[]>();
     const original: any[] = [];
     const duplicates: any[][] = [];
+    const dates = new Map<string, any[]>();
 
     artists.forEach(artist => {
       const phone = artist.phone_no;
@@ -57,6 +58,12 @@ export default function ArtistManagement() {
       } else {
         if (!groups.has(phone)) groups.set(phone, []);
         groups.get(phone)!.push(artist);
+      }
+
+      if (artist.created_at) {
+        const dateStr = new Date(artist.created_at).toISOString().split('T')[0];
+        if (!dates.has(dateStr)) dates.set(dateStr, []);
+        dates.get(dateStr)!.push(artist);
       }
     });
 
@@ -68,13 +75,17 @@ export default function ArtistManagement() {
       }
     });
 
+    const dateGroupsArr = Array.from(dates.entries())
+      .sort((a, b) => b[0].localeCompare(a[0]))
+      .map(([date, arr]) => ({ date, artists: arr }));
+
     const live = artists.filter(a => a.is_live);
     const hidden = artists.filter(a => !a.is_live);
 
-    return { originalArtists: original, duplicateGroups: duplicates, liveArtists: live, hiddenArtists: hidden };
+    return { originalArtists: original, duplicateGroups: duplicates, liveArtists: live, hiddenArtists: hidden, dateGroups: dateGroupsArr };
   }, [artists]);
 
-  const currentList = activeTab === 'all' ? artists : activeTab === 'original' ? originalArtists : activeTab === 'duplicate' ? duplicateGroups : activeTab === 'live' ? liveArtists : hiddenArtists;
+  const currentList = activeTab === 'all' ? artists : activeTab === 'original' ? originalArtists : activeTab === 'duplicate' ? duplicateGroups : activeTab === 'date' ? dateGroups : activeTab === 'live' ? liveArtists : hiddenArtists;
   const totalPages = Math.max(1, Math.ceil(currentList.length / ITEMS_PER_PAGE));
 
   const fetchArtists = useCallback(async (showLoading = true) => {
@@ -90,7 +101,12 @@ export default function ArtistManagement() {
       }
 
       if (filters.search) {
-        query = query.or(`name.ilike.%${filters.search}%,alias.ilike.%${filters.search}%,category.ilike.%${filters.search}%,sub_category.ilike.%${filters.search}%,city.ilike.%${filters.search}%`);
+        let searchFilter = `name.ilike.%${filters.search}%,alias.ilike.%${filters.search}%,category.ilike.%${filters.search}%,sub_category.ilike.%${filters.search}%,city.ilike.%${filters.search}%,email.ilike.%${filters.search}%,phone_no.ilike.%${filters.search}%`;
+        const searchAsNum = parseInt(filters.search.replace(/^#+/, ''));
+        if (!isNaN(searchAsNum)) {
+           searchFilter += `,artist_no.eq.${searchAsNum}`;
+        }
+        query = query.or(searchFilter);
       }
       if (filters.category !== 'all') {
         query = query.eq('category', filters.category);
@@ -126,8 +142,34 @@ export default function ArtistManagement() {
       if (filters.isArtistOfMonth) {
         query = query.eq('is_artist_of_month', true);
       }
-      const { data, count, error } = await query
-        .order('artist_no', { ascending: true });
+      
+      if (filters.registrationDate && filters.registrationDate !== 'all') {
+        const now = new Date();
+        let startDate;
+        if (filters.registrationDate === 'today') {
+          startDate = new Date(now.setHours(0,0,0,0));
+        } else if (filters.registrationDate === 'this_week') {
+          startDate = new Date(now.setDate(now.getDate() - now.getDay()));
+          startDate.setHours(0,0,0,0);
+        } else if (filters.registrationDate === 'this_month') {
+          startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+        }
+        if (startDate) {
+          query = query.gte('created_at', startDate.toISOString());
+        }
+      }
+
+      let orderBy = 'artist_no';
+      let ascending = true;
+      switch (filters.sortBy) {
+        case 'artist_no_desc': ascending = false; break;
+        case 'name_asc': orderBy = 'name'; break;
+        case 'name_desc': orderBy = 'name'; ascending = false; break;
+        case 'date_desc': orderBy = 'created_at'; ascending = false; break;
+        case 'date_asc': orderBy = 'created_at'; break;
+      }
+      
+      const { data, count, error } = await query.order(orderBy, { ascending });
       if (error) throw error;
       setArtists(data || []);
       setTotalCount(count || 0);
@@ -170,6 +212,27 @@ export default function ArtistManagement() {
       fetchArtists();
     } catch (error: any) {
       toast({ variant: 'destructive', title: 'Error', description: error.message || 'Failed to delete artist.' });
+    }
+  };
+
+  const handleDeleteBatch = async (dateStr: string, artistsInBatch: any[]) => {
+    if (!confirm(`Are you sure you want to delete all ${artistsInBatch.length} profiles uploaded on ${dateStr}? This action cannot be undone.`)) return;
+    try {
+      setLoading(true);
+      const artistIds = artistsInBatch.map(a => a.id);
+      
+      // Delete images first
+      await (supabase.from('artist_images') as any).delete().in('artist_id', artistIds);
+      
+      // Delete artists
+      const { error } = await (supabase.from('artists') as any).delete().in('id', artistIds);
+      if (error) throw error;
+      
+      toast({ title: 'Batch Deleted', description: `Successfully removed ${artistsInBatch.length} profiles.` });
+      fetchArtists();
+    } catch (error: any) {
+      toast({ variant: 'destructive', title: 'Error', description: error.message || 'Failed to delete batch.' });
+      setLoading(false);
     }
   };
 
@@ -242,14 +305,16 @@ export default function ArtistManagement() {
     }
   };
 
-  const renderArtistRow = (artist: any, isChild: boolean = false) => (
+  const renderArtistRow = (artist: any, index: number, isChild: boolean = false) => (
     <TableRow key={artist.id} className={`group border-slate-50 hover:bg-slate-50/50 transition-colors cursor-pointer ${isChild ? 'bg-amber-50/40' : ''}`} onClick={() => handleEditArtist(artist)}>
       <TableCell className={`py-5 ${isChild ? 'pl-12 relative' : 'pl-8'}`}>
         {isChild && <div className="absolute left-6 top-1/2 w-4 h-px bg-amber-200" />}
         {isChild && <div className="absolute left-6 top-0 w-px h-1/2 bg-amber-200" />}
-        <span className="text-[13px] font-black text-slate-900 bg-slate-100/60 px-2.5 py-1.5 rounded-lg border border-slate-200/50 whitespace-nowrap">
-          #{artist.artist_no || 'TBD'}
-        </span>
+        <div className="flex flex-col gap-1 items-start">
+          <span className="text-[12px] font-black text-slate-900 bg-slate-100/80 px-2 py-1 rounded border border-slate-200/60 whitespace-nowrap text-center" title="Artist Number">
+            #{artist.artist_no ? artist.artist_no.toString().padStart(4, '0') : 'TBD'}
+          </span>
+        </div>
       </TableCell>
       <TableCell className="py-5">
         <div className="flex items-center gap-4">
@@ -323,6 +388,14 @@ export default function ArtistManagement() {
                   <span className="text-[11px] font-bold text-rose-500 flex items-center gap-1.5 active:scale-95 transition-transform">
                     <PlayCircle size={11} strokeWidth={2.5} />
                     {artist.video_url.includes(',') ? `${artist.video_url.split(',').length} Videos` : 'Video'}
+                  </span>
+                </>
+              )}
+              {artist.created_at && (
+                <>
+                  <span className="w-1 h-1 rounded-full bg-slate-300" />
+                  <span className="text-[10px] font-bold text-sky-600 flex items-center gap-1">
+                    Added: {new Date(artist.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                   </span>
                 </>
               )}
@@ -444,49 +517,127 @@ export default function ArtistManagement() {
         initialData={editingArtist}
       />
 
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
+            <User size={20} />
+          </div>
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-wider text-slate-400">Total Artists</p>
+            <p className="text-2xl font-black text-slate-900">{artists.length}</p>
+          </div>
+        </div>
+        <div className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <Eye size={20} />
+          </div>
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-wider text-slate-400">Active Profiles</p>
+            <p className="text-2xl font-black text-slate-900">{liveArtists.length}</p>
+          </div>
+        </div>
+        <div className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <Star size={20} />
+          </div>
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-wider text-slate-400">Trending</p>
+            <p className="text-2xl font-black text-slate-900">{artists.filter(a => a.is_trending).length}</p>
+          </div>
+        </div>
+        <div className="p-4 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <User size={20} />
+          </div>
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-wider text-slate-400">New Today</p>
+            <p className="text-2xl font-black text-slate-900">
+              {artists.filter(a => a.created_at && new Date(a.created_at) >= new Date(new Date().setHours(0,0,0,0))).length}
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="space-y-6">
         <ArtistFilters onFilterChange={setFilters} />
         
-        <div className="flex bg-slate-100 p-1.5 rounded-2xl w-fit max-w-full overflow-x-auto shadow-inner scrollbar-hide">
+        <div className="flex bg-slate-100/60 p-1.5 rounded-2xl w-fit max-w-full overflow-x-auto shadow-inner scrollbar-hide gap-1">
           <button 
-            className={`px-8 py-3 rounded-xl text-[13px] font-black transition-all flex items-center gap-2 ${activeTab === 'all' ? 'bg-white text-slate-800 shadow-md scale-[1.02]' : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'}`}
+            className={`px-4 py-2 rounded-xl flex items-center gap-2.5 transition-all whitespace-nowrap border border-transparent ${activeTab === 'all' ? 'bg-white text-slate-900 shadow-sm border-slate-200/60' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/40'}`}
             onClick={() => { setActiveTab('all'); setCurrentPage(1); setExpandedGroupId(null); }}
           >
-            <User size={16} />
-            All Profiles
-            <span className={`ml-2 px-2 py-0.5 rounded-md text-[10px] ${activeTab === 'all' ? 'bg-slate-100 text-slate-600' : 'bg-slate-200 text-slate-500'}`}>{artists.length}</span>
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${activeTab === 'all' ? 'bg-sky-100 text-sky-600' : 'bg-slate-200/70 text-slate-400'}`}>
+              <User size={14} strokeWidth={2.5} />
+            </div>
+            <span className="text-[13px] font-bold">All Profiles</span>
+            <span className={`text-[11px] font-black ${activeTab === 'all' ? 'text-slate-900' : 'text-slate-400'}`}>
+              {artists.length}
+            </span>
           </button>
+
           <button 
-            className={`px-8 py-3 rounded-xl text-[13px] font-black transition-all flex items-center gap-2 ${activeTab === 'original' ? 'bg-white text-indigo-600 shadow-md scale-[1.02]' : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'}`}
+            className={`px-4 py-2 rounded-xl flex items-center gap-2.5 transition-all whitespace-nowrap border border-transparent ${activeTab === 'original' ? 'bg-white text-slate-900 shadow-sm border-slate-200/60' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/40'}`}
             onClick={() => { setActiveTab('original'); setCurrentPage(1); setExpandedGroupId(null); }}
           >
-            <Mic2 size={16} />
-            Original Profiles 
-            <span className={`ml-2 px-2 py-0.5 rounded-md text-[10px] ${activeTab === 'original' ? 'bg-indigo-50 text-indigo-600' : 'bg-slate-200 text-slate-500'}`}>{originalArtists.length}</span>
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${activeTab === 'original' ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-200/70 text-slate-400'}`}>
+              <Mic2 size={14} strokeWidth={2.5} />
+            </div>
+            <span className="text-[13px] font-bold">Originals</span>
+            <span className={`text-[11px] font-black ${activeTab === 'original' ? 'text-slate-900' : 'text-slate-400'}`}>
+              {originalArtists.length}
+            </span>
           </button>
+
           <button 
-            className={`px-8 py-3 rounded-xl text-[13px] font-black transition-all flex items-center gap-2 ${activeTab === 'duplicate' ? 'bg-white text-rose-600 shadow-md scale-[1.02]' : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'}`}
+            className={`px-4 py-2 rounded-xl flex items-center gap-2.5 transition-all whitespace-nowrap border border-transparent ${activeTab === 'duplicate' ? 'bg-white text-slate-900 shadow-sm border-slate-200/60' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/40'}`}
             onClick={() => { setActiveTab('duplicate'); setCurrentPage(1); setExpandedGroupId(null); }}
           >
-            <Layers size={16} />
-            Duplicate Groups
-            <span className={`ml-2 px-2 py-0.5 rounded-md text-[10px] ${activeTab === 'duplicate' ? 'bg-rose-50 text-rose-600' : 'bg-slate-200 text-slate-500'}`}>{duplicateGroups.length}</span>
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${activeTab === 'duplicate' ? 'bg-rose-100 text-rose-600' : 'bg-slate-200/70 text-slate-400'}`}>
+              <Layers size={14} strokeWidth={2.5} />
+            </div>
+            <span className="text-[13px] font-bold">Duplicates</span>
+            <span className={`text-[11px] font-black ${activeTab === 'duplicate' ? 'text-slate-900' : 'text-slate-400'}`}>
+              {duplicateGroups.length}
+            </span>
           </button>
+
           <button 
-            className={`px-8 py-3 rounded-xl text-[13px] font-black transition-all flex items-center gap-2 ${activeTab === 'live' ? 'bg-white text-emerald-600 shadow-md scale-[1.02]' : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'}`}
+            className={`px-4 py-2 rounded-xl flex items-center gap-2.5 transition-all whitespace-nowrap border border-transparent ${activeTab === 'date' ? 'bg-white text-slate-900 shadow-sm border-slate-200/60' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/40'}`}
+            onClick={() => { setActiveTab('date'); setCurrentPage(1); setExpandedGroupId(null); }}
+          >
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${activeTab === 'date' ? 'bg-purple-100 text-purple-600' : 'bg-slate-200/70 text-slate-400'}`}>
+              <Calendar size={14} strokeWidth={2.5} />
+            </div>
+            <span className="text-[13px] font-bold">By Date</span>
+            <span className={`text-[11px] font-black ${activeTab === 'date' ? 'text-slate-900' : 'text-slate-400'}`}>
+              {dateGroups.length}
+            </span>
+          </button>
+
+          <button 
+            className={`px-4 py-2 rounded-xl flex items-center gap-2.5 transition-all whitespace-nowrap border border-transparent ${activeTab === 'live' ? 'bg-white text-slate-900 shadow-sm border-slate-200/60' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/40'}`}
             onClick={() => { setActiveTab('live'); setCurrentPage(1); setExpandedGroupId(null); }}
           >
-            <Eye size={16} />
-            Live Profiles
-            <span className={`ml-2 px-2 py-0.5 rounded-md text-[10px] ${activeTab === 'live' ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-200 text-slate-500'}`}>{liveArtists.length}</span>
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${activeTab === 'live' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-200/70 text-slate-400'}`}>
+              <Eye size={14} strokeWidth={2.5} />
+            </div>
+            <span className="text-[13px] font-bold">Live</span>
+            <span className={`text-[11px] font-black ${activeTab === 'live' ? 'text-slate-900' : 'text-slate-400'}`}>
+              {liveArtists.length}
+            </span>
           </button>
+
           <button 
-            className={`px-8 py-3 rounded-xl text-[13px] font-black transition-all flex items-center gap-2 ${activeTab === 'hidden' ? 'bg-white text-amber-600 shadow-md scale-[1.02]' : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'}`}
+            className={`px-4 py-2 rounded-xl flex items-center gap-2.5 transition-all whitespace-nowrap border border-transparent ${activeTab === 'hidden' ? 'bg-white text-slate-900 shadow-sm border-slate-200/60' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/40'}`}
             onClick={() => { setActiveTab('hidden'); setCurrentPage(1); setExpandedGroupId(null); }}
           >
-            <EyeOff size={16} />
-            Hidden Profiles
-            <span className={`ml-2 px-2 py-0.5 rounded-md text-[10px] ${activeTab === 'hidden' ? 'bg-amber-50 text-amber-600' : 'bg-slate-200 text-slate-500'}`}>{hiddenArtists.length}</span>
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${activeTab === 'hidden' ? 'bg-amber-100 text-amber-600' : 'bg-slate-200/70 text-slate-400'}`}>
+              <EyeOff size={14} strokeWidth={2.5} />
+            </div>
+            <span className="text-[13px] font-bold">Hidden</span>
+            <span className={`text-[11px] font-black ${activeTab === 'hidden' ? 'text-slate-900' : 'text-slate-400'}`}>
+              {hiddenArtists.length}
+            </span>
           </button>
         </div>
 
@@ -563,14 +714,64 @@ export default function ArtistManagement() {
                               </div>
                             </TableCell>
                           </TableRow>
-                          {isExpanded && group.map(artist => renderArtistRow(artist, true))}
+                          {isExpanded && group.map((artist, idx) => renderArtistRow(artist, idx, true))}
+                        </React.Fragment>
+                      );
+                    })
+                ) : activeTab === 'date' ? (
+                  dateGroups
+                    .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+                    .map((group, idx) => {
+                      const isExpanded = expandedGroupId === group.date;
+                      const dateFormatted = new Date(group.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+                      return (
+                        <React.Fragment key={`date-${group.date}`}>
+                          <TableRow 
+                            className={`group border-b border-slate-100 cursor-pointer transition-colors ${isExpanded ? 'bg-purple-50/30' : 'hover:bg-slate-50'}`} 
+                            onClick={() => setExpandedGroupId(isExpanded ? null : group.date)}
+                          >
+                            <TableCell colSpan={7} className="py-5 px-8">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-5">
+                                  <div className="w-12 h-12 rounded-2xl bg-purple-100/50 text-purple-600 flex items-center justify-center shadow-sm border border-purple-200/50">
+                                    <Calendar size={20} strokeWidth={2.5} />
+                                  </div>
+                                  <div>
+                                    <p className="font-black text-slate-900 flex items-center gap-2">
+                                      Upload Date: <span className="text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-100">{dateFormatted}</span>
+                                    </p>
+                                    <p className="text-[13px] font-medium text-slate-500 mt-1">
+                                      Contains <span className="font-bold text-slate-700">{group.artists.length} profiles</span> 
+                                      <span className="mx-2 text-slate-300">|</span>
+                                      {group.artists.map((a: any) => a.name).join(', ')}
+                                    </p>
+                                  </div>
+                                </div>
+                                  <div className="flex items-center gap-2">
+                                    <button
+                                      type="button"
+                                      onClick={(e) => { e.stopPropagation(); handleDeleteBatch(dateFormatted, group.artists); }}
+                                      className="h-10 px-3 rounded-xl flex items-center justify-center bg-white text-slate-400 shadow-sm border border-slate-200 hover:border-rose-400 hover:text-rose-500 hover:bg-rose-50 transition-all z-10 relative group/btn"
+                                      title="Delete entire batch"
+                                    >
+                                      <Trash2 size={16} className="group-hover/btn:scale-110 transition-transform" />
+                                      <span className="text-[11px] font-bold ml-1.5 hidden group-hover/btn:inline-block">Delete Batch</span>
+                                    </button>
+                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${isExpanded ? 'bg-purple-600 text-white shadow-md' : 'bg-white text-slate-400 shadow-sm border border-slate-200 group-hover:border-purple-400 group-hover:text-purple-500'}`}>
+                                      <ChevronDown size={20} strokeWidth={3} className={`transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+                                    </div>
+                                  </div>
+                                </div>
+                              </TableCell>
+                          </TableRow>
+                          {isExpanded && group.artists.map((artist: any, idx: number) => renderArtistRow(artist, idx, true))}
                         </React.Fragment>
                       );
                     })
                 ) : (
                   (currentList as any[])
                     .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
-                    .map((artist) => renderArtistRow(artist))
+                    .map((artist, idx) => renderArtistRow(artist, idx))
                 )}
               </TableBody>
             </Table>
@@ -592,7 +793,18 @@ export default function ArtistManagement() {
                >
                  <ChevronLeft size={18} strokeWidth={2.5} />
                </button>
-               <div className="px-4 py-2 rounded-xl bg-white border border-slate-200 shadow-sm">
+               <div className="flex items-center gap-1 hidden sm:flex">
+                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                   <button
+                     key={page}
+                     onClick={() => setCurrentPage(page)}
+                     className={`w-10 h-10 rounded-xl flex items-center justify-center text-[13px] font-bold transition-all shadow-sm ${currentPage === page ? 'bg-sky-600 text-white shadow-sky-200' : 'bg-white text-slate-600 border border-slate-200 hover:border-sky-400 hover:text-sky-600'}`}
+                   >
+                     {page}
+                   </button>
+                 ))}
+               </div>
+               <div className="sm:hidden px-4 py-2 rounded-xl bg-white border border-slate-200 shadow-sm">
                  <p className="text-[13px] font-bold text-slate-900">Page <span className="text-sky-600">{currentPage}</span> of <span className="text-slate-900">{totalPages}</span></p>
                </div>
                <button
