@@ -94,23 +94,23 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
         <div className="modern-info-overlay" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%)', padding: '24px 20px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', borderBottomLeftRadius: '24px', borderBottomRightRadius: '24px' }}>
           <div className="modern-badges-container" style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
             {genres.length > 0 && (
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', alignItems: 'center' }}>
                 {genres.slice(0, 2).map((g, idx) => (
-                  <span key={`g-${idx}`} style={{ background: '#FFE032', color: '#1a1a1a', padding: '4px 10px', borderRadius: '12px', fontSize: '10px', fontWeight: '800', letterSpacing: '0.05em', textTransform: 'uppercase', boxShadow: '0 2px 10px rgba(255, 224, 50, 0.2)' }}>{g}</span>
+                  <span key={`g-${idx}`} style={{ background: '#FFE032', color: '#1a1a1a', padding: '2px 8px', borderRadius: '8px', fontSize: '9px', fontWeight: '800', letterSpacing: '0.05em', textTransform: 'uppercase', boxShadow: '0 2px 5px rgba(255, 224, 50, 0.2)' }}>{g}</span>
                 ))}
-                {genres.length > 2 && <span style={{ background: 'rgba(255, 224, 50, 0.1)', color: '#FFE032', border: '1px solid rgba(255, 224, 50, 0.5)', padding: '3px 8px', borderRadius: '12px', fontSize: '10px', fontWeight: '800' }}>+{genres.length - 2}</span>}
+                {genres.length > 2 && <span style={{ background: 'rgba(255, 224, 50, 0.1)', color: '#FFE032', border: '1px solid rgba(255, 224, 50, 0.5)', padding: '1px 6px', borderRadius: '8px', fontSize: '9px', fontWeight: '800' }}>+{genres.length - 2}</span>}
               </div>
             )}
             
             {languages.length > 0 && (
               <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginTop: '2px' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style={{ width: '14px', height: '14px', color: '#94a3b8' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style={{ width: '12px', height: '12px', color: '#94a3b8' }}>
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9H5.5a1.5 1.5 0 000 3H7v-3zm3 0H8.5v3H10V9zm3 0h-1.5v3H13V9z" clipRule="evenodd" />
                 </svg>
                 {languages.slice(0, 3).map((l, idx) => (
-                  <span key={`l-${idx}`} style={{ color: '#cbd5e1', fontSize: '11px', fontWeight: '600', letterSpacing: '0.02em', background: 'rgba(255,255,255,0.08)', padding: '2px 8px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.1)' }}>{l}</span>
+                  <span key={`l-${idx}`} style={{ color: '#e2e8f0', fontSize: '10px', fontWeight: '600', letterSpacing: '0.02em', background: 'rgba(255,255,255,0.12)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.15)' }}>{l}</span>
                 ))}
-                {languages.length > 3 && <span style={{ color: '#94a3b8', fontSize: '10px', fontWeight: '500' }}>+{languages.length - 3}</span>}
+                {languages.length > 3 && <span style={{ color: '#94a3b8', fontSize: '9px', fontWeight: '500' }}>+{languages.length - 3}</span>}
               </div>
             )}
           </div>
@@ -125,13 +125,18 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px' }}>
-            <div className="flex items-center gap-1.5">
-              <Stars count={Math.round(Number(rating))} />
-              <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '14px' }}>{rating}</span>
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-1.5">
+                <Stars count={Math.round(Number(rating))} />
+                <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '14px' }}>{rating}</span>
+              </div>
+              {artist.price && (
+                <span style={{ color: '#fbbf24', fontSize: '11px', fontWeight: '800', letterSpacing: '0.05em' }}>₹{artist.price.toLocaleString('en-IN')} / Event</span>
+              )}
             </div>
             {mounted && bookings > 0 && (
-              <div style={{ background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.4) 100%)', color: '#34d399', padding: '6px 12px', borderRadius: '20px', fontSize: '11px', fontWeight: '800', letterSpacing: '0.05em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px', border: '1px solid rgba(16, 185, 129, 0.3)', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.15)' }}>
-                 🔥 {bookings} Bookings
+              <div style={{ background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.4) 100%)', color: '#34d399', padding: '6px 10px', borderRadius: '20px', fontSize: '9px', fontWeight: '800', letterSpacing: '0.05em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '4px', border: '1px solid rgba(16, 185, 129, 0.3)', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.15)' }}>
+                 🔥 {bookings} SUCCESSFUL BOOKINGS
               </div>
             )}
           </div>
