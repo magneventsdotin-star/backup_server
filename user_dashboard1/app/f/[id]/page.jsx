@@ -83,22 +83,25 @@ export default function ClientFormPage({ params }) {
     setSubmitting(true);
     
     try {
-      const { error: submitError } = await supabase
+      // Fire and forget so the UI is instantly responsive
+      supabase
         .from('custom_form_responses')
         .insert([{
           form_id: id,
           client_email: email,
           response_data: formData
-        }]);
-        
-      if (submitError) console.error("Submission error:", submitError);
+        }]).then(({ error: submitError }) => {
+          if (submitError) console.error("Submission error:", submitError);
+        });
     } catch (err) {
       console.error("Unexpected error:", err);
     }
 
-    // Show success state
-    setSubmitted(true);
-    setSubmitting(false);
+    // Show success state immediately
+    setTimeout(() => {
+      setSubmitted(true);
+      setSubmitting(false);
+    }, 400); // tiny delay so the button animation plays
   };
 
   if (loading) {
