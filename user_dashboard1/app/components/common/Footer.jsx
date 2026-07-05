@@ -109,6 +109,7 @@ export default function Footer() {
             <span style={{ cursor: 'default', opacity: 0.5 }}>Terms</span>
             <span style={{ cursor: 'default', opacity: 0.5 }}>Privacy</span>
             <span style={{ cursor: 'default', opacity: 0.5 }}>Cookies</span>
+            <span style={{ cursor: 'default', opacity: 0.5, fontWeight: 'bold' }}>v1.1.0</span>
           </div>
         </div>
       </div>
