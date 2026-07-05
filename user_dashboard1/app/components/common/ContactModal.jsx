@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { bookingService } from '@/app/services/bookingService'
+import { validateName, validateEmail, validatePhone } from '@/app/utils/validation';
 import '@/app/styles/components/ContactModal.css'
 
 export default function ContactModal() {
@@ -94,6 +95,7 @@ export default function ContactModal() {
     e.preventDefault()
     setFormError('')
 
+    const nameVal = nameRef.current?.value || ''
     const phoneVal = phoneRef.current?.value || ''
     const emailVal = emailRef.current?.value || ''
 
@@ -102,17 +104,19 @@ export default function ContactModal() {
       return
     }
     
-    if (phoneVal) {
-      const digits = phoneVal.replace(/\D/g, '')
-      if (digits.length < 10 || digits.length > 15) {
-        setFormError('Please enter a valid phone number (10-15 digits).')
-        return
-      }
+    if (nameVal) {
+      const nameErr = validateName(nameVal);
+      if (nameErr) return setFormError(nameErr);
     }
     
-    if (emailVal && !emailVal.includes('@')) {
-      setFormError('Please enter a valid email address containing @.')
-      return
+    if (phoneVal) {
+      const phoneErr = validatePhone(phoneVal);
+      if (phoneErr) return setFormError(phoneErr);
+    }
+    
+    if (emailVal) {
+      const emailErr = validateEmail(emailVal);
+      if (emailErr) return setFormError(emailErr);
     }
 
     const submissionData = {

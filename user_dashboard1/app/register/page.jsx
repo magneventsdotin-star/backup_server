@@ -7,6 +7,8 @@ import { bookingService } from '@/app/services/bookingService'
 import '@/app/styles/components/ContactModal.css'
 import '@/app/styles/pages/Register.css'
 
+import { validateName, validateEmail, validatePhone } from '@/app/utils/validation';
+
 export default function RegisterPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -20,7 +22,6 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsSubmitting(true)
     const submissionData = {
       name: nameRef.current?.value || '',
       phone: phoneRef.current?.value || '',
@@ -29,6 +30,15 @@ export default function RegisterPage() {
       portfolio: portfolioRef.current?.value || '',
       bio: bioRef.current?.value || ''
     }
+
+    const nameErr = validateName(submissionData.name);
+    if (nameErr) return alert(nameErr);
+    const emailErr = validateEmail(submissionData.email);
+    if (emailErr) return alert(emailErr);
+    const phoneErr = validatePhone(submissionData.phone);
+    if (phoneErr) return alert(phoneErr);
+
+    setIsSubmitting(true)
     try {
       await bookingService.submitRequest({ ...submissionData, type: 'artist_registration' })
       setIsSubmitting(false)

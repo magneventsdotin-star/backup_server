@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion'
 import FadeSection from '@/app/components/common/FadeSection'
+import { validateName, validateEmail, validatePhone } from '@/app/utils/validation';
 
 export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,12 +15,20 @@ export default function ContactSection() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     const submissionData = {
       name: nameRef.current?.value || '',
       email: emailRef.current?.value || '',
       phone: phoneRef.current?.value || ''
     };
+
+    const nameErr = validateName(submissionData.name);
+    if (nameErr) return alert(nameErr);
+    const emailErr = validateEmail(submissionData.email);
+    if (emailErr) return alert(emailErr);
+    const phoneErr = validatePhone(submissionData.phone);
+    if (phoneErr) return alert(phoneErr);
+
+    setIsSubmitting(true);
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { bookingService } from '@/app/services/bookingService'
+import { validateName, validateEmail, validatePhone } from '@/app/utils/validation'
 import '@/app/styles/components/ContactModal.css'
 
 export default function RegisterModal() {
@@ -54,7 +55,6 @@ export default function RegisterModal() {
 
   const handleArtistSubmit = async (e) => {
     e.preventDefault()
-    setIsSubmitting(true)
     const submissionData = {
       name: nameRef.current?.value || '',
       phone: phoneRef.current?.value || '',
@@ -63,6 +63,15 @@ export default function RegisterModal() {
       portfolio: portfolioRef.current?.value || '',
       bio: bioRef.current?.value || ''
     }
+
+    const nameErr = validateName(submissionData.name);
+    if (nameErr) return alert(nameErr);
+    const emailErr = validateEmail(submissionData.email);
+    if (emailErr) return alert(emailErr);
+    const phoneErr = validatePhone(submissionData.phone);
+    if (phoneErr) return alert(phoneErr);
+
+    setIsSubmitting(true)
     try {
       await bookingService.submitRequest({ ...submissionData, type: 'artist_registration' })
       setIsSubmitting(false)
@@ -75,7 +84,6 @@ export default function RegisterModal() {
 
   const handleEventSubmit = async (e) => {
     e.preventDefault()
-    setIsSubmitting(true)
     const submissionData = {
       name: eventNameRef.current?.value || '',
       phone: eventPhoneRef.current?.value || '',
@@ -86,6 +94,15 @@ export default function RegisterModal() {
       artistType: selectedArtistTypes,
       budget: eventBudgetRef.current?.value || '',
     }
+
+    const nameErr = validateName(submissionData.name);
+    if (nameErr) return alert(nameErr);
+    const emailErr = validateEmail(submissionData.email);
+    if (emailErr) return alert(emailErr);
+    const phoneErr = validatePhone(submissionData.phone);
+    if (phoneErr) return alert(phoneErr);
+
+    setIsSubmitting(true)
     try {
       await bookingService.submitRequest({ ...submissionData, formType: 'booking' })
       setIsSubmitting(false)

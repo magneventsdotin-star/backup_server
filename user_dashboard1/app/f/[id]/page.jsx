@@ -65,8 +65,10 @@ export default function ClientFormPage({ params }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email.trim()) {
-      alert("Please enter your email address.");
+    
+    // Basic email validation as requested
+    if (!email || !email.includes('@')) {
+      alert("Please enter a valid email address containing '@'.");
       return;
     }
 
