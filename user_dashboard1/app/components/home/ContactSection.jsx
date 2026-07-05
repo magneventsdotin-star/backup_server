@@ -30,21 +30,26 @@ export default function ContactSection() {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch('/api/contact', {
+      // Fire and forget so the UI is instantly responsive
+      fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...submissionData, type: 'call_request' }),
+      }).catch(error => {
+        console.error("Failed to send contact inquiry:", error);
       });
-      if (response.ok) {
+      
+      // Show success immediately
+      setTimeout(() => {
         setSubmitted(true);
+        setIsSubmitting(false);
         if (nameRef.current) nameRef.current.value = '';
         if (emailRef.current) emailRef.current.value = '';
         if (phoneRef.current) phoneRef.current.value = '';
         setTimeout(() => setSubmitted(false), 3000);
-      }
+      }, 300); // tiny delay so button animation plays
     } catch (error) {
-      console.error("Failed to send contact inquiry:", error);
-    } finally {
+      console.error("Unexpected error:", error);
       setIsSubmitting(false);
     }
   };
