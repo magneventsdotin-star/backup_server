@@ -77,7 +77,7 @@ export default function FormsPage() {
       const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://magnevents.in';
       const formLink = `${frontendUrl}/f/${selectedForm.id}`;
       
-      const res = await fetch('/api/send-custom-email', {
+      const res = await fetch('/api/send-form-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
