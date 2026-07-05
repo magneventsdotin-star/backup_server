@@ -34,23 +34,29 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
     return () => window.removeEventListener('resize', handleResize)
   }, [artist.successful_bookings])
 
-  let genres = []
-  if (Array.isArray(artist.sub_categories)) {
-    genres = artist.sub_categories.filter(Boolean)
-  } else if (typeof artist.sub_category === 'string') {
-    genres = artist.sub_category.split(',').map(g => g.trim()).filter(Boolean)
-  }
+  const parseJsonArray = (val, fallbackStr) => {
+    if (Array.isArray(val)) return val.filter(Boolean);
+    if (typeof val === 'string') {
+      try {
+        const parsed = JSON.parse(val);
+        if (Array.isArray(parsed)) return parsed.filter(Boolean);
+      } catch (e) {
+        // Not a JSON array string
+      }
+    }
+    if (typeof fallbackStr === 'string' && fallbackStr.trim() !== '') {
+      return fallbackStr.split(',').map(s => s.trim()).filter(Boolean);
+    }
+    return [];
+  };
+
+  let genres = parseJsonArray(artist.sub_categories, artist.sub_category);
   if (genres.length === 0) {
-    const rawGenre = artist.subCategory || artist.category || 'Performer'
-    genres = rawGenre.split(',').map(g => g.trim()).filter(Boolean)
+    const rawGenre = artist.subCategory || artist.category || 'Performer';
+    genres = rawGenre.split(',').map(g => g.trim()).filter(Boolean);
   }
 
-  let languages = []
-  if (Array.isArray(artist.languages)) {
-    languages = artist.languages.filter(Boolean)
-  } else if (typeof artist.performing_language === 'string') {
-    languages = artist.performing_language.split(',').map(l => l.trim()).filter(Boolean)
-  }
+  let languages = parseJsonArray(artist.languages, artist.performing_language);
 
   const location = [artist.city, artist.state].filter(Boolean).join(', ') || 'Jaipur'
   const rating = artist.rating || '4.9'

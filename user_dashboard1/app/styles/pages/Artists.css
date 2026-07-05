@@ -544,7 +544,7 @@ body.modal-open .booking-bottom-nav-spacer {
   background: #0a0a0a;
   border-radius: 18px;
   overflow: hidden;
-  aspect-ratio: 3.2/4;
+  aspect-ratio: 2/3; /* Made taller to fit more info comfortably */
   width: 100%;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
