@@ -260,7 +260,7 @@ export default function ArtistProfilePage({ params }) {
                 }}>
                   {ytId ? (
                     <iframe
-                      src={`https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&controls=1&autoplay=1&mute=0&playsinline=1&iv_load_policy=3&fs=0`}
+                      src={`https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&controls=1&autoplay=1&mute=1&playsinline=1&iv_load_policy=3&fs=0`}
                       style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none', objectFit: 'contain' }}
                       allow="autoplay; encrypted-media"
                       allowFullScreen
@@ -274,6 +274,8 @@ export default function ArtistProfilePage({ params }) {
                         src={url}
                         controls
                         autoPlay
+                        muted
+                        loop
                         playsInline
                         style={{ 
                           position: 'absolute', 
@@ -291,7 +293,8 @@ export default function ArtistProfilePage({ params }) {
                     position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px 20px 24px',
                     background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)', 
                     color: 'white', fontWeight: '800', fontSize: '16px', zIndex: 10,
-                    letterSpacing: '0.02em', textTransform: 'uppercase'
+                    letterSpacing: '0.02em', textTransform: 'uppercase',
+                    pointerEvents: 'none' // Allows clicking through to the video controls
                   }}>
                     {vid.topic || 'Live Performance'}
                   </div>
