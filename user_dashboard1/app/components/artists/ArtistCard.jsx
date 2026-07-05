@@ -91,13 +91,15 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
           <div className="modern-overlay-gradient"></div>
         </div>
         <div className="modern-info-overlay" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%)', padding: '24px 20px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', borderBottomLeftRadius: '24px', borderBottomRightRadius: '24px' }}>
+          <h3 className="modern-artist-name" style={{ fontSize: '24px', fontWeight: '900', margin: '0 0 6px 0', color: '#ffffff', letterSpacing: '-0.02em', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{artist.name}</h3>
+
           <div className="modern-badges-container" style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
             {genres.length > 0 && (
-              <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', alignItems: 'center' }}>
-                {genres.slice(0, 2).map((g, idx) => (
-                  <span key={`g-${idx}`} style={{ background: '#FFE032', color: '#1a1a1a', padding: '2px 8px', borderRadius: '8px', fontSize: '9px', fontWeight: '800', letterSpacing: '0.05em', textTransform: 'uppercase', boxShadow: '0 2px 5px rgba(255, 224, 50, 0.2)' }}>{g}</span>
+              <div style={{ display: 'flex', gap: '4px', flexWrap: 'nowrap', overflow: 'hidden', alignItems: 'center' }}>
+                {genres.slice(0, 1).map((g, idx) => (
+                  <span key={`g-${idx}`} style={{ background: '#FFE032', color: '#1a1a1a', padding: '2px 8px', borderRadius: '8px', fontSize: '9px', fontWeight: '800', letterSpacing: '0.05em', textTransform: 'uppercase', boxShadow: '0 2px 5px rgba(255, 224, 50, 0.2)', whiteSpace: 'nowrap' }}>{g}</span>
                 ))}
-                {genres.length > 2 && <span style={{ background: 'rgba(255, 224, 50, 0.1)', color: '#FFE032', border: '1px solid rgba(255, 224, 50, 0.5)', padding: '1px 6px', borderRadius: '8px', fontSize: '9px', fontWeight: '800' }}>+{genres.length - 2}</span>}
+                {genres.length > 1 && <span style={{ background: 'rgba(255, 224, 50, 0.1)', color: '#FFE032', border: '1px solid rgba(255, 224, 50, 0.5)', padding: '1px 6px', borderRadius: '8px', fontSize: '9px', fontWeight: '800', whiteSpace: 'nowrap' }}>+{genres.length - 1}</span>}
               </div>
             )}
             
@@ -113,8 +115,6 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
               </div>
             )}
           </div>
-          
-          <h3 className="modern-artist-name" style={{ fontSize: '24px', fontWeight: '900', margin: '0 0 6px 0', color: '#ffffff', letterSpacing: '-0.02em', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{artist.name}</h3>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style={{ width: '14px', height: '14px', color: '#cbd5e1' }}>

@@ -167,7 +167,7 @@ export default function ArtistProfilePage({ params }) {
               <div className="stat-item">
                 <div className="stat-value">{artist.successful_bookings || 0}</div>
                 <div style={{ height: '14px' }} />
-                <div className="stat-sublabel">Total Shows</div>
+                <div className="stat-sublabel">SHOWS</div>
               </div>
             </div>
           </div>

@@ -544,7 +544,7 @@ body.modal-open .booking-bottom-nav-spacer {
   background: #0a0a0a;
   border-radius: 18px;
   overflow: hidden;
-  aspect-ratio: 2/3; /* Made taller to fit more info comfortably */
+  aspect-ratio: 2/3.15; /* Made 5% taller */
   width: 100%;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -554,7 +554,7 @@ body.modal-open .booking-bottom-nav-spacer {
 
 @media (max-width: 576px) {
   .modern-artist-card {
-    height: 380px;
+    height: 400px;
     aspect-ratio: auto;
   }
 }
