@@ -184,14 +184,22 @@ export function EditAdminModal({ open, onOpenChange, adminData, onSuccess }: Edi
                       if (!file) return;
                       setUploadingAvatar(true);
                       try {
-                        const formData = new FormData();
-                        formData.append('file', file);
-                        const res = await fetch('/api/upload', {
+                        const urlRes = await fetch('/api/upload-url', {
                           method: 'POST',
-                          body: formData,
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ filename: file.name, contentType: file.type })
                         });
-                        const result = await res.json();
-                        if (!res.ok) throw new Error(result.error || 'Upload failed');
+                        const urlResult = await urlRes.json();
+                        if (!urlRes.ok) throw new Error(urlResult.error || 'Failed to get upload URL');
+
+                        const { signedUrl, url } = urlResult;
+                        const uploadRes = await fetch(signedUrl, {
+                          method: 'PUT',
+                          body: file,
+                          headers: { 'Content-Type': file.type }
+                        });
+                        if (!uploadRes.ok) throw new Error('Upload failed');
+                        const result = { url };
                         if (result.url) {
                           form.setValue('avatar_url', result.url, { shouldDirty: true });
                           toast({ title: "Avatar Uploaded", description: "Successfully updated profile picture." });
