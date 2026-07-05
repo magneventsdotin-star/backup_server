@@ -58,7 +58,7 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
   let languages = parseJsonArray(artist.languages, artist.performing_language);
 
   const location = [artist.city, artist.state].filter(Boolean).join(', ') || 'Jaipur'
-  const rating = artist.rating ? Number(artist.rating).toFixed(1) : '0.0'
+  const rating = artist.rating !== undefined && artist.rating !== null ? Number(artist.rating).toFixed(1) : '0.0'
   
   const imgSrc = (!artist.img || imageError) 
     ? `https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name || 'A')}&background=1A1A1A&color=FFE032&size=400&font-size=0.33&bold=true`
@@ -123,7 +123,7 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
             <span style={{ color: '#cbd5e1', fontSize: '13px', fontWeight: '500' }}>{location}</span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justify-content: 'space-between', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px' }}>
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-1.5">
                 <Stars count={Math.round(Number(rating))} />
