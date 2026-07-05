@@ -18,7 +18,6 @@ export const HERO_SPOTLIGHT_SLIDES = [
   '/heroSec/1.webp',
   '/heroSec/2.webp',
   '/heroSec/3.webp',
-  '/heroSec/4.webp',
   '/heroSec/5.webp',
 ]
 
