@@ -428,6 +428,10 @@
 }
 
 @media (max-width: 768px) {
+  .artist-profile-wrapper {
+    padding-bottom: 140px; /* Increased to clear WhatsApp icon and BottomNav */
+  }
+
   .hero-content {
     padding: 180px 20px 30px 20px;
   }
@@ -439,5 +443,22 @@
   .hero-stats {
     width: 100%;
     justify-content: space-around;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .btn-primary-elegant, .btn-secondary-elegant {
+    width: 100%;
+    text-align: center;
+    padding: 14px 20px;
+  }
+
+  .genre-pill {
+    font-size: 10px;
+    padding: 6px 10px;
   }
 }
