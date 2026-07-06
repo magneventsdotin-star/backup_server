@@ -49,10 +49,12 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
     return [];
   };
 
-  const rawGenre = artist.category || artist.subCategory || 'Performer';
-  let genres = rawGenre.split(',').map(g => g.trim()).filter(Boolean);
-
-  let languages = parseJsonArray(artist.languages, artist.performing_language);
+  let subCats = parseJsonArray(artist.sub_categories, artist.sub_category);
+  let langs = parseJsonArray(artist.languages, artist.performing_language);
+  let mainCat = artist.category ? artist.category.split(',').map(s => s.trim()) : [];
+  
+  let allTags = [...new Set([...mainCat, ...subCats, ...langs])].filter(Boolean);
+  if (allTags.length === 0) allTags = ['Performer'];
 
   const location = [artist.city, artist.state].filter(Boolean).join(', ') || 'Jaipur'
   const rating = artist.rating !== undefined && artist.rating !== null ? Number(artist.rating).toFixed(1) : '0.0'
@@ -90,27 +92,11 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
         <div className="modern-info-overlay" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%)', padding: '24px 20px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', borderBottomLeftRadius: '24px', borderBottomRightRadius: '24px' }}>
           <h3 className="modern-artist-name" style={{ fontSize: '24px', fontWeight: '900', margin: '0 0 6px 0', color: '#ffffff', letterSpacing: '-0.02em', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{artist.name}</h3>
 
-          <div className="modern-badges-container" style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
-            {genres.length > 0 && (
-              <div style={{ display: 'flex', gap: '4px', flexWrap: 'nowrap', overflow: 'hidden', alignItems: 'center' }}>
-                {genres.slice(0, 1).map((g, idx) => (
-                  <span key={`g-${idx}`} style={{ background: 'rgba(255,255,255,0.15)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)', padding: '2px 8px', borderRadius: '8px', fontSize: '9px', fontWeight: '800', letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{g}</span>
-                ))}
-                {genres.length > 1 && <span style={{ background: 'rgba(255,255,255,0.15)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)', padding: '1px 6px', borderRadius: '8px', fontSize: '9px', fontWeight: '800', whiteSpace: 'nowrap' }}>+{genres.length - 1}</span>}
-              </div>
-            )}
-            
-            {languages.length > 0 && (
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center', marginTop: '2px' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style={{ width: '12px', height: '12px', color: '#94a3b8' }}>
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9H5.5a1.5 1.5 0 000 3H7v-3zm3 0H8.5v3H10V9zm3 0h-1.5v3H13V9z" clipRule="evenodd" />
-                </svg>
-                {languages.slice(0, 3).map((l, idx) => (
-                  <span key={`l-${idx}`} style={{ color: '#e2e8f0', fontSize: '10px', fontWeight: '600', letterSpacing: '0.02em', background: 'rgba(255,255,255,0.12)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.15)' }}>{l}</span>
-                ))}
-                {languages.length > 3 && <span style={{ color: '#94a3b8', fontSize: '9px', fontWeight: '500' }}>+{languages.length - 3}</span>}
-              </div>
-            )}
+          <div className="modern-badges-container" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', overflow: 'hidden', alignItems: 'center', marginBottom: '16px' }}>
+            {allTags.slice(0, 3).map((tag, idx) => (
+              <span key={`tag-${idx}`} style={{ background: 'rgba(255,255,255,0.15)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)', padding: '2px 8px', borderRadius: '8px', fontSize: '9px', fontWeight: '800', letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{tag}</span>
+            ))}
+            {allTags.length > 3 && <span style={{ background: 'rgba(255,255,255,0.15)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)', padding: '1px 6px', borderRadius: '8px', fontSize: '9px', fontWeight: '800', whiteSpace: 'nowrap' }}>+{allTags.length - 3}</span>}
           </div>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
