@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
@@ -43,22 +43,17 @@ function FeaturedArtistsSection() {
           return;
         }
 
-        const formatArtistData = (artists) => artists.map(artist => ({
-          id: artist.id,
-          artist_no: artist.artist_no,
-          name: artist.alias || artist.name,
-          category: artist.category,
-          subCategory: artist.sub_category,
-          city: artist.city,
-          state: artist.state,
-          languages: artist.performing_language,
-          successful_bookings: artist.successful_bookings,
-          rating: artist.rating,
-          img: artist.artist_images?.[0]?.image_url || null,
-        }));
-
         if (data && data.length > 0) {
-          setFeaturedArtists(formatArtistData(data));
+          let parsedArtists = data.map(artist => ({
+            name: artist.alias || artist.name,
+            genre: artist.sub_category || artist.category || 'Performer',
+            bookings: artist.successful_bookings || 0,
+            rating: artist.rating || '0.0',
+            image: artist.artist_images?.[0]?.image_url || '/assets/lux-singer-session.webp',
+            city: artist.city || 'India'
+          }));
+          
+          setFeaturedArtists(parsedArtists);
         } else {
           const { data: anyData, error: anyError } = await supabase
             .from('artists')
@@ -67,7 +62,15 @@ function FeaturedArtistsSection() {
             .limit(6);
             
           if (anyData && anyData.length > 0) {
-            setFeaturedArtists(formatArtistData(anyData));
+            let parsedAny = anyData.map(artist => ({
+              name: artist.alias || artist.name,
+              genre: artist.sub_category || artist.category || 'Performer',
+              bookings: artist.successful_bookings || 0,
+              rating: artist.rating || '0.0',
+              image: artist.artist_images?.[0]?.image_url || '/assets/lux-singer-session.webp',
+              city: artist.city || 'India'
+            }));
+            setFeaturedArtists(parsedAny);
           } else {
             setFeaturedArtists(FEATURED_ARTISTS.slice(0, 15));
           }
@@ -149,7 +152,7 @@ function FeaturedArtistsSection() {
         </div>
 
         <div className="hp-feat-actions-row">
-          <Link href="/artists" className="hp-see-all-v2">See all →</Link>
+          <Link href="/artists" className="hp-see-all-v2">See all ΓåÆ</Link>
           <div className="hp-feat-controls-v2">
             <button
               type="button"
@@ -203,7 +206,7 @@ function FeaturedArtistsSection() {
         ) : (
           featuredArtists.map((artist, i) => (
             <motion.div
-              key={artist.artist_no || artist.name}
+              key={artist.name}
               className="hp-feat-slide"
               data-featured-card
               initial={{ opacity: 0, scale: 0.98 }}
@@ -218,7 +221,7 @@ function FeaturedArtistsSection() {
                 >
                   <div className="hp-feat-img-wrap-v2">
                     <Image
-                      src={artist.img || '/assets/lux-singer-session.webp'}
+                      src={artist.image}
                       alt={artist.name}
                       fill
                       style={{ objectFit: 'cover' }}
@@ -227,15 +230,13 @@ function FeaturedArtistsSection() {
                   </div>
                   <div className="hp-feat-info-v2">
                     <div>
-                      <span className="hp-feat-genre-v2">{artist.subCategory || artist.category || 'Performer'}</span>
+                      <span className="hp-feat-genre-v2">{artist.genre}</span>
                       <h3 className="hp-feat-name-v2">{artist.name}</h3>
-                      <span className="hp-feat-loc-v2">{[artist.city, artist.state].filter(Boolean).join(', ') || 'India'}</span>
+                      <span className="hp-feat-loc-v2">{artist.city || 'India'}</span>
 
                       <div className="hp-feat-rating-v2">
-                        <Stars count={Math.round(Number(artist.rating || 0))} />
-                        <span className="hp-feat-score-v2">
-                          {Number(artist.rating || 0).toFixed(1)} · {artist.successful_bookings || 0} bookings
-                        </span>
+                        <Stars count={Math.round(Number(artist.rating))} />
+                        <span className="hp-feat-score-v2">{artist.rating} ┬╖ {artist.bookings} bookings</span>
                       </div>
                     </div>
                   </div>
