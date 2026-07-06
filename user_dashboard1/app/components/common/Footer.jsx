@@ -99,6 +99,22 @@ export default function Footer() {
 
         </div>
 
+        <div className="lux-footer-seo" style={{ marginTop: '40px', padding: '30px 0', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexWrap: 'wrap', gap: '8px 12px', justifyContent: 'center', textAlign: 'center' }}>
+          {[
+            'live singers in delhi', 'live singer for house party', 'book singer for house party',
+            'singer for house party', 'guitarist near me', 'book live singer', 'sufi singers in delhi',
+            'guitarist for house party', 'live bands for wedding in delhi', 'singer in delhi',
+            'guitarist at home', 'live singer for house party near me', 'live singer near me',
+            'live bands in delhi', 'singer for birthday party', 'live singer',
+            'guitarist for birthday party in delhi', 'live music at home', 'live music singers near me',
+            'singer for home party', 'live band for wedding', 'singer near me', 'singers for wedding',
+            'singer at home', 'singer for house party in gurgaon', 'local singers near me'
+          ].map((kw, i) => (
+            <Link key={i} href={`/search?q=${encodeURIComponent(kw)}`} style={{ color: 'rgba(255,255,255,0.2)', fontSize: '10px', textDecoration: 'none', transition: 'color 0.2s ease' }} onMouseEnter={(e) => e.target.style.color = 'rgba(255,255,255,0.5)'} onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.2)'}>
+              {kw}{i !== 25 ? ' |' : ''}
+            </Link>
+          ))}
+        </div>
 
         <div className="lux-footer-bottom">
           <div className="lux-footer-copyright">
