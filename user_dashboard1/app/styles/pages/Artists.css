@@ -579,6 +579,28 @@ body.modal-open .booking-bottom-nav-spacer {
   pointer-events: none;
 }
 
+.modern-booking-badge {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.4) 100%);
+  color: #34d399;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .modern-booking-badge {
+    padding: 6px 10px;
+  }
+}
 .modern-info-overlay {
   position: absolute;
   bottom: 0;
