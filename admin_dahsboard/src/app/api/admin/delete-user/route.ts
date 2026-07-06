@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     );
     const superAdminId = process.env.NEXT_PUBLIC_SUPER_ADMIN_ID;
 
-    // 0. Transfer ownership of any uploaded profiles to Super Admin
+
     if (superAdminId && superAdminId !== userId) {
       await supabaseAdmin
         .from('artists')
@@ -29,7 +29,6 @@ export async function POST(request: Request) {
         .eq('created_by', userId);
     }
 
-    // 1. Delete from profiles table first (to prevent foreign key constraint violations)
     const { error: profileError } = await supabaseAdmin
       .from('profiles')
       .delete()

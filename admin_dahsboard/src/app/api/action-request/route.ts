@@ -273,12 +273,12 @@ export async function GET(req: Request) {
       titleStr = 'More Info';
       icon = '📞';
     } else if (action === 'unavailable') {
-      bgColor = '#f59e0b'; // orange
+      bgColor = '#f59e0b';
       text = 'Client Notified: Artist Unavailable';
       titleStr = 'Unavailable';
       icon = '🗓️';
     } else if (action === 'reject') {
-      bgColor = '#ef4444'; // red
+      bgColor = '#ef4444'; 
       text = 'Request Rejected Successfully!';
       titleStr = 'Rejected';
       icon = '✕';
