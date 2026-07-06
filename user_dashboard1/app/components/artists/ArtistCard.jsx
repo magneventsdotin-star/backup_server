@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import TiltCard from '@/app/components/common/TiltCard'
 import Stars from '@/app/components/common/Stars'
-import '@/app/styles/pages/HomePage.css'
+import '@/app/styles/pages/Artists.css'
 
 const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
   const router = useRouter()
@@ -60,7 +60,7 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
   const rating = artist.rating !== undefined && artist.rating !== null ? Number(artist.rating).toFixed(1) : '0.0'
   
   const imgSrc = (!artist.img || imageError) 
-    ? `https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name || 'A')}&background=1A1A1A&color=FFE032&size=400&font-size=0.33&bold=true`
+    ? '/assets/lux-singer-session.webp'
     : artist.img
 
   return (

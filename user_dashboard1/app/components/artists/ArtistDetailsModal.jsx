@@ -46,7 +46,7 @@ export default function ArtistDetailsModal({ artist, showDetails, setShowDetails
             <div className="proper-modal-header" style={{ position: 'relative', width: '100%', height: '380px', overflow: 'hidden' }}>
               {(!artist.img && !artist.image) || imageError ? (
                 <Image
-                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name || 'A')}&background=111111&color=D65050&size=800&font-size=0.33&bold=true`}
+                  src={'/assets/lux-hero-artist.webp'}
                   alt={artist.name}
                   fill
                   sizes="1000px"
