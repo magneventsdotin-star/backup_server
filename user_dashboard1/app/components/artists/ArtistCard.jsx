@@ -112,9 +112,6 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
                 <Stars count={Math.round(Number(rating))} />
                 <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '14px' }}>{rating}</span>
               </div>
-              {artist.price && (
-                <span style={{ color: '#fbbf24', fontSize: '11px', fontWeight: '800', letterSpacing: '0.05em' }}>₹{artist.price.toLocaleString('en-IN')} / Event</span>
-              )}
             </div>
             {mounted && bookings > 0 && (
               <div style={{ background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.4) 100%)', color: '#34d399', padding: '6px 10px', borderRadius: '20px', fontSize: '9px', fontWeight: '800', letterSpacing: '0.05em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '4px', border: '1px solid rgba(16, 185, 129, 0.3)', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.15)' }}>
