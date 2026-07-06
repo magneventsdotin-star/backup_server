@@ -65,7 +65,6 @@ export async function GET(req: Request) {
         let newStatus = 'cancelled';
         if (action === 'confirm' || action === 'approve') newStatus = 'confirmed';
         else if (action === 'more_info') newStatus = 'pending';
-        // 'unavailable' and 'reject' will fall through to 'cancelled'
 
         const { error: err } = await supabase
           .from('bookings')
@@ -73,7 +72,6 @@ export async function GET(req: Request) {
           .eq('id', id);
         error = err;
 
-        // Send confirmation email to client
         if (!error && booking && booking.client_email && booking.client_email !== 'N/A') {
           try {
             const transporter = nodemailer.createTransport({
@@ -234,7 +232,6 @@ export async function GET(req: Request) {
               emailStatus = 'failed';
             }
             
-            // Log email to database
             try {
               await supabase.from('emails')
                 .insert([{
@@ -260,8 +257,7 @@ export async function GET(req: Request) {
 
     if (error) throw error;
 
-    // Return a simple success page
-    let bgColor = '#10b981'; // default green
+    let bgColor = '#10b981';
     let text = 'Action Processed Successfully!';
     let titleStr = 'Success';
     let icon = '✓';
@@ -272,7 +268,7 @@ export async function GET(req: Request) {
       titleStr = 'Approved';
       icon = '✓';
     } else if (action === 'more_info') {
-      bgColor = '#3b82f6'; // blue
+      bgColor = '#3b82f6';
       text = 'Client Notified for More Info!';
       titleStr = 'More Info';
       icon = '📞';
