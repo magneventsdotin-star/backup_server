@@ -7,12 +7,11 @@ import BottomNav from '@/app/components/layout/BottomNav';
 import Footer from '@/app/components/common/Footer';
 import { useMouseGlow } from '@/app/hooks/useMouseGlow';
 
-const HIDE_CHROME_ON = ['/checkout', '/confirmed', '/login', '/signup', '/onboarding', '/chat'];
+const HIDE_CHROME_ON = ['/checkout', '/confirmed', '/login', '/signup', '/onboarding', '/chat', '/f/'];
 
 export function AppShellWrapper({ children }) {
   const pathname = usePathname();
   const hideChrome = HIDE_CHROME_ON.some(p => pathname.startsWith(p));
-
 
   useMouseGlow();
 
@@ -28,7 +27,7 @@ export function AppShellWrapper({ children }) {
 
       {!hideChrome && <Nav />}
 
-      <div className={`page-enter ${routeTransitionClass}`} style={{ minHeight: '100vh', paddingTop: '72px' }}>
+      <div className={`page-enter ${routeTransitionClass}`} style={{ minHeight: '100vh', paddingTop: hideChrome ? '0px' : '72px' }}>
         <div className="flow-unify-page-wrap">
           {children}
         </div>
