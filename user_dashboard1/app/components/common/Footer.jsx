@@ -109,6 +109,9 @@ export default function Footer() {
             <span style={{ cursor: 'default', opacity: 0.5 }}>Privacy</span>
             <span style={{ cursor: 'default', opacity: 0.5 }}>Cookies</span>
             <span style={{ cursor: 'default', opacity: 0.5, fontWeight: 'bold' }}>v1.1.0</span>
+            <span style={{ cursor: 'default', opacity: 0.5, fontWeight: 'bold', color: '#D65050', marginLeft: '4px' }}>
+              [{process.env.NEXT_PUBLIC_SERVER_ID || 'S1'}]
+            </span>
           </div>
         </div>
       </div>
