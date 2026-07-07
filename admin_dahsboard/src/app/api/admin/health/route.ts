@@ -82,7 +82,7 @@ export async function GET() {
     ]);
 
     const { data: analyticsData } = await supabase.from('analytics').select('session_id');
-    const uniqueSessions = new Set(analyticsData?.map((a: any) => a.session_id).filter(Boolean));
+    const uniqueSessions = new Set((analyticsData || []).map((a: any) => a.session_id).filter(Boolean));
 
     counts.users = usersCount || 0;
     counts.artists = artistsCount || 0;
