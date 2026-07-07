@@ -98,6 +98,18 @@ export default function ArtistProfilePage({ params }) {
     fetchArtist();
   }, [decodedId]);
 
+  useEffect(() => {
+    if (artist && typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('book') === 'true') {
+        const name = artist.alias || artist.name;
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking', artist: { name, category: artist.category } } }));
+        }, 100);
+      }
+    }
+  }, [artist]);
+
   if (loading) {
     return (
       <main className="artist-profile-wrapper">

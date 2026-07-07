@@ -21,6 +21,31 @@ export default function ContactModal() {
   const [selectedBudget, setSelectedBudget] = useState('')
   const [selectedEventType, setSelectedEventType] = useState('')
 
+  const copyToClipboard = () => {
+    let url = window.location.href;
+   
+    if (window.location.pathname === '/' || window.location.pathname === '') {
+      if (formType === 'register') {
+        url = window.location.origin + '/register/artist';
+      } else if (formType === 'booking') {
+        url = window.location.origin + '/register/event';
+      }
+    } else if (window.location.pathname.startsWith('/artist/')) {
+    
+      const urlObj = new URL(url);
+      if (!urlObj.searchParams.has('book')) {
+        urlObj.searchParams.set('book', 'true');
+      }
+      url = urlObj.toString();
+    }
+    
+    navigator.clipboard.writeText(url).then(() => {
+      alert('Link copied to clipboard!');
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+  };
+
   const nameRef = useRef(null)
   const phoneRef = useRef(null)
   const emailRef = useRef(null)
@@ -178,11 +203,22 @@ export default function ContactModal() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
 
-          <div className="lux-modal-header">
-            <div className="header-badge">
-              {formType === 'register' ? 'JOIN OUR ROSTER' : 'DIRECT SUPPORT'}
+          <div className="lux-modal-header" style={{ position: 'relative' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+              <div className="header-badge" style={{ margin: 0 }}>
+                {formType === 'register' ? 'JOIN OUR ROSTER' : 'DIRECT SUPPORT'}
+              </div>
+              <button 
+                onClick={copyToClipboard}
+                style={{ background: 'transparent', border: '1px solid rgba(255, 255, 255, 0.2)', color: 'rgba(255, 255, 255, 0.8)', borderRadius: '12px', padding: '4px 12px', fontSize: '11px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.4)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'; }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                Copy Link
+              </button>
             </div>
-            <h3 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '32px' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '32px', marginTop: '4px' }}>
               {formType === 'register' ? 'Artist Registration' : 'Booking form'}
             </h3>
             {initialArtist ? (

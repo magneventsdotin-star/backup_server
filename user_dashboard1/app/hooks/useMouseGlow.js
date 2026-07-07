@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 
 export function useMouseGlow() {
   useEffect(() => {
-    // Performance optimization: Skip custom cursor/ambient glow updates on touch/mobile screens without fine hover pointer support.
     const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (!supportsHover) return;
 

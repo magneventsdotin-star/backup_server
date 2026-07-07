@@ -28,6 +28,15 @@ export default function RegisterModal() {
   const eventBudgetRef = useRef(null)
   const [selectedArtistTypes, setSelectedArtistTypes] = useState([])
 
+  const copyToClipboard = (path) => {
+    const url = window.location.origin + path;
+    navigator.clipboard.writeText(url).then(() => {
+      alert('Link copied to clipboard!');
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+  };
+
   useEffect(() => {
     const handleOpen = (e) => {
       setIsOpen(true)
@@ -229,9 +238,20 @@ export default function RegisterModal() {
 
             {view === 'artist' && !submitted && (
               <>
-                <div className="lux-modal-header" style={{ marginBottom: '16px' }}>
-                  <p className="header-badge" style={{ background: 'rgba(0, 212, 255, 0.1)', color: '#00d4ff' }}>JOIN THE ELITE</p>
-                  <h3 className="lux-modal-title">Artist Registration</h3>
+                <div className="lux-modal-header" style={{ marginBottom: '16px', position: 'relative' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <p className="header-badge" style={{ background: 'rgba(0, 212, 255, 0.1)', color: '#00d4ff', margin: 0 }}>JOIN THE ELITE</p>
+                    <button 
+                      onClick={() => copyToClipboard('/register/artist')}
+                      style={{ background: 'transparent', border: '1px solid rgba(0, 212, 255, 0.3)', color: '#00d4ff', borderRadius: '12px', padding: '4px 12px', fontSize: '11px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0, 212, 255, 0.1)'; e.currentTarget.style.borderColor = '#00d4ff'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.3)'; }}
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                      Copy Link
+                    </button>
+                  </div>
+                  <h3 className="lux-modal-title" style={{ marginTop: '12px' }}>Artist Registration</h3>
                   <p className="lux-modal-desc">Showcase your talent to the world. Join Magnevents and perform at premium venues.</p>
                 </div>
 
@@ -312,9 +332,20 @@ export default function RegisterModal() {
 
             {view === 'event' && !submitted && (
               <>
-                <div className="lux-modal-header" style={{ marginBottom: '16px' }}>
-                  <p className="header-badge">DIRECT SUPPORT</p>
-                  <h3 className="lux-modal-title">Register Event</h3>
+                <div className="lux-modal-header" style={{ marginBottom: '16px', position: 'relative' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <p className="header-badge" style={{ margin: 0 }}>DIRECT SUPPORT</p>
+                    <button 
+                      onClick={() => copyToClipboard('/register/event')}
+                      style={{ background: 'transparent', border: '1px solid rgba(255, 224, 50, 0.3)', color: '#FFE032', borderRadius: '12px', padding: '4px 12px', fontSize: '11px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255, 224, 50, 0.1)'; e.currentTarget.style.borderColor = '#FFE032'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(255, 224, 50, 0.3)'; }}
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                      Copy Link
+                    </button>
+                  </div>
+                  <h3 className="lux-modal-title" style={{ marginTop: '12px' }}>Register Event</h3>
                   <p className="lux-modal-desc">Tell us your vision, and we will find the perfect stage presence for you.</p>
                 </div>
 
