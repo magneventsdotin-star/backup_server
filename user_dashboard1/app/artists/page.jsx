@@ -18,7 +18,7 @@ export default function ArtistsPage() {
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
-  const ITEMS_PER_PAGE = 12
+  const ITEMS_PER_PAGE = 15
 
   const fetchArtists = async (page = 1, category = activeCategory) => {
     setLoading(true)
