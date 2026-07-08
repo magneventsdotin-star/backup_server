@@ -90,6 +90,8 @@ function ArtistRequestsContent() {
   const [exportSingleDate, setExportSingleDate] = useState('');
   const [exportFilterType, setExportFilterType] = useState('all');
 
+  const [internalNotes, setInternalNotes] = useState('');
+
   // Custom Email State
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [emailSubject, setEmailSubject] = useState('Update on your Magnevents Request');
@@ -150,6 +152,7 @@ function ArtistRequestsContent() {
       const req = requests.find(r => r.id === replyId);
       if (req) {
         setSelectedRequest(req);
+        setInternalNotes(''); // Reset internal notes
         setDetailOpen(true); // Always open the event details in the background
         
         if (!actionType) {
@@ -218,9 +221,14 @@ function ArtistRequestsContent() {
 
   const handleUpdateStatus = async (id: string, newStatus: string) => {
     try {
+      let finalNotes = selectedRequest?.notes || '';
+      if (internalNotes.trim()) {
+        finalNotes = finalNotes ? `${finalNotes}\n\n[Admin Verification Notes]:\n${internalNotes.trim()}` : `[Admin Verification Notes]:\n${internalNotes.trim()}`;
+      }
+
       const { error } = await (supabase
         .from('bookings') as any)
-        .update({ status: newStatus })
+        .update({ status: newStatus, notes: finalNotes })
         .eq('id', id);
 
       if (error) throw error;
@@ -261,13 +269,15 @@ function ArtistRequestsContent() {
         
         setDetailOpen(false);
         setSelectedRequest(null);
+        setInternalNotes('');
+        setRequests(prev => prev.filter(r => r.id !== id));
       } else {
         toast({ title: 'Updated', description: `Request status updated to ${newStatus}.` });
         if (selectedRequest && selectedRequest.id === id) {
           setSelectedRequest({ ...selectedRequest, status: newStatus });
         }
+        setRequests(prev => prev.map(r => r.id === id ? { ...r, status: newStatus } : r));
       }
-      fetchRequests();
       window.dispatchEvent(new Event('refresh_sidebar_counts'));
     } catch (error: any) {
       toast({ variant: 'destructive', title: 'Error', description: error.message });
@@ -305,10 +315,39 @@ function ArtistRequestsContent() {
         throw new Error(errText || 'Failed to send email');
       }
 
+      // Auto create artist profile if approved via email link
+      if (emailActionStatus === 'confirmed' && selectedRequest.event_type === 'Artist Registration') {
+          const notes = selectedRequest.notes || '';
+          let category = 'Others';
+          const catMatch = notes.match(/Category:\s*([^\n]+)/);
+          if (catMatch) category = catMatch[1].trim();
+
+          const { error: artistError } = await (supabase.from('artists') as any).insert([{
+            name: selectedRequest.client_name,
+            email: selectedRequest.client_email,
+            phone_no: selectedRequest.client_phone,
+            contact_person: selectedRequest.client_name,
+            category: category,
+            city: selectedRequest.venue !== 'TBD' ? selectedRequest.venue : null,
+            is_live: false, // Kept hidden until fully configured
+          }]);
+          
+          if (artistError) {
+             console.error('Failed to create artist profile', artistError);
+             toast({ variant: 'destructive', title: 'Warning', description: 'Email sent but failed to auto-create artist profile.' });
+          }
+      }
+
       toast({ title: 'Email Sent!', description: 'Your custom reply has been dispatched to the client.' });
       setEmailModalOpen(false);
       setDetailOpen(false);
-      fetchRequests();
+      
+      if (['confirmed', 'completed', 'cancelled'].includes(emailActionStatus)) {
+        setRequests(prev => prev.filter(r => r.id !== selectedRequest.id));
+      } else {
+        setRequests(prev => prev.map(r => r.id === selectedRequest.id ? { ...r, status: emailActionStatus } : r));
+      }
+      
       window.dispatchEvent(new Event('refresh_sidebar_counts'));
     } catch (err: any) {
       toast({ variant: 'destructive', title: 'Send Failed', description: err.message });
@@ -324,7 +363,7 @@ function ArtistRequestsContent() {
       if (error) throw error;
       toast({ title: 'Deleted', description: 'Request has been removed.' });
       setDetailOpen(false);
-      fetchRequests();
+      setRequests(prev => prev.filter(r => r.id !== id));
       window.dispatchEvent(new Event('refresh_sidebar_counts'));
     } catch (error: any) {
       toast({ variant: 'destructive', title: 'Error', description: error.message });
@@ -736,6 +775,8 @@ function ArtistRequestsContent() {
                  <div className="p-5 rounded-2xl bg-amber-50/50 border border-amber-100">
                     <p className="text-[10px] font-black text-amber-600 uppercase mb-2">Verification Section</p>
                     <textarea 
+                      value={internalNotes}
+                      onChange={(e) => setInternalNotes(e.target.value)}
                       placeholder="Add internal notes about this artist verification..."
                       className="w-full bg-white border border-amber-200 rounded-xl p-3 text-sm text-slate-700 resize-none h-24 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
                     ></textarea>
@@ -744,9 +785,10 @@ function ArtistRequestsContent() {
                  <div className="flex flex-wrap justify-end gap-2 pt-4 border-t border-slate-100">
                     <button
                       onClick={() => {
+                        setDetailOpen(false);
+                        setInternalNotes('');
                         setEmailSubject('Magnevents - Action Required for your Request');
                         setEmailMessage('Thank you for reaching out to Magnevents! We are reviewing your registration, but we need a few more details to proceed.');
-                        setDetailOpen(false);
                         setEmailModalOpen(true);
                       }}
                       className="px-6 h-11 rounded-xl bg-indigo-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center gap-2"
@@ -820,7 +862,7 @@ function ArtistRequestsContent() {
             <div className="mx-auto w-16 h-16 bg-amber-500/20 rounded-full flex items-center justify-center mb-4">
               <AlertCircle size={32} className="text-amber-500" />
             </div>
-            <DialogTitle className="text-2xl font-black mb-2">Confirm Action</DialogTitle>
+            <DialogTitle className="text-2xl font-black mb-2">Confirm Email Dispatch</DialogTitle>
             <DialogDescription className="text-slate-300 font-medium">
               Are you sure you want to send this email to {selectedRequest?.client_email}?
             </DialogDescription>
