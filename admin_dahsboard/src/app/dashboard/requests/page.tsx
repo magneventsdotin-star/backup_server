@@ -82,6 +82,14 @@ function ClientRequestsContent() {
   const [sortBy, setSortBy] = useState('created_at');
   const [sortOrder, setSortOrder] = useState('desc');
 
+  // Export State
+  const [exportModalOpen, setExportModalOpen] = useState(false);
+  const [exportMode, setExportMode] = useState<'select' | 'range' | 'single'>('select');
+  const [exportStartDate, setExportStartDate] = useState('');
+  const [exportEndDate, setExportEndDate] = useState('');
+  const [exportSingleDate, setExportSingleDate] = useState('');
+  const [exportFilterType, setExportFilterType] = useState('all');
+
   // Custom Email State
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [emailSubject, setEmailSubject] = useState('Update on your Magnevents Request');
@@ -311,6 +319,188 @@ function ClientRequestsContent() {
     }
   };
 
+  const handleExportRange = async () => {
+    try {
+      if (!exportStartDate || !exportEndDate) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Please select both start and end dates.' });
+        return;
+      }
+      const start = new Date(exportStartDate);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(exportEndDate);
+      end.setHours(23, 59, 59, 999);
+      
+      let query = (supabase.from('bookings') as any)
+        .select('*, artists(name)')
+        .eq('booking_source', 'client')
+        .not('event_type', 'eq', 'Artist Registration')
+        .not('status', 'in', '("confirmed","completed")')
+        .gte('created_at', start.toISOString())
+        .lte('created_at', end.toISOString());
+        
+      if (exportFilterType !== 'all') {
+         query = query.eq('status', exportFilterType);
+      }
+      const { data, error } = await query;
+      if (error) throw error;
+      if (!data || data.length === 0) {
+        toast({ variant: 'destructive', title: 'No Data', description: 'No requests found for this range.' });
+        return;
+      }
+      const { exportToExcel } = await import('@/lib/exportExcel');
+      const exportData = data.map((r: any, index: number) => ({
+        'S.No': index + 1,
+        'Artist Name': r.artists?.name || 'N/A',
+        'Client Name': r.client_name || 'N/A',
+        'Client Email': r.client_email || 'N/A',
+        'Client Phone': r.client_phone || 'N/A',
+        'Event Type': r.event_type || 'N/A',
+        'Budget': r.budget || 'N/A',
+        'Venue': r.venue || 'N/A',
+        'Status': r.status || 'N/A',
+        'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
+      }));
+      await exportToExcel(exportData, `Client_Requests_${exportStartDate}_to_${exportEndDate}`, 'Client Requests');
+      setExportModalOpen(false);
+      setExportMode('select');
+      toast({ title: 'Downloaded!', description: 'Client Requests exported successfully.' });
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Export Error', description: err.message });
+    }
+  };
+
+  const handleExportTodayData = async () => {
+    try {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      let query = (supabase.from('bookings') as any)
+        .select('*, artists(name)')
+        .eq('booking_source', 'client')
+        .not('event_type', 'eq', 'Artist Registration')
+        .not('status', 'in', '("confirmed","completed")')
+        .gte('created_at', today.toISOString())
+        .lt('created_at', tomorrow.toISOString());
+        
+      if (exportFilterType !== 'all') {
+         query = query.eq('status', exportFilterType);
+      }
+      const { data, error } = await query;
+      if (error) throw error;
+      if (!data || data.length === 0) {
+        toast({ variant: 'destructive', title: 'No Data', description: 'No requests found for today.' });
+        return;
+      }
+      const { exportToExcel } = await import('@/lib/exportExcel');
+      const exportData = data.map((r: any, index: number) => ({
+        'S.No': index + 1,
+        'Artist Name': r.artists?.name || 'N/A',
+        'Client Name': r.client_name || 'N/A',
+        'Client Email': r.client_email || 'N/A',
+        'Client Phone': r.client_phone || 'N/A',
+        'Event Type': r.event_type || 'N/A',
+        'Budget': r.budget || 'N/A',
+        'Venue': r.venue || 'N/A',
+        'Status': r.status || 'N/A',
+        'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
+      }));
+      const dateStr = format(today, 'yyyy-MM-dd');
+      await exportToExcel(exportData, `Client_Requests_Today_${dateStr}`, 'Client Requests');
+      setExportModalOpen(false);
+      setExportMode('select');
+      toast({ title: 'Downloaded!', description: 'Today\\'s requests exported successfully.' });
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Export Error', description: err.message });
+    }
+  };
+
+  const handleExportAllData = async () => {
+    try {
+      let query = (supabase.from('bookings') as any)
+        .select('*, artists(name)')
+        .eq('booking_source', 'client')
+        .not('event_type', 'eq', 'Artist Registration')
+        .not('status', 'in', '("confirmed","completed")');
+        
+      if (exportFilterType !== 'all') {
+         query = query.eq('status', exportFilterType);
+      }
+      const { data, error } = await query;
+      if (error) throw error;
+      if (!data || data.length === 0) {
+        toast({ variant: 'destructive', title: 'No Data', description: 'No requests found.' });
+        return;
+      }
+      const { exportToExcel } = await import('@/lib/exportExcel');
+      const exportData = data.map((r: any, index: number) => ({
+        'S.No': index + 1,
+        'Artist Name': r.artists?.name || 'N/A',
+        'Client Name': r.client_name || 'N/A',
+        'Client Email': r.client_email || 'N/A',
+        'Client Phone': r.client_phone || 'N/A',
+        'Event Type': r.event_type || 'N/A',
+        'Budget': r.budget || 'N/A',
+        'Venue': r.venue || 'N/A',
+        'Status': r.status || 'N/A',
+        'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
+      }));
+      await exportToExcel(exportData, `Client_Requests_All_Data`, 'Client Requests');
+      setExportModalOpen(false);
+      setExportMode('select');
+      toast({ title: 'Downloaded!', description: 'All requests exported successfully.' });
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Export Error', description: err.message });
+    }
+  };
+
+  const handleExportDay = async (dateStr: string) => {
+    try {
+      const start = new Date(dateStr);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(dateStr);
+      end.setHours(23, 59, 59, 999);
+      
+      let query = (supabase.from('bookings') as any)
+        .select('*, artists(name)')
+        .eq('booking_source', 'client')
+        .not('event_type', 'eq', 'Artist Registration')
+        .not('status', 'in', '("confirmed","completed")')
+        .gte(sortBy === 'event_date' ? 'event_date' : 'created_at', start.toISOString())
+        .lte(sortBy === 'event_date' ? 'event_date' : 'created_at', end.toISOString());
+        
+      if (statusFilter !== 'all') {
+         query = query.eq('status', statusFilter);
+      }
+      const { data, error } = await query;
+      if (error) throw error;
+      if (!data || data.length === 0) {
+        toast({ variant: 'destructive', title: 'No Data', description: 'No requests found for this day.' });
+        return;
+      }
+      const { exportToExcel } = await import('@/lib/exportExcel');
+      const exportData = data.map((r: any, index: number) => ({
+        'S.No': index + 1,
+        'Artist Name': r.artists?.name || 'N/A',
+        'Client Name': r.client_name || 'N/A',
+        'Client Email': r.client_email || 'N/A',
+        'Client Phone': r.client_phone || 'N/A',
+        'Event Type': r.event_type || 'N/A',
+        'Budget': r.budget || 'N/A',
+        'Venue': r.venue || 'N/A',
+        'Status': r.status || 'N/A',
+        'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
+      }));
+      await exportToExcel(exportData, `Client_Requests_${format(start, 'yyyy-MM-dd')}`, 'Client Requests');
+      toast({ title: 'Downloaded!', description: `Requests for ${dateStr} exported successfully.` });
+      setExportModalOpen(false);
+      setExportMode('select');
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Export Error', description: err.message });
+    }
+  };
+
   return (
     <div className="space-y-6 pb-8">
       <div className="relative -mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-10 -mt-4 sm:-mt-6 lg:-mt-8 xl:-mt-10 px-4 sm:px-6 lg:px-8 xl:px-10 pt-8 pb-8 bg-gradient-to-b from-slate-50 to-transparent border-b border-white mb-2 text-center sm:text-left">
@@ -320,33 +510,8 @@ function ClientRequestsContent() {
               <p className="text-sm font-medium text-slate-500">Incoming requests from the client website. Acknowledge to move them to Bookings.</p>
             </div>
             <button
-              onClick={async () => {
-                try {
-                  if (!requests || requests.length === 0) {
-                    toast({ variant: 'destructive', title: 'No Data', description: 'No requests to export.' });
-                    return;
-                  }
-                  const { exportToExcel } = await import('@/lib/exportExcel');
-                  const exportData = requests.map((r: any, index: number) => ({
-                    'S.No': index + 1,
-                    'Artist Name': r.artists?.name || 'N/A',
-                    'Client Name': r.client_name || 'N/A',
-                    'Client Email': r.client_email || 'N/A',
-                    'Client Phone': r.client_phone || 'N/A',
-                    'Event Type': r.event_type || 'N/A',
-                    'Budget': r.budget || 'N/A',
-                    'Venue': r.venue || 'N/A',
-                    'Status': r.status || 'N/A',
-                    'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
-                  }));
-                  const today = new Date().toISOString().split('T')[0];
-                  await exportToExcel(exportData, `TalentTrack_ClientInquiries_${today}`, 'Client Inquiries');
-                  toast({ title: 'Downloaded!', description: 'Inquiries exported as XLS file.' });
-                } catch (error: any) {
-                  toast({ variant: 'destructive', title: 'Export Error', description: error.message });
-                }
-              }}
-              className="group h-11 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 border border-emerald-400 text-white text-[11px] font-black uppercase tracking-[0.2em] hover:shadow-lg hover:shadow-emerald-200/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-3 shadow-sm"
+              onClick={() => { setExportMode('select'); setExportModalOpen(true); }}
+              className="group h-11 px-6 rounded-xl bg-emerald-500 border border-emerald-400 text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-emerald-600 transition-all flex items-center justify-center gap-3 shadow-sm"
             >
               <Download size={16} strokeWidth={3} className="text-white" />
               Export XLS
@@ -449,83 +614,49 @@ function ClientRequestsContent() {
               return (
                 <div key={request.id} className="flex flex-col">
                   {showHeader && (
-                    <div className="bg-slate-100/80 backdrop-blur-sm px-6 py-2 text-xs font-bold text-slate-600 uppercase tracking-widest sticky top-0 z-10 shadow-sm border-b border-slate-200 flex items-center gap-2 mt-4 mb-2 first:mt-0 rounded-t-xl">
-                      <Calendar size={14} className="text-slate-400" />
-                      {sortBy === 'event_date' ? 'Event Date: ' : 'Submitted: '}{headerText}
+                    <div className="bg-slate-100/80 backdrop-blur-sm px-6 py-2 text-xs font-bold text-slate-600 uppercase tracking-widest sticky top-0 z-10 shadow-sm border-b border-slate-200 flex items-center justify-between mt-4 mb-2 first:mt-0 rounded-t-xl">
+                      <div className="flex items-center gap-2">
+                        <Calendar size={14} className="text-slate-400" />
+                        {sortBy === 'event_date' ? 'Event Date: ' : ''}{headerText}
+                      </div>
+                      <button 
+                        onClick={() => handleExportDay(headerText)}
+                        className="flex items-center gap-2 text-[9px] font-black text-slate-500 hover:text-emerald-600 uppercase tracking-widest transition-colors bg-white px-3 py-1.5 rounded-lg shadow-sm border border-slate-200 hover:border-emerald-200"
+                      >
+                        <Download size={12} /> Download XLS
+                      </button>
                     </div>
                   )}
                   <div
-                    className="flex flex-col sm:flex-row sm:items-center gap-4 px-6 py-5 hover:bg-white hover:shadow-2xl hover:scale-[1.01] transition-all duration-500 cursor-pointer group rounded-[20px] mb-2 border border-transparent hover:border-slate-100 bg-white shadow-sm"
+                    className="flex flex-col sm:flex-row sm:items-center gap-4 px-6 py-3 hover:bg-white hover:shadow-lg transition-all duration-300 cursor-pointer group rounded-[16px] mb-2 border border-transparent hover:border-slate-200 bg-white shadow-sm"
                     onClick={() => { setSelectedRequest(request); setDetailOpen(true); }}
                   >
-                    <div className="flex items-center gap-4 flex-1 min-w-0">
-                      <div className="w-11 h-11 rounded-xl bg-sky-50 flex items-center justify-center text-sky-600 border border-sky-100 shadow-inner flex-shrink-0">
-                         <User size={18} strokeWidth={2.5} />
+                    <div className="flex items-center gap-4 w-[250px] shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-sky-50 group-hover:text-sky-600 transition-colors">
+                        <User size={16} />
                       </div>
                       <div className="flex-1 min-w-0">
-                         <div className="flex items-center gap-2 mb-0.5">
-                            <p className="font-black text-slate-900 text-[15px] truncate tracking-tight">{request.client_name}</p>
-                            <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-wider border", status.bg, status.text, status.border || "border-transparent")}>
-                              {request.status}
-                            </span>
-                         </div>
-                         <p className="text-[12px] font-bold text-slate-400 flex items-center gap-2 truncate">
-                           {request.client_email}
-                         </p>
+                        <p className="text-sm font-bold text-slate-900 truncate">{request.client_name}</p>
+                        <p className="text-xs text-slate-500 truncate">{request.client_email}</p>
                       </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10 sm:px-12 sm:border-x sm:border-slate-100">
-                      <div className="w-full sm:min-w-[220px]">
-                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Artist</p>
-                         <p className="text-[16px] font-black text-slate-900 truncate mb-1.5 tracking-tight">{request.artists?.name || 'Any Artist'}</p>
-                         <div className="flex items-center gap-2">
-                            <span className="px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase tracking-wider">
-                              {request.artists?.category || 'General'}
-                            </span>
-                            <div className="flex items-center gap-1.5">
-                              {request.artists?.is_artist_of_month && (
-                                <div className="w-6 h-6 rounded-full bg-rose-50 text-rose-600 border border-rose-100 flex items-center justify-center shadow-sm" title="Artist of the Month">
-                                  <Music size={12} />
-                                </div>
-                              )}
-                              {request.artists?.is_trending ? (
-                                <div className="w-6 h-6 rounded-full bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center shadow-sm" title="Popular Artist">
-                                  <Star size={12} fill="currentColor" />
-                                </div>
-                              ) : (
-                                <div className="w-6 h-6 rounded-full bg-slate-50 text-slate-500 border border-slate-100 flex items-center justify-center shadow-sm" title="Standard Artist">
-                                  <User size={12} />
-                                </div>
-                              )}
-                            </div>
-                         </div>
-                      </div>
-                      <div className="w-full sm:min-w-[140px]">
-                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Budget Evaluation</p>
-                         <div className="flex flex-wrap sm:flex-nowrap items-center gap-3">
-                           <span className="text-[16px] font-black text-slate-900 tracking-tight">₹{request.budget?.toLocaleString()}</span>
-                           {request.artists && (
-                              (() => {
-                                const inRange = request.budget >= (request.artists.price_min || 0) && request.budget <= (request.artists.price_max || Infinity);
-                                return (
-                                  <span className={cn(
-                                     "px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider",
-                                     inRange ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-rose-50 text-rose-600 border border-rose-100"
-                                  )}>
-                                    {inRange ? "Fit" : "Low"}
-                                  </span>
-                                );
-                              })()
-                           )}
-                         </div>
-                      </div>
-                    </div>
+                    <div className="flex-1 flex items-center gap-4 sm:gap-8">
+                       <div className="hidden sm:block min-w-[150px]">
+                         <span className={cn("px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider", status.bg, status.text)}>
+                           {request.status}
+                         </span>
+                       </div>
+                       
+                       <div className="flex-1 min-w-0">
+                         <p className="text-sm font-bold text-slate-700 truncate">{request.artists?.name || 'Any Artist'}</p>
+                         <p className="text-xs font-medium text-slate-400 uppercase tracking-widest">{request.artists?.category || 'General'}</p>
+                       </div>
 
-                    <div className="flex items-center gap-2">
-                      <button className="w-9 h-9 rounded-xl flex items-center justify-center bg-white border border-slate-100 text-slate-400 hover:text-sky-600 hover:border-sky-200 transition-all shadow-sm">
-                        <Eye size={16} />
-                      </button>
+                       <div className="hidden sm:block min-w-[100px] text-right">
+                         <p className="text-xs font-bold text-slate-900 tracking-tight">₹{request.budget?.toLocaleString()}</p>
+                         <p className="text-[10px] font-bold text-slate-400 uppercase">Budget</p>
+                       </div>
                     </div>
                   </div>
                 </div>
@@ -700,6 +831,144 @@ function ClientRequestsContent() {
             </button>
             <button onClick={handleSendCustomEmail} disabled={sendingEmail} className="px-6 h-11 rounded-xl bg-indigo-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
               {sendingEmail ? <><Loader2 size={16} className="animate-spin" /> Sending...</> : <><Mail size={16} /> Yes, Send Email</>}
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={exportModalOpen} onOpenChange={(open) => { setExportModalOpen(open); if(!open) setExportMode('select'); }}>
+        <DialogContent className="max-w-md rounded-[32px] border-none shadow-2xl p-0 overflow-hidden">
+          <div className="bg-emerald-600 p-8 text-white relative text-center">
+            <div className="mx-auto w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
+              <Download size={32} className="text-white" />
+            </div>
+            <DialogTitle className="text-2xl font-black mb-2">Export Requests</DialogTitle>
+            <DialogDescription className="text-emerald-100 font-medium">
+              {exportMode === 'select' ? 'Select how you want to export client request data.' : 'Select the dates to download client request details.'}
+            </DialogDescription>
+          </div>
+          <div className="p-8 bg-slate-50 flex flex-col gap-4">
+            {exportMode === 'select' ? (
+              <div className="flex flex-col gap-3">
+                <button 
+                  onClick={() => setExportMode('single')}
+                  className="w-full h-14 rounded-xl bg-white border-2 border-slate-200 text-slate-700 font-bold text-sm hover:border-emerald-500 hover:text-emerald-600 transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <Calendar size={18} /> Date Wise
+                </button>
+                <button 
+                  onClick={() => setExportMode('range')}
+                  className="w-full h-14 rounded-xl bg-white border-2 border-slate-200 text-slate-700 font-bold text-sm hover:border-emerald-500 hover:text-emerald-600 transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <Clock size={18} /> Date Range Wise
+                </button>
+                
+                <div className="relative flex items-center py-2">
+                  <div className="flex-grow border-t border-slate-200"></div>
+                  <span className="flex-shrink-0 mx-4 text-slate-400 text-xs font-bold uppercase tracking-widest">Or</span>
+                  <div className="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                <div className="flex gap-4 w-full">
+                  <button 
+                    onClick={handleExportTodayData}
+                    className="w-full h-11 rounded-xl bg-sky-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-sky-700 transition-all flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    Today's Data
+                  </button>
+                  <button 
+                    onClick={handleExportAllData}
+                    className="w-full h-11 rounded-xl bg-indigo-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    All Data
+                  </button>
+                </div>
+              </div>
+            ) : exportMode === 'range' ? (
+              <>
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Start Date</label>
+                  <input 
+                    type="date" 
+                    value={exportStartDate} 
+                    onChange={e => setExportStartDate(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 mb-2">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">End Date</label>
+                  <input 
+                    type="date" 
+                    value={exportEndDate} 
+                    onChange={e => setExportEndDate(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 mb-4">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Status Filter</label>
+                  <select
+                    value={exportFilterType}
+                    onChange={(e) => setExportFilterType(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 outline-none"
+                  >
+                    <option value="all">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="cancelled">Archived</option>
+                  </select>
+                </div>
+                <button 
+                  onClick={handleExportRange}
+                  className="w-full h-11 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"
+                >
+                  <Download size={16} /> Download Range
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="flex flex-col gap-2 mb-2">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Select Date</label>
+                  <input 
+                    type="date" 
+                    value={exportSingleDate} 
+                    onChange={e => setExportSingleDate(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 mb-4">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Status Filter</label>
+                  <select
+                    value={exportFilterType}
+                    onChange={(e) => setExportFilterType(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 outline-none"
+                  >
+                    <option value="all">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="cancelled">Archived</option>
+                  </select>
+                </div>
+                <button 
+                  onClick={() => {
+                    if(!exportSingleDate) {
+                       toast({ variant: 'destructive', title: 'Error', description: 'Please select a date.' });
+                       return;
+                    }
+                    handleExportDay(exportSingleDate);
+                  }}
+                  className="w-full h-11 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"
+                >
+                  <Download size={16} /> Download Date
+                </button>
+              </>
+            )}
+
+            <button 
+              onClick={() => {
+                if (exportMode !== 'select') setExportMode('select');
+                else setExportModalOpen(false);
+              }} 
+              className="mt-1 w-full h-11 rounded-xl bg-white border border-slate-200 text-slate-500 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all"
+            >
+              {exportMode === 'select' ? 'Cancel' : 'Back to Options'}
             </button>
           </div>
         </DialogContent>

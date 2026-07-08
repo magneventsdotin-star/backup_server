@@ -28,8 +28,10 @@ function EmailsContent() {
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
   const [filterType, setFilterType] = useState('all');
   const [exportModalOpen, setExportModalOpen] = useState(false);
+  const [exportMode, setExportMode] = useState<'select' | 'range' | 'single'>('select');
   const [exportStartDate, setExportStartDate] = useState('');
   const [exportEndDate, setExportEndDate] = useState('');
+  const [exportSingleDate, setExportSingleDate] = useState('');
   const [exportFilterType, setExportFilterType] = useState('all');
   const [selectedEmail, setSelectedEmail] = useState<any | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -179,6 +181,7 @@ ${plainTextBody}`;
       await exportToExcel(exportData, `Emails_${exportStartDate}_to_${exportEndDate}`, 'Emails');
       toast({ title: 'Downloaded!', description: 'Emails exported successfully.' });
       setExportModalOpen(false);
+      setExportMode('select');
     } catch (err: any) {
       toast({ variant: 'destructive', title: 'Export Error', description: err.message });
     }
@@ -227,6 +230,8 @@ ${plainTextBody}`;
       const formattedDate = format(dateObj, 'yyyy-MM-dd');
       await exportToExcel(exportData, `Emails_${formattedDate}`, `Emails_${formattedDate}`);
       toast({ title: 'Downloaded!', description: `Emails for ${dateStr} exported successfully.` });
+      setExportModalOpen(false);
+      setExportMode('select');
     } catch (err: any) {
       toast({ variant: 'destructive', title: 'Export Error', description: err.message });
     }
@@ -266,6 +271,7 @@ ${plainTextBody}`;
       await exportToExcel(exportData, `All_Emails_${new Date().toISOString().split('T')[0]}`, `All_Emails`);
       toast({ title: 'Downloaded!', description: `All emails exported successfully.` });
       setExportModalOpen(false);
+      setExportMode('select');
     } catch (err: any) {
       toast({ variant: 'destructive', title: 'Export Error', description: err.message });
     }
@@ -275,6 +281,7 @@ ${plainTextBody}`;
     const todayStr = new Date().toISOString().split('T')[0];
     await handleExportDay(todayStr, exportFilterType);
     setExportModalOpen(false);
+    setExportMode('select');
   };
 
   const getEmailTypeColor = (type: string) => {
@@ -328,7 +335,7 @@ ${plainTextBody}`;
             </select>
           </div>
           <button
-            onClick={() => setExportModalOpen(true)}
+            onClick={() => { setExportMode('select'); setExportModalOpen(true); }}
             className="group h-9 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 border border-emerald-400 text-white text-[11px] font-black uppercase tracking-[0.1em] hover:shadow-lg hover:shadow-emerald-200/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-sm"
           >
             Export XLS
@@ -514,7 +521,7 @@ ${plainTextBody}`;
         </DialogContent>
       </Dialog>
 
-      <Dialog open={exportModalOpen} onOpenChange={setExportModalOpen}>
+      <Dialog open={exportModalOpen} onOpenChange={(open) => { setExportModalOpen(open); if(!open) setExportMode('select'); }}>
         <DialogContent className="max-w-md rounded-[32px] border-none shadow-2xl p-0 overflow-hidden">
           <div className="bg-emerald-600 p-8 text-white relative text-center">
             <div className="mx-auto w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
@@ -522,71 +529,143 @@ ${plainTextBody}`;
             </div>
             <DialogTitle className="text-2xl font-black mb-2">Export Emails</DialogTitle>
             <DialogDescription className="text-emerald-100 font-medium">
-              Select a date range to download email details.
+              {exportMode === 'select' ? 'Select how you want to export email data.' : 'Select the dates to download email details.'}
             </DialogDescription>
           </div>
           <div className="p-8 bg-slate-50 flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Start Date</label>
-              <input 
-                type="date" 
-                value={exportStartDate} 
-                onChange={e => setExportStartDate(e.target.value)}
-                className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700"
-              />
-            </div>
-            <div className="flex flex-col gap-2 mb-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">End Date</label>
-              <input 
-                type="date" 
-                value={exportEndDate} 
-                onChange={e => setExportEndDate(e.target.value)}
-                className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700"
-              />
-            </div>
-            <div className="flex flex-col gap-2 mb-4">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email Type Filter</label>
-              <select
-                value={exportFilterType}
-                onChange={(e) => setExportFilterType(e.target.value)}
-                className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 outline-none"
-              >
-                <option value="all">All Types</option>
-                <option value="client_inquiry">Client Inquiry</option>
-                <option value="artist_registration_inquiry">Artist Registration</option>
-                <option value="confirm">Confirmed</option>
-                <option value="approve">Approved</option>
-                <option value="reject">Rejected</option>
-                <option value="unavailable">Unavailable</option>
-                <option value="more_info">More Info</option>
-                <option value="custom">Custom</option>
-              </select>
-            </div>
+            {exportMode === 'select' ? (
+              <div className="flex flex-col gap-3">
+                <button 
+                  onClick={() => setExportMode('single')}
+                  className="w-full h-14 rounded-xl bg-white border-2 border-slate-200 text-slate-700 font-bold text-sm hover:border-emerald-500 hover:text-emerald-600 transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <Calendar size={18} /> Date Wise
+                </button>
+                <button 
+                  onClick={() => setExportMode('range')}
+                  className="w-full h-14 rounded-xl bg-white border-2 border-slate-200 text-slate-700 font-bold text-sm hover:border-emerald-500 hover:text-emerald-600 transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <Clock size={18} /> Date Range Wise
+                </button>
+                
+                <div className="relative flex items-center py-2">
+                  <div className="flex-grow border-t border-slate-200"></div>
+                  <span className="flex-shrink-0 mx-4 text-slate-400 text-xs font-bold uppercase tracking-widest">Or</span>
+                  <div className="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                <div className="flex gap-4 w-full">
+                  <button 
+                    onClick={handleExportTodayData}
+                    className="w-full h-11 rounded-xl bg-sky-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-sky-700 transition-all flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    Today's Data
+                  </button>
+                  <button 
+                    onClick={handleExportAllData}
+                    className="w-full h-11 rounded-xl bg-indigo-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    All Data
+                  </button>
+                </div>
+              </div>
+            ) : exportMode === 'range' ? (
+              <>
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Start Date</label>
+                  <input 
+                    type="date" 
+                    value={exportStartDate} 
+                    onChange={e => setExportStartDate(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 mb-2">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">End Date</label>
+                  <input 
+                    type="date" 
+                    value={exportEndDate} 
+                    onChange={e => setExportEndDate(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 mb-4">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email Type Filter</label>
+                  <select
+                    value={exportFilterType}
+                    onChange={(e) => setExportFilterType(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 outline-none"
+                  >
+                    <option value="all">All Types</option>
+                    <option value="client_inquiry">Client Inquiry</option>
+                    <option value="artist_registration_inquiry">Artist Registration</option>
+                    <option value="confirm">Confirmed</option>
+                    <option value="approve">Approved</option>
+                    <option value="reject">Rejected</option>
+                    <option value="unavailable">Unavailable</option>
+                    <option value="more_info">More Info</option>
+                    <option value="custom">Custom</option>
+                  </select>
+                </div>
+                <button 
+                  onClick={handleExportRange}
+                  className="w-full h-11 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"
+                >
+                  <Download size={16} /> Download Range
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="flex flex-col gap-2 mb-2">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Select Date</label>
+                  <input 
+                    type="date" 
+                    value={exportSingleDate} 
+                    onChange={e => setExportSingleDate(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 mb-4">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email Type Filter</label>
+                  <select
+                    value={exportFilterType}
+                    onChange={(e) => setExportFilterType(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 outline-none"
+                  >
+                    <option value="all">All Types</option>
+                    <option value="client_inquiry">Client Inquiry</option>
+                    <option value="artist_registration_inquiry">Artist Registration</option>
+                    <option value="confirm">Confirmed</option>
+                    <option value="approve">Approved</option>
+                    <option value="reject">Rejected</option>
+                    <option value="unavailable">Unavailable</option>
+                    <option value="more_info">More Info</option>
+                    <option value="custom">Custom</option>
+                  </select>
+                </div>
+                <button 
+                  onClick={() => {
+                    if(!exportSingleDate) {
+                       toast({ variant: 'destructive', title: 'Error', description: 'Please select a date.' });
+                       return;
+                    }
+                    handleExportDay(exportSingleDate, exportFilterType);
+                  }}
+                  className="w-full h-11 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"
+                >
+                  <Download size={16} /> Download Date
+                </button>
+              </>
+            )}
+
             <button 
-              onClick={handleExportRange}
-              className="w-full h-11 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"
-            >
-              <Download size={16} /> Download Range
-            </button>
-            <div className="flex gap-4 w-full">
-              <button 
-                onClick={handleExportTodayData}
-                className="w-full h-11 rounded-xl bg-sky-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-sky-700 transition-all flex items-center justify-center gap-2 shadow-sm"
-              >
-                Today's Data
-              </button>
-              <button 
-                onClick={handleExportAllData}
-                className="w-full h-11 rounded-xl bg-indigo-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 shadow-sm"
-              >
-                All Data
-              </button>
-            </div>
-            <button 
-              onClick={() => setExportModalOpen(false)} 
+              onClick={() => {
+                if (exportMode !== 'select') setExportMode('select');
+                else setExportModalOpen(false);
+              }} 
               className="mt-1 w-full h-11 rounded-xl bg-white border border-slate-200 text-slate-500 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all"
             >
-              Cancel
+              {exportMode === 'select' ? 'Cancel' : 'Back to Options'}
             </button>
           </div>
         </DialogContent>

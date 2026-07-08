@@ -44,6 +44,14 @@ export default function TeamRequestsPage() {
   const [newType, setNewType] = useState('Content Update');
   const [newPriority, setNewPriority] = useState('Medium');
 
+  // Export State
+  const [exportModalOpen, setExportModalOpen] = useState(false);
+  const [exportMode, setExportMode] = useState<'select' | 'range' | 'single'>('select');
+  const [exportStartDate, setExportStartDate] = useState('');
+  const [exportEndDate, setExportEndDate] = useState('');
+  const [exportSingleDate, setExportSingleDate] = useState('');
+  const [exportFilterType, setExportFilterType] = useState('all');
+
   // Comment State
   const [newComment, setNewComment] = useState('');
   
@@ -324,6 +332,154 @@ export default function TeamRequestsPage() {
     }
   };
 
+  const handleExportRange = async () => {
+    try {
+      if (!exportStartDate || !exportEndDate) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Please select both start and end dates.' });
+        return;
+      }
+      const start = new Date(exportStartDate);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(exportEndDate);
+      end.setHours(23, 59, 59, 999);
+      
+      let query = supabase.from('duplicate_approvals').select('*').gte('created_at', start.toISOString()).lte('created_at', end.toISOString());
+      if (exportFilterType !== 'all') {
+         query = query.eq('status', exportFilterType);
+      }
+      const { data, error } = await query;
+      if (error) throw error;
+      if (!data || data.length === 0) {
+        toast({ variant: 'destructive', title: 'No Data', description: 'No approvals found for this range.' });
+        return;
+      }
+      const { exportToExcel } = await import('@/lib/exportExcel');
+      const exportData = data.map((r: any, index: number) => ({
+        'S.No': index + 1,
+        'Field Name': r.field_name || 'N/A',
+        'Field Value': r.field_value || 'N/A',
+        'Requested By': r.requested_by || 'N/A',
+        'Reason': r.reason || 'N/A',
+        'Status': r.status || 'N/A',
+        'Approved By': r.approved_by || 'N/A',
+        'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
+      }));
+      await exportToExcel(exportData, `Admin_Approvals_${exportStartDate}_to_${exportEndDate}`, 'Admin Approvals');
+      setExportModalOpen(false);
+      setExportMode('select');
+      toast({ title: 'Downloaded!', description: 'Approvals exported successfully.' });
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Export Error', description: err.message });
+    }
+  };
+
+  const handleExportTodayData = async () => {
+    try {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      let query = supabase.from('duplicate_approvals').select('*').gte('created_at', today.toISOString()).lt('created_at', tomorrow.toISOString());
+      if (exportFilterType !== 'all') {
+         query = query.eq('status', exportFilterType);
+      }
+      const { data, error } = await query;
+      if (error) throw error;
+      if (!data || data.length === 0) {
+        toast({ variant: 'destructive', title: 'No Data', description: 'No approvals found for today.' });
+        return;
+      }
+      const { exportToExcel } = await import('@/lib/exportExcel');
+      const exportData = data.map((r: any, index: number) => ({
+        'S.No': index + 1,
+        'Field Name': r.field_name || 'N/A',
+        'Field Value': r.field_value || 'N/A',
+        'Requested By': r.requested_by || 'N/A',
+        'Reason': r.reason || 'N/A',
+        'Status': r.status || 'N/A',
+        'Approved By': r.approved_by || 'N/A',
+        'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
+      }));
+      const dateStr = format(today, 'yyyy-MM-dd');
+      await exportToExcel(exportData, `Admin_Approvals_Today_${dateStr}`, 'Admin Approvals');
+      setExportModalOpen(false);
+      setExportMode('select');
+      toast({ title: 'Downloaded!', description: 'Today\\'s approvals exported successfully.' });
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Export Error', description: err.message });
+    }
+  };
+
+  const handleExportAllData = async () => {
+    try {
+      let query = supabase.from('duplicate_approvals').select('*');
+      if (exportFilterType !== 'all') {
+         query = query.eq('status', exportFilterType);
+      }
+      const { data, error } = await query;
+      if (error) throw error;
+      if (!data || data.length === 0) {
+        toast({ variant: 'destructive', title: 'No Data', description: 'No approvals found.' });
+        return;
+      }
+      const { exportToExcel } = await import('@/lib/exportExcel');
+      const exportData = data.map((r: any, index: number) => ({
+        'S.No': index + 1,
+        'Field Name': r.field_name || 'N/A',
+        'Field Value': r.field_value || 'N/A',
+        'Requested By': r.requested_by || 'N/A',
+        'Reason': r.reason || 'N/A',
+        'Status': r.status || 'N/A',
+        'Approved By': r.approved_by || 'N/A',
+        'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
+      }));
+      await exportToExcel(exportData, `Admin_Approvals_All_Data`, 'Admin Approvals');
+      setExportModalOpen(false);
+      setExportMode('select');
+      toast({ title: 'Downloaded!', description: 'All approvals exported successfully.' });
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Export Error', description: err.message });
+    }
+  };
+
+  const handleExportDay = async (dateStr: string) => {
+    try {
+      const start = new Date(dateStr);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(dateStr);
+      end.setHours(23, 59, 59, 999);
+      
+      let query = supabase.from('duplicate_approvals').select('*').gte('created_at', start.toISOString()).lte('created_at', end.toISOString());
+      if (exportFilterType !== 'all') {
+         query = query.eq('status', exportFilterType);
+      }
+      const { data, error } = await query;
+      if (error) throw error;
+      if (!data || data.length === 0) {
+        toast({ variant: 'destructive', title: 'No Data', description: 'No approvals found for this day.' });
+        return;
+      }
+      const { exportToExcel } = await import('@/lib/exportExcel');
+      const exportData = data.map((r: any, index: number) => ({
+        'S.No': index + 1,
+        'Field Name': r.field_name || 'N/A',
+        'Field Value': r.field_value || 'N/A',
+        'Requested By': r.requested_by || 'N/A',
+        'Reason': r.reason || 'N/A',
+        'Status': r.status || 'N/A',
+        'Approved By': r.approved_by || 'N/A',
+        'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
+      }));
+      await exportToExcel(exportData, `Admin_Approvals_${format(start, 'yyyy-MM-dd')}`, 'Admin Approvals');
+      toast({ title: 'Downloaded!', description: `Approvals for ${dateStr} exported successfully.` });
+      setExportModalOpen(false);
+      setExportMode('select');
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Export Error', description: err.message });
+    }
+  };
+
   const handleDeleteRequest = async (id: string) => {
     if (!confirm('Are you sure you want to permanently delete this request? This action cannot be undone.')) return;
     try {
@@ -392,12 +548,20 @@ export default function TeamRequestsPage() {
           <p className="text-body mt-1 max-w-2xl font-medium">Manage and track admin approval workflows.</p>
         </div>
         
-        <button
-          onClick={() => setIsCreateOpen(true)}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 h-11 px-6 rounded-xl bg-[#5B5AF7] hover:bg-[#4338CA] text-white font-bold text-xs uppercase tracking-widest transition-all shadow-sm shadow-indigo-200"
-        >
-          <Plus size={16} strokeWidth={2.5} /> Create Request
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => { setExportMode('select'); setExportModalOpen(true); }}
+            className="w-full sm:w-auto flex items-center justify-center gap-2 h-11 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest transition-all shadow-sm shadow-emerald-200"
+          >
+            Export XLS
+          </button>
+          <button
+            onClick={() => setIsCreateOpen(true)}
+            className="w-full sm:w-auto flex items-center justify-center gap-2 h-11 px-6 rounded-xl bg-[#5B5AF7] hover:bg-[#4338CA] text-white font-bold text-xs uppercase tracking-widest transition-all shadow-sm shadow-indigo-200"
+          >
+            <Plus size={16} strokeWidth={2.5} /> Create Request
+          </button>
+        </div>
       </div>
 
       {pendingCount > 0 && (
@@ -448,9 +612,17 @@ export default function TeamRequestsPage() {
             return (
               <div key={req.id} className="flex flex-col">
                 {showHeader && (
-                  <div className="bg-slate-100/80 backdrop-blur-sm px-6 py-2 text-xs font-bold text-slate-600 uppercase tracking-widest sticky top-0 z-10 shadow-sm border-b border-slate-200 flex items-center gap-2 mt-4 mb-2 first:mt-0 rounded-t-xl">
-                    <Clock size={14} className="text-slate-400" />
-                    Submitted: {dateStr}
+                  <div className="bg-slate-100/80 backdrop-blur-sm px-6 py-2 text-xs font-bold text-slate-600 uppercase tracking-widest sticky top-0 z-10 shadow-sm border-b border-slate-200 flex items-center justify-between mt-4 mb-2 first:mt-0 rounded-t-xl">
+                    <div className="flex items-center gap-2">
+                      <Clock size={14} className="text-slate-400" />
+                      Submitted: {dateStr}
+                    </div>
+                    <button 
+                      onClick={() => handleExportDay(dateStr)}
+                      className="flex items-center gap-2 text-[9px] font-black text-slate-500 hover:text-emerald-600 uppercase tracking-widest transition-colors bg-white px-3 py-1.5 rounded-lg shadow-sm border border-slate-200 hover:border-emerald-200"
+                    >
+                      Export XLS
+                    </button>
                   </div>
                 )}
                 <div 
@@ -765,6 +937,148 @@ export default function TeamRequestsPage() {
         </div>
       )}
 
+      )}
+
+      {/* Export Modal */}
+      <Dialog open={exportModalOpen} onOpenChange={(open) => { setExportModalOpen(open); if(!open) setExportMode('select'); }}>
+        <DialogContent className="max-w-md rounded-[32px] border-none shadow-2xl p-0 overflow-hidden">
+          <div className="bg-emerald-600 p-8 text-white relative text-center">
+            <div className="mx-auto w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
+              <FileText size={32} className="text-white" />
+            </div>
+            <DialogTitle className="text-2xl font-black mb-2">Export Approvals</DialogTitle>
+            <DialogDescription className="text-emerald-100 font-medium">
+              {exportMode === 'select' ? 'Select how you want to export admin approval data.' : 'Select the dates to download admin approval records.'}
+            </DialogDescription>
+          </div>
+          <div className="p-8 bg-slate-50 flex flex-col gap-4">
+            {exportMode === 'select' ? (
+              <div className="flex flex-col gap-3">
+                <button 
+                  onClick={() => setExportMode('single')}
+                  className="w-full h-14 rounded-xl bg-white border-2 border-slate-200 text-slate-700 font-bold text-sm hover:border-emerald-500 hover:text-emerald-600 transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <Clock size={18} /> Date Wise
+                </button>
+                <button 
+                  onClick={() => setExportMode('range')}
+                  className="w-full h-14 rounded-xl bg-white border-2 border-slate-200 text-slate-700 font-bold text-sm hover:border-emerald-500 hover:text-emerald-600 transition-all flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <History size={18} /> Date Range Wise
+                </button>
+                
+                <div className="relative flex items-center py-2">
+                  <div className="flex-grow border-t border-slate-200"></div>
+                  <span className="flex-shrink-0 mx-4 text-slate-400 text-xs font-bold uppercase tracking-widest">Or</span>
+                  <div className="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                <div className="flex gap-4 w-full">
+                  <button 
+                    onClick={handleExportTodayData}
+                    className="w-full h-11 rounded-xl bg-sky-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-sky-700 transition-all flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    Today's Data
+                  </button>
+                  <button 
+                    onClick={handleExportAllData}
+                    className="w-full h-11 rounded-xl bg-indigo-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    All Data
+                  </button>
+                </div>
+              </div>
+            ) : exportMode === 'range' ? (
+              <>
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Start Date</label>
+                  <input 
+                    type="date" 
+                    value={exportStartDate} 
+                    onChange={e => setExportStartDate(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 mb-2">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">End Date</label>
+                  <input 
+                    type="date" 
+                    value={exportEndDate} 
+                    onChange={e => setExportEndDate(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 mb-4">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Status Filter</label>
+                  <select
+                    value={exportFilterType}
+                    onChange={(e) => setExportFilterType(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 outline-none"
+                  >
+                    <option value="all">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                </div>
+                <button 
+                  onClick={handleExportRange}
+                  className="w-full h-11 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"
+                >
+                  Download Range
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="flex flex-col gap-2 mb-2">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Select Date</label>
+                  <input 
+                    type="date" 
+                    value={exportSingleDate} 
+                    onChange={e => setExportSingleDate(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 mb-4">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Status Filter</label>
+                  <select
+                    value={exportFilterType}
+                    onChange={(e) => setExportFilterType(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 outline-none"
+                  >
+                    <option value="all">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                </div>
+                <button 
+                  onClick={() => {
+                    if(!exportSingleDate) {
+                       toast({ variant: 'destructive', title: 'Error', description: 'Please select a date.' });
+                       return;
+                    }
+                    handleExportDay(exportSingleDate);
+                  }}
+                  className="w-full h-11 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"
+                >
+                  Download Date
+                </button>
+              </>
+            )}
+            
+            <button 
+              onClick={() => {
+                if (exportMode !== 'select') setExportMode('select');
+                else setExportModalOpen(false);
+              }} 
+              className="mt-1 w-full h-11 rounded-xl bg-white border border-slate-200 text-slate-500 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all"
+            >
+              {exportMode === 'select' ? 'Cancel' : 'Back to Options'}
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
