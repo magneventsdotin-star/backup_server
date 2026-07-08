@@ -1,15 +1,8 @@
-// Note: Since you're using dynamic data, you would normally fetch your list of artists and blog posts here.
-// I've added placeholders for how you would fetch them. 
 
 export default async function sitemap() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in';
 
-  // Example of how you would fetch dynamic routes:
-  // const artists = await fetch('.../api/artists').then((res) => res.json());
-  // const artistUrls = artists.map((artist) => ({
-  //   url: `${baseUrl}/artist/${artist.id}`,
-  //   lastModified: new Date(),
-  // }));
+  
 
   const staticRoutes = [
     '',
@@ -22,6 +15,12 @@ export default async function sitemap() {
     '/testimonials',
     '/why-choose',
     '/search',
+    '/singers-in-delhi',
+    '/book-top-singers',
+    '/book-singer-for-house-party',
+    '/live-musicians-for-hire-near-me',
+    '/how-to-book-a-singer-in-delhi',
+    '/blog-post/booking-singer-for-house-party',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),
@@ -29,6 +28,5 @@ export default async function sitemap() {
     priority: route === '' ? 1 : 0.8,
   }));
 
-  // Return staticRoutes. In production, spread in ...artistUrls and ...blogUrls as well.
   return [...staticRoutes];
 }

@@ -82,6 +82,11 @@ const nextConfig = {
     return [
       ...seoRedirects,
       {
+        source: '/artist-registration',
+        destination: '/register/artist',
+        permanent: true,
+      },
+      {
         source: '/book',
         destination: '/',
         permanent: true,
