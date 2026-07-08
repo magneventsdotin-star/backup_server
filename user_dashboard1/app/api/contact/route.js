@@ -200,7 +200,7 @@ export async function POST(req) {
         row('Category', data.category)
       );
       contentSections += buildSection('🔗 Portfolio & Socials', row('Link', data.portfolio, true, data.portfolio));
-      contentSections += buildSection('📝 Bio & Experience', `<tr><td style="padding: 8px 0; color: #0f172a;">${data.bio || 'No bio provided.'}</td></tr>`);
+      contentSections += buildSection('📝 Bio & Experience', `<tr><td style="padding: 8px 0; color: #fbbf24;">${data.bio || 'No bio provided.'}</td></tr>`);
     } else {
       emailBody = `New Inquiry from ${data.name || 'Unknown'}\nPhone: ${data.phone || 'N/A'}\nEmail: ${data.email || 'N/A'}`;
       contentSections += buildSection('👤 User & Contact Details', 
