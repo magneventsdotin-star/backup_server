@@ -49,14 +49,16 @@ export async function POST(req: Request) {
       },
     });
 
+    let isRegister = booking?.event_type === 'Artist Registration';
+
     let contextHtml = '';
     if (booking) {
       contextHtml = `
         <div style="background-color: #f1f5f9; padding: 40px; border-top: 1px solid #e2e8f0;">
-          <h3 style="font-size: 13px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 24px 0;">Original Request Details</h3>
+          <h3 style="font-size: 13px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 24px 0;">${isRegister ? 'Original Application Details' : 'Original Request Details'}</h3>
           
           <div style="margin-bottom: 32px;">
-            <h4 style="font-size: 16px; color: #0f172a; margin: 0 0 12px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;">Client Information</h4>
+            <h4 style="font-size: 16px; color: #0f172a; margin: 0 0 12px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;">${isRegister ? 'Artist Information' : 'Client Information'}</h4>
             <table width="100%" cellpadding="0" cellspacing="0" style="font-size: 14px; color: #475569; line-height: 1.6;">
               <tr><td style="padding: 6px 0; width: 120px;"><strong>Name:</strong></td><td style="padding: 6px 0;">${booking.client_name || 'N/A'}</td></tr>
               <tr><td style="padding: 6px 0;"><strong>Email:</strong></td><td style="padding: 6px 0;">${booking.client_email || 'N/A'}</td></tr>
@@ -65,12 +67,12 @@ export async function POST(req: Request) {
           </div>
 
           <div>
-            <h4 style="font-size: 16px; color: #0f172a; margin: 0 0 12px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;">Event Specifications</h4>
+            <h4 style="font-size: 16px; color: #0f172a; margin: 0 0 12px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;">${isRegister ? 'Registration Details' : 'Event Specifications'}</h4>
             <table width="100%" cellpadding="0" cellspacing="0" style="font-size: 14px; color: #475569; line-height: 1.6;">
-              <tr><td style="padding: 6px 0; width: 120px;"><strong>Event Type:</strong></td><td style="padding: 6px 0; font-weight: 600; color: #0f172a;">${booking.event_type || 'N/A'}</td></tr>
+              <tr><td style="padding: 6px 0; width: 120px;"><strong>${isRegister ? 'Type' : 'Event Type'}:</strong></td><td style="padding: 6px 0; font-weight: 600; color: #0f172a;">${booking.event_type || 'N/A'}</td></tr>
               ${booking.artists?.name ? `<tr><td style="padding: 6px 0;"><strong>Artist:</strong></td><td style="padding: 6px 0; color: #3b82f6; font-weight: 700;">${booking.artists.name}</td></tr>` : ''}
               ${booking.event_date ? `<tr><td style="padding: 6px 0;"><strong>Date:</strong></td><td style="padding: 6px 0;">${booking.event_date} ${booking.event_time ? `at ${booking.event_time}` : ''}</td></tr>` : ''}
-              ${booking.venue ? `<tr><td style="padding: 6px 0;"><strong>Venue:</strong></td><td style="padding: 6px 0;">${booking.venue}</td></tr>` : ''}
+              ${booking.venue ? `<tr><td style="padding: 6px 0;"><strong>${isRegister ? 'City' : 'Venue'}:</strong></td><td style="padding: 6px 0;">${booking.venue}</td></tr>` : ''}
               ${booking.budget ? `<tr><td style="padding: 6px 0;"><strong>Budget:</strong></td><td style="padding: 6px 0; color: #10b981; font-weight: 600;">${booking.budget}</td></tr>` : ''}
             </table>
           </div>
@@ -89,10 +91,10 @@ export async function POST(req: Request) {
     let actionColor = '#7c3aed';
 
     if (newStatus === 'confirmed') {
-      actionLabel = 'Booking Confirmed';
+      actionLabel = isRegister ? 'Registration Approved' : 'Booking Confirmed';
       actionColor = '#059669';
     } else if (newStatus === 'cancelled') {
-      actionLabel = 'Booking Cancelled';
+      actionLabel = isRegister ? 'Registration Rejected' : 'Booking Cancelled';
       actionColor = '#ef4444';
     } else if (newStatus === 'pending') {
       actionLabel = 'Pending Review';

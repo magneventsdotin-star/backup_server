@@ -16,6 +16,7 @@ import {
 
 const STATUS_OPTIONS = [
   { value: 'pending', label: 'Pending', color: 'bg-amber-50 text-amber-600' },
+  { value: 'confirmed', label: 'Approved', color: 'bg-emerald-50 text-emerald-600' },
   { value: 'cancelled', label: 'Archived', color: 'bg-rose-50 text-rose-600' },
 ];
 
@@ -87,7 +88,7 @@ function ArtistRequestsContent() {
         .select('*, artists(id, name, alias, category, city, price_min, price_max, is_trending, is_artist_of_month, artist_images!fk_artist_id(image_url))')
         .eq('booking_source', 'client')
         .eq('event_type', 'Artist Registration')
-        .not('status', 'in', '("confirmed","completed")');
+        .not('status', 'in', '("completed")');
 
       if (searchQuery) {
         query = query.or(
@@ -208,43 +209,23 @@ function ArtistRequestsContent() {
       if (error) throw error;
 
       if (newStatus === 'confirmed' || newStatus === 'completed') {
-        let profileCreated = false;
         
-        // Automatically create an artist profile if approving a registration
         if (selectedRequest && selectedRequest.event_type === 'Artist Registration' && newStatus === 'confirmed') {
-          // Parse notes for extra info
-          const notes = selectedRequest.notes || '';
-          let category = 'Others';
-          const catMatch = notes.match(/Category:\s*([^\n]+)/);
-          if (catMatch) category = catMatch[1].trim();
-
-          const { error: artistError } = await (supabase.from('artists') as any).insert([{
-            name: selectedRequest.client_name,
-            email: selectedRequest.client_email,
-            phone_no: selectedRequest.client_phone,
-            contact_person: selectedRequest.client_name,
-            category: category,
-            city: selectedRequest.venue !== 'TBD' ? selectedRequest.venue : null,
-            is_live: false, // Kept hidden until fully configured
-          }]);
-          
-          if (artistError) {
-             console.error('Failed to create artist profile', artistError);
-             toast({ variant: 'destructive', title: 'Warning', description: 'Request confirmed but failed to auto-create artist profile.' });
-          } else {
-             profileCreated = true;
-             toast({ title: '✅ Approved & Added!', description: 'Artist approved and automatically added to your Artists database.' });
-          }
+           toast({ title: '✅ Approved!', description: 'Artist has been approved! The approval email has been sent.' });
+           setSelectedRequest({ ...selectedRequest, status: 'confirmed' });
+           // Keep modal open so they can click "Add to Database"
+           if (statusFilter !== 'confirmed') {
+             setRequests(prev => prev.filter(r => r.id !== id));
+           } else {
+             setRequests(prev => prev.map(r => r.id === id ? { ...r, status: newStatus } : r));
+           }
+        } else {
+           toast({ title: '✅ Confirmed!', description: 'Request acknowledged and moved to Bookings.' });
+           setDetailOpen(false);
+           setSelectedRequest(null);
+           setInternalNotes('');
+           setRequests(prev => prev.filter(r => r.id !== id));
         }
-
-        if (!profileCreated) {
-          toast({ title: '✅ Confirmed!', description: 'Request acknowledged and moved to Bookings.' });
-        }
-        
-        setDetailOpen(false);
-        setSelectedRequest(null);
-        setInternalNotes('');
-        setRequests(prev => prev.filter(r => r.id !== id));
       } else {
         toast({ title: 'Updated', description: `Request status updated to ${newStatus}.` });
         if (selectedRequest && selectedRequest.id === id) {
@@ -255,6 +236,41 @@ function ArtistRequestsContent() {
       window.dispatchEvent(new Event('refresh_sidebar_counts'));
     } catch (error: any) {
       toast({ variant: 'destructive', title: 'Error', description: error.message });
+    }
+  };
+
+  const handleAddArtistToDatabase = async (request: any) => {
+    try {
+      if (!request) return;
+      const notes = request.notes || '';
+      let category = 'Others';
+      const catMatch = notes.match(/Category:\s*([^\n]+)/);
+      if (catMatch) category = catMatch[1].trim();
+
+      const { error: artistError } = await (supabase.from('artists') as any).insert([{
+        name: request.client_name,
+        email: request.client_email,
+        phone_no: request.client_phone,
+        contact_person: request.client_name,
+        category: category,
+        city: request.venue !== 'TBD' ? request.venue : null,
+        is_live: false,
+      }]);
+      
+      if (artistError) throw artistError;
+
+      // Update the request status to 'completed'
+      const { error: updateError } = await (supabase.from('bookings') as any).update({ status: 'completed' }).eq('id', request.id);
+      if (updateError) throw updateError;
+
+      toast({ title: '✅ Artist Added!', description: 'Artist successfully added to your Artists database.' });
+      
+      setDetailOpen(false);
+      setSelectedRequest(null);
+      setRequests(prev => prev.filter(r => r.id !== request.id));
+      window.dispatchEvent(new Event('refresh_sidebar_counts'));
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Error', description: err.message || 'Failed to add artist.' });
     }
   };
 
@@ -289,28 +305,8 @@ function ArtistRequestsContent() {
         throw new Error(errText || 'Failed to send email');
       }
 
-      // Auto create artist profile if approved via email link
-      if (emailActionStatus === 'confirmed' && selectedRequest.event_type === 'Artist Registration') {
-          const notes = selectedRequest.notes || '';
-          let category = 'Others';
-          const catMatch = notes.match(/Category:\s*([^\n]+)/);
-          if (catMatch) category = catMatch[1].trim();
-
-          const { error: artistError } = await (supabase.from('artists') as any).insert([{
-            name: selectedRequest.client_name,
-            email: selectedRequest.client_email,
-            phone_no: selectedRequest.client_phone,
-            contact_person: selectedRequest.client_name,
-            category: category,
-            city: selectedRequest.venue !== 'TBD' ? selectedRequest.venue : null,
-            is_live: false, // Kept hidden until fully configured
-          }]);
-          
-          if (artistError) {
-             console.error('Failed to create artist profile', artistError);
-             toast({ variant: 'destructive', title: 'Warning', description: 'Email sent but failed to auto-create artist profile.' });
-          }
-      }
+      // We no longer auto create artist profile if approved via email link.
+      // They will just see it in the Approved tab and can add it manually.
 
       toast({ title: 'Email Sent!', description: 'Your custom reply has been dispatched to the client.' });
       setEmailModalOpen(false);
@@ -778,12 +774,22 @@ function ArtistRequestsContent() {
                     >
                       <Mail size={16} /> <span>Request More Info</span>
                     </button>
-                    <button
-                      onClick={() => handleUpdateStatus(selectedRequest.id, 'confirmed')}
-                      className="px-6 h-11 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all"
-                    >
-                      ✅ Approve Artist
-                    </button>
+                    {selectedRequest.status !== 'confirmed' && (
+                      <button
+                        onClick={() => handleUpdateStatus(selectedRequest.id, 'confirmed')}
+                        className="px-6 h-11 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all"
+                      >
+                        ✅ Approve Artist
+                      </button>
+                    )}
+                    {selectedRequest.status === 'confirmed' && (
+                      <button
+                        onClick={() => handleAddArtistToDatabase(selectedRequest)}
+                        className="px-6 h-11 rounded-xl bg-sky-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-sky-700 transition-all"
+                      >
+                        ➕ Add Artist to Database
+                      </button>
+                    )}
                     <button
                       onClick={() => handleUpdateStatus(selectedRequest.id, 'cancelled')}
                       className="px-6 h-11 rounded-xl bg-white border border-rose-200 text-rose-500 font-bold text-xs uppercase tracking-widest hover:bg-rose-50 transition-all"

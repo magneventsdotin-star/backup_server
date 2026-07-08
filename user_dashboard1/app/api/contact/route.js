@@ -19,7 +19,7 @@ export async function POST(req) {
     const artistName = typeof data.selectedArtist === 'object' && data.selectedArtist !== null ? data.selectedArtist.name : (data.selectedArtist || '');
 
     let subjectPrefix = "Client Booking Requests";
-    if (isRegister) subjectPrefix = "Artist Onboarding";
+    if (isRegister) subjectPrefix = "🎤 New Artist Registration";
     else if (isCallRequest) subjectPrefix = "Event Inquiries";
 
         let emailBody = '';
@@ -193,14 +193,14 @@ export async function POST(req) {
 
     let contentSections = '';    if (isRegister) {
       emailBody = `New Artist Registration from ${data.name || 'Unknown'}\nPhone: ${data.phone || 'N/A'}\nEmail: ${data.email || 'N/A'}`;
-      contentSections += buildSection('👤 Artist Details', 
-        row('Name', data.name) +
+      contentSections += buildSection('🎤 Artist Details', 
+        row('Artist Name', data.name) +
         row('Email', data.email, true, `mailto:${data.email}`) +
         row('Phone', data.phone, true, `tel:${data.phone}`) +
         row('Category', data.category)
       );
-      contentSections += buildSection('🔗 Portfolio & Socials', row('Link', data.portfolio, true, data.portfolio));
-      contentSections += buildSection('📝 Bio & Experience', `<tr><td style="padding: 8px 0; color: #fbbf24;">${data.bio || 'No bio provided.'}</td></tr>`);
+      contentSections += buildSection('🎵 Portfolio & Socials', row('Portfolio', data.portfolio, true, data.portfolio));
+      contentSections += buildSection('🎭 Bio & Experience', `<tr><td style="padding: 8px 0; color: #fbbf24;">${data.bio || 'No bio provided.'}</td></tr>`);
     } else {
       emailBody = `New Inquiry from ${data.name || 'Unknown'}\nPhone: ${data.phone || 'N/A'}\nEmail: ${data.email || 'N/A'}`;
       contentSections += buildSection('👤 User & Contact Details', 
@@ -325,16 +325,16 @@ export async function POST(req) {
         const rejectArtistLink = `${adminUrl}/dashboard/artist-requests?reply=${bId}&action=reject_artist`;
         
         buttonsHtml = `
-            <a href="${approveArtistLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #10b981; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);">✅ Approve & Add to Database</a>
+            <a href="${approveArtistLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #7c3aed; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);">✅ Approve Artist</a>
             
             <div style="height: 1px; background-color: rgba(255,255,255,0.05); margin: 24px 0;"></div>
             
-            <a href="${morePortfolioLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #2563eb; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">📁 Request More Portfolio</a>
-            <a href="${customReplyLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #7c3aed; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);">✍️ Custom Reply</a>
+            <a href="${morePortfolioLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #2563eb; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">📂 Request Portfolio</a>
+            <a href="${customReplyLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #9333ea; box-shadow: 0 4px 6px -1px rgba(147, 51, 234, 0.2);">✉️ Send Custom Reply</a>
             
             <div style="height: 1px; background-color: rgba(255,255,255,0.05); margin: 24px 0;"></div>
             
-            <a href="${rejectArtistLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #dc2626; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);">❌ Reject Application</a>
+            <a href="${rejectArtistLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #dc2626; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);">❌ Reject Artist</a>
         `;
       } else {
         buttonsHtml = `
@@ -356,8 +356,8 @@ export async function POST(req) {
       htmlBody += `
         <div style="background-color: #020617; padding: 40px 24px; border-top: 1px solid rgba(255,255,255,0.05); border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
           <div style="text-align: center; margin-bottom: 32px;">
-            <h3 style="margin: 0 0 8px 0; color: #ffffff; font-size: 20px; font-weight: 700; letter-spacing: 1px;">QUICK ACTIONS</h3>
-            <p style="font-size: 13px; color: #94a3b8; margin: 0; line-height: 1.6;">${isRegister ? 'Review and respond to the artist application.' : 'Review and respond to the client instantly.'}</p>
+            <h3 style="margin: 0 0 8px 0; color: ${isRegister ? '#c084fc' : '#ffffff'}; font-size: 20px; font-weight: 700; letter-spacing: 1px;">${isRegister ? 'ARTIST REVIEW' : 'QUICK ACTIONS'}</h3>
+            <p style="font-size: 13px; color: #94a3b8; margin: 0; line-height: 1.6;">${isRegister ? 'Review the artist profile and decide whether to approve, request more information, or reject the application.' : 'Review and respond to the client instantly.'}</p>
           </div>
           
           <div style="max-width: 320px; margin: 0 auto;">
@@ -365,7 +365,7 @@ export async function POST(req) {
           </div>
           
           <div style="margin-top: 40px; text-align: center;">
-            <a href="${isRegister ? `${adminUrl}/dashboard/artist-requests?reply=${bId}` : previewLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: transparent; color: #fbbf24; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 13px; border: 1px solid #fbbf24; letter-spacing: 1px; text-transform: uppercase;">Open in Dashboard</a>
+            <a href="${isRegister ? `${adminUrl}/dashboard/artist-requests?reply=${bId}` : previewLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: transparent; color: ${isRegister ? '#c084fc' : '#fbbf24'}; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 13px; border: 1px solid ${isRegister ? '#c084fc' : '#fbbf24'}; letter-spacing: 1px; text-transform: uppercase;">Open in Dashboard</a>
           </div>
         </div>
               </div>
@@ -376,7 +376,7 @@ export async function POST(req) {
     
     htmlBody += `
         <div style="text-align: center; margin-top: 24px;">
-          <p style="color: #94a3b8; font-size: 12px; margin: 0;">Sent securely by Magnevents Admin System</p>
+          <p style="color: #94a3b8; font-size: 12px; margin: 0;">${isRegister ? 'This email was generated from a new Artist Registration submission.' : 'Sent securely by Magnevents Admin System'}</p>
         </div>
       </body>
       </html>
