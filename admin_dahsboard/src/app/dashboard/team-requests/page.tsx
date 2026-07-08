@@ -19,7 +19,7 @@ import {
   X,
   FileText,
   Trash2
-} from 'lucide-react';
+, ArrowLeft, CalendarCheck, ChevronRight } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -1122,7 +1122,7 @@ export default function TeamRequestsPage() {
               }} 
               className="mt-1 w-full h-11 rounded-xl bg-white border border-slate-200 text-slate-500 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all"
             >
-              {exportMode === 'select' ? 'Cancel' : 'Back to Options'}
+              {exportMode === 'select' ? 'Cancel' : <><ArrowLeft size={16} /> Back to Options</>}
             </button>
           </div>
         </DialogContent>

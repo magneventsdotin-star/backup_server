@@ -4,39 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import {
-  CalendarCheck,
-  Search,
-  Download,
-  Loader2,
-  ChevronLeft,
-  ChevronRight,
-  Info,
-  X,
-  MapPin,
-  Phone,
-  Mail,
-  Calendar,
-  Clock,
-  DollarSign,
-  User,
-  Mic2,
-  CheckCircle2,
-  XCircle,
-  AlertCircle,
-  Filter,
-  FileSpreadsheet,
-  Eye,
-  Trash2,
-  Plus,
-  ArrowUpDown,
-  SortAsc,
-  SortDesc,
-  ChevronUp,
-  ChevronDown,
-  Star,
-  Trophy
-} from 'lucide-react';
+import { CalendarCheck, Search, Download, Loader2, ChevronLeft, ChevronRight, Info, X, MapPin, Phone, Mail, Calendar, Clock, DollarSign, User, Mic2, CheckCircle2, XCircle, AlertCircle, Filter, FileSpreadsheet, Eye, Trash2, Plus, ArrowUpDown, SortAsc, SortDesc, ChevronUp, ChevronDown, Star, Trophy, ArrowLeft } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -1104,9 +1072,9 @@ export default function BookingsPage() {
                 if (exportMode !== 'select') setExportMode('select');
                 else setExportModalOpen(false);
               }} 
-              className="mt-3 w-full h-11 rounded-xl bg-white border border-slate-200 text-slate-500 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all"
+              className="mt-3 w-full h-11 rounded-xl bg-white border border-slate-200 text-slate-500 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all flex items-center justify-center gap-2"
             >
-              {exportMode === 'select' ? 'Cancel' : 'Back to Options'}
+              {exportMode === 'select' ? 'Cancel' : <><ArrowLeft size={16} /> Back to Options</>}
             </button>
           </div>
         </DialogContent>

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ArtistFilters, ArtistFilterState, INITIAL_FILTER_STATE } from '@/components/artists/ArtistFilters';
 import { Button } from '@/components/ui/button';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
-import { Plus, Loader2, Mic2, Star, Info, ChevronLeft, ChevronRight, Pencil, Eye, EyeOff, Trash2, Image as ImageIcon, Share2, PlayCircle, MapPin, Music, User, ChevronDown, Layers, Calendar, CalendarCheck, Download } from 'lucide-react';
+import { Plus, Loader2, Mic2, Star, Info, ChevronLeft, ChevronRight, Pencil, Eye, EyeOff, Trash2, Image as ImageIcon, Share2, PlayCircle, MapPin, Music, User, ChevronDown, Layers, Calendar, CalendarCheck, Download, ArrowLeft } from 'lucide-react';
 import { CreateArtistModal } from '@/components/artists/CreateArtistModal';
 import { supabase } from '@/lib/supabase';
 import { cn } from '@/lib/utils';
@@ -1211,9 +1211,9 @@ export default function ArtistManagement() {
                 if (exportMode !== 'select') setExportMode('select');
                 else setExportModalOpen(false);
               }} 
-              className="mt-3 w-full h-11 rounded-xl bg-white border border-slate-200 text-slate-500 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all"
+              className="mt-3 w-full h-11 rounded-xl bg-white border border-slate-200 text-slate-500 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all flex items-center justify-center gap-2"
             >
-              {exportMode === 'select' ? 'Cancel' : 'Back to Options'}
+              {exportMode === 'select' ? 'Cancel' : <><ArrowLeft size={16} /> Back to Options</>}
             </button>
           </div>
         </DialogContent>

@@ -6,33 +6,7 @@ import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
-import {
-  CalendarCheck,
-  Search,
-  Loader2,
-  ChevronLeft,
-  ChevronRight,
-  Info,
-  X,
-  MapPin,
-  Calendar,
-  User,
-  Mic2,
-  CheckCircle2,
-  XCircle,
-  AlertCircle,
-  Eye,
-  Trash2,
-  SortAsc,
-  SortDesc,
-  Phone,
-  Mail,
-  Clock,
-  Star,
-  Trophy,
-  Music,
-  Download
-} from 'lucide-react';
+import { CalendarCheck, Search, Loader2, ChevronLeft, ChevronRight, Info, X, MapPin, Calendar, User, Mic2, CheckCircle2, XCircle, AlertCircle, Eye, Trash2, SortAsc, SortDesc, Phone, Mail, Clock, Star, Trophy, Music, Download, ArrowLeft } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -1051,7 +1025,7 @@ function ArtistRequestsContent() {
               }} 
               className="mt-1 w-full h-11 rounded-xl bg-white border border-slate-200 text-slate-500 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all"
             >
-              {exportMode === 'select' ? 'Cancel' : 'Back to Options'}
+              {exportMode === 'select' ? 'Cancel' : <><ArrowLeft size={16} /> Back to Options</>}
             </button>
           </div>
         </DialogContent>

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Mail, Search, RefreshCw, Eye, Calendar, Clock, X, Trash2, AlertCircle, Download } from 'lucide-react';
+import { Loader2, Mail, Search, RefreshCw, Eye, Calendar, Clock, X, Trash2, AlertCircle, Download , ArrowLeft, CalendarCheck, ChevronRight } from 'lucide-react';
 import { format } from 'date-fns';
 import {
   Dialog,
@@ -719,7 +719,7 @@ ${plainTextBody}`;
               }} 
               className="mt-1 w-full h-11 rounded-xl bg-white border border-slate-200 text-slate-500 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all"
             >
-              {exportMode === 'select' ? 'Cancel' : 'Back to Options'}
+              {exportMode === 'select' ? 'Cancel' : <><ArrowLeft size={16} /> Back to Options</>}
             </button>
           </div>
         </DialogContent>
