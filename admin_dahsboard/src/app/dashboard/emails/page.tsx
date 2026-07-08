@@ -157,7 +157,7 @@ ${plainTextBody}`;
         return;
       }
 
-      const XLSX = await import('xlsx');
+      const { exportToExcel } = await import('@/lib/exportExcel');
       const exportData = data.map((e: any, index: number) => ({
         'S.No': index + 1,
         'Subject': e.subject || 'N/A',
@@ -169,12 +169,51 @@ ${plainTextBody}`;
         'Email Body': e.body ? e.body.replace(/<[^>]*>?/gm, '').substring(0, 32000) : 'N/A',
       }));
       
-      const ws = XLSX.utils.json_to_sheet(exportData);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Emails');
-      XLSX.writeFile(wb, `Emails_${exportStartDate}_to_${exportEndDate}.xlsx`);
+      await exportToExcel(exportData, `Emails_${exportStartDate}_to_${exportEndDate}`, 'Emails');
       toast({ title: 'Downloaded!', description: 'Emails exported successfully.' });
       setExportModalOpen(false);
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Export Error', description: err.message });
+    }
+  };
+
+  const handleExportDay = async (dateStr: string) => {
+    try {
+      const dateObj = new Date(dateStr);
+      const start = new Date(dateObj);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(dateObj);
+      end.setHours(23, 59, 59, 999);
+      
+      const { data, error } = await supabase
+        .from('emails')
+        .select(`*, bookings(client_name)`)
+        .gte('sent_at', start.toISOString())
+        .lte('sent_at', end.toISOString())
+        .order('sent_at', { ascending: false });
+        
+      if (error) throw error;
+      
+      if (!data || data.length === 0) {
+        toast({ variant: 'destructive', title: 'No Data', description: 'No emails found for this date.' });
+        return;
+      }
+
+      const { exportToExcel } = await import('@/lib/exportExcel');
+      const exportData = data.map((e: any, index: number) => ({
+        'S.No': index + 1,
+        'Subject': e.subject || 'N/A',
+        'Recipient': e.recipient_email || 'N/A',
+        'Client': e.bookings?.client_name || 'N/A',
+        'Type': e.email_type || 'N/A',
+        'Status': e.status || 'N/A',
+        'Sent At': e.sent_at ? new Date(e.sent_at).toLocaleString('en-IN') : 'N/A',
+        'Email Body': e.body ? e.body.replace(/<[^>]*>?/gm, '').substring(0, 32000) : 'N/A',
+      }));
+      
+      const formattedDate = format(dateObj, 'yyyy-MM-dd');
+      await exportToExcel(exportData, `Emails_${formattedDate}`, `Emails_${formattedDate}`);
+      toast({ title: 'Downloaded!', description: `Emails for ${dateStr} exported successfully.` });
     } catch (err: any) {
       toast({ variant: 'destructive', title: 'Export Error', description: err.message });
     }
@@ -271,9 +310,18 @@ ${plainTextBody}`;
               return (
                 <div key={email.id} className="flex flex-col">
                   {showHeader && (
-                    <div className="bg-slate-100/80 backdrop-blur-sm px-6 py-2 text-xs font-bold text-slate-600 uppercase tracking-widest sticky top-0 z-10 shadow-sm border-b border-slate-200 flex items-center gap-2">
-                      <Calendar size={14} className="text-slate-400" />
-                      {dateStr}
+                    <div className="bg-slate-100/80 backdrop-blur-sm px-6 py-2 text-xs font-bold text-slate-600 uppercase tracking-widest sticky top-0 z-10 shadow-sm border-b border-slate-200 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Calendar size={14} className="text-slate-400" />
+                        {dateStr}
+                      </div>
+                      <button 
+                        onClick={() => handleExportDay(dateStr)}
+                        className="flex items-center gap-1.5 px-3 py-1 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:text-emerald-600 transition-colors text-[10px] shadow-sm text-slate-500"
+                      >
+                        <Download size={12} />
+                        Download XLS
+                      </button>
                     </div>
                   )}
                   <div

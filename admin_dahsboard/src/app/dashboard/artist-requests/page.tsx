@@ -210,8 +210,39 @@ function ArtistRequestsContent() {
       if (error) throw error;
 
       if (newStatus === 'confirmed' || newStatus === 'completed') {
+        let profileCreated = false;
+        
+        // Automatically create an artist profile if approving a registration
+        if (selectedRequest && selectedRequest.event_type === 'Artist Registration' && newStatus === 'confirmed') {
+          // Parse notes for extra info
+          const notes = selectedRequest.notes || '';
+          let category = 'Others';
+          const catMatch = notes.match(/Category:\s*([^\n]+)/);
+          if (catMatch) category = catMatch[1].trim();
 
-        toast({ title: '✅ Confirmed!', description: 'Request acknowledged and moved to Bookings.' });
+          const { error: artistError } = await (supabase.from('artists') as any).insert([{
+            name: selectedRequest.client_name,
+            email: selectedRequest.client_email,
+            phone_no: selectedRequest.client_phone,
+            contact_person: selectedRequest.client_name,
+            category: category,
+            city: selectedRequest.venue !== 'TBD' ? selectedRequest.venue : null,
+            is_live: false, // Kept hidden until fully configured
+          }]);
+          
+          if (artistError) {
+             console.error('Failed to create artist profile', artistError);
+             toast({ variant: 'destructive', title: 'Warning', description: 'Request confirmed but failed to auto-create artist profile.' });
+          } else {
+             profileCreated = true;
+             toast({ title: '✅ Approved & Added!', description: 'Artist approved and automatically added to your Artists database.' });
+          }
+        }
+
+        if (!profileCreated) {
+          toast({ title: '✅ Confirmed!', description: 'Request acknowledged and moved to Bookings.' });
+        }
+        
         setDetailOpen(false);
         setSelectedRequest(null);
       } else {
@@ -297,7 +328,7 @@ function ArtistRequestsContent() {
                     toast({ variant: 'destructive', title: 'No Data', description: 'No requests to export.' });
                     return;
                   }
-                  const XLSX = await import('xlsx');
+                  const { exportToExcel } = await import('@/lib/exportExcel');
                   const exportData = requests.map((r: any, index: number) => ({
                     'S.No': index + 1,
                     'Artist Name': r.artists?.name || 'N/A',
@@ -308,11 +339,8 @@ function ArtistRequestsContent() {
                     'Status': r.status || 'N/A',
                     'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
                   }));
-                  const ws = XLSX.utils.json_to_sheet(exportData);
-                  const wb = XLSX.utils.book_new();
-                  XLSX.utils.book_append_sheet(wb, ws, 'Artist Requests');
                   const today = new Date().toISOString().split('T')[0];
-                  XLSX.writeFile(wb, `TalentTrack_Artist_Requests_${today}.xlsx`);
+                  await exportToExcel(exportData, `TalentTrack_Artist_Requests_${today}`, 'Artist Requests');
                   toast({ title: 'Downloaded!', description: 'Requests exported as XLS file.' });
                 } catch (error: any) {
                   toast({ variant: 'destructive', title: 'Export Error', description: error.message });

@@ -322,7 +322,7 @@ function ClientRequestsContent() {
                     toast({ variant: 'destructive', title: 'No Data', description: 'No requests to export.' });
                     return;
                   }
-                  const XLSX = await import('xlsx');
+                  const { exportToExcel } = await import('@/lib/exportExcel');
                   const exportData = requests.map((r: any, index: number) => ({
                     'S.No': index + 1,
                     'Artist Name': r.artists?.name || 'N/A',
@@ -335,11 +335,8 @@ function ClientRequestsContent() {
                     'Status': r.status || 'N/A',
                     'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
                   }));
-                  const ws = XLSX.utils.json_to_sheet(exportData);
-                  const wb = XLSX.utils.book_new();
-                  XLSX.utils.book_append_sheet(wb, ws, 'Client Inquiries');
                   const today = new Date().toISOString().split('T')[0];
-                  XLSX.writeFile(wb, `TalentTrack_Inquiries_${today}.xlsx`);
+                  await exportToExcel(exportData, `TalentTrack_ClientInquiries_${today}`, 'Client Inquiries');
                   toast({ title: 'Downloaded!', description: 'Inquiries exported as XLS file.' });
                 } catch (error: any) {
                   toast({ variant: 'destructive', title: 'Export Error', description: error.message });

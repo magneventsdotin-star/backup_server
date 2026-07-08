@@ -318,7 +318,26 @@ export async function POST(req) {
 
       const premiumBtnBase = "display: block; width: 100%; box-sizing: border-box; color: #ffffff; padding: 14px 16px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px; margin-bottom: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1);";
       
-      let buttonsHtml = `
+      let buttonsHtml = '';
+      if (isRegister) {
+        const approveArtistLink = `${adminUrl}/dashboard/artist-requests?reply=${bId}&action=approve_artist`;
+        const morePortfolioLink = `${adminUrl}/dashboard/artist-requests?reply=${bId}&action=more_portfolio`;
+        const rejectArtistLink = `${adminUrl}/dashboard/artist-requests?reply=${bId}&action=reject_artist`;
+        
+        buttonsHtml = `
+            <a href="${approveArtistLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #10b981; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);">✅ Approve & Add to Database</a>
+            
+            <div style="height: 1px; background-color: rgba(255,255,255,0.05); margin: 24px 0;"></div>
+            
+            <a href="${morePortfolioLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #2563eb; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">📁 Request More Portfolio</a>
+            <a href="${customReplyLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #7c3aed; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);">✍️ Custom Reply</a>
+            
+            <div style="height: 1px; background-color: rgba(255,255,255,0.05); margin: 24px 0;"></div>
+            
+            <a href="${rejectArtistLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #dc2626; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);">❌ Reject Application</a>
+        `;
+      } else {
+        buttonsHtml = `
             <a href="${confirmLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #10b981; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);">✅ Confirm Booking</a>
             <a href="${approveLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #059669; box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);">👍 Approve Booking</a>
             
@@ -332,12 +351,13 @@ export async function POST(req) {
             <a href="${unavailableLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #ea580c; box-shadow: 0 4px 6px -1px rgba(234, 88, 12, 0.2);">🗓️ Artist Unavailable</a>
             <a href="${rejectLink}" target="_blank" rel="noopener noreferrer" style="${premiumBtnBase} background-color: #dc2626; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);">❌ Reject / Not Possible</a>
         `;
+      }
 
       htmlBody += `
         <div style="background-color: #020617; padding: 40px 24px; border-top: 1px solid rgba(255,255,255,0.05); border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
           <div style="text-align: center; margin-bottom: 32px;">
             <h3 style="margin: 0 0 8px 0; color: #ffffff; font-size: 20px; font-weight: 700; letter-spacing: 1px;">QUICK ACTIONS</h3>
-            <p style="font-size: 13px; color: #94a3b8; margin: 0; line-height: 1.6;">Review and respond to the client instantly.</p>
+            <p style="font-size: 13px; color: #94a3b8; margin: 0; line-height: 1.6;">${isRegister ? 'Review and respond to the artist application.' : 'Review and respond to the client instantly.'}</p>
           </div>
           
           <div style="max-width: 320px; margin: 0 auto;">
@@ -345,7 +365,7 @@ export async function POST(req) {
           </div>
           
           <div style="margin-top: 40px; text-align: center;">
-            <a href="${previewLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: transparent; color: #fbbf24; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 13px; border: 1px solid #fbbf24; letter-spacing: 1px; text-transform: uppercase;">Open in Dashboard</a>
+            <a href="${isRegister ? `${adminUrl}/dashboard/artist-requests?reply=${bId}` : previewLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: transparent; color: #fbbf24; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 13px; border: 1px solid #fbbf24; letter-spacing: 1px; text-transform: uppercase;">Open in Dashboard</a>
           </div>
         </div>
               </div>

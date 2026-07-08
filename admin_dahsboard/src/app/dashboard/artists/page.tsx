@@ -516,7 +516,7 @@ export default function ArtistManagement() {
                   toast({ variant: 'destructive', title: 'No Data', description: 'No artists to export.' });
                   return;
                 }
-                const XLSX = await import('xlsx');
+                const { exportToExcel } = await import('@/lib/exportExcel');
                 const exportData = artists.map((a: any, index: number) => ({
                   'S.No': index + 1,
                   'Artist No': a.artist_no || 'N/A',
@@ -535,11 +535,8 @@ export default function ArtistManagement() {
                   'Status': a.is_live ? 'Live' : 'Hidden',
                   'Added On': a.created_at ? new Date(a.created_at).toLocaleString('en-IN') : 'N/A',
                 }));
-                const ws = XLSX.utils.json_to_sheet(exportData);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, 'Artists');
                 const today = new Date().toISOString().split('T')[0];
-                XLSX.writeFile(wb, `TalentTrack_Artists_${today}.xlsx`);
+                await exportToExcel(exportData, `TalentTrack_Artists_${today}`, 'Artists');
                 toast({ title: 'Downloaded!', description: 'Artists exported as XLS file.' });
               } catch (error: any) {
                 toast({ variant: 'destructive', title: 'Export Error', description: error.message });

@@ -242,7 +242,7 @@ export default function BookingsPage() {
         return;
       }
 
-      const XLSX = await import('xlsx');
+      const { exportToExcel } = await import('@/lib/exportExcel');
 
       const exportData = data.map((b: any, index: number) => ({
         'S.No': index + 1,
@@ -263,22 +263,8 @@ export default function BookingsPage() {
         'Booked On': b.created_at ? new Date(b.created_at).toLocaleDateString('en-IN') : 'N/A',
       }));
 
-      const ws = XLSX.utils.json_to_sheet(exportData);
-
-      const colWidths = [
-        { wch: 5 }, { wch: 20 }, { wch: 15 }, { wch: 15 },
-        { wch: 20 }, { wch: 25 }, { wch: 15 },
-        { wch: 15 }, { wch: 15 }, { wch: 10 },
-        { wch: 25 }, { wch: 15 }, { wch: 12 },
-        { wch: 12 }, { wch: 30 }, { wch: 15 },
-      ];
-      ws['!cols'] = colWidths;
-
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Bookings');
-
       const today = new Date().toISOString().split('T')[0];
-      XLSX.writeFile(wb, `TalentTrack_Bookings_${today}.xlsx`);
+      await exportToExcel(exportData, `TalentTrack_Bookings_${today}`, 'Bookings');
 
       toast({ title: 'Downloaded!', description: 'Bookings exported as XLS file.' });
     } catch (error: any) {
