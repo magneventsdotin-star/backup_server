@@ -14,6 +14,90 @@ import {
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 
+const formatExportData = (data: any[]) => {
+  return data.map((e: any, index: number) => {
+    const bodyText = e.body ? e.body.replace(/<[^>]*>?/gm, '') : '';
+    
+    let extractedName = '';
+    let extractedPhone = '';
+    let extractedEmail = '';
+    let extractedCategory = '';
+    let extractedPrice = '';
+    let extractedPortfolio = '';
+    let extractedBio = '';
+    
+    let eventType = '';
+    let eventDate = '';
+    let location = '';
+    let requestedType = '';
+    let budget = '';
+    let message = '';
+    
+    const nameMatch = bodyText.match(/(?:Artist Name|Name)[\s]+([^\n\r]+)/i);
+    if (nameMatch) extractedName = nameMatch[1].trim();
+    
+    const phoneMatch = bodyText.match(/Phone[\s]+([^\n\r]+)/i);
+    if (phoneMatch) extractedPhone = phoneMatch[1].trim();
+    
+    const emailMatch = bodyText.match(/Email[\s]+([^\n\r]+)/i);
+    if (emailMatch) extractedEmail = emailMatch[1].trim();
+    
+    const categoryMatch = bodyText.match(/Category[\s]+([^\n\r]+)/i);
+    if (categoryMatch) extractedCategory = categoryMatch[1].trim();
+    
+    const priceMatch = bodyText.match(/Price[\s]+([^\n\r]+)/i);
+    if (priceMatch) extractedPrice = priceMatch[1].trim();
+    
+    const portfolioMatch = bodyText.match(/Portfolio[\s]+([^\n\r]+)/i);
+    if (portfolioMatch) extractedPortfolio = portfolioMatch[1].trim();
+    
+    const bioMatch = bodyText.match(/Bio\s*&\s*Experience[\s]+([\s\S]*?)(?=\s*(?:ARTIST REVIEW|QUICK ACTIONS|This email was generated|Sent securely|$))/i);
+    if (bioMatch) extractedBio = bioMatch[1].trim().replace(/\s+/g, ' ');
+    
+    const eventTypeMatch = bodyText.match(/Event Type[\s]+([^\n\r]+)/i);
+    if (eventTypeMatch) eventType = eventTypeMatch[1].trim();
+    
+    const eventDateMatch = bodyText.match(/Event Date[\s]+([^\n\r]+)/i);
+    if (eventDateMatch) eventDate = eventDateMatch[1].trim();
+    
+    const locMatch = bodyText.match(/Location[\s]+([^\n\r]+)/i);
+    if (locMatch) location = locMatch[1].trim();
+    
+    const reqTypeMatch = bodyText.match(/Requested Type[\s]+([^\n\r]+)/i);
+    if (reqTypeMatch) requestedType = reqTypeMatch[1].trim();
+    
+    const budgetMatch = bodyText.match(/Budget[\s]+([^\n\r]+)/i);
+    if (budgetMatch) budget = budgetMatch[1].trim();
+    
+    const msgMatch = bodyText.match(/(?:Additional Message|Message)[\s]+([\s\S]*?)(?=\s*(?:ARTIST REVIEW|QUICK ACTIONS|✨|📝|This email was generated|Sent securely|$))/i);
+    if (msgMatch) message = msgMatch[1].trim().replace(/\s+/g, ' ');
+
+    return {
+      'S.No': index + 1,
+      'Subject': e.subject || 'N/A',
+      'Recipient': e.recipient_email || 'N/A',
+      'Client': e.bookings?.client_name || 'N/A',
+      'Type': e.email_type || 'N/A',
+      'Status': e.status || 'N/A',
+      'Sent At': e.sent_at ? new Date(e.sent_at).toLocaleString('en-IN') : 'N/A',
+      'Extracted Name': extractedName,
+      'Extracted Phone': extractedPhone,
+      'Extracted Email': extractedEmail,
+      'Extracted Category': extractedCategory,
+      'Extracted Price': extractedPrice,
+      'Extracted Portfolio': extractedPortfolio,
+      'Extracted Bio': extractedBio,
+      'Extracted Event Type': eventType,
+      'Extracted Event Date': eventDate,
+      'Extracted Location': location,
+      'Extracted Requested Type': requestedType,
+      'Extracted Budget': budget,
+      'Extracted Message': message,
+      'Email Body': bodyText.substring(0, 32000) || 'N/A',
+    };
+  });
+};
+
 export default function EmailsPage() {
   return (
     <Suspense fallback={<div className="p-8 flex items-center justify-center"><Loader2 className="animate-spin text-sky-500" /></div>}>
@@ -169,16 +253,7 @@ ${plainTextBody}`;
       }
 
       const { exportToExcel } = await import('@/lib/exportExcel');
-      const exportData = data.map((e: any, index: number) => ({
-        'S.No': index + 1,
-        'Subject': e.subject || 'N/A',
-        'Recipient': e.recipient_email || 'N/A',
-        'Client': e.bookings?.client_name || 'N/A',
-        'Type': e.email_type || 'N/A',
-        'Status': e.status || 'N/A',
-        'Sent At': e.sent_at ? new Date(e.sent_at).toLocaleString('en-IN') : 'N/A',
-        'Email Body': e.body ? e.body.replace(/<[^>]*>?/gm, '').substring(0, 32000) : 'N/A',
-      }));
+      const exportData = formatExportData(data);
       
       await exportToExcel(exportData, `Emails_${exportStartDate}_to_${exportEndDate}`, 'Emails');
       toast({ title: 'Downloaded!', description: "Today's emails exported successfully." });
@@ -218,16 +293,7 @@ ${plainTextBody}`;
       }
 
       const { exportToExcel } = await import('@/lib/exportExcel');
-      const exportData = data.map((e: any, index: number) => ({
-        'S.No': index + 1,
-        'Subject': e.subject || 'N/A',
-        'Recipient': e.recipient_email || 'N/A',
-        'Client': e.bookings?.client_name || 'N/A',
-        'Type': e.email_type || 'N/A',
-        'Status': e.status || 'N/A',
-        'Sent At': e.sent_at ? new Date(e.sent_at).toLocaleString('en-IN') : 'N/A',
-        'Email Body': e.body ? e.body.replace(/<[^>]*>?/gm, '').substring(0, 32000) : 'N/A',
-      }));
+      const exportData = formatExportData(data);
       
       const formattedDate = format(dateObj, 'yyyy-MM-dd');
       await exportToExcel(exportData, `Emails_${formattedDate}`, `Emails_${formattedDate}`);
@@ -259,16 +325,7 @@ ${plainTextBody}`;
       }
 
       const { exportToExcel } = await import('@/lib/exportExcel');
-      const exportData = data.map((e: any, index: number) => ({
-        'S.No': index + 1,
-        'Subject': e.subject || 'N/A',
-        'Recipient': e.recipient_email || 'N/A',
-        'Client': e.bookings?.client_name || 'N/A',
-        'Type': e.email_type || 'N/A',
-        'Status': e.status || 'N/A',
-        'Sent At': e.sent_at ? new Date(e.sent_at).toLocaleString('en-IN') : 'N/A',
-        'Email Body': e.body ? e.body.replace(/<[^>]*>?/gm, '').substring(0, 32000) : 'N/A',
-      }));
+      const exportData = formatExportData(data);
       
       await exportToExcel(exportData, `All_Emails_${new Date().toISOString().split('T')[0]}`, `All_Emails`);
       toast({ title: 'Downloaded!', description: `All emails exported successfully.` });
