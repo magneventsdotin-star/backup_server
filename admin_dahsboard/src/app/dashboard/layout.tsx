@@ -8,6 +8,7 @@ import { Loader2, LogOut, Menu } from 'lucide-react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { ConfirmProvider } from '@/components/ui/ConfirmProvider';
 
 export default function DashboardLayout({
   children,
@@ -164,7 +165,9 @@ export default function DashboardLayout({
             sidebarOpen ? "opacity-60" : "opacity-100"
           )}
         >
-          {children}
+          <ConfirmProvider>
+            {children}
+          </ConfirmProvider>
         </main>
         
         <footer className="p-4 text-center border-t border-slate-200 mt-auto">

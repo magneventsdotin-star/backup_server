@@ -1,3 +1,4 @@
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -37,6 +38,7 @@ const getStatusBadge = (status: string) => {
 };
 
 export default function BookingsPage() {
+  const { confirmAction } = useConfirm();
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -192,7 +194,7 @@ export default function BookingsPage() {
   };
 
   const handleDeleteBooking = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this booking?')) return;
+    if (!await confirmAction('Admin Verification Required', 'Are you sure you want to delete this booking?', 'danger')) return;
     try {
       const { error } = await (supabase.from('bookings') as any).delete().eq('id', id);
       if (error) throw error;

@@ -1,3 +1,4 @@
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 "use client";
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ArtistFilters, ArtistFilterState, INITIAL_FILTER_STATE } from '@/components/artists/ArtistFilters';
@@ -12,6 +13,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/compone
 import { useRouter } from 'next/navigation';
 
 export default function ArtistManagement() {
+  const { confirmAction } = useConfirm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingArtist, setEditingArtist] = useState<any>(null);
   const [artists, setArtists] = useState<any[]>([]);
@@ -409,7 +411,7 @@ export default function ArtistManagement() {
   }, [fetchArtists]);
 
   const handleDelete = async (id: string, name: string) => {
-    if (!confirm(`Are you sure you want to delete ${name}? This will also remove all their images.`)) return;
+    if (!await confirmAction('Admin Verification Required', `Are you sure you want to delete ${name}? This will also remove all their images.`, 'danger')) return;
     try {
       await (supabase.from('artist_images') as any).delete().eq('artist_id', id);
       const { error } = await (supabase.from('artists') as any).delete().eq('id', id);
@@ -422,7 +424,7 @@ export default function ArtistManagement() {
   };
 
   const handleDeleteBatch = async (dateStr: string, artistsInBatch: any[]) => {
-    if (!confirm(`Are you sure you want to delete all ${artistsInBatch.length} profiles uploaded on ${dateStr}? This action cannot be undone.`)) return;
+    if (!await confirmAction('Admin Verification Required', `Are you sure you want to delete all ${artistsInBatch.length} profiles uploaded on ${dateStr}? This action cannot be undone.`, 'danger')) return;
     try {
       setLoading(true);
       const artistIds = artistsInBatch.map(a => a.id);

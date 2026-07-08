@@ -1,3 +1,4 @@
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 "use client";
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
@@ -41,6 +42,7 @@ export default function ArtistRequestsPage() {
 }
 
 function ArtistRequestsContent() {
+  const { confirmAction } = useConfirm();
   const router = useRouter();
   const searchParams = useSearchParams();
   const replyId = searchParams?.get('reply');
@@ -330,7 +332,7 @@ function ArtistRequestsContent() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this request?')) return;
+    if (!await confirmAction('Admin Verification Required', 'Are you sure you want to delete this request?', 'danger')) return;
     try {
       const { error } = await (supabase.from('bookings') as any).delete().eq('id', id);
       if (error) throw error;

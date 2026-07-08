@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
@@ -30,6 +31,7 @@ import {
 // We will fetch requests from Supabase now
 
 export default function TeamRequestsPage() {
+  const { confirmAction } = useConfirm();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -487,7 +489,7 @@ export default function TeamRequestsPage() {
   };
 
   const handleDeleteRequest = async (id: string) => {
-    if (!confirm('Are you sure you want to permanently delete this request? This action cannot be undone.')) return;
+    if (!await confirmAction('Admin Verification Required', 'Are you sure you want to permanently delete this request? This action cannot be undone.', 'danger')) return;
     try {
       const { error } = await supabase
         .from('duplicate_approvals')

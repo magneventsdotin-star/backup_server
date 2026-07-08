@@ -1,3 +1,4 @@
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -90,6 +91,7 @@ const CATEGORIES: Record<string, { label: string; icon: any; subCategories: stri
 };
 
 export default function DashboardOverview() {
+  const { confirmAction } = useConfirm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const { toast } = useToast();
@@ -338,7 +340,7 @@ export default function DashboardOverview() {
   );
 
   const handleDeleteArtist = async (id: string, name: string) => {
-    if (!confirm(`Are you sure you want to delete ${name}? This will also remove all their images from storage.`)) return;
+    if (!await confirmAction('Admin Verification Required', `Are you sure you want to delete ${name}? This will also remove all their images from storage.`, 'danger')) return;
     try {
       // 1. Fetch all image URLs for this artist before deleting
       const { data: images } = await (supabase

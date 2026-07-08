@@ -1,3 +1,4 @@
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 "use client";
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
@@ -169,7 +170,7 @@ function BrowseArtistsContent() {
   );
 
   const handleDeleteArtist = async (id: string, name: string) => {
-    if (!confirm(`Are you sure you want to delete ${name}? This will also remove all their images from storage.`)) return;
+    if (!await confirmAction('Admin Verification Required', `Are you sure you want to delete ${name}? This will also remove all their images from storage.`, 'danger')) return;
     try {
       // 1. Fetch all image URLs for this artist before deleting
       const { data: images } = await (supabase
@@ -703,6 +704,7 @@ function BrowseArtistsContent() {
   );
 }
 export default function BrowseArtists() {
+  const { confirmAction } = useConfirm();
   return (
     <Suspense fallback={
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">

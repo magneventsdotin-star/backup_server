@@ -1,3 +1,4 @@
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -9,6 +10,7 @@ import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 
 export default function PricingManagement() {
+  const { confirmAction } = useConfirm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPlan, setEditingPlan] = useState<any>(null);
   const [plans, setPlans] = useState<any[]>([]);
@@ -53,7 +55,7 @@ export default function PricingManagement() {
   }, [fetchPlans]);
 
   const handleDelete = async (id: string, name: string) => {
-    if (!confirm(`Are you sure you want to delete the "${name}" plan?`)) return;
+    if (!await confirmAction('Admin Verification Required', `Are you sure you want to delete the "${name}" plan?`, 'danger')) return;
     try {
       const { error } = await (supabase.from('pricing_plans') as any).delete().eq('id', id);
       if (error) throw error;

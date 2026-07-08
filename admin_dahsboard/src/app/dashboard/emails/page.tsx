@@ -1,3 +1,4 @@
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 "use client";
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
@@ -22,6 +23,7 @@ export default function EmailsPage() {
 }
 
 function EmailsContent() {
+  const { confirmAction } = useConfirm();
   const [emails, setEmails] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -520,7 +522,7 @@ ${plainTextBody}`;
             <button onClick={handleDeleteSingle} className="w-full h-11 rounded-xl bg-rose-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-rose-700 transition-all flex items-center justify-center gap-2">
               <Trash2 size={16} /> Delete This Log
             </button>
-            <button onClick={() => { if(confirm('Are you absolutely sure you want to delete ALL email logs? This cannot be undone.')) handleDeleteAll(); }} className="w-full h-11 rounded-xl bg-black text-white font-bold text-xs uppercase tracking-widest hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
+            <button onClick={async () => { if(await confirmAction('Admin Verification Required', 'Are you absolutely sure you want to delete ALL email logs? This cannot be undone.', 'danger')) handleDeleteAll(); }} className="w-full h-11 rounded-xl bg-black text-white font-bold text-xs uppercase tracking-widest hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
               <AlertCircle size={16} /> Clear All Logs
             </button>
             <button onClick={() => setDeleteModalOpen(false)} className="mt-2 w-full h-11 rounded-xl bg-white border border-slate-200 text-slate-500 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all">

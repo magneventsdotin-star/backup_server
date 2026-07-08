@@ -1,3 +1,4 @@
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -21,6 +22,7 @@ import { CreateAdminModal } from '../../../components/admins/CreateAdminModal';
 import { EditAdminModal } from '../../../components/admins/EditAdminModal';
 
 export default function AdminManagement() {
+  const { confirmAction } = useConfirm();
   const [admins, setAdmins] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -118,7 +120,7 @@ export default function AdminManagement() {
   };
 
   const handleDelete = async (id: string, email: string) => {
-    if (!confirm(`Are you sure you want to fully delete ${email}? This will remove them from the system entirely.`)) return;
+    if (!await confirmAction('Admin Verification Required', `Are you sure you want to fully delete ${email}? This will remove them from the system entirely.`, 'danger')) return;
 
     setLoading(true);
     try {

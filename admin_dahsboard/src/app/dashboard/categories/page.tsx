@@ -1,3 +1,4 @@
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -9,6 +10,7 @@ import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 
 export default function CategoryManagement() {
+  const { confirmAction } = useConfirm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<any>(null);
   const [categories, setCategories] = useState<any[]>([]);
@@ -36,7 +38,7 @@ export default function CategoryManagement() {
   }, [fetchCategories]);
 
   const handleDelete = async (id: string, label: string) => {
-    if (!confirm(`Are you sure you want to delete the "${label}" category?`)) return;
+    if (!await confirmAction('Admin Verification Required', `Are you sure you want to delete the "${label}" category?`, 'danger')) return;
     try {
       const { error } = await (supabase.from('artist_categories') as any).delete().eq('id', id);
       if (error) throw error;

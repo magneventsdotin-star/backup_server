@@ -1,3 +1,4 @@
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -9,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { BlogEditorModal } from '@/components/blog/BlogEditorModal';
 
 export default function BlogManagement() {
+  const { confirmAction } = useConfirm();
   const [slides, setSlides] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,7 +56,7 @@ export default function BlogManagement() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this blog post?')) return;
+    if (!await confirmAction('Admin Verification Required', 'Are you sure you want to delete this blog post?', 'danger')) return;
     try {
       const { error } = await (supabase.from('hero_slides') as any).delete().eq('id', id);
       if (error) throw error;

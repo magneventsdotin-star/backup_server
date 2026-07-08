@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft, Loader2, Calendar, Mail, FileText, ClipboardList, Trash2, Download } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
 
 export default function FormResponsesPage() {
+  const { confirmAction } = useConfirm();
   const [form, setForm] = useState<any>(null);
   const [fields, setFields] = useState<any[]>([]);
   const [responses, setResponses] = useState<any[]>([]);
@@ -61,7 +63,7 @@ export default function FormResponsesPage() {
   }, [id]);
 
   const handleDeleteResponse = async (responseId: string) => {
-    if (!confirm('Are you sure you want to delete this response?')) return;
+    if (!await confirmAction('Admin Verification Required', 'Are you sure you want to delete this response?', 'danger')) return;
     try {
       const { error } = await supabase.from('custom_form_responses').delete().eq('id', responseId);
       if (error) throw error;

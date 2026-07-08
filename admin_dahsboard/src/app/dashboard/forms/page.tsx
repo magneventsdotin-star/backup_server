@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Edit, Trash2, Link as LinkIcon, Send, Copy, ArrowRight, Loader2, FileText, ClipboardList } from 'lucide-react';
@@ -13,6 +14,7 @@ import {
 } from '@/components/ui/dialog';
 
 export default function FormsPage() {
+  const { confirmAction } = useConfirm();
   const [forms, setForms] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [sendModalOpen, setSendModalOpen] = useState(false);
@@ -48,7 +50,7 @@ export default function FormsPage() {
   }, []);
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this form? All associated fields and responses will also be deleted.')) return;
+    if (!await confirmAction('Admin Verification Required', 'Are you sure you want to delete this form? All associated fields and responses will also be deleted.', 'danger')) return;
     try {
       const { error } = await supabase.from('custom_forms').delete().eq('id', id);
       if (error) throw error;

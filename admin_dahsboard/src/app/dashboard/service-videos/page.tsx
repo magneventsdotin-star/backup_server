@@ -1,3 +1,4 @@
+import { useConfirm } from '@/components/ui/ConfirmProvider';
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
@@ -19,6 +20,7 @@ const getYoutubeId = (url: string) => {
 };
 
 export default function ServiceVideos() {
+  const { confirmAction } = useConfirm();
   const [videos, setVideos] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -240,7 +242,7 @@ export default function ServiceVideos() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Remove this video?')) return;
+    if (!await confirmAction('Admin Verification Required', 'Remove this video?', 'danger')) return;
     try {
       const { error } = await (supabase.from('service_videos') as any).delete().eq('id', id);
       if (error) throw error;
