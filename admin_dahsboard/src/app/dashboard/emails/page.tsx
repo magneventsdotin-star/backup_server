@@ -54,8 +54,13 @@ const formatExportData = (data: any[]) => {
     if (priceMatch) extractedPrice = priceMatch[1].trim();
     
     // Use negative lookahead so we don't match the "Portfolio & Socials" header
-    const portfolioMatch = bodyText.match(/Portfolio(?!\s*&)\s+([^\n\r]+)/i);
-    if (portfolioMatch) extractedPortfolio = portfolioMatch[1].trim();
+    const portfolioMatch = bodyText.match(/(?<!Request\s*)Portfolio(?!\s*&)\s+([^\n\r]+)/i);
+    if (portfolioMatch) {
+      const val = portfolioMatch[1].trim();
+      if (!val.includes('Send Custom Reply')) {
+        extractedPortfolio = val;
+      }
+    }
     
     const bioMatch = bodyText.match(/Bio\s*&\s*Experience[\s]+([\s\S]*?)(?=\s*(?:ARTIST REVIEW|QUICK ACTIONS|This email was generated|Sent securely|$))/i);
     if (bioMatch) extractedBio = bioMatch[1].trim().replace(/\s+/g, ' ');
@@ -197,8 +202,6 @@ function EmailsContent() {
 
   const handleDownloadSingle = () => {
     if (!selectedEmail) return;
-    
-    // Strip HTML to make it readable in text file
     const plainTextBody = selectedEmail.body ? selectedEmail.body.replace(/<[^>]*>?/gm, '').replace(/\n\s*\n/g, '\n\n') : 'No Content';
     
     const content = `Subject: ${selectedEmail.subject}
