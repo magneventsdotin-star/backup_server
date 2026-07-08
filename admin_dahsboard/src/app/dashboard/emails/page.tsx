@@ -54,10 +54,11 @@ const formatExportData = (data: any[]) => {
     if (priceMatch) extractedPrice = priceMatch[1].trim();
     
     // Use negative lookahead so we don't match the "Portfolio & Socials" header
-    const portfolioMatch = bodyText.match(/(?<!Request\s*)Portfolio(?!\s*&)\s+([^\n\r]+)/i);
+    // Also look for "Link" which was used in the previous email template
+    const portfolioMatch = bodyText.match(/(?<!Request\s*)(?:Portfolio|Link)(?!\s*&)\s+([^\n\r]+)/i);
     if (portfolioMatch) {
       const val = portfolioMatch[1].trim();
-      if (!val.includes('Send Custom Reply')) {
+      if (!val.includes('Custom Reply') && !val.includes('Portfolio')) {
         extractedPortfolio = val;
       }
     }
