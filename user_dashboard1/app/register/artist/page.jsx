@@ -25,6 +25,7 @@ export default function ArtistRegistrationPage() {
   const emailRef = useRef(null)
   const categoryRef = useRef(null)
   const portfolioRef = useRef(null)
+  const priceRef = useRef(null)
   const bioRef = useRef(null)
 
   const handleArtistSubmit = async (e) => {
@@ -34,6 +35,7 @@ export default function ArtistRegistrationPage() {
       phone: phoneRef.current?.value || '',
       email: emailRef.current?.value || '',
       category: categoryRef.current?.value || '',
+      price: priceRef.current?.value || '',
       portfolio: portfolioRef.current?.value || '',
       bio: bioRef.current?.value || ''
     }
@@ -117,14 +119,26 @@ export default function ArtistRegistrationPage() {
                   </div>
                 </div>
 
-                <div className="lux-form-group" style={{ marginBottom: '16px' }}>
-                  <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px' }}>EMAIL ADDRESS</label>
-                  <input
-                    ref={emailRef}
-                    type="email" required placeholder="name@email.in"
-                    defaultValue=""
-                    style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }}
-                  />
+                <div className="lux-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                  <div className="lux-form-group">
+                    <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px' }}>EMAIL ADDRESS</label>
+                    <input
+                      ref={emailRef}
+                      type="email" required placeholder="name@email.in"
+                      defaultValue=""
+                      style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }}
+                    />
+                  </div>
+                  <div className="lux-form-group">
+                    <label style={{ display: 'block', fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px' }}>PERFORMANCE PRICE (₹)</label>
+                    <input
+                      ref={priceRef}
+                      type="number" required placeholder="e.g. 50000"
+                      min="0"
+                      defaultValue=""
+                      style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }}
+                    />
+                  </div>
                 </div>
 
                 <div className="lux-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
