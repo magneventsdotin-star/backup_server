@@ -3,9 +3,23 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Mic2, Music, Headphones, Smile, Megaphone, Sparkles, Wand2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import FadeSection from '@/app/components/common/FadeSection'
 import { ARTIST_CATEGORIES } from '@/app/constants'
+
+const getCategoryIcon = (label) => {
+  switch(label) {
+    case 'Singers': return <Mic2 size={64} color="#FFE032" strokeWidth={1.5} />;
+    case 'Live Bands': return <Music size={64} color="#FFE032" strokeWidth={1.5} />;
+    case 'DJs': return <Headphones size={64} color="#FFE032" strokeWidth={1.5} />;
+    case 'Comedians': return <Smile size={64} color="#FFE032" strokeWidth={1.5} />;
+    case 'Anchors': return <Megaphone size={64} color="#FFE032" strokeWidth={1.5} />;
+    case 'Dancers': return <Sparkles size={64} color="#FFE032" strokeWidth={1.5} />;
+    case 'Magicians': return <Wand2 size={64} color="#FFE032" strokeWidth={1.5} />;
+    default: return <Sparkles size={64} color="#FFE032" strokeWidth={1.5} />;
+  }
+}
 
 function CategoriesSection() {
   const [catPage, setCatPage] = useState(0)
@@ -70,14 +84,8 @@ function CategoriesSection() {
                 {ARTIST_CATEGORIES.slice(catPage * catPerPage, catPage * catPerPage + catPerPage).map((cat, i) => (
                   <Link key={cat.label} href={`/artists?category=${cat.query}`} className="hp-cat-card-v2">
                     <div className="hp-cat-avatar-ring">
-                      <div className="hp-cat-img-wrapper">
-                        <Image
-                          src={cat.image}
-                          alt={cat.label}
-                          fill
-                          sizes="200px"
-                          style={{ objectFit: 'cover' }}
-                        />
+                      <div className="hp-cat-img-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,224,50,0.05)' }}>
+                        {getCategoryIcon(cat.label)}
                       </div>
                       <div className="hp-cat-note-badge">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
