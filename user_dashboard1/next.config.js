@@ -44,6 +44,14 @@ const nextConfig = {
       },
     ]
   },
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap_index.xml',
+        destination: '/sitemap.xml',
+      },
+    ];
+  },
   async redirects() {
     const seoRedirects = [
       'live-singers-in-delhi',

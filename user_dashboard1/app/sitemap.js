@@ -14,8 +14,6 @@ export default async function sitemap() {
     '/how-to-book',
     '/testimonials',
     '/why-choose',
-    '/singers-in-delhi',
-    '/book-top-singers',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),
