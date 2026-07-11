@@ -701,46 +701,51 @@ function ClientRequestsContent() {
                     </div>
                  )}
 
-                 <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100">
-                    {selectedRequest.client_phone && (
-                      <a
-                        href={`https://wa.me/${String(selectedRequest.client_phone).replace(/[^0-9]/g, '')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-6 h-11 rounded-xl bg-[#25D366] text-white font-bold text-xs uppercase tracking-widest hover:bg-[#20b858] transition-all flex items-center gap-2"
+                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-slate-100">
+                    <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                      {selectedRequest.client_phone && (
+                        <a
+                          href={`https://wa.me/${String(selectedRequest.client_phone).replace(/[^0-9]/g, '')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-6 h-11 rounded-xl bg-[#25D366] text-white font-bold text-xs uppercase tracking-widest hover:bg-[#20b858] transition-all flex items-center gap-2"
+                        >
+                          <Phone size={16} /> <span>WhatsApp Chat</span>
+                        </a>
+                      )}
+                      <button
+                        onClick={() => {
+                          setEmailSubject('Update on your Magnevents Request');
+                          setEmailMessage('');
+                          setDetailOpen(false);
+                          setEmailModalOpen(true);
+                        }}
+                        className="px-6 h-11 rounded-xl bg-indigo-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center gap-2"
                       >
-                        <Phone size={16} /> <span>WhatsApp Chat</span>
-                      </a>
-                    )}
-                    <button
-                      onClick={() => {
-                        setEmailSubject('Update on your Magnevents Request');
-                        setEmailMessage('');
-                        setDetailOpen(false);
-                        setEmailModalOpen(true);
-                      }}
-                      className="px-6 h-11 rounded-xl bg-indigo-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center gap-2"
-                    >
-                      <Mail size={16} /> <span>Custom Reply</span>
-                    </button>
-                    <button
-                      onClick={() => handleUpdateStatus(selectedRequest.id, 'confirmed')}
-                      className="px-6 h-11 rounded-xl bg-sky-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-sky-700 transition-all"
-                    >
-                      ✅ Confirm &amp; Move to Bookings
-                    </button>
-                    <button
-                      onClick={() => handleUpdateStatus(selectedRequest.id, 'cancelled')}
-                      className="px-6 h-11 rounded-xl bg-white border border-slate-200 text-slate-400 font-bold text-xs uppercase tracking-widest hover:text-rose-500 hover:border-rose-200 transition-all"
-                    >
-                      Archive / Cancel
-                    </button>
-                    <button
-                      onClick={() => setDeleteModalOpen(true)}
-                      className="ml-auto p-3 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-rose-600 hover:border-rose-200 transition-all"
-                    >
-                      <Trash2 size={18} />
-                    </button>
+                        <Mail size={16} /> <span>Custom Reply</span>
+                      </button>
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-end gap-2 w-full sm:w-auto">
+                      <button
+                        onClick={() => handleUpdateStatus(selectedRequest.id, 'confirmed')}
+                        className="px-6 h-11 rounded-xl bg-sky-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-sky-700 transition-all"
+                      >
+                        ✅ Confirm &amp; Move to Bookings
+                      </button>
+                      <button
+                        onClick={() => handleUpdateStatus(selectedRequest.id, 'cancelled')}
+                        className="px-6 h-11 rounded-xl bg-white border border-slate-200 text-slate-400 font-bold text-xs uppercase tracking-widest hover:text-rose-500 hover:border-rose-200 transition-all"
+                      >
+                        Archive / Cancel
+                      </button>
+                      <button
+                        onClick={() => setDeleteModalOpen(true)}
+                        className="p-3 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-rose-600 hover:border-rose-200 transition-all"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
                  </div>
               </div>
             </>

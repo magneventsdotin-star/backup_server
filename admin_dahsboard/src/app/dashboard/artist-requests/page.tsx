@@ -812,57 +812,62 @@ function ArtistRequestsContent() {
                     ></textarea>
                  </div>
 
-                 <div className="flex flex-wrap justify-end gap-2 pt-4 border-t border-slate-100">
-                    {selectedRequest.client_phone && (
-                      <a
-                        href={`https://wa.me/${String(selectedRequest.client_phone).replace(/[^0-9]/g, '')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-6 h-11 rounded-xl bg-[#25D366] text-white font-bold text-xs uppercase tracking-widest hover:bg-[#20b858] transition-all flex items-center gap-2"
-                      >
-                        <Phone size={16} /> <span>WhatsApp Chat</span>
-                      </a>
-                    )}
-                    <button
-                      onClick={() => {
-                        setDetailOpen(false);
-                        setInternalNotes('');
-                        setEmailSubject('Magnevents - Action Required for your Request');
-                        setEmailMessage('Thank you for reaching out to Magnevents! We are reviewing your registration, but we need a few more details to proceed.');
-                        setEmailModalOpen(true);
-                      }}
-                      className="px-6 h-11 rounded-xl bg-indigo-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center gap-2"
-                    >
-                      <Mail size={16} /> <span>Request More Info</span>
-                    </button>
-                    {selectedRequest.status !== 'confirmed' && (
+                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-slate-100">
+                    <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                      {selectedRequest.client_phone && (
+                        <a
+                          href={`https://wa.me/${String(selectedRequest.client_phone).replace(/[^0-9]/g, '')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-6 h-11 rounded-xl bg-[#25D366] text-white font-bold text-xs uppercase tracking-widest hover:bg-[#20b858] transition-all flex items-center gap-2"
+                        >
+                          <Phone size={16} /> <span>WhatsApp Chat</span>
+                        </a>
+                      )}
                       <button
-                        onClick={() => handleUpdateStatus(selectedRequest.id, 'confirmed')}
-                        className="px-6 h-11 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all"
+                        onClick={() => {
+                          setDetailOpen(false);
+                          setInternalNotes('');
+                          setEmailSubject('Magnevents - Action Required for your Request');
+                          setEmailMessage('Thank you for reaching out to Magnevents! We are reviewing your registration, but we need a few more details to proceed.');
+                          setEmailModalOpen(true);
+                        }}
+                        className="px-6 h-11 rounded-xl bg-indigo-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center gap-2"
                       >
-                        ✅ Approve Artist
+                        <Mail size={16} /> <span>Request More Info</span>
                       </button>
-                    )}
-                    {selectedRequest.status === 'confirmed' && (
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-end gap-2 w-full sm:w-auto">
+                      {selectedRequest.status !== 'confirmed' && (
+                        <button
+                          onClick={() => handleUpdateStatus(selectedRequest.id, 'confirmed')}
+                          className="px-6 h-11 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all"
+                        >
+                          ✅ Approve Artist
+                        </button>
+                      )}
+                      {selectedRequest.status === 'confirmed' && (
+                        <button
+                          onClick={() => handleAddArtistToDatabase(selectedRequest)}
+                          className="px-6 h-11 rounded-xl bg-sky-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-sky-700 transition-all"
+                        >
+                          ➕ Add Artist to Database
+                        </button>
+                      )}
                       <button
-                        onClick={() => handleAddArtistToDatabase(selectedRequest)}
-                        className="px-6 h-11 rounded-xl bg-sky-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-sky-700 transition-all"
+                        onClick={() => handleUpdateStatus(selectedRequest.id, 'cancelled')}
+                        className="px-6 h-11 rounded-xl bg-white border border-rose-200 text-rose-500 font-bold text-xs uppercase tracking-widest hover:bg-rose-50 transition-all"
                       >
-                        ➕ Add Artist to Database
+                        ❌ Reject
                       </button>
-                    )}
-                    <button
-                      onClick={() => handleUpdateStatus(selectedRequest.id, 'cancelled')}
-                      className="px-6 h-11 rounded-xl bg-white border border-rose-200 text-rose-500 font-bold text-xs uppercase tracking-widest hover:bg-rose-50 transition-all"
-                    >
-                      ❌ Reject
-                    </button>
-                    <button
-                      onClick={() => handleDelete(selectedRequest.id)}
-                      className="ml-auto p-3 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-rose-600 hover:border-rose-200 transition-all"
-                    >
-                      <Trash2 size={18} />
-                    </button>
+                      <button
+                        onClick={() => handleDelete(selectedRequest.id)}
+                        className="p-3 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-rose-600 hover:border-rose-200 transition-all"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
                  </div>
               </div>
             </>
