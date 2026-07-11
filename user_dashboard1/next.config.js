@@ -102,6 +102,21 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/singers-in-delhi',
+        destination: '/artists',
+        permanent: true,
+      },
+      {
+        source: '/book-singer-for-house-party',
+        destination: '/artists',
+        permanent: true,
+      },
+      {
+        source: '/book-top-singers',
+        destination: '/artists',
+        permanent: true,
+      },
+      {
         source: '/blog-post/booking-singer-for-house-party',
         destination: '/artists',
         permanent: true,
