@@ -50,6 +50,10 @@ const nextConfig = {
         source: '/sitemap_index.xml',
         destination: '/sitemap.xml',
       },
+      {
+        source: '/page-sitemap.xml',
+        destination: '/sitemap.xml',
+      },
     ];
   },
   async redirects() {
