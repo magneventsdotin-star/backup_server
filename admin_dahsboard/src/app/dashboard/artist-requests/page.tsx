@@ -370,6 +370,11 @@ function ArtistRequestsContent() {
         return;
       }
       const { exportToExcel } = await import('@/lib/exportExcel');
+      const extractField = (notes: string, prefix: string) => {
+        if (!notes) return 'N/A';
+        const line = notes.split('\n').find(l => l.startsWith(prefix));
+        return line ? line.substring(prefix.length).trim() : 'N/A';
+      };
       const exportData = data.map((r: any, index: number) => ({
         'S.No': index + 1,
         'Artist Name': r.artists?.name || 'N/A',
@@ -377,6 +382,8 @@ function ArtistRequestsContent() {
         'Client Name': r.client_name || 'N/A',
         'Client Email': r.client_email || 'N/A',
         'Client Phone': r.client_phone || 'N/A',
+        'Portfolio': extractField(r.notes, 'Portfolio:'),
+        'Bio': extractField(r.notes, 'Bio:'),
         'Status': r.status || 'N/A',
         'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
       }));
@@ -414,6 +421,11 @@ function ArtistRequestsContent() {
         return;
       }
       const { exportToExcel } = await import('@/lib/exportExcel');
+      const extractField = (notes: string, prefix: string) => {
+        if (!notes) return 'N/A';
+        const line = notes.split('\n').find(l => l.startsWith(prefix));
+        return line ? line.substring(prefix.length).trim() : 'N/A';
+      };
       const exportData = data.map((r: any, index: number) => ({
         'S.No': index + 1,
         'Artist Name': r.artists?.name || 'N/A',
@@ -421,6 +433,8 @@ function ArtistRequestsContent() {
         'Client Name': r.client_name || 'N/A',
         'Client Email': r.client_email || 'N/A',
         'Client Phone': r.client_phone || 'N/A',
+        'Portfolio': extractField(r.notes, 'Portfolio:'),
+        'Bio': extractField(r.notes, 'Bio:'),
         'Status': r.status || 'N/A',
         'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
       }));
@@ -452,6 +466,11 @@ function ArtistRequestsContent() {
         return;
       }
       const { exportToExcel } = await import('@/lib/exportExcel');
+      const extractField = (notes: string, prefix: string) => {
+        if (!notes) return 'N/A';
+        const line = notes.split('\n').find(l => l.startsWith(prefix));
+        return line ? line.substring(prefix.length).trim() : 'N/A';
+      };
       const exportData = data.map((r: any, index: number) => ({
         'S.No': index + 1,
         'Artist Name': r.artists?.name || 'N/A',
@@ -459,6 +478,8 @@ function ArtistRequestsContent() {
         'Client Name': r.client_name || 'N/A',
         'Client Email': r.client_email || 'N/A',
         'Client Phone': r.client_phone || 'N/A',
+        'Portfolio': extractField(r.notes, 'Portfolio:'),
+        'Bio': extractField(r.notes, 'Bio:'),
         'Status': r.status || 'N/A',
         'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
       }));
@@ -496,6 +517,11 @@ function ArtistRequestsContent() {
         return;
       }
       const { exportToExcel } = await import('@/lib/exportExcel');
+      const extractField = (notes: string, prefix: string) => {
+        if (!notes) return 'N/A';
+        const line = notes.split('\n').find(l => l.startsWith(prefix));
+        return line ? line.substring(prefix.length).trim() : 'N/A';
+      };
       const exportData = data.map((r: any, index: number) => ({
         'S.No': index + 1,
         'Artist Name': r.artists?.name || 'N/A',
@@ -503,6 +529,8 @@ function ArtistRequestsContent() {
         'Client Name': r.client_name || 'N/A',
         'Client Email': r.client_email || 'N/A',
         'Client Phone': r.client_phone || 'N/A',
+        'Portfolio': extractField(r.notes, 'Portfolio:'),
+        'Bio': extractField(r.notes, 'Bio:'),
         'Status': r.status || 'N/A',
         'Date': r.created_at ? new Date(r.created_at).toLocaleString('en-IN') : 'N/A',
       }));
