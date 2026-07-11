@@ -75,7 +75,7 @@ const nextConfig = {
       'how-to-book-a-singer-in-delhi-for-your-next-event'
     ].map(keyword => ({
       source: `/${keyword}`,
-      destination: '/',
+      destination: '/artists',
       permanent: true,
     }));
 
