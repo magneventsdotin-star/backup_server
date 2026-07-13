@@ -203,7 +203,6 @@ export default function EventRegistrationPage() {
                       style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }}
                     >
                       <option value="" disabled>Select Budget</option>
-                      <option value="below_5k">below 5000</option>
                       <option value="5k_10k">5000-10000</option>
                       <option value="10k_20k">10000-20000</option>
                       <option value="20k_35k">20000-35000</option>

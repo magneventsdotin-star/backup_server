@@ -502,7 +502,7 @@ export default function RegisterModal() {
                         defaultValue=""
                       >
                         <option value="" disabled>Select Budget</option>
-                        <option value="below_5k">below 5000</option>
+
                         <option value="5k_10k">5000-10000</option>
                         <option value="10k_20k">10000-20000</option>
                         <option value="20k_35k">20000-35000</option>

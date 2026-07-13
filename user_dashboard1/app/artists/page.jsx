@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronDown } from 'lucide-react'
 import { AppShellWrapper } from '@/app/layouts/AppShellWrapper'
 import ArtistCard from '@/app/components/artists/ArtistCard'
 import { ARTISTS_CAT_FILTER } from '@/app/constants'
@@ -14,13 +15,26 @@ let cachedArtistsData = null;
 export default function ArtistsPage() {
   const router = useRouter()
   const [activeCategory, setActiveCategory] = useState('All')
+  const [activeCity, setActiveCity] = useState('All Cities')
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const dropdownRef = useRef(null)
   const [artists, setArtists] = useState([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const ITEMS_PER_PAGE = 15
 
-  const fetchArtists = async (page = 1, category = activeCategory) => {
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  const fetchArtists = async (page = 1, category = activeCategory, city = activeCity) => {
     setLoading(true)
     try {
       let query = supabase
@@ -31,6 +45,10 @@ export default function ArtistsPage() {
       if (category !== 'All') {
         const filterCat = category.replace(/s$/i, '')
         query = query.or(`category.ilike.%${filterCat}%,sub_category.ilike.%${filterCat}%`)
+      }
+
+      if (city !== 'All Cities') {
+        query = query.ilike('city', `%${city}%`)
       }
 
       const from = (page - 1) * ITEMS_PER_PAGE
@@ -97,8 +115,8 @@ export default function ArtistsPage() {
   }, [])
 
   useEffect(() => {
-    fetchArtists(currentPage, activeCategory)
-  }, [currentPage, activeCategory])
+    fetchArtists(currentPage, activeCategory, activeCity)
+  }, [currentPage, activeCategory, activeCity])
 
   const handleBook = (name) => {
     router.push(`/book?artist=${encodeURIComponent(name)}`)
@@ -109,24 +127,69 @@ export default function ArtistsPage() {
     setCurrentPage(1)
   }
 
+  const handleCityChange = (city) => {
+    setActiveCity(city)
+    setCurrentPage(1)
+  }
+
   return (
     <main className="artists-page">
       <div className="lux-container">
 
 
-        <div className="artists-filters">
-          {ARTISTS_CAT_FILTER.map((cat, idx) => (
-            <motion.button
-              key={cat}
-              className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => handleCategoryChange(cat)}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: idx * 0.05 }}
+        <div className="artists-top-bar">
+          <div className="artists-filters" style={{ margin: 0, flex: 1 }}>
+            {ARTISTS_CAT_FILTER.map((cat, idx) => (
+              <motion.button
+                key={cat}
+                className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
+                onClick={() => handleCategoryChange(cat)}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: idx * 0.05 }}
+              >
+                {cat}
+              </motion.button>
+            ))}
+          </div>
+
+          <div className="modern-dropdown-container" ref={dropdownRef}>
+            <button 
+              className={`modern-dropdown-btn ${isDropdownOpen ? 'active' : ''}`}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              {cat}
-            </motion.button>
-          ))}
+              <span style={{ textTransform: 'uppercase' }}>{activeCity}</span>
+              <ChevronDown size={18} style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }} />
+            </button>
+            
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div 
+                  className="modern-dropdown-menu"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div 
+                    className={`modern-dropdown-item ${activeCity === 'All Cities' ? 'active' : ''}`}
+                    onClick={() => { handleCityChange('All Cities'); setIsDropdownOpen(false); }}
+                  >
+                    ALL CITIES
+                  </div>
+                  {['Delhi', 'Noida', 'Greater Noida', 'Gurugram', 'Faridabad', 'Ghaziabad', 'Sonipat', 'Rohtak', 'Meerut', 'Mumbai', 'Bangalore', 'Hyderabad', 'Ahmedabad', 'Chennai', 'Kolkata', 'Pune', 'Jaipur', 'Lucknow', 'Chandigarh', 'Goa', 'Surat', 'Indore', 'Ludhiana'].map(city => (
+                    <div 
+                      key={city} 
+                      className={`modern-dropdown-item ${activeCity === city ? 'active' : ''}`}
+                      onClick={() => { handleCityChange(city); setIsDropdownOpen(false); }}
+                    >
+                      {city.toUpperCase()}
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         <div className="artists-grid">
