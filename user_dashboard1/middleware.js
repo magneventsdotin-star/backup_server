@@ -6,15 +6,12 @@ export function middleware(request) {
   // Basic mobile check
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)
 
-  // Disable mobile rewrite for now to show desktop view everywhere
-  /*
+  // Rewrite to mobile home for fast loading
   if (isMobile && request.nextUrl.pathname === '/') {
-    // Rewrite to mobile home instead of redirecting so the URL remains `/`
     const url = request.nextUrl.clone()
     url.pathname = '/mobile-home'
     return NextResponse.rewrite(url)
   }
-  */
 
   return NextResponse.next()
 }
