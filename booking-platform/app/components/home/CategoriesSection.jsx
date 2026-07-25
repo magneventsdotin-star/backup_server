@@ -27,7 +27,7 @@ function CategoriesSection() {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
-        setCatPerPage(1)
+        setCatPerPage(ARTIST_CATEGORIES.length)
       } else {
         setCatPerPage(4)
       }
@@ -67,10 +67,11 @@ function CategoriesSection() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -80 }}
                 transition={{ duration: 0.22, ease: "easeOut" }}
-                drag="x"
+                drag={catPerPage === 4 ? "x" : false}
                 dragConstraints={{ left: 0, right: 0 }}
                 dragElastic={0.2}
                 onDragEnd={(event, info) => {
+                  if (catPerPage !== 4) return;
                   const swipeThreshold = 30;
                   if (info.offset.x < -swipeThreshold) {
                     moveCat(1);

@@ -3534,8 +3534,22 @@
 
 @media (max-width: 768px) {
   .hp-cat-grid {
-    grid-template-columns: 1fr !important;
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: 87% !important;
+    grid-template-columns: none !important;
     gap: 20px !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    padding-bottom: 16px !important;
+  }
+  .hp-cat-grid::-webkit-scrollbar {
+    display: block !important;
+    height: 4px !important;
+  }
+  .hp-cat-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-radius: 4px !important;
   }
   .hp-cat-card-v2 {
     width: 100% !important;
@@ -3575,8 +3589,22 @@
 
 @media (max-width: 480px) {
   .hp-cat-grid {
-    grid-template-columns: 1fr !important;
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: 87% !important;
+    grid-template-columns: none !important;
     gap: 16px !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    padding-bottom: 16px !important;
+  }
+  .hp-cat-grid::-webkit-scrollbar {
+    display: block !important;
+    height: 4px !important;
+  }
+  .hp-cat-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-radius: 4px !important;
   }
   .hp-cat-card-v2 {
     width: 100% !important;
@@ -3953,11 +3981,20 @@
 }
 
 @media (max-width: 768px) {
-
   .hp-feat-carousel {
     padding: 10px 16px 24px !important;
-    grid-auto-columns: 85% !important;
+    grid-auto-columns: 87% !important;
     gap: 16px !important;
+  }
+
+  .hp-feat-carousel::-webkit-scrollbar {
+    display: block !important;
+    height: 4px !important;
+  }
+  
+  .hp-feat-carousel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-radius: 4px !important;
   }
 
 
