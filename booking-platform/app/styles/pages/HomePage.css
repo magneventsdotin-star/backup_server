@@ -3533,6 +3533,9 @@
 }
 
 @media (max-width: 768px) {
+  .hp-cat-carousel {
+    padding: 0 !important;
+  }
   .hp-cat-grid {
     display: grid !important;
     grid-auto-flow: column !important;
@@ -3590,6 +3593,9 @@
 }
 
 @media (max-width: 480px) {
+  .hp-cat-carousel {
+    padding: 0 !important;
+  }
   .hp-cat-grid {
     display: grid !important;
     grid-auto-flow: column !important;
