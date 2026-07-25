@@ -247,7 +247,7 @@ function FeaturedArtistsSection() {
         onPointerCancel={handlePointerUp}
         style={{
           overflowX: "auto",
-          touchAction: "pan-y",
+          touchAction: isDesktop ? "pan-y" : "auto",
           cursor: "grab"
         }}
       >

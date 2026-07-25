@@ -79,7 +79,7 @@ function CategoriesSection() {
                     moveCat(-1);
                   }
                 }}
-                style={{ touchAction: 'pan-y' }}
+                style={{ touchAction: catPerPage === 4 ? 'pan-y' : 'auto' }}
               >
                 {ARTIST_CATEGORIES.slice(catPage * catPerPage, catPage * catPerPage + catPerPage).map((cat, i) => (
                   <Link key={cat.label} href={`/artists?category=${cat.query}`} className="hp-cat-card-v2">
