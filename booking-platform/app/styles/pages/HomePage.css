@@ -3541,7 +3541,8 @@
     gap: 20px !important;
     overflow-x: auto !important;
     scroll-snap-type: x mandatory !important;
-    padding-bottom: 16px !important;
+    padding: 0 6.5vw 16px !important;
+    scroll-padding: 0 6.5vw !important;
   }
   .hp-cat-grid::-webkit-scrollbar {
     display: block !important;
@@ -3567,6 +3568,7 @@
     background: linear-gradient(135deg, #181212 0%, #0d0606 100%) !important;
     border: 1px solid rgba(214, 80, 80, 0.3) !important;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 0 15px rgba(214, 80, 80, 0.08) !important;
+    scroll-snap-align: center !important;
   }
   .hp-cat-avatar-ring {
     width: 154px !important;
@@ -3596,7 +3598,8 @@
     gap: 16px !important;
     overflow-x: auto !important;
     scroll-snap-type: x mandatory !important;
-    padding-bottom: 16px !important;
+    padding: 0 6.5vw 16px !important;
+    scroll-padding: 0 6.5vw !important;
   }
   .hp-cat-grid::-webkit-scrollbar {
     display: block !important;
@@ -3621,6 +3624,7 @@
     background: linear-gradient(135deg, #181212 0%, #0d0606 100%) !important;
     border: 1px solid rgba(214, 80, 80, 0.3) !important;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 0 15px rgba(214, 80, 80, 0.08) !important;
+    scroll-snap-align: center !important;
   }
   .hp-cat-avatar-ring {
     width: 143px !important;
@@ -3982,9 +3986,11 @@
 
 @media (max-width: 768px) {
   .hp-feat-carousel {
-    padding: 10px 16px 24px !important;
+    padding: 10px 6.5vw 24px !important;
     grid-auto-columns: 87% !important;
     gap: 16px !important;
+    scroll-padding: 0 6.5vw !important;
+    scroll-snap-type: x mandatory !important;
   }
 
   .hp-feat-carousel::-webkit-scrollbar {
@@ -4033,6 +4039,7 @@
   .hp-feat-card-v2 {
     border-radius: 24px !important;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4) !important;
+    scroll-snap-align: center !important;
   }
 
 
