@@ -117,33 +117,14 @@ const ExpandableBio = ({ bio }) => {
         Professional Bio
       </h2>
       <div style={{ position: 'relative' }}>
-        <p style={{ 
-          whiteSpace: 'pre-wrap',
-          display: '-webkit-box',
-          WebkitLineClamp: isExpanded ? 'unset' : 4,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
-          transition: 'all 0.3s ease',
-          color: 'rgba(255,255,255,0.85)'
-        }}>
+        <p className={`bio-text-content ${!isExpanded ? 'clamped' : ''}`}>
           {bioText}
         </p>
         
         {shouldClamp && (
           <button 
+            className="bio-see-more-btn"
             onClick={() => setIsExpanded(!isExpanded)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: '#e7286a',
-              padding: '8px 0 0 0',
-              cursor: 'pointer',
-              fontWeight: '600',
-              fontSize: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px'
-            }}
           >
             {isExpanded ? 'Show Less' : 'See More'}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: isExpanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>

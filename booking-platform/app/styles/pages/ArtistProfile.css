@@ -548,9 +548,29 @@
     padding: 240px 30px 40px 30px;
     gap: 40px;
   }
+@media (max-width: 768px) {
   .gallery-grid {
     column-count: 2;
   }
+}
+
+.bio-text-content {
+  white-space: pre-wrap;
+  transition: all 0.3s ease;
+  color: rgba(255,255,255,0.85);
+}
+
+.bio-see-more-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #e7286a;
+  padding: 8px 0 0 0;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  align-items: center;
+  gap: 4px;
 }
 
 @media (max-width: 768px) {
@@ -626,4 +646,16 @@
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
+  
+  .bio-text-content.clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bio-see-more-btn {
+    display: flex;
+  }
+}
 }
