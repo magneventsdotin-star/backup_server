@@ -18,6 +18,144 @@ const StarRating = ({ rating }) => {
   );
 };
 
+const InteractiveVideoCard = ({ vid }) => {
+  const [isMuted, setIsMuted] = useState(true);
+  
+  const url = vid.video_url;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
+  const match = url?.match(regExp);
+  const ytId = (match && match[2].length === 11) ? match[2] : null;
+
+  const toggleMute = (e) => {
+    e.stopPropagation();
+    const newMutedState = !isMuted;
+    setIsMuted(newMutedState);
+    const iframe = e.currentTarget.parentElement.querySelector('iframe');
+    const nativeVideo = e.currentTarget.parentElement.querySelector('video');
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage(JSON.stringify({
+        event: 'command',
+        func: newMutedState ? 'mute' : 'unMute',
+        args: []
+      }), '*');
+    }
+    if (nativeVideo) {
+      nativeVideo.muted = newMutedState;
+    }
+  };
+
+  return (
+    <div className="modern-video-card" style={{ 
+      borderRadius: '20px', overflow: 'hidden', background: '#0a0a0a', 
+      border: '1px solid rgba(255,255,255,0.05)', aspectRatio: '9/16',
+      position: 'relative', boxShadow: '0 15px 35px rgba(0,0,0,0.6)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center'
+    }}>
+      {ytId ? (
+        <div style={{ position: 'absolute', inset: -40, pointerEvents: 'none' }}>
+          <iframe
+            src={`https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&controls=0&autoplay=1&mute=1&playsinline=1&iv_load_policy=3&fs=0&loop=1&playlist=${ytId}&enablejsapi=1`}
+            style={{ width: '100%', height: '100%', border: 'none', objectFit: 'cover', transform: 'scale(1.4)' }}
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+          />
+        </div>
+      ) : (
+        <video 
+          src={url}
+          autoPlay
+          muted={isMuted}
+          loop
+          playsInline
+          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }}
+        />
+      )}
+      
+      {/* Invisible overlay to catch clicks */}
+      <div 
+        onClick={toggleMute}
+        style={{ position: 'absolute', inset: 0, zIndex: 10, cursor: 'pointer' }}
+      >
+        <div style={{ 
+          position: 'absolute', top: '16px', right: '16px', 
+          background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)',
+          borderRadius: '50%', width: '36px', height: '36px',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: 'white', fontSize: '18px'
+        }}>
+          {isMuted ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          )}
+        </div>
+      </div>
+      
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px 20px 24px',
+        background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)', 
+        color: 'white', fontWeight: '800', fontSize: '16px', zIndex: 11,
+        letterSpacing: '0.02em', textTransform: 'uppercase',
+        pointerEvents: 'none'
+      }}>
+        {vid.topic || 'Live Performance'}
+      </div>
+    </div>
+  );
+};
+
+const ExpandableBio = ({ bio }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const bioText = bio || "This artist is a spectacular performer known for bringing high energy and unforgettable moments to every stage. Whether it's a corporate event, a private wedding, or a grand festival, their versatile talent ensures the crowd is always engaged and amazed.";
+  
+  const shouldClamp = bioText.length > 150;
+  
+  return (
+    <div className="bio-block">
+      <h2 className="section-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        Professional Bio
+      </h2>
+      <div style={{ position: 'relative' }}>
+        <p style={{ 
+          whiteSpace: 'pre-wrap',
+          display: '-webkit-box',
+          WebkitLineClamp: isExpanded ? 'unset' : 4,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+          transition: 'all 0.3s ease',
+          color: 'rgba(255,255,255,0.85)'
+        }}>
+          {bioText}
+        </p>
+        
+        {shouldClamp && (
+          <button 
+            onClick={() => setIsExpanded(!isExpanded)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#e7286a',
+              padding: '8px 0 0 0',
+              cursor: 'pointer',
+              fontWeight: '600',
+              fontSize: '14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}
+          >
+            {isExpanded ? 'Show Less' : 'See More'}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: isExpanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default function ArtistProfilePage({ params }) {
   const [artist, setArtist] = useState(null);
   const [videos, setVideos] = useState([]);
@@ -234,7 +372,19 @@ export default function ArtistProfilePage({ params }) {
           </div>
         </section>
 
-        <section className="info-section">
+        <section className="info-section" style={{ marginTop: '40px' }}>
+          <h2 className="section-title">Performance Formats & Videos</h2>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px', marginTop: '20px' }}>
+            {videos.length > 0 ? videos.map((vid, idx) => (
+              <InteractiveVideoCard key={idx} vid={vid} />
+            )) : (
+              <p style={{ color: 'rgba(255,255,255,0.5)' }}>No videos available for this artist yet.</p>
+            )}
+          </div>
+        </section>
+
+        <section className="info-section" style={{ marginTop: '40px' }}>
           <h2 className="section-title">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
             Artist Information
@@ -286,13 +436,7 @@ export default function ArtistProfilePage({ params }) {
             )}
           </div>
 
-          <div className="bio-block">
-            <h2 className="section-title">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-              Professional Bio
-            </h2>
-            <p style={{ whiteSpace: 'pre-wrap' }}>{artist.bio || "This artist is a spectacular performer known for bringing high energy and unforgettable moments to every stage. Whether it's a corporate event, a private wedding, or a grand festival, their versatile talent ensures the crowd is always engaged and amazed."}</p>
-          </div>
+          <ExpandableBio bio={artist.bio} />
         </section>
         {artist.artist_images && artist.artist_images.length > 0 && (
           <section className="info-section">
@@ -306,70 +450,7 @@ export default function ArtistProfilePage({ params }) {
             </div>
           </section>
         )}
-        <section className="info-section" style={{ marginTop: '80px' }}>
-          <h2 className="section-title">Performance Formats & Videos</h2>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px', marginTop: '30px' }}>
-            {videos.length > 0 ? videos.map((vid, idx) => {
-              const url = vid.video_url;
-              const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
-              const match = url?.match(regExp);
-              const ytId = (match && match[2].length === 11) ? match[2] : null;
 
-              return (
-                <div key={idx} className="modern-video-card" style={{ 
-                  borderRadius: '20px', overflow: 'hidden', background: '#0a0a0a', 
-                  border: '1px solid rgba(255,255,255,0.05)', aspectRatio: '9/16',
-                  position: 'relative', boxShadow: '0 15px 35px rgba(0,0,0,0.6)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center'
-                }}>
-                  {ytId ? (
-                    <iframe
-                      src={`https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&controls=1&autoplay=1&mute=1&playsinline=1&iv_load_policy=3&fs=0`}
-                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none', objectFit: 'contain' }}
-                      allow="autoplay; encrypted-media"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <>
-                      {/* Blurred backdrop for modern effect if video doesn't perfectly cover */}
-                      <div style={{ position: 'absolute', inset: -20, background: 'linear-gradient(45deg, #1a1a1a, #000)', filter: 'blur(20px)', zIndex: 0 }} />
-                      
-                      <video 
-                        src={url}
-                        controls
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        style={{ 
-                          position: 'absolute', 
-                          top: 0, 
-                          left: 0, 
-                          width: '100%', 
-                          height: '100%', 
-                          objectFit: 'contain', 
-                          zIndex: 1 
-                        }}
-                      />
-                    </>
-                  )}
-                  <div style={{
-                    position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px 20px 24px',
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)', 
-                    color: 'white', fontWeight: '800', fontSize: '16px', zIndex: 10,
-                    letterSpacing: '0.02em', textTransform: 'uppercase',
-                    pointerEvents: 'none' // Allows clicking through to the video controls
-                  }}>
-                    {vid.topic || 'Live Performance'}
-                  </div>
-                </div>
-              )
-            }) : (
-              <p style={{ color: 'rgba(255,255,255,0.5)' }}>No videos available for this artist yet.</p>
-            )}
-          </div>
-        </section>
 
         <section className="share-section" style={{ marginTop: '60px', padding: '40px', background: 'linear-gradient(135deg, rgba(231,40,106,0.1), rgba(15,17,23,0.8))', borderRadius: '24px', border: '1px solid rgba(231,40,106,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
           <h2 className="section-title" style={{ marginBottom: '16px', justifyContent: 'center' }}>

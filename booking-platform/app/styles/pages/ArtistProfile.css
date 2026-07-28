@@ -559,16 +559,16 @@
   }
 
   .hero-bg-image {
-    height: 120vw; /* Creates a portrait aspect ratio for mobile */
+    height: 90vw; /* Reduced from 120vw to make card more compact */
     background-position: center 15%; /* Focus more on the face/upper body */
   }
 
   .hero-content {
-    padding: calc(120vw - 220px) 20px 30px 20px; /* Push content to bottom of portrait image */
+    padding: calc(90vw - 200px) 20px 30px 20px; /* Reduced from 120vw to pull content up */
   }
   
   .artist-name {
-    font-size: 40px;
+    font-size: 34px; /* Reduced from 40px */
   }
   
   .hero-stats {
