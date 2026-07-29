@@ -55,6 +55,7 @@ export const useArtists = (itemsPerPage = 15) => {
           rating: artist.rating,
           img: artist.artist_images?.[0]?.image_url || null,
           galleryImages: artist.artist_images?.map(img => img.image_url).filter(Boolean) || [],
+          cloudflareVideoUrls: artist.cloudflare_video_url ? artist.cloudflare_video_url.split(',').map(url => url.trim()).filter(Boolean) : [],
           videoUrls: artist.video_url ? artist.video_url.split(',').map(url => url.trim()).filter(Boolean) : [],
           quote: artist.bio || '',
         }));

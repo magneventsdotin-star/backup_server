@@ -181,9 +181,11 @@ export default function ArtistProfilePage({ params }) {
           
           if (vids && vids.length > 0) {
             setVideos(vids);
-          } else if (data.video_url) {
-            const urls = data.video_url.split(',').map(u => u.trim());
-            setVideos(urls.map((url, idx) => ({ id: idx, video_url: url })));
+          } else if (data.video_url || data.cloudflare_video_url) {
+            const ytUrls = data.video_url ? data.video_url.split(',').map(u => u.trim()).filter(Boolean) : [];
+            const cfUrls = data.cloudflare_video_url ? data.cloudflare_video_url.split(',').map(u => u.trim()).filter(Boolean) : [];
+            const allUrls = [...cfUrls, ...ytUrls];
+            setVideos(allUrls.map((url, idx) => ({ id: idx, video_url: url })));
           }
         } else {
           const { data: svData, error: svError } = await supabase

@@ -83,6 +83,7 @@ const artistSchema = z.object({
   members_max: z.string().min(1, { message: "Max members required." }),
   performance_duration: z.string().optional(),
   video_urls: z.array(z.string().url({ message: "Please enter a valid URL." }).or(z.literal(''))).optional().default(['']),
+  cloudflare_video_urls: z.array(z.string().url({ message: "Please enter a valid URL." }).or(z.literal(''))).optional().default(['']),
   contact_person: z.string().min(2, { message: "Primary contact is mandatory." }),
   phone_no: z.string().regex(/^[0-9]{10}$/, { message: "Phone number must be exactly 10 digits." }),
   phone_no_alt: z.string().regex(/^[0-9]{10}$/, { message: "Alt phone number must be 10 digits." }).optional().or(z.literal('')),
@@ -135,6 +136,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
       members_max: initialData?.members_max?.toString() || "1",
       performance_duration: initialData?.performance_duration || "60-90 mins",
       video_urls: (initialData?.video_url ? initialData.video_url.split(',').map((s: string) => s.trim()).filter(Boolean) : [""]),
+      cloudflare_video_urls: (initialData?.cloudflare_video_url ? initialData.cloudflare_video_url.split(',').map((s: string) => s.trim()).filter(Boolean) : [""]),
       email: initialData?.email || "",
       contact_person: initialData?.contact_person || "",
       phone_no: initialData?.phone_no || "",
@@ -325,6 +327,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
           members_max: initialData.members_max?.toString() || "1",
           performance_duration: initialData.performance_duration || "60-90 mins",
           video_urls: (initialData.video_url ? initialData.video_url.split(',').map((s: string) => s.trim()).filter(Boolean) : [""]),
+          cloudflare_video_urls: (initialData.cloudflare_video_url ? initialData.cloudflare_video_url.split(',').map((s: string) => s.trim()).filter(Boolean) : [""]),
           email: initialData.email || "",
           contact_person: initialData.contact_person || "",
           phone_no: initialData.phone_no || "",
@@ -364,6 +367,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
           members_max: "1",
           performance_duration: "60-90 mins",
           video_urls: [""],
+          cloudflare_video_urls: [""],
           email: "",
           spotlight_status: 'standard',
           is_artist_of_month: false,
@@ -411,6 +415,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
         successful_bookings: parseInt(values.successful_bookings || '0'),
         available_bookings: parseInt(values.available_bookings || '0'),
         video_url: values.video_urls?.filter(Boolean).join(', ') || null,
+        cloudflare_video_url: values.cloudflare_video_urls?.filter(Boolean).join(', ') || null,
         cover_image_url: values.cover_image_url || null,
       };
 
@@ -1540,6 +1545,65 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
                         </FormItem>
                       )}
                     />
+
+                    <div className="space-y-6 pt-6 border-t border-slate-50">
+                      <div className="flex items-center justify-between">
+                        <FormLabel className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-900 bg-slate-50/50 w-fit px-4 py-1.5 rounded-full border border-slate-100">
+                          <PlayCircle size={14} className="text-orange-500" />
+                          Work Showcase (Cloudflare)
+                        </FormLabel>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const current = form.getValues('cloudflare_video_urls') || [];
+                            form.setValue('cloudflare_video_urls', [...current, '']);
+                          }}
+                          className="text-[9px] font-black text-white uppercase tracking-widest bg-orange-600 px-4 py-2 rounded-xl shadow-lg shadow-orange-600/20 hover:bg-orange-700 transition-all active:scale-95 flex items-center gap-2"
+                        >
+                          + Add Link
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-1 gap-4">
+                        {(form.watch('cloudflare_video_urls') || [""]).map((_, index) => (
+                          <FormField
+                            key={`cf-${index}`}
+                            control={form.control}
+                            name={`cloudflare_video_urls.${index}`}
+                            render={({ field }) => (
+                              <FormItem className="space-y-1.5">
+                                <div className="flex gap-3">
+                                  <div className="relative flex-1 group/input">
+                                    <div className="absolute left-0 top-0 bottom-0 w-12 rounded-l-xl bg-slate-50/50 border-r border-slate-100 flex items-center justify-center text-slate-300 group-focus-within/input:text-orange-500 transition-all">
+                                      <PlayCircle size={14} />
+                                    </div>
+                                    <FormControl>
+                                      <Input
+                                        placeholder="https://pub-...r2.dev/video.mp4"
+                                        className="h-11 pl-16 rounded-xl border-slate-100 bg-slate-50/30 font-medium focus:bg-white focus:border-orange-500/30 focus:ring-4 focus:ring-orange-500/5 transition-all text-[11px] shadow-inner"
+                                        {...field} value={field.value ?? ''}
+                                      />
+                                    </FormControl>
+                                  </div>
+                                  {(form.watch('cloudflare_video_urls') || []).length > 1 && (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const current = form.getValues('cloudflare_video_urls') || [];
+                                        form.setValue('cloudflare_video_urls', current.filter((_, i) => i !== index));
+                                      }}
+                                      className="w-11 h-11 flex items-center justify-center rounded-xl bg-white border border-slate-100 text-slate-300 hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50/50 transition-all flex-shrink-0 shadow-sm"
+                                    >
+                                      <X size={15} />
+                                    </button>
+                                  )}
+                                </div>
+                              </FormItem>
+                            )}
+                          />
+                        ))}
+                      </div>
+                    </div>
 
                     <div className="space-y-6 pt-6 border-t border-slate-50">
                       <div className="flex items-center justify-between">
