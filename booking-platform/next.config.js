@@ -44,7 +44,7 @@ const nextConfig = {
     minimumCacheTTL: 60,
   },
   async headers() {
-    return [
+    const headers = [
       {
         source: '/(.*)',
         headers: [
@@ -63,7 +63,21 @@ const nextConfig = {
           },
         ],
       },
-    ]
+    ];
+
+    if (process.env.VERCEL_ENV !== 'production') {
+      headers.push({
+        headers: [
+          {
+            key: 'X-Robots-Tag',
+            value: 'noindex, nofollow',
+          },
+        ],
+        source: '/:path*',
+      });
+    }
+    
+    return headers;
   },
   async rewrites() {
     return [
@@ -114,6 +128,11 @@ const nextConfig = {
 
     return [
       ...seoRedirects,
+      {
+        source: '/about',
+        destination: '/blog-post',
+        permanent: true,
+      },
       {
         source: '/artist-registration',
         destination: '/register/artist',
@@ -170,22 +189,7 @@ const nextConfig = {
         permanent: true,
       },
     ]
-  },
-  async headers() {
-    const headers = [];
-    if (process.env.VERCEL_ENV !== 'production') {
-      headers.push({
-        headers: [
-          {
-            key: 'X-Robots-Tag',
-            value: 'noindex, nofollow',
-          },
-        ],
-        source: '/:path*',
-      });
-    }
-    return headers;
-  },
+  }
 }
 
 module.exports = withPWA(nextConfig)
