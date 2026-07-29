@@ -56,6 +56,7 @@ import { supabase } from '@database/connection/supabase-admin';
 import { Switch } from '@/components/ui/switch';
 import { ImageUploader } from './ImageUploader';
 import { CoverPhotoUploader } from './CoverPhotoUploader';
+import { VideoUploadInput } from './VideoUploadInput';
 import { CATEGORIES, INDIAN_LANGUAGES } from '@/lib/constants';
 
 const artistSchema = z.object({
@@ -1573,18 +1574,13 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
                             render={({ field }) => (
                               <FormItem className="space-y-1.5">
                                 <div className="flex gap-3">
-                                  <div className="relative flex-1 group/input">
-                                    <div className="absolute left-0 top-0 bottom-0 w-12 rounded-l-xl bg-slate-50/50 border-r border-slate-100 flex items-center justify-center text-slate-300 group-focus-within/input:text-orange-500 transition-all">
-                                      <PlayCircle size={14} />
-                                    </div>
-                                    <FormControl>
-                                      <Input
-                                        placeholder="https://pub-...r2.dev/video.mp4"
-                                        className="h-11 pl-16 rounded-xl border-slate-100 bg-slate-50/30 font-medium focus:bg-white focus:border-orange-500/30 focus:ring-4 focus:ring-orange-500/5 transition-all text-[11px] shadow-inner"
-                                        {...field} value={field.value ?? ''}
-                                      />
-                                    </FormControl>
-                                  </div>
+                                  <FormControl>
+                                    <VideoUploadInput
+                                      value={field.value ?? ''}
+                                      onChange={field.onChange}
+                                      placeholder="https://pub-...r2.dev/video.mp4"
+                                    />
+                                  </FormControl>
                                   {(form.watch('cloudflare_video_urls') || []).length > 1 && (
                                     <button
                                       type="button"
