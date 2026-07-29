@@ -179,14 +179,18 @@ export default function ArtistProfilePage({ params }) {
             .select('*')
             .or(`userName.ilike.%${data.alias || data.name}%,artistName.ilike.%${data.alias || data.name}%`);
           
-          if (vids && vids.length > 0) {
-            setVideos(vids);
-          } else if (data.video_url || data.cloudflare_video_url) {
-            const ytUrls = data.video_url ? data.video_url.split(',').map(u => u.trim()).filter(Boolean) : [];
-            const cfUrls = data.cloudflare_video_url ? data.cloudflare_video_url.split(',').map(u => u.trim()).filter(Boolean) : [];
-            const allUrls = [...cfUrls, ...ytUrls];
-            setVideos(allUrls.map((url, idx) => ({ id: idx, video_url: url })));
+          let allVids = [];
+          if (data.cloudflare_video_url) {
+            const cfUrls = data.cloudflare_video_url.split(',').map(u => u.trim()).filter(Boolean);
+            allVids = [...allVids, ...cfUrls.map((url, idx) => ({ id: `cf-${idx}`, video_url: url }))];
           }
+          if (vids && vids.length > 0) {
+            allVids = [...allVids, ...vids];
+          } else if (data.video_url) {
+            const ytUrls = data.video_url.split(',').map(u => u.trim()).filter(Boolean);
+            allVids = [...allVids, ...ytUrls.map((url, idx) => ({ id: `yt-${idx}`, video_url: url }))];
+          }
+          setVideos(allVids);
         } else {
           const { data: svData, error: svError } = await supabase
             .from('service_videos')
