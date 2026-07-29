@@ -22,7 +22,11 @@ export const useArtists = (itemsPerPage = 15) => {
       }
 
       if (city !== 'All Cities') {
-        query = query.ilike('city', `%${city}%`);
+        if (city === 'Delhi NCR') {
+          query = query.or('city.ilike.%Delhi%,city.ilike.%Noida%,city.ilike.%Gurugram%,city.ilike.%Gurgaon%,city.ilike.%Faridabad%,city.ilike.%Ghaziabad%');
+        } else {
+          query = query.ilike('city', `%${city}%`);
+        }
       }
 
       const from = (page - 1) * itemsPerPage;

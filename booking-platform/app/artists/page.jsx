@@ -112,7 +112,7 @@ export default function ArtistsPage() {
                   >
                     ALL CITIES
                   </div>
-                  {['Delhi', 'Noida', 'Greater Noida', 'Gurugram', 'Faridabad', 'Ghaziabad', 'Sonipat', 'Rohtak', 'Meerut', 'Mumbai', 'Bangalore', 'Hyderabad', 'Ahmedabad', 'Chennai', 'Kolkata', 'Pune', 'Jaipur', 'Lucknow', 'Chandigarh', 'Goa', 'Surat', 'Indore', 'Ludhiana'].map(city => (
+                  {['Delhi NCR', 'Mumbai', 'Bangalore', 'Hyderabad', 'Ahmedabad', 'Chennai', 'Kolkata', 'Pune', 'Jaipur', 'Goa', 'Chandigarh'].map(city => (
                     <div 
                       key={city} 
                       className={`modern-dropdown-item ${activeCity === city ? 'active' : ''}`}
