@@ -9,6 +9,7 @@ export default function LeadCaptureModal() {
   const [isOpen, setIsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [formError, setFormError] = useState('')
   const [formData, setFormData] = useState({ name: '', phone: '', requirement: '' })
 
   useEffect(() => {
@@ -47,8 +48,16 @@ export default function LeadCaptureModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setFormError('')
     
-    if (!formData.name || !formData.phone) return
+    if (!formData.name) {
+      setFormError('Please enter your name.')
+      return
+    }
+    if (!formData.phone) {
+      setFormError('Please enter your phone number.')
+      return
+    }
 
     setIsSubmitting(true)
     
@@ -151,6 +160,13 @@ export default function LeadCaptureModal() {
                     }}
                   />
                 </div>
+
+                {formError && (
+                  <div style={{ color: '#D65050', fontSize: '13px', marginTop: '16px', padding: '10px 14px', background: 'rgba(214, 80, 80, 0.1)', borderRadius: '8px', border: '1px solid rgba(214, 80, 80, 0.2)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    {formError}
+                  </div>
+                )}
 
                 <div className="lux-modal-footer" style={{ marginTop: '24px' }}>
                   <button type="submit" className="btn-submit-premium" disabled={isSubmitting} style={{ width: '100%' }}>
