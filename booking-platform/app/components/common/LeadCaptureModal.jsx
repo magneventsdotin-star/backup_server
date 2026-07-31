@@ -9,17 +9,13 @@ export default function LeadCaptureModal() {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
-    // Check if the user has already seen the modal in this session
     const hasSeenModal = sessionStorage.getItem('magnevents_lead_captured')
     
     if (!hasSeenModal) {
-      // Mark as seen immediately so navigating or refreshing won't show it again
       sessionStorage.setItem('magnevents_lead_captured', 'true')
-
-      // Pop up instantly
       const timer = setTimeout(() => {
         setIsOpen(true)
-      }, 0)
+      }, 4000)
       return () => clearTimeout(timer)
     }
   }, [])
