@@ -40,11 +40,11 @@ export const buildEmailTemplate = (data, isRegister, isCallRequest, dbArtistInfo
     contentSections += buildSection('🎵 Portfolio & Socials', row('Portfolio', data.portfolio, true, data.portfolio));
     contentSections += buildSection('🎭 Bio & Experience', `<tr><td style="padding: 8px 0; color: #fbbf24;">${data.bio || 'No bio provided.'}</td></tr>`);
   } else {
+    const nameWithDevice = data.deviceType ? `${data.name} [${data.deviceType}]` : data.name;
     contentSections += buildSection('👤 User & Contact Details', 
-      row('Name', data.name) +
+      row('Name', nameWithDevice) +
       row('Email', data.email, true, `mailto:${data.email}`) +
-      row('Phone', data.phone, true, `tel:${data.phone}`) +
-      (data.deviceType ? row('Device Type', data.deviceType) : '')
+      row('Phone', data.phone, true, `tel:${data.phone}`)
     );
     contentSections += buildSection('📅 Event Details', 
       row('Event Type', data.eventType) +
