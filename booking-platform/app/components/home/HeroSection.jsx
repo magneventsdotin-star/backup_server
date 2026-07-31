@@ -74,7 +74,7 @@ export default function HeroSection() {
                 Singer
               </motion.span>
               <br />
-              {"For Your".split(" ").map((word, i) => (
+              {"For Your House Party In".split(" ").map((word, i) => (
                 <motion.span key={`w2-${i}`} style={{ display: 'inline-block', marginRight: '0.25em' }} variants={{ hidden: { opacity: 0, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}>
                   {word}
                 </motion.span>
@@ -84,14 +84,14 @@ export default function HeroSection() {
                 style={{ display: 'inline-block', marginRight: '0.15em' }}
                 variants={{ hidden: { opacity: 0, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               >
-                House
+                Delhi
               </motion.span>
               <motion.span 
                 className="hp-gradient-text accent-text" 
                 style={{ display: 'inline-block' }}
                 variants={{ hidden: { opacity: 0, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               >
-                Party!
+                NCR!
               </motion.span>
             </motion.h1>
 
