@@ -101,11 +101,21 @@ function InnerLeadForm({ onClose }) {
     }
 
     setIsSubmitting(true)
+
+    let deviceType = 'D';
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth <= 768) deviceType = 'M';
+      else if (window.innerWidth <= 1024) deviceType = 'T';
+    }
+    
+    const finalMessage = formData.requirement 
+      ? `${formData.requirement}\n\n[Device: ${deviceType}]` 
+      : `[Device: ${deviceType}]`;
     
     bookingService.submitRequest({ 
       name: formData.name,
       phone: formData.phone,
-      message: formData.requirement,
+      message: finalMessage,
       formType: 'lead_capture' 
     }).then(() => {
       setSubmitted(true)
