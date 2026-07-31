@@ -16,10 +16,10 @@ export default function LeadCaptureModal() {
     const hasSeenModal = localStorage.getItem('magnevents_lead_captured')
     
     if (!hasSeenModal) {
-      // Pop up after 5 seconds
+      // Pop up instantly
       const timer = setTimeout(() => {
         setIsOpen(true)
-      }, 5000)
+      }, 0)
       return () => clearTimeout(timer)
     }
   }, [])
