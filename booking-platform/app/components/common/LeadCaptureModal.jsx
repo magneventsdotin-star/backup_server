@@ -1,0 +1,167 @@
+"use client"
+
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { bookingService } from '@/app/services/bookingService'
+import '@/app/styles/components/ContactModal.css'
+
+export default function LeadCaptureModal() {
+  const [isOpen, setIsOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [formData, setFormData] = useState({ name: '', phone: '', requirement: '' })
+
+  useEffect(() => {
+    // Check if the user has already seen the modal or submitted it
+    const hasSeenModal = localStorage.getItem('magnevents_lead_captured')
+    
+    if (!hasSeenModal) {
+      // Pop up after 5 seconds
+      const timer = setTimeout(() => {
+        setIsOpen(true)
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      document.body.classList.add('modal-open')
+    } else {
+      document.body.style.overflow = ''
+      document.body.classList.remove('modal-open')
+    }
+    return () => {
+      document.body.style.overflow = ''
+      document.body.classList.remove('modal-open')
+    }
+  }, [isOpen])
+
+  const onClose = () => {
+    setIsOpen(false)
+    localStorage.setItem('magnevents_lead_captured', 'true') // Prevent it from showing again this session
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    
+    if (!formData.name || !formData.phone) return
+
+    setIsSubmitting(true)
+    
+    bookingService.submitRequest({ 
+      ...formData, 
+      formType: 'lead_capture' 
+    }).then(() => {
+      setSubmitted(true)
+      localStorage.setItem('magnevents_lead_captured', 'true')
+      setTimeout(() => {
+        setIsOpen(false)
+      }, 2000)
+    }).catch(error => {
+      console.error("Booking error:", error)
+    }).finally(() => {
+      setIsSubmitting(false)
+    })
+  }
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div key="lead-modal" className="lux-modal-root" style={{ zIndex: 9999 }}>
+          <motion.div
+            className="lux-modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+          />
+
+          <motion.div
+            className="lux-modal-content booking"
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+            transition={{ type: "spring", damping: 30, stiffness: 400 }}
+          >
+            <div className="modal-glow-bg" />
+
+            <button className="lux-modal-close" onClick={onClose} aria-label="Close modal">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+
+            <div className="lux-modal-header" style={{ position: 'relative', paddingTop: '32px' }}>
+              <div className="header-badge" style={{ margin: 0, display: 'inline-block' }}>
+                QUICK INQUIRY
+              </div>
+              <h3 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '32px', marginTop: '12px' }}>
+                Find Your Perfect Artist
+              </h3>
+              <p>Let us know what you're looking for, and we'll help you secure the best talent for your event.</p>
+            </div>
+
+            {submitted ? (
+              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="lux-modal-success" style={{ padding: '40px 20px', textAlign: 'center' }}>
+                <div className="lux-success-ring" style={{ margin: '0 auto 20px' }}><div className="lux-success-check">✓</div></div>
+                <h4>Received!</h4>
+                <p>We'll be in touch with you shortly.</p>
+              </motion.div>
+            ) : (
+              <form className="lux-modal-form" onSubmit={handleSubmit}>
+                <div className="lux-form-group full-width">
+                  <label htmlFor="lead-name">Name</label>
+                  <input id="lead-name" type="text" required placeholder="e.g. Arjun Sharma" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
+                </div>
+                
+                <div className="lux-form-group full-width">
+                  <label htmlFor="lead-phone">Phone no.</label>
+                  <input id="lead-phone" type="tel" required placeholder="+91 9XXX-XXXXXX" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} />
+                </div>
+
+                <div className="lux-form-group full-width" style={{ marginTop: '16px' }}>
+                  <label htmlFor="lead-req">What are you looking for?</label>
+                  <textarea 
+                    id="lead-req" 
+                    rows="3"
+                    placeholder="E.g. A sufi band for a wedding in Delhi on 15th Nov..." 
+                    value={formData.requirement} 
+                    onChange={(e) => setFormData({...formData, requirement: e.target.value})} 
+                    style={{ 
+                      width: '100%', 
+                      background: 'rgba(255, 255, 255, 0.03)', 
+                      border: '1px solid rgba(255, 255, 255, 0.1)', 
+                      borderRadius: '12px', 
+                      padding: '14px 16px', 
+                      color: '#fff', 
+                      fontSize: '15px',
+                      resize: 'none',
+                      fontFamily: 'inherit',
+                      outline: 'none',
+                      transition: 'border-color 0.2s ease, background 0.2s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = 'var(--accent)';
+                      e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                      e.target.style.background = 'rgba(255, 255, 255, 0.03)';
+                    }}
+                  />
+                </div>
+
+                <div className="lux-modal-footer" style={{ marginTop: '24px' }}>
+                  <button type="submit" className="btn-submit-premium" disabled={isSubmitting} style={{ width: '100%' }}>
+                    <span className="btn-text">{isSubmitting ? 'Sending...' : 'Submit Inquiry'}</span>
+                    <div className="btn-glow" />
+                  </button>
+                </div>
+              </form>
+            )}
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  )
+}

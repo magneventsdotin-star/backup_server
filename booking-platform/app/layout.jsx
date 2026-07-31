@@ -15,6 +15,7 @@ const RegisterModal = dynamic(() => import('@/app/components/common/RegisterModa
 const FloatingWhatsApp = dynamic(() => import('@/app/components/common/FloatingWhatsApp'), { ssr: false })
 const PWAInstallPrompt = dynamic(() => import('@/app/components/common/PWAInstallPrompt'), { ssr: false })
 const Tracker = dynamic(() => import('@/app/components/common/Tracker'), { ssr: false })
+const LeadCaptureModal = dynamic(() => import('@/app/components/common/LeadCaptureModal'), { ssr: false })
 export const viewport = {
   themeColor: '#0a0a0a',
   width: 'device-width',
@@ -165,6 +166,7 @@ export default function RootLayout({ children }) {
           <ContactModal />
           <RegisterModal />
           <FloatingWhatsApp />
+          <LeadCaptureModal />
           <PWAInstallPrompt />
           <Tracker />
         </Providers>
