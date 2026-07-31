@@ -7,7 +7,6 @@ import '@/app/styles/components/ContactModal.css'
 
 export default function LeadCaptureModal() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     // Check if the user has already seen the modal in this session
@@ -38,10 +37,6 @@ export default function LeadCaptureModal() {
       document.body.classList.remove('modal-open')
     }
   }, [isOpen])
-
-  const onClose = () => {
-    setIsOpen(false)
-  }
 
   const onClose = () => {
     setIsOpen(false)
