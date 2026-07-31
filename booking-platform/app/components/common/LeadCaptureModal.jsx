@@ -12,10 +12,13 @@ export default function LeadCaptureModal() {
   const [formData, setFormData] = useState({ name: '', phone: '', requirement: '' })
 
   useEffect(() => {
-    // Check if the user has already seen the modal or submitted it
-    const hasSeenModal = localStorage.getItem('magnevents_lead_captured')
+    // Check if the user has already seen the modal in this session
+    const hasSeenModal = sessionStorage.getItem('magnevents_lead_captured')
     
     if (!hasSeenModal) {
+      // Mark as seen immediately so navigating or refreshing won't show it again
+      sessionStorage.setItem('magnevents_lead_captured', 'true')
+
       // Pop up instantly
       const timer = setTimeout(() => {
         setIsOpen(true)
@@ -40,7 +43,6 @@ export default function LeadCaptureModal() {
 
   const onClose = () => {
     setIsOpen(false)
-    localStorage.setItem('magnevents_lead_captured', 'true') // Prevent it from showing again this session
   }
 
   const handleSubmit = (e) => {
@@ -55,7 +57,6 @@ export default function LeadCaptureModal() {
       formType: 'lead_capture' 
     }).then(() => {
       setSubmitted(true)
-      localStorage.setItem('magnevents_lead_captured', 'true')
       setTimeout(() => {
         setIsOpen(false)
       }, 2000)
