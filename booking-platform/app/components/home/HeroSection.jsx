@@ -54,42 +54,44 @@ export default function HeroSection() {
               initial="hidden"
               animate="visible"
               variants={{
-                hidden: { opacity: 0 },
+                hidden: { opacity: 1, y: 15, filter: 'blur(8px)' },
                 visible: {
                   opacity: 1,
+                  y: 0,
+                  filter: 'blur(0px)',
                   transition: { staggerChildren: 0.05, delayChildren: 0.0 }
                 }
               }}
             >
               {"Book A".split(" ").map((word, i) => (
-                <motion.span key={`w1-${i}`} style={{ display: 'inline-block', marginRight: '0.25em' }} variants={{ hidden: { opacity: 0, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}>
+                <motion.span key={`w1-${i}`} style={{ display: 'inline-block', marginRight: '0.25em' }} variants={{ hidden: { opacity: 1, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}>
                   {word}
                 </motion.span>
               ))}
               <motion.span 
                 className="hp-gradient-text accent-text" 
                 style={{ display: 'inline-block' }}
-                variants={{ hidden: { opacity: 0, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
+                variants={{ hidden: { opacity: 1, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               >
                 Singer
               </motion.span>
               <br />
               {"For Your House Party In".split(" ").map((word, i) => (
-                <motion.span key={`w2-${i}`} style={{ display: 'inline-block', marginRight: '0.25em' }} variants={{ hidden: { opacity: 0, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}>
+                <motion.span key={`w2-${i}`} style={{ display: 'inline-block', marginRight: '0.25em' }} variants={{ hidden: { opacity: 1, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}>
                   {word}
                 </motion.span>
               ))}
               <motion.span 
                 className="hp-gradient-text accent-text" 
                 style={{ display: 'inline-block', marginRight: '0.15em' }}
-                variants={{ hidden: { opacity: 0, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
+                variants={{ hidden: { opacity: 1, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               >
                 Delhi
               </motion.span>
               <motion.span 
                 className="hp-gradient-text accent-text" 
                 style={{ display: 'inline-block' }}
-                variants={{ hidden: { opacity: 0, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
+                variants={{ hidden: { opacity: 1, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               >
                 NCR!
               </motion.span>
@@ -97,7 +99,7 @@ export default function HeroSection() {
 
             <motion.div
               className="hp-hero-contact-wrap"
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 1, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
@@ -109,7 +111,7 @@ export default function HeroSection() {
 
             <motion.div
               className="hp-hero-actions"
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 1, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
@@ -130,7 +132,7 @@ export default function HeroSection() {
               initial="hidden"
               animate="visible"
               variants={{
-                hidden: { opacity: 0 },
+                hidden: { opacity: 1 },
                 visible: {
                   opacity: 1,
                   transition: { staggerChildren: 0.1, delayChildren: 0.5 }
@@ -142,7 +144,7 @@ export default function HeroSection() {
                   key={item.label} 
                   className="hp-stat-card"
                   variants={{
-                    hidden: { opacity: 0, y: 15, scale: 0.95 },
+                    hidden: { opacity: 1, y: 15, scale: 0.95 },
                     visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
                   }}
                 >
