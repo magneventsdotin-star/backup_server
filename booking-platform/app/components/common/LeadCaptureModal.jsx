@@ -103,7 +103,9 @@ function InnerLeadForm({ onClose }) {
     setIsSubmitting(true)
     
     bookingService.submitRequest({ 
-      ...formData, 
+      name: formData.name,
+      phone: formData.phone,
+      message: formData.requirement,
       formType: 'lead_capture' 
     }).then(() => {
       setSubmitted(true)
