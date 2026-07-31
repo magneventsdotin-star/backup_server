@@ -23,8 +23,11 @@ export const viewport = {
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in'),
-  title: 'Book Live Singers, Bands & Artists in India | Magnevents',
-  description: 'Book live singers, bands, and artists for weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
+  alternates: {
+    canonical: '/',
+  },
+  title: 'Book Singers for House Party, Weddings & Events | Magnevents',
+  description: 'Book live singers, bands, and artists for house parties, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
   keywords: [
     'Magnevents',
     'book a singer for an event',
@@ -55,8 +58,8 @@ export const metadata = {
   },
   keywords: ['Live Artist Booking', 'Weddings', 'Corporate Nights', 'Concerts', 'Musician Booking', 'Live Singers', 'Live Bands', 'DJs', 'Comedians'],
   openGraph: {
-    title: 'Book Live Singers, Bands & Artists in India | Magnevents',
-    description: 'Book live singers, bands, and artists for weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
+    title: 'Book Singers for House Party, Weddings & Events | Magnevents',
+    description: 'Book live singers, bands, and artists for house parties, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
     url: '/',
     siteName: 'Magnevents',
     images: [
@@ -71,8 +74,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Book Live Singers, Bands & Artists in India | Magnevents',
-    description: 'Book live singers, bands, and artists for weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
+    title: 'Book Singers for House Party, Weddings & Events | Magnevents',
+    description: 'Book live singers, bands, and artists for house parties, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
     images: ['/icon-512.png'],
   },
 };

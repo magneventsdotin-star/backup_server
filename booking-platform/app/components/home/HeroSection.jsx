@@ -71,7 +71,7 @@ export default function HeroSection() {
                 style={{ display: 'inline-block' }}
                 variants={{ hidden: { opacity: 0, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               >
-                Musician
+                Singer
               </motion.span>
               <br />
               {"For Your".split(" ").map((word, i) => (
@@ -84,14 +84,14 @@ export default function HeroSection() {
                 style={{ display: 'inline-block', marginRight: '0.15em' }}
                 variants={{ hidden: { opacity: 0, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               >
-                Grand
+                House
               </motion.span>
               <motion.span 
                 className="hp-gradient-text accent-text" 
                 style={{ display: 'inline-block' }}
                 variants={{ hidden: { opacity: 0, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               >
-                Event!
+                Party!
               </motion.span>
             </motion.h1>
 
