@@ -43,7 +43,8 @@ export const buildEmailTemplate = (data, isRegister, isCallRequest, dbArtistInfo
     contentSections += buildSection('👤 User & Contact Details', 
       row('Name', data.name) +
       row('Email', data.email, true, `mailto:${data.email}`) +
-      row('Phone', data.phone, true, `tel:${data.phone}`)
+      row('Phone', data.phone, true, `tel:${data.phone}`) +
+      (data.deviceType ? row('Device Type', data.deviceType) : '')
     );
     contentSections += buildSection('📅 Event Details', 
       row('Event Type', data.eventType) +
