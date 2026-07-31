@@ -13,6 +13,11 @@ export default async function sitemap() {
     '/how-to-book',
     '/testimonials',
     '/why-choose',
+    '/about',
+    '/register',
+    '/book-singer-for-house-party-in-delhi',
+    '/book-live-band-in-delhi',
+    '/book-singer-for-wedding'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),
