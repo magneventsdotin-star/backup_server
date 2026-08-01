@@ -33,8 +33,10 @@ export const useArtists = (itemsPerPage = 15) => {
       const to = from + itemsPerPage - 1;
 
       const { data, count, error: queryError } = await query
-        .range(from, to)
-        .order('created_at', { ascending: false });
+        .order('is_featured', { ascending: false, nullsLast: true })
+        .order('is_trending', { ascending: false, nullsLast: true })
+        .order('created_at', { ascending: false })
+        .range(from, to);
 
       if (queryError) {
         throw queryError;
