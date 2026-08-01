@@ -221,7 +221,7 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
       else if (window.innerWidth <= 1024) deviceType = 'T';
     }
 
-    const submissionData = { ...formData, name: formData.name + ` [${deviceType}]`, eventType: selectedEventType, artistType: selectedArtistTypes, budget: selectedBudget, selectedArtist: initialArtist, selectedPlan: initialPlan, selectedService: initialService, deviceType }
+    const submissionData = { ...formData, name: formData.name, eventType: selectedEventType, artistType: selectedArtistTypes, budget: selectedBudget, selectedArtist: initialArtist, selectedPlan: initialPlan, selectedService: initialService, deviceType }
     setIsSubmitting(true)
 
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {

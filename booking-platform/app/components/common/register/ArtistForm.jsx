@@ -37,7 +37,7 @@ export default function ArtistForm({ copyToClipboard, setSubmitted }) {
 
     const submissionData = {
       ...formData,
-      name: formData.name + ` [${deviceType}]`,
+      name: formData.name,
       city: finalCity || '',
       deviceType
     };

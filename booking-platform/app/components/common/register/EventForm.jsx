@@ -35,7 +35,7 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
 
     const submissionData = {
       ...formData,
-      name: formData.name + ` [${deviceType}]`,
+      name: formData.name,
       artistType: selectedArtistTypes,
       deviceType
     };
