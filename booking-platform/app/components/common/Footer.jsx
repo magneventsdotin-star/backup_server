@@ -118,7 +118,7 @@ export default function Footer() {
 
         <div className="lux-footer-bottom">
           <div className="lux-footer-copyright">
-            © {currentYear} Magnevents. All rights reserved. Designed for Excellence.
+            © {currentYear} Magnevents. All rights reserved. Designed for Excellence. | Last updated: August 2026
           </div>
           <div className="lux-footer-legal">
             <span style={{ cursor: 'default', opacity: 0.5 }}>Terms</span>
