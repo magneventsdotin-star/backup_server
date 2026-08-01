@@ -115,6 +115,10 @@ function InnerLeadForm({ onClose }) {
       deviceType: deviceType,
       formType: 'lead_capture' 
     }).then(() => {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('magnevents-form-filled', 'true');
+        window.dispatchEvent(new Event('form-filled'));
+      }
       setSubmitted(true)
       setTimeout(() => {
         onClose()

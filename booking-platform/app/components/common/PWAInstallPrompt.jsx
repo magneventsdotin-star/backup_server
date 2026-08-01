@@ -21,51 +21,52 @@ export default function PWAInstallPrompt() {
       return;
     }
 
-    const hasBeenDismissed = localStorage.getItem('magnevents-pwa-dismissed');
-    if (hasBeenDismissed === 'true') {
-      return;
-    }
-
-    const hasBeenShownThisSession = sessionStorage.getItem('magnevents-pwa-shown-session');
-    if (hasBeenShownThisSession === 'true') {
-      return;
-    }
-
-    const handleBeforeInstallPrompt = (e) => {
-      e.preventDefault();
-      
+    const checkAndShowPrompt = () => {
       if (localStorage.getItem('magnevents-pwa-dismissed') === 'true') return;
+      if (sessionStorage.getItem('magnevents-pwa-shown-session') === 'true') return;
+      if (localStorage.getItem('magnevents-form-filled') !== 'true') return;
 
-      setDeferredPrompt(e);
-      window.deferredPrompt = e;
       setShowPrompt(true);
       sessionStorage.setItem('magnevents-pwa-shown-session', 'true');
     };
 
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      
+      setDeferredPrompt(e);
+      window.deferredPrompt = e;
+      
+      checkAndShowPrompt();
+    };
+
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
+    const handleFormFilled = () => {
+      // Small delay to allow modal to close smoothly
+      setTimeout(() => {
+        checkAndShowPrompt();
+      }, 500);
+    };
+    window.addEventListener('form-filled', handleFormFilled);
+
     if (window.deferredPrompt) {
-      if (localStorage.getItem('magnevents-pwa-dismissed') !== 'true') {
-        setDeferredPrompt(window.deferredPrompt);
-        setShowPrompt(true);
-        sessionStorage.setItem('magnevents-pwa-shown-session', 'true');
-      }
+      setDeferredPrompt(window.deferredPrompt);
+      checkAndShowPrompt();
     } else {
       const timer = setTimeout(() => {
-        if (localStorage.getItem('magnevents-pwa-dismissed') !== 'true' && sessionStorage.getItem('magnevents-pwa-shown-session') !== 'true') {
-          setShowPrompt(true);
-          sessionStorage.setItem('magnevents-pwa-shown-session', 'true');
-        }
+        checkAndShowPrompt();
       }, 3000);
       
       return () => {
         window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        window.removeEventListener('form-filled', handleFormFilled);
         clearTimeout(timer);
       };
     }
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('form-filled', handleFormFilled);
     };
   }, []);
 

@@ -223,6 +223,10 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
     }
     
     bookingService.submitRequest({ ...submissionData, formType }).then(() => {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('magnevents-form-filled', 'true');
+        window.dispatchEvent(new Event('form-filled'));
+      }
       setSubmitted(true);
       setTimeout(() => {
         router.push('/thank-you');
