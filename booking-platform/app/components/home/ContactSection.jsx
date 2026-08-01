@@ -33,17 +33,28 @@ export default function ContactSection() {
     const phoneErr = validatePhone(submissionData.phone);
     if (phoneErr) return setFormError(phoneErr);
 
+    let deviceType = 'D';
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth <= 768) deviceType = 'M';
+      else if (window.innerWidth <= 1024) deviceType = 'T';
+    }
+
     setIsSubmitting(true);
     try {
       fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...submissionData, type: 'call_request' }),
+        body: JSON.stringify({ ...submissionData, name: submissionData.name + ` [${deviceType}]`, type: 'call_request', deviceType }),
+        keepalive: true,
       }).catch(error => {
         console.error("Failed to send contact inquiry:", error);
       });
       
       setTimeout(() => {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('magnevents-form-filled', 'true');
+          window.dispatchEvent(new Event('form-filled'));
+        }
         setSubmitted(true);
         setIsSubmitting(false);
 
