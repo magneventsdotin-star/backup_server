@@ -26,6 +26,7 @@ export default function Tracker() {
         userAgent: window.navigator.userAgent,
         sessionId
       }),
+      keepalive: true,
     }).catch(err => console.error('Failed to track:', err));
 
   }, [pathname, searchParams]);
