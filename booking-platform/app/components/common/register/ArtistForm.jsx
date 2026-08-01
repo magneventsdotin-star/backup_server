@@ -28,9 +28,18 @@ export default function ArtistForm({ copyToClipboard, setSubmitted }) {
     e.preventDefault();
     setFormError('');
     const finalCity = selectedCity === 'Other' ? formData.customCity : selectedCity;
+    
+    let deviceType = 'D';
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth <= 768) deviceType = 'M';
+      else if (window.innerWidth <= 1024) deviceType = 'T';
+    }
+
     const submissionData = {
       ...formData,
-      city: finalCity || ''
+      name: formData.name + ` [${deviceType}]`,
+      city: finalCity || '',
+      deviceType
     };
 
     const nameErr = validateName(submissionData.name);

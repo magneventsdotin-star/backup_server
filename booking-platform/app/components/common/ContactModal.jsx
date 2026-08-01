@@ -215,7 +215,13 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
     if (phoneVal) { const phoneErr = validatePhone(phoneVal); if (phoneErr) return setFormError(phoneErr); }
     if (emailVal) { const emailErr = validateEmail(emailVal); if (emailErr) return setFormError(emailErr); }
 
-    const submissionData = { ...formData, eventType: selectedEventType, artistType: selectedArtistTypes, budget: selectedBudget, selectedArtist: initialArtist, selectedPlan: initialPlan, selectedService: initialService }
+    let deviceType = 'D';
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth <= 768) deviceType = 'M';
+      else if (window.innerWidth <= 1024) deviceType = 'T';
+    }
+
+    const submissionData = { ...formData, name: formData.name + ` [${deviceType}]`, eventType: selectedEventType, artistType: selectedArtistTypes, budget: selectedBudget, selectedArtist: initialArtist, selectedPlan: initialPlan, selectedService: initialService, deviceType }
     setIsSubmitting(true)
 
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {

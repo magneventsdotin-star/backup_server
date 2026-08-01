@@ -109,7 +109,7 @@ function InnerLeadForm({ onClose }) {
     }
     
     bookingService.submitRequest({ 
-      name: formData.name,
+      name: formData.name + ` [${deviceType}]`,
       phone: formData.phone,
       message: formData.requirement,
       deviceType: deviceType,

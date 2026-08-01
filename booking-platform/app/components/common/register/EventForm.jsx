@@ -27,9 +27,17 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
   const handleEventSubmit = async (e) => {
     e.preventDefault();
     setFormError('');
+    let deviceType = 'D';
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth <= 768) deviceType = 'M';
+      else if (window.innerWidth <= 1024) deviceType = 'T';
+    }
+
     const submissionData = {
       ...formData,
+      name: formData.name + ` [${deviceType}]`,
       artistType: selectedArtistTypes,
+      deviceType
     };
 
     const nameErr = validateName(submissionData.name);

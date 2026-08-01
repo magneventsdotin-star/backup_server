@@ -10,6 +10,7 @@ export const bookingService = {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
+      keepalive: true,
     }).catch(error => {
       console.error("Background booking service error:", error);
     });
