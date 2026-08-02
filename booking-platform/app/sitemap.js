@@ -1,8 +1,7 @@
+import { supabase } from '@database/connection/supabase';
 
 export default async function sitemap() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in';
-
-  
 
   const staticRoutes = [
     '',
@@ -25,5 +24,29 @@ export default async function sitemap() {
     priority: route === '' ? 1 : 0.8,
   }));
 
-  return [...staticRoutes];
+  let dynamicRoutes = [];
+  try {
+    const { data: artists } = await supabase
+      .from('artists')
+      .select('id, alias, name')
+      .eq('is_live', true);
+
+    if (artists) {
+      dynamicRoutes = artists.map((artist) => {
+        // use alias or id, keeping it safe with id for SEO canonical reliability if possible, or we just map their id since app/artist/[id] supports both.
+        // The app uses [id] and decodes it, so the id or alias can be used.
+        const pathSlug = artist.id;
+        return {
+          url: `${baseUrl}/artist/${pathSlug}`,
+          lastModified: new Date().toISOString(),
+          changeFrequency: 'weekly',
+          priority: 0.9,
+        };
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching dynamic routes for sitemap', error);
+  }
+
+  return [...staticRoutes, ...dynamicRoutes];
 }

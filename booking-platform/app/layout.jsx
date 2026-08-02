@@ -39,7 +39,16 @@ export const metadata = {
     'book singer for house party',
     'book singer in delhi',
     'book singer for wedding',
-    'live band for party'
+    'live band for party',
+    'Live Artist Booking',
+    'Weddings',
+    'Corporate Nights',
+    'Concerts',
+    'Musician Booking',
+    'Live Singers',
+    'Live Bands',
+    'DJs',
+    'Comedians'
   ],
   manifest: '/site.webmanifest',
   icons: {
@@ -57,7 +66,6 @@ export const metadata = {
     title: 'Magnevents',
     statusBarStyle: 'default',
   },
-  keywords: ['Live Artist Booking', 'Weddings', 'Corporate Nights', 'Concerts', 'Musician Booking', 'Live Singers', 'Live Bands', 'DJs', 'Comedians'],
   openGraph: {
     title: 'Book Singers for House Party in Delhi-NCR, Weddings & Events | Magnevents',
     description: 'Book live singers, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
