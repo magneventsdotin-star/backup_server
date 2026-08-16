@@ -1,24 +1,36 @@
 export const bookingService = {
 
-  submitRequest: (formData) => {
-    console.log("Submitting form data to server in background:", formData);
+  submitRequest: async (formData) => {
+    console.log("Submitting form data to server:", formData);
 
-    // Run the API call in the background without awaiting it
-    fetch('/api/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-      keepalive: true,
-    }).catch(error => {
-      console.error("Background booking service error:", error);
-    });
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // Return success immediately to make the UI feel fast
-    return Promise.resolve({
-      success: true,
-      message: "Submission received successfully."
-    });
+      if (!response.ok) {
+        let errorMsg = "Failed to submit request.";
+        try {
+          const errorData = await response.json();
+          if (errorData.error) errorMsg = errorData.error;
+        } catch (e) {
+          // JSON parsing failed, use default error
+        }
+        throw new Error(errorMsg);
+      }
+
+      const data = await response.json();
+      return {
+        success: true,
+        message: data.message || "Submission received successfully."
+      };
+    } catch (error) {
+      console.error("Booking service error:", error);
+      throw error;
+    }
   }
 };

@@ -80,6 +80,7 @@ export default function LeadCaptureModal() {
     </AnimatePresence>
   )
 }
+import { validatePhone } from '@helpers/validation'
 
 function InnerLeadForm({ onClose }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -95,9 +96,11 @@ function InnerLeadForm({ onClose }) {
       setFormError('Please enter your name.')
       return
     }
-    if (!formData.phone) {
-      setFormError('Please enter your phone number.')
-      return
+    
+    const phoneErr = validatePhone(formData.phone);
+    if (phoneErr) {
+      setFormError(phoneErr);
+      return;
     }
 
     setIsSubmitting(true)
@@ -125,6 +128,7 @@ function InnerLeadForm({ onClose }) {
       }, 2000)
     }).catch(error => {
       console.error("Booking error:", error)
+      setFormError(error.message || 'Failed to submit. Please try again.')
     }).finally(() => {
       setIsSubmitting(false)
     })

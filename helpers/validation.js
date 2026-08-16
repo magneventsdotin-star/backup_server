@@ -31,14 +31,11 @@ export const validatePhone = (phone) => {
   if (phone.includes('.')) {
     return "Phone number cannot contain dots.";
   }
-
-  // Remove valid non-digit characters (+, -, space) to count actual digits
   const digitsOnly = phone.replace(/[\s+-]/g, '');
   if (!/^\d{10,15}$/.test(digitsOnly)) {
     return "Please enter a valid phone number containing 10-15 digits.";
   }
 
-  // Ensure no other weird characters exist
   const strictRegex = /^\+?[\d\s-]+$/;
   if (!strictRegex.test(phone)) {
     return "Please enter a valid phone number. Only numbers, +, -, and spaces are allowed.";
