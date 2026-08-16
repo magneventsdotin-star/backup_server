@@ -5,16 +5,6 @@ export async function POST(req) {
   try {
     const data = await req.json();
 
-    if (data.phone) {
-      if (data.phone.includes('.')) {
-        return new Response(JSON.stringify({ error: "Phone number cannot contain dots." }), { status: 400, headers: { 'Content-Type': 'application/json' } });
-      }
-      const digitsOnly = data.phone.replace(/[\s+-]/g, '');
-      if (!/^\d{10,15}$/.test(digitsOnly) || !/^\+?[\d\s-]+$/.test(data.phone)) {
-        return new Response(JSON.stringify({ error: "Invalid phone number format." }), { status: 400, headers: { 'Content-Type': 'application/json' } });
-      }
-    }
-
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',

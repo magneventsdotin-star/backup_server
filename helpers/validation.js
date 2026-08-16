@@ -27,19 +27,9 @@ export const validatePhone = (phone) => {
   if (!phone || phone.trim() === '') {
     return "Phone number is required.";
   }
-  
-  if (phone.includes('.')) {
-    return "Phone number cannot contain dots.";
+  const phoneRegex = /^\+?[\d\s-]{10,15}$/;
+  if (!phoneRegex.test(phone)) {
+    return "Please enter a valid phone number (10-15 digits).";
   }
-  const digitsOnly = phone.replace(/[\s+-]/g, '');
-  if (!/^\d{10,15}$/.test(digitsOnly)) {
-    return "Please enter a valid phone number containing 10-15 digits.";
-  }
-
-  const strictRegex = /^\+?[\d\s-]+$/;
-  if (!strictRegex.test(phone)) {
-    return "Please enter a valid phone number. Only numbers, +, -, and spaces are allowed.";
-  }
-
   return null;
 };
