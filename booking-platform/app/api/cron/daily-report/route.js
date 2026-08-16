@@ -24,25 +24,27 @@ export async function GET(req) {
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // 3. Calculate "Start of Today" in IST (UTC+5:30)
-    // To find midnight IST today, we take current UTC time, add 5.5 hours to get current IST time.
-    // Then we strip the hours/minutes/seconds to get midnight IST.
-    // Then we convert that midnight IST back to UTC for the Supabase query.
+    // To handle Vercel cron drift (e.g., running at 12:15 AM instead of 11:55 PM),
+    // we subtract 2 hours before determining the date. This ensures 11:55 PM and 12:15 AM
+    // both resolve to the same intended calendar day.
     const now = new Date();
-    const utcTime = now.getTime();
+    const adjustedTime = new Date(now.getTime() - 2 * 60 * 60 * 1000);
     const istOffset = 5.5 * 60 * 60 * 1000;
-    const istTime = new Date(utcTime + istOffset);
+    const istTime = new Date(adjustedTime.getTime() + istOffset);
     
     // Set to midnight IST
     istTime.setUTCHours(0, 0, 0, 0);
     
     // Convert midnight IST back to UTC
     const startOfTodayUTC = new Date(istTime.getTime() - istOffset);
+    const endOfTodayUTC = new Date(startOfTodayUTC.getTime() + 24 * 60 * 60 * 1000);
 
     // 4. Query the count from Supabase
     const { count, error } = await supabase
       .from('bookings')
       .select('*', { count: 'exact', head: true })
-      .gte('created_at', startOfTodayUTC.toISOString());
+      .gte('created_at', startOfTodayUTC.toISOString())
+      .lt('created_at', endOfTodayUTC.toISOString());
 
     if (error) {
       throw error;
