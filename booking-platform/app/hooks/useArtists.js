@@ -1,6 +1,14 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '@database/connection/supabase';
 
+const CLOUDFLARE_BASE = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL || 'https://customer-placeholder.cloudflarestream.com/';
+
+const constructCloudflareUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('http')) return url;
+  return `${CLOUDFLARE_BASE}${url}/watch`;
+};
+
 export const useArtists = (itemsPerPage = 15) => {
   const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -61,7 +69,7 @@ export const useArtists = (itemsPerPage = 15) => {
           rating: artist.rating,
           img: artist.artist_images?.[0]?.image_url || null,
           galleryImages: artist.artist_images?.map(img => img.image_url).filter(Boolean) || [],
-          cloudflareVideoUrls: artist.cloudflare_video_url ? artist.cloudflare_video_url.split(',').map(url => url.trim()).filter(Boolean) : [],
+          cloudflareVideoUrls: artist.cloudflare_video_url ? artist.cloudflare_video_url.split(',').map(url => constructCloudflareUrl(url.trim())).filter(Boolean) : [],
           videoUrls: artist.video_url ? artist.video_url.split(',').map(url => url.trim()).filter(Boolean) : [],
           quote: artist.bio || '',
         }));

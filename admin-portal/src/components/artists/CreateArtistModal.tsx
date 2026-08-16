@@ -59,6 +59,24 @@ import { CoverPhotoUploader } from './CoverPhotoUploader';
 import { VideoUploadInput } from './VideoUploadInput';
 import { CATEGORIES, INDIAN_LANGUAGES } from '@/lib/constants';
 
+const CLOUDFLARE_BASE = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL || 'https://customer-placeholder.cloudflarestream.com/';
+
+const formatCloudflareUrlForForm = (url: string) => {
+  if (!url) return '';
+  if (url.startsWith('http')) return url;
+  return `${CLOUDFLARE_BASE}${url}/watch`;
+};
+
+const formatCloudflareUrlForDb = (url: string) => {
+  if (!url) return '';
+  if (url.startsWith(CLOUDFLARE_BASE)) {
+    const path = url.replace(CLOUDFLARE_BASE, '');
+    const id = path.split('/')[0]; // Extract the video ID
+    return id;
+  }
+  return url; // Return as is if it doesn't match base URL
+};
+
 const artistSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   alias: z.string().min(2, { message: "Alias must be at least 2 characters." }),
@@ -137,7 +155,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
       members_max: initialData?.members_max?.toString() || "1",
       performance_duration: initialData?.performance_duration || "60-90 mins",
       video_urls: (initialData?.video_url ? initialData.video_url.split(',').map((s: string) => s.trim()).filter(Boolean) : [""]),
-      cloudflare_video_urls: (initialData?.cloudflare_video_url ? initialData.cloudflare_video_url.split(',').map((s: string) => s.trim()).filter(Boolean) : [""]),
+      cloudflare_video_urls: (initialData?.cloudflare_video_url ? initialData.cloudflare_video_url.split(',').map((s: string) => formatCloudflareUrlForForm(s.trim())).filter(Boolean) : [""]),
       email: initialData?.email || "",
       contact_person: initialData?.contact_person || "",
       phone_no: initialData?.phone_no || "",
@@ -328,7 +346,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
           members_max: initialData.members_max?.toString() || "1",
           performance_duration: initialData.performance_duration || "60-90 mins",
           video_urls: (initialData.video_url ? initialData.video_url.split(',').map((s: string) => s.trim()).filter(Boolean) : [""]),
-          cloudflare_video_urls: (initialData.cloudflare_video_url ? initialData.cloudflare_video_url.split(',').map((s: string) => s.trim()).filter(Boolean) : [""]),
+          cloudflare_video_urls: (initialData.cloudflare_video_url ? initialData.cloudflare_video_url.split(',').map((s: string) => formatCloudflareUrlForForm(s.trim())).filter(Boolean) : [""]),
           email: initialData.email || "",
           contact_person: initialData.contact_person || "",
           phone_no: initialData.phone_no || "",
@@ -416,7 +434,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
         successful_bookings: parseInt(values.successful_bookings || '0'),
         available_bookings: parseInt(values.available_bookings || '0'),
         video_url: values.video_urls?.filter(Boolean).join(', ') || null,
-        cloudflare_video_url: values.cloudflare_video_urls?.filter(Boolean).join(', ') || null,
+        cloudflare_video_url: values.cloudflare_video_urls?.filter(Boolean).map(formatCloudflareUrlForDb).join(', ') || null,
         cover_image_url: values.cover_image_url || null,
       };
 

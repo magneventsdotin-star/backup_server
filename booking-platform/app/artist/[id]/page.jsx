@@ -6,6 +6,14 @@ import { supabase } from '@database/connection/supabase';
 import Image from 'next/image';
 import '@/app/styles/pages/ArtistProfile.css';
 
+const CLOUDFLARE_BASE = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL || 'https://customer-placeholder.cloudflarestream.com/';
+
+const constructCloudflareUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('http')) return url;
+  return `${CLOUDFLARE_BASE}${url}/watch`;
+};
+
 const StarRating = ({ rating }) => {
   return (
     <div style={{ display: 'flex', gap: '4px', color: '#FFE032' }}>
@@ -182,7 +190,7 @@ export default function ArtistProfilePage({ params }) {
           let allVids = [];
           if (data.cloudflare_video_url) {
             const cfUrls = data.cloudflare_video_url.split(',').map(u => u.trim()).filter(Boolean);
-            allVids = [...allVids, ...cfUrls.map((url, idx) => ({ id: `cf-${idx}`, video_url: url }))];
+            allVids = [...allVids, ...cfUrls.map((url, idx) => ({ id: `cf-${idx}`, video_url: constructCloudflareUrl(url) }))];
           }
           if (vids && vids.length > 0) {
             allVids = [...allVids, ...vids];

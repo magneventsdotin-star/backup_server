@@ -27,15 +27,15 @@ export const metadata = {
   alternates: {
     canonical: '/',
   },
-  title: 'Book Singers for House Party in Delhi-NCR, Weddings & Events | Magnevents',
-  description: 'Book live singers, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
+  title: 'Book a Singer for House Party in Delhi-NCR, Weddings & Events | Magnevents',
+  description: 'Book a live singer, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
   keywords: [
     'Magnevents',
     'book a singer for an event',
     'book live singer',
     'singer for house party in delhi',
     'book bands for events',
-    'book singers for wedding',
+    'book a singer for wedding',
     'book singer for house party',
     'book singer in delhi',
     'book singer for wedding',
@@ -67,8 +67,8 @@ export const metadata = {
     statusBarStyle: 'default',
   },
   openGraph: {
-    title: 'Book Singers for House Party in Delhi-NCR, Weddings & Events | Magnevents',
-    description: 'Book live singers, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
+    title: 'Book a Singer for House Party in Delhi-NCR, Weddings & Events | Magnevents',
+    description: 'Book a live singer, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
     url: '/',
     siteName: 'Magnevents',
     images: [
@@ -83,8 +83,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Book Singers for House Party in Delhi-NCR, Weddings & Events | Magnevents',
-    description: 'Book live singers, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
+    title: 'Book a Singer for House Party in Delhi-NCR, Weddings & Events | Magnevents',
+    description: 'Book a live singer, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
     images: ['/icon-512.png'],
   },
 };
