@@ -41,40 +41,35 @@ export default function ContactSection() {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch('/api/contact', {
+      fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...submissionData, name: submissionData.name, type: 'call_request', deviceType }),
+        keepalive: true,
+      }).catch(error => {
+        console.error("Failed to send contact inquiry:", error);
       });
-
-      if (!response.ok) {
-        let errorMsg = "Failed to send contact inquiry.";
-        try {
-          const errorData = await response.json();
-          if (errorData.error) errorMsg = errorData.error;
-        } catch(e) {}
-        throw new Error(errorMsg);
-      }
       
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('magnevents-form-filled', 'true');
-        window.dispatchEvent(new Event('form-filled'));
-      }
-      setSubmitted(true);
+      setTimeout(() => {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('magnevents-form-filled', 'true');
+          window.dispatchEvent(new Event('form-filled'));
+        }
+        setSubmitted(true);
+        setIsSubmitting(false);
 
-      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        window.gtag('event', 'generate_lead', {
-          event_category: 'form',
-          event_label: 'contact_section_submit'
-        });
-      }
+        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+          window.gtag('event', 'generate_lead', {
+            event_category: 'form',
+            event_label: 'contact_section_submit'
+          });
+        }
 
-      setFormData({ name: '', email: '', phone: '' });
-      setTimeout(() => setSubmitted(false), 3000);
+        setFormData({ name: '', email: '', phone: '' });
+        setTimeout(() => setSubmitted(false), 3000);
+      }, 300);
     } catch (error) {
       console.error("Unexpected error:", error);
-      setFormError(error.message || "Failed to submit request.");
-    } finally {
       setIsSubmitting(false);
     }
   };
