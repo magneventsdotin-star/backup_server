@@ -149,7 +149,7 @@ function InnerLeadForm({ onClose }) {
       
       <div className="lux-form-group full-width">
         <label htmlFor="lead-phone">Phone no.</label>
-        <input id="lead-phone" type="tel" required placeholder="+91 9XXX-XXXXXX" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} />
+        <input id="lead-phone" type="tel" required placeholder="+91 9XXX-XXXXXX" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/[^0-9+]/g, '')})} />
       </div>
 
       <div className="lux-form-group full-width" style={{ marginTop: '16px' }}>
