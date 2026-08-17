@@ -181,7 +181,12 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    if (name === 'phone') {
+      const sanitizedValue = value.replace(/[^\d+]/g, '');
+      setFormData(prev => ({ ...prev, [name]: sanitizedValue }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   useEffect(() => {
