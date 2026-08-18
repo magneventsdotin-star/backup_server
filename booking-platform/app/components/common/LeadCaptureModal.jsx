@@ -15,7 +15,7 @@ export default function LeadCaptureModal() {
       sessionStorage.setItem('magnevents_lead_captured', 'true')
       const timer = setTimeout(() => {
         setIsOpen(true)
-      }, 4000)
+      }, 3200)
       return () => clearTimeout(timer)
     }
   }, [])

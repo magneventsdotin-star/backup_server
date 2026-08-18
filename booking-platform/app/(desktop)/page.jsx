@@ -10,6 +10,12 @@ import InfoCards from '@/app/components/home/InfoCards'
 import ContactSection from '@/app/components/home/ContactSection'
 import '@/app/styles/pages/HomePage.css'
 
+export const metadata = {
+  alternates: {
+    canonical: '/',
+  },
+};
+
 export default function HomePage() {
   const schema = {
     "@context": "https://schema.org",

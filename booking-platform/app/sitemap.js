@@ -12,7 +12,7 @@ export default async function sitemap() {
     '/how-to-book',
     '/testimonials',
     '/why-choose',
-    '/about',
+    '/blog-post',
     '/register',
     '/book-singer-for-house-party-in-delhi',
     '/book-live-band-in-delhi',
@@ -33,8 +33,6 @@ export default async function sitemap() {
 
     if (artists) {
       dynamicRoutes = artists.map((artist) => {
-        // use alias or id, keeping it safe with id for SEO canonical reliability if possible, or we just map their id since app/artist/[id] supports both.
-        // The app uses [id] and decodes it, so the id or alias can be used.
         const pathSlug = artist.id;
         return {
           url: `${baseUrl}/artist/${pathSlug}`,

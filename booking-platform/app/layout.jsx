@@ -24,9 +24,6 @@ export const viewport = {
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in'),
-  alternates: {
-    canonical: '/',
-  },
   title: 'Book a Singer for House Party in Delhi-NCR, Weddings & Events | Magnevents',
   description: 'Book a live singer, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
   keywords: [

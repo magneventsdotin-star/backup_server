@@ -13,8 +13,26 @@ export default function FaqSection({
 }) {
   const [openFaq, setOpenFaq] = useState(0)
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": FAQS.map(faq => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a
+      }
+    }))
+  };
+
   return (
-    <FadeSection className="hp-shell hp-block hp-faqs">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <FadeSection className="hp-shell hp-block hp-faqs">
       <div className="hp-section-head">
         <h2 className={titleGradient ? 'text-gradient' : ''}>{title}</h2>
       </div>
@@ -54,5 +72,6 @@ export default function FaqSection({
         })}
       </div>
     </FadeSection>
+    </>
   )
 }
