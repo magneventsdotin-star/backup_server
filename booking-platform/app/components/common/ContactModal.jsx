@@ -119,7 +119,7 @@ export default function ContactModal() {
               </button>
             </div>
             <h3 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '32px', marginTop: '4px' }}>
-              {formType === 'register' ? 'Artist Registration' : formType === 'offer' ? 'Claim 10% OFF!' : 'Booking form'}
+              {formType === 'register' ? 'Artist Registration' : formType === 'offer' ? 'Claim Special Offer!' : 'Booking form'}
             </h3>
             {initialArtist ? (
               <div style={{ marginTop: '12px', padding: '10px 16px', background: 'rgba(255,224,50,0.1)', border: '1px solid rgba(255,224,50,0.2)', borderRadius: '8px', display: 'inline-block' }}>
@@ -148,7 +148,7 @@ export default function ContactModal() {
             ) : (
               <p>
                 {formType === 'register' ? 'Showcase your talent to the world. Join Magnevents and perform at premium venues.' :
-                 formType === 'offer' ? 'Fill out the form below to claim your exclusive 10% discount on your first booking with Magnevents!' :
+                 formType === 'offer' ? 'Fill out the form below to claim your exclusive discount on your first booking with Magnevents!' :
                  'Tell us your vision, and we will find the perfect stage presence for you.'}
               </p>
             )}
@@ -341,7 +341,7 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
       )}
       <div className="lux-modal-footer" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <button type="submit" className="btn-submit-premium" disabled={isSubmitting}>
-          <span className="btn-text">{isSubmitting ? 'Processing...' : (formType === 'register' ? 'Register as Artist' : formType === 'offer' ? 'Claim 10% Off & Request Booking' : 'Request Booking')}</span>
+          <span className="btn-text">{isSubmitting ? 'Processing...' : (formType === 'register' ? 'Register as Artist' : formType === 'offer' ? 'Claim Offer & Request Booking' : 'Request Booking')}</span>
           <div className="btn-glow" />
         </button>
         {formType !== 'offer' && (
