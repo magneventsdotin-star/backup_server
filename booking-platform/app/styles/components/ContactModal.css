@@ -275,27 +275,24 @@
 .btn-submit-premium {
   position: relative;
   width: 100%;
-  background: linear-gradient(115deg, #ff007b, #6b00ff, #00d4ff, #ff007b);
-  background-size: 300% 300%;
-  animation: btnGradientShift 10s ease infinite;
+  background: linear-gradient(135deg, #ffe032 0%, #ff9900 100%);
   border: none;
   padding: 20px;
   border-radius: 24px;
   cursor: pointer;
   overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(107, 0, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(255, 224, 50, 0.25);
 }
 
 .btn-submit-premium .btn-text {
   position: relative;
   z-index: 2;
-  color: #ffffff;
+  color: #000000;
   font-weight: 800;
   font-size: 18px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .btn-glow {
@@ -308,7 +305,7 @@
 
 .btn-submit-premium:hover {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
+  box-shadow: 0 15px 40px rgba(255, 224, 50, 0.4);
 }
 
 .btn-submit-premium:hover .btn-glow {

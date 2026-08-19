@@ -129,10 +129,10 @@ function CountdownTimer() {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-      <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase', marginRight: '2px', fontWeight: '800', letterSpacing: '0.5px', textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>Ends In:</span>
-      <span className="ultimate-time-block">{pad(timeLeft.hours)}</span><span style={{ color: '#fff', fontWeight: '800', opacity: 0.8 }}>:</span>
-      <span className="ultimate-time-block">{pad(timeLeft.minutes)}</span><span style={{ color: '#fff', fontWeight: '800', opacity: 0.8 }}>:</span>
-      <span className="ultimate-time-block">{pad(timeLeft.seconds)}</span>
+      <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', marginRight: '4px', fontWeight: '800', letterSpacing: '0.5px' }}>Ends In:</span>
+      <span className="elegant-time-block">{pad(timeLeft.hours)}</span><span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: '800' }}>:</span>
+      <span className="elegant-time-block">{pad(timeLeft.minutes)}</span><span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: '800' }}>:</span>
+      <span className="elegant-time-block">{pad(timeLeft.seconds)}</span>
     </div>
   );
 }
@@ -197,76 +197,66 @@ function InnerLeadForm({ onClose, discountValue }) {
     )
   }
 
-  return (
     <form className="lux-modal-form" onSubmit={handleSubmit}>
       <style jsx>{`
-        @keyframes ultimatePromoShift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+        @keyframes subtleGlow {
+          0% { box-shadow: 0 0 0 0 rgba(255, 224, 50, 0.4); }
+          50% { box-shadow: 0 0 15px rgba(255, 224, 50, 0.2); }
+          100% { box-shadow: 0 0 0 0 rgba(255, 224, 50, 0.4); }
         }
-        .promo-ultimate-box {
-          animation: ultimatePromoShift 10s ease infinite;
-          background: linear-gradient(115deg, #ff007b, #6b00ff, #00d4ff, #ff007b) !important;
-          background-size: 300% 300% !important;
-          border: none !important;
-          box-shadow: 0 4px 20px rgba(107, 0, 255, 0.4) !important;
+        .elegant-promo-box {
+          background: rgba(255, 224, 50, 0.05);
+          border: 1px solid rgba(255, 224, 50, 0.2);
+          border-radius: 16px;
+          padding: 16px 20px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 16px;
+          animation: subtleGlow 3s infinite;
           position: relative;
           overflow: hidden;
         }
         
-        .promo-ultimate-box::before {
+        .elegant-promo-box::before {
           content: '';
           position: absolute;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.2);
-          pointer-events: none;
+          top: 0; left: 0; right: 0; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255, 224, 50, 0.8), transparent);
         }
 
-        .ultimate-time-block {
-          background: rgba(255, 255, 255, 0.25);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.4);
-          color: #ffffff;
-          padding: 4px 6px;
-          border-radius: 6px;
+        .elegant-time-block {
+          background: rgba(0, 0, 0, 0.4);
+          border: 1px solid rgba(255, 224, 50, 0.3);
+          color: #ffe032;
+          padding: 6px 8px;
+          border-radius: 8px;
           font-family: monospace;
           font-weight: 800;
-          font-size: 14px;
-          min-width: 24px;
+          font-size: 15px;
+          min-width: 28px;
           text-align: center;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
       `}</style>
       
-      <div className="lux-form-group full-width promo-ultimate-box" style={{ 
-        marginBottom: '4px', 
-        padding: '14px 18px', 
-        borderRadius: '16px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        cursor: 'default',
-        flexWrap: 'wrap',
-        gap: '12px',
-        position: 'relative'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', zIndex: 1 }}>
-          <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.2)', border: '1px solid rgba(255, 255, 255, 0.4)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>
-            <span style={{ fontSize: '20px' }}>🎉</span>
+      <div className="lux-form-group full-width elegant-promo-box" style={{ marginBottom: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', zIndex: 1, flex: '1 1 min-content' }}>
+          <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'linear-gradient(135deg, #ffe032 0%, #ff9900 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 15px rgba(255, 224, 50, 0.4)' }}>
+            <span style={{ fontSize: '24px' }}>🎁</span>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '15px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <span style={{ color: '#ffe032', fontWeight: '800', fontSize: '16px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
               {discountValue ? `UPTO ${discountValue}% OFF APPLIED` : 'DISCOUNT APPLIED'}
             </span>
-            <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '12px', marginTop: '2px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.3px', background: 'rgba(255,224,50,0.2)', padding: '2px 6px', borderRadius: '4px', display: 'inline-block', width: 'fit-content', border: '1px solid rgba(255,224,50,0.3)' }}>
-              🎁 Raksha Bandhan Limited Offer!
+            <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '13px', fontWeight: '600', letterSpacing: '0.3px' }}>
+              Raksha Bandhan Special Offer!
             </span>
           </div>
         </div>
         
-        <div style={{ zIndex: 1 }}>
+        <div style={{ zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '1 1 auto' }}>
           <CountdownTimer />
         </div>
       </div>
