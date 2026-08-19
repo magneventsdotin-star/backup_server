@@ -44,7 +44,7 @@ export default function ContactSection() {
       fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...submissionData, name: submissionData.name, type: 'call_request', deviceType }),
+        body: JSON.stringify({ ...submissionData, name: submissionData.name, type: 'call_request', deviceType, formNumber: 'Form 5' }),
         keepalive: true,
       }).catch(error => {
         console.error("Failed to send contact inquiry:", error);

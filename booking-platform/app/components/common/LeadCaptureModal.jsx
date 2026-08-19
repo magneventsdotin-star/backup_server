@@ -128,6 +128,7 @@ function InnerLeadForm({ onClose, discountValue }) {
       phone: formData.phone,
       message: formData.requirement,
       deviceType: deviceType,
+      formNumber: 'Form 4',
       formType: formData.claimOffer !== false ? 'offer' : 'lead_capture' 
     }).then(() => {
       if (typeof window !== 'undefined') {

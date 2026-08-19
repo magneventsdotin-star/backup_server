@@ -52,7 +52,7 @@ export default function ArtistForm({ copyToClipboard, setSubmitted }) {
 
     setIsSubmitting(true);
     try {
-      await bookingService.submitRequest({ ...submissionData, type: 'artist_registration' });
+      await bookingService.submitRequest({ ...submissionData, type: 'artist_registration', formNumber: 'Form 2' });
       setIsSubmitting(false);
       setSubmitted(true);
     } catch (error) {
