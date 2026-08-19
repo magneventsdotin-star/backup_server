@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from 'react';
 
 export default function TopAdBar() {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [textDesktop, setTextDesktop] = useState("🎉 Exclusive Offer: First-time users get 10% OFF their booking!");
   const [textMobile, setTextMobile] = useState("🎉 10% OFF First Booking!");
 
   useEffect(() => {
-    fetch('/api/settings/top-ad')
+    fetch('/api/settings/top-ad', { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
         if (data) {

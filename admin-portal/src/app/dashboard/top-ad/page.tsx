@@ -137,7 +137,7 @@ export default function TopAdSettings() {
         </div>
 
         <a 
-          href="http://localhost:3000" 
+          href={process.env.NEXT_PUBLIC_SITE_URL || "https://www.magnevents.in"}
           target="_blank" 
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition shadow-sm"
