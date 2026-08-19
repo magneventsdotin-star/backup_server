@@ -272,7 +272,7 @@ export default function TopAdBar() {
 
         @media (max-width: 768px) {
           .ultimate-ad-bar { 
-            height: 44px; 
+            height: 48px; 
             padding: 0 40px 0 12px; 
           }
           .ultimate-ad-content { 
