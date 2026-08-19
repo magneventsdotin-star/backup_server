@@ -18,8 +18,8 @@ import {
 
 export default function TopAdSettings() {
   const [isVisible, setIsVisible] = useState(true);
-  const [textDesktop, setTextDesktop] = useState("🎉 Exclusive Offer: First-time users get 10% OFF their booking!");
-  const [textMobile, setTextMobile] = useState("🎉 10% OFF First Booking!");
+  const [textDesktop, setTextDesktop] = useState("🎉 Exclusive Offer: First-time users get a discount on their booking!");
+  const [textMobile, setTextMobile] = useState("🎉 Special Discount on First Booking!");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [savingText, setSavingText] = useState(false);
@@ -132,7 +132,7 @@ export default function TopAdSettings() {
             Top Banner Settings
           </h1>
           <p className="text-slate-500 text-sm mt-1 max-w-xl font-medium">
-            Control the global 10% discount announcement bar displayed at the very top of the customer booking website.
+            Control the global discount announcement bar displayed at the very top of the customer booking website.
           </p>
         </div>
 
@@ -172,12 +172,12 @@ export default function TopAdSettings() {
                   )}
                 </h3>
                 <p className="text-slate-500 text-xs font-medium mt-0.5">
-                  Yellow highlight banner at 0px header position with instant 10% claim button
+                  Yellow highlight banner at 0px header position with instant claim button
                 </p>
               </div>
             </div>
             <p className="text-slate-600 text-sm leading-relaxed max-w-2xl pt-2">
-              When turned on, the yellow promotional bar will be displayed at the very top of all landing pages. It includes a clickable <strong className="text-slate-900">Claim Now</strong> action button that opens the 10% discount lead form directly.
+              When turned on, the yellow promotional bar will be displayed at the very top of all landing pages. It includes a clickable <strong className="text-slate-900">Claim Now</strong> action button that opens the discount lead form directly.
             </p>
           </div>
 
@@ -225,7 +225,7 @@ export default function TopAdSettings() {
               <Sparkles size={16} />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-slate-900">10% First Booking Hook</h4>
+              <h4 className="text-xs font-bold text-slate-900">First Booking Hook</h4>
               <p className="text-[12px] text-slate-500 mt-0.5 font-medium leading-normal">
                 Proven to increase initial inquiry conversion by over 35%.
               </p>
@@ -259,7 +259,7 @@ export default function TopAdSettings() {
               value={textDesktop} 
               onChange={(e) => setTextDesktop(e.target.value)}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm font-medium transition-all"
-              placeholder="e.g. 🎉 Exclusive Offer: First-time users get 10% OFF their booking!"
+              placeholder="e.g. 🎉 Exclusive Offer: First-time users get a discount on their booking!"
             />
           </div>
           <div>
@@ -269,7 +269,7 @@ export default function TopAdSettings() {
               value={textMobile} 
               onChange={(e) => setTextMobile(e.target.value)}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm font-medium transition-all"
-              placeholder="e.g. 🎉 10% OFF First Booking!"
+              placeholder="e.g. 🎉 Special Discount on First Booking!"
             />
           </div>
           <button 
