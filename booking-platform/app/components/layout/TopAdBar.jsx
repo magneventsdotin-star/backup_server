@@ -56,12 +56,12 @@ export default function TopAdBar() {
 
     const handleScroll = () => {
       const scrollY = window.scrollY || 0;
-      const offset = Math.max(0, 40 - scrollY);
+      const offset = Math.max(0, 48 - scrollY);
       document.documentElement.style.setProperty('--top-ad-offset', `${offset}px`);
       
       const adBar = document.getElementById('main-top-ad-bar');
       if (adBar) {
-        adBar.style.transform = `translateY(-${Math.min(scrollY, 40)}px)`;
+        adBar.style.transform = `translateY(-${Math.min(scrollY, 48)}px)`;
       }
     };
 
@@ -81,14 +81,14 @@ export default function TopAdBar() {
   return (
     <div
       id="main-top-ad-bar"
-      className="premium-ad-bar"
+      className="ultimate-ad-bar"
     >
-      <div className="premium-ad-content">
+      <div className="ultimate-ad-content">
         <span className="hide-on-mobile ad-text-main">{textDesktop}</span>
         <span className="show-on-mobile ad-text-main" style={{ display: 'none' }}>{textMobile}</span>
         
         <div className="mobile-action-row">
-          <div className="premium-countdown-timer">
+          <div className="ultimate-countdown-timer">
             <span className="timer-label">Ends in:</span>
             <div className="time-blocks">
               <span className="time-block">{pad(timeLeft.hours)}</span><span className="colon">:</span>
@@ -98,7 +98,7 @@ export default function TopAdBar() {
           </div>
 
           <button 
-            className="premium-claim-btn" 
+            className="ultimate-claim-btn" 
             onClick={() => {
               if (typeof window !== 'undefined') {
                 window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'offer' } }));
@@ -111,22 +111,28 @@ export default function TopAdBar() {
       </div>
       
       <button 
-        className="premium-close-btn"
+        className="ultimate-close-btn"
         onClick={() => {
           setIsVisible(false);
           document.documentElement.style.setProperty('--top-ad-offset', '0px');
         }}
         aria-label="Close"
       >
-        ✕
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M1 1L11 11M11 1L1 11" />
+        </svg>
       </button>
 
       <style jsx>{`
-        .premium-ad-bar {
-          background: linear-gradient(90deg, #121212 0%, #1a1a1a 50%, #121212 100%);
-          color: #fff;
+        .ultimate-ad-bar {
+          /* Animated Gradient Background */
+          background: linear-gradient(115deg, #ff007b, #6b00ff, #00d4ff, #ff007b);
+          background-size: 300% 300%;
+          animation: gradientShift 10s ease infinite;
+          
+          color: #ffffff;
           padding: 0 16px;
-          height: 44px;
+          height: 48px;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -136,18 +142,24 @@ export default function TopAdBar() {
           right: 0;
           z-index: 9998;
           font-family: var(--font-sans, system-ui, sans-serif);
-          will-change: transform;
-          border-bottom: 1px solid rgba(255, 224, 50, 0.2);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 4px 20px rgba(107, 0, 255, 0.4);
+        }
+
+        @keyframes gradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
         }
         
-        .premium-ad-content {
+        .ultimate-ad-content {
           flex: 1;
           display: flex;
           justify-content: center;
           align-items: center;
-          gap: 16px;
+          gap: 20px;
           flex-wrap: nowrap;
+          max-width: 1200px;
+          margin: 0 auto;
         }
 
         .mobile-action-row {
@@ -157,138 +169,153 @@ export default function TopAdBar() {
         }
 
         .ad-text-main {
-          font-weight: 600;
-          font-size: 14px;
-          color: #f8f8f8;
-          text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-          letter-spacing: 0.3px;
-        }
-
-        .premium-countdown-timer {
+          font-weight: 700;
+          font-size: 15px;
+          letter-spacing: 0.2px;
+          text-shadow: 0 2px 4px rgba(0,0,0,0.3);
           display: flex;
           align-items: center;
-          gap: 6px;
-          background: rgba(255, 224, 50, 0.1);
-          padding: 3px 10px;
-          border-radius: 20px;
-          border: 1px solid rgba(255, 224, 50, 0.25);
+        }
+
+        .ultimate-countdown-timer {
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
 
         .timer-label {
           font-size: 11px;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.7);
-          letter-spacing: 0.5px;
-          font-weight: 700;
+          letter-spacing: 1px;
+          font-weight: 800;
+          opacity: 0.9;
+          text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
 
         .time-blocks {
           display: flex;
           align-items: center;
-          gap: 2px;
+          gap: 3px;
         }
 
         .time-block {
-          background: #ffe032;
-          color: #000;
-          padding: 2px 5px;
-          border-radius: 4px;
+          /* Glassmorphism Blocks */
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          color: #ffffff;
+          padding: 4px 6px;
+          border-radius: 6px;
           font-family: monospace;
           font-weight: 800;
-          font-size: 13px;
-          min-width: 20px;
+          font-size: 14px;
+          min-width: 24px;
           text-align: center;
-          box-shadow: 0 2px 4px rgba(255, 224, 50, 0.3);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
         
         .colon {
-          color: #ffe032;
+          color: #ffffff;
           font-weight: 800;
-          font-size: 12px;
+          font-size: 14px;
+          opacity: 0.8;
         }
 
-        .premium-claim-btn {
-          background: linear-gradient(135deg, #ffe032 0%, #ffcc00 100%);
-          color: #000;
+        .ultimate-claim-btn {
+          background: #ffffff;
+          color: #6b00ff;
           border: none;
-          padding: 5px 16px;
-          border-radius: 20px;
-          font-size: 12px;
+          padding: 6px 20px;
+          border-radius: 24px;
+          font-size: 13px;
           font-weight: 800;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.8px;
           cursor: pointer;
-          box-shadow: 0 0 10px rgba(255, 224, 50, 0.3);
-          transition: all 0.2s ease;
+          box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+          transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           white-space: nowrap;
         }
 
-        .premium-claim-btn:hover {
-          transform: translateY(-1px) scale(1.05);
-          box-shadow: 0 4px 12px rgba(255, 224, 50, 0.5);
+        .ultimate-claim-btn:hover {
+          transform: translateY(-2px) scale(1.05);
+          box-shadow: 0 6px 20px rgba(255, 255, 255, 0.5);
+          color: #ff007b;
         }
         
-        .premium-claim-btn:active {
-          transform: translateY(1px);
+        .ultimate-claim-btn:active {
+          transform: translateY(1px) scale(0.98);
         }
 
-        .premium-close-btn {
-          background: transparent;
-          border: none;
-          color: rgba(255,255,255,0.5);
+        .ultimate-close-btn {
+          background: rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(5px);
+          color: #ffffff;
           cursor: pointer;
-          padding: 6px;
+          width: 28px;
+          height: 28px;
           position: absolute;
-          right: 12px;
+          right: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: color 0.2s;
+          transition: all 0.2s ease;
           border-radius: 50%;
         }
         
-        .premium-close-btn:hover {
-          color: #fff;
-          background: rgba(255,255,255,0.1);
+        .ultimate-close-btn:hover {
+          background: rgba(255, 255, 255, 0.3);
+          transform: rotate(90deg);
         }
 
         @media (max-width: 768px) {
-          .premium-ad-bar { 
-            height: 40px; 
-            padding: 0 28px 0 8px; 
+          .ultimate-ad-bar { 
+            height: 44px; 
+            padding: 0 40px 0 12px; 
           }
-          .premium-ad-content { 
-            gap: 6px; 
+          .ultimate-ad-content { 
+            gap: 8px; 
             flex-direction: row;
             padding-right: 0;
             width: 100%;
             justify-content: space-between;
           }
           .mobile-action-row {
-            gap: 6px;
+            gap: 8px;
             width: auto;
           }
           .hide-on-mobile { display: none !important; }
           .show-on-mobile { 
             display: inline-block !important; 
             width: auto; 
-            font-size: 11px !important; 
+            font-size: 12px !important; 
             text-align: left; 
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             flex: 1;
+            font-weight: 700;
           }
-          .premium-claim-btn { padding: 4px 10px; font-size: 10px; }
-          .premium-countdown-timer { 
-            padding: 0; 
-            background: transparent; 
-            border: none;
+          .ultimate-claim-btn { 
+            padding: 5px 12px; 
+            font-size: 10px; 
+            letter-spacing: 0.5px;
           }
           .timer-label { display: none; }
-          .time-block { font-size: 11px; min-width: 16px; padding: 2px 3px; }
-          .colon { font-size: 10px; }
-          .premium-close-btn { right: 2px; top: 50%; transform: translateY(-50%); padding: 4px; }
+          .time-block { 
+            font-size: 11px; 
+            min-width: 18px; 
+            padding: 3px 4px; 
+            border-radius: 4px;
+          }
+          .colon { font-size: 11px; }
+          .ultimate-close-btn { 
+            right: 8px; 
+            width: 24px;
+            height: 24px;
+          }
         }
       `}</style>
     </div>
