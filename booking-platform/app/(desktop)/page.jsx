@@ -1,4 +1,5 @@
 import HeroSection from '@/app/components/home/HeroSection'
+import VideoGridSection from '@/app/components/home/VideoGridSection'
 import TopPerformerSection from '@/app/components/home/TopPerformerSection'
 import CategoriesSection from '@/app/components/home/CategoriesSection'
 import FeaturedArtistsSection from '@/app/components/home/FeaturedArtistsSection'
@@ -37,6 +38,7 @@ export default function HomePage() {
       />
       <div className="hp">
         <HeroSection />
+        <VideoGridSection />
         <TopPerformerSection />
         <CategoriesSection />
         <FeaturedArtistsSection />

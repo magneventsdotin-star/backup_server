@@ -100,7 +100,7 @@ export default function AdminManagement() {
       
       const { error } = await supabase
         .from('profiles')
-        .update({ can_view_all_artists: newValue })
+        .update({ can_view_all_artists: newValue } as any)
         .eq('id', id);
         
       if (error) throw error;

@@ -7,6 +7,8 @@ import BottomNav from '@/app/components/layout/BottomNav';
 import Footer from '@/app/components/common/Footer';
 import { useMouseGlow } from '@/app/hooks/useMouseGlow';
 
+import TopAdBar from '@/app/components/layout/TopAdBar';
+
 const HIDE_CHROME_ON = ['/checkout', '/confirmed', '/login', '/signup', '/onboarding', '/chat', '/f/'];
 
 export function AppShellWrapper({ children }) {
@@ -24,7 +26,8 @@ export function AppShellWrapper({ children }) {
     <div className="flow-unify-shell">
       <div className="flow-unify-atmos" aria-hidden="true" />
       <div className="ambient-canvas" aria-hidden="true" />
-
+      
+      {!hideChrome && <TopAdBar />}
       {!hideChrome && <Nav />}
 
       <div className={`page-enter ${routeTransitionClass}`} style={{ minHeight: '100vh', paddingTop: (hideChrome || pathname === '/' || pathname === '/how-to-book') ? '0px' : '72px' }}>

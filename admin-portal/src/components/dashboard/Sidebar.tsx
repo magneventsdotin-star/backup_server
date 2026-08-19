@@ -58,6 +58,7 @@ export const navSections = [
           { name: 'Pricing', href: '/dashboard/pricing' },
           { name: 'Blog Editing', href: '/dashboard/slider' },
           { name: 'Service Videos', href: '/dashboard/service-videos' },
+          { name: 'Top Ad', href: '/dashboard/top-ad' },
         ]
       },
       { name: 'Browse', href: '/dashboard/browse', icon: Eye },
@@ -98,7 +99,8 @@ export function Sidebar({ onClose, userRole = 'admin' }: { onClose?: () => void;
       'Edit': pathname.startsWith('/dashboard/categories') ||
               pathname.startsWith('/dashboard/pricing') ||
               pathname.startsWith('/dashboard/slider') ||
-              pathname.startsWith('/dashboard/service-videos'),
+              pathname.startsWith('/dashboard/service-videos') ||
+              pathname.startsWith('/dashboard/top-ad'),
       'Requests': pathname.startsWith('/dashboard/requests') ||
                   pathname.startsWith('/dashboard/team-requests') ||
                   pathname.startsWith('/dashboard/artist-requests'),

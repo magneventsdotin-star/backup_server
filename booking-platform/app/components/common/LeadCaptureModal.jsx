@@ -113,7 +113,7 @@ function InnerLeadForm({ onClose }) {
       phone: formData.phone,
       message: formData.requirement,
       deviceType: deviceType,
-      formType: 'lead_capture' 
+      formType: formData.claimOffer ? 'offer' : 'lead_capture' 
     }).then(() => {
       if (typeof window !== 'undefined') {
         localStorage.setItem('magnevents-form-filled', 'true');
@@ -182,6 +182,20 @@ function InnerLeadForm({ onClose }) {
             e.target.style.background = 'rgba(255, 255, 255, 0.03)';
           }}
         />
+      </div>
+      
+      <div className="lux-form-group full-width" style={{ marginTop: '20px', marginBottom: '8px', padding: '12px 16px', background: 'rgba(255, 224, 50, 0.05)', border: '1px solid rgba(255, 224, 50, 0.2)', borderRadius: '12px' }}>
+        <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '12px', margin: 0 }}>
+          <input 
+            type="checkbox" 
+            checked={formData.claimOffer || false}
+            onChange={(e) => setFormData({...formData, claimOffer: e.target.checked})}
+            style={{ width: '20px', height: '20px', accentColor: '#FFE032', cursor: 'pointer' }}
+          />
+          <span style={{ color: '#FFE032', fontWeight: '700', fontSize: '14px', letterSpacing: '0.3px' }}>
+            🎉 Claim 10% OFF for first-time user!
+          </span>
+        </label>
       </div>
 
       {formError && (

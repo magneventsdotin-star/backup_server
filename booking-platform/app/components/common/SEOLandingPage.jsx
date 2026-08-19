@@ -2,6 +2,7 @@
 
 import CategoriesSection from '@/app/components/home/CategoriesSection'
 import FeaturedArtistsSection from '@/app/components/home/FeaturedArtistsSection'
+import VideoGridSection from '@/app/components/home/VideoGridSection'
 import HowToBookSection from '@/app/components/home/HowToBookSection'
 import FaqSection from '@/app/components/home/FaqSection'
 import InfoCards from '@/app/components/home/InfoCards'
@@ -42,6 +43,7 @@ export default function SEOLandingPage({ heroTitle, heroSubtitle, schema }) {
           </div>
         </section>
 
+        <VideoGridSection />
         <CategoriesSection />
         <FeaturedArtistsSection />
         <HowToBookSection />
