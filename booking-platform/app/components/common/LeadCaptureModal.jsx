@@ -260,8 +260,8 @@ function InnerLeadForm({ onClose, discountValue }) {
             <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '15px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
               {discountValue ? `UPTO ${discountValue}% OFF APPLIED` : 'DISCOUNT APPLIED'}
             </span>
-            <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '12px', marginTop: '2px', fontWeight: '600' }}>
-              Exclusive for your first booking
+            <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '12px', marginTop: '2px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.3px', background: 'rgba(255,224,50,0.2)', padding: '2px 6px', borderRadius: '4px', display: 'inline-block', width: 'fit-content', border: '1px solid rgba(255,224,50,0.3)' }}>
+              🎁 Raksha Bandhan Limited Offer!
             </span>
           </div>
         </div>
