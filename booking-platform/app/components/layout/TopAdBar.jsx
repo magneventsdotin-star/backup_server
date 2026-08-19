@@ -14,6 +14,26 @@ export default function TopAdBar() {
         }
       })
       .catch(err => console.error('Failed to load top ad settings', err));
+
+    const handleScroll = () => {
+      const nav = document.querySelector('.lux-nav');
+      if (nav) {
+        if (window.scrollY > 40) {
+          nav.style.setProperty('top', '0px', 'important');
+        } else {
+          nav.style.setProperty('top', `${40 - window.scrollY}px`, 'important');
+        }
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      const nav = document.querySelector('.lux-nav');
+      if (nav) nav.style.removeProperty('top');
+    };
   }, []);
 
   if (!isVisible) return null;
@@ -26,7 +46,7 @@ export default function TopAdBar() {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       left: 0,
       right: 0,
@@ -35,7 +55,7 @@ export default function TopAdBar() {
       fontSize: '14px',
       textAlign: 'center'
     }}>
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', flexWrap: 'nowrap' }}>
         <span className="hide-on-mobile">🎉 Exclusive Offer: First-time users get 10% OFF their booking!</span>
         <span className="show-on-mobile" style={{ display: 'none' }}>🎉 10% OFF First Booking!</span>
         
@@ -81,9 +101,15 @@ export default function TopAdBar() {
       </button>
 
       <style jsx>{`
+        .top-ad-bar {
+          height: 40px;
+          white-space: nowrap;
+          overflow: hidden;
+        }
         @media (max-width: 768px) {
           .hide-on-mobile { display: none !important; }
-          .show-on-mobile { display: inline-block !important; }
+          .show-on-mobile { display: inline-block !important; font-size: 11px !important; }
+          .top-ad-btn { padding: 4px 8px !important; font-size: 10px !important; }
         }
       `}</style>
       <style jsx global>{`
@@ -92,14 +118,6 @@ export default function TopAdBar() {
         }
         .lux-nav {
           top: 40px !important;
-        }
-        @media (max-width: 768px) {
-          body {
-            padding-top: 50px !important;
-          }
-          .lux-nav {
-            top: 50px !important;
-          }
         }
       `}</style>
     </div>

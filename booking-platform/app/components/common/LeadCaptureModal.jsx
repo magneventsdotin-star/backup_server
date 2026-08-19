@@ -184,16 +184,16 @@ function InnerLeadForm({ onClose }) {
         />
       </div>
       
-      <div className="lux-form-group full-width" style={{ marginTop: '20px', marginBottom: '8px', padding: '12px 16px', background: 'rgba(255, 224, 50, 0.05)', border: '1px solid rgba(255, 224, 50, 0.2)', borderRadius: '12px' }}>
-        <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '12px', margin: 0 }}>
+      <div className="lux-form-group full-width" style={{ marginTop: '20px', marginBottom: '8px', padding: '10px 12px', background: 'rgba(255, 224, 50, 0.05)', border: '1px solid rgba(255, 224, 50, 0.2)', borderRadius: '10px' }}>
+        <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '8px', margin: 0 }}>
           <input 
             type="checkbox" 
             checked={formData.claimOffer || false}
             onChange={(e) => setFormData({...formData, claimOffer: e.target.checked})}
-            style={{ width: '20px', height: '20px', accentColor: '#FFE032', cursor: 'pointer' }}
+            style={{ width: '18px', height: '18px', accentColor: '#FFE032', cursor: 'pointer', flexShrink: 0 }}
           />
-          <span style={{ color: '#FFE032', fontWeight: '700', fontSize: '14px', letterSpacing: '0.3px' }}>
-            🎉 Claim 10% OFF for first-time user!
+          <span style={{ color: '#FFE032', fontWeight: '700', fontSize: '13px', letterSpacing: '0.2px', textTransform: 'none', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            🎉 Claim 10% OFF on 1st booking!
           </span>
         </label>
       </div>

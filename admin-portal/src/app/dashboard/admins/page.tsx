@@ -56,9 +56,12 @@ export default function AdminManagement() {
             .single();
 
           setCurrentUserRole((profile as any)?.role || user.user_metadata?.role || 'admin');
+        } else {
+          setCurrentUserRole('guest');
         }
       } catch (e) {
-
+        console.error("Auth fetch error:", e);
+        setCurrentUserRole('guest');
       }
     };
     getAuthUser();
@@ -82,7 +85,7 @@ export default function AdminManagement() {
         setAdmins(data || []);
       }
     } catch (err) {
-
+      console.error("Failed to fetch admins:", err);
     } finally {
       setLoading(false);
     }
@@ -98,9 +101,8 @@ export default function AdminManagement() {
       const newValue = !currentValue;
       setAdmins(prev => prev.map(a => a.id === id ? { ...a, can_view_all_artists: newValue } : a));
       
-      const { error } = await supabase
-        .from('profiles')
-        .update({ can_view_all_artists: newValue } as any)
+      const { error } = await (supabase.from('profiles') as any)
+        .update({ can_view_all_artists: newValue })
         .eq('id', id);
         
       if (error) throw error;
