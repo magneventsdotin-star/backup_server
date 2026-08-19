@@ -183,18 +183,45 @@ function InnerLeadForm({ onClose }) {
           }}
         />
       </div>
+      <style jsx>{`
+        @keyframes promoPulse {
+          0% { box-shadow: 0 0 0 0 rgba(255, 224, 50, 0.4); }
+          70% { box-shadow: 0 0 0 6px rgba(255, 224, 50, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(255, 224, 50, 0); }
+        }
+        .promo-highlight-box {
+          animation: promoPulse 2s infinite;
+          background: linear-gradient(135deg, rgba(255,224,50,0.15) 0%, rgba(255,224,50,0.05) 100%) !important;
+          border: 1px solid rgba(255, 224, 50, 0.5) !important;
+        }
+        .promo-highlight-box:hover {
+          background: linear-gradient(135deg, rgba(255,224,50,0.2) 0%, rgba(255,224,50,0.08) 100%) !important;
+          border: 1px solid rgba(255, 224, 50, 0.8) !important;
+        }
+      `}</style>
       
-      <div className="lux-form-group full-width" style={{ marginTop: '20px', marginBottom: '8px', padding: '10px 12px', background: 'rgba(255, 224, 50, 0.05)', border: '1px solid rgba(255, 224, 50, 0.2)', borderRadius: '10px' }}>
-        <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '8px', margin: 0 }}>
+      <div className="lux-form-group full-width promo-highlight-box" style={{ 
+        marginTop: '20px', 
+        marginBottom: '8px', 
+        padding: '12px 14px', 
+        borderRadius: '12px',
+        transition: 'all 0.3s ease'
+      }}>
+        <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '10px', margin: 0 }}>
           <input 
             type="checkbox" 
-            checked={formData.claimOffer || false}
+            checked={formData.claimOffer !== false} 
             onChange={(e) => setFormData({...formData, claimOffer: e.target.checked})}
-            style={{ width: '18px', height: '18px', accentColor: '#FFE032', cursor: 'pointer', flexShrink: 0 }}
+            style={{ width: '20px', height: '20px', accentColor: '#FFE032', cursor: 'pointer', flexShrink: 0 }}
           />
-          <span style={{ color: '#FFE032', fontWeight: '700', fontSize: '13px', letterSpacing: '0.2px', textTransform: 'none', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            🎉 Claim 10% OFF on 1st booking!
-          </span>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ color: '#FFE032', fontWeight: '800', fontSize: '14px', letterSpacing: '0.5px', textTransform: 'uppercase', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textShadow: '0 0 10px rgba(255,224,50,0.3)' }}>
+              🎉 Claim 10% OFF!
+            </span>
+            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '11px', marginTop: '2px', fontWeight: '500' }}>
+              Exclusive for your first booking
+            </span>
+          </div>
         </label>
       </div>
 
