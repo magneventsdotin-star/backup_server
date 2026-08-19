@@ -156,18 +156,26 @@ export default function VideoGridSection() {
             gap: 1.5rem;
           }
           .video-item-footer {
-            gap: 8px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
           }
           .video-item-title {
-            font-size: 13px !important;
-            padding-left: 8px !important;
-            border-left-width: 3px !important;
-            line-height: 1.25 !important;
+            font-size: 14px !important;
+            padding-left: 0 !important;
+            border-left: none !important;
+            line-height: 1.3 !important;
+            text-align: center;
+            width: 100%;
           }
           .video-quote-btn {
-            padding: 6px 12px !important;
-            font-size: 12px !important;
-            border-radius: 4px !important;
+            padding: 8px 16px !important;
+            font-size: 13px !important;
+            border-radius: 6px !important;
+            width: 100%;
+            max-width: 200px;
           }
         }
         @media (max-width: 360px) {

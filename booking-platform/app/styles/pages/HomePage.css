@@ -252,6 +252,9 @@
     font-size: clamp(24px, 7vw, 32px) !important;
     line-height: 1.15 !important;
   }
+  .hp-desktop-br {
+    display: none;
+  }
 }
 
 .hp-gradient-text.accent-text {

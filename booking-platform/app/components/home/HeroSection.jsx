@@ -70,12 +70,12 @@ export default function HeroSection() {
               ))}
               <motion.span 
                 className="hp-gradient-text accent-text" 
-                style={{ display: 'inline-block' }}
+                style={{ display: 'inline-block', marginRight: '0.25em' }}
                 variants={{ hidden: { opacity: 1, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
               >
                 Singer
               </motion.span>
-              <br />
+              <br className="hp-desktop-br" />
               {"For Your House Party In".split(" ").map((word, i) => (
                 <motion.span key={`w2-${i}`} style={{ display: 'inline-block', marginRight: '0.25em' }} variants={{ hidden: { opacity: 1, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}>
                   {word}
