@@ -27,7 +27,7 @@ export default function TopAdSettings() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in');
     fetch(`${baseUrl}/api/settings/top-ad`)
       .then(r => r.json())
       .then(d => {
@@ -49,7 +49,7 @@ export default function TopAdSettings() {
     const newStatus = !isVisible;
     
     try {
-      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in');
       const response = await fetch(`${baseUrl}/api/settings/top-ad`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -81,7 +81,7 @@ export default function TopAdSettings() {
   const handleSaveText = async () => {
     setSavingText(true);
     try {
-      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in');
       const response = await fetch(`${baseUrl}/api/settings/top-ad`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
