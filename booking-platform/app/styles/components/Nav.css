@@ -347,13 +347,17 @@
 
 @media (max-width: 480px) {
   .lux-nav {
-    padding: 0 12px;
+    padding: 0 16px;
   }
   .lux-nav-brand {
-    transform: scale(0.82);
+    transform: scale(0.85);
+    transform-origin: left center;
   }
   .lux-nav-right {
-    gap: 8px;
+    gap: 12px;
+  }
+  .lux-hamburger {
+    margin-left: 8px;
   }
 }
 
