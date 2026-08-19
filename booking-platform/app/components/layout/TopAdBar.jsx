@@ -220,6 +220,7 @@ export default function TopAdBar() {
           cursor: pointer;
           box-shadow: 0 0 10px rgba(255, 224, 50, 0.3);
           transition: all 0.2s ease;
+          white-space: nowrap;
         }
 
         .premium-claim-btn:hover {
@@ -253,31 +254,41 @@ export default function TopAdBar() {
 
         @media (max-width: 768px) {
           .premium-ad-bar { 
-            height: auto; 
-            padding: 8px 12px; 
+            height: 40px; 
+            padding: 0 28px 0 8px; 
           }
           .premium-ad-content { 
             gap: 6px; 
-            flex-direction: column; 
-            padding-right: 20px; 
+            flex-direction: row;
+            padding-right: 0;
+            width: 100%;
+            justify-content: space-between;
           }
           .mobile-action-row {
-            gap: 8px;
-            width: 100%;
-            justify-content: center;
+            gap: 6px;
+            width: auto;
           }
           .hide-on-mobile { display: none !important; }
           .show-on-mobile { 
-            display: block !important; 
-            width: 100%; 
-            font-size: 12px !important; 
-            text-align: center; 
+            display: inline-block !important; 
+            width: auto; 
+            font-size: 11px !important; 
+            text-align: left; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
           }
-          .premium-claim-btn { padding: 4px 12px; font-size: 10px; }
-          .premium-countdown-timer { padding: 2px 8px; }
-          .timer-label { font-size: 10px; }
-          .time-block { font-size: 11px; min-width: 16px; padding: 2px 4px; }
-          .premium-close-btn { right: 4px; top: 4px; transform: none; }
+          .premium-claim-btn { padding: 4px 10px; font-size: 10px; }
+          .premium-countdown-timer { 
+            padding: 0; 
+            background: transparent; 
+            border: none;
+          }
+          .timer-label { display: none; }
+          .time-block { font-size: 11px; min-width: 16px; padding: 2px 3px; }
+          .colon { font-size: 10px; }
+          .premium-close-btn { right: 2px; top: 50%; transform: translateY(-50%); padding: 4px; }
         }
       `}</style>
     </div>
