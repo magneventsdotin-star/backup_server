@@ -81,51 +81,27 @@ export default function TopAdBar() {
   return (
     <div
       id="main-top-ad-bar"
-      className="top-ad-bar"
-      style={{
-        background: 'var(--brand-primary)',
-        color: '#000',
-        padding: '0 16px',
-        height: '40px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 9998,
-        fontWeight: '600',
-        fontSize: '14px',
-        textAlign: 'center',
-        willChange: 'transform'
-      }}
+      className="premium-ad-bar"
     >
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', flexWrap: 'nowrap' }}>
-        <span className="hide-on-mobile">{textDesktop}</span>
-        <span className="show-on-mobile" style={{ display: 'none' }}>{textMobile}</span>
+      <div className="premium-ad-content">
+        <span className="hide-on-mobile ad-text-main">{textDesktop}</span>
+        <span className="show-on-mobile ad-text-main" style={{ display: 'none' }}>{textMobile}</span>
         
-        <div className="countdown-timer" style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(0,0,0,0.1)', padding: '2px 8px', borderRadius: '4px' }}>
-          <span style={{ fontSize: '12px', opacity: 0.9 }}>Ends in:</span>
-          <span className="time-block">{pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}</span>
+        <div className="premium-countdown-timer">
+          <span className="timer-label">Ends in:</span>
+          <div className="time-blocks">
+            <span className="time-block">{pad(timeLeft.hours)}</span><span className="colon">:</span>
+            <span className="time-block">{pad(timeLeft.minutes)}</span><span className="colon">:</span>
+            <span className="time-block">{pad(timeLeft.seconds)}</span>
+          </div>
         </div>
 
         <button 
-          className="top-ad-btn" 
+          className="premium-claim-btn" 
           onClick={() => {
             if (typeof window !== 'undefined') {
               window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'offer' } }));
             }
-          }}
-          style={{
-            background: '#000',
-            color: 'var(--brand-primary)',
-            border: 'none',
-            padding: '4px 12px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            fontWeight: 'bold',
-            cursor: 'pointer'
           }}
         >
           Claim Now
@@ -133,21 +109,10 @@ export default function TopAdBar() {
       </div>
       
       <button 
+        className="premium-close-btn"
         onClick={() => {
           setIsVisible(false);
           document.documentElement.style.setProperty('--top-ad-offset', '0px');
-        }}
-        style={{
-          background: 'transparent',
-          border: 'none',
-          color: '#000',
-          cursor: 'pointer',
-          padding: '4px',
-          position: 'absolute',
-          right: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
         }}
         aria-label="Close"
       >
@@ -155,17 +120,138 @@ export default function TopAdBar() {
       </button>
 
       <style jsx>{`
-        .time-block {
-          font-family: monospace;
-          font-weight: bold;
-          font-size: 13px;
+        .premium-ad-bar {
+          background: linear-gradient(90deg, #121212 0%, #1a1a1a 50%, #121212 100%);
+          color: #fff;
+          padding: 0 16px;
+          height: 44px;
+          display: flex;
+          justifyContent: center;
+          alignItems: center;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 9998;
+          font-family: var(--font-sans, system-ui, sans-serif);
+          will-change: transform;
+          border-bottom: 1px solid rgba(255, 224, 50, 0.2);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
+        
+        .premium-ad-content {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 16px;
+          flex-wrap: nowrap;
+        }
+
+        .ad-text-main {
+          font-weight: 600;
+          font-size: 14px;
+          color: #f8f8f8;
+          text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+          letter-spacing: 0.3px;
+        }
+
+        .premium-countdown-timer {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(255, 224, 50, 0.1);
+          padding: 3px 10px;
+          border-radius: 20px;
+          border: 1px solid rgba(255, 224, 50, 0.25);
+        }
+
+        .timer-label {
+          font-size: 11px;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.7);
+          letter-spacing: 0.5px;
+          font-weight: 700;
+        }
+
+        .time-blocks {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+        }
+
+        .time-block {
+          background: #ffe032;
+          color: #000;
+          padding: 2px 5px;
+          border-radius: 4px;
+          font-family: monospace;
+          font-weight: 800;
+          font-size: 13px;
+          min-width: 20px;
+          text-align: center;
+          box-shadow: 0 2px 4px rgba(255, 224, 50, 0.3);
+        }
+        
+        .colon {
+          color: #ffe032;
+          font-weight: 800;
+          font-size: 12px;
+        }
+
+        .premium-claim-btn {
+          background: linear-gradient(135deg, #ffe032 0%, #ffcc00 100%);
+          color: #000;
+          border: none;
+          padding: 5px 16px;
+          border-radius: 20px;
+          font-size: 12px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          cursor: pointer;
+          box-shadow: 0 0 10px rgba(255, 224, 50, 0.3);
+          transition: all 0.2s ease;
+        }
+
+        .premium-claim-btn:hover {
+          transform: translateY(-1px) scale(1.05);
+          box-shadow: 0 4px 12px rgba(255, 224, 50, 0.5);
+        }
+        
+        .premium-claim-btn:active {
+          transform: translateY(1px);
+        }
+
+        .premium-close-btn {
+          background: transparent;
+          border: none;
+          color: rgba(255,255,255,0.5);
+          cursor: pointer;
+          padding: 6px;
+          position: absolute;
+          right: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: color 0.2s;
+          border-radius: 50%;
+        }
+        
+        .premium-close-btn:hover {
+          color: #fff;
+          background: rgba(255,255,255,0.1);
+        }
+
         @media (max-width: 768px) {
+          .premium-ad-bar { height: auto; padding: 6px 12px; }
+          .premium-ad-content { gap: 8px; flex-wrap: wrap; padding-right: 24px; }
           .hide-on-mobile { display: none !important; }
-          .show-on-mobile { display: inline-block !important; font-size: 11px !important; }
-          .top-ad-btn { padding: 4px 8px !important; font-size: 10px !important; }
-          .countdown-timer { gap: 2px !important; padding: 2px 4px !important; }
-          .time-block { font-size: 11px; }
+          .show-on-mobile { display: block !important; width: 100%; font-size: 12px !important; text-align: center; }
+          .premium-claim-btn { padding: 4px 12px; font-size: 10px; }
+          .premium-countdown-timer { padding: 2px 8px; }
+          .time-block { font-size: 11px; min-width: 16px; padding: 1px 3px; }
+          .premium-close-btn { right: 4px; top: 50%; transform: translateY(-50%); }
         }
       `}</style>
     </div>
