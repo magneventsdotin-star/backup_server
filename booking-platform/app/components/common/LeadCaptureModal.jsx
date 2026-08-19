@@ -171,35 +171,6 @@ function InnerLeadForm({ onClose }) {
         }
       `}</style>
       
-      <div className="lux-form-group full-width promo-highlight-box" style={{ 
-        marginTop: '16px', 
-        marginBottom: '4px', 
-        padding: '12px 16px', 
-        borderRadius: '12px',
-        transition: 'all 0.3s ease',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        cursor: 'default'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255, 224, 50, 0.15)', border: '1px solid rgba(255, 224, 50, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: '18px' }}>🎉</span>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ color: '#FFE032', fontWeight: '800', fontSize: '15px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 0 12px rgba(255,224,50,0.4)' }}>
-              10% OFF APPLIED
-            </span>
-            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '11.5px', marginTop: '2px', fontWeight: '500' }}>
-              Exclusive for your first booking
-            </span>
-          </div>
-        </div>
-        <div style={{ background: 'rgba(255, 224, 50, 0.2)', color: '#FFE032', border: '1px solid rgba(255, 224, 50, 0.4)', fontSize: '10px', fontWeight: 'bold', padding: '4px 8px', borderRadius: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          Auto
-        </div>
-      </div>
-
       <div className="lux-form-group full-width" style={{ marginTop: '16px' }}>
         <label htmlFor="lead-req">What are you looking for?</label>
         <textarea 
@@ -231,6 +202,33 @@ function InnerLeadForm({ onClose }) {
           }}
         />
       </div>
+
+      <div className="lux-form-group full-width promo-highlight-box" style={{ 
+        marginTop: '16px', 
+        marginBottom: '4px', 
+        padding: '12px 16px', 
+        borderRadius: '12px',
+        transition: 'all 0.3s ease',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'default'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255, 224, 50, 0.15)', border: '1px solid rgba(255, 224, 50, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ fontSize: '18px' }}>🎉</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ color: '#FFE032', fontWeight: '800', fontSize: '15px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 0 12px rgba(255,224,50,0.4)' }}>
+              10% OFF APPLIED
+            </span>
+            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '11.5px', marginTop: '2px', fontWeight: '500' }}>
+              Exclusive for your first booking
+            </span>
+          </div>
+        </div>
+      </div>
+
 
 
       {formError && (
