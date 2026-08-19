@@ -27,7 +27,11 @@ export default function TopAdBar() {
     };
     
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    
+    // Ensure Nav is mounted before running the first time
+    requestAnimationFrame(() => {
+      requestAnimationFrame(handleScroll);
+    });
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -50,7 +54,7 @@ export default function TopAdBar() {
       top: 0,
       left: 0,
       right: 0,
-      zIndex: 50,
+      zIndex: 200,
       fontWeight: '600',
       fontSize: '14px',
       textAlign: 'center'
@@ -118,6 +122,7 @@ export default function TopAdBar() {
         }
         .lux-nav {
           top: 40px !important;
+          transition: top 0.1s ease-out;
         }
       `}</style>
     </div>
