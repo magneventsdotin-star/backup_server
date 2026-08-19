@@ -7,6 +7,19 @@ import '@/app/styles/components/ContactModal.css'
 
 export default function LeadCaptureModal() {
   const [isOpen, setIsOpen] = useState(false)
+  const [discountValue, setDiscountValue] = useState(null)
+
+  useEffect(() => {
+    fetch('/api/settings/top-ad')
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.textDesktop) {
+          const match = data.textDesktop.match(/(\d+)%/);
+          if (match) setDiscountValue(match[1]);
+        }
+      })
+      .catch(err => console.error('Failed to fetch discount', err));
+  }, []);
 
   useEffect(() => {
     const hasSeenModal = sessionStorage.getItem('magnevents_lead_captured')
@@ -71,11 +84,11 @@ export default function LeadCaptureModal() {
                 Find Your Perfect Artist
               </h3>
               <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', lineHeight: '1.5', marginTop: '8px' }}>
-                Let us know what you're looking for. First-time users get an <strong style={{ color: '#FFE032', fontWeight: '700' }}>exclusive discount</strong> on their first booking!
+                Let us know what you're looking for. First-time users get an <strong style={{ color: '#FFE032', fontWeight: '700' }}>exclusive {discountValue ? `${discountValue}% ` : ''}discount</strong> on their first booking!
               </p>
             </div>
 
-            <InnerLeadForm onClose={onClose} />
+            <InnerLeadForm onClose={onClose} discountValue={discountValue} />
           </motion.div>
         </div>
       )}
@@ -83,7 +96,7 @@ export default function LeadCaptureModal() {
   )
 }
 
-function InnerLeadForm({ onClose }) {
+function InnerLeadForm({ onClose, discountValue }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [formError, setFormError] = useState('')
@@ -220,7 +233,7 @@ function InnerLeadForm({ onClose }) {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span style={{ color: '#FFE032', fontWeight: '800', fontSize: '15px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 0 12px rgba(255,224,50,0.4)' }}>
-              DISCOUNT APPLIED
+              {discountValue ? `${discountValue}% OFF APPLIED` : 'DISCOUNT APPLIED'}
             </span>
             <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '11.5px', marginTop: '2px', fontWeight: '500' }}>
               Exclusive for your first booking

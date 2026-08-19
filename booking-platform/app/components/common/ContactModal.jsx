@@ -13,7 +13,20 @@ export default function ContactModal() {
   const [initialArtist, setInitialArtist] = useState(null)
   const [initialPlan, setInitialPlan] = useState(null)
   const [initialService, setInitialService] = useState(null)
+  const [discountValue, setDiscountValue] = useState(null)
   const pathname = usePathname();
+
+  useEffect(() => {
+    fetch('/api/settings/top-ad')
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.textDesktop) {
+          const match = data.textDesktop.match(/(\d+)%/);
+          if (match) setDiscountValue(match[1]);
+        }
+      })
+      .catch(err => console.error('Failed to fetch discount', err));
+  }, []);
 
   useEffect(() => {
     setIsOpen(false);
@@ -119,7 +132,7 @@ export default function ContactModal() {
               </button>
             </div>
             <h3 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '32px', marginTop: '4px' }}>
-              {formType === 'register' ? 'Artist Registration' : formType === 'offer' ? 'Claim Special Offer!' : 'Booking form'}
+              {formType === 'register' ? 'Artist Registration' : formType === 'offer' ? (discountValue ? `Claim ${discountValue}% OFF!` : 'Claim Special Offer!') : 'Booking form'}
             </h3>
             {initialArtist ? (
               <div style={{ marginTop: '12px', padding: '10px 16px', background: 'rgba(255,224,50,0.1)', border: '1px solid rgba(255,224,50,0.2)', borderRadius: '8px', display: 'inline-block' }}>
@@ -148,7 +161,7 @@ export default function ContactModal() {
             ) : (
               <p>
                 {formType === 'register' ? 'Showcase your talent to the world. Join Magnevents and perform at premium venues.' :
-                 formType === 'offer' ? 'Fill out the form below to claim your exclusive discount on your first booking with Magnevents!' :
+                 formType === 'offer' ? `Fill out the form below to claim your exclusive ${discountValue ? discountValue + '% ' : ''}discount on your first booking with Magnevents!` :
                  'Tell us your vision, and we will find the perfect stage presence for you.'}
               </p>
             )}
@@ -159,6 +172,7 @@ export default function ContactModal() {
             initialArtist={initialArtist}
             initialPlan={initialPlan}
             initialService={initialService}
+            discountValue={discountValue}
             onClose={onClose}
           />
         </motion.div>
@@ -168,7 +182,7 @@ export default function ContactModal() {
   )
 }
 
-function InnerContactForm({ formType, initialArtist, initialPlan, initialService, onClose }) {
+function InnerContactForm({ formType, initialArtist, initialPlan, initialService, discountValue, onClose }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -341,7 +355,7 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
       )}
       <div className="lux-modal-footer" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <button type="submit" className="btn-submit-premium" disabled={isSubmitting}>
-          <span className="btn-text">{isSubmitting ? 'Processing...' : (formType === 'register' ? 'Register as Artist' : formType === 'offer' ? 'Claim Offer & Request Booking' : 'Request Booking')}</span>
+          <span className="btn-text">{isSubmitting ? 'Processing...' : (formType === 'register' ? 'Register as Artist' : formType === 'offer' ? (discountValue ? `Claim ${discountValue}% Off & Request Booking` : 'Claim Offer & Request Booking') : 'Request Booking')}</span>
           <div className="btn-glow" />
         </button>
         {formType !== 'offer' && (
