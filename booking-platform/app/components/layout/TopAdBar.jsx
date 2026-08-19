@@ -4,13 +4,17 @@ import React, { useState, useEffect } from 'react';
 
 export default function TopAdBar() {
   const [isVisible, setIsVisible] = useState(true);
+  const [textDesktop, setTextDesktop] = useState("🎉 Exclusive Offer: First-time users get 10% OFF their booking!");
+  const [textMobile, setTextMobile] = useState("🎉 10% OFF First Booking!");
 
   useEffect(() => {
     fetch('/api/settings/top-ad')
       .then(res => res.json())
       .then(data => {
-        if (data && typeof data.isVisible === 'boolean') {
-          setIsVisible(data.isVisible);
+        if (data) {
+          if (typeof data.isVisible === 'boolean') setIsVisible(data.isVisible);
+          if (data.textDesktop) setTextDesktop(data.textDesktop);
+          if (data.textMobile) setTextMobile(data.textMobile);
         }
       })
       .catch(err => console.error('Failed to load top ad settings', err));
@@ -68,8 +72,8 @@ export default function TopAdBar() {
       }}
     >
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', flexWrap: 'nowrap' }}>
-        <span className="hide-on-mobile">🎉 Exclusive Offer: First-time users get 10% OFF their booking!</span>
-        <span className="show-on-mobile" style={{ display: 'none' }}>🎉 10% OFF First Booking!</span>
+        <span className="hide-on-mobile">{textDesktop}</span>
+        <span className="show-on-mobile" style={{ display: 'none' }}>{textMobile}</span>
         
         <button 
           className="top-ad-btn" 

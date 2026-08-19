@@ -70,7 +70,9 @@ export default function LeadCaptureModal() {
               <h3 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '32px', marginTop: '12px' }}>
                 Find Your Perfect Artist
               </h3>
-              <p>Let us know what you're looking for, and we'll help you secure the best talent for your event.</p>
+              <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', lineHeight: '1.5', marginTop: '8px' }}>
+                Let us know what you're looking for. First-time users get an <strong style={{ color: '#FFE032', fontWeight: '700' }}>exclusive 10% discount</strong> on their first booking!
+              </p>
             </div>
 
             <InnerLeadForm onClose={onClose} />
@@ -113,7 +115,7 @@ function InnerLeadForm({ onClose }) {
       phone: formData.phone,
       message: formData.requirement,
       deviceType: deviceType,
-      formType: formData.claimOffer ? 'offer' : 'lead_capture' 
+      formType: formData.claimOffer !== false ? 'offer' : 'lead_capture' 
     }).then(() => {
       if (typeof window !== 'undefined') {
         localStorage.setItem('magnevents-form-filled', 'true');
@@ -172,26 +174,30 @@ function InnerLeadForm({ onClose }) {
       <div className="lux-form-group full-width promo-highlight-box" style={{ 
         marginTop: '16px', 
         marginBottom: '4px', 
-        padding: '12px 14px', 
+        padding: '12px 16px', 
         borderRadius: '12px',
-        transition: 'all 0.3s ease'
+        transition: 'all 0.3s ease',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        cursor: 'default'
       }}>
-        <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '10px', margin: 0 }}>
-          <input 
-            type="checkbox" 
-            checked={formData.claimOffer !== false} 
-            onChange={(e) => setFormData({...formData, claimOffer: e.target.checked})}
-            style={{ width: '20px', height: '20px', accentColor: '#FFE032', cursor: 'pointer', flexShrink: 0 }}
-          />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255, 224, 50, 0.15)', border: '1px solid rgba(255, 224, 50, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ fontSize: '18px' }}>🎉</span>
+          </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ color: '#FFE032', fontWeight: '800', fontSize: '14px', letterSpacing: '0.5px', textTransform: 'uppercase', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textShadow: '0 0 10px rgba(255,224,50,0.3)' }}>
-              🎉 Claim 10% OFF!
+            <span style={{ color: '#FFE032', fontWeight: '800', fontSize: '15px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 0 12px rgba(255,224,50,0.4)' }}>
+              10% OFF APPLIED
             </span>
-            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '11px', marginTop: '2px', fontWeight: '500' }}>
+            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '11.5px', marginTop: '2px', fontWeight: '500' }}>
               Exclusive for your first booking
             </span>
           </div>
-        </label>
+        </div>
+        <div style={{ background: 'rgba(255, 224, 50, 0.2)', color: '#FFE032', border: '1px solid rgba(255, 224, 50, 0.4)', fontSize: '10px', fontWeight: 'bold', padding: '4px 8px', borderRadius: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          Auto
+        </div>
       </div>
 
       <div className="lux-form-group full-width" style={{ marginTop: '16px' }}>

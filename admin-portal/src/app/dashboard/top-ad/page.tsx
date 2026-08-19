@@ -18,8 +18,11 @@ import {
 
 export default function TopAdSettings() {
   const [isVisible, setIsVisible] = useState(true);
+  const [textDesktop, setTextDesktop] = useState("🎉 Exclusive Offer: First-time users get 10% OFF their booking!");
+  const [textMobile, setTextMobile] = useState("🎉 10% OFF First Booking!");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [savingText, setSavingText] = useState(false);
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
   const { toast } = useToast();
 
@@ -28,8 +31,10 @@ export default function TopAdSettings() {
     fetch(`${baseUrl}/api/settings/top-ad`)
       .then(r => r.json())
       .then(d => {
-        if (d && typeof d.isVisible === 'boolean') {
-          setIsVisible(d.isVisible);
+        if (d) {
+          if (typeof d.isVisible === 'boolean') setIsVisible(d.isVisible);
+          if (d.textDesktop) setTextDesktop(d.textDesktop);
+          if (d.textMobile) setTextMobile(d.textMobile);
         }
         setLoading(false);
       })
@@ -72,6 +77,36 @@ export default function TopAdSettings() {
       setSaving(false);
     }
   };
+
+  const handleSaveText = async () => {
+    setSavingText(true);
+    try {
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+      const response = await fetch(`${baseUrl}/api/settings/top-ad`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ textDesktop, textMobile })
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        toast({
+          title: "Text Updated Successfully",
+          description: "The banner text has been updated across the booking platform.",
+        });
+      }
+    } catch (err) {
+      console.error('Error updating banner text:', err);
+      toast({
+        variant: "destructive",
+        title: "Update Failed",
+        description: "Failed to update banner text. Ensure both servers are running.",
+      });
+    } finally {
+      setSavingText(false);
+    }
+  };
+
 
   if (loading) {
     return (
@@ -211,6 +246,42 @@ export default function TopAdSettings() {
         </div>
       </div>
 
+      {/* Text Configuration Card */}
+      <div className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 shadow-sm">
+        <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+          Ad Text Configuration
+        </h3>
+        <div className="space-y-5 max-w-3xl">
+          <div>
+            <label className="block text-sm font-bold text-slate-700 mb-1.5">Desktop Banner Text</label>
+            <input 
+              type="text" 
+              value={textDesktop} 
+              onChange={(e) => setTextDesktop(e.target.value)}
+              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm font-medium transition-all"
+              placeholder="e.g. 🎉 Exclusive Offer: First-time users get 10% OFF their booking!"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-slate-700 mb-1.5">Mobile Banner Text (Shorter)</label>
+            <input 
+              type="text" 
+              value={textMobile} 
+              onChange={(e) => setTextMobile(e.target.value)}
+              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm font-medium transition-all"
+              placeholder="e.g. 🎉 10% OFF First Booking!"
+            />
+          </div>
+          <button 
+            onClick={handleSaveText}
+            disabled={savingText}
+            className={`px-6 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${savingText ? 'opacity-70 cursor-not-allowed' : 'hover:bg-indigo-700 hover:shadow-md'}`}
+          >
+            {savingText ? 'Saving...' : 'Save Text Settings'}
+          </button>
+        </div>
+      </div>
+
       {/* Live Preview Container */}
       <div className="bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
@@ -253,7 +324,7 @@ export default function TopAdSettings() {
             {isVisible ? (
               <div className="bg-[#FFE032] text-black px-4 py-2 flex items-center justify-between text-xs font-bold transition-all">
                 <span className="truncate">
-                  {previewDevice === 'mobile' ? '🎉 10% OFF First Booking!' : '🎉 Exclusive Offer: First-time users get 10% OFF their booking!'}
+                  {previewDevice === 'mobile' ? textMobile : textDesktop}
                 </span>
                 <span className="bg-black text-[#FFE032] px-2 py-0.5 rounded text-[10px] font-extrabold flex-shrink-0 ml-2">
                   Claim Now

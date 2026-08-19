@@ -9,7 +9,11 @@ async function getSettings() {
     const data = await fs.readFile(settingsPath, 'utf-8');
     return JSON.parse(data);
   } catch (e) {
-    return { topAdVisible: true };
+    return { 
+      topAdVisible: true,
+      textDesktop: "🎉 Exclusive Offer: First-time users get 10% OFF their booking!",
+      textMobile: "🎉 10% OFF First Booking!"
+    };
   }
 }
 
@@ -25,20 +29,38 @@ export async function OPTIONS() {
 
 export async function GET() {
   const settings = await getSettings();
-  return NextResponse.json({ isVisible: settings.topAdVisible }, { headers: corsHeaders });
+  return NextResponse.json({ 
+    isVisible: settings.topAdVisible,
+    textDesktop: settings.textDesktop || "🎉 Exclusive Offer: First-time users get 10% OFF their booking!",
+    textMobile: settings.textMobile || "🎉 10% OFF First Booking!"
+  }, { headers: corsHeaders });
 }
 
 export async function POST(req) {
   try {
-    const { isVisible } = await req.json();
+    const body = await req.json();
     const settings = await getSettings();
-    settings.topAdVisible = !!isVisible;
+    
+    if (body.hasOwnProperty('isVisible')) {
+      settings.topAdVisible = !!body.isVisible;
+    }
+    if (body.hasOwnProperty('textDesktop')) {
+      settings.textDesktop = body.textDesktop;
+    }
+    if (body.hasOwnProperty('textMobile')) {
+      settings.textMobile = body.textMobile;
+    }
     
     // Ensure dir exists
     await fs.mkdir(path.dirname(settingsPath), { recursive: true });
     await fs.writeFile(settingsPath, JSON.stringify(settings, null, 2));
     
-    return NextResponse.json({ success: true, isVisible: settings.topAdVisible }, { headers: corsHeaders });
+    return NextResponse.json({ 
+      success: true, 
+      isVisible: settings.topAdVisible,
+      textDesktop: settings.textDesktop,
+      textMobile: settings.textMobile
+    }, { headers: corsHeaders });
   } catch (e) {
     return NextResponse.json({ error: e.message }, { status: 500, headers: corsHeaders });
   }
