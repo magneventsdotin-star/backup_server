@@ -96,6 +96,39 @@ export default function LeadCaptureModal() {
   )
 }
 
+function CountdownTimer() {
+  const [timeLeft, setTimeLeft] = useState({ hours: 12, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const deadline = new Date().getTime() + 12 * 60 * 60 * 1000;
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const difference = deadline - now;
+      if (difference > 0) {
+        setTimeLeft({
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000)
+        });
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const pad = (num) => num.toString().padStart(2, '0');
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(0,0,0,0.3)', padding: '4px 8px', borderRadius: '6px' }}>
+      <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', marginRight: '2px' }}>Ends In:</span>
+      <span style={{ background: '#000', color: '#fff', padding: '2px 5px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '13px' }}>{pad(timeLeft.hours)}</span>:
+      <span style={{ background: '#000', color: '#fff', padding: '2px 5px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '13px' }}>{pad(timeLeft.minutes)}</span>:
+      <span style={{ background: '#000', color: '#fff', padding: '2px 5px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '13px' }}>{pad(timeLeft.seconds)}</span>
+    </div>
+  );
+}
+
 function InnerLeadForm({ onClose, discountValue }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -225,11 +258,13 @@ function InnerLeadForm({ onClose, discountValue }) {
         transition: 'all 0.3s ease',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'default'
+        justifyContent: 'space-between',
+        cursor: 'default',
+        flexWrap: 'wrap',
+        gap: '8px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255, 224, 50, 0.15)', border: '1px solid rgba(255, 224, 50, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255, 224, 50, 0.15)', border: '1px solid rgba(255, 224, 50, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <span style={{ fontSize: '18px' }}>🎉</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -241,6 +276,8 @@ function InnerLeadForm({ onClose, discountValue }) {
             </span>
           </div>
         </div>
+        
+        <CountdownTimer />
       </div>
 
 
