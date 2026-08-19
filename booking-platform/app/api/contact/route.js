@@ -23,7 +23,7 @@ export async function POST(req) {
     let subjectPrefix = "Client Booking Requests";
     if (isRegister) subjectPrefix = "🎤 New Artist Registration";
     else if (isCallRequest) subjectPrefix = "Event Inquiries";
-    else if (isOffer) subjectPrefix = "🔥 10% OFF PROMO USER";
+    else if (isOffer) subjectPrefix = "🔥 DISCOUNT PROMO USER";
 
     let emailBody = '';
 
@@ -173,7 +173,7 @@ export async function POST(req) {
     if (isRegister) {
       emailBody = `New Artist Registration from ${data.name || 'Unknown'}\nPhone: ${data.phone || 'N/A'}\nEmail: ${data.email || 'N/A'}`;
     } else if (isOffer) {
-      emailBody = `🔥 10% OFF PROMO USER: Inquiry from ${data.name || 'Unknown'}\nPhone: ${data.phone || 'N/A'}`;
+      emailBody = `🔥 DISCOUNT PROMO USER: Inquiry from ${data.name || 'Unknown'}\nPhone: ${data.phone || 'N/A'}`;
     } else {
       emailBody = `New Inquiry from ${data.name || 'Unknown'}\nPhone: ${data.phone || 'N/A'}\nEmail: ${data.email || 'N/A'}`;
     }

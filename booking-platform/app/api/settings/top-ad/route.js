@@ -22,8 +22,8 @@ export async function OPTIONS() {
 export async function GET() {
   const defaultSettings = { 
     isVisible: true,
-    textDesktop: "🎉 Exclusive Offer: First-time users get 10% OFF their booking!",
-    textMobile: "🎉 10% OFF First Booking!"
+    textDesktop: "🎉 Exclusive Offer: First-time users get a special discount on their booking!",
+    textMobile: "🎉 Special Discount on First Booking!"
   };
 
   if (!supabase) {
@@ -78,8 +78,8 @@ export async function POST(req) {
       updateData.id = 1;
       // Provide defaults for missing
       if (!updateData.hasOwnProperty('is_visible')) updateData.is_visible = true;
-      if (!updateData.hasOwnProperty('text_desktop')) updateData.text_desktop = "🎉 Exclusive Offer: First-time users get 10% OFF their booking!";
-      if (!updateData.hasOwnProperty('text_mobile')) updateData.text_mobile = "🎉 10% OFF First Booking!";
+      if (!updateData.hasOwnProperty('text_desktop')) updateData.text_desktop = "🎉 Exclusive Offer: First-time users get a special discount on their booking!";
+      if (!updateData.hasOwnProperty('text_mobile')) updateData.text_mobile = "🎉 Special Discount on First Booking!";
       
       result = await supabase.from('top_ad_settings').insert([updateData]).select().single();
     } else {

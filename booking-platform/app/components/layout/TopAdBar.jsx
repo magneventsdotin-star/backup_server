@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 
 export default function TopAdBar() {
   const [isVisible, setIsVisible] = useState(true);
-  const [textDesktop, setTextDesktop] = useState("🎉 Exclusive Offer: First-time users get 10% OFF their booking!");
-  const [textMobile, setTextMobile] = useState("🎉 10% OFF First Booking!");
+  const [textDesktop, setTextDesktop] = useState("🎉 Exclusive Offer: First-time users get a special discount on their booking!");
+  const [textMobile, setTextMobile] = useState("🎉 Special Discount on First Booking!");
   const [timeLeft, setTimeLeft] = useState({ hours: 12, minutes: 0, seconds: 0 });
 
   useEffect(() => {
