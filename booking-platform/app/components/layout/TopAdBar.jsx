@@ -4,7 +4,22 @@ import React, { useState, useEffect } from 'react';
 
 export default function TopAdBar() {
   const [isVisible, setIsVisible] = useState(true);
+  const [textDesktop, setTextDesktop] = useState("🎉 Exclusive Offer: First-time users get 10% OFF their booking!");
+  const [textMobile, setTextMobile] = useState("🎉 10% OFF First Booking!");
   const [timeLeft, setTimeLeft] = useState({ hours: 12, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    fetch('/api/settings/top-ad', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          if (typeof data.isVisible === 'boolean') setIsVisible(data.isVisible);
+          if (data.textDesktop) setTextDesktop(data.textDesktop);
+          if (data.textMobile) setTextMobile(data.textMobile);
+        }
+      })
+      .catch(err => console.error('Failed to load top ad settings', err));
+  }, []);
 
   // Countdown timer logic
   useEffect(() => {
@@ -64,8 +79,8 @@ export default function TopAdBar() {
       id="main-top-ad-bar"
       className="top-ad-bar"
       style={{
-        background: 'linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%)',
-        color: '#fff',
+        background: 'var(--brand-primary)',
+        color: '#000',
         padding: '0 16px',
         height: '40px',
         display: 'flex',
@@ -79,19 +94,16 @@ export default function TopAdBar() {
         fontWeight: '600',
         fontSize: '14px',
         textAlign: 'center',
-        willChange: 'transform',
-        boxShadow: '0 2px 10px rgba(255, 75, 43, 0.3)'
+        willChange: 'transform'
       }}
     >
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', flexWrap: 'nowrap' }}>
-        <span className="hide-on-mobile">🔥 Deal of the Day: Get <strong style={{color: '#ffdf00', fontSize: '1.1em'}}>20% OFF</strong> all bookings!</span>
-        <span className="show-on-mobile" style={{ display: 'none' }}>🔥 <strong style={{color: '#ffdf00'}}>20% OFF</strong> Deal!</span>
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', flexWrap: 'nowrap' }}>
+        <span className="hide-on-mobile">{textDesktop}</span>
+        <span className="show-on-mobile" style={{ display: 'none' }}>{textMobile}</span>
         
-        <div className="countdown-timer" style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(0,0,0,0.2)', padding: '2px 8px', borderRadius: '4px' }}>
+        <div className="countdown-timer" style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(0,0,0,0.1)', padding: '2px 8px', borderRadius: '4px' }}>
           <span style={{ fontSize: '12px', opacity: 0.9 }}>Ends in:</span>
-          <span className="time-block">{pad(timeLeft.hours)}</span>:
-          <span className="time-block">{pad(timeLeft.minutes)}</span>:
-          <span className="time-block">{pad(timeLeft.seconds)}</span>
+          <span className="time-block">{pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}</span>
         </div>
 
         <button 
@@ -102,19 +114,15 @@ export default function TopAdBar() {
             }
           }}
           style={{
-            background: '#fff',
-            color: '#ff4b2b',
+            background: '#000',
+            color: 'var(--brand-primary)',
             border: 'none',
             padding: '4px 12px',
             borderRadius: '4px',
             fontSize: '12px',
             fontWeight: 'bold',
-            cursor: 'pointer',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-            transition: 'transform 0.2s'
+            cursor: 'pointer'
           }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
         >
           Claim Now
         </button>
@@ -128,15 +136,14 @@ export default function TopAdBar() {
         style={{
           background: 'transparent',
           border: 'none',
-          color: '#fff',
+          color: '#000',
           cursor: 'pointer',
           padding: '4px',
           position: 'absolute',
           right: '8px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          opacity: 0.8
+          justifyContent: 'center'
         }}
         aria-label="Close"
       >
@@ -145,22 +152,16 @@ export default function TopAdBar() {
 
       <style jsx>{`
         .time-block {
-          background: #000;
-          color: #fff;
-          padding: 2px 4px;
-          border-radius: 3px;
           font-family: monospace;
+          font-weight: bold;
           font-size: 13px;
-          min-width: 22px;
-          display: inline-block;
-          text-align: center;
         }
         @media (max-width: 768px) {
           .hide-on-mobile { display: none !important; }
           .show-on-mobile { display: inline-block !important; font-size: 11px !important; }
           .top-ad-btn { padding: 4px 8px !important; font-size: 10px !important; }
           .countdown-timer { gap: 2px !important; padding: 2px 4px !important; }
-          .time-block { font-size: 11px; min-width: 18px; padding: 1px 2px; }
+          .time-block { font-size: 11px; }
         }
       `}</style>
     </div>
