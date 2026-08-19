@@ -128,11 +128,11 @@ function CountdownTimer() {
   const pad = (num) => num.toString().padStart(2, '0');
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(0,0,0,0.3)', padding: '4px 8px', borderRadius: '6px' }}>
-      <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', marginRight: '2px' }}>Ends In:</span>
-      <span style={{ background: '#000', color: '#fff', padding: '2px 5px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '13px' }}>{pad(timeLeft.hours)}</span>:
-      <span style={{ background: '#000', color: '#fff', padding: '2px 5px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '13px' }}>{pad(timeLeft.minutes)}</span>:
-      <span style={{ background: '#000', color: '#fff', padding: '2px 5px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '13px' }}>{pad(timeLeft.seconds)}</span>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+      <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase', marginRight: '2px', fontWeight: '800', letterSpacing: '0.5px', textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>Ends In:</span>
+      <span className="ultimate-time-block">{pad(timeLeft.hours)}</span><span style={{ color: '#fff', fontWeight: '800', opacity: 0.8 }}>:</span>
+      <span className="ultimate-time-block">{pad(timeLeft.minutes)}</span><span style={{ color: '#fff', fontWeight: '800', opacity: 0.8 }}>:</span>
+      <span className="ultimate-time-block">{pad(timeLeft.seconds)}</span>
     </div>
   );
 }
@@ -210,19 +210,43 @@ function InnerLeadForm({ onClose, discountValue }) {
       </div>
 
       <style jsx>{`
-        @keyframes promoPulse {
-          0% { box-shadow: 0 0 0 0 rgba(255, 224, 50, 0.4); }
-          70% { box-shadow: 0 0 0 6px rgba(255, 224, 50, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(255, 224, 50, 0); }
+        @keyframes ultimatePromoShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
         }
-        .promo-highlight-box {
-          animation: promoPulse 2s infinite;
-          background: linear-gradient(135deg, rgba(255,224,50,0.15) 0%, rgba(255,224,50,0.05) 100%) !important;
-          border: 1px solid rgba(255, 224, 50, 0.5) !important;
+        .promo-ultimate-box {
+          animation: ultimatePromoShift 10s ease infinite;
+          background: linear-gradient(115deg, #ff007b, #6b00ff, #00d4ff, #ff007b) !important;
+          background-size: 300% 300% !important;
+          border: none !important;
+          box-shadow: 0 4px 20px rgba(107, 0, 255, 0.4) !important;
+          position: relative;
+          overflow: hidden;
         }
-        .promo-highlight-box:hover {
-          background: linear-gradient(135deg, rgba(255,224,50,0.2) 0%, rgba(255,224,50,0.08) 100%) !important;
-          border: 1px solid rgba(255, 224, 50, 0.8) !important;
+        
+        .promo-ultimate-box::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.2);
+          pointer-events: none;
+        }
+
+        .ultimate-time-block {
+          background: rgba(255, 255, 255, 0.25);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          color: #ffffff;
+          padding: 4px 6px;
+          border-radius: 6px;
+          font-family: monospace;
+          font-weight: 800;
+          font-size: 14px;
+          min-width: 24px;
+          text-align: center;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
       `}</style>
       
@@ -258,34 +282,36 @@ function InnerLeadForm({ onClose, discountValue }) {
         />
       </div>
 
-      <div className="lux-form-group full-width promo-highlight-box" style={{ 
+      <div className="lux-form-group full-width promo-ultimate-box" style={{ 
         marginTop: '16px', 
         marginBottom: '4px', 
-        padding: '12px 16px', 
-        borderRadius: '12px',
-        transition: 'all 0.3s ease',
+        padding: '14px 18px', 
+        borderRadius: '16px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         cursor: 'default',
         flexWrap: 'wrap',
-        gap: '8px'
+        gap: '12px',
+        position: 'relative'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255, 224, 50, 0.15)', border: '1px solid rgba(255, 224, 50, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <span style={{ fontSize: '18px' }}>🎉</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', zIndex: 1 }}>
+          <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.2)', border: '1px solid rgba(255, 255, 255, 0.4)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>
+            <span style={{ fontSize: '20px' }}>🎉</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ color: '#FFE032', fontWeight: '800', fontSize: '15px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 0 12px rgba(255,224,50,0.4)' }}>
+            <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '15px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
               {discountValue ? `UPTO ${discountValue}% OFF APPLIED` : 'DISCOUNT APPLIED'}
             </span>
-            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '11.5px', marginTop: '2px', fontWeight: '500' }}>
+            <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '12px', marginTop: '2px', fontWeight: '600' }}>
               Exclusive for your first booking
             </span>
           </div>
         </div>
         
-        <CountdownTimer />
+        <div style={{ zIndex: 1 }}>
+          <CountdownTimer />
+        </div>
       </div>
 
 
