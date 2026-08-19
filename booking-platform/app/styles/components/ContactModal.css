@@ -336,8 +336,16 @@
 }
 
 @media (max-width: 600px) {
+  .lux-modal-root {
+    padding: 0;
+  }
   .lux-modal-content {
-    padding: 32px 24px;
+    width: 100%;
+    height: 100dvh;
+    border-radius: 0;
+    border: none;
+    padding: 32px 24px 64px 24px; /* extra padding at bottom for safe area */
+    overflow-y: auto;
   }
   .lux-form-row {
     grid-template-columns: 1fr;
