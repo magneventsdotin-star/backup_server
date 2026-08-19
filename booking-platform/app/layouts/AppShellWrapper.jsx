@@ -30,7 +30,7 @@ export function AppShellWrapper({ children }) {
       {!hideChrome && <TopAdBar />}
       {!hideChrome && <Nav />}
 
-      <div className={`page-enter ${routeTransitionClass}`} style={{ minHeight: '100vh', paddingTop: (hideChrome || pathname === '/' || pathname === '/how-to-book') ? '0px' : '72px' }}>
+      <div className={`page-enter ${routeTransitionClass}`} style={{ minHeight: '100vh', paddingTop: (hideChrome || pathname === '/' || pathname === '/how-to-book') ? '0px' : 'calc(72px + var(--top-ad-offset, 0px))' }}>
         <div className="flow-unify-page-wrap">
           {children}
         </div>
