@@ -120,29 +120,35 @@ export default function VideoGridSection() {
         .video-item-title {
           margin: 0;
           font-size: 18px;
+          font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
           font-weight: 700;
           color: #fff;
           border-left: 4px solid var(--brand-primary);
           padding-left: 12px;
-          line-height: 1.3;
+          line-height: 1.4;
           flex: 1;
         }
         .video-quote-btn {
           background: var(--brand-primary);
           color: #000;
           border: none;
-          padding: 9px 18px;
-          border-radius: 6px;
+          padding: 10px 24px;
+          border-radius: 8px;
+          font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
           font-size: 14px;
-          font-weight: 700;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
           cursor: pointer;
           white-space: nowrap;
-          transition: background 0.2s, transform 0.2s;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(255, 224, 50, 0.25);
           flex-shrink: 0;
         }
         .video-quote-btn:hover {
           background: #e6c825;
           transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(255, 224, 50, 0.4);
         }
         @media (max-width: 768px) {
           .video-grid-section {
@@ -161,21 +167,25 @@ export default function VideoGridSection() {
             align-items: center;
             gap: 12px;
             text-align: center;
+            margin-top: 8px;
           }
           .video-item-title {
-            font-size: 14px !important;
+            font-size: 16px !important;
+            font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
             padding-left: 0 !important;
             border-left: none !important;
-            line-height: 1.3 !important;
+            line-height: 1.4 !important;
             text-align: center;
             width: 100%;
           }
           .video-quote-btn {
-            padding: 8px 16px !important;
-            font-size: 13px !important;
-            border-radius: 6px !important;
+            padding: 12px 24px !important;
+            font-size: 14px !important;
+            font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+            border-radius: 8px !important;
             width: 100%;
-            max-width: 200px;
+            max-width: 250px;
+            letter-spacing: 1px;
           }
         }
         @media (max-width: 360px) {
@@ -183,11 +193,11 @@ export default function VideoGridSection() {
             padding: 1.5rem 0.5rem !important;
           }
           .video-item-title {
-            font-size: 12px !important;
+            font-size: 14px !important;
           }
           .video-quote-btn {
-            padding: 5px 10px !important;
-            font-size: 11px !important;
+            padding: 10px 16px !important;
+            font-size: 13px !important;
           }
         }
       `}</style>
