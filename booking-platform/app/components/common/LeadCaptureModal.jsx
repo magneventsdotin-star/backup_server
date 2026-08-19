@@ -100,20 +100,28 @@ function CountdownTimer() {
   const [timeLeft, setTimeLeft] = useState({ hours: 12, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const deadline = new Date().getTime() + 12 * 60 * 60 * 1000;
-    const interval = setInterval(() => {
+    // Target end of day (midnight)
+    const getNextMidnight = () => {
+      const now = new Date();
+      const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+      return midnight.getTime();
+    };
+
+    const updateTimer = () => {
       const now = new Date().getTime();
-      const difference = deadline - now;
+      const difference = getNextMidnight() - now;
+
       if (difference > 0) {
         setTimeLeft({
           hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
           minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((difference % (1000 * 60)) / 1000)
         });
-      } else {
-        clearInterval(interval);
       }
-    }, 1000);
+    };
+
+    updateTimer(); // Initial call
+    const interval = setInterval(updateTimer, 1000);
     return () => clearInterval(interval);
   }, []);
 
