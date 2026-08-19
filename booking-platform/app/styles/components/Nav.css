@@ -5,7 +5,7 @@
   top: var(--top-ad-offset, 0px);
   left: 0;
   right: 0;
-  z-index: 9999 !important;
+  z-index: 9997 !important;
   height: 80px;
   display: flex;
   align-items: center;

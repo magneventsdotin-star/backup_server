@@ -41,7 +41,7 @@ export default function LeadCaptureModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div key="lead-modal" className="lux-modal-root" style={{ zIndex: 9999 }}>
+        <div key="lead-modal" className="lux-modal-root" style={{ zIndex: 100000 }}>
           <motion.div
             className="lux-modal-backdrop"
             initial={{ opacity: 0 }}
