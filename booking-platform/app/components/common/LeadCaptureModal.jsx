@@ -84,7 +84,7 @@ export default function LeadCaptureModal() {
                 Find Your Perfect Artist
               </h3>
               <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', lineHeight: '1.5', marginTop: '8px' }}>
-                Let us know what you're looking for. First-time users get an <strong style={{ color: '#FFE032', fontWeight: '700' }}>exclusive {discountValue ? `${discountValue}% ` : ''}discount</strong> on their first booking!
+                Let us know what you're looking for. First-time users get an <strong style={{ color: '#FFE032', fontWeight: '700' }}>exclusive {discountValue ? `upto ${discountValue}% ` : ''}discount</strong> on their first booking!
               </p>
             </div>
 
@@ -233,7 +233,7 @@ function InnerLeadForm({ onClose, discountValue }) {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span style={{ color: '#FFE032', fontWeight: '800', fontSize: '15px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 0 12px rgba(255,224,50,0.4)' }}>
-              {discountValue ? `${discountValue}% OFF APPLIED` : 'DISCOUNT APPLIED'}
+              {discountValue ? `UPTO ${discountValue}% OFF APPLIED` : 'DISCOUNT APPLIED'}
             </span>
             <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '11.5px', marginTop: '2px', fontWeight: '500' }}>
               Exclusive for your first booking
