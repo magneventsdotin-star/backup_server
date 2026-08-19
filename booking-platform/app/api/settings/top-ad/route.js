@@ -1,21 +1,13 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
-const settingsPath = path.join(process.cwd(), 'data', 'settings.json');
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-async function getSettings() {
-  try {
-    const data = await fs.readFile(settingsPath, 'utf-8');
-    return JSON.parse(data);
-  } catch (e) {
-    return { 
-      topAdVisible: true,
-      textDesktop: "🎉 Exclusive Offer: First-time users get 10% OFF their booking!",
-      textMobile: "🎉 10% OFF First Booking!"
-    };
-  }
-}
+// Only initialize if we have the keys, otherwise it fails at build time or when missing
+const supabase = (supabaseUrl && supabaseKey) 
+  ? createClient(supabaseUrl, supabaseKey) 
+  : null;
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -28,40 +20,84 @@ export async function OPTIONS() {
 }
 
 export async function GET() {
-  const settings = await getSettings();
-  return NextResponse.json({ 
-    isVisible: settings.topAdVisible,
-    textDesktop: settings.textDesktop || "🎉 Exclusive Offer: First-time users get 10% OFF their booking!",
-    textMobile: settings.textMobile || "🎉 10% OFF First Booking!"
-  }, { headers: corsHeaders });
+  const defaultSettings = { 
+    isVisible: true,
+    textDesktop: "🎉 Exclusive Offer: First-time users get 10% OFF their booking!",
+    textMobile: "🎉 10% OFF First Booking!"
+  };
+
+  if (!supabase) {
+    return NextResponse.json(defaultSettings, { headers: corsHeaders });
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('top_ad_settings')
+      .select('*')
+      .eq('id', 1)
+      .single();
+
+    if (error || !data) {
+      return NextResponse.json(defaultSettings, { headers: corsHeaders });
+    }
+
+    return NextResponse.json({
+      isVisible: data.is_visible,
+      textDesktop: data.text_desktop || defaultSettings.textDesktop,
+      textMobile: data.text_mobile || defaultSettings.textMobile
+    }, { headers: corsHeaders });
+  } catch (err) {
+    console.error('Error fetching top ad settings from Supabase:', err);
+    return NextResponse.json(defaultSettings, { headers: corsHeaders });
+  }
 }
 
 export async function POST(req) {
+  if (!supabase) {
+    return NextResponse.json({ error: "Supabase not configured" }, { status: 500, headers: corsHeaders });
+  }
+
   try {
     const body = await req.json();
-    const settings = await getSettings();
     
-    if (body.hasOwnProperty('isVisible')) {
-      settings.topAdVisible = !!body.isVisible;
+    // First fetch current to merge
+    const { data: current, error: fetchErr } = await supabase
+      .from('top_ad_settings')
+      .select('*')
+      .eq('id', 1)
+      .single();
+
+    const updateData = {};
+    if (body.hasOwnProperty('isVisible')) updateData.is_visible = !!body.isVisible;
+    if (body.hasOwnProperty('textDesktop')) updateData.text_desktop = body.textDesktop;
+    if (body.hasOwnProperty('textMobile')) updateData.text_mobile = body.textMobile;
+
+    let result;
+    if (fetchErr || !current) {
+      // Row doesn't exist, insert it
+      updateData.id = 1;
+      // Provide defaults for missing
+      if (!updateData.hasOwnProperty('is_visible')) updateData.is_visible = true;
+      if (!updateData.hasOwnProperty('text_desktop')) updateData.text_desktop = "🎉 Exclusive Offer: First-time users get 10% OFF their booking!";
+      if (!updateData.hasOwnProperty('text_mobile')) updateData.text_mobile = "🎉 10% OFF First Booking!";
+      
+      result = await supabase.from('top_ad_settings').insert([updateData]).select().single();
+    } else {
+      // Update existing
+      result = await supabase.from('top_ad_settings').update(updateData).eq('id', 1).select().single();
     }
-    if (body.hasOwnProperty('textDesktop')) {
-      settings.textDesktop = body.textDesktop;
-    }
-    if (body.hasOwnProperty('textMobile')) {
-      settings.textMobile = body.textMobile;
-    }
-    
-    // Ensure dir exists
-    await fs.mkdir(path.dirname(settingsPath), { recursive: true });
-    await fs.writeFile(settingsPath, JSON.stringify(settings, null, 2));
-    
+
+    if (result.error) throw result.error;
+
     return NextResponse.json({ 
       success: true, 
-      isVisible: settings.topAdVisible,
-      textDesktop: settings.textDesktop,
-      textMobile: settings.textMobile
+      isVisible: result.data.is_visible,
+      textDesktop: result.data.text_desktop,
+      textMobile: result.data.text_mobile
     }, { headers: corsHeaders });
+
   } catch (e) {
+    console.error('Error updating top ad settings in Supabase:', e);
     return NextResponse.json({ error: e.message }, { status: 500, headers: corsHeaders });
   }
 }
