@@ -33,19 +33,14 @@ export default function VideoGridSection() {
   };
 
   return (
-    <section className="video-grid-section hp-shell hp-block" style={{ padding: '4rem 2rem' }}>
-      <div className="hp-section-head text-center" style={{ marginBottom: '3rem', textAlign: 'center' }}>
-        <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontFamily: 'var(--font-display)', color: '#fff' }}>
+    <section className="video-grid-section hp-shell hp-block">
+      <div className="hp-section-head text-center" style={{ marginBottom: '2rem', textAlign: 'center' }}>
+        <h2 className="video-grid-heading">
           Experience the <span style={{ color: 'var(--brand-primary)' }}>Vibe</span>
         </h2>
       </div>
       
-      <div className="video-grid-container" style={{ 
-        display: 'grid', 
-        gap: '3rem', 
-        maxWidth: '1300px', 
-        margin: '0 auto' 
-      }}>
+      <div className="video-grid-container">
         {videoItems.map((item, index) => (
           <motion.div 
             key={item.id} 
@@ -54,16 +49,9 @@ export default function VideoGridSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
           >
-            <div className="video-wrapper" style={{ 
-              position: 'relative', 
-              width: '100%', 
-              aspectRatio: '16/9', 
-              borderRadius: '16px', 
-              overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
-            }}>
+            <div className="video-wrapper">
               <iframe
                 className="grid-video"
                 src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${item.youtubeId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3`}
@@ -80,42 +68,16 @@ export default function VideoGridSection() {
                   transition: 'transform 0.5s ease'
                 }}
               />
-              {/* Invisible overlay to block clicks just in case */}
               <div style={{ position: 'absolute', inset: 0, zIndex: 10 }}></div>
             </div>
             
-            <div className="video-item-footer" style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              marginTop: '4px'
-            }}>
-              <h3 style={{ 
-                margin: 0, 
-                fontSize: '18px', 
-                fontWeight: '700', 
-                color: '#fff',
-                borderLeft: '4px solid var(--brand-primary)',
-                paddingLeft: '12px'
-              }}>
+            <div className="video-item-footer">
+              <h3 className="video-item-title">
                 {item.title}
               </h3>
               <button 
                 onClick={openModal} 
-                style={{
-                  background: 'var(--brand-primary)',
-                  color: '#000',
-                  border: 'none',
-                  padding: '10px 20px',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                  transition: 'background 0.2s, transform 0.2s'
-                }}
-                onMouseEnter={(e) => { e.target.style.background = '#e6c825'; e.target.style.transform = 'translateY(-2px)' }}
-                onMouseLeave={(e) => { e.target.style.background = 'var(--brand-primary)'; e.target.style.transform = 'translateY(0)' }}
+                className="video-quote-btn"
               >
                 Get Quote
               </button>
@@ -124,12 +86,99 @@ export default function VideoGridSection() {
         ))}
       </div>
       <style jsx>{`
+        .video-grid-section {
+          padding: 4rem 2rem;
+        }
+        .video-grid-heading {
+          font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+          font-family: var(--font-display);
+          color: #fff;
+        }
         .video-grid-container {
+          display: grid;
+          gap: 2.5rem;
+          max-width: 1300px;
+          margin: 0 auto;
           grid-template-columns: repeat(2, 1fr);
         }
+        .video-wrapper {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16/9;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .video-item-footer {
+          display: flex;
+          justifyContent: space-between;
+          align-items: center;
+          gap: 12px;
+          margin-top: 4px;
+        }
+        .video-item-title {
+          margin: 0;
+          font-size: 18px;
+          font-weight: 700;
+          color: #fff;
+          border-left: 4px solid var(--brand-primary);
+          padding-left: 12px;
+          line-height: 1.3;
+          flex: 1;
+        }
+        .video-quote-btn {
+          background: var(--brand-primary);
+          color: #000;
+          border: none;
+          padding: 9px 18px;
+          border-radius: 6px;
+          font-size: 14px;
+          font-weight: 700;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: background 0.2s, transform 0.2s;
+          flex-shrink: 0;
+        }
+        .video-quote-btn:hover {
+          background: #e6c825;
+          transform: translateY(-2px);
+        }
         @media (max-width: 768px) {
+          .video-grid-section {
+            padding: 2rem 0.75rem !important;
+          }
+          .video-grid-heading {
+            font-size: 1.6rem !important;
+          }
           .video-grid-container {
             grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+          .video-item-footer {
+            gap: 8px;
+          }
+          .video-item-title {
+            font-size: 13px !important;
+            padding-left: 8px !important;
+            border-left-width: 3px !important;
+            line-height: 1.25 !important;
+          }
+          .video-quote-btn {
+            padding: 6px 12px !important;
+            font-size: 12px !important;
+            border-radius: 4px !important;
+          }
+        }
+        @media (max-width: 360px) {
+          .video-grid-section {
+            padding: 1.5rem 0.5rem !important;
+          }
+          .video-item-title {
+            font-size: 12px !important;
+          }
+          .video-quote-btn {
+            padding: 5px 10px !important;
+            font-size: 11px !important;
           }
         }
       `}</style>
