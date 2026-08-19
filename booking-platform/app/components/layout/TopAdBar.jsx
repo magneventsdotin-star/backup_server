@@ -14,51 +14,59 @@ export default function TopAdBar() {
         }
       })
       .catch(err => console.error('Failed to load top ad settings', err));
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) {
+      document.documentElement.style.setProperty('--top-ad-offset', '0px');
+      return;
+    }
 
     const handleScroll = () => {
-      const nav = document.querySelector('.lux-nav');
-      if (nav) {
-        if (window.scrollY > 40) {
-          nav.style.setProperty('top', '0px', 'important');
-        } else {
-          nav.style.setProperty('top', `${40 - window.scrollY}px`, 'important');
-        }
+      const scrollY = window.scrollY || 0;
+      const offset = Math.max(0, 40 - scrollY);
+      document.documentElement.style.setProperty('--top-ad-offset', `${offset}px`);
+      
+      const adBar = document.getElementById('main-top-ad-bar');
+      if (adBar) {
+        adBar.style.transform = `translateY(-${Math.min(scrollY, 40)}px)`;
       }
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Ensure Nav is mounted before running the first time
-    requestAnimationFrame(() => {
-      requestAnimationFrame(handleScroll);
-    });
-    
+    handleScroll();
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      const nav = document.querySelector('.lux-nav');
-      if (nav) nav.style.removeProperty('top');
+      document.documentElement.style.setProperty('--top-ad-offset', '0px');
     };
-  }, []);
+  }, [isVisible]);
 
   if (!isVisible) return null;
 
   return (
-    <div className="top-ad-bar" style={{
-      background: 'var(--brand-primary)',
-      color: '#000',
-      padding: '8px 16px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 200,
-      fontWeight: '600',
-      fontSize: '14px',
-      textAlign: 'center'
-    }}>
+    <div
+      id="main-top-ad-bar"
+      className="top-ad-bar"
+      style={{
+        background: 'var(--brand-primary)',
+        color: '#000',
+        padding: '0 16px',
+        height: '40px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10000,
+        fontWeight: '600',
+        fontSize: '14px',
+        textAlign: 'center',
+        willChange: 'transform'
+      }}
+    >
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', flexWrap: 'nowrap' }}>
         <span className="hide-on-mobile">🎉 Exclusive Offer: First-time users get 10% OFF their booking!</span>
         <span className="show-on-mobile" style={{ display: 'none' }}>🎉 10% OFF First Booking!</span>
@@ -86,7 +94,10 @@ export default function TopAdBar() {
       </div>
       
       <button 
-        onClick={() => setIsVisible(false)}
+        onClick={() => {
+          setIsVisible(false);
+          document.documentElement.style.setProperty('--top-ad-offset', '0px');
+        }}
         style={{
           background: 'transparent',
           border: 'none',
@@ -105,24 +116,10 @@ export default function TopAdBar() {
       </button>
 
       <style jsx>{`
-        .top-ad-bar {
-          height: 40px;
-          white-space: nowrap;
-          overflow: hidden;
-        }
         @media (max-width: 768px) {
           .hide-on-mobile { display: none !important; }
           .show-on-mobile { display: inline-block !important; font-size: 11px !important; }
           .top-ad-btn { padding: 4px 8px !important; font-size: 10px !important; }
-        }
-      `}</style>
-      <style jsx global>{`
-        body {
-          padding-top: 40px !important;
-        }
-        .lux-nav {
-          top: 40px !important;
-          transition: top 0.1s ease-out;
         }
       `}</style>
     </div>
