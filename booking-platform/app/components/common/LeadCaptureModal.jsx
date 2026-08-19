@@ -199,16 +199,6 @@ function InnerLeadForm({ onClose, discountValue }) {
 
   return (
     <form className="lux-modal-form" onSubmit={handleSubmit}>
-      <div className="lux-form-group full-width">
-        <label htmlFor="lead-name">Name</label>
-        <input id="lead-name" type="text" required placeholder="e.g. Arjun Sharma" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
-      </div>
-      
-      <div className="lux-form-group full-width">
-        <label htmlFor="lead-phone">Phone no.</label>
-        <input id="lead-phone" type="tel" required placeholder="+91 9XXX-XXXXXX" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/[^0-9+]/g, '')})} />
-      </div>
-
       <style jsx>{`
         @keyframes ultimatePromoShift {
           0% { background-position: 0% 50%; }
@@ -250,40 +240,7 @@ function InnerLeadForm({ onClose, discountValue }) {
         }
       `}</style>
       
-      <div className="lux-form-group full-width" style={{ marginTop: '16px' }}>
-        <label htmlFor="lead-req">What are you looking for?</label>
-        <textarea 
-          id="lead-req" 
-          rows="3"
-          placeholder="E.g. A sufi band for a wedding in Delhi on 15th Nov..." 
-          value={formData.requirement} 
-          onChange={(e) => setFormData({...formData, requirement: e.target.value})} 
-          style={{ 
-            width: '100%', 
-            background: 'rgba(255, 255, 255, 0.03)', 
-            border: '1px solid rgba(255, 255, 255, 0.1)', 
-            borderRadius: '12px', 
-            padding: '14px 16px', 
-            color: '#fff', 
-            fontSize: '15px',
-            resize: 'none',
-            fontFamily: 'inherit',
-            outline: 'none',
-            transition: 'border-color 0.2s ease, background 0.2s ease'
-          }}
-          onFocus={(e) => {
-            e.target.style.borderColor = 'var(--accent)';
-            e.target.style.background = 'rgba(255, 255, 255, 0.05)';
-          }}
-          onBlur={(e) => {
-            e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-            e.target.style.background = 'rgba(255, 255, 255, 0.03)';
-          }}
-        />
-      </div>
-
       <div className="lux-form-group full-width promo-ultimate-box" style={{ 
-        marginTop: '16px', 
         marginBottom: '4px', 
         padding: '14px 18px', 
         borderRadius: '16px',
@@ -312,6 +269,51 @@ function InnerLeadForm({ onClose, discountValue }) {
         <div style={{ zIndex: 1 }}>
           <CountdownTimer />
         </div>
+      </div>
+
+      <div className="lux-form-group full-width">
+        <label htmlFor="lead-name">Name</label>
+        <input id="lead-name" type="text" required placeholder="e.g. Arjun Sharma" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
+      </div>
+      
+      <div className="lux-form-group full-width">
+        <label htmlFor="lead-phone">Phone no.</label>
+        <input id="lead-phone" type="tel" required placeholder="+91 9XXX-XXXXXX" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/[^0-9+]/g, '')})} />
+      </div>
+
+      <div className="lux-form-group full-width">
+        <label htmlFor="lead-req">What are you looking for?</label>
+        <textarea 
+          id="lead-req" 
+          rows="3"
+          placeholder="E.g. A sufi band for a wedding in Delhi on 15th Nov..." 
+          value={formData.requirement} 
+          onChange={(e) => setFormData({...formData, requirement: e.target.value})} 
+          style={{ 
+            width: '100%', 
+            background: 'rgba(255, 255, 255, 0.08)', 
+            border: '1px solid rgba(255, 255, 255, 0.2)', 
+            borderRadius: '16px', 
+            padding: '18px 20px', 
+            color: '#fff', 
+            fontSize: '16px',
+            resize: 'none',
+            fontFamily: 'inherit',
+            outline: 'none',
+            transition: 'border-color 0.2s ease, background 0.2s ease',
+            boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)'
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = '#00d4ff';
+            e.target.style.background = 'rgba(255, 255, 255, 0.12)';
+            e.target.style.boxShadow = '0 0 0 4px rgba(0, 212, 255, 0.2), inset 0 2px 4px rgba(0,0,0,0.1)';
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+            e.target.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.1)';
+          }}
+        />
       </div>
 
 

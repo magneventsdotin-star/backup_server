@@ -21,10 +21,12 @@
   position: relative;
   width: min(640px, 100%);
   margin: auto;
-  background: #080808;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 28px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+  background: rgba(18, 18, 22, 0.75);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 32px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
   padding: 48px;
   isolation: isolate;
 }
@@ -36,7 +38,7 @@
   transform: translateX(-50%);
   width: 150%;
   height: 50%;
-  background: radial-gradient(ellipse at center, var(--glow-red) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(107, 0, 255, 0.4) 0%, transparent 70%);
   pointer-events: none;
   z-index: -1;
 }
@@ -45,57 +47,61 @@
   position: absolute;
   top: 24px;
   right: 24px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 10px;
-  border-radius: 14px;
+  border-radius: 50%;
   z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .lux-modal-close:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: rotate(90deg);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg) scale(1.1);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .header-badge {
-  color: var(--brand-ruby);
-  font-size: 11px;
+  color: #00d4ff;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.15em;
   margin-bottom: 12px;
+  text-shadow: 0 2px 10px rgba(0, 212, 255, 0.4);
 }
 
 .lux-modal-header h3 {
   font-family: var(--font-display, serif);
-  font-size: 32px;
+  font-size: 36px;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, #fff 0%, #a1a1a1 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
 .lux-modal-header p {
-  color: #8a8f98;
-  font-size: 15px;
+  color: #c9cdd4;
+  font-size: 16px;
   line-height: 1.6;
   margin-bottom: 32px;
+  font-weight: 500;
 }
 
 .form-type-switcher {
   position: relative;
   display: flex;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.06);
   padding: 6px;
   border-radius: 16px;
   margin-bottom: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .form-type-switcher button {
@@ -103,9 +109,9 @@
   padding: 12px;
   border: none;
   background: none;
-  color: #8a8f98;
-  font-size: 13px;
-  font-weight: 600;
+  color: #a1a5ab;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
   z-index: 2;
   transition: color 0.3s ease;
@@ -113,7 +119,8 @@
 }
 
 .form-type-switcher button.active {
-  color: #000;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 .switcher-bg {
@@ -121,10 +128,11 @@
   top: 6px;
   bottom: 6px;
   width: calc(50% - 6px);
-  background: var(--brand-ruby);
+  background: linear-gradient(135deg, #6b00ff, #00d4ff);
   border-radius: 12px;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
   z-index: 1;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 .switcher-bg.contact {
@@ -150,32 +158,39 @@
 }
 
 .lux-form-group label {
-  font-size: 12px;
-  font-weight: 700;
-  color: #8a8f98;
+  font-size: 13px;
+  font-weight: 800;
+  color: #c9cdd4;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .lux-form-group input,
 .lux-form-group select,
 .lux-form-group textarea {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
-  padding: 16px 20px;
-  color: #fff;
-  font-size: 15px;
+  padding: 18px 20px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
   outline: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.lux-form-group input::placeholder,
+.lux-form-group textarea::placeholder {
+  color: rgba(255,255,255,0.4);
 }
 
 .lux-form-group input:focus,
 .lux-form-group select:focus,
 .lux-form-group textarea:focus {
-  border-color: var(--brand-ruby);
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 0 0 4px rgba(255, 71, 87, 0.1);
+  border-color: #00d4ff;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.2), inset 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .lux-form-group.full-width {
@@ -190,40 +205,41 @@
 }
 
 .artist-chip {
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 30px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #a1a1a1;
-  font-size: 13px;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #c9cdd4;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .artist-chip:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
   color: #fff;
+  transform: translateY(-2px);
 }
 
 .artist-chip.active {
-  background: var(--brand-ruby);
-  border-color: var(--brand-ruby);
-  color: #000;
-  box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+  background: linear-gradient(135deg, #6b00ff, #00d4ff);
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(107, 0, 255, 0.4);
 }
 
 .lux-form-group select {
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%238A8F98' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23ffffff' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 16px center;
+  background-position: right 20px center;
 }
 
 .lux-form-group select option {
-  background: #111111;
+  background: #1a1a1f;
   color: #ffffff;
 }
 
@@ -234,7 +250,7 @@
 
 .lux-form-group input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 0.8;
   transition: opacity 0.3s ease;
 }
 
@@ -246,46 +262,40 @@
   color: #00d4ff;
 }
 
-.lux-modal-content.register .lux-form-group input:focus,
-.lux-modal-content.register .lux-form-group select:focus,
-.lux-modal-content.register .lux-form-group textarea:focus {
-  border-color: #00d4ff;
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
-}
-
-.lux-modal-content.register .lux-modal-header h3 {
-  background: linear-gradient(135deg, #fff 0%, #00d4ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.lux-modal-content.register .btn-submit-premium {
-  background: var(--brand-sky);
-  box-shadow: 0 10px 25px var(--glow-blue);
-}
-
 .lux-modal-footer {
-  margin-top: 12px;
+  margin-top: 16px;
+}
+
+@keyframes btnGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .btn-submit-premium {
   position: relative;
   width: 100%;
-  background: var(--brand-ruby);
+  background: linear-gradient(115deg, #ff007b, #6b00ff, #00d4ff, #ff007b);
+  background-size: 300% 300%;
+  animation: btnGradientShift 10s ease infinite;
   border: none;
-  padding: 18px;
-  border-radius: 16px;
+  padding: 20px;
+  border-radius: 24px;
   cursor: pointer;
   overflow: hidden;
   transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(107, 0, 255, 0.4);
 }
 
 .btn-submit-premium .btn-text {
   position: relative;
   z-index: 2;
-  color: #000;
+  color: #ffffff;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .btn-glow {
@@ -297,8 +307,8 @@
 }
 
 .btn-submit-premium:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(0, 212, 255, 0.15);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
 }
 
 .btn-submit-premium:hover .btn-glow {
