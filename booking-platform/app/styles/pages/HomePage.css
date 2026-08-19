@@ -255,6 +255,9 @@
   .hp-desktop-br {
     display: none;
   }
+  .hp-hero-content {
+    margin-top: 0 !important;
+  }
 }
 
 .hp-gradient-text.accent-text {
