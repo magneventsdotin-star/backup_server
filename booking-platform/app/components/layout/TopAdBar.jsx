@@ -87,25 +87,27 @@ export default function TopAdBar() {
         <span className="hide-on-mobile ad-text-main">{textDesktop}</span>
         <span className="show-on-mobile ad-text-main" style={{ display: 'none' }}>{textMobile}</span>
         
-        <div className="premium-countdown-timer">
-          <span className="timer-label">Ends in:</span>
-          <div className="time-blocks">
-            <span className="time-block">{pad(timeLeft.hours)}</span><span className="colon">:</span>
-            <span className="time-block">{pad(timeLeft.minutes)}</span><span className="colon">:</span>
-            <span className="time-block">{pad(timeLeft.seconds)}</span>
+        <div className="mobile-action-row">
+          <div className="premium-countdown-timer">
+            <span className="timer-label">Ends in:</span>
+            <div className="time-blocks">
+              <span className="time-block">{pad(timeLeft.hours)}</span><span className="colon">:</span>
+              <span className="time-block">{pad(timeLeft.minutes)}</span><span className="colon">:</span>
+              <span className="time-block">{pad(timeLeft.seconds)}</span>
+            </div>
           </div>
-        </div>
 
-        <button 
-          className="premium-claim-btn" 
-          onClick={() => {
-            if (typeof window !== 'undefined') {
-              window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'offer' } }));
-            }
-          }}
-        >
-          Claim Now
-        </button>
+          <button 
+            className="premium-claim-btn" 
+            onClick={() => {
+              if (typeof window !== 'undefined') {
+                window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'offer' } }));
+              }
+            }}
+          >
+            Claim Now
+          </button>
+        </div>
       </div>
       
       <button 
@@ -126,8 +128,8 @@ export default function TopAdBar() {
           padding: 0 16px;
           height: 44px;
           display: flex;
-          justifyContent: center;
-          alignItems: center;
+          justify-content: center;
+          align-items: center;
           position: fixed;
           top: 0;
           left: 0;
@@ -146,6 +148,12 @@ export default function TopAdBar() {
           align-items: center;
           gap: 16px;
           flex-wrap: nowrap;
+        }
+
+        .mobile-action-row {
+          display: flex;
+          align-items: center;
+          gap: 16px;
         }
 
         .ad-text-main {
@@ -244,14 +252,32 @@ export default function TopAdBar() {
         }
 
         @media (max-width: 768px) {
-          .premium-ad-bar { height: auto; padding: 6px 12px; }
-          .premium-ad-content { gap: 8px; flex-wrap: wrap; padding-right: 24px; }
+          .premium-ad-bar { 
+            height: auto; 
+            padding: 8px 12px; 
+          }
+          .premium-ad-content { 
+            gap: 6px; 
+            flex-direction: column; 
+            padding-right: 20px; 
+          }
+          .mobile-action-row {
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+          }
           .hide-on-mobile { display: none !important; }
-          .show-on-mobile { display: block !important; width: 100%; font-size: 12px !important; text-align: center; }
+          .show-on-mobile { 
+            display: block !important; 
+            width: 100%; 
+            font-size: 12px !important; 
+            text-align: center; 
+          }
           .premium-claim-btn { padding: 4px 12px; font-size: 10px; }
           .premium-countdown-timer { padding: 2px 8px; }
-          .time-block { font-size: 11px; min-width: 16px; padding: 1px 3px; }
-          .premium-close-btn { right: 4px; top: 50%; transform: translateY(-50%); }
+          .timer-label { font-size: 10px; }
+          .time-block { font-size: 11px; min-width: 16px; padding: 2px 4px; }
+          .premium-close-btn { right: 4px; top: 4px; transform: none; }
         }
       `}</style>
     </div>
