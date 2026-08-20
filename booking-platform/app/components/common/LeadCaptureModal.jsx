@@ -76,15 +76,15 @@ export default function LeadCaptureModal() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
 
-            <div className="lux-modal-header" style={{ position: 'relative', paddingTop: '32px' }}>
+            <div className="lux-modal-header lead-header">
               <div className="header-badge" style={{ margin: 0, display: 'inline-block' }}>
                 QUICK INQUIRY
               </div>
-              <h3 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '32px', marginTop: '12px' }}>
+              <h3 className="lead-title">
                 Find Your Perfect Artist
               </h3>
-              <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', lineHeight: '1.5', marginTop: '8px' }}>
-                Let us know what you're looking for. First-time users get an <strong style={{ color: '#FFE032', fontWeight: '700' }}>exclusive {discountValue ? `upto ${discountValue}% ` : ''}discount</strong> on their first booking!
+              <p className="lead-subtitle">
+                Let us know what you're looking for. First-time users get an <strong className="lead-discount">exclusive {discountValue ? `upto ${discountValue}% ` : ''}discount</strong> on their first booking!
               </p>
             </div>
 
@@ -275,34 +275,11 @@ function InnerLeadForm({ onClose, discountValue }) {
         <label htmlFor="lead-req">What are you looking for?</label>
         <textarea 
           id="lead-req" 
-          rows="3"
+          rows="2"
           placeholder="E.g. A sufi band for a wedding in Delhi on 15th Nov..." 
           value={formData.requirement} 
           onChange={(e) => setFormData({...formData, requirement: e.target.value})} 
-          style={{ 
-            width: '100%', 
-            background: 'rgba(255, 255, 255, 0.08)', 
-            border: '1px solid rgba(255, 255, 255, 0.2)', 
-            borderRadius: '16px', 
-            padding: '18px 20px', 
-            color: '#fff', 
-            fontSize: '16px',
-            resize: 'none',
-            fontFamily: 'inherit',
-            outline: 'none',
-            transition: 'border-color 0.2s ease, background 0.2s ease',
-            boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)'
-          }}
-          onFocus={(e) => {
-            e.target.style.borderColor = '#00d4ff';
-            e.target.style.background = 'rgba(255, 255, 255, 0.12)';
-            e.target.style.boxShadow = '0 0 0 4px rgba(0, 212, 255, 0.2), inset 0 2px 4px rgba(0,0,0,0.1)';
-          }}
-          onBlur={(e) => {
-            e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-            e.target.style.background = 'rgba(255, 255, 255, 0.08)';
-            e.target.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.1)';
-          }}
+          style={{ resize: 'none', width: '100%', fontFamily: 'inherit' }}
         />
       </div>
 
