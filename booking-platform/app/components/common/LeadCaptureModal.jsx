@@ -200,14 +200,14 @@ function InnerLeadForm({ onClose, discountValue }) {
   return (
     <form className="lux-modal-form" onSubmit={handleSubmit}>
       <style jsx>{`
-        @keyframes subtleGlow {
-          0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.2); }
-          50% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.1); }
-          100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.2); }
+        @keyframes festiveGlow {
+          0% { box-shadow: 0 0 0 0 rgba(255, 213, 74, 0.4); }
+          50% { box-shadow: 0 0 20px rgba(255, 213, 74, 0.25); }
+          100% { box-shadow: 0 0 0 0 rgba(255, 213, 74, 0.4); }
         }
         .elegant-promo-box {
-          background: rgba(0, 212, 255, 0.05);
-          border: 1px solid rgba(0, 212, 255, 0.2);
+          background: linear-gradient(145deg, rgba(255, 213, 74, 0.1) 0%, rgba(255, 153, 0, 0.05) 100%);
+          border: 1px solid rgba(255, 213, 74, 0.4);
           border-radius: 12px;
           padding: 16px 20px;
           display: flex;
@@ -215,7 +215,7 @@ function InnerLeadForm({ onClose, discountValue }) {
           justify-content: space-between;
           flex-wrap: wrap;
           gap: 16px;
-          animation: subtleGlow 3s infinite;
+          animation: festiveGlow 2s infinite;
           position: relative;
           overflow: hidden;
         }
@@ -223,14 +223,14 @@ function InnerLeadForm({ onClose, discountValue }) {
         .elegant-promo-box::before {
           content: '';
           position: absolute;
-          top: 0; left: 0; right: 0; height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.8), transparent);
+          top: 0; left: 0; right: 0; height: 2px;
+          background: linear-gradient(90deg, transparent, #FFD54A, transparent);
         }
 
         .elegant-time-block {
-          background: rgba(0, 0, 0, 0.5);
-          border: 1px solid rgba(0, 212, 255, 0.3);
-          color: #00d4ff;
+          background: rgba(0, 0, 0, 0.6);
+          border: 1px solid rgba(255, 213, 74, 0.4);
+          color: #FFD54A;
           padding: 6px 8px;
           border-radius: 6px;
           font-family: monospace;
@@ -240,19 +240,31 @@ function InnerLeadForm({ onClose, discountValue }) {
           text-align: center;
           box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
+        
+        .rakhi-highlight {
+          color: #FFD54A;
+          font-weight: 900;
+          font-size: 15px;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          text-shadow: 0 2px 10px rgba(255, 213, 74, 0.5);
+          background: linear-gradient(90deg, #FFD54A, #FF9900);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
       `}</style>
       
       <div className="lux-form-group full-width elegant-promo-box" style={{ marginBottom: '8px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', zIndex: 1, flex: '1 1 min-content' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)' }}>
-            <span style={{ fontSize: '24px' }}>⚡</span>
+          <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'linear-gradient(135deg, #FFD54A 0%, #FF9900 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 15px rgba(255, 213, 74, 0.5)' }}>
+            <span style={{ fontSize: '24px' }}>🎁</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <span style={{ color: '#00d4ff', fontWeight: '800', fontSize: '16px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
-              {discountValue ? `UPTO ${discountValue}% OFF APPLIED` : 'DISCOUNT APPLIED'}
+            <span className="rakhi-highlight">
+              🎉 RAKSHA BANDHAN OFFER!
             </span>
-            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', fontWeight: '600', letterSpacing: '0.3px' }}>
-              Limited Time Special Offer!
+            <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '14px', fontWeight: '700', letterSpacing: '0.3px' }}>
+              {discountValue ? `Get UPTO ${discountValue}% OFF` : 'Get an Exclusive Discount'} on your booking.
             </span>
           </div>
         </div>

@@ -1,10 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function VideoModal({ isOpen, video, onClose }) {
   const videoRef = useRef(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -32,7 +38,9 @@ export default function VideoModal({ isOpen, video, onClose }) {
     return 'Featured Show';
   };
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && video && (
         <div className="hero-video-modal-overlay" onClick={onClose} style={{ zIndex: 100000 }}>
@@ -45,7 +53,7 @@ export default function VideoModal({ isOpen, video, onClose }) {
           />
 
           <motion.div
-            className="hero-video-modal-content"
+            className={`hero-video-modal-content ${video.orientation === 'portrait' ? 'is-portrait-modal' : ''}`}
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -98,6 +106,7 @@ export default function VideoModal({ isOpen, video, onClose }) {
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

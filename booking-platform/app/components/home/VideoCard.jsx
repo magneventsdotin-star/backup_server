@@ -13,42 +13,10 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
     if (videoRef.current) {
       videoRef.current.defaultMuted = true;
       videoRef.current.muted = true;
+      // Force play on mount just in case autoPlay attribute misses
+      videoRef.current.play().catch(e => console.log('Autoplay blocked:', e));
     }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            if (videoRef.current) {
-              videoRef.current.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
-            }
-          } else {
-            setIsVisible(false);
-            if (videoRef.current) {
-              videoRef.current.pause();
-              setIsPlaying(false);
-            }
-          }
-        });
-      },
-      { threshold: 0.5 } // Play when at least 50% visible
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) observer.unobserve(cardRef.current);
-    };
   }, []);
-
-  const handleVideoCanPlay = () => {
-    if (isVisible && videoRef.current) {
-      videoRef.current.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
-    }
-  };
 
   const getCategory = (title) => {
     if (!title) return 'Featured';
@@ -98,7 +66,8 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
           muted
           playsInline
           preload="metadata"
-          onCanPlay={handleVideoCanPlay}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
         />
 
         <div className="hero-video-overlay-play" style={{ opacity: isPlaying ? 0 : 1 }}>

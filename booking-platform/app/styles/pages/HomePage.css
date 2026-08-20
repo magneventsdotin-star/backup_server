@@ -3195,15 +3195,40 @@
 @media (max-width: 900px) {
   .hp-aom-card {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
   .hp-aom-img-wrap {
-    min-height: 350px;
+    min-height: 220px;
+    height: 220px;
   }
   .hp-aom-content {
-    padding: 30px;
+    padding: 20px;
   }
   .hp-aom-name {
-    font-size: 32px;
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  .hp-aom-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 8px 0 16px;
+  }
+  .hp-aom-stat-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    gap: 4px;
+  }
+  .hp-aom-stat-row span {
+    font-size: 11px;
+  }
+  .hp-aom-stat-row strong {
+    font-size: 14px;
+  }
+  .hp-aom-btn {
+    padding: 12px !important;
+    font-size: 14px !important;
   }
 }
 
