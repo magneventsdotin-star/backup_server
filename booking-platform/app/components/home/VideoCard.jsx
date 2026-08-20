@@ -84,7 +84,7 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
           className="hero-video-preview"
           autoPlay
           loop
-          muted
+          muted={isMuted}
           playsInline
           preload="metadata"
           onPlay={() => setIsPlaying(true)}
