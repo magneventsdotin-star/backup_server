@@ -197,6 +197,7 @@ function InnerLeadForm({ onClose, discountValue }) {
     )
   }
 
+  return (
     <form className="lux-modal-form" onSubmit={handleSubmit}>
       <style jsx>{`
         @keyframes subtleGlow {
