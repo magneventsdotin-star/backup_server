@@ -17,9 +17,15 @@ export default function VideoModal({ isOpen, video, onClose }) {
       if (e.key === 'Escape') onClose();
     };
 
+    const handlePopState = () => {
+      onClose();
+    };
+
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       document.addEventListener('keydown', handleKeyDown);
+      window.history.pushState({ videoModalOpen: true }, '');
+      window.addEventListener('popstate', handlePopState);
     } else {
       document.body.style.overflow = '';
       document.removeEventListener('keydown', handleKeyDown);
@@ -28,6 +34,14 @@ export default function VideoModal({ isOpen, video, onClose }) {
     return () => {
       document.body.style.overflow = '';
       document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('popstate', handlePopState);
+      
+      // If the modal was open and history state still shows it's open,
+      // it means the user closed it manually (not via back button).
+      // We should pop the state to keep history clean.
+      if (isOpen && window.history.state?.videoModalOpen) {
+        window.history.back();
+      }
     };
   }, [isOpen, onClose]);
 

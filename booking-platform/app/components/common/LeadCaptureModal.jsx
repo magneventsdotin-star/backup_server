@@ -11,7 +11,7 @@ export default function LeadCaptureModal() {
   const [isOfferEnabled, setIsOfferEnabled] = useState(true)
 
   useEffect(() => {
-    fetch('/api/settings/top-ad')
+    fetch('/api/settings/form-offer')
       .then(r => r.json())
       .then(data => {
         if (data) {
@@ -143,7 +143,7 @@ function CountdownTimer() {
   );
 }
 
-function InnerLeadForm({ onClose, discountValue }) {
+function InnerLeadForm({ onClose, discountValue, isOfferEnabled }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [formError, setFormError] = useState('')
@@ -175,7 +175,7 @@ function InnerLeadForm({ onClose, discountValue }) {
       phone: formData.phone,
       message: formData.requirement,
       deviceType: deviceType,
-      formNumber: 'Form 4',
+      formName: 'Lead Capture Popup',
       formType: formData.claimOffer !== false ? 'offer' : 'lead_capture' 
     }).then(() => {
       if (typeof window !== 'undefined') {

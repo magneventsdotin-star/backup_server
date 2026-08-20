@@ -248,7 +248,7 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
       window.gtag('event', 'generate_lead', { event_category: 'form', event_label: 'contact_modal_submit' });
     }
     
-    bookingService.submitRequest({ ...submissionData, formType, formNumber: 'Form 3' }).then(() => {
+    bookingService.submitRequest({ ...submissionData, formType, formName: 'Artist Booking Modal' }).then(() => {
       if (typeof window !== 'undefined') {
         localStorage.setItem('magnevents-form-filled', 'true');
         window.dispatchEvent(new Event('form-filled'));

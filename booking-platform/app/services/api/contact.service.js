@@ -39,8 +39,8 @@ export const buildEmailTemplate = (data, isRegister, isCallRequest, dbArtistInfo
     );
     contentSections += buildSection('🎵 Portfolio & Socials', row('Portfolio', data.portfolio, true, data.portfolio));
     
-    if (data.formNumber) {
-      contentSections += buildSection('📋 Source Form', row('Form Identifier', data.formNumber));
+    if ((data.formName || data.formNumber)) {
+      contentSections += buildSection('📋 Source Form', row('Form Name', (data.formName || data.formNumber)));
     }
 
     contentSections += buildSection('🎭 Bio & Experience', `<tr><td style="padding: 8px 0; color: #fbbf24;">${data.bio || 'No bio provided.'}</td></tr>`);
@@ -63,8 +63,8 @@ export const buildEmailTemplate = (data, isRegister, isCallRequest, dbArtistInfo
       contentSections += coverPhotoHtml;
     }
 
-    if (data.formNumber) {
-      contentSections += buildSection('📋 Source Form', row('Form Identifier', data.formNumber));
+    if ((data.formName || data.formNumber)) {
+      contentSections += buildSection('📋 Source Form', row('Form Name', (data.formName || data.formNumber)));
     }
 
     contentSections += buildSection('📝 Additional Message', `<tr><td style="padding: 16px; background-color: #f8fafc; border-radius: 8px; font-style: italic; color: #475569; border: 1px solid #e2e8f0;">"${data.message || 'No additional message provided.'}"</td></tr>`);

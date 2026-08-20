@@ -42,7 +42,7 @@ export default function RegisterPage() {
 
     setIsSubmitting(true)
     try {
-      await bookingService.submitRequest({ ...submissionData, type: 'artist_registration', formNumber: 'Form 9' })
+      await bookingService.submitRequest({ ...submissionData, type: 'artist_registration', formName: 'Generic Registration Page' })
       
       if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
         window.gtag('event', 'generate_lead', {

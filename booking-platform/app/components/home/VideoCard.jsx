@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
   const [isVisible, setIsVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const cardRef = useRef(null);
   const videoRef = useRef(null);
 
@@ -17,6 +18,26 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
       videoRef.current.play().catch(e => console.log('Autoplay blocked:', e));
     }
   }, []);
+
+  const togglePlayPause = (e) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play().catch(e => console.log('Play blocked:', e));
+      }
+    }
+  };
+
+  const toggleMute = (e) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      const newMutedState = !isMuted;
+      videoRef.current.muted = newMutedState;
+      setIsMuted(newMutedState);
+    }
+  };
 
   const getCategory = (title) => {
     if (!title) return 'Featured';
@@ -74,6 +95,66 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: 3 }}>
             <path d="M8 5v14l11-7z" />
           </svg>
+        </div>
+
+        {/* Video Controls Overlay */}
+        <div className="hero-video-controls" style={{
+          position: 'absolute',
+          bottom: '10px',
+          right: '10px',
+          display: 'flex',
+          gap: '8px',
+          zIndex: 10
+        }}>
+          <button 
+            onClick={togglePlayPause}
+            className="video-control-btn"
+            style={{
+              background: 'rgba(0,0,0,0.6)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '50%',
+              width: '32px',
+              height: '32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              cursor: 'pointer',
+              backdropFilter: 'blur(4px)'
+            }}
+            aria-label={isPlaying ? "Pause" : "Play"}
+          >
+            {isPlaying ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            )}
+          </button>
+          
+          <button 
+            onClick={toggleMute}
+            className="video-control-btn"
+            style={{
+              background: 'rgba(0,0,0,0.6)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '50%',
+              width: '32px',
+              height: '32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              cursor: 'pointer',
+              backdropFilter: 'blur(4px)'
+            }}
+            aria-label={isMuted ? "Unmute" : "Mute"}
+          >
+            {isMuted ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            )}
+          </button>
         </div>
       </div>
 

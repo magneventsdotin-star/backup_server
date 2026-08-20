@@ -57,7 +57,7 @@ export default function ArtistRegistrationPage() {
 
     setIsSubmitting(true)
     try {
-      await bookingService.submitRequest({ ...submissionData, type: 'artist_registration', formNumber: 'Form 8' })
+      await bookingService.submitRequest({ ...submissionData, type: 'artist_registration', formName: 'Artist Registration Page' })
       setIsSubmitting(false)
       setSubmitted(true)
     } catch (error) {

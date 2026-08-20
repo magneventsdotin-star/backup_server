@@ -20,28 +20,38 @@ export default function TopAdSettings() {
   const [isVisible, setIsVisible] = useState(true);
   const [textDesktop, setTextDesktop] = useState("🎉 Exclusive Offer: First-time users get a discount on their booking!");
   const [textMobile, setTextMobile] = useState("🎉 Special Discount on First Booking!");
+  
+  const [isFormOfferVisible, setIsFormOfferVisible] = useState(true);
+  const [formOfferText, setFormOfferText] = useState("🎉 Exclusive Offer: First-time users get a discount on their booking!");
+  
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [savingText, setSavingText] = useState(false);
+  
+  const [savingFormOffer, setSavingFormOffer] = useState(false);
+  const [savingFormOfferText, setSavingFormOfferText] = useState(false);
+  
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
   const { toast } = useToast();
 
   useEffect(() => {
     const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in');
-    fetch(`${baseUrl}/api/settings/top-ad`)
-      .then(r => r.json())
-      .then(d => {
-        if (d) {
-          if (typeof d.isVisible === 'boolean') setIsVisible(d.isVisible);
-          if (d.textDesktop) setTextDesktop(d.textDesktop);
-          if (d.textMobile) setTextMobile(d.textMobile);
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Error fetching top ad settings:', err);
-        setLoading(false);
-      });
+    
+    Promise.all([
+      fetch(`${baseUrl}/api/settings/top-ad`).then(r => r.json()).catch(() => null),
+      fetch(`${baseUrl}/api/settings/form-offer`).then(r => r.json()).catch(() => null)
+    ]).then(([topAdData, formOfferData]) => {
+      if (topAdData) {
+        if (typeof topAdData.isVisible === 'boolean') setIsVisible(topAdData.isVisible);
+        if (topAdData.textDesktop) setTextDesktop(topAdData.textDesktop);
+        if (topAdData.textMobile) setTextMobile(topAdData.textMobile);
+      }
+      if (formOfferData) {
+        if (typeof formOfferData.isVisible === 'boolean') setIsFormOfferVisible(formOfferData.isVisible);
+        if (formOfferData.textDesktop) setFormOfferText(formOfferData.textDesktop);
+      }
+      setLoading(false);
+    });
   }, []);
 
   const handleToggle = async () => {
@@ -106,6 +116,62 @@ export default function TopAdSettings() {
       setSavingText(false);
     }
   };
+
+  const handleToggleFormOffer = async () => {
+    setSavingFormOffer(true);
+    const newStatus = !isFormOfferVisible;
+    
+    try {
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in');
+      const response = await fetch(`${baseUrl}/api/settings/form-offer`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isVisible: newStatus })
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        setIsFormOfferVisible(newStatus);
+        toast({
+          title: newStatus ? "Form Offer Activated" : "Form Offer Disabled",
+          description: newStatus 
+            ? "The promotional offer in the lead form is now visible." 
+            : "The promotional offer in the lead form has been hidden.",
+        });
+      }
+    } catch (err) {
+      console.error('Error updating form offer settings:', err);
+      toast({ variant: "destructive", title: "Update Failed" });
+    } finally {
+      setSavingFormOffer(false);
+    }
+  };
+
+  const handleSaveFormOfferText = async () => {
+    setSavingFormOfferText(true);
+    try {
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in');
+      const response = await fetch(`${baseUrl}/api/settings/form-offer`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ textDesktop: formOfferText, textMobile: formOfferText })
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        toast({
+          title: "Form Text Updated Successfully",
+          description: "The form promotional text has been updated.",
+        });
+      }
+    } catch (err) {
+      console.error('Error updating form offer text:', err);
+      toast({ variant: "destructive", title: "Update Failed" });
+    } finally {
+      setSavingFormOfferText(false);
+    }
+  };
+
 
 
   if (loading) {
@@ -281,6 +347,92 @@ export default function TopAdSettings() {
           </button>
         </div>
       </div>
+
+      <hr className="my-8 border-slate-200" />
+
+      {/* --- LEAD FORM OFFER SECTION --- */}
+      <div className="section-header mb-4">
+        <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight mt-1">
+          Lead Form Promotional Offer
+        </h2>
+        <p className="text-slate-500 text-sm mt-1 max-w-xl font-medium">
+          Control the special discount box that appears inside the "Book Now" inquiry form.
+        </p>
+      </div>
+
+      <div className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold shadow-sm ${
+                isFormOfferVisible ? 'bg-amber-50 border border-amber-200 text-amber-600' : 'bg-slate-100 border border-slate-200 text-slate-400'
+              }`}>
+                <Sparkles size={20} />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2.5">
+                  Form Page Offer
+                  {isFormOfferVisible ? (
+                    <span className="inline-flex items-center gap-1 text-[11px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200/80 px-2.5 py-0.5 rounded-full uppercase tracking-wide">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      Live & Active
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold bg-slate-100 text-slate-500 border border-slate-200 px-2.5 py-0.5 rounded-full uppercase tracking-wide">
+                      Disabled
+                    </span>
+                  )}
+                </h3>
+              </div>
+            </div>
+            <p className="text-slate-600 text-sm leading-relaxed max-w-2xl pt-2">
+              When turned on, the special Raksha Bandhan offer box will be shown inside the booking modal.
+            </p>
+          </div>
+
+          <div className="flex-shrink-0 flex flex-col items-center md:items-end gap-2.5 bg-slate-50/80 p-4 rounded-xl border border-slate-100 min-w-[160px]">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+              {isFormOfferVisible ? 'Offer Enabled' : 'Offer Disabled'}
+            </span>
+            <button
+              onClick={handleToggleFormOffer}
+              disabled={savingFormOffer}
+              className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:ring-offset-2 ${
+                isFormOfferVisible ? 'bg-emerald-500' : 'bg-slate-300'
+              } ${savingFormOffer ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-95'}`}
+            >
+              <span
+                className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform shadow-md ${
+                  isFormOfferVisible ? 'translate-x-9' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+
+        <div className="space-y-5 max-w-3xl pt-6">
+          <div>
+            <label className="block text-sm font-bold text-slate-700 mb-1.5">Form Offer Text (Discount Value Extraction)</label>
+            <input 
+              type="text" 
+              value={formOfferText} 
+              onChange={(e) => setFormOfferText(e.target.value)}
+              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm font-medium transition-all"
+              placeholder="e.g. Get UPTO 60% OFF"
+            />
+            <p className="text-xs text-slate-500 mt-2">Note: The system extracts the percentage (e.g. "60%") from this text and injects it into the form UI.</p>
+          </div>
+          <button 
+            onClick={handleSaveFormOfferText}
+            disabled={savingFormOfferText}
+            className={`px-6 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${savingFormOfferText ? 'opacity-70 cursor-not-allowed' : 'hover:bg-indigo-700 hover:shadow-md'}`}
+          >
+            {savingFormOfferText ? 'Saving...' : 'Save Form Text'}
+          </button>
+        </div>
+      </div>
+
+      <hr className="my-8 border-slate-200" />
 
       {/* Live Preview Container */}
       <div className="bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden">

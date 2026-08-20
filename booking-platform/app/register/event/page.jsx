@@ -55,7 +55,7 @@ export default function EventRegistrationPage() {
 
     setIsSubmitting(true)
     try {
-      await bookingService.submitRequest({ ...submissionData, formType: 'booking', formNumber: 'Form 7' })
+      await bookingService.submitRequest({ ...submissionData, formType: 'booking', formName: 'Event Registration Page' })
       setIsSubmitting(false)
       setSubmitted(true)
     } catch (error) {
