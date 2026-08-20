@@ -22,7 +22,8 @@ export default function TopAdSettings() {
   const [textMobile, setTextMobile] = useState("🎉 Special Discount on First Booking!");
   
   const [isFormOfferVisible, setIsFormOfferVisible] = useState(true);
-  const [formOfferText, setFormOfferText] = useState("🎉 Exclusive Offer: First-time users get a discount on their booking!");
+  const [formOfferHeading, setFormOfferHeading] = useState("🎉 RAKSHA BANDHAN OFFER!");
+  const [formOfferText, setFormOfferText] = useState("Exclusive Offer: First-time users get a discount on their booking!");
   
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -49,6 +50,7 @@ export default function TopAdSettings() {
       if (formOfferData) {
         if (typeof formOfferData.isVisible === 'boolean') setIsFormOfferVisible(formOfferData.isVisible);
         if (formOfferData.textDesktop) setFormOfferText(formOfferData.textDesktop);
+        if (formOfferData.textMobile) setFormOfferHeading(formOfferData.textMobile);
       }
       setLoading(false);
     });
@@ -154,7 +156,7 @@ export default function TopAdSettings() {
       const response = await fetch(`${baseUrl}/api/settings/form-offer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ textDesktop: formOfferText, textMobile: formOfferText })
+        body: JSON.stringify({ textDesktop: formOfferText, textMobile: formOfferHeading })
       });
       
       const data = await response.json();
@@ -412,13 +414,23 @@ export default function TopAdSettings() {
 
         <div className="space-y-5 max-w-3xl pt-6">
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-1.5">Form Offer Text</label>
+            <label className="block text-sm font-bold text-slate-700 mb-1.5">Form Offer Heading (Festival/Title)</label>
+            <input 
+              type="text" 
+              value={formOfferHeading} 
+              onChange={(e) => setFormOfferHeading(e.target.value)}
+              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm font-medium transition-all"
+              placeholder="e.g. 🎉 DIWALI SPECIAL OFFER!"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-slate-700 mb-1.5">Form Offer Subheading (Discount Detail)</label>
             <input 
               type="text" 
               value={formOfferText} 
               onChange={(e) => setFormOfferText(e.target.value)}
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm font-medium transition-all"
-              placeholder="e.g. 🎉 Exclusive Offer: First-time users get a discount on their booking!"
+              placeholder="e.g. Exclusive Offer: First-time users get a discount on their booking!"
             />
             <p className="text-xs text-slate-500 mt-2">Note: This exact text will be displayed to users in the booking form.</p>
           </div>

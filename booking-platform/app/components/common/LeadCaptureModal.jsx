@@ -7,7 +7,8 @@ import '@/app/styles/components/ContactModal.css'
 
 export default function LeadCaptureModal() {
   const [isOpen, setIsOpen] = useState(false)
-  const [offerText, setOfferText] = useState('')
+  const [offerHeading, setOfferHeading] = useState('🎉 RAKSHA BANDHAN OFFER!')
+  const [offerSubheading, setOfferSubheading] = useState('')
   const [isOfferEnabled, setIsOfferEnabled] = useState(true)
 
   useEffect(() => {
@@ -19,7 +20,10 @@ export default function LeadCaptureModal() {
             setIsOfferEnabled(false);
           }
           if (data.textDesktop) {
-            setOfferText(data.textDesktop);
+            setOfferSubheading(data.textDesktop);
+          }
+          if (data.textMobile) {
+            setOfferHeading(data.textMobile);
           }
         }
       })
@@ -89,11 +93,11 @@ export default function LeadCaptureModal() {
                 Find Your Perfect Artist
               </h3>
               <p className="lead-subtitle">
-                Let us know what you're looking for.{isOfferEnabled && <span> <strong className="lead-discount">{offerText ? offerText : 'Exclusive discount on your first booking!'}</strong></span>}
+                Let us know what you're looking for.{isOfferEnabled && <span> <strong className="lead-discount">{offerSubheading ? offerSubheading : 'Exclusive discount on your first booking!'}</strong></span>}
               </p>
             </div>
 
-            <InnerLeadForm onClose={onClose} offerText={offerText} isOfferEnabled={isOfferEnabled} />
+            <InnerLeadForm onClose={onClose} offerHeading={offerHeading} offerSubheading={offerSubheading} isOfferEnabled={isOfferEnabled} />
           </motion.div>
         </div>
       )}
@@ -142,7 +146,7 @@ function CountdownTimer() {
   );
 }
 
-function InnerLeadForm({ onClose, offerText, isOfferEnabled }) {
+function InnerLeadForm({ onClose, offerHeading, offerSubheading, isOfferEnabled }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [formError, setFormError] = useState('')
@@ -267,10 +271,10 @@ function InnerLeadForm({ onClose, offerText, isOfferEnabled }) {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <span className="rakhi-highlight">
-                🎉 RAKSHA BANDHAN OFFER!
+                {offerHeading || '🎉 SPECIAL OFFER!'}
               </span>
               <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '14px', fontWeight: '700', letterSpacing: '0.3px' }}>
-                {offerText ? offerText : 'Get an Exclusive Discount on your booking.'}
+                {offerSubheading ? offerSubheading : 'Get an Exclusive Discount on your booking.'}
               </span>
             </div>
           </div>
