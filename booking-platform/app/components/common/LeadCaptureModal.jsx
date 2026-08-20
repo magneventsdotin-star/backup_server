@@ -8,14 +8,20 @@ import '@/app/styles/components/ContactModal.css'
 export default function LeadCaptureModal() {
   const [isOpen, setIsOpen] = useState(false)
   const [discountValue, setDiscountValue] = useState(null)
+  const [isOfferEnabled, setIsOfferEnabled] = useState(true)
 
   useEffect(() => {
     fetch('/api/settings/top-ad')
       .then(r => r.json())
       .then(data => {
-        if (data && data.textDesktop) {
-          const match = data.textDesktop.match(/(\d+)%/);
-          if (match) setDiscountValue(match[1]);
+        if (data) {
+          if (data.isVisible === false) {
+            setIsOfferEnabled(false);
+          }
+          if (data.textDesktop) {
+            const match = data.textDesktop.match(/(\d+)%/);
+            if (match) setDiscountValue(match[1]);
+          }
         }
       })
       .catch(err => console.error('Failed to fetch discount', err));
@@ -84,11 +90,11 @@ export default function LeadCaptureModal() {
                 Find Your Perfect Artist
               </h3>
               <p className="lead-subtitle">
-                Let us know what you're looking for. First-time users get an <strong className="lead-discount">exclusive {discountValue ? `upto ${discountValue}% ` : ''}discount</strong> on their first booking!
+                Let us know what you're looking for.{isOfferEnabled && <span> First-time users get an <strong className="lead-discount">exclusive {discountValue ? `upto ${discountValue}% ` : ''}discount</strong> on their first booking!</span>}
               </p>
             </div>
 
-            <InnerLeadForm onClose={onClose} discountValue={discountValue} />
+            <InnerLeadForm onClose={onClose} discountValue={discountValue} isOfferEnabled={isOfferEnabled} />
           </motion.div>
         </div>
       )}
@@ -254,25 +260,27 @@ function InnerLeadForm({ onClose, discountValue }) {
         }
       `}</style>
       
-      <div className="lux-form-group full-width elegant-promo-box" style={{ marginBottom: '8px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', zIndex: 1, flex: '1 1 min-content' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'linear-gradient(135deg, #FFD54A 0%, #FF9900 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 15px rgba(255, 213, 74, 0.5)' }}>
-            <span style={{ fontSize: '24px' }}>🎁</span>
+      {isOfferEnabled && (
+        <div className="lux-form-group full-width elegant-promo-box" style={{ marginBottom: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', zIndex: 1, flex: '1 1 min-content' }}>
+            <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'linear-gradient(135deg, #FFD54A 0%, #FF9900 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 15px rgba(255, 213, 74, 0.5)' }}>
+              <span style={{ fontSize: '24px' }}>🎁</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <span className="rakhi-highlight">
+                🎉 RAKSHA BANDHAN OFFER!
+              </span>
+              <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '14px', fontWeight: '700', letterSpacing: '0.3px' }}>
+                {discountValue ? `Get UPTO ${discountValue}% OFF` : 'Get an Exclusive Discount'} on your booking.
+              </span>
+            </div>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <span className="rakhi-highlight">
-              🎉 RAKSHA BANDHAN OFFER!
-            </span>
-            <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '14px', fontWeight: '700', letterSpacing: '0.3px' }}>
-              {discountValue ? `Get UPTO ${discountValue}% OFF` : 'Get an Exclusive Discount'} on your booking.
-            </span>
+          
+          <div style={{ zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '1 1 auto' }}>
+            <CountdownTimer />
           </div>
         </div>
-        
-        <div style={{ zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '1 1 auto' }}>
-          <CountdownTimer />
-        </div>
-      </div>
+      )}
 
       <div className="lux-form-group full-width">
         <label htmlFor="lead-name">Name</label>

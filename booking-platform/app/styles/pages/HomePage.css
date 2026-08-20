@@ -3037,9 +3037,10 @@
   color: #fff;
   backdrop-filter: blur(40px);
   position: relative;
-  max-width: 1170px;
+  max-width: 1000px;
+  width: calc(100% - 40px);
   min-height: 504px;
-  margin: 0 auto;
+  margin: 40px auto;
 }
 
 .hp-aom-card::after {
