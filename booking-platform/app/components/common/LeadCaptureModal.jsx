@@ -201,14 +201,14 @@ function InnerLeadForm({ onClose, discountValue }) {
     <form className="lux-modal-form" onSubmit={handleSubmit}>
       <style jsx>{`
         @keyframes subtleGlow {
-          0% { box-shadow: 0 0 0 0 rgba(255, 224, 50, 0.4); }
-          50% { box-shadow: 0 0 15px rgba(255, 224, 50, 0.2); }
-          100% { box-shadow: 0 0 0 0 rgba(255, 224, 50, 0.4); }
+          0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.2); }
+          50% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.1); }
+          100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.2); }
         }
         .elegant-promo-box {
-          background: rgba(255, 224, 50, 0.05);
-          border: 1px solid rgba(255, 224, 50, 0.2);
-          border-radius: 16px;
+          background: rgba(0, 212, 255, 0.05);
+          border: 1px solid rgba(0, 212, 255, 0.2);
+          border-radius: 12px;
           padding: 16px 20px;
           display: flex;
           align-items: center;
@@ -224,15 +224,15 @@ function InnerLeadForm({ onClose, discountValue }) {
           content: '';
           position: absolute;
           top: 0; left: 0; right: 0; height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 224, 50, 0.8), transparent);
+          background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.8), transparent);
         }
 
         .elegant-time-block {
-          background: rgba(0, 0, 0, 0.4);
-          border: 1px solid rgba(255, 224, 50, 0.3);
-          color: #ffe032;
+          background: rgba(0, 0, 0, 0.5);
+          border: 1px solid rgba(0, 212, 255, 0.3);
+          color: #00d4ff;
           padding: 6px 8px;
-          border-radius: 8px;
+          border-radius: 6px;
           font-family: monospace;
           font-weight: 800;
           font-size: 15px;
@@ -244,15 +244,15 @@ function InnerLeadForm({ onClose, discountValue }) {
       
       <div className="lux-form-group full-width elegant-promo-box" style={{ marginBottom: '8px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', zIndex: 1, flex: '1 1 min-content' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'linear-gradient(135deg, #ffe032 0%, #ff9900 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 15px rgba(255, 224, 50, 0.4)' }}>
-            <span style={{ fontSize: '24px' }}>🎁</span>
+          <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)' }}>
+            <span style={{ fontSize: '24px' }}>⚡</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <span style={{ color: '#ffe032', fontWeight: '800', fontSize: '16px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+            <span style={{ color: '#00d4ff', fontWeight: '800', fontSize: '16px', letterSpacing: '0.5px', textTransform: 'uppercase', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
               {discountValue ? `UPTO ${discountValue}% OFF APPLIED` : 'DISCOUNT APPLIED'}
             </span>
-            <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '13px', fontWeight: '600', letterSpacing: '0.3px' }}>
-              Raksha Bandhan Special Offer!
+            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', fontWeight: '600', letterSpacing: '0.3px' }}>
+              Limited Time Special Offer!
             </span>
           </div>
         </div>
