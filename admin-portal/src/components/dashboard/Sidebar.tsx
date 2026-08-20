@@ -58,7 +58,7 @@ export const navSections = [
           { name: 'Pricing', href: '/dashboard/pricing' },
           { name: 'Blog Editing', href: '/dashboard/slider' },
           { name: 'Service Videos', href: '/dashboard/service-videos' },
-          { name: 'Top Ad', href: '/dashboard/top-ad' },
+          { name: 'Ad', href: '/dashboard/top-ad' },
         ]
       },
       { name: 'Browse', href: '/dashboard/browse', icon: Eye },
