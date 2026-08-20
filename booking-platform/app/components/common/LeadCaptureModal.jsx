@@ -7,7 +7,7 @@ import '@/app/styles/components/ContactModal.css'
 
 export default function LeadCaptureModal() {
   const [isOpen, setIsOpen] = useState(false)
-  const [discountValue, setDiscountValue] = useState(null)
+  const [offerText, setOfferText] = useState('')
   const [isOfferEnabled, setIsOfferEnabled] = useState(true)
 
   useEffect(() => {
@@ -19,8 +19,7 @@ export default function LeadCaptureModal() {
             setIsOfferEnabled(false);
           }
           if (data.textDesktop) {
-            const match = data.textDesktop.match(/(\d+)%/);
-            if (match) setDiscountValue(match[1]);
+            setOfferText(data.textDesktop);
           }
         }
       })
@@ -90,11 +89,11 @@ export default function LeadCaptureModal() {
                 Find Your Perfect Artist
               </h3>
               <p className="lead-subtitle">
-                Let us know what you're looking for.{isOfferEnabled && <span> First-time users get an <strong className="lead-discount">exclusive {discountValue ? `upto ${discountValue}% ` : ''}discount</strong> on their first booking!</span>}
+                Let us know what you're looking for.{isOfferEnabled && <span> <strong className="lead-discount">{offerText ? offerText : 'Exclusive discount on your first booking!'}</strong></span>}
               </p>
             </div>
 
-            <InnerLeadForm onClose={onClose} discountValue={discountValue} isOfferEnabled={isOfferEnabled} />
+            <InnerLeadForm onClose={onClose} offerText={offerText} isOfferEnabled={isOfferEnabled} />
           </motion.div>
         </div>
       )}
@@ -143,7 +142,7 @@ function CountdownTimer() {
   );
 }
 
-function InnerLeadForm({ onClose, discountValue, isOfferEnabled }) {
+function InnerLeadForm({ onClose, offerText, isOfferEnabled }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [formError, setFormError] = useState('')
@@ -271,7 +270,7 @@ function InnerLeadForm({ onClose, discountValue, isOfferEnabled }) {
                 🎉 RAKSHA BANDHAN OFFER!
               </span>
               <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '14px', fontWeight: '700', letterSpacing: '0.3px' }}>
-                {discountValue ? `Get UPTO ${discountValue}% OFF` : 'Get an Exclusive Discount'} on your booking.
+                {offerText ? offerText : 'Get an Exclusive Discount on your booking.'}
               </span>
             </div>
           </div>
