@@ -80,11 +80,15 @@ export default function HeroSection() {
     }
 
     const currentMedia = isMobile ? MOBILE_HERO_MEDIA : HERO_MEDIA;
+    
+    // Determine if the current slide is a video to give it more time
+    const currentSlide = currentMedia[heroSlide];
+    const duration = currentSlide?.type === 'video' ? 9000 : 4000;
 
-    // Transition ALL slides (videos and images) every 4 seconds
+    // Transition slides with dynamic timing
     const id = window.setTimeout(() => {
       setHeroSlide(prev => (prev + 1) % currentMedia.length)
-    }, 4000)
+    }, duration)
     
     return () => window.clearTimeout(id)
   }, [heroSlide, isMobile])
