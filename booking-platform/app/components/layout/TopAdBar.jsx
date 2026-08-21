@@ -118,9 +118,7 @@ export default function TopAdBar() {
         }}
         aria-label="Close"
       >
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M1 1L11 11M11 1L1 11" />
-        </svg>
+        <span className="close-icon">&times;</span>
       </button>
 
       <style jsx>{`
@@ -249,48 +247,53 @@ export default function TopAdBar() {
         }
 
         .ultimate-close-btn {
-          background: rgba(255, 255, 255, 0.15);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(5px);
+          background: transparent;
+          border: none;
           color: #ffffff;
           cursor: pointer;
-          width: 28px;
-          height: 28px;
+          width: 24px;
+          height: 24px;
           position: absolute;
-          right: 16px;
+          right: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.2s ease;
-          border-radius: 50%;
+          z-index: 10;
+        }
+
+        .close-icon {
+          font-size: 20px;
+          line-height: 1;
+          font-weight: bold;
+          text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         
         .ultimate-close-btn:hover {
-          background: rgba(255, 255, 255, 0.3);
-          transform: rotate(90deg);
+          transform: scale(1.1);
         }
 
         @media (max-width: 768px) {
           .ultimate-ad-bar { 
             height: 48px; 
-            padding: 0 40px 0 12px; 
+            padding: 0 32px 0 8px; /* Increased right padding gap */
           }
           .ultimate-ad-content { 
-            gap: 8px; 
+            gap: 6px; 
             flex-direction: row;
             padding-right: 0;
             width: 100%;
             justify-content: space-between;
           }
           .mobile-action-row {
-            gap: 8px;
+            gap: 6px;
             width: auto;
           }
           .hide-on-mobile { display: none !important; }
           .show-on-mobile { 
             display: inline-block !important; 
             width: auto; 
-            font-size: 12px !important; 
+            font-size: 11px !important; 
             text-align: left; 
             white-space: nowrap;
             overflow: hidden;
@@ -299,22 +302,26 @@ export default function TopAdBar() {
             font-weight: 700;
           }
           .ultimate-claim-btn { 
-            padding: 5px 12px; 
+            padding: 5px 8px; 
             font-size: 10px; 
             letter-spacing: 0.5px;
+            white-space: nowrap;
           }
           .timer-label { display: none; }
           .time-block { 
-            font-size: 11px; 
-            min-width: 18px; 
-            padding: 3px 4px; 
+            font-size: 10px; 
+            min-width: 16px; 
+            padding: 2px 3px; 
             border-radius: 4px;
           }
-          .colon { font-size: 11px; }
+          .colon { font-size: 10px; margin: 0 -1px; }
           .ultimate-close-btn { 
-            right: 8px; 
-            width: 24px;
-            height: 24px;
+            right: 4px; 
+            width: 20px;
+            height: 20px;
+          }
+          .close-icon {
+            font-size: 16px;
           }
         }
       `}</style>

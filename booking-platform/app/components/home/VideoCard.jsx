@@ -143,7 +143,7 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
             onClick={togglePlayPause}
             className="video-control-btn"
             style={{
-              background: 'rgba(0,0,0,0.6)',
+              background: 'rgba(0,0,0,0.85)',
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '50%',
               width: '32px',
@@ -152,15 +152,14 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
-              cursor: 'pointer',
-              backdropFilter: 'blur(4px)'
+              cursor: 'pointer'
             }}
             aria-label={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              <span style={{ fontSize: '12px', lineHeight: 1 }}>⏸</span>
             ) : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <span style={{ fontSize: '12px', lineHeight: 1, paddingLeft: '2px' }}>▶</span>
             )}
           </button>
           
@@ -168,7 +167,7 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
             onClick={toggleMute}
             className="video-control-btn"
             style={{
-              background: 'rgba(0,0,0,0.6)',
+              background: 'rgba(0,0,0,0.85)',
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '50%',
               width: '32px',
@@ -177,15 +176,14 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
-              cursor: 'pointer',
-              backdropFilter: 'blur(4px)'
+              cursor: 'pointer'
             }}
             aria-label={isMuted ? "Unmute" : "Mute"}
           >
             {isMuted ? (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+              <span style={{ fontSize: '14px', lineHeight: 1 }}>🔇</span>
             ) : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <span style={{ fontSize: '14px', lineHeight: 1 }}>🔊</span>
             )}
           </button>
         </div>

@@ -7,14 +7,14 @@ import { motion } from 'framer-motion'
 import { HERO_STATS, HERO_SPOTLIGHT_SLIDES } from '@/app/constants'
 
 const HERO_MEDIA = [
-  { type: 'video', src: '/assets/hero-gifs/Birthday_Party_Landscape.mp4' },
   { type: 'video', src: '/assets/hero-gifs/house_party_Landscape.mp4' },
+  { type: 'video', src: '/assets/hero-gifs/Birthday_Party_Landscape.mp4' },
   ...HERO_SPOTLIGHT_SLIDES.map(src => ({ type: 'image', src: typeof src === 'object' ? src.src : src }))
 ];
 
 const MOBILE_HERO_MEDIA = [
-  { type: 'video', src: '/assets/hero-gifs/Book_a_Bhajan_concert_at_home_Portrait.mp4' },
   { type: 'video', src: '/assets/hero-gifs/farm_house_Portrait.mp4' },
+  { type: 'video', src: '/assets/hero-gifs/Book_a_Bhajan_concert_at_home_Portrait.mp4' },
   ...HERO_SPOTLIGHT_SLIDES.map(src => ({ type: 'image', src: typeof src === 'object' ? src.src : src }))
 ];
 
@@ -24,6 +24,7 @@ function HeroMediaComponent({ item, isActive, onEnded }) {
   useEffect(() => {
     if (isActive && item.type === 'video' && videoRef.current) {
       videoRef.current.currentTime = 0;
+      videoRef.current.playbackRate = 0.85; // Slow down video to increase screen time
       videoRef.current.play().catch(() => {});
     }
   }, [isActive, item.type]);
@@ -80,12 +81,12 @@ export default function HeroSection() {
 
     const currentMedia = isMobile ? MOBILE_HERO_MEDIA : HERO_MEDIA;
 
-    if (heroSlide >= 2) {
-      const id = window.setInterval(() => {
-        setHeroSlide(prev => (prev + 1) % currentMedia.length)
-      }, 4500)
-      return () => window.clearInterval(id)
-    }
+    // Transition ALL slides (videos and images) every 4 seconds
+    const id = window.setTimeout(() => {
+      setHeroSlide(prev => (prev + 1) % currentMedia.length)
+    }, 4000)
+    
+    return () => window.clearTimeout(id)
   }, [heroSlide, isMobile])
 
   const activeMediaList = isMobile ? MOBILE_HERO_MEDIA : HERO_MEDIA;
@@ -132,7 +133,6 @@ export default function HeroSection() {
               >
                 Singer
               </motion.span>
-              <br className="hp-desktop-br" />
               {"For Your House Party In".split(" ").map((word, i) => (
                 <motion.span key={`w2-${i}`} style={{ display: 'inline-block', marginRight: '0.25em' }} variants={{ hidden: { opacity: 1, y: 15, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}>
                   {word}
