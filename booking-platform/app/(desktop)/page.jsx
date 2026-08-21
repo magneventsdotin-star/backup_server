@@ -1,14 +1,16 @@
+import dynamic from 'next/dynamic'
 import HeroSection from '@/app/components/home/HeroSection'
 import HeroVideosSection from '@/app/components/home/HeroVideosSection'
-import TopPerformerSection from '@/app/components/home/TopPerformerSection'
-import CategoriesSection from '@/app/components/home/CategoriesSection'
-import FeaturedArtistsSection from '@/app/components/home/FeaturedArtistsSection'
-import WhyChooseSection from '@/app/components/home/WhyChooseSection'
-import TestimonialsSection from '@/app/components/home/TestimonialsSection'
-import HowToBookSection from '@/app/components/home/HowToBookSection'
-import FaqSection from '@/app/components/home/FaqSection'
-import InfoCards from '@/app/components/home/InfoCards'
-import ContactSection from '@/app/components/home/ContactSection'
+
+const TopPerformerSection = dynamic(() => import('@/app/components/home/TopPerformerSection'), { ssr: false })
+const CategoriesSection = dynamic(() => import('@/app/components/home/CategoriesSection'), { ssr: false })
+const FeaturedArtistsSection = dynamic(() => import('@/app/components/home/FeaturedArtistsSection'), { ssr: false })
+const WhyChooseSection = dynamic(() => import('@/app/components/home/WhyChooseSection'), { ssr: false })
+const TestimonialsSection = dynamic(() => import('@/app/components/home/TestimonialsSection'), { ssr: false })
+const HowToBookSection = dynamic(() => import('@/app/components/home/HowToBookSection'), { ssr: false })
+const FaqSection = dynamic(() => import('@/app/components/home/FaqSection'), { ssr: false })
+const InfoCards = dynamic(() => import('@/app/components/home/InfoCards'), { ssr: false })
+const ContactSection = dynamic(() => import('@/app/components/home/ContactSection'), { ssr: false })
 import '@/app/styles/pages/HomePage.css'
 
 export const metadata = {

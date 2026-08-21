@@ -7,16 +7,25 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
   const [isVisible, setIsVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const cardRef = useRef(null);
   const videoRef = useRef(null);
 
   useEffect(() => {
+    setIsMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
     if (videoRef.current) {
       videoRef.current.defaultMuted = true;
       videoRef.current.muted = true;
       // Force play on mount just in case autoPlay attribute misses
       videoRef.current.play().catch(e => console.log('Autoplay blocked:', e));
     }
+    
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const togglePlayPause = (e) => {
@@ -58,6 +67,12 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
     return title.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   };
 
+  // Construct local GIF URL
+  const orientationStr = video.orientation ? (video.orientation.charAt(0).toUpperCase() + video.orientation.slice(1)) : 'Landscape';
+  const gifFilename = `${video.title.replace(/ /g, '_')}_${orientationStr}`;
+  const localGifUrl = `/assets/hero-gifs/${gifFilename}.webm`;
+  const localMp4Url = `/assets/hero-gifs/${gifFilename}.mp4`;
+
   return (
     <motion.div
       ref={cardRef}
@@ -78,18 +93,36 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
       }}
     >
       <div className="hero-video-wrapper">
-        <video
-          ref={videoRef}
-          src={video.url}
-          className="hero-video-preview"
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          preload="metadata"
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-        />
+        {(!isMounted || isMobile) ? (
+          <video
+            ref={videoRef}
+            src={localMp4Url}
+            className="hero-video-preview"
+            autoPlay
+            loop
+            muted={isMuted}
+            playsInline
+            preload="metadata"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+          >
+            <source src={localGifUrl} type="video/webm" />
+            <source src={localMp4Url} type="video/mp4" />
+          </video>
+        ) : (
+          <video
+            ref={videoRef}
+            src={video.url}
+            className="hero-video-preview"
+            autoPlay
+            loop
+            muted={isMuted}
+            playsInline
+            preload="metadata"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+          />
+        )}
 
         <div className="hero-video-overlay-play" style={{ opacity: isPlaying ? 0 : 1 }}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: 3 }}>

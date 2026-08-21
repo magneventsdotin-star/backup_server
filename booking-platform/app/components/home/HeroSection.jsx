@@ -1,50 +1,107 @@
 "use client";
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 import { HERO_STATS, HERO_SPOTLIGHT_SLIDES } from '@/app/constants'
 
+const HERO_MEDIA = [
+  { type: 'video', src: '/assets/hero-gifs/Birthday_Party_Landscape.mp4' },
+  { type: 'video', src: '/assets/hero-gifs/house_party_Landscape.mp4' },
+  ...HERO_SPOTLIGHT_SLIDES.map(src => ({ type: 'image', src: typeof src === 'object' ? src.src : src }))
+];
+
+const MOBILE_HERO_MEDIA = [
+  { type: 'video', src: '/assets/hero-gifs/Book_a_Bhajan_concert_at_home_Portrait.mp4' },
+  { type: 'video', src: '/assets/hero-gifs/farm_house_Portrait.mp4' },
+  ...HERO_SPOTLIGHT_SLIDES.map(src => ({ type: 'image', src: typeof src === 'object' ? src.src : src }))
+];
+
+function HeroMediaComponent({ item, isActive, onEnded }) {
+  const videoRef = useRef(null);
+  
+  useEffect(() => {
+    if (isActive && item.type === 'video' && videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [isActive, item.type]);
+
+  return (
+    <div
+      className={`hp-hero-slide ${isActive ? 'is-active' : ''}`}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        opacity: isActive ? 1 : 0,
+        zIndex: isActive ? 2 : 1,
+        transition: 'opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        willChange: 'opacity'
+      }}
+    >
+      {item.type === 'video' ? (
+        <video
+          ref={videoRef}
+          src={item.src}
+          autoPlay
+          muted
+          playsInline
+          onEnded={onEnded}
+          style={{ objectFit: "cover", width: "100%", height: "100%", position: "absolute", inset: 0 }}
+         />
+      ) : (
+        <img
+          src={item.src}
+          alt="Event slide"
+          style={{ objectFit: "cover", width: "100%", height: "100%", position: "absolute", inset: 0 }}
+        />
+      )}
+    </div>
+  );
+}
+
 export default function HeroSection() {
   const [heroSlide, setHeroSlide] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.matchMedia('(max-width: 768px)').matches);
+    const mql = window.matchMedia('(max-width: 768px)');
+    const onChange = (e) => setIsMobile(e.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return undefined
     }
 
-    const id = window.setInterval(() => {
-      setHeroSlide(prev => (prev + 1) % HERO_SPOTLIGHT_SLIDES.length)
-    }, 8000)
+    const currentMedia = isMobile ? MOBILE_HERO_MEDIA : HERO_MEDIA;
 
-    return () => window.clearInterval(id)
-  }, [])
+    if (heroSlide >= 2) {
+      const id = window.setInterval(() => {
+        setHeroSlide(prev => (prev + 1) % currentMedia.length)
+      }, 4500)
+      return () => window.clearInterval(id)
+    }
+  }, [heroSlide, isMobile])
+
+  const activeMediaList = isMobile ? MOBILE_HERO_MEDIA : HERO_MEDIA;
 
   return (
     <section className="hp-hero">
-      <div className="hp-hero-bg" style={{ pointerEvents: 'none' }}>
-        {HERO_SPOTLIGHT_SLIDES.map((src, idx) => (
-          <div
-            key={src}
-            className={`hp-hero-slide ${heroSlide === idx ? 'is-active' : ''}`}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              opacity: heroSlide === idx ? 1 : 0,
-              zIndex: heroSlide === idx ? 2 : 1,
-              transition: 'opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1)',
-              willChange: 'opacity'
-            }}
-          >
-            <img
-              src={typeof src === "object" ? src?.src : src}
-              alt={`Live musician and band performing at an event slide ${idx + 1}`} style={{ objectFit: "cover", width: "100%", height: "100%", position: "absolute", inset: 0 }}
-             />
-          </div>
+      <div className="hp-hero-bg" style={{ pointerEvents: 'none', background: '#000' }}>
+        {activeMediaList.map((item, idx) => (
+          <HeroMediaComponent 
+            key={item.src + idx} 
+            item={item} 
+            isActive={heroSlide === idx} 
+            onEnded={() => setHeroSlide(prev => (prev + 1) % activeMediaList.length)} 
+          />
         ))}
       </div>
-      <div className="hp-hero-overlay" aria-hidden="true" />
 
       <div className="hp-shell hp-hero-content">
         <div className="hp-hero-grid">

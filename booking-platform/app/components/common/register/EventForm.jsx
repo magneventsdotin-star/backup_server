@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { bookingService } from '@/app/services/bookingService';
 import { validateName, validateEmail, validatePhone } from '@helpers/validation';
@@ -68,8 +68,9 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
   };
 
   return (
-    <>
-      <div className="lux-modal-header" style={{ marginBottom: '16px', position: 'relative', paddingTop: '32px' }}>
+    <div className="form-cinematic-wrapper" style={{ position: 'relative', overflow: 'hidden', borderRadius: 'inherit', background: 'rgba(24, 24, 27, 0.45)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
+
+      <div className="lux-modal-header" style={{ marginBottom: '16px', position: 'relative', paddingTop: '32px', zIndex: 1 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
           <p className="header-badge" style={{ margin: 0 }}>DIRECT SUPPORT</p>
           <button 
@@ -244,6 +245,6 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
           </a>
         </div>
       </form>
-    </>
+    </div>
   );
 }

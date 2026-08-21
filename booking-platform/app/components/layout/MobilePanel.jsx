@@ -9,6 +9,7 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
   const [showiOSGuide, setShowiOSGuide] = useState(false)
   const [isInstallable, setIsInstallable] = useState(false)
   const [expandedCategory, setExpandedCategory] = useState(false)
+  const [toastMessage, setToastMessage] = useState(null)
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.deferredPrompt) {
@@ -41,7 +42,8 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
   const handleInstallClick = async () => {
 
     if (typeof window !== 'undefined' && window.matchMedia('(display-mode: standalone)').matches) {
-      alert("Magnevents is already running as an installed App! 🎉")
+      setToastMessage("Magnevents is already running as an installed App! 🎉")
+      setTimeout(() => setToastMessage(null), 4000)
       return
     }
 
@@ -60,7 +62,8 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
         setShowiOSGuide(true)
         setTimeout(() => setShowiOSGuide(false), 8000)
       } else {
-        alert("PWA Install Ready! Simply click the '+' or 'Install App' option in your browser's address bar to install Magnevents. 📲")
+        setToastMessage("PWA Install Ready! Simply click the '+' or 'Install App' option in your browser's address bar to install Magnevents. 📲")
+        setTimeout(() => setToastMessage(null), 5000)
       }
     }
   }
@@ -94,6 +97,8 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
                     type="button"
                     className={`lux-mobile-link ${expandedCategory ? 'is-active' : ''}`}
                     onClick={() => setExpandedCategory(!expandedCategory)}
+                    aria-expanded={expandedCategory}
+                    aria-controls="mobile-artists-submenu"
                     style={{
                       width: '100%',
                       textAlign: 'left',
@@ -114,7 +119,7 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
                   </button>
 
                   {expandedCategory && (
-                    <div className="lux-mobile-submenu">
+                    <div id="mobile-artists-submenu" className="lux-mobile-submenu">
                       <Link
                         href="/artists"
                         onClick={onClose}
@@ -208,6 +213,12 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
             v1.1.0
           </div>
         </div>
+
+        {toastMessage && (
+          <div className="ios-install-guide-toast" style={{ bottom: '40px', background: 'rgba(0,0,0,0.9)', color: '#fff', border: '1px solid #FFE032' }}>
+            <p style={{ margin: 0 }}>{toastMessage}</p>
+          </div>
+        )}
       </aside>
       {isOpen && <button type="button" className="lux-mobile-backdrop" aria-label="Close menu" onClick={onClose} />}
     </>

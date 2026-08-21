@@ -16,8 +16,15 @@ const MobilePanel = dynamic(() => import('./MobilePanel'), { ssr: false });
 function useScrolled(threshold = 20) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
+    let ticking = false;
     const handler = () => {
-      setScrolled(window.scrollY > threshold);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > threshold);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
     window.addEventListener('scroll', handler, { passive: true });
     return () => window.removeEventListener('scroll', handler);
@@ -79,8 +86,10 @@ export default function Nav() {
                 <Link
                   href={link.path || '#'}
                   className={`lux-nav-link ${pathname === link.path ? 'is-active' : ''}`}
+                  aria-haspopup={link.children ? "true" : undefined}
+                  aria-expanded={link.children ? "false" : undefined}
                 >
-                  {link.label} {link.children && <span className="lux-dropdown-icon">▾</span>}
+                  {link.label} {link.children && <span className="lux-dropdown-icon" aria-hidden="true">▾</span>}
                 </Link>
 
                 {link.children && (
@@ -111,10 +120,16 @@ export default function Nav() {
               <span className="cta-short-text">Register</span>
             </button>
 
-            <button aria-label="Toggle navigation menu" className={`lux-hamburger ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>
-              <span />
-              <span />
-              <span />
+            <button 
+              aria-label="Toggle navigation menu" 
+              aria-expanded={menuOpen}
+              aria-controls="mobile-panel"
+              className={`lux-hamburger ${menuOpen ? 'is-open' : ''}`} 
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
             </button>
           </div>
 

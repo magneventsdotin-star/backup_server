@@ -12,6 +12,21 @@ export default function EventRegistrationPage() {
   const [submitted, setSubmitted] = useState(false)
   const [formError, setFormError] = useState('')
   const [selectedArtistTypes, setSelectedArtistTypes] = useState([])
+  const [currentVideoCategory, setCurrentVideoCategory] = useState('Singer')
+
+  const VIDEO_MAPPING = {
+    'Singer': '/assets/hero-gifs/Birthday_Party_Landscape.mp4',
+    'DJ': '/assets/hero-gifs/house_party_Landscape.mp4',
+    'Music Band': '/assets/hero-gifs/Birthday_Party_Landscape.mp4',
+    'Musician': '/assets/hero-gifs/house_party_Landscape.mp4',
+    'Comedian': '/assets/hero-gifs/Birthday_Party_Landscape.mp4',
+    'Anchor': '/assets/hero-gifs/house_party_Landscape.mp4',
+    'Dancer': '/assets/hero-gifs/Birthday_Party_Landscape.mp4',
+    'Magician': '/assets/hero-gifs/house_party_Landscape.mp4',
+    'default': '/assets/hero-gifs/Birthday_Party_Landscape.mp4'
+  }
+
+  const activeVideo = VIDEO_MAPPING[currentVideoCategory] || VIDEO_MAPPING['default'];
 
   // Controlled form state
   const [formData, setFormData] = useState({
@@ -65,8 +80,26 @@ export default function EventRegistrationPage() {
   }
 
   return (
-    <main className="lux-page register-page">
-      <div className="lux-container">
+    <main className="lux-page register-page" style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
+      {/* Dynamic Background Video */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: -1 }}>
+        <motion.video
+          key={activeVideo}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.6 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          src={activeVideo}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(18,18,18,0.9), rgba(18,18,18,0.5))' }} />
+      </div>
+
+      <div className="lux-container" style={{ position: 'relative', zIndex: 1 }}>
         <div className="register-card-container" style={{ display: 'flex', justifyContent: 'center', padding: '40px 0' }}>
           {submitted ? (
             <motion.div
@@ -85,7 +118,7 @@ export default function EventRegistrationPage() {
               </button>
             </motion.div>
           ) : (
-            <div className="lux-modal-content register is-page" style={{ maxWidth: '600px', width: '100%', background: 'rgba(20,20,20,0.8)', padding: '40px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <div className="lux-modal-content register is-page" style={{ maxWidth: '600px', width: '100%', background: 'rgba(24, 24, 27, 0.45)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', padding: '40px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
               <div className="lux-modal-header" style={{ marginBottom: '24px', textAlign: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                   <p className="header-badge" style={{ background: 'rgba(255, 224, 50, 0.1)', color: '#FFE032', display: 'inline-block', padding: '4px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 'bold', margin: 0 }}>DIRECT SUPPORT</p>
@@ -214,6 +247,11 @@ export default function EventRegistrationPage() {
                               ? selectedArtistTypes.filter(t => t !== type)
                               : [...selectedArtistTypes, type];
                             setSelectedArtistTypes(newTypes);
+                            if (newTypes.length > 0) {
+                              setCurrentVideoCategory(newTypes[newTypes.length - 1]);
+                            } else {
+                              setCurrentVideoCategory('default');
+                            }
                           }}
                           style={{
                             padding: '6px 12px',

@@ -62,8 +62,9 @@ export default function ArtistForm({ copyToClipboard, setSubmitted }) {
   };
 
   return (
-    <>
-      <div className="lux-modal-header" style={{ marginBottom: '16px', position: 'relative', paddingTop: '32px' }}>
+    <div className="form-cinematic-wrapper" style={{ position: 'relative', overflow: 'hidden', borderRadius: 'inherit', background: 'rgba(24, 24, 27, 0.45)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
+
+      <div className="lux-modal-header" style={{ marginBottom: '16px', position: 'relative', paddingTop: '32px', zIndex: 1 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
           <p className="header-badge" style={{ background: 'rgba(0, 212, 255, 0.1)', color: '#00d4ff', margin: 0 }}>JOIN THE ELITE</p>
           <button 
@@ -237,6 +238,6 @@ export default function ArtistForm({ copyToClipboard, setSubmitted }) {
           <span className="btn-text">{isSubmitting ? 'Processing...' : 'Register as Artist'}</span>
         </button>
       </form>
-    </>
+    </div>
   );
 }

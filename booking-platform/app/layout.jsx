@@ -24,8 +24,8 @@ export const viewport = {
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in'),
-  title: 'Book a Singer for House Party in Delhi-NCR, Weddings & Events | Magnevents',
-  description: 'Book a live singer, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
+  title: 'Book Top Live Singers & Bands for Events | Magnevents',
+  description: 'Make your event unforgettable. Browse and book premium live bands, singers, and DJs instantly for weddings and parties. Verified artists, direct booking, and transparent pricing. Get a quote today!',
   keywords: [
     'Magnevents',
     'book a singer for an event',
@@ -64,8 +64,8 @@ export const metadata = {
     statusBarStyle: 'default',
   },
   openGraph: {
-    title: 'Book a Singer for House Party in Delhi-NCR, Weddings & Events | Magnevents',
-    description: 'Book a live singer, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
+    title: 'Book Top Live Singers & Bands for Events | Magnevents',
+    description: 'Make your event unforgettable. Browse and book premium live bands, singers, and DJs instantly for weddings and parties. Verified artists, direct booking, and transparent pricing. Get a quote today!',
     url: '/',
     siteName: 'Magnevents',
     images: [
@@ -80,8 +80,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Book a Singer for House Party in Delhi-NCR, Weddings & Events | Magnevents',
-    description: 'Book a live singer, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
+    title: 'Book Top Live Singers & Bands for Events | Magnevents',
+    description: 'Make your event unforgettable. Browse and book premium live bands, singers, and DJs instantly for weddings and parties. Verified artists, direct booking, and transparent pricing. Get a quote today!',
     images: ['/icon-512.png'],
   },
 };

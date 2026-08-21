@@ -1,25 +1,88 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { HERO_STATS, HERO_SPOTLIGHT_SLIDES } from '@/app/constants';
 
+const MOBILE_HERO_MEDIA = [
+  { type: 'video', src: '/assets/hero-gifs/Book_a_Bhajan_concert_at_home_Portrait.mp4' },
+  { type: 'video', src: '/assets/hero-gifs/farm_house_Portrait.mp4' },
+  ...HERO_SPOTLIGHT_SLIDES.map(src => ({ type: 'image', src: typeof src === 'object' ? src.src : src }))
+];
+
+function HeroMediaComponent({ item, isActive, onEnded }) {
+  const videoRef = useRef(null);
+  
+  useEffect(() => {
+    if (isActive && item.type === 'video' && videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [isActive, item.type]);
+
+  return (
+    <div
+      className={`hp-hero-slide ${isActive ? 'is-active' : ''}`}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        opacity: isActive ? 1 : 0,
+        zIndex: isActive ? 2 : 1,
+        transition: 'opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        willChange: 'opacity'
+      }}
+    >
+      {item.type === 'video' ? (
+        <video
+          ref={videoRef}
+          src={item.src}
+          autoPlay
+          muted
+          playsInline
+          onEnded={onEnded}
+          style={{ objectFit: "cover", width: "100%", height: "100%", position: "absolute", inset: 0 }}
+         />
+      ) : (
+        <img
+          src={item.src}
+          alt="Event slide"
+          style={{ objectFit: "cover", width: "100%", height: "100%", position: "absolute", inset: 0 }}
+        />
+      )}
+    </div>
+  );
+}
+
 export default function MobileHero() {
-  const bgImage = HERO_SPOTLIGHT_SLIDES[0] || "/images/placeholder.jpg"; // Using only the first slide to save JS bundle and rendering on mobile
+  const [heroSlide, setHeroSlide] = useState(0);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined;
+    }
+
+    if (heroSlide >= 2) {
+      const id = window.setInterval(() => {
+        setHeroSlide(prev => (prev + 1) % MOBILE_HERO_MEDIA.length);
+      }, 4500);
+      return () => window.clearInterval(id);
+    }
+  }, [heroSlide]);
 
   return (
     <section className="mobile-hero">
-      <div className="mobile-hero-bg">
-        <img
-          src={typeof bgImage === "object" ? bgImage?.src : bgImage}
-          alt="Live Music Background" 
-          style={{ objectFit: "cover", width: "100%", height: "100%", position: "absolute", inset: 0 }}
-          fetchPriority="high"
-          decoding="async"
-         />
-        <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.6)' }} />
+      <div className="mobile-hero-bg" style={{ position: 'absolute', inset: 0, background: '#000' }}>
+        {MOBILE_HERO_MEDIA.map((item, idx) => (
+          <HeroMediaComponent 
+            key={item.src + idx} 
+            item={item} 
+            isActive={heroSlide === idx} 
+            onEnded={() => setHeroSlide(prev => (prev + 1) % MOBILE_HERO_MEDIA.length)} 
+          />
+        ))}
+        {/* Subtle gradient overlay to make text pop without making video too dark */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 3, background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%)' }} />
       </div>
-      
       <div className="mobile-shell mobile-hero-content">
         <h1 className="mobile-hero-h1">
           Book A <span style={{ color: '#FFE032' }}>Musician</span><br/>

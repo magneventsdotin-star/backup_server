@@ -51,12 +51,19 @@ export default async function ArtistLayout({ children, params }) {
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Person",
+    "@type": data?.category?.toLowerCase().includes('band') ? "MusicGroup" : "Person",
     "name": name,
-    "description": data?.bio || "Live performer available for booking",
+    "description": data?.bio || `Book ${name} for your event. Verified live performer available for booking on Magnevents.`,
     "image": image,
     "jobTitle": data?.category || "Artist",
-    "url": `https://www.magnevents.in/artist/${params.id}`
+    "url": `https://www.magnevents.in/artist/${params.id}`,
+    "offers": {
+      "@type": "Offer",
+      "availability": "https://schema.org/InStock",
+      "priceCurrency": "INR",
+      "price": "Contact for pricing",
+      "url": `https://www.magnevents.in/artist/${params.id}`
+    }
   };
 
   return (

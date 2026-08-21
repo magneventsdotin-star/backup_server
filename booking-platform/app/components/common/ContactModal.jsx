@@ -14,7 +14,22 @@ export default function ContactModal() {
   const [initialPlan, setInitialPlan] = useState(null)
   const [initialService, setInitialService] = useState(null)
   const [discountValue, setDiscountValue] = useState(null)
+  const [currentVideoCategory, setCurrentVideoCategory] = useState('Singer')
   const pathname = usePathname();
+
+  const VIDEO_MAPPING = {
+    'Singer': '/assets/hero-gifs/Birthday_Party_Landscape.mp4',
+    'DJ': '/assets/hero-gifs/house_party_Landscape.mp4',
+    'Music Band': '/assets/hero-gifs/Birthday_Party_Landscape.mp4',
+    'Musician': '/assets/hero-gifs/house_party_Landscape.mp4',
+    'Comedian': '/assets/hero-gifs/Birthday_Party_Landscape.mp4',
+    'Anchor': '/assets/hero-gifs/house_party_Landscape.mp4',
+    'Dancer': '/assets/hero-gifs/Birthday_Party_Landscape.mp4',
+    'Magician': '/assets/hero-gifs/house_party_Landscape.mp4',
+    'default': '/assets/hero-gifs/Birthday_Party_Landscape.mp4'
+  }
+
+  const activeVideo = VIDEO_MAPPING[currentVideoCategory] || VIDEO_MAPPING['default'];
 
   useEffect(() => {
     fetch('/api/settings/top-ad')
@@ -98,21 +113,54 @@ export default function ContactModal() {
           <motion.div
             className="lux-modal-backdrop"
             initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={onClose}
-        />
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+          >
+            {/* Cinematic Video Background for Modal */}
+            <AnimatePresence mode="wait">
+              <motion.video
+                key={activeVideo}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.7 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8 }}
+                autoPlay
+                loop
+                muted
+                playsInline
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  transform: 'translate(-50%, -50%)',
+                }}
+                src={activeVideo}
+              />
+            </AnimatePresence>
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(18,18,18,0.95), rgba(18,18,18,0.5))' }} />
+          </motion.div>
 
-        <motion.div
-          className={`lux-modal-content ${formType}`}
-          initial={{ opacity: 0, scale: 0.95, y: 30 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 30 }}
-          transition={{ type: "spring", damping: 30, stiffness: 400 }}
-        >
-          <div className="modal-glow-bg" />
-
-          <button className="lux-modal-close" onClick={onClose} aria-label="Close modal">
+          <motion.div
+            className={`lux-modal-content ${formType}`}
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+            transition={{ type: "spring", damping: 30, stiffness: 400 }}
+            style={{
+              background: 'rgba(24, 24, 27, 0.45)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+            }}
+          >
+            <div className="modal-glow-bg" style={{ display: 'none' }} />
+          {/* Cinematic Video Background for Modal */}
+            <button className="lux-modal-close" onClick={onClose} aria-label="Close modal">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
 
@@ -174,6 +222,7 @@ export default function ContactModal() {
             initialService={initialService}
             discountValue={discountValue}
             onClose={onClose}
+            onCategoryChange={(cat) => setCurrentVideoCategory(cat)}
           />
         </motion.div>
       </div>
@@ -182,7 +231,7 @@ export default function ContactModal() {
   )
 }
 
-function InnerContactForm({ formType, initialArtist, initialPlan, initialService, discountValue, onClose }) {
+function InnerContactForm({ formType, initialArtist, initialPlan, initialService, discountValue, onClose, onCategoryChange }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -225,6 +274,14 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
       setSelectedArtistTypes([]); setSelectedBudget(''); setSelectedEventType('');
     }
   }, [initialPlan, initialService, initialArtist]);
+
+  useEffect(() => {
+    if (selectedArtistTypes.length > 0) {
+      onCategoryChange(selectedArtistTypes[selectedArtistTypes.length - 1]);
+    } else {
+      onCategoryChange('default');
+    }
+  }, [selectedArtistTypes, onCategoryChange]);
 
   const handleSubmit = (e) => {
     e.preventDefault()
