@@ -169,11 +169,14 @@ export default function BlogManagement() {
                     <TableCell className="text-center">
                       <button
                         onClick={() => toggleStatus(blog.id, blog.is_published)}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold transition-all ${
-                          blog.is_published ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-slate-100 text-slate-400 border border-slate-200'
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all shadow-sm ${
+                          blog.is_published 
+                            ? 'bg-emerald-500 text-white hover:bg-emerald-600' 
+                            : 'bg-slate-200 text-slate-600 hover:bg-slate-300'
                         }`}
+                        title={blog.is_published ? "Click to Unpublish" : "Click to Publish"}
                       >
-                        {blog.is_published ? <CheckCircle2 size={10} /> : <XCircle size={10} />}
+                        {blog.is_published ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
                         {blog.is_published ? 'Published' : 'Draft'}
                       </button>
                     </TableCell>
