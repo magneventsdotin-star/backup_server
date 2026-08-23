@@ -167,18 +167,23 @@ export default function BlogManagement() {
                       </div>
                     </TableCell>
                     <TableCell className="text-center">
-                      <button
-                        onClick={() => toggleStatus(blog.id, blog.is_published)}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all shadow-sm ${
-                          blog.is_published 
-                            ? 'bg-emerald-500 text-white hover:bg-emerald-600' 
-                            : 'bg-slate-200 text-slate-600 hover:bg-slate-300'
-                        }`}
-                        title={blog.is_published ? "Click to Unpublish" : "Click to Publish"}
-                      >
-                        {blog.is_published ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
-                        {blog.is_published ? 'Published' : 'Draft'}
-                      </button>
+                      <div className="flex flex-col items-center justify-center gap-2">
+                        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${blog.is_published ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
+                          {blog.is_published ? <CheckCircle2 size={10} /> : <XCircle size={10} />}
+                          {blog.is_published ? 'Published' : 'Draft'}
+                        </span>
+                        
+                        <button
+                          onClick={() => toggleStatus(blog.id, blog.is_published)}
+                          className={`inline-flex items-center justify-center w-24 py-1.5 rounded-lg text-[11px] font-bold transition-all shadow-sm ${
+                            blog.is_published 
+                              ? 'bg-white border border-slate-200 text-slate-500 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50' 
+                              : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-md'
+                          }`}
+                        >
+                          {blog.is_published ? 'Unpublish' : 'Publish'}
+                        </button>
+                      </div>
                     </TableCell>
                     <TableCell className="pr-8">
                        <div className="flex items-center justify-center gap-2">
