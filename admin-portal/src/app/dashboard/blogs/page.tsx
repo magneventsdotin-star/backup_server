@@ -8,6 +8,8 @@ import { supabase } from '@database/connection/supabase-admin';
 import { useToast } from '@/hooks/use-toast';
 import { BlogEditorModal } from '@/components/blog/BlogEditorModal';
 
+import { toggleBlogPublishStatus, deleteBlogPostAction } from '@/app/actions/blogActions';
+
 export default function BlogManagement() {
   const { confirmAction } = useConfirm();
   const [blogs, setBlogs] = useState<any[]>([]);
@@ -46,19 +48,17 @@ export default function BlogManagement() {
 
   const toggleStatus = async (id: string, current: boolean) => {
     try {
-      const { error } = await (supabase.from('blogs') as any).update({ is_published: !current }).eq('id', id);
-      if (error) throw error;
+      await toggleBlogPublishStatus(id, !current);
       fetchBlogs();
-    } catch (err) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to update status.' });
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Error', description: err.message || 'Failed to update status.' });
     }
   };
 
   const handleDelete = async (id: string) => {
     if (!await confirmAction('Admin Verification Required', 'Are you sure you want to delete this blog post?', 'danger')) return;
     try {
-      const { error } = await (supabase.from('blogs') as any).delete().eq('id', id);
-      if (error) throw error;
+      await deleteBlogPostAction(id);
       toast({ title: 'Deleted', description: 'Blog post has been removed.' });
       fetchBlogs();
     } catch (error: any) {
