@@ -58,20 +58,25 @@ export const mockSupabase = {
     getSession: async () => ({ data: { session: { user: { id: 'mock-user' } } }, error: null }),
     onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
   },
-  from: (table: string) => ({
-    select: () => ({
-      eq: () => ({ data: [], error: null, single: () => ({ data: null, error: null }) }),
-      order: () => ({ data: [], error: null }),
-      match: () => ({ data: [], error: null }),
-    }),
-    insert: (data: any) => ({ data: null, error: null }),
-    update: (data: any) => ({
-      eq: (col: string, val: any) => ({ error: null })
-    }),
-    delete: () => ({
-      eq: (col: string, val: any) => ({ error: null })
-    }),
-  }),
+  from: (table: string) => {
+    const mockQuery: any = {
+      select: () => mockQuery,
+      eq: () => mockQuery,
+      neq: () => mockQuery,
+      order: () => mockQuery,
+      match: () => mockQuery,
+      limit: () => mockQuery,
+      range: () => mockQuery,
+      single: () => ({ data: null, error: null }),
+      then: (resolve: any) => resolve({ data: [], error: null })
+    };
+    return {
+      ...mockQuery,
+      insert: (data: any) => ({ data: null, error: null }),
+      update: (data: any) => mockQuery,
+      delete: () => mockQuery,
+    };
+  },
 };
 
 export const supabase = (realSupabase || mockSupabase) as unknown as ReturnType<typeof createClient>;
