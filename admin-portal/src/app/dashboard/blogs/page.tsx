@@ -181,7 +181,18 @@ export default function BlogManagement() {
                       </button>
                     </TableCell>
                     <TableCell className="pr-8">
-                       <div className="flex items-center justify-center gap-2">
+                       <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => toggleStatus(blog.id, blog.is_published)}
+                            className={`h-8 px-3 rounded-lg flex items-center justify-center text-[11px] font-bold transition-colors shadow-sm border ${
+                              blog.is_published 
+                                ? 'bg-white border-slate-200 text-slate-500 hover:text-slate-700 hover:bg-slate-50' 
+                                : 'bg-emerald-500 border-emerald-600 text-white hover:bg-emerald-600'
+                            }`}
+                          >
+                            {blog.is_published ? 'Unpublish' : 'Publish'}
+                          </button>
+                          
                           <button 
                             onClick={() => window.open(`https://magnevents.in/blog-post/${blog.slug || blog.id}`, '_blank')}
                             className="w-8 h-8 rounded-lg flex items-center justify-center bg-white border border-slate-100 hover:border-indigo-600 hover:text-indigo-600 text-slate-400 transition-colors shadow-sm"
