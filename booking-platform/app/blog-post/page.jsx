@@ -143,7 +143,7 @@ export default function BlogPostPage() {
               ))
             ) : (
               blogs.map((blog) => (
-                <Link key={blog.id} href={`/blog-post/${blog.id}`} className="modern-card-link">
+                <Link key={blog.id} href={`/blog-post/${blog.slug || blog.id}`} className="modern-card-link">
                   <motion.div className="modern-blog-card" whileHover={{ y: -10 }}>
                     {blog.image_url && (
                       <div className="card-image" style={{ position: 'relative', overflow: 'hidden' }}>

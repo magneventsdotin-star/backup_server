@@ -25,23 +25,43 @@ export default function BlogDetailPage() {
 
 
       try {
+        const decodedId = decodeURIComponent(id);
         const { data, error } = await supabase
-          .from('hero_slides')
+          .from('blogs')
           .select('*')
-          .eq('id', id)
+          .eq('slug', decodedId)
           .single();
 
         if (error) {
-          if (error.code === 'PGRST116' || error.code === '42P01') {
-
-            setBlog(null);
-          } else {
-            console.error("Error fetching dynamic blog:", error);
+          // If not found by slug, try by ID as a fallback (if it's a valid UUID)
+          const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+          if (uuidRegex.test(decodedId)) {
+            const { data: dataById, error: errorById } = await supabase
+              .from('blogs')
+              .select('*')
+              .eq('id', decodedId)
+              .single();
+              
+            if (errorById) {
+              setBlog(null);
+            } else if (dataById) {
+              setBlog({
+                id: dataById.id,
+                slug: dataById.slug || dataById.id,
+                title: dataById.title,
+                subtitle: dataById.subtitle,
+                img: dataById.image_url,
+                content: dataById.content || '',
+              });
+            }
+            return;
           }
+          
+          setBlog(null);
         } else if (data) {
           setBlog({
             id: data.id,
-            slug: data.id,
+            slug: data.slug || data.id,
             title: data.title,
             subtitle: data.subtitle,
             img: data.image_url,
