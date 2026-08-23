@@ -20,10 +20,14 @@ export async function generateMetadata({ params }) {
   return {
     title: `${name} | Book Live Singer | Magnevents`,
     description,
+    alternates: {
+      canonical: `/artist/${params.id}`,
+    },
     openGraph: {
       title: `${name} | Book Live Singer | Magnevents`,
       description,
       images: [image],
+      url: `/artist/${params.id}`,
     },
     twitter: {
       card: 'summary_large_image',

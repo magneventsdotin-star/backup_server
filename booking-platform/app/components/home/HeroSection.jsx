@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 import { HERO_STATS, HERO_SPOTLIGHT_SLIDES } from '@/app/constants'
@@ -37,9 +38,13 @@ export default function HeroSection() {
               willChange: 'opacity'
             }}
           >
-            <img
+            <Image
               src={typeof src === "object" ? src?.src : src}
-              alt={`Live musician and band performing at an event slide ${idx + 1}`} style={{ objectFit: "cover", width: "100%", height: "100%", position: "absolute", inset: 0 }}
+              alt={`Live musician and band performing at an event slide ${idx + 1}`} 
+              fill
+              priority={idx === 0}
+              sizes="100vw"
+              style={{ objectFit: "cover" }}
              />
           </div>
         ))}

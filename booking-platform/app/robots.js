@@ -4,7 +4,14 @@ export default function robots() {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/admin/'],
+      disallow: [
+        '/api/', 
+        '/admin/', 
+        '/_next/', 
+        '/private/', 
+        '/preview/', 
+        '/*?*' // Disallow URLs with query parameters to avoid duplicate content
+      ],
     },
     sitemap: `${baseUrl}/sitemap.xml`,
   }

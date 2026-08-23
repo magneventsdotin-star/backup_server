@@ -47,6 +47,9 @@ export const metadata = {
     'DJs',
     'Comedians'
   ],
+  alternates: {
+    canonical: '/',
+  },
   manifest: '/site.webmanifest',
   icons: {
     icon: [

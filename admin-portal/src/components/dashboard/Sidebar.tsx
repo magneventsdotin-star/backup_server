@@ -56,7 +56,8 @@ export const navSections = [
         subItems: [
           { name: 'Categories', href: '/dashboard/categories' },
           { name: 'Pricing', href: '/dashboard/pricing' },
-          { name: 'Blog Editing', href: '/dashboard/slider' },
+          { name: 'Slider (Hero)', href: '/dashboard/slider' },
+          { name: 'Blogs', href: '/dashboard/blogs' },
           { name: 'Service Videos', href: '/dashboard/service-videos' },
           { name: 'Ad', href: '/dashboard/top-ad' },
         ]
@@ -99,6 +100,7 @@ export function Sidebar({ onClose, userRole = 'admin' }: { onClose?: () => void;
       'Edit': pathname.startsWith('/dashboard/categories') ||
               pathname.startsWith('/dashboard/pricing') ||
               pathname.startsWith('/dashboard/slider') ||
+              pathname.startsWith('/dashboard/blogs') ||
               pathname.startsWith('/dashboard/service-videos') ||
               pathname.startsWith('/dashboard/top-ad'),
       'Requests': pathname.startsWith('/dashboard/requests') ||

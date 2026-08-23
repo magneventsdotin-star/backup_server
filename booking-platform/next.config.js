@@ -10,6 +10,7 @@ const nextConfig = {
   compress: true,
   swcMinify: true,
   poweredByHeader: false,
+  trailingSlash: false, // Enforce no trailing slashes for SEO consistency
   experimental: {
     externalDir: true,
   },
