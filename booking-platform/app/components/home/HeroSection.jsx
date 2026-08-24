@@ -94,8 +94,8 @@ export default function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.1 }}
               >
-                Book India's verified singers for weddings, corporate events and celebrations.
-                Get instant quotes with transparent pricing and expert booking support.
+                Book from 1500+ verified singers for weddings, corporate events & celebrations. 
+                Trusted by 2500+ happy clients with a 4.9★ Google rating, transparent pricing, and instant quotes.
               </motion.p>
 
               <motion.div
@@ -223,7 +223,7 @@ export default function HeroSection() {
           {/* Section 3: Subtitle */}
           <div className="hp-mob-section">
             <p className="hp-mob-sub">
-              Book from 1500+ verified artists for weddings, birthdays, corporate events and private parties with instant quotations.
+              Book from 1500+ verified singers for weddings, corporate events & celebrations. Trusted for 2500+ successful bookings with 4.9★ Google rating & instant transparent quotes.
             </p>
           </div>
 
