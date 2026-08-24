@@ -141,11 +141,6 @@ export default function HeroSection() {
                 style={{ width: '100%' }}
               >
                 <div className="mob-premium-slider-card">
-                  <div className="mps-header">
-                    <span className="mps-title">
-                      {mobCardSlide === 0 ? "Why Choose Magnevents?" : mobCardSlide === 1 ? "How to Book?" : "Our Reviews"}
-                    </span>
-                  </div>
 
                   <div className="mps-body">
                     {mobCardSlide === 0 && (
@@ -263,11 +258,6 @@ export default function HeroSection() {
           {/* Section 6: Mobile Premium Slider Card */}
           <div className="hp-mob-section">
             <div className="mob-premium-slider-card">
-              <div className="mps-header">
-                <span className="mps-title">
-                  {mobCardSlide === 0 ? "Why Choose Magnevents?" : mobCardSlide === 1 ? "How to Book?" : "Our Reviews"}
-                </span>
-              </div>
 
               <div className="mps-body">
                 {mobCardSlide === 0 && (
