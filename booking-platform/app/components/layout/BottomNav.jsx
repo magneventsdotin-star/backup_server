@@ -108,7 +108,7 @@ export default function BottomNav() {
             }}
           >
             <PhoneIcon color="#fff" />
-            <span style={{ fontSize: '8px', fontWeight: '900', color: '#fff', letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: '1px' }}>Contact</span>
+            <span style={{ fontSize: '9px', fontWeight: '900', color: '#ffffff', letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: '2px' }}>Contact</span>
           </button>
         </div>
 
