@@ -190,7 +190,7 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
 
           <button
             onClick={() => {
-              window.dispatchEvent(new CustomEvent('open-register-modal', { detail: { view: 'event' } }));
+              window.dispatchEvent(new CustomEvent('open-register-modal', { detail: { view: 'selection' } }));
               onClose();
             }}
             className="lux-mobile-cta"
