@@ -23,6 +23,15 @@ const getCategoryIcon = (label) => {
 function CategoriesSection() {
   const [catPage, setCatPage] = useState(0)
   const [catPerPage, setCatPerPage] = useState(4)
+  const [isHovered, setIsHovered] = useState(false)
+  const scrollRef = React.useRef(null)
+
+  // Reset scroll on mount
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = 0;
+    }
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -39,6 +48,28 @@ function CategoriesSection() {
 
   const totalCatPages = Math.ceil(ARTIST_CATEGORIES.length / catPerPage)
   const moveCat = (dir) => setCatPage(p => (p + dir + totalCatPages) % totalCatPages)
+
+  // Auto-scroll on mobile
+  useEffect(() => {
+    if (window.innerWidth > 768 || isHovered) return;
+
+    let intervalId;
+    const checkAndScroll = () => {
+      if (window.innerWidth <= 768 && scrollRef.current) {
+        const container = scrollRef.current;
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        
+        if (container.scrollLeft >= maxScroll - 10) {
+          container.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          container.scrollBy({ left: 200, behavior: 'smooth' });
+        }
+      }
+    };
+
+    intervalId = setInterval(checkAndScroll, 3500);
+    return () => clearInterval(intervalId);
+  }, [isHovered]);
 
   return (
     <FadeSection className="hp-shell hp-block">
@@ -62,10 +93,15 @@ function CategoriesSection() {
             <AnimatePresence mode="popLayout">
               <motion.div
                 key={catPage}
-                className="hp-cat-grid"
+                ref={catPerPage !== 4 ? scrollRef : null}
+                className={`hp-cat-grid ${catPerPage !== 4 ? 'is-mobile-scroll' : ''}`}
                 initial={{ opacity: 0, x: 80 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -80 }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                onTouchStart={() => setIsHovered(true)}
+                onTouchEnd={() => setIsHovered(false)}
                 transition={{ duration: 0.22, ease: "easeOut" }}
                 drag={catPerPage === 4 ? "x" : false}
                 dragConstraints={{ left: 0, right: 0 }}

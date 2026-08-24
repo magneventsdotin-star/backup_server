@@ -172,3 +172,33 @@
   .journey-cards { grid-template-columns: 1fr; gap: 24px; }
 }
 
+
+@media (max-width: 768px) {
+  .journey-cards.is-mobile-scroll {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 20px !important;
+    gap: 16px !important;
+  }
+  .journey-cards.is-mobile-scroll::-webkit-scrollbar {
+    display: block !important;
+    height: 4px !important;
+  }
+  .journey-cards.is-mobile-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 4px !important;
+  }
+  .journey-cards.is-mobile-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.6) !important;
+    border-radius: 4px !important;
+  }
+  .journey-cards.is-mobile-scroll .journey-card-step {
+    min-width: 85% !important;
+    scroll-snap-align: center !important;
+    flex-shrink: 0 !important;
+  }
+}

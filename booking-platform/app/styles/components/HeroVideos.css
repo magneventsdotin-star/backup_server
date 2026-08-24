@@ -5,17 +5,28 @@
 }
 
 .hero-videos-container {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   gap: 16px;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 16px 16px 16px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hero-videos-container::-webkit-scrollbar {
+  display: none;
 }
 
 @media (min-width: 640px) {
   .hero-videos-container {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
+    overflow: visible;
+    padding: 0 16px;
   }
 }
 
@@ -26,6 +37,8 @@
 }
 
 .hero-video-card {
+  flex: 0 0 85%;
+  scroll-snap-align: center;
   background: #111;
   border-radius: 12px;
   overflow: hidden;
@@ -34,6 +47,12 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
+}
+
+@media (min-width: 640px) {
+  .hero-video-card {
+    flex: none;
+  }
 }
 
 .hero-video-card:hover {

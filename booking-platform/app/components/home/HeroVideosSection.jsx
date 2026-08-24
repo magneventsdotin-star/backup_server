@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import VideoCard from './VideoCard';
 import VideoModal from './VideoModal';
@@ -10,6 +10,8 @@ export default function HeroVideosSection() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const scrollRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   const fetchVideos = async () => {
     setLoading(true);
@@ -37,6 +39,30 @@ export default function HeroVideosSection() {
   useEffect(() => {
     fetchVideos();
   }, []);
+
+  useEffect(() => {
+    // Only auto-scroll if we have videos and are not currently interacting
+    if (videos.length === 0 || isHovered) return;
+
+    let intervalId;
+    const checkAndScroll = () => {
+      // Only apply horizontal scroll logic on mobile view (which is <= 640px based on CSS)
+      if (window.innerWidth < 640 && scrollRef.current) {
+        const container = scrollRef.current;
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        
+        if (container.scrollLeft >= maxScroll - 10) {
+          container.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          // Scroll by roughly the width of one card + gap
+          container.scrollBy({ left: 300, behavior: 'smooth' });
+        }
+      }
+    };
+
+    intervalId = setInterval(checkAndScroll, 3500);
+    return () => clearInterval(intervalId);
+  }, [videos, isHovered]);
 
   return (
     <section className="hero-videos-section">
@@ -68,7 +94,14 @@ export default function HeroVideosSection() {
           </button>
         </div>
       ) : (
-        <div className="hero-videos-container">
+        <div 
+          className="hero-videos-container" 
+          ref={scrollRef}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={() => setIsHovered(true)}
+          onTouchEnd={() => setIsHovered(false)}
+        >
           {videos.map((video, index) => (
             <VideoCard 
               key={video.id || index} 

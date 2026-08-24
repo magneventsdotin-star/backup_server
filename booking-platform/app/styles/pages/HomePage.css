@@ -4652,7 +4652,7 @@
     overflow: hidden;
   }
   
-  .hp-hero-wrapper .hp-hero-overlay {
+  .hp-hero-wrapper .hp-hero-overlay { pointer-events: none;
     display: none !important; /* Hide desktop overlay */
   }
 
@@ -5084,3 +5084,355 @@
   -webkit-text-fill-color: #ffffff !important;
   filter: none !important;
 }
+
+/* AUTO-SCROLL HORIZONTAL SLIDERS FOR MOBILE */
+@media (max-width: 768px) {
+  .hp-cat-grid.is-mobile-scroll {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-behavior: smooth !important;
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+    gap: 16px !important;
+    padding: 0 16px 16px 16px !important;
+  }
+  
+  .hp-cat-grid.is-mobile-scroll::-webkit-scrollbar {
+    display: block !important;
+    height: 4px !important;
+  }
+  .hp-cat-grid.is-mobile-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 4px !important;
+  }
+  .hp-cat-grid.is-mobile-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.6) !important;
+    border-radius: 4px !important;
+  }
+  
+  .hp-cat-grid.is-mobile-scroll .hp-cat-card-v2 {
+    flex: 0 0 85% !important;
+    scroll-snap-align: center !important;
+  }
+}
+
+.mob-premium-slider-card {
+  background: rgba(20, 20, 20, 0.4) !important;
+  backdrop-filter: none !important;
+}
+
+.hp-hero-sub {
+  color: #ffffff !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8) !important;
+  font-weight: 500 !important;
+}
+
+@media (max-width: 768px) {
+  .hp-hero-wrapper .hp-hero-bg {
+    height: 100% !important;
+    border-radius: 0 !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+  .hp-mobile-hero-overlay {
+    height: 100% !important;
+  }
+}
+
+.mps-footer {
+  flex-direction: column !important;
+  gap: 8px !important;
+  align-items: flex-start !important;
+}
+
+.mps-chip {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+@media (max-width: 768px) {
+  .hp-why-grid.is-mobile-scroll {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 20px !important;
+    gap: 16px !important;
+  }
+  .hp-why-grid.is-mobile-scroll::-webkit-scrollbar {
+    display: block !important;
+    height: 4px !important;
+  }
+  .hp-why-grid.is-mobile-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 4px !important;
+  }
+  .hp-why-grid.is-mobile-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.6) !important;
+    border-radius: 4px !important;
+  }
+  .hp-why-grid.is-mobile-scroll .hp-why-card {
+    min-width: 85% !important;
+    scroll-snap-align: center !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* ================================================== */
+/* PREMIUM HERO UPGRADES (GLASSMORPHISM, TYPOGRAPHY) */
+/* ================================================== */
+
+/* 1. BACKGROUND & IMAGE */
+.hp-hero-wrapper .hp-hero-overlay {
+  display: block !important;
+  background: transparent !important;
+  pointer-events: none !important;
+}
+.hp-hero-bg img {
+  /* Original vibrant image, no dulling or dimming */
+  filter: none !important;
+  opacity: 1 !important;
+}
+.hp-hero-radial-glow {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .hp-hero-wrapper .hp-hero-overlay {
+    background: transparent !important;
+  }
+}
+
+/* TEXT BACKDROP (GLASS CARD) */
+.hp-hero-text-backdrop {
+  background: rgba(10, 10, 10, 0.45) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 32px 40px !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3) !important;
+  margin-left: -20px;
+}
+
+@media (max-width: 768px) {
+  .hp-hero-text-backdrop {
+    padding: 24px 20px !important;
+    margin-left: 0;
+    margin-bottom: 24px;
+    border-radius: 20px !important;
+  }
+}
+
+/* 2. TYPOGRAPHY & LEFT CONTENT */
+.hp-hero-h1 {
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  line-height: 0.95 !important;
+  text-shadow: 0 6px 24px rgba(0,0,0,0.45) !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+.hp-gradient-text.accent-text, .hp-gradient-text {
+  background: linear-gradient(135deg, #FFDF00 0%, #D4AF37 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+  filter: drop-shadow(0 2px 12px rgba(255, 215, 0, 0.4)) !important;
+  font-weight: 900 !important;
+  opacity: 1 !important;
+}
+.hp-hero-sub {
+  color: rgba(255, 255, 255, 0.88) !important;
+  font-size: 19px !important;
+  line-height: 1.7 !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5) !important;
+  max-width: 520px !important;
+}
+.hp-premium-badge {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #FFF !important;
+  padding: 8px 16px !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  font-size: 12px !important;
+  margin-bottom: 16px !important;
+  display: inline-block !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+}
+
+/* 3. NEW STATS GRID & TRUST ROW */
+.hp-hero-trust-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+.hp-trust-mini-card {
+  background: rgba(15, 15, 15, 0.35);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #FFF;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hp-stars {
+  letter-spacing: -2px;
+}
+.hp-glass-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 24px 0 32px 0;
+  max-width: 520px;
+}
+.hp-stat-item {
+  background: rgba(15, 15, 15, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  padding: 12px 16px !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  transition: all 300ms ease !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;
+}
+.hp-stat-item:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(20, 20, 20, 0.45) !important;
+}
+.hp-stat-icon {
+  font-size: 16px;
+}
+.hp-stat-text {
+  color: #FFF;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .hp-hero-trust-row {
+    justify-content: center;
+  }
+  .hp-glass-stats {
+    grid-template-columns: 1fr 1fr;
+    max-width: 100%;
+  }
+  .hp-stat-item {
+    padding: 10px !important;
+  }
+  .hp-stat-text {
+    font-size: 12px;
+  }
+}
+
+/* 4. BUTTONS (CTAs) */
+.hp-btn-primary {
+  background: linear-gradient(135deg, #F5D061 0%, #E6B93D 100%) !important;
+  color: #111 !important;
+  font-weight: 700 !important;
+  padding: 14px 28px !important;
+  font-size: 16px !important;
+  border-radius: 12px !important;
+  border: none !important;
+  box-shadow: 0 10px 30px rgba(245, 208, 97, 0.3) !important;
+  transition: all 300ms ease !important;
+}
+.hp-btn-primary:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 15px 35px rgba(245, 208, 97, 0.45) !important;
+}
+.hp-btn-glass {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #FFF !important;
+  padding: 14px 24px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  transition: all 300ms ease !important;
+}
+.hp-btn-glass:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-3px) !important;
+}
+.call-btn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.hp-call-icon {
+  font-size: 18px;
+}
+
+/* 5. RIGHT FLOATING CARD */
+.hp-desktop-card-wrapper, .mob-premium-slider-card {
+  background: rgba(20, 20, 20, 0.45) !important;
+  backdrop-filter: blur(18px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  transition: transform 300ms ease, box-shadow 300ms ease !important;
+}
+.hp-desktop-card-wrapper:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5) !important;
+}
+.mps-inner-card {
+  padding: 24px !important;
+}
+.mps-list li {
+  color: #FFF !important;
+  font-weight: 500 !important;
+  margin-bottom: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  transition: transform 200ms ease !important;
+}
+.mps-list li:hover {
+  transform: translateX(4px) !important;
+}
+.mps-check {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #FFDF00 0%, #D4AF37 100%) !important;
+  color: #111 !important;
+  font-size: 12px !important;
+  margin-right: 12px !important;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3) !important;
+}
+.hp-trust-badge-bottom {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 16px !important;
+  text-align: center !important;
+  font-size: 13px !important;
+  color: #FFF !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+}
+
+.hp-hero-right-clean { flex: 0 0 32%; max-width: 32%; }
+@media (max-width: 768px) { .hp-hero-right-clean { flex: 0 0 100%; max-width: 100%; width: 100%; } }

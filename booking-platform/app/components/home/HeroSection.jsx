@@ -18,7 +18,15 @@ export default function HeroSection() {
     const id = window.setInterval(() => {
       setHeroSlide(prev => (prev + 1) % HERO_SPOTLIGHT_SLIDES.length)
     }, 8000)
-    return () => window.clearInterval(id)
+    
+    const cardId = window.setInterval(() => {
+      setMobCardSlide(prev => (prev + 1) % 3)
+    }, 5000)
+
+    return () => {
+      window.clearInterval(id)
+      window.clearInterval(cardId)
+    }
   }, [])
 
   return (
@@ -62,6 +70,7 @@ export default function HeroSection() {
             
             {/* LEFT 60% */}
             <div className="hp-hero-left">
+              <div className="hp-hero-text-backdrop">
               <motion.div 
                 className="hp-premium-badge"
                 initial={{ opacity: 0, y: 10 }}
@@ -98,8 +107,19 @@ export default function HeroSection() {
                 Get instant quotes with transparent pricing and expert booking support.
               </motion.p>
 
+              <motion.div
+                className="hp-hero-trust-row"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.15 }}
+              >
+                <div className="hp-trust-mini-card"><span className="hp-stars">⭐⭐⭐⭐⭐</span> 4.9/5 Google Rating</div>
+                <div className="hp-trust-mini-card">2500+ Successful Bookings</div>
+                <div className="hp-trust-mini-card">100% Verified Artists</div>
+              </motion.div>
+
               <motion.div 
-                className="hp-trust-chips"
+                className="hp-glass-stats"
                 initial="hidden"
                 animate="visible"
                 variants={{
@@ -110,17 +130,25 @@ export default function HeroSection() {
                   }
                 }}
               >
-                {['✔ Verified Artists', '⚡ Instant Quotes', '🛡 Secure Booking', '💰 Transparent Pricing', '🇮🇳 Pan India', '24×7 Support'].map(chip => (
-                  <motion.span 
-                    key={chip} 
-                    className="hp-trust-chip"
+                {[
+                  { icon: '✔', text: '2500+ Verified Artists' },
+                  { icon: '⚡', text: 'Instant Quotes' },
+                  { icon: '🛡', text: 'Secure Booking' },
+                  { icon: '💰', text: 'Transparent Pricing' },
+                  { icon: '🇮🇳', text: 'Pan India' },
+                  { icon: '⭐', text: 'Rated 4.9/5' }
+                ].map(stat => (
+                  <motion.div 
+                    key={stat.text} 
+                    className="hp-stat-item"
                     variants={{
                       hidden: { opacity: 0, y: 10 },
                       visible: { opacity: 1, y: 0 }
                     }}
                   >
-                    {chip}
-                  </motion.span>
+                    <span className="hp-stat-icon">{stat.icon}</span>
+                    <span className="hp-stat-text">{stat.text}</span>
+                  </motion.div>
                 ))}
               </motion.div>
 
@@ -131,24 +159,29 @@ export default function HeroSection() {
                 transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               >
                 <button
-                  onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }))}
-                  className="hp-btn hp-btn-primary hp-btn-glow"
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-quick-booking'))}
+                  className="hp-btn hp-btn-primary"
                 >
-                  <span>Get Free Quote &rarr;</span>
+                  <span>Get Free Quote</span>
                 </button>
                 <Link href="/artists" className="hp-btn hp-btn-glass">
                   Check Artist Availability
                 </Link>
+                <a href="tel:+918076515257" className="hp-btn hp-btn-glass call-btn">
+                  <span className="hp-call-icon">📞</span> +91 80765 15257
+                </a>
               </motion.div>
+              </div>
             </div>
 
             {/* RIGHT 40% */}
-            <div className="hp-hero-right">
+            <div className="hp-hero-right-clean" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <motion.div 
-                className="hp-glass-card-wrapper"
+                className="hp-desktop-card-wrapper"
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                style={{ width: '100%' }}
               >
                 <div className="mob-premium-slider-card">
                   <div className="mps-header">
@@ -210,11 +243,8 @@ export default function HeroSection() {
                       </motion.div>
                     )}
                   </div>
-
-                  <div className="mps-footer">
-                    <span className="mps-chip">⚡ Response in 5 Mins</span>
-                    <span className="mps-chip">💵 Transparent Pricing</span>
-                    <span className="mps-chip">🛡 Verified Artists</span>
+                  <div className="hp-trust-badge-bottom">
+                    ⭐ Trusted by 2500+ Happy Clients
                   </div>
                 </div>
               </motion.div>
@@ -269,13 +299,13 @@ export default function HeroSection() {
             >
               Get Free Quote
             </button>
-            <Link href="/artists" className="mob-btn-secondary">
-              Browse Artists
-            </Link>
-            <div className="mob-micro-copy">
-              <span>✔ Response in Minutes</span>
-              <span>✔ No Hidden Charges</span>
-              <span>✔ Dedicated Booking Expert</span>
+            <div style={{ display: 'flex', gap: '12px', width: '100%' }}>
+              <Link href="/artists" className="mob-btn-secondary" style={{ flex: 1 }}>
+                Browse Artists
+              </Link>
+              <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, padding: '16px 10px' }}>
+                📞 Call Us
+              </a>
             </div>
           </div>
 
@@ -341,11 +371,8 @@ export default function HeroSection() {
                   </motion.div>
                 )}
               </div>
-
-              <div className="mps-footer">
-                <span className="mps-chip">⚡ Response in 5 Mins</span>
-                <span className="mps-chip">💵 Transparent Pricing</span>
-                <span className="mps-chip">🛡 Verified Artists</span>
+              <div className="hp-trust-badge-bottom">
+                ⭐ Trusted by 2500+ Happy Clients
               </div>
             </div>
           </div>
@@ -353,15 +380,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Sticky Bottom CTA for Mobile */}
-      <div className="hp-mob-sticky-cta">
-        <button 
-          className="mob-sticky-btn"
-          onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }))}
-        >
-          🎤 Get Free Quote
-        </button>
-      </div>
 
       {/* Hidden SEO Paragraph for bots */}
       <div className="sr-only">

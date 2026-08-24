@@ -1,10 +1,43 @@
 "use client"
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { INFO_CARDS } from '@/app/constants'
 import '@/app/styles/components/InfoCards.css'
 
 export default function InfoCards() {
+  const [isHovered, setIsHovered] = useState(false);
+  const scrollRef = React.useRef(null);
+
+  // Reset scroll on mount
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = 0;
+    }
+  }, []);
+
+  // Auto-scroll on mobile
+  useEffect(() => {
+    if (window.innerWidth > 768 || isHovered) return;
+
+    let intervalId;
+    const checkAndScroll = () => {
+      if (window.innerWidth <= 768 && scrollRef.current) {
+        const container = scrollRef.current;
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        
+        if (container.scrollLeft >= maxScroll - 10) {
+          container.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          container.scrollBy({ left: 300, behavior: 'smooth' });
+        }
+      }
+    };
+
+    intervalId = setInterval(checkAndScroll, 3500);
+    return () => clearInterval(intervalId);
+  }, [isHovered]);
+
   return (
     <section className="hp-journey-section">
       <div className="lux-container">
@@ -12,7 +45,14 @@ export default function InfoCards() {
           <h2>All Services</h2>
         </div>
         <div className="journey-flow-wrap">
-          <div className="journey-cards">
+          <div 
+            className="journey-cards is-mobile-scroll"
+            ref={scrollRef}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onTouchStart={() => setIsHovered(true)}
+            onTouchEnd={() => setIsHovered(false)}
+          >
             {INFO_CARDS.map((card, idx) => (
               <motion.div
                 key={idx}

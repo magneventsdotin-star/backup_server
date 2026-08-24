@@ -63,7 +63,7 @@ export default function BottomNav() {
         WebkitBackdropFilter: 'blur(24px) saturate(180%)',
         display: 'flex',
         padding: '0 8px',
-        transform: scrollDirection === 'down' ? 'translateY(150%)' : 'translateY(0)',
+        transform: 'translateY(0)',
         transition: 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
       }}>
         {/* Slot 1: Home */}
@@ -85,7 +85,7 @@ export default function BottomNav() {
           <button
             className="booking-tab-btn register-center-fab"
             onClick={() => {
-              window.dispatchEvent(new CustomEvent('open-register-modal', { detail: { view: 'event' } }));
+              window.dispatchEvent(new CustomEvent('open-quick-booking'));
             }}
             style={{
               position: 'absolute',
@@ -108,7 +108,7 @@ export default function BottomNav() {
             }}
           >
             <RegisterIcon color="#fff" />
-            <span style={{ fontSize: '8px', fontWeight: '900', color: '#fff', letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: '1px' }}>Register</span>
+            <span style={{ fontSize: '8px', fontWeight: '900', color: '#fff', letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: '1px' }}>Get Quote</span>
           </button>
         </div>
 

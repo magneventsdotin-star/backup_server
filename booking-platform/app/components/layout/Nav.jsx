@@ -37,6 +37,7 @@ export default function Nav() {
   const scrolled = useScrolled(20);
   const scrollDirection = useScrollDirection();
   const isLight = resolvedTheme === 'light';
+  const isHidden = scrollDirection === 'down' && scrolled;
 
   useEffect(() => {
     setMenuOpen(false);
@@ -65,7 +66,7 @@ export default function Nav() {
 
   return (
     <>
-      <nav className={`lux-nav ${isLight ? 'is-light' : 'is-dark'} ${scrolled ? 'is-scrolled' : ''}`}>
+      <nav className={`lux-nav ${isLight ? 'is-light' : 'is-dark'} ${scrolled ? 'is-scrolled' : ''} ${isHidden ? 'nav-hidden' : ''}`}>
         <div className="lux-nav-glow" aria-hidden="true" />
         <div className="lux-nav-inner">
 
@@ -104,11 +105,11 @@ export default function Nav() {
             </button>
 
             <button
-              onClick={() => window.dispatchEvent(new CustomEvent('open-register-modal'))}
+              onClick={() => window.dispatchEvent(new CustomEvent('open-quick-booking'))}
               className="lux-nav-cta secondary lux-nav-register-btn"
             >
-              <span className="cta-long-text">Register</span>
-              <span className="cta-short-text">Register</span>
+              <span className="cta-long-text">Get a Quote</span>
+              <span className="cta-short-text">Quote</span>
             </button>
 
             <button aria-label="Toggle navigation menu" className={`lux-hamburger ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>

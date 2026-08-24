@@ -570,3 +570,51 @@
     transform: none !important;
   }
 }
+/* ================================================== */
+/* PREMIUM NAV UPGRADES */
+/* ================================================== */
+
+.lux-nav {
+  backdrop-filter: blur(40px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
+  background: rgba(8, 7, 7, 0.4) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.lux-nav.is-scrolled {
+  background: rgba(8, 7, 7, 0.75) !important;
+  border-bottom-color: rgba(255, 224, 50, 0.25) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7) !important;
+}
+
+.lux-nav-link.active {
+  color: #FFD700 !important;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.5) !important;
+}
+
+.lux-nav-cta .lux-btn-ghost {
+  border: 1px solid rgba(255, 215, 0, 0.5) !important;
+  background: rgba(255, 215, 0, 0.05) !important;
+  color: #FFD700 !important;
+}
+
+.lux-nav-cta .lux-btn-ghost:hover {
+  background: rgba(255, 215, 0, 0.15) !important;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2) !important;
+}
+
+.lux-nav-cta .lux-btn-primary {
+  background: linear-gradient(135deg, #F5D061 0%, #E6B93D 100%) !important;
+  color: #111 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 15px rgba(245, 208, 97, 0.4) !important;
+  border: none !important;
+}
+
+.lux-nav-cta .lux-btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(245, 208, 97, 0.6) !important;
+  transform: translateY(-2px) !important;
+}
+
+.lux-nav.nav-hidden { transform: none !important; }
+
