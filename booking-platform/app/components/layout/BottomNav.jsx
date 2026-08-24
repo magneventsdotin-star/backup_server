@@ -2,7 +2,7 @@
 
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { HomeIcon, ServicesIcon, AboutIcon, ContactIcon, RegisterIcon, ArtistsIcon, PricingIcon, ProfileIcon } from '@/app/components/icons/NavigationIcons'
+import { HomeIcon, ServicesIcon, AboutIcon, ContactIcon, RegisterIcon, ArtistsIcon, PricingIcon, ProfileIcon, PhoneIcon } from '@/app/components/icons/NavigationIcons'
 import { useScrollDirection } from '@/app/hooks/useScrollDirection'
 
 function Tab({ path, icon, label, isActive }) {
@@ -107,8 +107,8 @@ export default function BottomNav() {
               transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
             }}
           >
-            <RegisterIcon color="#fff" />
-            <span style={{ fontSize: '8px', fontWeight: '900', color: '#fff', letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: '1px' }}>Get Quote</span>
+            <PhoneIcon color="#fff" />
+            <span style={{ fontSize: '8px', fontWeight: '900', color: '#fff', letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: '1px' }}>Contact</span>
           </button>
         </div>
 
