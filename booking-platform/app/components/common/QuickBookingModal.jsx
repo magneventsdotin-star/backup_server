@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import { validateName, validatePhone } from '@helpers/validation'
@@ -14,7 +14,6 @@ export default function QuickBookingModal() {
   const [errors, setErrors] = useState({})
   
   const pathname = usePathname()
-  const modalRef = useRef(null)
 
   useEffect(() => {
     const handleOpen = () => {
@@ -31,11 +30,19 @@ export default function QuickBookingModal() {
     setIsOpen(false)
   }, [pathname])
 
-  // Lock body scroll
+  // Lock body scroll when modal is open
   useEffect(() => {
-    if (isOpen) document.body.classList.add('modal-open')
-    else document.body.classList.remove('modal-open')
-    return () => document.body.classList.remove('modal-open')
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      document.body.classList.add('modal-open')
+    } else {
+      document.body.style.overflow = ''
+      document.body.classList.remove('modal-open')
+    }
+    return () => {
+      document.body.style.overflow = ''
+      document.body.classList.remove('modal-open')
+    }
   }, [isOpen])
 
   const validate = () => {
@@ -55,7 +62,7 @@ export default function QuickBookingModal() {
     
     // Simulate API call
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      await new Promise(resolve => setTimeout(resolve, 1200))
       setIsSuccess(true)
     } catch (err) {
       console.error(err)
@@ -67,119 +74,115 @@ export default function QuickBookingModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="cm-overlay" onClick={() => setIsOpen(false)}>
+        <div key="quick-booking-modal" className="lux-modal-root">
           <motion.div
+            className="lux-modal-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="cm-backdrop"
+            onClick={() => setIsOpen(false)}
           />
 
-          <div className="cm-container">
-            <motion.div
-              ref={modalRef}
-              initial={{ y: '100%', opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: '100%', opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="cm-content-wrap"
-              style={{ padding: 0, maxWidth: '440px', overflow: 'hidden' }}
-              onClick={(e) => e.stopPropagation()}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="lux-modal-content"
+            style={{ maxWidth: '480px' }}
+          >
+            <button
+              onClick={() => setIsOpen(false)}
+              className="lux-modal-close"
+              aria-label="Close modal"
             >
-              <button onClick={() => setIsOpen(false)} className="cm-close-btn" aria-label="Close modal">
-                ×
-              </button>
+              ✕
+            </button>
 
-              <div style={{ padding: '32px 24px', background: 'var(--brand-dark)', position: 'relative' }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--brand-primary)' }} />
-                
-                <h3 style={{ margin: '0 0 8px 0', fontSize: '24px', fontWeight: '700', color: '#fff' }}>
-                  Get a Quick Quote
-                </h3>
-                <p style={{ margin: '0 0 24px 0', fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: '1.5' }}>
-                  Provide brief details and our booking expert will contact you within minutes.
-                </p>
+            <div className="lux-modal-header" style={{ marginBottom: '20px' }}>
+              <span className="header-badge" style={{ color: '#FFE032', borderColor: 'rgba(255, 224, 50, 0.3)', background: 'rgba(255, 224, 50, 0.1)' }}>QUICK CONTACT</span>
+              <h3 style={{ fontSize: '28px', marginTop: '8px', marginBottom: '8px' }}>Quick Contact</h3>
+              <p className="lux-modal-desc" style={{ fontSize: '14px', lineHeight: '1.4' }}>
+                Provide your details below and our event booking expert will contact you within minutes.
+              </p>
+            </div>
 
-                {isSuccess ? (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.9 }} 
-                    animate={{ opacity: 1, scale: 1 }} 
-                    style={{ textAlign: 'center', padding: '32px 0' }}
-                  >
-                    <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(255, 224, 50, 0.1)', color: 'var(--brand-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: '32px' }}>
-                      ✓
-                    </div>
-                    <h4 style={{ margin: '0 0 8px', color: '#fff', fontSize: '20px' }}>Request Received!</h4>
-                    <p style={{ margin: '0', color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>We will contact you shortly with the best options.</p>
-                    <button 
-                      onClick={() => setIsOpen(false)}
-                      style={{ marginTop: '24px', width: '100%', padding: '14px', background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '12px', color: '#fff', fontWeight: '600', cursor: 'pointer' }}
-                    >
-                      Close
-                    </button>
-                  </motion.div>
-                ) : (
-                  <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    
-                    <div className="cm-field">
-                      <label className="cm-label">Full Name</label>
-                      <input 
-                        type="text" 
-                        className={`cm-input ${errors.name ? 'is-invalid' : ''}`}
-                        placeholder="John Doe"
-                        value={formData.name}
-                        onChange={e => {
-                          setFormData({...formData, name: e.target.value});
-                          if (errors.name) setErrors({...errors, name: null});
-                        }}
-                      />
-                      {errors.name && <span className="cm-error">{errors.name}</span>}
-                    </div>
-
-                    <div className="cm-field">
-                      <label className="cm-label">Mobile Number</label>
-                      <input 
-                        type="tel" 
-                        className={`cm-input ${errors.phone ? 'is-invalid' : ''}`}
-                        placeholder="+91 98765 43210"
-                        value={formData.phone}
-                        onChange={e => {
-                          setFormData({...formData, phone: e.target.value});
-                          if (errors.phone) setErrors({...errors, phone: null});
-                        }}
-                      />
-                      {errors.phone && <span className="cm-error">{errors.phone}</span>}
-                    </div>
-
-                    <div className="cm-field">
-                      <label className="cm-label">Event Location</label>
-                      <input 
-                        type="text" 
-                        className={`cm-input ${errors.location ? 'is-invalid' : ''}`}
-                        placeholder="e.g. Delhi NCR, Mumbai..."
-                        value={formData.location}
-                        onChange={e => {
-                          setFormData({...formData, location: e.target.value});
-                          if (errors.location) setErrors({...errors, location: null});
-                        }}
-                      />
-                      {errors.location && <span className="cm-error">{errors.location}</span>}
-                    </div>
-
-                    <button 
-                      type="submit" 
-                      className="cm-submit-btn" 
-                      disabled={isSubmitting}
-                      style={{ marginTop: '8px' }}
-                    >
-                      {isSubmitting ? <span className="cm-spinner" /> : 'Get Free Quote'}
-                    </button>
-                  </form>
-                )}
+            {isSuccess ? (
+              <div style={{ textAlign: 'center', padding: '24px 0' }}>
+                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(255, 224, 50, 0.15)', color: '#FFE032', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: '32px' }}>
+                  ✓
+                </div>
+                <h4 style={{ margin: '0 0 8px', color: '#fff', fontSize: '22px', fontWeight: '700' }}>Request Received!</h4>
+                <p style={{ margin: '0', color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>We will contact you shortly with the best options.</p>
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  className="lux-btn-primary"
+                  style={{ marginTop: '24px', width: '100%', padding: '14px' }}
+                >
+                  Close
+                </button>
               </div>
-            </motion.div>
-          </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="lux-modal-form" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div className="lux-form-group">
+                  <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Full Name *</label>
+                  <input 
+                    type="text" 
+                    className="lux-input"
+                    placeholder="Your Full Name"
+                    value={formData.name}
+                    onChange={e => {
+                      setFormData({...formData, name: e.target.value});
+                      if (errors.name) setErrors({...errors, name: null});
+                    }}
+                    style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.name ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
+                  />
+                  {errors.name && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.name}</span>}
+                </div>
+
+                <div className="lux-form-group">
+                  <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Mobile Number *</label>
+                  <input 
+                    type="tel" 
+                    className="lux-input"
+                    placeholder="+91 98765 43210"
+                    value={formData.phone}
+                    onChange={e => {
+                      setFormData({...formData, phone: e.target.value});
+                      if (errors.phone) setErrors({...errors, phone: null});
+                    }}
+                    style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.phone ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
+                  />
+                  {errors.phone && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.phone}</span>}
+                </div>
+
+                <div className="lux-form-group">
+                  <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Event Location *</label>
+                  <input 
+                    type="text" 
+                    className="lux-input"
+                    placeholder="e.g. Delhi NCR, Mumbai..."
+                    value={formData.location}
+                    onChange={e => {
+                      setFormData({...formData, location: e.target.value});
+                      if (errors.location) setErrors({...errors, location: null});
+                    }}
+                    style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.location ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
+                  />
+                  {errors.location && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.location}</span>}
+                </div>
+
+                <button 
+                  type="submit" 
+                  className="lux-btn-primary" 
+                  disabled={isSubmitting}
+                  style={{ width: '100%', marginTop: '8px', padding: '14px', borderRadius: '12px', background: 'linear-gradient(135deg, #FFE032 0%, #d4af37 100%)', color: '#000', fontWeight: '800', border: 'none', cursor: 'pointer' }}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit Request'}
+                </button>
+              </form>
+            )}
+          </motion.div>
         </div>
       )}
     </AnimatePresence>
