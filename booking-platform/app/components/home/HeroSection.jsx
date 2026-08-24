@@ -18,15 +18,7 @@ export default function HeroSection() {
     const id = window.setInterval(() => {
       setHeroSlide(prev => (prev + 1) % HERO_SPOTLIGHT_SLIDES.length)
     }, 8000)
-    
-    const cardId = window.setInterval(() => {
-      setMobCardSlide(prev => (prev + 1) % 3)
-    }, 5000)
-
-    return () => {
-      window.clearInterval(id)
-      window.clearInterval(cardId)
-    }
+    return () => window.clearInterval(id)
   }, [])
 
   return (
@@ -85,16 +77,15 @@ export default function HeroSection() {
                 initial="hidden"
                 animate="visible"
                 variants={{
-                  hidden: { opacity: 0, y: 15, filter: 'blur(8px)' },
+                  hidden: { opacity: 0, y: 15 },
                   visible: {
                     opacity: 1,
                     y: 0,
-                    filter: 'blur(0px)',
                     transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
                   }
                 }}
               >
-                Book a <i className="hp-gradient-text italic">Verified Singer</i><br className="hp-desktop-br" /> Anywhere in India
+                Book India's <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">Verified Singers</strong> <br className="hp-desktop-br" /> For Weddings & Events
               </motion.h1>
 
               <motion.p 
@@ -113,43 +104,9 @@ export default function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.15 }}
               >
-                <div className="hp-trust-mini-card"><span className="hp-stars">⭐⭐⭐⭐⭐</span> 4.9/5 Google Rating</div>
-                <div className="hp-trust-mini-card">2500+ Successful Bookings</div>
-                <div className="hp-trust-mini-card">100% Verified Artists</div>
-              </motion.div>
-
-              <motion.div 
-                className="hp-glass-stats"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: {
-                    opacity: 1,
-                    transition: { staggerChildren: 0.05, delayChildren: 0.2 }
-                  }
-                }}
-              >
-                {[
-                  { icon: '✔', text: '2500+ Verified Artists' },
-                  { icon: '⚡', text: 'Instant Quotes' },
-                  { icon: '🛡', text: 'Secure Booking' },
-                  { icon: '💰', text: 'Transparent Pricing' },
-                  { icon: '🇮🇳', text: 'Pan India' },
-                  { icon: '⭐', text: 'Rated 4.9/5' }
-                ].map(stat => (
-                  <motion.div 
-                    key={stat.text} 
-                    className="hp-stat-item"
-                    variants={{
-                      hidden: { opacity: 0, y: 10 },
-                      visible: { opacity: 1, y: 0 }
-                    }}
-                  >
-                    <span className="hp-stat-icon">{stat.icon}</span>
-                    <span className="hp-stat-text">{stat.text}</span>
-                  </motion.div>
-                ))}
+                <div className="hp-trust-mini-card">⭐ 4.9 Google Rating</div>
+                <div className="hp-trust-mini-card">✔ 2500+ Successful Bookings</div>
+                <div className="hp-trust-mini-card">✔ 100% Verified Artists</div>
               </motion.div>
 
               <motion.div
@@ -188,11 +145,6 @@ export default function HeroSection() {
                     <span className="mps-title">
                       {mobCardSlide === 0 ? "Why Choose Magnevents?" : mobCardSlide === 1 ? "How to Book?" : "Our Reviews"}
                     </span>
-                    <div className="mps-dots">
-                      <span className={`mps-dot ${mobCardSlide === 0 ? 'active' : ''}`} onClick={() => setMobCardSlide(0)} />
-                      <span className={`mps-dot ${mobCardSlide === 1 ? 'active' : ''}`} onClick={() => setMobCardSlide(1)} />
-                      <span className={`mps-dot ${mobCardSlide === 2 ? 'active' : ''}`} onClick={() => setMobCardSlide(2)} />
-                    </div>
                   </div>
 
                   <div className="mps-body">
@@ -201,12 +153,11 @@ export default function HeroSection() {
                         <div className="mps-inner-card">
                           <h4 className="mps-slide-title">🎤 Why Choose Magnevents?</h4>
                           <ul className="mps-list">
-                            <li><span className="mps-check">✓</span> Verified Professional Artists</li>
-                            <li><span className="mps-check">✓</span> Fast Booking Process</li>
+                            <li><span className="mps-check">✓</span> Pan India</li>
+                            <li><span className="mps-check">✓</span> Secure Booking</li>
+                            <li><span className="mps-check">✓</span> Instant Quotes</li>
                             <li><span className="mps-check">✓</span> Transparent Pricing</li>
-                            <li><span className="mps-check">✓</span> Event Expert Support</li>
-                            <li><span className="mps-check">✓</span> 24/7 Assistance</li>
-                            <li><span className="mps-check">✓</span> Pan India Service</li>
+                            <li><span className="mps-check">✓</span> Expert Support</li>
                           </ul>
                         </div>
                       </motion.div>
@@ -316,11 +267,6 @@ export default function HeroSection() {
                 <span className="mps-title">
                   {mobCardSlide === 0 ? "Why Choose Magnevents?" : mobCardSlide === 1 ? "How to Book?" : "Our Reviews"}
                 </span>
-                <div className="mps-dots">
-                  <span className={`mps-dot ${mobCardSlide === 0 ? 'active' : ''}`} onClick={() => setMobCardSlide(0)} />
-                  <span className={`mps-dot ${mobCardSlide === 1 ? 'active' : ''}`} onClick={() => setMobCardSlide(1)} />
-                  <span className={`mps-dot ${mobCardSlide === 2 ? 'active' : ''}`} onClick={() => setMobCardSlide(2)} />
-                </div>
               </div>
 
               <div className="mps-body">

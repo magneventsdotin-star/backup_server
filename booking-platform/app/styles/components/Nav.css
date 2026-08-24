@@ -564,8 +564,13 @@
 }
 
 
-/* Mobile: Keep Top Navbar Stuck */
+/* Mobile: Both top ad bar & main navbar scroll with page */
 @media (max-width: 768px) {
+  .lux-nav {
+    position: absolute !important;
+    top: var(--top-ad-offset, 48px) !important;
+    transform: none !important;
+  }
   .lux-nav.nav-hidden {
     transform: none !important;
   }
@@ -575,45 +580,70 @@
 /* ================================================== */
 
 .lux-nav {
-  backdrop-filter: blur(40px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
-  background: rgba(8, 7, 7, 0.4) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  background: rgba(14, 14, 18, 0.6) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  transition: all 400ms ease-out !important;
 }
 
 .lux-nav.is-scrolled {
-  background: rgba(8, 7, 7, 0.75) !important;
-  border-bottom-color: rgba(255, 224, 50, 0.25) !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7) !important;
+  background: rgba(14, 14, 18, 0.85) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
-.lux-nav-link.active {
-  color: #FFD700 !important;
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.5) !important;
+.lux-nav-link {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.lux-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #F4C542;
+  transition: width 300ms ease-out;
+}
+
+.lux-nav-link.is-active::after, .lux-nav-link:hover::after {
+  width: 100%;
+}
+
+.lux-nav-link.is-active, .lux-nav-link.active {
+  color: #F4C542 !important;
+  text-shadow: none !important;
 }
 
 .lux-nav-cta .lux-btn-ghost {
-  border: 1px solid rgba(255, 215, 0, 0.5) !important;
-  background: rgba(255, 215, 0, 0.05) !important;
-  color: #FFD700 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
+  background: transparent !important;
+  color: #FFF !important;
+  padding: 10px 20px !important;
 }
 
 .lux-nav-cta .lux-btn-ghost:hover {
-  background: rgba(255, 215, 0, 0.15) !important;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  box-shadow: none !important;
 }
 
 .lux-nav-cta .lux-btn-primary {
-  background: linear-gradient(135deg, #F5D061 0%, #E6B93D 100%) !important;
-  color: #111 !important;
+  background: #F4C542 !important;
+  color: #0E0E12 !important;
   font-weight: 700 !important;
-  box-shadow: 0 4px 15px rgba(245, 208, 97, 0.4) !important;
+  padding: 10px 24px !important;
+  box-shadow: 0 4px 15px rgba(244, 197, 66, 0.25) !important;
   border: none !important;
 }
 
 .lux-nav-cta .lux-btn-primary:hover {
-  box-shadow: 0 6px 20px rgba(245, 208, 97, 0.6) !important;
+  box-shadow: 0 6px 20px rgba(244, 197, 66, 0.4) !important;
   transform: translateY(-2px) !important;
+  background: #FFD700 !important;
 }
 
 .lux-nav.nav-hidden { transform: none !important; }

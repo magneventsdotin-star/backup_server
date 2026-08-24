@@ -55,6 +55,7 @@ export default function TopAdBar() {
     }
 
     const handleScroll = () => {
+      if (typeof window !== 'undefined' && window.innerWidth <= 768) return;
       const scrollY = window.scrollY || 0;
       const offset = Math.max(0, 48 - scrollY);
       document.documentElement.style.setProperty('--top-ad-offset', `${offset}px`);
@@ -272,6 +273,9 @@ export default function TopAdBar() {
 
         @media (max-width: 768px) {
           .ultimate-ad-bar { 
+            position: absolute !important;
+            top: 0 !important;
+            transform: none !important;
             height: 48px; 
             padding: 0 40px 0 12px; 
           }
