@@ -104,14 +104,6 @@ export default function Nav() {
               Contact Us
             </button>
 
-            <button
-              onClick={() => window.dispatchEvent(new CustomEvent('open-register-modal', { detail: { view: 'selection' } }))}
-              className="lux-nav-cta secondary lux-nav-register-btn"
-            >
-              <span className="cta-long-text">Register</span>
-              <span className="cta-short-text">Register</span>
-            </button>
-
             <button aria-label="Toggle navigation menu" className={`lux-hamburger ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>
               <span />
               <span />

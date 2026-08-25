@@ -188,16 +188,6 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
             Contact Us
           </button>
 
-          <button
-            onClick={() => {
-              window.dispatchEvent(new CustomEvent('open-register-modal', { detail: { view: 'selection' } }));
-              onClose();
-            }}
-            className="lux-mobile-cta"
-          >
-            Register
-          </button>
-
           {showiOSGuide && (
             <div className="ios-install-guide-toast">
               <p>To install: Tap the share button <span style={{fontSize: '16px'}}>📤</span> in Safari & select <strong>&ldquo;Add to Home Screen&rdquo;</strong> <span style={{fontSize: '16px'}}>📲</span>!</p>
