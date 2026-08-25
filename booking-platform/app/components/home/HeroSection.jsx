@@ -249,8 +249,8 @@ export default function HeroSection() {
               <Link href="/artists" className="mob-btn-secondary" style={{ flex: 1 }}>
                 Browse Artists
               </Link>
-              <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, padding: '16px 10px' }}>
-                📞 Call Us
+              <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, padding: '14px 6px', fontSize: '13.5px', whiteSpace: 'nowrap' }}>
+                📞 +91 80765 15257
               </a>
             </div>
           </div>
