@@ -28,7 +28,7 @@ export function AppShellWrapper({ children }) {
       <div className="ambient-canvas" aria-hidden="true" />
       
       {!hideChrome && (
-        <div id="unified-header" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9998, display: 'flex', flexDirection: 'column' }}>
+        <div id="unified-header" className="unified-header-container">
           <TopAdBar />
           <Nav />
         </div>

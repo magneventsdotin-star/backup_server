@@ -58,6 +58,7 @@ export default function TopAdBar() {
     }
     let ticking = false;
     const handleScroll = () => {
+      if (typeof window !== 'undefined' && window.innerWidth <= 768) return;
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const scrollY = window.scrollY || 0;
