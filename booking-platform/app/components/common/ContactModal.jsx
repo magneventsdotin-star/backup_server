@@ -117,7 +117,7 @@ export default function ContactModal() {
           </button>
 
           <div className="lux-modal-header" style={{ position: 'relative', paddingTop: '32px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', paddingRight: '40px' }}>
               <div className="header-badge" style={{ margin: 0 }}>
                 {formType === 'register' ? 'JOIN OUR ROSTER' : formType === 'offer' ? 'LIMITED TIME OFFER' : 'DIRECT SUPPORT'}
               </div>
