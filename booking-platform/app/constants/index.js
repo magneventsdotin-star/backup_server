@@ -6,11 +6,11 @@ export const HERO_STATS = [
 
 export const HERO_SPOTLIGHT_SLIDES = [
   "/heroSec_3.webp",
-  "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/1.webp",
-  "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/2.webp",
   "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/3.webp",
+  "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/2.webp",
   "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/4.webp",
   "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/5.webp",
+  "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/1.webp",
 ];
 
 export const ARTIST_CATEGORIES = [
