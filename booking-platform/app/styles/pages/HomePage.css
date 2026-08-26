@@ -5386,12 +5386,12 @@
 /* 1. BACKGROUND & OVERLAYS */
 .hp-hero-wrapper .hp-hero-overlay {
   display: block !important;
-  /* Minimal dark gradient only behind the text for contrast, leaving the image fully vibrant */
-  background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 30%, transparent 70%) !important;
+  /* Deep cinematic dark gradient behind the text column for high contrast and ultra-crisp readability */
+  background: linear-gradient(90deg, rgba(5, 7, 12, 0.96) 0%, rgba(5, 7, 12, 0.88) 45%, rgba(5, 7, 12, 0.45) 80%, transparent 100%) !important;
   pointer-events: none !important;
 }
 .hp-hero-bg img {
-  /* No dimming, sharp, cinematic */
+  /* Sharp, cinematic */
   filter: none !important;
   opacity: 1 !important;
 }
@@ -5409,7 +5409,7 @@
 
 @media (max-width: 768px) {
   .hp-hero-wrapper .hp-hero-overlay {
-    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 40%, transparent 100%) !important;
+    background: linear-gradient(180deg, rgba(5, 7, 12, 0.92) 0%, rgba(5, 7, 12, 0.7) 50%, rgba(5, 7, 12, 0.4) 100%) !important;
   }
 }
 
@@ -5417,43 +5417,46 @@
 .hp-hero-h1 {
   color: #FFFFFF !important;
   font-weight: 800 !important;
-  line-height: 1.1 !important;
+  line-height: 1.15 !important;
   font-family: var(--font-sans, system-ui, sans-serif) !important;
-  text-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.8) !important;
   -webkit-text-fill-color: #FFFFFF !important;
 }
 .hp-gradient-text.italic {
   /* Premium highlighted word */
   font-family: var(--font-serif, Georgia, serif) !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   font-style: italic !important;
-  background: linear-gradient(135deg, #F4C542 0%, #D4AF37 100%) !important;
+  background: linear-gradient(135deg, #FFE032 0%, #FF9900 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
-  filter: none !important;
+  filter: drop-shadow(0 2px 10px rgba(255, 224, 50, 0.4)) !important;
   text-shadow: none !important;
 }
 .hp-hero-sub {
-  color: #F3F4F6 !important;
-  font-size: 18px !important;
+  color: #FFFFFF !important;
+  font-size: 19px !important;
   line-height: 1.6 !important;
-  font-weight: 400 !important;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important;
-  max-width: 560px !important;
-  margin-top: 16px !important;
+  font-weight: 500 !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.9) !important;
+  max-width: 580px !important;
+  margin-top: 18px !important;
+  opacity: 0.95 !important;
 }
 .hp-premium-badge {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: none !important;
-  color: #F4C542 !important;
-  padding: 0 0 12px 0 !important;
-  font-weight: 700 !important;
+  background: rgba(255, 224, 50, 0.12) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 224, 50, 0.3) !important;
+  color: #FFE032 !important;
+  padding: 6px 16px !important;
+  border-radius: 99px !important;
+  font-weight: 800 !important;
   letter-spacing: 0.1em !important;
   text-transform: uppercase !important;
-  font-size: 13px !important;
-  margin-bottom: 0 !important;
-  box-shadow: none !important;
+  font-size: 12px !important;
+  margin-bottom: 16px !important;
+  display: inline-block !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
 }
 
 /* 3. TRUST SIGNALS (MINIMAL PILLS) */
@@ -5464,22 +5467,25 @@
   margin: 32px 0 40px 0;
 }
 .hp-trust-mini-card {
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 6px 16px;
-  border-radius: 30px; /* Elegant pill */
-  font-size: 13px;
-  font-weight: 500;
-  color: #FFF;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: transform 300ms ease;
+  background: rgba(15, 17, 23, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  padding: 8px 18px !important;
+  border-radius: 30px !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+  transition: transform 300ms ease, background 300ms ease !important;
 }
 .hp-trust-mini-card:hover {
-  transform: translateY(-2px);
-  background: rgba(0, 0, 0, 0.6);
+  transform: translateY(-2px) !important;
+  background: rgba(25, 28, 38, 0.95) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
 }
 
 @media (max-width: 768px) {
@@ -5488,7 +5494,7 @@
   }
 }
 
-/* 4. BUTTONS (CTAs) - ULTRA VISIBLE */
+/* 4. BUTTONS (CTAs) - ULTRA VISIBLE & CRISP */
 .hp-hero-actions {
   display: flex;
   align-items: center;
@@ -5498,14 +5504,14 @@
 .hp-hero-actions .hp-btn-primary,
 .hp-hero-left .hp-btn-primary,
 .hp-btn-primary {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important;
-  color: #0E0E12 !important;
-  font-weight: 800 !important;
+  background: linear-gradient(135deg, #FFE032 0%, #FF9900 100%) !important;
+  color: #05070A !important;
+  font-weight: 900 !important;
   font-size: 16.5px !important;
   padding: 16px 32px !important;
   border-radius: 14px !important;
   border: none !important;
-  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4), 0 0 15px rgba(255, 215, 0, 0.2) !important;
+  box-shadow: 0 10px 30px rgba(255, 224, 50, 0.4), 0 0 15px rgba(255, 224, 50, 0.2) !important;
   transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1) !important;
   text-decoration: none !important;
   display: inline-flex !important;
@@ -5516,22 +5522,22 @@
 .hp-hero-left .hp-btn-primary:hover,
 .hp-btn-primary:hover {
   transform: translateY(-3px) scale(1.02) !important;
-  box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6) !important;
-  background: linear-gradient(135deg, #FFE032 0%, #FFB700 100%) !important;
+  box-shadow: 0 14px 40px rgba(255, 224, 50, 0.6) !important;
+  background: linear-gradient(135deg, #FFF078 0%, #FFE032 100%) !important;
 }
 .hp-hero-actions .hp-btn-glass,
 .hp-hero-left .hp-btn-glass,
 .hp-btn-glass {
-  background: rgba(255, 255, 255, 0.15) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+  background: rgba(18, 20, 28, 0.85) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
   color: #FFFFFF !important;
   font-weight: 700 !important;
   font-size: 16px !important;
   padding: 15px 28px !important;
   border-radius: 14px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
   transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1) !important;
   text-decoration: none !important;
   display: inline-flex !important;
@@ -5541,25 +5547,25 @@
 .hp-hero-actions .hp-btn-glass:hover,
 .hp-hero-left .hp-btn-glass:hover,
 .hp-btn-glass:hover {
-  background: rgba(255, 255, 255, 0.28) !important;
+  background: #FFFFFF !important;
+  color: #0E0E12 !important;
   border-color: #FFFFFF !important;
   transform: translateY(-3px) !important;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45) !important;
-  color: #FFFFFF !important;
+  box-shadow: 0 12px 35px rgba(255, 255, 255, 0.35) !important;
 }
 .hp-hero-actions .call-btn,
 .hp-btn-glass.call-btn {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
+  background: rgba(18, 20, 28, 0.85) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
   color: #FFFFFF !important;
   font-weight: 700 !important;
   padding: 15px 24px !important;
 }
 .hp-hero-actions .call-btn:hover,
 .hp-btn-glass.call-btn:hover {
-  background: rgba(255, 255, 255, 0.25) !important;
+  background: #FFFFFF !important;
   border-color: #FFFFFF !important;
-  color: #FFFFFF !important;
+  color: #0E0E12 !important;
 }
 .hp-call-icon {
   font-size: 16px;
