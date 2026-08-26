@@ -680,7 +680,7 @@ export function CreateArtistModal({ open, onOpenChange, onSuccess, initialData }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="fixed left-[58%] top-[50%] translate-x-[-58%] translate-y-[-50%] max-w-5xl max-h-[95vh] h-[95vh] sm:h-[92vh] overflow-hidden flex flex-col rounded-[24px] sm:rounded-[32px] border-none shadow-2xl p-0 [&>button:last-child]:hidden"
+        className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-[95vw] sm:w-full max-w-5xl max-h-[90dvh] sm:max-h-[95vh] h-[90dvh] sm:h-[92vh] overflow-hidden flex flex-col rounded-[24px] sm:rounded-[32px] border-none shadow-2xl p-0 [&>button:last-child]:hidden"
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >

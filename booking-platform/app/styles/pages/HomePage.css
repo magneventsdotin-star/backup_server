@@ -5568,9 +5568,11 @@
 
 /* 5. RIGHT FLOATING CARD */
 .hp-hero-right-clean {
-  flex: 0 0 32%;
-  max-width: 32%;
-  padding-left: 20px;
+  flex: 0 0 38%;
+  max-width: 38%;
+  padding-left: 0;
+  align-self: center;
+  margin: auto 0;
 }
 @media (max-width: 768px) {
   .hp-hero-right-clean { flex: 0 0 100%; max-width: 100%; width: 100%; padding-left: 0; padding-top: 40px; }
@@ -5591,22 +5593,22 @@
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7) !important;
 }
 .mps-inner-card {
-  padding: 32px !important;
+  padding: 26px 28px !important;
 }
 .mps-slide-title {
   color: #FFFFFF !important;
-  font-size: 22px !important;
+  font-size: 20px !important;
   font-weight: 800 !important;
-  margin-bottom: 24px !important;
+  margin-bottom: 18px !important;
   letter-spacing: -0.01em !important;
 }
 .mps-list li {
   color: #F3F4F6 !important;
   font-weight: 600 !important;
-  margin-bottom: 16px !important;
+  margin-bottom: 12px !important;
   display: flex !important;
   align-items: center !important;
-  font-size: 15px !important;
+  font-size: 14.5px !important;
 }
 .mps-check {
   display: inline-flex !important;
@@ -5624,7 +5626,7 @@
 .hp-trust-badge-bottom {
   background: rgba(255, 255, 255, 0.03) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-  padding: 18px !important;
+  padding: 14px !important;
   text-align: center !important;
   font-size: 13px !important;
   color: rgba(255, 255, 255, 0.85) !important;
