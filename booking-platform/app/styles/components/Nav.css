@@ -574,16 +574,7 @@
 
 
 /* Mobile: Both top ad bar & main navbar scroll with page */
-@media (max-width: 768px) {
-  .lux-nav {
-    position: absolute !important;
-    top: var(--top-ad-offset, 48px) !important;
-    transform: none !important;
-  }
-  .lux-nav.nav-hidden {
-    transform: none !important;
-  }
-}
+/* Overrides removed to allow unified header scroll behavior */
 /* ================================================== */
 /* PREMIUM NAV UPGRADES */
 /* ================================================== */
