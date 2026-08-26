@@ -27,8 +27,12 @@ export function AppShellWrapper({ children }) {
       <div className="flow-unify-atmos" aria-hidden="true" />
       <div className="ambient-canvas" aria-hidden="true" />
       
-      {!hideChrome && <TopAdBar />}
-      {!hideChrome && <Nav />}
+      {!hideChrome && (
+        <div id="unified-header" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9998, display: 'flex', flexDirection: 'column' }}>
+          <TopAdBar />
+          <Nav />
+        </div>
+      )}
 
       <div className={`page-enter ${routeTransitionClass}`} style={{ minHeight: '100vh', paddingTop: (hideChrome || pathname === '/' || pathname === '/how-to-book') ? '0px' : 'calc(72px + var(--top-ad-offset, 0px))' }}>
         <div className="flow-unify-page-wrap">

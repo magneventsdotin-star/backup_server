@@ -62,12 +62,12 @@ export default function TopAdBar() {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const scrollY = window.scrollY || 0;
-          const offset = Math.max(0, 48 - scrollY);
+          const offset = Math.max(0, 38 - scrollY);
           document.documentElement.style.setProperty('--top-ad-offset', `${offset}px`);
           
-          const adBar = document.getElementById('main-top-ad-bar');
-          if (adBar) {
-            adBar.style.transform = `translateY(-${Math.min(scrollY, 48)}px)`;
+          const header = document.getElementById('unified-header');
+          if (header) {
+            header.style.transform = `translateY(-${Math.min(scrollY, 38)}px)`;
           }
           ticking = false;
         });
@@ -142,14 +142,11 @@ export default function TopAdBar() {
           
           color: #ffffff;
           padding: 0 16px;
-          height: 48px;
+          height: 38px;
           display: flex;
           justify-content: center;
           align-items: center;
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
+          position: relative;
           z-index: 9998;
           font-family: var(--font-sans, system-ui, sans-serif);
           box-shadow: 0 4px 20px rgba(107, 0, 255, 0.4);
@@ -285,8 +282,8 @@ export default function TopAdBar() {
             position: absolute !important;
             top: 0 !important;
             transform: none !important;
-            height: 48px; 
-            padding: 0 40px 0 12px; 
+            height: 38px;
+            padding: 0 40px 0 12px;
           }
           .ultimate-ad-content { 
             gap: 8px; 
