@@ -64,6 +64,11 @@ export default function TopAdBar() {
           const scrollY = window.scrollY || 0;
           const offset = Math.max(0, 48 - scrollY);
           document.documentElement.style.setProperty('--top-ad-offset', `${offset}px`);
+          
+          const adBar = document.getElementById('main-top-ad-bar');
+          if (adBar) {
+            adBar.style.transform = `translateY(-${Math.min(scrollY, 48)}px)`;
+          }
           ticking = false;
         });
         ticking = true;
@@ -141,7 +146,7 @@ export default function TopAdBar() {
           display: flex;
           justify-content: center;
           align-items: center;
-          position: absolute;
+          position: fixed;
           top: 0;
           left: 0;
           right: 0;

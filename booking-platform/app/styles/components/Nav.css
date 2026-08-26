@@ -2,7 +2,8 @@
 
 .lux-nav {
   position: fixed;
-  top: var(--top-ad-offset, 0px);
+  top: 0;
+  transform: translateY(var(--top-ad-offset, 0px));
   left: 0;
   right: 0;
   z-index: 9997 !important;
