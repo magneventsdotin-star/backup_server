@@ -381,9 +381,9 @@
   .lux-modal-root {
     position: fixed !important;
     inset: 0 !important;
-    padding: 16px 12px 60px 12px !important;
+    padding: 8px 8px 24px 8px !important;
     display: flex !important;
-    align-items: flex-start !important;
+    align-items: center !important;
     justify-content: center !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
@@ -395,12 +395,12 @@
     max-width: 100% !important;
     height: auto !important;
     min-height: auto !important;
-    max-height: none !important;
+    max-height: 98dvh !important;
     overflow: visible !important;
-    border-radius: 20px !important;
+    border-radius: 16px !important;
     border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    padding: 24px 16px 24px 16px !important;
-    margin: 12px auto 40px auto !important;
+    padding: 16px 14px 14px 14px !important;
+    margin: auto 0 !important;
     touch-action: pan-y !important;
   }
   .lux-modal-content.is-page {
@@ -410,18 +410,29 @@
     overflow: visible !important;
     border-radius: 20px !important;
   }
+  .lux-modal-header {
+    margin-bottom: 10px !important;
+    padding-top: 4px !important;
+  }
   .lux-modal-header.lead-header {
-    padding-top: 12px;
+    padding-top: 8px;
+  }
+  .lux-modal-header h3 {
+    font-size: 20px !important;
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
   }
   .lux-modal-header h3.lead-title {
-    font-size: 22px;
-    margin-top: 4px;
-    margin-bottom: 4px;
+    font-size: 18px !important;
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
   }
+  .lux-modal-header p,
   .lux-modal-header p.lead-subtitle {
-    font-size: 12px;
-    margin-bottom: 12px;
-    margin-top: 4px;
+    font-size: 11px !important;
+    margin-bottom: 6px !important;
+    margin-top: 2px !important;
+    line-height: 1.3 !important;
   }
   .lux-modal-form,
   .lux-modal-header,
@@ -430,46 +441,71 @@
     touch-action: pan-y !important;
   }
   .lux-modal-form {
-    gap: 12px;
+    gap: 8px !important;
     display: flex;
     flex-direction: column;
   }
   .lux-form-row {
-    grid-template-columns: 1fr;
-  }
-  .lux-modal-header h3 {
-    font-size: 24px;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
   }
   .form-type-switcher button {
-    font-size: 11px;
-    padding: 10px 4px;
+    font-size: 10px;
+    padding: 6px 4px;
   }
   .lux-form-group input,
   .lux-form-group select,
   .lux-form-group textarea {
-    padding: 12px 16px;
-    font-size: 14px;
+    padding: 8px 10px !important;
+    font-size: 12.5px !important;
+    height: 38px !important;
+    border-radius: 8px !important;
+  }
+  .lux-form-group textarea {
+    height: 48px !important;
   }
   .lux-form-group label {
-    font-size: 11px;
+    font-size: 9.5px !important;
+    margin-bottom: 2px !important;
+    letter-spacing: 0.05em !important;
+  }
+  .artist-type-grid {
+    gap: 4px !important;
+  }
+  .artist-chip {
+    padding: 4px 8px !important;
+    font-size: 10.5px !important;
+    border-radius: 12px !important;
   }
   .elegant-promo-box {
-    padding: 8px 12px;
-    gap: 8px;
-    margin-bottom: 4px;
+    padding: 6px 10px !important;
+    gap: 6px !important;
+    margin-bottom: 4px !important;
   }
   .elegant-time-block {
-    padding: 4px 6px;
-    font-size: 13px;
-    min-width: 24px;
+    padding: 3px 5px !important;
+    font-size: 12px !important;
+    min-width: 20px !important;
   }
   .btn-submit-premium {
-    padding: 14px;
+    padding: 12px !important;
+    border-radius: 10px !important;
+  }
+  .btn-submit-premium .btn-text {
+    font-size: 13.5px !important;
+  }
+  .btn-whatsapp-premium {
+    padding: 10px !important;
+    border-radius: 10px !important;
+  }
+  .btn-whatsapp-premium .btn-text {
+    font-size: 12px !important;
   }
   .lux-modal-close {
-    top: 12px;
-    right: 12px;
-    padding: 8px;
+    top: 8px !important;
+    right: 8px !important;
+    padding: 6px !important;
   }
 }
 
