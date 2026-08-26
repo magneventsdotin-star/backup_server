@@ -56,16 +56,17 @@ export default function TopAdBar() {
       document.documentElement.style.setProperty('--top-ad-offset', '0px');
       return;
     }
-
+    let ticking = false;
     const handleScroll = () => {
       if (typeof window !== 'undefined' && window.innerWidth <= 768) return;
-      const scrollY = window.scrollY || 0;
-      const offset = Math.max(0, 48 - scrollY);
-      document.documentElement.style.setProperty('--top-ad-offset', `${offset}px`);
-      
-      const adBar = document.getElementById('main-top-ad-bar');
-      if (adBar) {
-        adBar.style.transform = `translateY(-${Math.min(scrollY, 48)}px)`;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY || 0;
+          const offset = Math.max(0, 48 - scrollY);
+          document.documentElement.style.setProperty('--top-ad-offset', `${offset}px`);
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
@@ -140,7 +141,7 @@ export default function TopAdBar() {
           display: flex;
           justify-content: center;
           align-items: center;
-          position: fixed;
+          position: absolute;
           top: 0;
           left: 0;
           right: 0;
