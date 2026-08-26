@@ -21,6 +21,9 @@ export default function TopAdBar() {
       .catch(err => console.error('Failed to load top ad settings', err));
   }, []);
 
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => setIsMounted(true), []);
+
   // Countdown timer logic
   useEffect(() => {
     // Target end of day (midnight)
@@ -75,7 +78,7 @@ export default function TopAdBar() {
     };
   }, [isVisible]);
 
-  if (!isVisible) return null;
+  if (!isVisible || !isMounted) return null;
 
   const pad = (num) => num.toString().padStart(2, '0');
 

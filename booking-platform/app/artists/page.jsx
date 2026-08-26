@@ -220,7 +220,7 @@ export default function ArtistsPage() {
             Magnevents — Premium Live Artist Booking
           </h1>
           <p style={{ color: 'var(--text-muted)', maxWidth: '800px', margin: '0 auto', fontSize: '1.1rem', lineHeight: '1.6' }}>
-            Welcome to Magnevents, India's premier destination for booking top-tier live entertainment. Discover incredible live bands, soulful Sufi singers, and high-energy performers. Our artist-first booking platform connects you directly with the best musicians in the industry for your weddings, corporate galas, and private events.
+            Welcome to Magnevents, Indi&apos; premier destination for booking top-tier live entertainment. Discover incredible live bands, soulful Sufi singers, and high-energy performers. Our artist-first booking platform connects you directly with the best musicians in the industry for your weddings, corporate galas, and private events.
           </p>
         </div>
 
