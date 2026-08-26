@@ -377,22 +377,31 @@
   margin-bottom: 12px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 680px) {
   .lux-modal-root {
-    padding: 0;
-    align-items: flex-start;
+    position: fixed !important;
+    inset: 0 !important;
+    padding: 16px 12px 60px 12px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    z-index: 100000 !important;
   }
   .lux-modal-content {
-    width: 100%;
-    max-height: 100dvh;
-    height: auto;
-    border-radius: 0;
-    border: none;
-    padding: 20px 20px 20px 20px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    padding: 24px 16px 24px 16px !important;
+    margin: 12px auto 40px auto !important;
+    touch-action: pan-y !important;
   }
   .lux-modal-content.is-page {
     height: auto !important;
@@ -414,6 +423,12 @@
     margin-bottom: 12px;
     margin-top: 4px;
   }
+  .lux-modal-form,
+  .lux-modal-header,
+  .lux-form-group,
+  .lux-form-row {
+    touch-action: pan-y !important;
+  }
   .lux-modal-form {
     gap: 12px;
     display: flex;
@@ -423,7 +438,7 @@
     grid-template-columns: 1fr;
   }
   .lux-modal-header h3 {
-    font-size: 26px;
+    font-size: 24px;
   }
   .form-type-switcher button {
     font-size: 11px;
