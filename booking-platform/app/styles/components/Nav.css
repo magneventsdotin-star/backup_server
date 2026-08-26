@@ -222,12 +222,35 @@
   transition: all 0.2s ease;
   border: none;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .lux-nav-cta:hover {
   transform: translateY(-2px);
   background: var(--brand-primary-hover);
   box-shadow: var(--shadow-glow);
+}
+
+.lux-nav-register-btn {
+  background: linear-gradient(135deg, #E55353 0%, #D63031 100%) !important;
+  color: #FFFFFF !important;
+  padding: 10px 20px !important;
+  border-radius: var(--radius-full, 99px) !important;
+  font-weight: 800 !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  transition: all 0.2s ease !important;
+  border: none !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 15px rgba(229, 83, 83, 0.35) !important;
+}
+
+.lux-nav-register-btn:hover {
+  transform: translateY(-2px) !important;
+  background: linear-gradient(135deg, #FF6B6B 0%, #E55353 100%) !important;
+  box-shadow: 0 6px 20px rgba(229, 83, 83, 0.5) !important;
 }
 
 .lux-hamburger {

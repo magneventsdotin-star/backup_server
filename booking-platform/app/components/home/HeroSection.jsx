@@ -43,6 +43,8 @@ export default function HeroSection() {
               alt={`Live singer and band performing at an event slide ${idx + 1}`} 
               fill
               priority={idx === 0}
+              unoptimized
+              fetchPriority={idx === 0 ? "high" : "auto"}
               sizes="100vw"
               style={{ objectFit: "cover" }}
              />
@@ -67,9 +69,9 @@ export default function HeroSection() {
                 className="hp-premium-badge"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
               >
-                India's Premier Event Booking Platform
+                ★ INDIA'S PREMIER EVENT BOOKING PLATFORM
               </motion.div>
 
               <motion.h1
@@ -81,7 +83,7 @@ export default function HeroSection() {
                   visible: {
                     opacity: 1,
                     y: 0,
-                    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+                    transition: { duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }
                   }
                 }}
               >
@@ -92,7 +94,7 @@ export default function HeroSection() {
                 className="hp-hero-sub"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
               >
                 Book from 1500+ verified singers for weddings, corporate events & celebrations. 
                 Trusted by 2500+ happy clients with a 4.9★ Google rating, transparent pricing, and instant quotes.
@@ -102,27 +104,29 @@ export default function HeroSection() {
                 className="hp-hero-trust-row"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.15 }}
+                transition={{ duration: 0.8, delay: 0.55 }}
               >
-                <div className="hp-trust-mini-card">⭐ 4.9 Google Rating</div>
-                <div className="hp-trust-mini-card">✔ 2500+ Successful Bookings</div>
-                <div className="hp-trust-mini-card">✔ 100% Verified Artists</div>
+                <div className="hp-trust-mini-card">★ 4.9 Google Rating</div>
+                <div className="hp-trust-mini-card">👥 2500+ Successful Bookings</div>
+                <div className="hp-trust-mini-card">🛡️ 100% Verified Artists</div>
               </motion.div>
 
               <motion.div
                 className="hp-hero-actions"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
               >
                 <button
                   onClick={() => window.dispatchEvent(new CustomEvent('open-quick-booking'))}
                   className="hp-btn hp-btn-primary"
                 >
                   <span>Get Free Quote</span>
+                  <span style={{ marginLeft: '8px', fontSize: '18px', display: 'inline-block' }}>→</span>
                 </button>
                 <Link href="/artists" className="hp-btn hp-btn-glass">
-                  Check Artist Availability
+                  <span>Check Artist Availability</span>
+                  <span style={{ marginLeft: '8px', fontSize: '15px', display: 'inline-block' }}>📅</span>
                 </Link>
                 <a href="tel:+918076515257" className="hp-btn hp-btn-glass call-btn">
                   <span className="hp-call-icon">📞</span> +91 80765 15257
@@ -137,7 +141,7 @@ export default function HeroSection() {
                 className="hp-desktop-card-wrapper"
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 style={{ width: '100%' }}
               >
                 <div className="mob-premium-slider-card">
@@ -146,7 +150,12 @@ export default function HeroSection() {
                     {mobCardSlide === 0 && (
                       <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mps-slide">
                         <div className="mps-inner-card">
-                          <h4 className="mps-slide-title">🎤 Why Choose Magnevents?</h4>
+                          <div className="mps-header-row" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '22px' }}>
+                            <div className="mps-mic-icon-circle" style={{ width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(255, 224, 50, 0.4)', background: 'rgba(255, 224, 50, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFE032', fontSize: '18px' }}>
+                              🎤
+                            </div>
+                            <h4 className="mps-slide-title" style={{ margin: 0, fontSize: '20px', fontWeight: '800', color: '#FFFFFF' }}>Why Choose Magnevents?</h4>
+                          </div>
                           <ul className="mps-list">
                             <li><span className="mps-check">✓</span> Pan India</li>
                             <li><span className="mps-check">✓</span> Secure Booking</li>
@@ -154,6 +163,9 @@ export default function HeroSection() {
                             <li><span className="mps-check">✓</span> Transparent Pricing</li>
                             <li><span className="mps-check">✓</span> Expert Support</li>
                           </ul>
+                        </div>
+                        <div className="hp-trust-badge-bottom">
+                          <span>🛡️  Trusted by 2500+ Happy Clients</span>
                         </div>
                       </motion.div>
                     )}

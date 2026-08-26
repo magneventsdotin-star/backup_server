@@ -103,6 +103,9 @@ export default function Nav() {
             <button onClick={() => openContactModal('contact')} className="lux-nav-cta">
               Contact Us
             </button>
+            <button onClick={() => window.dispatchEvent(new CustomEvent('open-register-modal'))} className="lux-nav-register-btn">
+              Register
+            </button>
 
             <button aria-label="Toggle navigation menu" className={`lux-hamburger ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>
               <span />

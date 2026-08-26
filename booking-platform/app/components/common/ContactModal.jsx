@@ -122,13 +122,6 @@ export default function ContactModal() {
                 {formType === 'register' ? 'JOIN OUR ROSTER' : formType === 'offer' ? 'LIMITED TIME OFFER' : 'DIRECT SUPPORT'}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <a
-                  href="/book"
-                  onClick={onClose}
-                  style={{ background: 'rgba(255, 224, 50, 0.1)', border: '1px solid rgba(255, 224, 50, 0.3)', color: '#FFE032', borderRadius: '12px', padding: '4px 12px', fontSize: '11px', textDecoration: 'none', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px', transition: 'all 0.2s' }}
-                >
-                  Full Page ↗
-                </a>
                 <button 
                   type="button"
                   onClick={copyToClipboard}
@@ -305,6 +298,12 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
               <input id="modal-email" name="email" type="email" placeholder="name@email.com" value={formData.email} onChange={handleChange} autoComplete="email" />
             </div>
             <div className="lux-form-group">
+              <label htmlFor="modal-date">Event Date</label>
+              <input id="modal-date" name="date" type="date" required value={formData.date} min={new Date().toISOString().split('T')[0]} max="2030-12-31" onChange={handleChange} onClick={(e) => e.target.showPicker && e.target.showPicker()} />
+            </div>
+          </div>
+          <div className="lux-form-row horizontal-row">
+            <div className="lux-form-group">
               <label htmlFor="modal-event-type">Event Type</label>
               <select id="modal-event-type" required value={selectedEventType} onChange={(e) => setSelectedEventType(e.target.value)}>
                 <option value="" disabled>Select event type...</option>
@@ -316,12 +315,6 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
                 <option value="Concert">Concert / Festival</option>
                 <option value="Other">Other</option>
               </select>
-            </div>
-          </div>
-          <div className="lux-form-row">
-            <div className="lux-form-group">
-              <label htmlFor="modal-date">Event Date</label>
-              <input id="modal-date" name="date" type="date" required value={formData.date} min={new Date().toISOString().split('T')[0]} max="2030-12-31" onChange={handleChange} onClick={(e) => e.target.showPicker && e.target.showPicker()} />
             </div>
             <div className="lux-form-group">
               <label htmlFor="modal-location">Location</label>
@@ -363,7 +356,7 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
           {formError}
         </div>
       )}
-      <div className="lux-modal-footer" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <div className="lux-modal-footer" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '8px' }}>
         <button type="submit" className="btn-submit-premium" disabled={isSubmitting}>
           <span className="btn-text">{isSubmitting ? 'Processing...' : (formType === 'register' ? 'Register as Artist' : formType === 'offer' ? (discountValue ? `Claim Upto ${discountValue}% Off & Request Booking` : 'Claim Offer & Request Booking') : 'Request Booking')}</span>
           <div className="btn-glow" />
@@ -378,6 +371,9 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
             <span className="btn-text">Or Chat on WhatsApp</span>
           </a>
         )}
+        <div style={{ letterSpacing: '0.06em', fontSize: '10.5px', color: 'rgba(255,255,255,0.45)', textAlign: 'center', marginTop: '2px', fontWeight: '600' }}>
+          🔒 256-BIT ENCRYPTED • INSTANT ARTIST AVAILABILITY
+        </div>
       </div>
     </form>
   )
