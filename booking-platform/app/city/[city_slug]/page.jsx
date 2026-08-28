@@ -3,6 +3,10 @@ import { supabase } from '@database/connection/supabase';
 import Link from 'next/link';
 import '../../seo-pages.css';
 
+function slugToName(slug) {
+  return slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
 export async function generateMetadata({ params }) {
   const { city_slug } = params;
   
@@ -13,15 +17,13 @@ export async function generateMetadata({ params }) {
     .eq('is_active', true)
     .single();
 
-  if (!city) {
-    return { title: 'City Not Found - Magnevents' };
-  }
+  const cityName = city?.name || slugToName(city_slug);
 
   return {
-    title: city.seo_title || `Hire Best Singers in ${city.name} | Magnevents`,
-    description: city.meta_description || `Find and book top-rated live singers, bands, and musicians for weddings, corporate events, and parties in ${city.name}.`,
+    title: city?.seo_title || `Hire Best Singers in ${cityName} | Magnevents`,
+    description: city?.meta_description || `Find and book top-rated live singers, bands, and musicians for weddings, corporate events, and parties in ${cityName}.`,
     alternates: {
-      canonical: `https://www.magnevents.in/city/${city.slug}`,
+      canonical: `https://www.magnevents.in/city/${city_slug}`,
     }
   };
 }
@@ -30,31 +32,44 @@ export default async function CityLandingPage({ params }) {
   const { city_slug } = params;
 
   // 1. Fetch City
-  const { data: city } = await supabase
+  let { data: city } = await supabase
     .from('seo_cities')
     .select('*')
     .eq('slug', city_slug)
     .eq('is_active', true)
     .single();
 
+  // 1b. Fallback if city not in database
   if (!city) {
-    notFound();
+    city = {
+      id: null,
+      name: slugToName(city_slug),
+      slug: city_slug,
+      seo_title: '',
+      meta_description: '',
+      h1: '',
+      content: '',
+    };
   }
 
-  // 2. Fetch SEO Blogs for this city
-  const { data: blogs } = await supabase
-    .from('seo_blogs')
-    .select('title, slug, created_at, featured_image_url')
-    .eq('city_id', city.id)
-    .eq('status', 'published')
-    .order('created_at', { ascending: false });
+  // 2. Fetch SEO Blogs for this city (only if it has a real DB ID)
+  let blogs = [];
+  if (city.id) {
+    const { data } = await supabase
+      .from('seo_blogs')
+      .select('title, slug, created_at, featured_image_url')
+      .eq('city_id', city.id)
+      .eq('status', 'published')
+      .order('created_at', { ascending: false });
+    blogs = data || [];
+  }
 
   // 3. Schema Markup
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": city.seo_title || `Hire Singers in ${city.name}`,
-    "description": city.meta_description,
+    "description": city.meta_description || `Book live singers in ${city.name}`,
     "url": `https://www.magnevents.in/city/${city.slug}`,
   };
 
