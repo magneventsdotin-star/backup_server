@@ -9,6 +9,7 @@ import HowToBookSection from '@/app/components/home/HowToBookSection'
 import FaqSection from '@/app/components/home/FaqSection'
 import InfoCards from '@/app/components/home/InfoCards'
 import ContactSection from '@/app/components/home/ContactSection'
+import SeoKeywordFooter from '@/app/components/home/SeoKeywordFooter'
 import '@/app/styles/pages/HomePage.css'
 
 export const metadata = {
@@ -48,6 +49,7 @@ export default function HomePage() {
         <FaqSection />
         <InfoCards />
         <ContactSection />
+        <SeoKeywordFooter />
       </div>
     </>
   )

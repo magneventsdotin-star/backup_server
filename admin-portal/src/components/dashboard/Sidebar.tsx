@@ -22,7 +22,9 @@ import {
   Mail,
   Activity,
   Terminal,
-  ClipboardList
+  ClipboardList,
+  Globe,
+  FileText
 } from 'lucide-react';
 
 export const navSections = [
@@ -63,6 +65,13 @@ export const navSections = [
         ]
       },
       { name: 'Browse', href: '/dashboard/browse', icon: Eye },
+    ]
+  },
+  {
+    title: 'SEO Engine',
+    items: [
+      { name: 'Regions & Cities', href: '/dashboard/seo-cities', icon: Globe },
+      { name: 'SEO Blogs', href: '/dashboard/seo-blogs', icon: FileText },
     ]
   },
   {
