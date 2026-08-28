@@ -173,7 +173,7 @@ function TopPerformerSection() {
                 >
                   Book Now
                 </button>
-                <Link href={`/artist/${encodeURIComponent(artist.name)}`} target={isMobile ? "_self" : "_blank"} style={{ flex: 1, textDecoration: 'none', display: 'flex' }}>
+                <Link href={`/artist/${encodeURIComponent((artist.alias || artist.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''))}`} target={isMobile ? "_self" : "_blank"} style={{ flex: 1, textDecoration: 'none', display: 'flex' }}>
                   <button
                     className="hp-btn"
                     style={{ 

@@ -175,7 +175,9 @@ export default function ArtistProfilePage({ params }) {
         if (isUUID) {
           query = query.eq('id', decodedId);
         } else {
-          query = query.or(`alias.ilike.%${decodedId}%,name.ilike.%${decodedId}%`);
+          // Allow SEO slugs (e.g., neha-kakkar) to match database names (Neha Kakkar)
+          const searchTerm = decodedId.replace(/-/g, ' ');
+          query = query.or(`alias.ilike.%${searchTerm}%,name.ilike.%${searchTerm}%`);
         }
 
         let { data, error } = await query.limit(1).single();

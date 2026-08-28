@@ -73,7 +73,7 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
       transition={{ duration: 0.3 }}
       style={{ display: 'flex', width: '100%', height: '100%' }}
     >
-      <Link href={`/artist/${encodeURIComponent(artist.name)}`} target={isMobile ? '_self' : '_blank'} style={{ textDecoration: 'none', display: 'flex', width: '100%', height: '100%' }}>
+      <Link href={`/artist/${encodeURIComponent((artist.alias || artist.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''))}`} target={isMobile ? '_self' : '_blank'} style={{ textDecoration: 'none', display: 'flex', width: '100%', height: '100%' }}>
         <TiltCard 
           className="modern-artist-card"
         >

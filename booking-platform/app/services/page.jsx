@@ -338,15 +338,13 @@ export default function ServicesPage() {
                       })()
                     }
                   </button>
-                  <Link href={`/artist/${encodeURIComponent(
-                    (() => {
+                  <Link href={`/artist/${((() => {
                       try {
                         return JSON.parse(selectedVideo.user_name).name;
                       } catch(e) {
                         return selectedVideo.user_name || 'Artist';
                       }
-                    })()
-                  )}`} target={isMobile ? "_self" : "_blank"} className="w-full sm:w-auto">
+                    })() || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')}`} target={isMobile ? "_self" : "_blank"} className="w-full sm:w-auto">
                     <button className="h-14 px-10 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full transition-all w-full sm:w-auto flex items-center justify-center whitespace-nowrap">
                       View Profile
                     </button>

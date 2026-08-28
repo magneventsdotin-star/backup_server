@@ -8,7 +8,8 @@ export async function generateMetadata({ params }) {
   if (isUUID) {
     query = query.eq('id', decodedId);
   } else {
-    query = query.or(`alias.ilike.%${decodedId}%,name.ilike.%${decodedId}%`);
+    const searchTerm = decodedId.replace(/-/g, ' ');
+    query = query.or(`alias.ilike.%${searchTerm}%,name.ilike.%${searchTerm}%`);
   }
   
   const { data } = await query.limit(1).single();
@@ -46,7 +47,8 @@ export default async function ArtistLayout({ children, params }) {
   if (isUUID) {
     query = query.eq('id', decodedId);
   } else {
-    query = query.or(`alias.ilike.%${decodedId}%,name.ilike.%${decodedId}%`);
+    const searchTerm = decodedId.replace(/-/g, ' ');
+    query = query.or(`alias.ilike.%${searchTerm}%,name.ilike.%${searchTerm}%`);
   }
   
   const { data } = await query.limit(1).single();

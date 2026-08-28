@@ -92,7 +92,7 @@ function MobileFeaturedArtists() {
           featuredArtists.map((artist) => (
             <Link
               key={artist.id || artist.name}
-              href={`/artist/${encodeURIComponent(artist.name)}`}
+              href={`/artist/${encodeURIComponent((artist.alias || artist.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''))}`}
               style={{
                 flex: '0 0 auto',
                 width: '280px',

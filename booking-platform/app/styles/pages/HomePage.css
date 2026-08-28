@@ -3039,7 +3039,8 @@
   position: relative;
   max-width: 1000px;
   width: calc(100% - 40px);
-  min-height: 504px;
+  min-height: 400px; /* Reduced to fit in single desktop view */
+  max-height: 450px; /* Enforce shorter height */
   margin: 40px auto;
 }
 
@@ -3197,6 +3198,7 @@
   .hp-aom-card {
     grid-template-columns: 1fr;
     min-height: auto;
+    max-height: none; /* Reset max-height on mobile so content doesn't get cut off */
   }
   .hp-aom-img-wrap {
     min-height: 220px;

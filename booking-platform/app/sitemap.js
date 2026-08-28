@@ -29,16 +29,21 @@ export default async function sitemap() {
   try {
     const { data: artists } = await supabase
       .from('artists')
-      .select('id, is_live')
+      .select('id, name, alias, is_live')
       .eq('is_live', true);
 
     if (artists) {
-      const artistRoutes = artists.map((artist) => ({
-        url: `${baseUrl}/artist/${artist.id}`,
-        lastModified: new Date().toISOString(),
-        changeFrequency: 'weekly',
-        priority: 0.9,
-      }));
+      const artistRoutes = artists.map((artist) => {
+        const rawName = artist.alias || artist.name || artist.id;
+        // Generate a clean SEO slug (e.g., "Neha Kakkar" -> "neha-kakkar")
+        const slug = encodeURIComponent(rawName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''));
+        return {
+          url: `${baseUrl}/artist/${slug}`,
+          lastModified: new Date().toISOString(),
+          changeFrequency: 'weekly',
+          priority: 0.9,
+        };
+      });
       dynamicRoutes = [...dynamicRoutes, ...artistRoutes];
     }
     

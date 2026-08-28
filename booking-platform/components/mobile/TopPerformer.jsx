@@ -132,7 +132,7 @@ function MobileTopPerformer() {
             >
               Book Now
             </button>
-            <Link href={`/artist/${encodeURIComponent(artist.name)}`} style={{ flex: 1, padding: '14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#fff', fontWeight: '600', fontSize: '15px', textAlign: 'center', textDecoration: 'none' }}>
+            <Link href={`/artist/${encodeURIComponent((artist.alias || artist.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''))}`} style={{ flex: 1, padding: '14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#fff', fontWeight: '600', fontSize: '15px', textAlign: 'center', textDecoration: 'none' }}>
               View Profile
             </Link>
           </div>
