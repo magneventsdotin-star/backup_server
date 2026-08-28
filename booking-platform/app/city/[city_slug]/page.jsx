@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { supabase } from '@database/connection/supabase';
 import Link from 'next/link';
+import { Mic2 } from 'lucide-react';
 import '../../seo-pages.css';
 
 function slugToName(slug) {
@@ -106,7 +107,9 @@ export default async function CityLandingPage({ params }) {
                          {blog.featured_image_url ? (
                            <img src={blog.featured_image_url} alt={blog.title} />
                          ) : (
-                           <div className="blog-img-placeholder">🎙️</div>
+                           <div className="blog-img-placeholder">
+                             <Mic2 size={40} className="placeholder-icon" />
+                           </div>
                          )}
                       </div>
                       <div className="blog-card-content">
