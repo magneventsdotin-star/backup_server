@@ -90,11 +90,32 @@ export default async function CityLandingPage({ params }) {
 
         <div className="city-content-container">
           <div className="city-main-content">
-            {city.content && (
+            {city.content ? (
               <div 
                 className="seo-content"
                 dangerouslySetInnerHTML={{ __html: city.content }}
               />
+            ) : (
+              <div className="seo-content default-seo-content" style={{ color: 'rgba(255,255,255,0.8)', lineHeight: '1.8', fontSize: '1.05rem', marginBottom: '50px' }}>
+                <h2 style={{ fontSize: '1.8rem', color: '#fff', marginBottom: '20px' }}>Why Book a Live Singer in {city.name} with Magnevents?</h2>
+                <p style={{ marginBottom: '16px' }}>
+                  Elevate your upcoming event in {city.name} with mesmerizing live music. At <strong>Magnevents</strong>, we provide a premium roster of talented singers, bands, and musicians tailored for every occasion—from intimate house parties and grand weddings to large-scale corporate galas. 
+                </p>
+                <p style={{ marginBottom: '16px' }}>
+                  Finding the right artist can be overwhelming, but our streamlined platform makes booking live entertainment in {city.name} effortless. Browse through verified artist profiles, check their exclusive pricing, and secure your booking with transparent terms and zero hidden fees.
+                </p>
+                
+                <h3 style={{ fontSize: '1.4rem', color: '#fff', marginTop: '30px', marginBottom: '16px' }}>Popular Occasions for Live Music in {city.name}</h3>
+                <ul style={{ paddingLeft: '20px', marginBottom: '24px', listStyleType: 'disc' }}>
+                  <li style={{ marginBottom: '8px' }}><strong>Weddings & Sangeet:</strong> Soulful acoustic singers and high-energy Bollywood bands.</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Corporate Events:</strong> Professional instrumentalists and sophisticated live performers to set the perfect mood.</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Private House Parties:</strong> Versatile vocalists and guitarists to get your guests engaged and singing along.</li>
+                </ul>
+                
+                <p>
+                  Ready to make your event unforgettable? <Link href="/artists" style={{ color: 'var(--brand-primary, #FFE032)', textDecoration: 'underline', fontWeight: 'bold' }}>Explore our top artists</Link> and book the perfect live singer in {city.name} today.
+                </p>
+              </div>
             )}
 
             <div className="blogs-section">
