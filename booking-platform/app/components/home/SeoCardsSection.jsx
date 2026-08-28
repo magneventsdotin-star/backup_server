@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { MapPin, Music, Sparkles } from 'lucide-react';
+import './seo-cards.css';
 
 const seoCards = [
   {
@@ -1519,134 +1520,7 @@ export default function SeoCardsSection() {
         </div>
       </div>
 
-      <style jsx>{`
-        .seo-cards-section {
-          padding: 80px 20px;
-          background: #0a0a0a;
-          border-top: 1px solid rgba(255,255,255,0.05);
-        }
-        .seo-cards-container {
-          max-width: 1400px;
-          margin: 0 auto;
-        }
-        .seo-cards-header {
-          text-align: center;
-          margin-bottom: 50px;
-        }
-        .seo-cards-header h2 {
-          font-size: clamp(28px, 4vw, 42px);
-          font-weight: 800;
-          color: #fff;
-          margin-bottom: 16px;
-          letter-spacing: -0.5px;
-        }
-        .seo-cards-header p {
-          color: rgba(255,255,255,0.6);
-          font-size: clamp(16px, 2vw, 18px);
-          max-width: 600px;
-          margin: 0 auto;
-        }
-        .seo-cards-scroll-wrapper {
-          width: 100%;
-          overflow-x: auto;
-          overflow-y: hidden;
-          padding-bottom: 24px;
-          scroll-snap-type: x mandatory;
-          -webkit-overflow-scrolling: touch;
-          /* Hide scrollbar for Chrome, Safari and Opera */
-          &::-webkit-scrollbar {
-            height: 8px;
-          }
-          &::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-          }
-          &::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-          }
-          &::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3);
-          }
-        }
-        .seo-cards-flex {
-          display: flex;
-          gap: 20px;
-          width: max-content;
-          padding: 0 10px;
-        }
-        .seo-card {
-          width: 320px;
-          scroll-snap-align: start;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.05);
-          border-radius: 16px;
-          padding: 24px;
-          display: flex;
-          align-items: flex-start;
-          gap: 16px;
-          text-decoration: none;
-          transition: all 0.3s ease;
-          flex-shrink: 0;
-        }
-        .seo-card:hover {
-          background: rgba(255,255,255,0.06);
-          border-color: rgba(255,255,255,0.15);
-          transform: translateY(-4px);
-          box-shadow: 0 12px 24px rgba(0,0,0,0.2);
-        }
-        .seo-card-icon {
-          width: 48px;
-          height: 48px;
-          border-radius: 12px;
-          background: rgba(255,255,255,0.05);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(255,255,255,0.8);
-          flex-shrink: 0;
-          transition: all 0.3s ease;
-        }
-        .seo-card:hover .seo-card-icon {
-          background: #6b00ff;
-          color: #fff;
-        }
-        .seo-card-content {
-          flex: 1;
-        }
-        .seo-card-content h3 {
-          color: #fff;
-          font-size: 16px;
-          font-weight: 700;
-          line-height: 1.4;
-          margin: 0 0 4px 0;
-        }
-        .seo-card-subtext {
-          color: rgba(255,255,255,0.4);
-          font-size: 12px;
-          font-weight: 500;
-          margin: 0 0 12px 0;
-          line-height: 1.5;
-        }
-        .seo-card-link-text {
-          color: #6b00ff;
-          font-size: 13px;
-          font-weight: 600;
-          opacity: 0;
-          transform: translateX(-10px);
-          transition: all 0.3s ease;
-          display: inline-block;
-        }
-        .seo-card:hover .seo-card-link-text {
-          opacity: 1;
-          transform: translateX(0);
-        }
-        @media (max-width: 768px) {
-          .seo-cards-section { padding: 60px 16px; }
-          .seo-card { width: 280px; padding: 20px; }
-          .seo-card-content h3 { font-size: 15px; }
-        }
-      `}</style>
+      
     </section>
   );
 }
