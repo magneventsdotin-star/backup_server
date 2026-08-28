@@ -27,7 +27,7 @@ export default function SeoBlogs() {
   const fetchBlogs = useCallback(async () => {
     setLoading(true);
     try {
-      let query = (supabase.from('seo_blogs') as any).select('*, seo_cities(name)').order('created_at', { ascending: false });
+      let query = (supabase.from('seo_blogs') as any).select('*, seo_cities(name, slug)').order('created_at', { ascending: false });
       if (selectedCityId !== 'all') {
         query = query.eq('city_id', selectedCityId);
       }
@@ -173,12 +173,25 @@ export default function SeoBlogs() {
                     </TableCell>
                     <TableCell className="pr-8 text-center">
                        <div className="flex items-center justify-center gap-2">
-                          <button 
-                            className="p-2 text-slate-400 hover:text-indigo-600 bg-white border border-slate-100 rounded-lg shadow-sm"
-                            title="Preview"
-                          >
-                             <ExternalLink size={16} />
-                          </button>
+                          {blog.seo_cities?.slug ? (
+                            <a 
+                              href={`https://www.magnevents.in/city/${blog.seo_cities.slug}/blog/${blog.slug}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-2 text-slate-400 hover:text-indigo-600 bg-white border border-slate-100 rounded-lg shadow-sm"
+                              title="Preview Live Page"
+                            >
+                               <ExternalLink size={16} />
+                            </a>
+                          ) : (
+                            <button 
+                              className="p-2 text-slate-300 bg-slate-50 border border-slate-100 rounded-lg shadow-sm cursor-not-allowed"
+                              title="Preview Unavailable"
+                              disabled
+                            >
+                               <ExternalLink size={16} />
+                            </button>
+                          )}
                           <button onClick={() => handleDelete(blog.id)} className="p-2 text-slate-400 hover:text-rose-500 bg-white border border-slate-100 rounded-lg shadow-sm">
                              <Trash2 size={16} />
                           </button>
