@@ -76,7 +76,7 @@ export default function SeoBlogs() {
       return;
     }
     const city = cities.find(c => c.id === selectedCityId);
-    if (!await confirmAction('Generate Content', `Generate 10 AI SEO blogs for ${city?.name}? This may take a few minutes.`, 'info')) return;
+    if (!await confirmAction('Generate Content', `Generate 10 AI SEO blogs for ${city?.name}? This may take a few minutes.`, 'default')) return;
     
     setGenerating(true);
     toast({ title: 'Generating...', description: 'Started AI generation for 10 blogs.' });
