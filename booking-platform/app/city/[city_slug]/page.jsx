@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { supabase } from '@database/connection/supabase';
 import Link from 'next/link';
+import '../../seo-pages.css';
 
 export async function generateMetadata({ params }) {
   const { city_slug } = params;
@@ -108,104 +109,6 @@ export default async function CityLandingPage({ params }) {
         </div>
       </div>
 
-      <style jsx>{`
-        .city-landing-page {
-          min-height: 100vh;
-          background: #000;
-          color: #fff;
-          padding-top: 80px;
-        }
-        .city-hero {
-          text-align: center;
-          padding: 60px 20px;
-          background: linear-gradient(180deg, #111 0%, #000 100%);
-          border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .city-hero h1 {
-          font-size: clamp(32px, 5vw, 56px);
-          font-weight: 900;
-          margin-bottom: 16px;
-          background: linear-gradient(90deg, #fff, #a5b4fc);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .city-subtitle {
-          font-size: 18px;
-          color: #a1a1aa;
-          max-width: 600px;
-          margin: 0 auto;
-        }
-        .city-content-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 40px 20px;
-        }
-        .seo-content {
-          color: #d4d4d8;
-          line-height: 1.8;
-          font-size: 16px;
-          margin-bottom: 60px;
-        }
-        .seo-content h2 { color: #fff; margin-top: 30px; font-size: 24px; }
-        .seo-content h3 { color: #fff; margin-top: 20px; font-size: 20px; }
-        .blogs-section h2 {
-          font-size: 28px;
-          font-weight: 800;
-          margin-bottom: 30px;
-        }
-        .blogs-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          gap: 24px;
-        }
-        .blog-card {
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.05);
-          border-radius: 16px;
-          overflow: hidden;
-          text-decoration: none;
-          transition: all 0.3s ease;
-        }
-        .blog-card:hover {
-          transform: translateY(-5px);
-          border-color: rgba(255,255,255,0.1);
-          background: rgba(255,255,255,0.05);
-        }
-        .blog-card-img {
-          height: 180px;
-          background: #111;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .blog-card-img img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-        .blog-img-placeholder {
-          font-size: 48px;
-        }
-        .blog-card-content {
-          padding: 20px;
-        }
-        .blog-card-content h3 {
-          color: #fff;
-          font-size: 18px;
-          font-weight: 700;
-          line-height: 1.4;
-          margin: 0 0 12px 0;
-        }
-        .read-more {
-          color: #818cf8;
-          font-size: 14px;
-          font-weight: 600;
-        }
-        .no-blogs {
-          color: #71717a;
-          font-style: italic;
-        }
-      `}</style>
     </>
   );
 }
