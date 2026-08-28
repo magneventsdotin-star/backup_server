@@ -129,7 +129,7 @@ function TopPerformerSection() {
               {/* Actual image contained so it's fully visible */}
               <img
                 src={typeof artist.image === "object" ? artist.image?.src : artist.image}
-                alt={artist.name} style={{ objectFit: 'contain', zIndex: 2 }}  />
+                alt={artist.name} style={{ objectFit: 'cover', objectPosition: 'center 10%', width: '100%', height: '100%', zIndex: 2 }}  />
               <div className="hp-aom-badge" style={{ zIndex: 10 }}>
                 <span className="hp-aom-badge-icon">🏆</span>
                 Artist of the Month
