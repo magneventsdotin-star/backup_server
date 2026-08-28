@@ -33,16 +33,47 @@ export default async function sitemap() {
       .eq('is_live', true);
 
     if (artists) {
-      dynamicRoutes = artists.map((artist) => ({
+      const artistRoutes = artists.map((artist) => ({
         url: `${baseUrl}/artist/${artist.id}`,
         lastModified: new Date().toISOString(),
         changeFrequency: 'weekly',
         priority: 0.9,
       }));
+      dynamicRoutes = [...dynamicRoutes, ...artistRoutes];
     }
     
-    // We can also fetch dynamic locations if a locations table exists
-    // but assuming static for now based on previous sitemap
+    // Fetch SEO Cities
+    const { data: cities } = await supabase
+      .from('seo_cities')
+      .select('slug, updated_at')
+      .eq('is_active', true);
+      
+    if (cities) {
+      const cityRoutes = cities.map((city) => ({
+        url: `${baseUrl}/city/${city.slug}`,
+        lastModified: city.updated_at || new Date().toISOString(),
+        changeFrequency: 'daily',
+        priority: 0.9,
+      }));
+      dynamicRoutes = [...dynamicRoutes, ...cityRoutes];
+    }
+
+    // Fetch SEO Blogs
+    const { data: blogs } = await supabase
+      .from('seo_blogs')
+      .select('slug, updated_at, seo_cities!inner(slug)')
+      .eq('status', 'published');
+
+    if (blogs) {
+      const blogRoutes = blogs.map((blog) => ({
+        url: `${baseUrl}/city/${blog.seo_cities.slug}/blog/${blog.slug}`,
+        lastModified: blog.updated_at || new Date().toISOString(),
+        changeFrequency: 'weekly',
+        priority: 0.8,
+      }));
+      dynamicRoutes = [...dynamicRoutes, ...blogRoutes];
+    }
+
   } catch (error) {
     console.error('Error fetching dynamic routes for sitemap', error);
   }
