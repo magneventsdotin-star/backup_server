@@ -9,6 +9,7 @@ import HowToBookSection from '@/app/components/home/HowToBookSection'
 import FaqSection from '@/app/components/home/FaqSection'
 import InfoCards from '@/app/components/home/InfoCards'
 import ContactSection from '@/app/components/home/ContactSection'
+import SeoCardsSection from '@/app/components/home/SeoCardsSection'
 import SeoKeywordFooter from '@/app/components/home/SeoKeywordFooter'
 import '@/app/styles/pages/HomePage.css'
 
@@ -49,6 +50,7 @@ export default function HomePage() {
         <FaqSection />
         <InfoCards />
         <ContactSection />
+        <SeoCardsSection />
         <SeoKeywordFooter />
       </div>
     </>
