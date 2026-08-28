@@ -173,25 +173,33 @@ export default function SeoBlogs() {
                     </TableCell>
                     <TableCell className="pr-8 text-center">
                        <div className="flex items-center justify-center gap-2">
-                          {blog.seo_cities?.slug ? (
-                            <a 
-                              href={`https://www.magnevents.in/city/${blog.seo_cities.slug}/blog/${blog.slug}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="p-2 text-slate-400 hover:text-indigo-600 bg-white border border-slate-100 rounded-lg shadow-sm"
-                              title="Preview Live Page"
-                            >
-                               <ExternalLink size={16} />
-                            </a>
-                          ) : (
-                            <button 
-                              className="p-2 text-slate-300 bg-slate-50 border border-slate-100 rounded-lg shadow-sm cursor-not-allowed"
-                              title="Preview Unavailable"
-                              disabled
-                            >
-                               <ExternalLink size={16} />
-                            </button>
-                          )}
+                          {(() => {
+                            const citySlug = Array.isArray(blog.seo_cities) ? blog.seo_cities[0]?.slug : blog.seo_cities?.slug;
+                            if (citySlug) {
+                              // Use an env variable for frontend URL, or fallback to production
+                              const frontendUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in';
+                              return (
+                                <a 
+                                  href={`${frontendUrl}/city/${citySlug}/blog/${blog.slug}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="p-2 text-slate-400 hover:text-indigo-600 bg-white border border-slate-100 rounded-lg shadow-sm"
+                                  title="Preview Live Page"
+                                >
+                                   <ExternalLink size={16} />
+                                </a>
+                              );
+                            }
+                            return (
+                              <button 
+                                className="p-2 text-slate-300 bg-slate-50 border border-slate-100 rounded-lg shadow-sm cursor-not-allowed"
+                                title="Preview Unavailable (Missing Slug)"
+                                disabled
+                              >
+                                 <ExternalLink size={16} />
+                              </button>
+                            );
+                          })()}
                           <button onClick={() => handleDelete(blog.id)} className="p-2 text-slate-400 hover:text-rose-500 bg-white border border-slate-100 rounded-lg shadow-sm">
                              <Trash2 size={16} />
                           </button>
