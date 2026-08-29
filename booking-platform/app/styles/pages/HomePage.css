@@ -3039,7 +3039,9 @@
   position: relative;
   max-width: 1000px;
   width: calc(100% - 40px);
-  min-height: 400px; /* Reduced to fit in single desktop view */
+  min-height: 400px;
+  max-height: 450px;
+  height: 450px;
   margin: 40px auto;
 }
 
@@ -3104,11 +3106,11 @@
 }
 
 .hp-aom-content {
-  padding: 32px;
+  padding: 16px 32px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 12px;
+  gap: 4px;
 }
 
 .hp-aom-genres {
@@ -3121,10 +3123,10 @@
 }
 
 .hp-aom-name {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 800;
   line-height: 1;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
   color: #fff;
   letter-spacing: -0.02em;
 }
@@ -3132,15 +3134,15 @@
 .hp-aom-stats-grid {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin: 12px 0 20px;
+  gap: 6px;
+  margin: 8px 0 16px;
 }
 
 .hp-aom-stat-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 14px;
+  padding: 8px 14px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
   font-size: 13px;
