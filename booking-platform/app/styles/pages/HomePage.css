@@ -3104,10 +3104,11 @@
 }
 
 .hp-aom-content {
-  padding: 24px 32px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: 12px;
 }
 
 .hp-aom-genres {
