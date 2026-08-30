@@ -114,8 +114,9 @@
   }
 
   .lux-floating-whatsapp-root.is-scrolled-down {
-    bottom: 24px !important;
-    transform: scale(0.95);
+    bottom: 90px !important; /* Keep it above the bottom nav */
+    transform: scale(0.90);
+    opacity: 0.7; /* Make it slightly less intrusive when scrolling down */
   }
 
   .whatsapp-icon-wrapper {

@@ -8,20 +8,11 @@ import '@/app/styles/components/ContactModal.css'
 
 export default function QuickBookingModal() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-  const [formData, setFormData] = useState({ name: '', phone: '', location: '' })
-  const [errors, setErrors] = useState({})
   
   const pathname = usePathname()
 
   useEffect(() => {
-    const handleOpen = () => {
-      setIsOpen(true)
-      setIsSuccess(false)
-      setFormData({ name: '', phone: '', location: '' })
-      setErrors({})
-    }
+    const handleOpen = () => setIsOpen(true)
     window.addEventListener('open-quick-booking', handleOpen)
     return () => window.removeEventListener('open-quick-booking', handleOpen)
   }, [])
@@ -44,32 +35,6 @@ export default function QuickBookingModal() {
       document.body.classList.remove('modal-open')
     }
   }, [isOpen])
-
-  const validate = () => {
-    const newErrors = {}
-    if (!validateName(formData.name)) newErrors.name = 'Please enter a valid name'
-    if (!validatePhone(formData.phone)) newErrors.phone = 'Please enter a valid 10-digit number'
-    if (!formData.location.trim()) newErrors.location = 'Please provide an event location'
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (!validate()) return
-
-    setIsSubmitting(true)
-    
-    // Simulate API call
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1200))
-      setIsSuccess(true)
-    } catch (err) {
-      console.error(err)
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
 
   return (
     <AnimatePresence>
@@ -107,84 +72,123 @@ export default function QuickBookingModal() {
               </p>
             </div>
 
-            {isSuccess ? (
-              <div style={{ textAlign: 'center', padding: '24px 0' }}>
-                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(255, 224, 50, 0.15)', color: '#FFE032', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: '32px' }}>
-                  ✓
-                </div>
-                <h4 style={{ margin: '0 0 8px', color: '#fff', fontSize: '22px', fontWeight: '700' }}>Request Received!</h4>
-                <p style={{ margin: '0', color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>We will contact you shortly with the best options.</p>
-                <button 
-                  onClick={() => setIsOpen(false)}
-                  className="lux-btn-primary"
-                  style={{ marginTop: '24px', width: '100%', padding: '14px' }}
-                >
-                  Close
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="lux-modal-form" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div className="lux-form-group">
-                  <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Full Name *</label>
-                  <input 
-                    type="text" 
-                    className="lux-input"
-                    placeholder="Your Full Name"
-                    value={formData.name}
-                    onChange={e => {
-                      setFormData({...formData, name: e.target.value});
-                      if (errors.name) setErrors({...errors, name: null});
-                    }}
-                    style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.name ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
-                  />
-                  {errors.name && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.name}</span>}
-                </div>
-
-                <div className="lux-form-group">
-                  <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Mobile Number *</label>
-                  <input 
-                    type="tel" 
-                    className="lux-input"
-                    placeholder="+91 98765 43210"
-                    value={formData.phone}
-                    onChange={e => {
-                      setFormData({...formData, phone: e.target.value});
-                      if (errors.phone) setErrors({...errors, phone: null});
-                    }}
-                    style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.phone ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
-                  />
-                  {errors.phone && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.phone}</span>}
-                </div>
-
-                <div className="lux-form-group">
-                  <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Event Location *</label>
-                  <input 
-                    type="text" 
-                    className="lux-input"
-                    placeholder="e.g. Delhi NCR, Mumbai..."
-                    value={formData.location}
-                    onChange={e => {
-                      setFormData({...formData, location: e.target.value});
-                      if (errors.location) setErrors({...errors, location: null});
-                    }}
-                    style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.location ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
-                  />
-                  {errors.location && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.location}</span>}
-                </div>
-
-                <button 
-                  type="submit" 
-                  className="lux-btn-primary" 
-                  disabled={isSubmitting}
-                  style={{ width: '100%', marginTop: '8px', padding: '14px', borderRadius: '12px', background: 'linear-gradient(135deg, #FFE032 0%, #d4af37 100%)', color: '#000', fontWeight: '800', border: 'none', cursor: 'pointer' }}
-                >
-                  {isSubmitting ? 'Submitting...' : 'Submit Request'}
-                </button>
-              </form>
-            )}
+            <InnerQuickBookingForm onClose={() => setIsOpen(false)} />
           </motion.div>
         </div>
       )}
     </AnimatePresence>
+  )
+}
+
+function InnerQuickBookingForm({ onClose }) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [formData, setFormData] = useState({ name: '', phone: '', location: '' })
+  const [errors, setErrors] = useState({})
+
+  const validate = () => {
+    const newErrors = {}
+    if (!validateName(formData.name)) newErrors.name = 'Please enter a valid name'
+    if (!validatePhone(formData.phone)) newErrors.phone = 'Please enter a valid 10-digit number'
+    if (!formData.location.trim()) newErrors.location = 'Please provide an event location'
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!validate()) return
+
+    setIsSubmitting(true)
+    
+    // Simulate API call
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1200))
+      setIsSuccess(true)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  if (isSuccess) {
+    return (
+      <div style={{ textAlign: 'center', padding: '24px 0' }}>
+        <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(255, 224, 50, 0.15)', color: '#FFE032', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: '32px' }}>
+          ✓
+        </div>
+        <h4 style={{ margin: '0 0 8px', color: '#fff', fontSize: '22px', fontWeight: '700' }}>Request Received!</h4>
+        <p style={{ margin: '0', color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>We will contact you shortly with the best options.</p>
+        <button 
+          onClick={onClose}
+          className="lux-btn-primary"
+          style={{ marginTop: '24px', width: '100%', padding: '14px', borderRadius: '12px', background: 'linear-gradient(135deg, #FFE032 0%, #d4af37 100%)', color: '#000', fontWeight: '800', border: 'none', cursor: 'pointer' }}
+        >
+          Close
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="lux-modal-form" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div className="lux-form-group">
+        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Full Name *</label>
+        <input 
+          type="text" 
+          className="lux-input"
+          placeholder="Your Full Name"
+          value={formData.name}
+          onChange={e => {
+            setFormData({...formData, name: e.target.value});
+            if (errors.name) setErrors({...errors, name: null});
+          }}
+          style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.name ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
+        />
+        {errors.name && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.name}</span>}
+      </div>
+
+      <div className="lux-form-group">
+        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Mobile Number *</label>
+        <input 
+          type="tel" 
+          className="lux-input"
+          placeholder="+91 98765 43210"
+          value={formData.phone}
+          onChange={e => {
+            setFormData({...formData, phone: e.target.value});
+            if (errors.phone) setErrors({...errors, phone: null});
+          }}
+          style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.phone ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
+        />
+        {errors.phone && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.phone}</span>}
+      </div>
+
+      <div className="lux-form-group">
+        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Event Location *</label>
+        <input 
+          type="text" 
+          className="lux-input"
+          placeholder="e.g. Delhi NCR, Mumbai..."
+          value={formData.location}
+          onChange={e => {
+            setFormData({...formData, location: e.target.value});
+            if (errors.location) setErrors({...errors, location: null});
+          }}
+          style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.location ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
+        />
+        {errors.location && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.location}</span>}
+      </div>
+
+      <button 
+        type="submit" 
+        className="lux-btn-primary" 
+        disabled={isSubmitting}
+        style={{ width: '100%', marginTop: '8px', padding: '14px', borderRadius: '12px', background: 'linear-gradient(135deg, #FFE032 0%, #d4af37 100%)', color: '#000', fontWeight: '800', border: 'none', cursor: 'pointer' }}
+      >
+        {isSubmitting ? 'Submitting...' : 'Submit Request'}
+      </button>
+    </form>
   )
 }

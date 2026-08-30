@@ -87,7 +87,7 @@ export default function HeroSection() {
                   }
                 }}
               >
-                Book India's <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">Verified Singers</strong> <br className="hp-desktop-br" /> For Weddings & Events
+                Book India's <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">Verified Singers</strong> <br className="hp-desktop-br" /> For Weddings, Events & <strong className="hp-gradient-text italic">House Parties</strong>
               </motion.h1>
 
               <motion.p 
@@ -101,21 +101,10 @@ export default function HeroSection() {
               </motion.p>
 
               <motion.div
-                className="hp-hero-trust-row"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.55 }}
-              >
-                <div className="hp-trust-mini-card">★ 4.9 Google Rating</div>
-                <div className="hp-trust-mini-card">👥 2500+ Successful Bookings</div>
-                <div className="hp-trust-mini-card">🛡️ 100% Verified Artists</div>
-              </motion.div>
-
-              <motion.div
                 className="hp-hero-actions"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
               >
                 <button
                   onClick={() => window.dispatchEvent(new CustomEvent('open-quick-booking'))}
@@ -131,6 +120,17 @@ export default function HeroSection() {
                 <a href="tel:+918076515257" className="hp-btn hp-btn-glass call-btn">
                   <span className="hp-call-icon">📞</span> +91 80765 15257
                 </a>
+              </motion.div>
+
+              <motion.div
+                className="hp-hero-trust-row"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+              >
+                <div className="hp-trust-mini-card">★ 4.9 Google Rating</div>
+                <div className="hp-trust-mini-card">👥 2500+ Successful Bookings</div>
+                <div className="hp-trust-mini-card">🛡️ 100% Verified Artists</div>
               </motion.div>
               </div>
             </div>
@@ -228,7 +228,7 @@ export default function HeroSection() {
           {/* Section 2: Headline */}
           <div className="hp-mob-section">
             <h1 className="hp-mob-h1">
-              Book a <span className="hp-gradient-text">Verified Singer</span> Anywhere in India
+              Book a <span className="hp-gradient-text">Verified Singer</span> For Weddings, Events & <span className="hp-gradient-text">House Parties</span>
             </h1>
           </div>
 
@@ -239,17 +239,7 @@ export default function HeroSection() {
             </p>
           </div>
 
-          {/* Section 4: Trust Cards */}
-          <div className="hp-mob-section">
-            <div className="hp-mob-trust-grid">
-              <div className="mob-trust-card"><span className="mob-check">✓</span> Verified Artists</div>
-              <div className="mob-trust-card"><span className="mob-check">✓</span> Instant Quotes</div>
-              <div className="mob-trust-card"><span className="mob-check">✓</span> Transparent Pricing</div>
-              <div className="mob-trust-card"><span className="mob-check">✓</span> Pan India</div>
-            </div>
-          </div>
-
-          {/* Section 5: CTAs */}
+          {/* Section 4: CTAs (Moved up for better visibility) */}
           <div className="hp-mob-section hp-mob-cta-section">
             <button 
               className="mob-btn-primary"
@@ -264,6 +254,16 @@ export default function HeroSection() {
               <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, padding: '14px 6px', fontSize: '13.5px', whiteSpace: 'nowrap' }}>
                 📞 +91 80765 15257
               </a>
+            </div>
+          </div>
+
+          {/* Section 5: Trust Cards */}
+          <div className="hp-mob-section">
+            <div className="hp-mob-trust-grid">
+              <div className="mob-trust-card"><span className="mob-check">✓</span> Verified Artists</div>
+              <div className="mob-trust-card"><span className="mob-check">✓</span> Instant Quotes</div>
+              <div className="mob-trust-card"><span className="mob-check">✓</span> Transparent Pricing</div>
+              <div className="mob-trust-card"><span className="mob-check">✓</span> Pan India</div>
             </div>
           </div>
 
