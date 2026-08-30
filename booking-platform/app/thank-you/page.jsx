@@ -23,6 +23,16 @@ export default function ThankYouPage() {
           gtag('event', 'conversion', {'send_to': 'AW-16657289873/-Hl8CMKBmdUcEJGl6IY-'});
         `}
       </Script>
+      {/* Event snippet for Submit lead form Av conversion page */}
+      <Script id="google-ads-conversion-av" strategy="afterInteractive">
+        {`
+          gtag('event', 'conversion', {
+              'send_to': 'AW-16657289873/9sBzCMry1eocEJGl6IY-',
+              'value': 1.0,
+              'currency': 'INR'
+          });
+        `}
+      </Script>
       {/* End Google Tag Manager (noscript) */}
       <main style={{
         minHeight: '100vh',
