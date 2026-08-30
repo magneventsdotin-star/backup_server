@@ -8,7 +8,7 @@ export default function ThankYouPage() {
   return (
     <>
       {/* Google tag (gtag.js) */}
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-F1ERBXK87" strategy="afterInteractive" />
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-F1VERBXK87" strategy="afterInteractive" />
       <Script id="google-analytics" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
@@ -20,7 +20,7 @@ export default function ThankYouPage() {
       {/* Event snippet for Submit lead form (1) conversion page */}
       <Script id="google-ads-conversion" strategy="afterInteractive">
         {`
-          gtag('event', 'conversion', {'send_to': 'AW-1657289873/-Hl8CMKBmdUcEJGl6IY-'});
+          gtag('event', 'conversion', {'send_to': 'AW-16657289873/-Hl8CMKBmdUcEJGl6IY-'});
         `}
       </Script>
       {/* End Google Tag Manager (noscript) */}
