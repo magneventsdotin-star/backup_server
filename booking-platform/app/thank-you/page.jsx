@@ -2,19 +2,27 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Script from 'next/script';
 
 export default function ThankYouPage() {
   return (
     <>
-      {/* Google Tag Manager */}
-      <script dangerouslySetInnerHTML={{ __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KRH84LZ5');` }} />
-      {/* End Google Tag Manager */}
-      {/* Google Tag Manager (noscript) */}
-      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRH84LZ5" height="0" width="0" style={{display: 'none', visibility: 'hidden'}}></iframe></noscript>
+      {/* Google tag (gtag.js) */}
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-F1VERBXK87" strategy="afterInteractive" />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-F1VERBXK87');
+        `}
+      </Script>
+      {/* Event snippet for Submit lead form (1) conversion page */}
+      <Script id="google-ads-conversion" strategy="afterInteractive">
+        {`
+          gtag('event', 'conversion', {'send_to': 'AW-16657289873/-Hl8CMKBmdUcEJGl6IY-'});
+        `}
+      </Script>
       {/* End Google Tag Manager (noscript) */}
       <main style={{
         minHeight: '100vh',
