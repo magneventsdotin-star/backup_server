@@ -124,6 +124,7 @@ export default function RootLayout({ children }) {
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-VBP8HRFLFG');
+            gtag('config', 'G-F1VERBXK87');
           `}
         </Script>
         <Script id="google-tag-manager" strategy="afterInteractive">

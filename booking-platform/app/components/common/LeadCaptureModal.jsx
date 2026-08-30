@@ -184,6 +184,13 @@ function InnerLeadForm({ onClose, offerHeading, offerSubheading, isOfferEnabled 
       if (typeof window !== 'undefined') {
         localStorage.setItem('magnevents-form-filled', 'true');
         window.dispatchEvent(new Event('form-filled'));
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'conversion', {
+            'send_to': 'AW-16657289873/9sBzCMry1eocEJGl6IY-',
+            'value': 1.0,
+            'currency': 'INR'
+          });
+        }
       }
       setSubmitted(true)
       setTimeout(() => {

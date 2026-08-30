@@ -20,6 +20,11 @@ export default function ContactForm() {
         event_category: 'form',
         event_label: 'home_contact_submit'
       });
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-16657289873/9sBzCMry1eocEJGl6IY-',
+        'value': 1.0,
+        'currency': 'INR'
+      });
     }
     setTimeout(() => { setLoading(false); setSent(true) }, 1200)
   }

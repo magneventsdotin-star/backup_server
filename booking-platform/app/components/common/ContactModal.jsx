@@ -249,6 +249,11 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
 
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('event', 'generate_lead', { event_category: 'form', event_label: 'contact_modal_submit' });
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-16657289873/9sBzCMry1eocEJGl6IY-',
+        'value': 1.0,
+        'currency': 'INR'
+      });
     }
     
     bookingService.submitRequest({ ...submissionData, formType, formName: 'Artist Booking Modal' }).then(() => {
