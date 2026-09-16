@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import { validateName, validatePhone } from '@helpers/validation'
+import { bookingService } from '@/app/services/bookingService'
 import '@/app/styles/components/ContactModal.css'
 
 export default function QuickBookingModal() {
@@ -88,9 +89,16 @@ function InnerQuickBookingForm({ onClose }) {
 
   const validate = () => {
     const newErrors = {}
-    if (!validateName(formData.name)) newErrors.name = 'Please enter a valid name'
-    if (!validatePhone(formData.phone)) newErrors.phone = 'Please enter a valid 10-digit number'
-    if (!formData.location.trim()) newErrors.location = 'Please provide an event location'
+    const nameErr = validateName(formData.name)
+    if (nameErr) newErrors.name = nameErr
+
+    const phoneErr = validatePhone(formData.phone)
+    if (phoneErr) newErrors.phone = phoneErr
+
+    if (!formData.location || !formData.location.trim()) {
+      newErrors.location = 'Please provide an event location'
+    }
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -101,9 +109,19 @@ function InnerQuickBookingForm({ onClose }) {
 
     setIsSubmitting(true)
     
-    // Simulate API call
     try {
-      await new Promise(resolve => setTimeout(resolve, 1200))
+      bookingService.submitRequest({
+        name: formData.name,
+        phone: formData.phone,
+        location: formData.location,
+        type: 'call_request',
+        formType: 'quick_booking',
+        formName: 'Quick Contact Modal'
+      })
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('magnevents-form-filled', 'true')
+        window.dispatchEvent(new Event('form-filled'))
+      }
       setIsSuccess(true)
     } catch (err) {
       console.error(err)

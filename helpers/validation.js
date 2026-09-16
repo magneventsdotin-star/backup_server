@@ -2,7 +2,7 @@ export const validateName = (name) => {
   if (!name || name.trim().length < 2) {
     return "Name must be at least 2 characters long.";
   }
-  const nameRegex = /^[A-Za-z\s]+$/;
+  const nameRegex = /^[A-Za-z\s.'-]+$/;
   if (!nameRegex.test(name)) {
     return "Name should only contain letters and spaces.";
   }

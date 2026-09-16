@@ -50,8 +50,10 @@ export default function BottomNav() {
     <>
       <div className="booking-bottom-nav" style={{
         position: 'fixed',
-        left: '12px',
-        right: '12px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 'calc(100% - 24px)',
+        maxWidth: '480px',
         bottom: '12px',
         zIndex: 170,
         height: '68px',
@@ -63,7 +65,6 @@ export default function BottomNav() {
         WebkitBackdropFilter: 'blur(24px) saturate(180%)',
         display: 'flex',
         padding: '0 8px',
-        transform: 'translateY(0)',
         transition: 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
       }}>
         {/* Slot 1: Home */}
