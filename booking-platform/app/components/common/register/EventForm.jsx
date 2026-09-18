@@ -195,17 +195,7 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
             />
           </div>
           <div className="lux-form-group">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-              <label htmlFor="evt-location" style={{ margin: 0 }}>LOCATION</label>
-              <button
-                type="button"
-                onClick={handleDetectLocation}
-                disabled={isDetectingLoc}
-                style={{ background: 'transparent', border: 'none', color: '#FFE032', fontSize: '11px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '3px', padding: 0 }}
-              >
-                📍 {isDetectingLoc ? 'Detecting...' : (geoData.latitude ? 'Detected ✓' : 'Detect Location')}
-              </button>
-            </div>
+            <label htmlFor="evt-location">LOCATION</label>
             <input
               id="evt-location"
               name="location"

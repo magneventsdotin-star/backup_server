@@ -362,28 +362,7 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
               </select>
             </div>
             <div className="lux-form-group">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                <label htmlFor="modal-location" style={{ margin: 0 }}>Location</label>
-                <button
-                  type="button"
-                  onClick={handleDetectLocation}
-                  disabled={isDetectingLoc}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: '#FFE032',
-                    fontSize: '11px',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '3px',
-                    padding: 0
-                  }}
-                >
-                  📍 {isDetectingLoc ? 'Detecting...' : (geoData.latitude ? 'Detected ✓' : 'Detect Location')}
-                </button>
-              </div>
+              <label htmlFor="modal-location">Location</label>
               <input id="modal-location" name="location" type="text" required placeholder="Delhi, Mumbai, Lucknow..." value={formData.location} onChange={handleChange} />
             </div>
           </div>

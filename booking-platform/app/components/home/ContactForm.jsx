@@ -116,17 +116,7 @@ export default function ContactForm() {
           <input type="email" name="email" value={form.email} onChange={handle} placeholder="your@email.com" />
         </div>
         <div className="hp-form-field">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <label style={{ margin: 0 }}>Event City *</label>
-            <button
-              type="button"
-              onClick={handleDetectLocation}
-              disabled={isDetectingLoc}
-              style={{ background: 'transparent', border: 'none', color: '#FFE032', fontSize: '11px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '3px', padding: 0 }}
-            >
-              📍 {isDetectingLoc ? 'Detecting...' : (geoData.latitude ? 'Detected ✓' : 'Detect Location')}
-            </button>
-          </div>
+          <label>Event City *</label>
           <input type="text" name="city" value={form.city} onChange={handle} placeholder="e.g. Delhi, Mumbai" required />
         </div>
       </div>

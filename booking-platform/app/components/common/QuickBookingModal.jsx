@@ -214,17 +214,7 @@ function InnerQuickBookingForm({ onClose }) {
       </div>
 
       <div className="lux-form-group">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-          <label style={{ margin: 0, color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600' }}>Event Location *</label>
-          <button
-            type="button"
-            onClick={handleDetectLocation}
-            disabled={isDetectingLoc}
-            style={{ background: 'transparent', border: 'none', color: '#FFE032', fontSize: '11px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '3px', padding: 0 }}
-          >
-            📍 {isDetectingLoc ? 'Detecting...' : (geoData.latitude ? 'Detected ✓' : 'Detect Location')}
-          </button>
-        </div>
+        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Event Location *</label>
         <input 
           type="text" 
           className="lux-input"
