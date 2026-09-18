@@ -152,7 +152,7 @@ export function Sidebar({ onClose, userRole = 'admin' }: { onClose?: () => void;
         const { data, error } = await (supabase
           .from('bookings') as any)
           .select('event_type')
-          .eq('booking_source', 'client')
+          .or('booking_source.eq.client,booking_source.is.null,booking_source.neq.manual')
           .eq('status', 'pending');
           
         if (!error && data) {

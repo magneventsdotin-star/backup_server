@@ -168,7 +168,7 @@ export async function POST(req) {
         budget: numericBudget,
         notes: extraNotes,
         status: 'pending',
-        booking_source: data.formName || data.formType || 'client',
+        booking_source: 'client',
         latitude: latitude,
         longitude: longitude,
         detected_location: detectedLocation,

@@ -86,7 +86,7 @@ function ClientRequestsContent() {
       let query = (supabase
         .from('bookings') as any)
         .select('*, artists(id, name, alias, category, city, price_min, price_max, is_trending, is_artist_of_month, artist_images!fk_artist_id(image_url))')
-        .eq('booking_source', 'client')
+        .or('booking_source.eq.client,booking_source.is.null,booking_source.neq.manual')
         .not('event_type', 'eq', 'Artist Registration')
         .not('status', 'in', '("confirmed","completed")');
 
@@ -310,7 +310,7 @@ function ClientRequestsContent() {
       
       let query = (supabase.from('bookings') as any)
         .select('*, artists(name)')
-        .eq('booking_source', 'client')
+        .or('booking_source.eq.client,booking_source.is.null,booking_source.neq.manual')
         .not('event_type', 'eq', 'Artist Registration')
         .not('status', 'in', '("confirmed","completed")')
         .gte('created_at', start.toISOString())
@@ -356,7 +356,7 @@ function ClientRequestsContent() {
       
       let query = (supabase.from('bookings') as any)
         .select('*, artists(name)')
-        .eq('booking_source', 'client')
+        .or('booking_source.eq.client,booking_source.is.null,booking_source.neq.manual')
         .not('event_type', 'eq', 'Artist Registration')
         .not('status', 'in', '("confirmed","completed")')
         .gte('created_at', today.toISOString())
@@ -398,7 +398,7 @@ function ClientRequestsContent() {
     try {
       let query = (supabase.from('bookings') as any)
         .select('*, artists(name)')
-        .eq('booking_source', 'client')
+        .or('booking_source.eq.client,booking_source.is.null,booking_source.neq.manual')
         .not('event_type', 'eq', 'Artist Registration')
         .not('status', 'in', '("confirmed","completed")');
         
@@ -442,7 +442,7 @@ function ClientRequestsContent() {
       
       let query = (supabase.from('bookings') as any)
         .select('*, artists(name)')
-        .eq('booking_source', 'client')
+        .or('booking_source.eq.client,booking_source.is.null,booking_source.neq.manual')
         .not('event_type', 'eq', 'Artist Registration')
         .not('status', 'in', '("confirmed","completed")')
         .gte(sortBy === 'event_date' ? 'event_date' : 'created_at', start.toISOString())
