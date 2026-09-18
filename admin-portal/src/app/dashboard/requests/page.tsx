@@ -615,24 +615,43 @@ function ClientRequestsContent() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-slate-900 truncate">{request.client_name}</p>
-                        <p className="text-xs text-slate-500 truncate">{request.client_email}</p>
+                        <p className="text-xs text-slate-500 truncate">
+                          {request.client_email && request.client_email !== 'N/A' 
+                            ? request.client_email 
+                            : (request.client_phone && request.client_phone !== 'N/A' ? `📞 ${request.client_phone}` : 'No email')}
+                        </p>
                       </div>
                     </div>
 
                     <div className="flex-1 flex items-center gap-4 sm:gap-8">
-                       <div className="hidden sm:block min-w-[150px]">
-                         <span className={cn("px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider", status.bg, status.text)}>
+                       <div className="hidden sm:block min-w-[120px]">
+                         <span className={cn("px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider block text-center", status.bg, status.text)}>
                            {request.status}
                          </span>
                        </div>
                        
                        <div className="flex-1 min-w-0">
                          <p className="text-sm font-bold text-slate-700 truncate">{request.artists?.name || 'Any Artist'}</p>
-                         <p className="text-xs font-medium text-slate-400 uppercase tracking-widest">{request.artists?.category || 'General'}</p>
+                         <p className="text-xs font-medium text-slate-400 uppercase tracking-widest flex items-center gap-1.5 flex-wrap">
+                           <span>{request.artists?.category || 'General'}</span>
+                           {(request.venue || request.detected_location) && (
+                             <span className="text-slate-500 font-semibold truncate max-w-[180px] normal-case">
+                               • 📍 {request.venue && request.venue !== 'TBD' ? request.venue : request.detected_location}
+                             </span>
+                           )}
+                         </p>
                        </div>
 
+                       {(request.detected_location || request.latitude) && (
+                         <div className="hidden lg:block shrink-0">
+                           <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 inline-flex items-center gap-1">
+                             📍 Geo Tracked
+                           </span>
+                         </div>
+                       )}
+
                        <div className="hidden sm:block min-w-[100px] text-right">
-                         <p className="text-xs font-bold text-slate-900 tracking-tight">₹{request.budget?.toLocaleString()}</p>
+                         <p className="text-xs font-bold text-slate-900 tracking-tight">₹{request.budget ? Number(request.budget).toLocaleString('en-IN') : '0'}</p>
                          <p className="text-[10px] font-bold text-slate-400 uppercase">Budget</p>
                        </div>
                     </div>
