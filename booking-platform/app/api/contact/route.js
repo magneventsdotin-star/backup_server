@@ -94,7 +94,41 @@ export async function POST(req) {
         evType = 'Call Request';
       }
 
-      const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'unknown';
+      let clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || '';
+
+      let latitude = data.latitude ? parseFloat(data.latitude) : null;
+      let longitude = data.longitude ? parseFloat(data.longitude) : null;
+      let detectedLocation = data.detectedLocation || data.detected_location || '';
+
+      if (!latitude || !longitude || !detectedLocation) {
+        try {
+          const ipQueryUrl = clientIp && clientIp !== '127.0.0.1' && clientIp !== '::1' && clientIp !== 'localhost'
+            ? `http://ip-api.com/json/${clientIp}?fields=status,country,regionName,city,lat,lon,query`
+            : `http://ip-api.com/json/?fields=status,country,regionName,city,lat,lon,query`;
+            
+          const ipRes = await fetch(ipQueryUrl, { cache: 'no-store' });
+          if (ipRes.ok) {
+            const ipGeo = await ipRes.json();
+            if (ipGeo && ipGeo.status === 'success') {
+              if (!latitude && ipGeo.lat) latitude = ipGeo.lat;
+              if (!longitude && ipGeo.lon) longitude = ipGeo.lon;
+              if (!detectedLocation) {
+                const locParts = [ipGeo.city, ipGeo.regionName, ipGeo.country].filter(Boolean);
+                detectedLocation = locParts.join(', ') + ' (IP-based)';
+              }
+              if (!clientIp && ipGeo.query) clientIp = ipGeo.query;
+            }
+          }
+        } catch (ipErr) {
+          console.warn("IP geolocation fallback error:", ipErr.message);
+        }
+      }
+
+      // Mutate data object so email template & DB get updated location
+      data.latitude = latitude;
+      data.longitude = longitude;
+      data.detectedLocation = detectedLocation;
+      data.ipAddress = clientIp || 'unknown';
 
       const bookingData = {
         client_name: data.name || 'Unknown',
@@ -102,15 +136,15 @@ export async function POST(req) {
         client_phone: data.phone || 'N/A',
         event_type: evType,
         event_date: data.date || null,
-        venue: data.location || data.detectedLocation || 'TBD',
+        venue: data.location || detectedLocation || 'TBD',
         budget: numericBudget,
         notes: extraNotes,
         status: 'pending',
         booking_source: data.formName || data.formType || 'client',
-        latitude: data.latitude ? parseFloat(data.latitude) : null,
-        longitude: data.longitude ? parseFloat(data.longitude) : null,
-        detected_location: data.detectedLocation || data.detected_location || null,
-        ip_address: clientIp
+        latitude: latitude,
+        longitude: longitude,
+        detected_location: detectedLocation,
+        ip_address: clientIp || 'unknown'
       };
 
       if (data.selectedArtist && data.selectedArtist.id) {

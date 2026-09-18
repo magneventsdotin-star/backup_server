@@ -49,25 +49,28 @@ export const buildEmailTemplate = (data, isRegister, isCallRequest, dbArtistInfo
     contentSections += buildSection('👤 User & Contact Details', 
       row('Name', nameWithDevice) +
       row('Email', data.email, true, `mailto:${data.email}`) +
-      row('Phone', data.phone, true, `tel:${data.phone}`)
+      row('Phone', data.phone, true, `tel:${data.phone}`) +
+      (data.ipAddress ? row('IP Address', data.ipAddress) : '')
     );
     contentSections += buildSection('📅 Event Details', 
       row('Event Type', data.eventType) +
       row('Event Date', data.date) +
-      row('Location', data.location) +
-      row('Requested Type', data.artistType && data.artistType.length > 0 ? data.artistType.join(', ') : '') +
+      row('Event Location', data.location) +
+      row('Requested Type', data.artistType && data.artistType.length > 0 ? (Array.isArray(data.artistType) ? data.artistType.join(', ') : data.artistType) : '') +
       row('Budget', data.budget)
     );
 
-    if (data.latitude || data.longitude || data.detectedLocation) {
+    if (data.latitude || data.longitude || data.detectedLocation || data.location) {
       let geoHtml = '';
+      if (data.location) geoHtml += row('Submitted City', data.location);
       if (data.detectedLocation) geoHtml += row('Detected Address', data.detectedLocation);
       if (data.latitude && data.longitude) {
         geoHtml += row('Coordinates', `${data.latitude}, ${data.longitude}`);
         const mapsUrl = `https://www.google.com/maps?q=${data.latitude},${data.longitude}`;
         geoHtml += row('Google Maps', 'View on Google Maps 🗺️', true, mapsUrl);
       }
-      contentSections += buildSection('📍 Captured Geolocation Data', geoHtml);
+      if (data.ipAddress) geoHtml += row('Client IP', data.ipAddress);
+      contentSections += buildSection('📍 User Location & Geolocation', geoHtml);
     }
 
     if (coverPhotoHtml) {
