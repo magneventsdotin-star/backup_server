@@ -60,3 +60,25 @@ export interface ArtistMedia {
   public_url: string;
   created_at: string;
 }
+
+export interface Booking {
+  id: string;
+  artist_id?: string;
+  client_name: string;
+  client_email?: string;
+  client_phone?: string;
+  event_type?: string;
+  event_date?: string;
+  event_time?: string;
+  venue?: string;
+  budget?: number;
+  notes?: string;
+  status: string;
+  booking_source?: string;
+  latitude?: number;
+  longitude?: number;
+  detected_location?: string;
+  ip_address?: string;
+  created_at?: string;
+}
+

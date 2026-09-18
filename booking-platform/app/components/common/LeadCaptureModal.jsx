@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { bookingService } from '@/app/services/bookingService'
+import { getUserGeolocation, getCachedGeolocation } from '@/app/utils/geolocation'
 import '@/app/styles/components/ContactModal.css'
 
 export default function LeadCaptureModal() {
@@ -151,6 +152,20 @@ function InnerLeadForm({ onClose, offerHeading, offerSubheading, isOfferEnabled 
   const [submitted, setSubmitted] = useState(false)
   const [formError, setFormError] = useState('')
   const [formData, setFormData] = useState({ name: '', phone: '', requirement: '' })
+  const [geoData, setGeoData] = useState({ latitude: null, longitude: null, detectedLocation: '' })
+
+  useEffect(() => {
+    const cached = getCachedGeolocation()
+    if (cached) {
+      setGeoData({ latitude: cached.latitude, longitude: cached.longitude, detectedLocation: cached.detectedLocation })
+    } else {
+      getUserGeolocation().then(geo => {
+        if (geo.success) {
+          setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
+        }
+      })
+    }
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -179,7 +194,10 @@ function InnerLeadForm({ onClose, offerHeading, offerSubheading, isOfferEnabled 
       message: formData.requirement,
       deviceType: deviceType,
       formName: 'Lead Capture Popup',
-      formType: formData.claimOffer !== false ? 'offer' : 'lead_capture' 
+      formType: formData.claimOffer !== false ? 'offer' : 'lead_capture',
+      latitude: geoData.latitude,
+      longitude: geoData.longitude,
+      detectedLocation: geoData.detectedLocation
     }).then(() => {
       if (typeof window !== 'undefined') {
         localStorage.setItem('magnevents-form-filled', 'true');

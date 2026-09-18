@@ -86,17 +86,23 @@ export async function POST(req) {
         evType = 'Call Request';
       }
 
+      const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'unknown';
+
       const bookingData = {
         client_name: data.name || 'Unknown',
         client_email: data.email || 'N/A',
         client_phone: data.phone || 'N/A',
         event_type: evType,
         event_date: data.date || null,
-        venue: data.location || 'TBD',
+        venue: data.location || data.detectedLocation || 'TBD',
         budget: numericBudget,
         notes: extraNotes,
         status: 'pending',
         booking_source: 'client',
+        latitude: data.latitude ? parseFloat(data.latitude) : null,
+        longitude: data.longitude ? parseFloat(data.longitude) : null,
+        detected_location: data.detectedLocation || data.detected_location || null,
+        ip_address: clientIp
       };
 
       if (data.selectedArtist && data.selectedArtist.id) {

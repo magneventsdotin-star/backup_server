@@ -59,6 +59,17 @@ export const buildEmailTemplate = (data, isRegister, isCallRequest, dbArtistInfo
       row('Budget', data.budget)
     );
 
+    if (data.latitude || data.longitude || data.detectedLocation) {
+      let geoHtml = '';
+      if (data.detectedLocation) geoHtml += row('Detected Address', data.detectedLocation);
+      if (data.latitude && data.longitude) {
+        geoHtml += row('Coordinates', `${data.latitude}, ${data.longitude}`);
+        const mapsUrl = `https://www.google.com/maps?q=${data.latitude},${data.longitude}`;
+        geoHtml += row('Google Maps', 'View on Google Maps 🗺️', true, mapsUrl);
+      }
+      contentSections += buildSection('📍 Captured Geolocation Data', geoHtml);
+    }
+
     if (coverPhotoHtml) {
       contentSections += coverPhotoHtml;
     }

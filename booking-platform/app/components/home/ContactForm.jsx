@@ -1,12 +1,45 @@
 "use client";
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { bookingService } from '@/app/services/bookingService'
+import { getUserGeolocation, getCachedGeolocation } from '@/app/utils/geolocation'
 
 export default function ContactForm() {
   const [form, setForm] = useState({ name: '', phone: '', email: '', city: '', type: '', details: '' })
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [geoData, setGeoData] = useState({ latitude: null, longitude: null, detectedLocation: '' })
+  const [isDetectingLoc, setIsDetectingLoc] = useState(false)
+
+  useEffect(() => {
+    const cached = getCachedGeolocation()
+    if (cached) {
+      setGeoData({ latitude: cached.latitude, longitude: cached.longitude, detectedLocation: cached.detectedLocation })
+      if (cached.city && !form.city) {
+        setForm(f => ({ ...f, city: cached.city }))
+      }
+    } else {
+      getUserGeolocation().then(geo => {
+        if (geo.success) {
+          setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
+          setForm(f => ({ ...f, city: f.city || geo.city || geo.detectedLocation }))
+        }
+      })
+    }
+  }, [])
+
+  const handleDetectLocation = async () => {
+    setIsDetectingLoc(true)
+    const geo = await getUserGeolocation()
+    setIsDetectingLoc(false)
+    if (geo.success) {
+      setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
+      if (geo.city || geo.detectedLocation) {
+        setForm(f => ({ ...f, city: f.city || geo.city || geo.detectedLocation }))
+      }
+    }
+  }
 
   function handle(e) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
@@ -26,7 +59,25 @@ export default function ContactForm() {
         'currency': 'INR'
       });
     }
-    setTimeout(() => { setLoading(false); setSent(true) }, 1200)
+
+    bookingService.submitRequest({
+      name: form.name,
+      phone: form.phone,
+      email: form.email,
+      location: form.city,
+      eventType: form.type,
+      message: form.details,
+      latitude: geoData.latitude,
+      longitude: geoData.longitude,
+      detectedLocation: geoData.detectedLocation,
+      formName: 'Home Contact Form'
+    }).then(() => {
+      setLoading(false)
+      setSent(true)
+    }).catch(err => {
+      console.error(err)
+      setLoading(false)
+    })
   }
 
   if (sent) {
@@ -71,7 +122,17 @@ export default function ContactForm() {
           <input type="email" name="email" value={form.email} onChange={handle} placeholder="your@email.com" />
         </div>
         <div className="hp-form-field">
-          <label>Event City *</label>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <label style={{ margin: 0 }}>Event City *</label>
+            <button
+              type="button"
+              onClick={handleDetectLocation}
+              disabled={isDetectingLoc}
+              style={{ background: 'transparent', border: 'none', color: '#FFE032', fontSize: '11px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '3px', padding: 0 }}
+            >
+              📍 {isDetectingLoc ? 'Detecting...' : (geoData.latitude ? 'Detected ✓' : 'Detect Location')}
+            </button>
+          </div>
           <input type="text" name="city" value={form.city} onChange={handle} placeholder="e.g. Delhi, Mumbai" required />
         </div>
       </div>

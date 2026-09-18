@@ -1,12 +1,33 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { bookingService } from '@/app/services/bookingService';
 import { validateName, validateEmail, validatePhone } from '@helpers/validation';
+import { getUserGeolocation, getCachedGeolocation } from '@/app/utils/geolocation';
 
 export default function ArtistForm({ copyToClipboard, setSubmitted }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+  const [geoData, setGeoData] = useState({ latitude: null, longitude: null, detectedLocation: '' });
   
+  useEffect(() => {
+    const cached = getCachedGeolocation();
+    if (cached) {
+      setGeoData({ latitude: cached.latitude, longitude: cached.longitude, detectedLocation: cached.detectedLocation });
+      if (cached.city && !selectedCity) {
+        setSelectedCity(cached.city);
+      }
+    } else {
+      getUserGeolocation().then(geo => {
+        if (geo.success) {
+          setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation });
+          if (geo.city && !selectedCity) {
+            setSelectedCity(geo.city);
+          }
+        }
+      });
+    }
+  }, []);
+
   // Controlled form state
   const [formData, setFormData] = useState({
     name: '',
@@ -39,7 +60,10 @@ export default function ArtistForm({ copyToClipboard, setSubmitted }) {
       ...formData,
       name: formData.name,
       city: finalCity || '',
-      deviceType
+      deviceType,
+      latitude: geoData.latitude,
+      longitude: geoData.longitude,
+      detectedLocation: geoData.detectedLocation
     };
 
     const nameErr = validateName(submissionData.name);

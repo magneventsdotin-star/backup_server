@@ -1,12 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { bookingService } from '@/app/services/bookingService';
 import { validateName, validateEmail, validatePhone } from '@helpers/validation';
+import { getUserGeolocation, getCachedGeolocation } from '@/app/utils/geolocation';
 
 export default function EventForm({ copyToClipboard, setSubmitted }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
   const [selectedArtistTypes, setSelectedArtistTypes] = useState([]);
+  const [geoData, setGeoData] = useState({ latitude: null, longitude: null, detectedLocation: '' });
+  const [isDetectingLoc, setIsDetectingLoc] = useState(false);
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -18,6 +21,35 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
     location: '',
     budget: ''
   });
+
+  const handleDetectLocation = async () => {
+    setIsDetectingLoc(true);
+    const geo = await getUserGeolocation();
+    setIsDetectingLoc(false);
+    if (geo.success) {
+      setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation });
+      if (geo.city || geo.detectedLocation) {
+        setFormData(prev => ({ ...prev, location: prev.location || geo.city || geo.detectedLocation }));
+      }
+    }
+  };
+
+  useEffect(() => {
+    const cached = getCachedGeolocation();
+    if (cached) {
+      setGeoData({ latitude: cached.latitude, longitude: cached.longitude, detectedLocation: cached.detectedLocation });
+      if (cached.city && !formData.location) {
+        setFormData(prev => ({ ...prev, location: cached.city }));
+      }
+    } else {
+      getUserGeolocation().then(geo => {
+        if (geo.success) {
+          setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation });
+          setFormData(prev => ({ ...prev, location: prev.location || geo.city || geo.detectedLocation }));
+        }
+      });
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,7 +69,10 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
       ...formData,
       name: formData.name,
       artistType: selectedArtistTypes,
-      deviceType
+      deviceType,
+      latitude: geoData.latitude,
+      longitude: geoData.longitude,
+      detectedLocation: geoData.detectedLocation
     };
 
     const nameErr = validateName(submissionData.name);
@@ -166,7 +201,17 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
             />
           </div>
           <div className="lux-form-group">
-            <label htmlFor="evt-location">LOCATION</label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+              <label htmlFor="evt-location" style={{ margin: 0 }}>LOCATION</label>
+              <button
+                type="button"
+                onClick={handleDetectLocation}
+                disabled={isDetectingLoc}
+                style={{ background: 'transparent', border: 'none', color: '#FFE032', fontSize: '11px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '3px', padding: 0 }}
+              >
+                📍 {isDetectingLoc ? 'Detecting...' : (geoData.latitude ? 'Detected ✓' : 'Detect Location')}
+              </button>
+            </div>
             <input
               id="evt-location"
               name="location"

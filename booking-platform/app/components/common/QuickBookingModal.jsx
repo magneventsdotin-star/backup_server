@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import { validateName, validatePhone } from '@helpers/validation'
 import { bookingService } from '@/app/services/bookingService'
+import { getUserGeolocation, getCachedGeolocation } from '@/app/utils/geolocation'
 import '@/app/styles/components/ContactModal.css'
 
 export default function QuickBookingModal() {
@@ -86,6 +87,38 @@ function InnerQuickBookingForm({ onClose }) {
   const [isSuccess, setIsSuccess] = useState(false)
   const [formData, setFormData] = useState({ name: '', phone: '', location: '' })
   const [errors, setErrors] = useState({})
+  const [geoData, setGeoData] = useState({ latitude: null, longitude: null, detectedLocation: '' })
+  const [isDetectingLoc, setIsDetectingLoc] = useState(false)
+
+  const handleDetectLocation = async () => {
+    setIsDetectingLoc(true)
+    const geo = await getUserGeolocation()
+    setIsDetectingLoc(false)
+    if (geo.success) {
+      setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
+      if (geo.city || geo.detectedLocation) {
+        setFormData(prev => ({ ...prev, location: prev.location || geo.city || geo.detectedLocation }))
+        if (errors.location) setErrors(prev => ({ ...prev, location: null }))
+      }
+    }
+  }
+
+  useEffect(() => {
+    const cached = getCachedGeolocation()
+    if (cached) {
+      setGeoData({ latitude: cached.latitude, longitude: cached.longitude, detectedLocation: cached.detectedLocation })
+      if (cached.city && !formData.location) {
+        setFormData(prev => ({ ...prev, location: cached.city }))
+      }
+    } else {
+      getUserGeolocation().then(geo => {
+        if (geo.success) {
+          setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
+          setFormData(prev => ({ ...prev, location: prev.location || geo.city || geo.detectedLocation }))
+        }
+      })
+    }
+  }, [])
 
   const validate = () => {
     const newErrors = {}
@@ -116,7 +149,10 @@ function InnerQuickBookingForm({ onClose }) {
         location: formData.location,
         type: 'call_request',
         formType: 'quick_booking',
-        formName: 'Quick Contact Modal'
+        formName: 'Quick Contact Modal',
+        latitude: geoData.latitude,
+        longitude: geoData.longitude,
+        detectedLocation: geoData.detectedLocation
       })
       if (typeof window !== 'undefined') {
         localStorage.setItem('magnevents-form-filled', 'true')
@@ -184,7 +220,17 @@ function InnerQuickBookingForm({ onClose }) {
       </div>
 
       <div className="lux-form-group">
-        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Event Location *</label>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+          <label style={{ margin: 0, color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600' }}>Event Location *</label>
+          <button
+            type="button"
+            onClick={handleDetectLocation}
+            disabled={isDetectingLoc}
+            style={{ background: 'transparent', border: 'none', color: '#FFE032', fontSize: '11px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '3px', padding: 0 }}
+          >
+            📍 {isDetectingLoc ? 'Detecting...' : (geoData.latitude ? 'Detected ✓' : 'Detect Location')}
+          </button>
+        </div>
         <input 
           type="text" 
           className="lux-input"

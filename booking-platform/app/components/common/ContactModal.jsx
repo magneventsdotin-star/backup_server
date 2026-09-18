@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter, usePathname } from 'next/navigation'
 import { bookingService } from '@/app/services/bookingService'
 import { validateName, validateEmail, validatePhone } from '@helpers/validation';
+import { getUserGeolocation, getCachedGeolocation } from '@/app/utils/geolocation'
 import '@/app/styles/components/ContactModal.css'
 
 export default function ContactModal() {
@@ -197,6 +198,39 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
     name: '', phone: '', email: '', date: '', location: ''
   });
 
+  const [geoData, setGeoData] = useState({ latitude: null, longitude: null, detectedLocation: '' });
+  const [isDetectingLoc, setIsDetectingLoc] = useState(false);
+
+  const handleDetectLocation = async () => {
+    setIsDetectingLoc(true);
+    const geo = await getUserGeolocation();
+    setIsDetectingLoc(false);
+    if (geo.success) {
+      setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation });
+      if (geo.city || geo.detectedLocation) {
+        setFormData(prev => ({ ...prev, location: prev.location || geo.city || geo.detectedLocation }));
+      }
+    }
+  };
+
+  useEffect(() => {
+    const cached = getCachedGeolocation();
+    if (cached) {
+      setGeoData({ latitude: cached.latitude, longitude: cached.longitude, detectedLocation: cached.detectedLocation });
+      if (cached.city && !formData.location) {
+        setFormData(prev => ({ ...prev, location: cached.city }));
+      }
+    } else {
+      // Auto attempt in background if permission is granted
+      getUserGeolocation().then(geo => {
+        if (geo.success) {
+          setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation });
+          setFormData(prev => ({ ...prev, location: prev.location || geo.city || geo.detectedLocation }));
+        }
+      });
+    }
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
@@ -244,7 +278,20 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
       else if (window.innerWidth <= 1024) deviceType = 'T';
     }
 
-    const submissionData = { ...formData, name: formData.name, eventType: selectedEventType, artistType: selectedArtistTypes, budget: selectedBudget, selectedArtist: initialArtist, selectedPlan: initialPlan, selectedService: initialService, deviceType }
+    const submissionData = { 
+      ...formData, 
+      name: formData.name, 
+      eventType: selectedEventType, 
+      artistType: selectedArtistTypes, 
+      budget: selectedBudget, 
+      selectedArtist: initialArtist, 
+      selectedPlan: initialPlan, 
+      selectedService: initialService, 
+      deviceType,
+      latitude: geoData.latitude,
+      longitude: geoData.longitude,
+      detectedLocation: geoData.detectedLocation
+    }
     setIsSubmitting(true)
 
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
@@ -322,7 +369,28 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
               </select>
             </div>
             <div className="lux-form-group">
-              <label htmlFor="modal-location">Location</label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                <label htmlFor="modal-location" style={{ margin: 0 }}>Location</label>
+                <button
+                  type="button"
+                  onClick={handleDetectLocation}
+                  disabled={isDetectingLoc}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#FFE032',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '3px',
+                    padding: 0
+                  }}
+                >
+                  📍 {isDetectingLoc ? 'Detecting...' : (geoData.latitude ? 'Detected ✓' : 'Detect Location')}
+                </button>
+              </div>
               <input id="modal-location" name="location" type="text" required placeholder="Delhi, Mumbai, Lucknow..." value={formData.location} onChange={handleChange} />
             </div>
           </div>

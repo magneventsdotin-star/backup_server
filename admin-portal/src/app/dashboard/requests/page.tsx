@@ -763,10 +763,28 @@ function ClientRequestsContent() {
                           <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Date & Time</p>
                           <p className="text-sm font-bold text-slate-700">{selectedRequest.event_date} {selectedRequest.event_time}</p>
                        </div>
-                       <div className="col-span-2">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Venue</p>
-                          <p className="text-xs font-medium text-slate-600 flex items-center gap-2"><MapPin size={12} /> {selectedRequest.venue || 'TBD'}</p>
-                       </div>
+                        <div className="col-span-2">
+                           <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Venue</p>
+                           <p className="text-xs font-medium text-slate-600 flex items-center gap-2"><MapPin size={12} /> {selectedRequest.venue || 'TBD'}</p>
+                        </div>
+                        {(selectedRequest.latitude || selectedRequest.longitude || selectedRequest.detected_location) && (
+                          <div className="col-span-2 pt-2 border-t border-slate-100 mt-2">
+                             <p className="text-[10px] font-bold text-slate-400 uppercase mb-1 flex items-center gap-1"><MapPin size={10} className="text-emerald-500" /> Captured Geolocation</p>
+                             {selectedRequest.detected_location && (
+                               <p className="text-xs font-semibold text-slate-700 mb-1">{selectedRequest.detected_location}</p>
+                             )}
+                             {selectedRequest.latitude && selectedRequest.longitude && (
+                               <a 
+                                 href={`https://www.google.com/maps?q=${selectedRequest.latitude},${selectedRequest.longitude}`} 
+                                 target="_blank" 
+                                 rel="noopener noreferrer"
+                                 className="text-xs font-bold text-sky-600 hover:underline inline-flex items-center gap-1"
+                               >
+                                 Open in Google Maps 🗺️ ({selectedRequest.latitude}, {selectedRequest.longitude})
+                               </a>
+                             )}
+                          </div>
+                        )}
                     </div>
                  </div>
 
