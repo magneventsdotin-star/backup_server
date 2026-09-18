@@ -743,7 +743,10 @@ function ClientRequestsContent() {
                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Client Contact</p>
                        <p className="text-sm font-bold text-slate-900 mb-1">{selectedRequest.client_name}</p>
                        <p className="text-xs text-slate-500 flex items-center gap-2 mb-1"><Mail size={12} /> {selectedRequest.client_email}</p>
-                       <p className="text-xs text-slate-500 flex items-center gap-2"><Phone size={12} /> {selectedRequest.client_phone || 'N/A'}</p>
+                       <p className="text-xs text-slate-500 flex items-center gap-2 mb-1"><Phone size={12} /> {selectedRequest.client_phone || 'N/A'}</p>
+                       {selectedRequest.ip_address && (
+                         <p className="text-[10px] font-semibold text-slate-400 mt-1">🌐 IP: {selectedRequest.ip_address}</p>
+                       )}
                     </div>
                     <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Artist Selection</p>
@@ -761,26 +764,34 @@ function ClientRequestsContent() {
                        </div>
                        <div>
                           <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Date & Time</p>
-                          <p className="text-sm font-bold text-slate-700">{selectedRequest.event_date} {selectedRequest.event_time}</p>
+                          <p className="text-sm font-bold text-slate-700">{selectedRequest.event_date || 'TBD'} {selectedRequest.event_time || ''}</p>
+                       </div>
+                       <div>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Budget</p>
+                          <p className="text-sm font-extrabold text-emerald-600">₹{selectedRequest.budget ? Number(selectedRequest.budget).toLocaleString('en-IN') : 'N/A'}</p>
+                       </div>
+                       <div>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Source Form</p>
+                          <p className="text-xs font-bold text-slate-600 uppercase">{selectedRequest.booking_source || 'Client Direct'}</p>
                        </div>
                         <div className="col-span-2">
                            <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Venue</p>
                            <p className="text-xs font-medium text-slate-600 flex items-center gap-2"><MapPin size={12} /> {selectedRequest.venue || 'TBD'}</p>
                         </div>
                         {(selectedRequest.latitude || selectedRequest.longitude || selectedRequest.detected_location) && (
-                          <div className="col-span-2 pt-2 border-t border-slate-100 mt-2">
-                             <p className="text-[10px] font-bold text-slate-400 uppercase mb-1 flex items-center gap-1"><MapPin size={10} className="text-emerald-500" /> Captured Geolocation</p>
+                          <div className="col-span-2 pt-3 border-t border-slate-200/60 mt-2 bg-emerald-50/40 p-3 rounded-xl border border-emerald-100">
+                             <p className="text-[10px] font-black text-emerald-700 uppercase tracking-wider mb-1 flex items-center gap-1"><MapPin size={12} className="text-emerald-600" /> Captured Geolocation</p>
                              {selectedRequest.detected_location && (
-                               <p className="text-xs font-semibold text-slate-700 mb-1">{selectedRequest.detected_location}</p>
+                               <p className="text-xs font-semibold text-slate-800 mb-1">📍 {selectedRequest.detected_location}</p>
                              )}
                              {selectedRequest.latitude && selectedRequest.longitude && (
                                <a 
                                  href={`https://www.google.com/maps?q=${selectedRequest.latitude},${selectedRequest.longitude}`} 
                                  target="_blank" 
                                  rel="noopener noreferrer"
-                                 className="text-xs font-bold text-sky-600 hover:underline inline-flex items-center gap-1"
+                                 className="text-xs font-bold text-sky-600 hover:text-sky-700 hover:underline inline-flex items-center gap-1 bg-white px-3 py-1 rounded-lg border border-sky-200 shadow-sm mt-1"
                                >
-                                 Open in Google Maps 🗺️ ({selectedRequest.latitude}, {selectedRequest.longitude})
+                                 🗺️ View on Google Maps ({selectedRequest.latitude}, {selectedRequest.longitude})
                                </a>
                              )}
                           </div>

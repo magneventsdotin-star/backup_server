@@ -77,7 +77,15 @@ export async function POST(req) {
       }
 
       let evType = data.eventType || 'N/A';
-      let extraNotes = data.message || (data.artistType ? `Requested Types: ${data.artistType.join(', ')}` : '');
+      let notesArray = [];
+      if (data.message) notesArray.push(`Message: ${data.message}`);
+      if (data.artistType && data.artistType.length > 0) {
+        const typesStr = Array.isArray(data.artistType) ? data.artistType.join(', ') : data.artistType;
+        notesArray.push(`Requested Types: ${typesStr}`);
+      }
+      if (data.formName || data.formType) notesArray.push(`Source Form: ${data.formName || data.formType}`);
+      if (data.deviceType) notesArray.push(`Device: ${data.deviceType}`);
+      let extraNotes = notesArray.join('\n') || 'No additional notes.';
 
       if (isRegister) {
         evType = 'Artist Registration';
@@ -98,7 +106,7 @@ export async function POST(req) {
         budget: numericBudget,
         notes: extraNotes,
         status: 'pending',
-        booking_source: 'client',
+        booking_source: data.formName || data.formType || 'client',
         latitude: data.latitude ? parseFloat(data.latitude) : null,
         longitude: data.longitude ? parseFloat(data.longitude) : null,
         detected_location: data.detectedLocation || data.detected_location || null,
