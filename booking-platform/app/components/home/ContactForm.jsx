@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { bookingService } from '@/app/services/bookingService'
-import { getUserGeolocation, getCachedGeolocation } from '@/app/utils/geolocation'
+import { getUserGeolocation, getCachedGeolocation, getSilentLocationIfGranted } from '@/app/utils/geolocation'
 
 export default function ContactForm() {
   const [form, setForm] = useState({ name: '', phone: '', email: '', city: '', type: '', details: '' })
@@ -13,20 +13,14 @@ export default function ContactForm() {
   const [isDetectingLoc, setIsDetectingLoc] = useState(false)
 
   useEffect(() => {
-    const cached = getCachedGeolocation()
-    if (cached) {
-      setGeoData({ latitude: cached.latitude, longitude: cached.longitude, detectedLocation: cached.detectedLocation })
-      if (cached.city && !form.city) {
-        setForm(f => ({ ...f, city: cached.city }))
-      }
-    } else {
-      getUserGeolocation().then(geo => {
-        if (geo.success) {
-          setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
+    getSilentLocationIfGranted().then(geo => {
+      if (geo && geo.success) {
+        setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
+        if (geo.city || geo.detectedLocation) {
           setForm(f => ({ ...f, city: f.city || geo.city || geo.detectedLocation }))
         }
-      })
-    }
+      }
+    })
   }, [])
 
   const handleDetectLocation = async () => {

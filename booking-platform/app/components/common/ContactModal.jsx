@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter, usePathname } from 'next/navigation'
 import { bookingService } from '@/app/services/bookingService'
 import { validateName, validateEmail, validatePhone } from '@helpers/validation';
-import { getUserGeolocation, getCachedGeolocation } from '@/app/utils/geolocation'
+import { getUserGeolocation, getCachedGeolocation, getSilentLocationIfGranted } from '@/app/utils/geolocation'
 import '@/app/styles/components/ContactModal.css'
 
 export default function ContactModal() {
@@ -214,21 +214,14 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
   };
 
   useEffect(() => {
-    const cached = getCachedGeolocation();
-    if (cached) {
-      setGeoData({ latitude: cached.latitude, longitude: cached.longitude, detectedLocation: cached.detectedLocation });
-      if (cached.city && !formData.location) {
-        setFormData(prev => ({ ...prev, location: cached.city }));
-      }
-    } else {
-      // Auto attempt in background if permission is granted
-      getUserGeolocation().then(geo => {
-        if (geo.success) {
-          setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation });
+    getSilentLocationIfGranted().then(geo => {
+      if (geo && geo.success) {
+        setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation });
+        if (geo.city || geo.detectedLocation) {
           setFormData(prev => ({ ...prev, location: prev.location || geo.city || geo.detectedLocation }));
         }
-      });
-    }
+      }
+    });
   }, []);
 
   const handleChange = (e) => {

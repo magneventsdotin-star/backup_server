@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { bookingService } from '@/app/services/bookingService'
-import { getUserGeolocation, getCachedGeolocation } from '@/app/utils/geolocation'
+import { getUserGeolocation, getCachedGeolocation, getSilentLocationIfGranted } from '@/app/utils/geolocation'
 import '@/app/styles/components/ContactModal.css'
 
 export default function LeadCaptureModal() {
@@ -155,16 +155,11 @@ function InnerLeadForm({ onClose, offerHeading, offerSubheading, isOfferEnabled 
   const [geoData, setGeoData] = useState({ latitude: null, longitude: null, detectedLocation: '' })
 
   useEffect(() => {
-    const cached = getCachedGeolocation()
-    if (cached) {
-      setGeoData({ latitude: cached.latitude, longitude: cached.longitude, detectedLocation: cached.detectedLocation })
-    } else {
-      getUserGeolocation().then(geo => {
-        if (geo.success) {
-          setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
-        }
-      })
-    }
+    getSilentLocationIfGranted().then(geo => {
+      if (geo && geo.success) {
+        setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
+      }
+    })
   }, [])
 
   const handleSubmit = (e) => {

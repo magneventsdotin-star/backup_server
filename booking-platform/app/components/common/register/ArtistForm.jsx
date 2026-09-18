@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { bookingService } from '@/app/services/bookingService';
 import { validateName, validateEmail, validatePhone } from '@helpers/validation';
-import { getUserGeolocation, getCachedGeolocation } from '@/app/utils/geolocation';
+import { getUserGeolocation, getCachedGeolocation, getSilentLocationIfGranted } from '@/app/utils/geolocation';
 
 export default function ArtistForm({ copyToClipboard, setSubmitted }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -10,22 +10,14 @@ export default function ArtistForm({ copyToClipboard, setSubmitted }) {
   const [geoData, setGeoData] = useState({ latitude: null, longitude: null, detectedLocation: '' });
   
   useEffect(() => {
-    const cached = getCachedGeolocation();
-    if (cached) {
-      setGeoData({ latitude: cached.latitude, longitude: cached.longitude, detectedLocation: cached.detectedLocation });
-      if (cached.city && !selectedCity) {
-        setSelectedCity(cached.city);
-      }
-    } else {
-      getUserGeolocation().then(geo => {
-        if (geo.success) {
-          setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation });
-          if (geo.city && !selectedCity) {
-            setSelectedCity(geo.city);
-          }
+    getSilentLocationIfGranted().then(geo => {
+      if (geo && geo.success) {
+        setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation });
+        if (geo.city && !selectedCity) {
+          setSelectedCity(geo.city);
         }
-      });
-    }
+      }
+    });
   }, []);
 
   // Controlled form state

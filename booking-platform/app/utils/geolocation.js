@@ -1,5 +1,7 @@
 /**
- * Geolocation utility to detect user's browser location and reverse geocode coordinates into readable city/address.
+ * Geolocation utility to detect user's browser location non-intrusively.
+ * If permission is already granted, it fetches browser GPS coordinates.
+ * Otherwise, it avoids forcing permission popups and lets backend fallback to IP Geolocation.
  */
 
 export async function reverseGeocode(lat, lng) {
@@ -27,7 +29,7 @@ export async function reverseGeocode(lat, lng) {
   }
 }
 
-export function getUserGeolocation(options = { timeout: 8000, enableHighAccuracy: true }) {
+export function getUserGeolocation(options = { timeout: 7000, enableHighAccuracy: false }) {
   return new Promise((resolve) => {
     if (typeof window === 'undefined' || !navigator.geolocation) {
       resolve({ success: false, error: 'Geolocation not supported by browser' });
@@ -67,7 +69,7 @@ export function getUserGeolocation(options = { timeout: 8000, enableHighAccuracy
         resolve(locationData);
       },
       (error) => {
-        console.warn('Geolocation access error:', error.message);
+        console.warn('Geolocation access skipped/denied:', error.message);
         resolve({
           success: false,
           error: error.message,
@@ -87,4 +89,28 @@ export function getCachedGeolocation() {
   } catch (e) {
     return null;
   }
+}
+
+/**
+ * Checks if geolocation permission is ALREADY granted.
+ * If granted, fetches coordinates silently without prompting the user.
+ * If prompt/denied, returns cached data or null without forcing a popup prompt.
+ */
+export async function getSilentLocationIfGranted() {
+  if (typeof window === 'undefined') return null;
+
+  const cached = getCachedGeolocation();
+  if (cached) return cached;
+
+  try {
+    if (navigator.permissions && navigator.permissions.query) {
+      const status = await navigator.permissions.query({ name: 'geolocation' });
+      if (status.state === 'granted') {
+        const geo = await getUserGeolocation({ timeout: 4000, enableHighAccuracy: false });
+        if (geo.success) return geo;
+      }
+    }
+  } catch (e) {}
+
+  return null;
 }
