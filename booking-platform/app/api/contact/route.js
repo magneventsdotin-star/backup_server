@@ -94,33 +94,61 @@ export async function POST(req) {
         evType = 'Call Request';
       }
 
-      let clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || '';
+      let clientIp = 
+        req.headers.get('cf-connecting-ip') ||
+        req.headers.get('x-real-ip') ||
+        req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+        '';
 
       let latitude = data.latitude ? parseFloat(data.latitude) : null;
       let longitude = data.longitude ? parseFloat(data.longitude) : null;
       let detectedLocation = data.detectedLocation || data.detected_location || '';
 
       if (!latitude || !longitude || !detectedLocation) {
+        const isLocal = !clientIp || clientIp === '127.0.0.1' || clientIp === '::1' || clientIp === 'localhost';
+
+        // 1. Primary HTTPS Provider: ipwho.is
         try {
-          const ipQueryUrl = clientIp && clientIp !== '127.0.0.1' && clientIp !== '::1' && clientIp !== 'localhost'
-            ? `http://ip-api.com/json/${clientIp}?fields=status,country,regionName,city,lat,lon,query`
-            : `http://ip-api.com/json/?fields=status,country,regionName,city,lat,lon,query`;
-            
-          const ipRes = await fetch(ipQueryUrl, { cache: 'no-store' });
-          if (ipRes.ok) {
-            const ipGeo = await ipRes.json();
-            if (ipGeo && ipGeo.status === 'success') {
-              if (!latitude && ipGeo.lat) latitude = ipGeo.lat;
-              if (!longitude && ipGeo.lon) longitude = ipGeo.lon;
+          const url = isLocal ? 'https://ipwho.is/' : `https://ipwho.is/${clientIp}`;
+          const res = await fetch(url, { cache: 'no-store' });
+          if (res.ok) {
+            const geo = await res.json();
+            if (geo && geo.success) {
+              if (!latitude && geo.latitude) latitude = parseFloat(geo.latitude);
+              if (!longitude && geo.longitude) longitude = parseFloat(geo.longitude);
               if (!detectedLocation) {
-                const locParts = [ipGeo.city, ipGeo.regionName, ipGeo.country].filter(Boolean);
-                detectedLocation = locParts.join(', ') + ' (IP-based)';
+                const parts = [geo.city, geo.region, geo.country].filter(Boolean);
+                detectedLocation = parts.join(', ') + ' (IP-based)';
               }
-              if (!clientIp && ipGeo.query) clientIp = ipGeo.query;
+              if (!clientIp && geo.ip) clientIp = geo.ip;
             }
           }
-        } catch (ipErr) {
-          console.warn("IP geolocation fallback error:", ipErr.message);
+        } catch (e1) {
+          console.warn("ipwho.is fetch error:", e1.message);
+        }
+
+        // 2. Secondary Provider: ip-api.com
+        if (!latitude || !longitude || !detectedLocation) {
+          try {
+            const url = isLocal
+              ? 'http://ip-api.com/json/?fields=status,country,regionName,city,lat,lon,query'
+              : `http://ip-api.com/json/${clientIp}?fields=status,country,regionName,city,lat,lon,query`;
+            const res = await fetch(url, { cache: 'no-store' });
+            if (res.ok) {
+              const geo = await res.json();
+              if (geo && geo.status === 'success') {
+                if (!latitude && geo.lat) latitude = parseFloat(geo.lat);
+                if (!longitude && geo.lon) longitude = parseFloat(geo.lon);
+                if (!detectedLocation) {
+                  const parts = [geo.city, geo.regionName, geo.country].filter(Boolean);
+                  detectedLocation = parts.join(', ') + ' (IP-based)';
+                }
+                if (!clientIp && geo.query) clientIp = geo.query;
+              }
+            }
+          } catch (e2) {
+            console.warn("ip-api.com fetch error:", e2.message);
+          }
         }
       }
 

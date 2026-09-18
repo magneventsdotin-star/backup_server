@@ -630,25 +630,31 @@ function ClientRequestsContent() {
                          </span>
                        </div>
                        
-                       <div className="flex-1 min-w-0">
-                         <p className="text-sm font-bold text-slate-700 truncate">{request.artists?.name || 'Any Artist'}</p>
-                         <p className="text-xs font-medium text-slate-400 uppercase tracking-widest flex items-center gap-1.5 flex-wrap">
-                           <span>{request.artists?.category || 'General'}</span>
-                           {(request.venue || request.detected_location) && (
-                             <span className="text-slate-500 font-semibold truncate max-w-[180px] normal-case">
-                               • 📍 {request.venue && request.venue !== 'TBD' ? request.venue : request.detected_location}
-                             </span>
-                           )}
-                         </p>
-                       </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold text-slate-700 truncate">{request.artists?.name || 'Any Artist'}</p>
+                          <p className="text-xs font-medium text-slate-400 uppercase tracking-widest flex items-center gap-1.5 flex-wrap">
+                            <span>{request.artists?.category || 'General'}</span>
+                            {(() => {
+                              const displayLoc = (request.venue && request.venue !== 'TBD' && request.venue !== 'N/A')
+                                ? request.venue
+                                : (request.detected_location && request.detected_location !== 'N/A' ? request.detected_location : null);
+                              if (!displayLoc) return null;
+                              return (
+                                <span className="text-slate-500 font-semibold truncate max-w-[180px] normal-case">
+                                  • 📍 {displayLoc}
+                                </span>
+                              );
+                            })()}
+                          </p>
+                        </div>
 
-                       {(request.detected_location || request.latitude) && (
-                         <div className="hidden lg:block shrink-0">
-                           <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 inline-flex items-center gap-1">
-                             📍 Geo Tracked
-                           </span>
-                         </div>
-                       )}
+                        {((request.latitude && request.longitude) || (request.detected_location && request.detected_location !== 'N/A')) && (
+                          <div className="hidden lg:block shrink-0">
+                            <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 inline-flex items-center gap-1">
+                              📍 Geo Tracked
+                            </span>
+                          </div>
+                        )}
 
                        <div className="hidden sm:block min-w-[100px] text-right">
                          <p className="text-xs font-bold text-slate-900 tracking-tight">₹{request.budget ? Number(request.budget).toLocaleString('en-IN') : '0'}</p>
