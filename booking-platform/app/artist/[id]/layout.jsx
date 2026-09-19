@@ -47,7 +47,7 @@ export default async function ArtistLayout({ children, params }) {
   const decodedId = decodeURIComponent(id);
   const isUUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(decodedId);
   
-  let query = supabase.from('artists').select('name, alias, bio, artist_images(image_url), category, city').eq('is_live', true);
+  let query = supabase.from('artists').select('name, alias, bio, artist_images(image_url), category, city, rating, successful_bookings').eq('is_live', true);
   if (isUUID) {
     query = query.eq('id', decodedId);
   } else {
@@ -58,15 +58,36 @@ export default async function ArtistLayout({ children, params }) {
   const { data } = await query.limit(1).single();
   const name = data?.alias || data?.name || 'Live Artist';
   const image = data?.artist_images?.[0]?.image_url || '/icon-512.png';
+  const bio = data?.bio || `Hire ${name}, a professional ${data?.category || 'artist'} from ${data?.city || 'India'} for your next event.`;
+
+  const rating = Number(data?.rating) || 4.5;
+  const reviewCount = Number(data?.successful_bookings) || 10;
+  const hasReviews = (data?.successful_bookings && Number(data.successful_bookings) > 0) || (data?.rating && Number(data.rating) > 0);
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Person",
+    "@type": ["Person", "PerformingGroup", "EntertainmentBusiness"],
     "name": name,
-    "description": data?.bio || "Live performer available for booking",
+    "description": bio,
     "image": image,
-    "jobTitle": data?.category || "Artist",
-    "url": `https://www.magnevents.in/artist/${id}`
+    "jobTitle": data?.category || "Live Performer",
+    "url": `https://www.magnevents.in/artist/${id}`,
+    "priceRange": "₹₹",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": data?.city || "Delhi NCR",
+      "addressCountry": "IN"
+    },
+    "areaServed": data?.city || "India",
+    ...(hasReviews ? {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": rating.toFixed(1),
+        "reviewCount": reviewCount,
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    } : {})
   };
 
   return (
