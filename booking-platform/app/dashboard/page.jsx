@@ -1,18 +1,15 @@
 import Link from 'next/link';
 import { 
-  FiMusic, 
-  FiCalendar, 
-  FiUserCheck, 
-  FiStar, 
-  FiCheckCircle, 
-  FiClock, 
-  FiArrowRight, 
-  FiZap, 
-  FiShield, 
-  FiHeart, 
-  FiHelpCircle,
-  FiPhoneCall
-} from 'react-icons/fi';
+  Music, 
+  Calendar, 
+  UserCheck, 
+  Star, 
+  Clock, 
+  ArrowRight, 
+  Zap, 
+  Heart, 
+  PhoneCall
+} from 'lucide-react';
 
 export const metadata = {
   title: 'Dashboard & Event Hub | Magnevents',
@@ -21,10 +18,10 @@ export const metadata = {
 
 export default function DashboardPage() {
   const stats = [
-    { label: 'Live Events Curated', value: '1,250+', icon: FiCalendar, color: '#fbbf24' },
-    { label: 'Verified Artists', value: '450+', icon: FiMusic, color: '#c084fc' },
-    { label: 'Happy Hosts', value: '98%', icon: FiHeart, color: '#f43f5e' },
-    { label: 'Client Satisfaction', value: '4.9 ★', icon: FiStar, color: '#38bdf8' },
+    { label: 'Live Events Curated', value: '1,250+', icon: Calendar, color: '#fbbf24' },
+    { label: 'Verified Artists', value: '450+', icon: Music, color: '#c084fc' },
+    { label: 'Happy Hosts', value: '98%', icon: Heart, color: '#f43f5e' },
+    { label: 'Client Satisfaction', value: '4.9 ★', icon: Star, color: '#38bdf8' },
   ];
 
   const quickActions = [
@@ -35,7 +32,7 @@ export default function DashboardPage() {
       btnText: 'Explore Singers',
       color: 'from-amber-500/20 to-orange-500/20',
       borderColor: 'rgba(251, 191, 36, 0.3)',
-      icon: FiMusic,
+      icon: Music,
     },
     {
       title: 'Track Booking Requests',
@@ -44,7 +41,7 @@ export default function DashboardPage() {
       btnText: 'View Requests',
       color: 'from-purple-500/20 to-pink-500/20',
       borderColor: 'rgba(192, 132, 252, 0.3)',
-      icon: FiClock,
+      icon: Clock,
     },
     {
       title: 'Register as an Artist',
@@ -53,7 +50,7 @@ export default function DashboardPage() {
       btnText: 'Join as Artist',
       color: 'from-blue-500/20 to-cyan-500/20',
       borderColor: 'rgba(56, 189, 248, 0.3)',
-      icon: FiUserCheck,
+      icon: UserCheck,
     },
     {
       title: 'Pricing & Packages',
@@ -62,7 +59,7 @@ export default function DashboardPage() {
       btnText: 'Check Pricing',
       color: 'from-emerald-500/20 to-teal-500/20',
       borderColor: 'rgba(52, 211, 153, 0.3)',
-      icon: FiZap,
+      icon: Zap,
     },
   ];
 
@@ -146,7 +143,7 @@ export default function DashboardPage() {
                 gap: '8px',
                 boxShadow: '0 8px 20px -4px rgba(251, 191, 36, 0.4)'
               }}>
-                <FiClock size={16} /> Track My Requests
+                <Clock size={16} /> Track My Requests
               </Link>
               <Link href="/artists" style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.08)',
@@ -161,7 +158,7 @@ export default function DashboardPage() {
                 gap: '8px',
                 border: '1px solid rgba(255, 255, 255, 0.15)'
               }}>
-                <FiMusic size={16} /> Browse Singers <FiArrowRight size={16} />
+                <Music size={16} /> Browse Singers <ArrowRight size={16} />
               </Link>
             </div>
           </div>
@@ -207,7 +204,7 @@ export default function DashboardPage() {
         {/* Quick Action Cards */}
         <div style={{ marginBottom: '56px' }}>
           <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#ffffff', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <FiZap style={{ color: '#fbbf24' }} /> Quick Actions & Portals
+            <Zap style={{ color: '#fbbf24' }} /> Quick Actions & Portals
           </h2>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
@@ -221,9 +218,7 @@ export default function DashboardPage() {
                   border: `1px solid ${action.borderColor}`,
                   display: 'flex',
                   flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                  cursor: 'pointer'
+                  justifyContent: 'space-between'
                 }}>
                   <div>
                     <div style={{
@@ -257,7 +252,7 @@ export default function DashboardPage() {
                     border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}>
                     <span>{action.btnText}</span>
-                    <FiArrowRight size={14} />
+                    <ArrowRight size={14} />
                   </Link>
                 </div>
               );
@@ -332,7 +327,7 @@ export default function DashboardPage() {
               justifyContent: 'center',
               color: '#fbbf24'
             }}>
-              <FiPhoneCall size={22} />
+              <PhoneCall size={22} />
             </div>
             <div>
               <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#ffffff' }}>Need Help with Your Event Booking?</h3>

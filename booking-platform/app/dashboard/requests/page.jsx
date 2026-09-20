@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FiClock, FiCheckCircle, FiSearch, FiArrowLeft, FiMusic, FiCalendar, FiMapPin, FiMail } from 'react-icons/fi';
+import { Clock, ArrowLeft, Music, Mail } from 'lucide-react';
 
 export const metadata = {
   title: 'Booking Requests & Status | Magnevents',
@@ -22,7 +22,7 @@ export default function BookingRequestsPage() {
           textDecoration: 'none',
           marginBottom: '24px'
         }}>
-          <FiArrowLeft size={16} /> Back to Dashboard
+          <ArrowLeft size={16} /> Back to Dashboard
         </Link>
 
         {/* Page Header */}
@@ -62,7 +62,7 @@ export default function BookingRequestsPage() {
             margin: '0 auto 20px auto',
             border: '1px solid rgba(251, 191, 36, 0.2)'
           }}>
-            <FiClock size={30} />
+            <Clock size={30} />
           </div>
 
           <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#ffffff', marginBottom: '10px' }}>
@@ -85,7 +85,7 @@ export default function BookingRequestsPage() {
               alignItems: 'center',
               gap: '8px'
             }}>
-              <FiMusic size={16} /> Book an Artist Now
+              <Music size={16} /> Book an Artist Now
             </Link>
             <a href="mailto:support@magnevents.in" style={{
               backgroundColor: 'rgba(255, 255, 255, 0.08)',
@@ -100,7 +100,7 @@ export default function BookingRequestsPage() {
               gap: '8px',
               border: '1px solid rgba(255, 255, 255, 0.12)'
             }}>
-              <FiMail size={16} /> Contact Support
+              <Mail size={16} /> Contact Support
             </a>
           </div>
         </div>
