@@ -164,8 +164,11 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
 
         <div className="lux-mobile-actions" style={{ marginTop: '36px', display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative' }}>
           <button
-            onClick={handleInstallClick}
-            className="lux-mobile-cta pwa-install-trigger"
+            onClick={() => {
+              onOpenContactModal('contact');
+              onClose();
+            }}
+            className="lux-mobile-cta primary"
             style={{
               background: 'linear-gradient(135deg, var(--brand-gold, #FFE032) 0%, #d4af37 100%)',
               color: '#000',
@@ -174,16 +177,6 @@ export default function MobilePanel({ isOpen, onClose, isLight, pathname, onOpen
               letterSpacing: '0.05em',
               boxShadow: '0 8px 20px rgba(255, 224, 50, 0.15)'
             }}
-          >
-            📲 Install Web App
-          </button>
-
-          <button
-            onClick={() => {
-              onOpenContactModal('contact');
-              onClose();
-            }}
-            className="lux-mobile-cta secondary"
           >
             Contact Us
           </button>
