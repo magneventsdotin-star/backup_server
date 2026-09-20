@@ -151,16 +151,6 @@ const nextConfig = {
     return [
       ...seoRedirects,
       {
-        source: '/dashboard/:path*',
-        destination: 'https://admin.magnevents.in/dashboard/:path*',
-        permanent: true,
-      },
-      {
-        source: '/dashboard',
-        destination: 'https://admin.magnevents.in/dashboard',
-        permanent: true,
-      },
-      {
         source: '/about',
         destination: '/blog-post',
         permanent: true,
