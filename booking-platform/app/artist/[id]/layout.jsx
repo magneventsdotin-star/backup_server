@@ -1,20 +1,11 @@
 import { supabase } from '@database/connection/supabase';
+import { findArtistBySlugOrId } from '@/app/utils/artistLookup';
 
 export async function generateMetadata({ params }) {
   const awaitedParams = await params;
   const { id } = awaitedParams;
-  const decodedId = decodeURIComponent(id);
-  const isUUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(decodedId);
   
-  let query = supabase.from('artists').select('name, alias, bio, artist_images(image_url)').eq('is_live', true);
-  if (isUUID) {
-    query = query.eq('id', decodedId);
-  } else {
-    const searchTerm = decodedId.replace(/-/g, ' ');
-    query = query.or(`alias.ilike.%${searchTerm}%,name.ilike.%${searchTerm}%`);
-  }
-  
-  const { data } = await query.limit(1).single();
+  const data = await findArtistBySlugOrId(supabase, id, 'name, alias, bio, artist_images(image_url)');
 
   const name = data?.alias || data?.name || 'Live Artist';
   const description = data?.bio ? data.bio.substring(0, 160) : `Book ${name} for your next event. Hire premium live entertainment and musicians for weddings, corporate events, and private parties via Magnevents.`;
@@ -44,18 +35,8 @@ export async function generateMetadata({ params }) {
 export default async function ArtistLayout({ children, params }) {
   const awaitedParams = await params;
   const { id } = awaitedParams;
-  const decodedId = decodeURIComponent(id);
-  const isUUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(decodedId);
   
-  let query = supabase.from('artists').select('name, alias, bio, artist_images(image_url), category, city, rating, successful_bookings').eq('is_live', true);
-  if (isUUID) {
-    query = query.eq('id', decodedId);
-  } else {
-    const searchTerm = decodedId.replace(/-/g, ' ');
-    query = query.or(`alias.ilike.%${searchTerm}%,name.ilike.%${searchTerm}%`);
-  }
-  
-  const { data } = await query.limit(1).single();
+  const data = await findArtistBySlugOrId(supabase, id, 'name, alias, bio, artist_images(image_url), category, city, rating, successful_bookings');
   const name = data?.alias || data?.name || 'Live Artist';
   const image = data?.artist_images?.[0]?.image_url || '/icon-512.png';
   const bio = data?.bio || `Hire ${name}, a professional ${data?.category || 'artist'} from ${data?.city || 'India'} for your next event.`;

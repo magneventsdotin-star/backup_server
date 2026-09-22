@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { supabase } from '@database/connection/supabase';
 import Image from 'next/image';
 import '@/app/styles/pages/ArtistProfile.css';
+import { findArtistBySlugOrId } from '@/app/utils/artistLookup';
 
 const CLOUDFLARE_BASE = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL || 'https://customer-placeholder.cloudflarestream.com/';
 
@@ -169,19 +170,7 @@ export default function ArtistProfilePage({ params }) {
     const fetchArtist = async () => {
       setLoading(true);
       try {
-        const isUUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(decodedId);
-        
-        let query = supabase.from('artists').select('*, artist_images(image_url)').eq('is_live', true);
-        
-        if (isUUID) {
-          query = query.eq('id', decodedId);
-        } else {
-          // Allow SEO slugs (e.g., neha-kakkar) to match database names (Neha Kakkar)
-          const searchTerm = decodedId.replace(/-/g, ' ');
-          query = query.or(`alias.ilike.%${searchTerm}%,name.ilike.%${searchTerm}%`);
-        }
-
-        let { data, error } = await query.limit(1).single();
+        const data = await findArtistBySlugOrId(supabase, rawId, '*, artist_images(image_url)');
 
         if (data) {
           setArtist(data);
@@ -203,7 +192,7 @@ export default function ArtistProfilePage({ params }) {
           }
           setVideos(allVids);
         } else {
-          const { data: svData, error: svError } = await supabase
+          const { data: svData } = await supabase
             .from('service_videos')
             .select('*')
             .or(`userName.ilike.%${decodedId}%,artistName.ilike.%${decodedId}%`);
@@ -233,7 +222,7 @@ export default function ArtistProfilePage({ params }) {
     };
 
     fetchArtist();
-  }, [decodedId]);
+  }, [rawId, decodedId]);
 
   useEffect(() => {
     if (artist && typeof window !== 'undefined') {
