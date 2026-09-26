@@ -25,8 +25,18 @@ export default async function sitemap() {
     priority: item.priority,
   }));
 
-  // Targeted Long-tail City & Event Landing Pages
+  // Targeted Long-tail City & Event Landing Pages (including Top GSC Queries)
   const landingPages = [
+    '/singers-near-me',
+    '/singer-for-house-party',
+    '/live-singer-for-private-party',
+    '/live-singer-for-house-party',
+    '/house-gig',
+    '/book-singer-music-band',
+    '/book-live-singer',
+    '/dj-in-kochi',
+    '/dj-booking-near-me',
+    '/live-band-in-pune',
     '/book-singer-for-house-party-in-delhi',
     '/book-live-band-in-delhi',
     '/book-singer-for-wedding',

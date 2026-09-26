@@ -23,7 +23,7 @@ export default async function LocationServicePage({ params }) {
   const awaitedParams = await params;
   const { location_slug } = awaitedParams;
   
-  const validKeywords = ['singer', 'band', 'dj', 'comedian', 'anchor', 'dancer', 'magician', 'guitarist', 'music', 'artist', 'ghazal', 'gazal', 'sufi'];
+  const validKeywords = ['singer', 'band', 'dj', 'comedian', 'anchor', 'dancer', 'magician', 'guitarist', 'music', 'artist', 'ghazal', 'gazal', 'sufi', 'gig'];
   const isValidKeyword = validKeywords.some(kw => location_slug.toLowerCase().includes(kw));
 
   const majorCities = [
@@ -33,7 +33,7 @@ export default async function LocationServicePage({ params }) {
     'kanpur', 'nagpur', 'thane', 'visakhapatnam', 'vadodara', 'ludhiana', 'nashik',
     'meerut', 'rajkot', 'varanasi', 'srinagar', 'aurangabad', 'dhanbad', 'amritsar',
     'allahabad', 'ranchi', 'howrah', 'coimbatore', 'jabalpur', 'gwalior', 'vijayawada',
-    'jodhpur', 'madurai', 'raipur', 'kota', 'guwahati', 'chandigarh', 'thiruvananthapuram'
+    'jodhpur', 'madurai', 'raipur', 'kota', 'guwahati', 'chandigarh', 'thiruvananthapuram', 'kochi'
   ];
 
   if (majorCities.includes(location_slug.toLowerCase())) {
@@ -55,7 +55,7 @@ export default async function LocationServicePage({ params }) {
   else if (slugLower.includes('musician') || slugLower.includes('music')) parsedCategory = 'Musician';
   else if (slugLower.includes('dj')) parsedCategory = 'Dj';
   else if (slugLower.includes('comedian')) parsedCategory = 'Comedian';
-  else if (slugLower.includes('singer') || slugLower.includes('artist') || slugLower.includes('ghazal') || slugLower.includes('gazal') || slugLower.includes('sufi')) parsedCategory = 'Singer';
+  else if (slugLower.includes('singer') || slugLower.includes('artist') || slugLower.includes('ghazal') || slugLower.includes('gazal') || slugLower.includes('sufi') || slugLower.includes('gig')) parsedCategory = 'Singer';
 
   if (slugLower.includes('ghazal') || slugLower.includes('gazal')) parsedSubCategory = 'Gazals';
   else if (slugLower.includes('sufi')) parsedSubCategory = 'Sufi';
