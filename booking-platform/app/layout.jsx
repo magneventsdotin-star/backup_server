@@ -29,6 +29,11 @@ export const metadata = {
   title: 'Book a Singer for House Party in Delhi-NCR, Weddings & Events | Magnevents',
   description: 'Book a live singer, bands, and artists for house parties in Delhi-NCR, weddings, corporate nights, and private events in India. Verified artists, direct booking, transparent pricing.',
   keywords: [
+    'AI event search',
+    'AI artist booking platform',
+    'AI musician match',
+    'book singer with AI',
+    'smart live band booking',
     'live singers in delhi',
     'live singer for house party',
     'book singer for house party',

@@ -4,20 +4,29 @@ export default async function sitemap() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in';
 
 
-  const staticRoutes = [
-    '',
-    '/ai-search',
-    '/dashboard',
-    '/dashboard/requests',
-    '/artists',
-    '/gallery',
-    '/services',
-    '/pricing',
-    '/how-to-book',
-    '/testimonials',
-    '/why-choose',
-    '/blog-post',
-    '/register',
+  // Core High-Priority Pages
+  const coreRoutes = [
+    { route: '', priority: 1.0, changeFrequency: 'daily' },
+    { route: '/ai-search', priority: 0.95, changeFrequency: 'daily' },
+    { route: '/artists', priority: 0.9, changeFrequency: 'daily' },
+    { route: '/services', priority: 0.9, changeFrequency: 'weekly' },
+    { route: '/pricing', priority: 0.85, changeFrequency: 'weekly' },
+    { route: '/how-to-book', priority: 0.85, changeFrequency: 'weekly' },
+    { route: '/why-choose', priority: 0.85, changeFrequency: 'weekly' },
+    { route: '/about', priority: 0.8, changeFrequency: 'monthly' },
+    { route: '/gallery', priority: 0.8, changeFrequency: 'weekly' },
+    { route: '/testimonials', priority: 0.8, changeFrequency: 'weekly' },
+    { route: '/blog-post', priority: 0.8, changeFrequency: 'weekly' },
+    { route: '/register', priority: 0.7, changeFrequency: 'monthly' },
+  ].map((item) => ({
+    url: `${baseUrl}${item.route}`,
+    lastModified: new Date().toISOString(),
+    changeFrequency: item.changeFrequency,
+    priority: item.priority,
+  }));
+
+  // Targeted Long-tail City & Event Landing Pages
+  const landingPages = [
     '/book-singer-for-house-party-in-delhi',
     '/book-live-band-in-delhi',
     '/book-singer-for-wedding',
@@ -271,8 +280,8 @@ export default async function sitemap() {
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),
-    changeFrequency: route === '' ? 'daily' : 'weekly',
-    priority: route === '' ? 1.0 : 0.8,
+    changeFrequency: 'weekly',
+    priority: 0.85,
   }));
 
   let dynamicRoutes = [];
@@ -329,5 +338,5 @@ export default async function sitemap() {
     console.error('Error fetching dynamic routes for sitemap', error);
   }
 
-  return [...staticRoutes, ...dynamicRoutes];
+  return [...coreRoutes, ...landingPages, ...dynamicRoutes];
 }

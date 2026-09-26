@@ -1,23 +1,28 @@
 export const metadata = {
-  title: "AI Event & Artist Search — Smart Musician Matcher | Magnevents",
-  description: "Find and book verified live singers, bands, DJs, and performers in seconds with Magnevents AI Search powered by deep reasoning. Instant matches, direct pricing, and 0% agency fees.",
+  title: "AI Event & Artist Search — Smart Live Musician Matcher | Magnevents",
+  description: "Find and book verified live singers, bands, DJs, and performers in seconds with Magnevents AI Search. Instant smart matches, tailored setlists, and transparent direct pricing across India.",
   keywords: [
     "AI artist search",
-    "book singer AI",
-    "hire live band online",
-    "wedding singer match",
+    "AI event planning",
+    "AI musician matcher",
+    "book singer with AI",
+    "smart event entertainment search",
+    "hire live band online AI",
+    "wedding singer match AI",
     "ghazal singer search",
-    "Magnevents AI",
+    "corporate event entertainment AI",
+    "Magnevents AI search",
     "live musicians booking India",
-    "Bhubaneswar live music",
-    "corporate event entertainment AI"
+    "AI party singer booking",
+    "AI wedding entertainment finder",
+    "smart live band booking Delhi Mumbai Bangalore"
   ],
   alternates: {
     canonical: "https://www.magnevents.in/ai-search"
   },
   openGraph: {
     title: "Magnevents AI Event & Artist Search — Instant Musician Matching",
-    description: "Describe your event in your own words. Our AI recommends verified live performers, custom setlists, and direct pricing with up to 60% OFF booking fees.",
+    description: "Describe your event in natural language. Our AI recommends verified live performers, custom setlists, and direct pricing with 0% agency markup.",
     url: "https://www.magnevents.in/ai-search",
     siteName: "Magnevents",
     images: [
@@ -67,6 +72,44 @@ export default function AISearchLayout({ children }) {
           "target": "https://www.magnevents.in/ai-search?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.magnevents.in"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "AI Event & Artist Search",
+            "item": "https://www.magnevents.in/ai-search"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does Magnevents AI search help find singers and bands for my event?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Magnevents AI search analyzes your event details—such as occasion, preferred music genre, guest count, city, and budget—and matches you with curated, verified live artists instantly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I book verified live artists directly using AI?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, our AI Search provides instant pricing, artist portfolios, video reels, and direct booking capabilities with zero agency middlemen fees."
+            }
+          }
+        ]
       }
     ]
   };
