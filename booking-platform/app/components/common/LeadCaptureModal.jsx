@@ -104,12 +104,13 @@ export default function LeadCaptureModal() {
               <div className="ai-lead-pill-badge">
                 <span className="sparkle-rot">✨</span>
                 <span>AI ARTIST MATCHING</span>
+                <span className="discount-pill-tag">60% OFF</span>
               </div>
               <h3 className="lead-title ai-gradient-title">
                 Find Your Perfect Artist
               </h3>
               <p className="lead-subtitle">
-                Receive instant transparent quotes directly from verified live artists.
+                Get up to <strong style={{ color: '#FFE032' }}>60% OFF</strong> on your first booking + instant transparent quotes directly from verified live artists.
               </p>
             </div>
 
@@ -235,6 +236,21 @@ function InnerLeadForm({ onClose }) {
   return (
     <form className="lux-modal-form ai-styled-lead-form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
       
+      {/* 60% OFF Promotional Offer Strip */}
+      <div className="ai-modern-offer-strip" style={{ margin: '0 0 4px' }}>
+        <div className="ai-offer-strip-left">
+          <span className="ai-offer-badge">🎁 60% OFF</span>
+          <span className="ai-offer-desc">
+            Flat <strong>60% OFF</strong> on your first booking!
+          </span>
+        </div>
+        <div className="ai-offer-strip-right">
+          <div className="ai-timer-strip">
+            <span className="ai-timer-label">⚡ LIMITED OFFER</span>
+          </div>
+        </div>
+      </div>
+
       {/* Interactive Magnetic AI Chatbot Trigger Card */}
       <div 
         className="ai-chatbot-magnetic-card" 
@@ -362,7 +378,7 @@ function InnerLeadForm({ onClose }) {
                 <span className="ai-spinner-dot" /> Submitting...
               </span>
             ) : (
-              '⚡ Request Free Quotes'
+              '⚡ Claim 60% OFF & Request Quotes'
             )}
           </span>
           <div className="btn-glow" />

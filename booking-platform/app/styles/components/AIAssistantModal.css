@@ -101,20 +101,9 @@
   50%       { transform: scale(1.12) rotate(8deg); }
 }
 
-/* Mobile trigger placement */
+/* Mobile trigger placement: Hide floating button on mobile since BottomNav has the dedicated AI Search tab */
 @media (max-width: 768px) {
   .lux-ai-trigger-btn {
-    bottom: calc(118px + env(safe-area-inset-bottom, 0px)) !important;
-    right: 14px !important;
-    width: 48px !important;
-    height: 48px !important;
-    box-shadow:
-      0 4px 18px rgba(139, 92, 246, 0.55),
-      0 0 14px rgba(236, 72, 153, 0.4) !important;
-    z-index: 995 !important;
-  }
-  .lux-ai-trigger-btn::before,
-  .lux-ai-trigger-btn::after {
     display: none !important;
   }
 }

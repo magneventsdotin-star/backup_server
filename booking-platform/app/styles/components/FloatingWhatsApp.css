@@ -91,16 +91,16 @@
 
 @media (max-width: 768px) {
   .lux-floating-whatsapp-root {
-    /* Sit cleanly above the compact bottom nav (52px) + safe area + 10px breathing room */
-    bottom: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
+    /* Sit cleanly above the compact bottom nav (64px) + safe area + 10px breathing room */
+    bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
     right: 14px !important;
     transform: none !important;
   }
 
   .lux-floating-whatsapp-root.is-scrolled-down {
-    bottom: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
     transform: none !important;
-    opacity: 0.9;
+    opacity: 0.95;
   }
 
   .whatsapp-icon-wrapper {

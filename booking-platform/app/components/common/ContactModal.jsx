@@ -186,8 +186,8 @@ export default function ContactModal() {
             ) : (
               <p>
                 {formType === 'register' ? 'Showcase your talent to the world. Join Magnevents and perform at premium venues.' :
-                 formType === 'offer' ? `Fill out the form below to claim your exclusive ${discountValue ? 'upto ' + discountValue + '% ' : ''}discount on your first booking with Magnevents!` :
-                 'Tell us your vision, and we will find the perfect stage presence for you.'}
+                 formType === 'offer' ? `Fill out the form below to claim your exclusive ${discountValue ? 'upto ' + discountValue + '% ' : '60% '}discount on your first booking with Magnevents!` :
+                 'Tell us your vision, and get up to 60% OFF on your first booking with verified artists!'}
               </p>
             )}
           </div>
