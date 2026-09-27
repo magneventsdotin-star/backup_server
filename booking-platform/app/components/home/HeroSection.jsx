@@ -81,7 +81,7 @@ export default function HeroSection() {
                   }
                 }}
               >
-                Book India's <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">Verified Singers</strong> Using <strong className="hp-gradient-text italic">AI Search</strong> <br className="hp-desktop-br" /> For Weddings, Events & <strong className="hp-gradient-text italic">House Parties</strong>
+                Book India's <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">Verified Singers</strong> <br className="hp-desktop-br" /> For Weddings, Events & <strong className="hp-gradient-text italic">House Parties</strong>
               </motion.h1>
 
               <motion.p 
@@ -181,7 +181,7 @@ export default function HeroSection() {
           {/* Section 2: Headline */}
           <div className="hp-mob-section">
             <h1 className="hp-mob-h1">
-              Book a <span className="hp-gradient-text">Verified Singer</span> Using <span className="hp-gradient-text">AI Search</span> For Weddings, Events & <span className="hp-gradient-text">House Parties</span>
+              Book India's <span className="hp-gradient-text">Verified Singers</span> For Weddings, Events & <span className="hp-gradient-text">House Parties</span>
             </h1>
           </div>
 
