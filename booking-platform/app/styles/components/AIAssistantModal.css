@@ -101,9 +101,28 @@
   50%       { transform: scale(1.12) rotate(8deg); }
 }
 
-/* Mobile trigger placement: Hide floating button on mobile since BottomNav has the dedicated AI Search tab */
+/* Mobile trigger placement: Side-by-side horizontally with WhatsApp */
 @media (max-width: 768px) {
   .lux-ai-trigger-btn {
+    bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 66px !important;
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    box-shadow:
+      0 4px 16px rgba(139, 92, 246, 0.45),
+      0 0 12px rgba(236, 72, 153, 0.3) !important;
+    z-index: 990 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .lux-ai-trigger-btn .lux-ai-trigger-icon svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .lux-ai-trigger-btn::before,
+  .lux-ai-trigger-btn::after {
     display: none !important;
   }
 }
