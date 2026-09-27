@@ -357,13 +357,16 @@ function InnerLeadForm({ onClose }) {
           disabled={isSubmitting} 
           style={{ width: '100%' }}
         >
-          <span className="btn-text">
+          <span className="btn-text" style={{ whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
             {isSubmitting ? (
               <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                 <span className="ai-spinner-dot" /> Submitting...
               </span>
             ) : (
-              '⚡ Claim 60% OFF & Get Quotes'
+              <>
+                <span>⚡</span>
+                <span>Request Free Quotes</span>
+              </>
             )}
           </span>
           <div className="btn-glow" />
