@@ -363,7 +363,7 @@ function InnerLeadForm({ onClose }) {
                 <span className="ai-spinner-dot" /> Submitting...
               </span>
             ) : (
-              '⚡ Claim 60% OFF & Request Quotes'
+              '⚡ Claim 60% OFF & Get Quotes'
             )}
           </span>
           <div className="btn-glow" />
