@@ -105,8 +105,8 @@ export async function getTopArtistsForSEO({ category = 'All', subCategory = '', 
       }
     }
 
-    // 4. ONLY if category is 'All' and still fewer than limit, fetch top featured or rated artists nationwide
-    if (artists.length < limit && (!category || category === 'All')) {
+    // 4. If category is NOT DJ and still fewer than limit, fetch top featured or rated artists nationwide
+    if (artists.length < limit && category.toLowerCase() !== 'dj') {
       const existingIds = artists.map(a => a.id);
       let q = supabase
         .from('artists')

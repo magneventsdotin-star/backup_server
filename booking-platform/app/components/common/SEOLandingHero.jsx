@@ -669,7 +669,125 @@ export default function SEOLandingHero({
                   </div>
                 </div>
               </div>
-            ) : null}
+            ) : (
+              <div className="seo-dj-features-grid">
+                <div
+                  className="seo-dj-feat-card"
+                  onClick={() => {
+                    if (formRef.current) formRef.current.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <div className="seo-dj-feat-img-wrap">
+                    <Image
+                      src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&auto=format&fit=crop&q=80"
+                      alt={`Verified Live ${category}s`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      style={{ objectFit: 'cover' }}
+                      loading="eager"
+                    />
+                    <div className="seo-dj-feat-overlay" />
+                    <span className="seo-dj-feat-tag">Verified Talent</span>
+                    <span className="seo-dj-feat-icon-bubble">🎙️</span>
+                  </div>
+                  <div className="seo-dj-feat-body">
+                    <h4>Top Live {category}s</h4>
+                    <p>Celebrated performers & vocalists available for weddings, corporate galas & private parties in {city}.</p>
+                    <div className="seo-dj-feat-action-hint">
+                      <span>Check Availability</span>
+                      <span>→</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className="seo-dj-feat-card"
+                  onClick={() => {
+                    if (formRef.current) formRef.current.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <div className="seo-dj-feat-img-wrap">
+                    <Image
+                      src="https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=800&auto=format&fit=crop&q=80"
+                      alt="Acoustic & Full Band Ensembles"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      style={{ objectFit: 'cover' }}
+                      loading="eager"
+                    />
+                    <div className="seo-dj-feat-overlay" />
+                    <span className="seo-dj-feat-tag highlight">Most Popular</span>
+                    <span className="seo-dj-feat-icon-bubble">🎸</span>
+                  </div>
+                  <div className="seo-dj-feat-body">
+                    <h4>Acoustic & Full Band Setups</h4>
+                    <p>From intimate acoustic duos to grand 5-piece live stage bands with full digital sound mixing.</p>
+                    <div className="seo-dj-feat-action-hint">
+                      <span>Explore Setups</span>
+                      <span>→</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className="seo-dj-feat-card"
+                  onClick={() => {
+                    if (formRef.current) formRef.current.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <div className="seo-dj-feat-img-wrap">
+                    <Image
+                      src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&auto=format&fit=crop&q=80"
+                      alt="Diverse Music Genres"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      style={{ objectFit: 'cover' }}
+                      loading="eager"
+                    />
+                    <div className="seo-dj-feat-overlay" />
+                    <span className="seo-dj-feat-tag">100% Curated</span>
+                    <span className="seo-dj-feat-icon-bubble">🎶</span>
+                  </div>
+                  <div className="seo-dj-feat-body">
+                    <h4>Multi-Genre Repertoire</h4>
+                    <p>Bollywood hits, Ghazals, Sufi classics, Retro 90s, Pop Rock, and contemporary party medleys.</p>
+                    <div className="seo-dj-feat-action-hint">
+                      <span>Request Setlist</span>
+                      <span>→</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className="seo-dj-feat-card"
+                  onClick={() => {
+                    if (formRef.current) formRef.current.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <div className="seo-dj-feat-img-wrap">
+                    <Image
+                      src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&auto=format&fit=crop&q=80"
+                      alt="Sound & Stage Production"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      style={{ objectFit: 'cover' }}
+                      loading="eager"
+                    />
+                    <div className="seo-dj-feat-overlay" />
+                    <span className="seo-dj-feat-tag">End-to-End</span>
+                    <span className="seo-dj-feat-icon-bubble">⚡</span>
+                  </div>
+                  <div className="seo-dj-feat-body">
+                    <h4>Complete Sound Coordination</h4>
+                    <p>PA speakers, stage monitors, wireless Shure microphones & technical rider support managed for you.</p>
+                    <div className="seo-dj-feat-action-hint">
+                      <span>Get Instant Quote</span>
+                      <span>→</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
