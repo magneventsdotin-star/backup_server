@@ -37,7 +37,7 @@ export default function SEOArtistsGrid({ category = 'All', city = 'All Cities', 
     <div className="artists-page" style={{ padding: '2rem 0', background: 'transparent' }}>
       <div className="lux-container">
         <div className="hp-section-head" style={{ marginBottom: '2rem' }}>
-          <h2>Available {category !== 'All' ? category + 's' : 'Artists'} {isShowingFallback ? `for ${city} Events` : `in ${city}`}</h2>
+          <h2>Available {category !== 'All' ? (category.toLowerCase().includes('dj') ? 'DJs' : (category.endsWith('s') ? category : `${category}s`)) : 'Artists'} {isShowingFallback ? `for ${city} Events` : `in ${city}`}</h2>
         </div>
 
         <div className="artists-grid">
@@ -82,7 +82,7 @@ export default function SEOArtistsGrid({ category = 'All', city = 'All Cities', 
                   border: '1px solid rgba(255, 224, 50, 0.25)'
                 }}>
                   <p style={{ margin: 0, color: '#FFE032', fontWeight: '700', fontSize: '15px' }}>
-                    ✈️ Top Verified {category !== 'All' ? category + 's' : 'Performers'} Ready to Travel to {city}
+                    ✈️ Top Verified {category !== 'All' ? (category.toLowerCase().includes('dj') ? 'DJs' : `${category}s`) : 'Performers'} Ready to Travel to {city}
                   </p>
                   <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', marginTop: '4px', display: 'block' }}>
                     Magnevents manages all artist travel, accommodation, technical riders, and venue sound coordination end-to-end.
@@ -96,16 +96,20 @@ export default function SEOArtistsGrid({ category = 'All', city = 'All Cities', 
                 ))
               ) : (
                 <div style={{ textAlign: 'center', width: '100%', gridColumn: '1 / -1', padding: '40px 20px', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.08)' }}>
-                  <h3 style={{ color: '#fff', fontSize: '1.3rem', marginBottom: '8px' }}>Looking for a specific artist in {city}?</h3>
+                  <h3 style={{ color: '#fff', fontSize: '1.3rem', marginBottom: '8px' }}>
+                    {category.toLowerCase().includes('dj') ? `Looking for a verified DJ in ${city}?` : `Looking for a specific ${category !== 'All' ? category : 'artist'} in ${city}?`}
+                  </h3>
                   <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '20px', maxWidth: '500px', marginInline: 'auto' }}>
-                    Our event specialists can source, curate, and book any verified performer according to your event requirements and budget.
+                    {category.toLowerCase().includes('dj') 
+                      ? `Our event specialists curate top verified club, wedding, and corporate DJs with Pioneer sound & lighting setups in ${city}.`
+                      : 'Our event specialists can source, curate, and book any verified performer according to your event requirements and budget.'}
                   </p>
                   <button
                     type="button"
                     onClick={() => handleBook(null)}
                     style={{ background: '#FFE032', color: '#000', border: 'none', padding: '12px 28px', borderRadius: '12px', fontWeight: '800', cursor: 'pointer', fontSize: '14px' }}
                   >
-                    Request Custom Artist
+                    {category.toLowerCase().includes('dj') ? 'Request Custom DJ Package' : 'Request Custom Artist'}
                   </button>
                 </div>
               )}

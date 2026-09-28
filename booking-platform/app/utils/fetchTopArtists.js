@@ -87,8 +87,13 @@ export async function getTopArtistsForSEO({ category = 'All', subCategory = '', 
       let q = supabase
         .from('artists')
         .select('id, artist_no, name, alias, category, sub_category, city, state, rating, successful_bookings, price_min, price_max, bio, artist_images(image_url)')
-        .eq('is_live', true)
-        .or(`category.ilike.%${filterCat}%,sub_category.ilike.%${filterCat}%`);
+        .eq('is_live', true);
+
+      if (category.toLowerCase() === 'dj') {
+        q = q.or('category.ilike.%dj%,sub_category.ilike.%dj%,name.ilike.%dj%,alias.ilike.%dj%');
+      } else {
+        q = q.or(`category.ilike.%${filterCat}%,sub_category.ilike.%${filterCat}%`);
+      }
 
       if (existingIds.length > 0) {
         q = q.not('id', 'in', `(${existingIds.join(',')})`);
@@ -100,8 +105,8 @@ export async function getTopArtistsForSEO({ category = 'All', subCategory = '', 
       }
     }
 
-    // 4. If still fewer than limit, fetch top featured or rated artists
-    if (artists.length < limit) {
+    // 4. ONLY if category is 'All' and still fewer than limit, fetch top featured or rated artists nationwide
+    if (artists.length < limit && (!category || category === 'All')) {
       const existingIds = artists.map(a => a.id);
       let q = supabase
         .from('artists')

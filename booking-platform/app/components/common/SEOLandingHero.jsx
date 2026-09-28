@@ -31,9 +31,50 @@ export default function SEOLandingHero({
   const formRef = useRef(null);
   const phoneInputRef = useRef(null);
 
-  const [selectedEventType, setSelectedEventType] = useState("Wedding / Reception");
+  const isDJ = (category || '').toLowerCase().includes('dj');
+  const isBand = (category || '').toLowerCase().includes('band');
+  const isComedian = (category || '').toLowerCase().includes('comedian');
+
+  const eventTypes = useMemo(() => {
+    if (isDJ) {
+      return [
+        "Wedding DJ & Sangeet",
+        "Club & After-Party",
+        "Private House & Pool Party",
+        "Corporate Gala & Cocktail",
+        "College Fest & EDM Night"
+      ];
+    }
+    if (isBand) {
+      return [
+        "Wedding Sangeet & Reception",
+        "Corporate Annual Gala",
+        "College Fest / Concert",
+        "Private Farmhouse Gig",
+        "Cocktail & Lounge"
+      ];
+    }
+    if (isComedian) {
+      return [
+        "Corporate Standup Show",
+        "Private Birthday & Gathering",
+        "College Fest",
+        "Club & Cafe Comedy Night",
+        "Wedding Roast / MC"
+      ];
+    }
+    return [
+      "Wedding / Reception",
+      "Ghazal / Sufi Mehfil",
+      "Private House Party",
+      "Corporate Event",
+      "Cocktail & Sangeet"
+    ];
+  }, [isDJ, isBand, isComedian]);
+
+  const [selectedEventType, setSelectedEventType] = useState(isDJ ? "Wedding DJ & Sangeet" : "Wedding / Reception");
   const [eventDate, setEventDate] = useState(getNextWeekDate());
-  const [selectedBudget, setSelectedBudget] = useState("₹20,000 - ₹45,000 (Most Popular)");
+  const [selectedBudget, setSelectedBudget] = useState(isDJ ? "₹30,000 - ₹60,000 (Most Popular)" : "₹20,000 - ₹45,000 (Most Popular)");
   const [selectedArtist, setSelectedArtist] = useState(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -51,38 +92,110 @@ export default function SEOLandingHero({
   const [quickSubmitted, setQuickSubmitted] = useState(false);
   const quickPhoneRef = useRef(null);
 
-  const eventTypes = useMemo(() => [
-    "Wedding / Reception",
-    "Ghazal / Sufi Mehfil",
-    "Private House Party",
-    "Corporate Event",
-    "Cocktail & Sangeet"
-  ], []);
-
-  const budgetTiers = useMemo(() => [
-    {
-      id: "solo",
-      title: "Solo Acoustic / Harmonium",
-      price: "₹10,000 - ₹20,000",
-      desc: "Solo Ghazal & Sufi vocalist with harmonium or guitar. Perfect for intimate mehfils & home gatherings.",
-      features: ["Vocalist + Instrument", "Up to 2.5 hrs live performance", "Ideal for 20-50 guests", "Direct sound guidance"]
-    },
-    {
-      id: "trio",
-      title: "Classic Ghazal & Sufi Trio",
-      price: "₹20,000 - ₹45,000",
-      isPopular: true,
-      desc: "Lead Ghazal Singer + Tabla Master + Flute/Keyboardist. Most requested for wedding functions & Sangeet.",
-      features: ["3-Piece Master Ensemble", "Up to 3 hrs live mehfil", "Ideal for 50-250 guests", "Full acoustic coordination"]
-    },
-    {
-      id: "ensemble",
-      title: "Grand Stage Ensemble / Band",
-      price: "₹50,000 - ₹1,50,000+",
-      desc: "Full 5-6 piece live ensemble with percussion, sound engineer & stage mics for grand celebrations.",
-      features: ["Full 5-6 Piece Live Band", "Grand event sound setup", "Ideal for 250+ guests / luxury galas", "Celebrity performer option"]
+  const budgetTiers = useMemo(() => {
+    if (isDJ) {
+      return [
+        {
+          id: "party-dj",
+          title: "Party & Club DJ Setup",
+          price: "₹15,000 - ₹25,000",
+          desc: "Pro DJ + Pioneer Console & Sound System. Perfect for intimate house parties, birthdays & sundowners.",
+          features: ["Pro DJ + Pioneer DJ Console", "JBL/RCF Sound System (Up to 100 guests)", "Bollywood, EDM, Punjabi & Commercial set", "Dedicated sound technician"]
+        },
+        {
+          id: "wedding-dj",
+          title: "Grand Wedding & Sangeet DJ with Dhol",
+          price: "₹30,000 - ₹60,000",
+          isPopular: true,
+          desc: "Celebrity Wedding DJ + Live Punjabi Dhol Duo + Intelligent Stage & Dancefloor Lighting.",
+          features: ["High-Energy Wedding DJ + 2 Dhol Masters", "Moving Beam Intelligent Stage Lights", "Curated Sangeet & Baraat Playlist", "Stage Mic & Technical Coordination"]
+        },
+        {
+          id: "concert-dj",
+          title: "Mega Concert DJ & Stage Production",
+          price: "₹65,000 - ₹1,50,000+",
+          desc: "Full Concert Setup with Line Array Audio, LED Video Wall, Cold Pyro & Special Effects.",
+          features: ["Top Festival/Club Headline DJ", "High-Wattage Line Array Sound Setup", "P3/P4 LED Video Backdrop & Trussing", "CO2 Jets, Cold Pyro & Spark Machines"]
+        }
+      ];
     }
-  ], []);
+    if (isBand) {
+      return [
+        {
+          id: "acoustic-band",
+          title: "Acoustic Unplugged Trio",
+          price: "₹20,000 - ₹35,000",
+          desc: "3-piece acoustic band with guitars, cajon/percussion & vocals for intimate gatherings.",
+          features: ["Vocalist + Guitarist + Percussionist", "Up to 2.5 hrs live set", "Ideal for 30-100 guests", "Full acoustic PA setup"]
+        },
+        {
+          id: "full-band",
+          title: "Full Pop & Rock Live Band (5-Piece)",
+          price: "₹45,000 - ₹85,000",
+          isPopular: true,
+          desc: "5-piece high-energy live band with drums, bass, keys, lead guitar & lead vocals.",
+          features: ["5-Piece Complete Live Band", "Up to 3 hrs power-packed show", "Ideal for 100-500 guests", "Full digital sound mixing"]
+        },
+        {
+          id: "celebrity-band",
+          title: "Celebrity Concert Band Setup",
+          price: "₹90,000 - ₹2,00,000+",
+          desc: "Grand concert band with celebrity performers, brass section & stage lighting.",
+          features: ["Headline Performers + 6-8 Musicians", "Concert Line Array Audio", "Ideal for 500+ guests & weddings", "Technical rider management"]
+        }
+      ];
+    }
+    if (isComedian) {
+      return [
+        {
+          id: "rising-comic",
+          title: "Rising Standup Comic",
+          price: "₹15,000 - ₹30,000",
+          desc: "Fresh, engaging standup comedian for private gatherings, birthdays & cafe shows.",
+          features: ["30-45 mins standup set", "Crowd work & clean/adult humor as requested", "Ideal for 20-80 guests", "Wireless mic coordination"]
+        },
+        {
+          id: "corporate-comic",
+          title: "Featured Corporate & Wedding Standup",
+          price: "₹35,000 - ₹75,000",
+          isPopular: true,
+          desc: "Experienced touring comedian tailored for corporate annual meets, award nights & sangeet.",
+          features: ["45-60 mins curated performance", "Customized corporate/family jokes", "Ideal for 80-300 guests", "Professional audio rider check"]
+        },
+        {
+          id: "headliner-comic",
+          title: "Celebrity Headliner Comedian",
+          price: "₹80,000 - ₹2,50,000+",
+          desc: "Nationally recognized TV / YouTube celebrity comedian for flagship events.",
+          features: ["60+ mins headline show", "Celebrity green room & flight coordination", "Ideal for large festivals & luxury galas", "Dedicated backstage manager"]
+        }
+      ];
+    }
+    return [
+      {
+        id: "solo",
+        title: "Solo Acoustic / Harmonium",
+        price: "₹10,000 - ₹20,000",
+        desc: "Solo Ghazal & Sufi vocalist with harmonium or guitar. Perfect for intimate mehfils & home gatherings.",
+        features: ["Vocalist + Instrument", "Up to 2.5 hrs live performance", "Ideal for 20-50 guests", "Direct sound guidance"]
+      },
+      {
+        id: "trio",
+        title: "Classic Ghazal & Sufi Trio",
+        price: "₹20,000 - ₹45,000",
+        isPopular: true,
+        desc: "Lead Ghazal Singer + Tabla Master + Flute/Keyboardist. Most requested for wedding functions & Sangeet.",
+        features: ["3-Piece Master Ensemble", "Up to 3 hrs live mehfil", "Ideal for 50-250 guests", "Full acoustic coordination"]
+      },
+      {
+        id: "ensemble",
+        title: "Grand Stage Ensemble / Band",
+        price: "₹50,000 - ₹1,50,000+",
+        desc: "Full 5-6 piece live ensemble with percussion, sound engineer & stage mics for grand celebrations.",
+        features: ["Full 5-6 Piece Live Band", "Grand event sound setup", "Ideal for 250+ guests / luxury galas", "Celebrity performer option"]
+      }
+    ];
+  }, [isDJ, isBand, isComedian]);
 
   // WhatsApp click handler
   const handleWhatsAppQuote = () => {
@@ -270,24 +383,35 @@ export default function SEOLandingHero({
 
           {/* Quick Query Pills */}
           <div className="seo-query-pills" role="tablist" aria-label="Event category options">
-            {eventTypes.map((type) => (
-              <button
-                key={type}
-                type="button"
-                onClick={() => setSelectedEventType(type)}
-                className={`seo-query-chip ${selectedEventType === type ? 'active' : ''}`}
-              >
-                <span>{type === 'Wedding / Reception' ? '💍' : type.includes('Ghazal') ? '🍷' : type.includes('Corporate') ? '🏢' : '🎵'}</span>
-                <span>{type}</span>
-              </button>
-            ))}
+            {eventTypes.map((type) => {
+              let icon = '🎵';
+              if (type.includes('Wedding') || type.includes('Sangeet')) icon = '💍';
+              else if (type.includes('Club') || type.includes('EDM') || type.includes('After-Party')) icon = '🎧';
+              else if (type.includes('House') || type.includes('Pool') || type.includes('Party')) icon = '🎉';
+              else if (type.includes('Ghazal') || type.includes('Mehfil')) icon = '🍷';
+              else if (type.includes('Corporate') || type.includes('Gala')) icon = '🏢';
+              else if (type.includes('Fest') || type.includes('Concert')) icon = '⚡';
+              else if (type.includes('Comedy') || type.includes('Standup')) icon = '🎙️';
+
+              return (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => setSelectedEventType(type)}
+                  className={`seo-query-chip ${selectedEventType === type ? 'active' : ''}`}
+                >
+                  <span>{icon}</span>
+                  <span>{type}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* ==========================================================================
-           2. Top 5 Verified Artists Showcase Section (SHOWN AT THE TOP FIRST WITH IMAGES!)
+           2. Top 5 Verified Artists Showcase Section OR Specialized DJ/Category Showcase
            ========================================================================== */}
-        {topArtists && topArtists.length > 0 && (
+        {topArtists && topArtists.length > 0 ? (
           <div className="seo-top-artists-section">
             <div className="seo-section-head-v2">
               <div>
@@ -392,6 +516,160 @@ export default function SEOLandingHero({
                 );
               })}
             </div>
+          </div>
+        ) : (
+          <div className="seo-top-artists-section">
+            <div className="seo-section-head-v2">
+              <div>
+                <span className="badge">🎧 DIRECT {category.toUpperCase()} CURATION & SOUND PRODUCTION</span>
+                <h2>{isDJ ? `Top Verified DJs & Sound Systems for ${city}` : `Top Verified ${category}s for ${city}`}</h2>
+                <p>
+                  {isDJ
+                    ? `Get customized DJ quotes tailored to your exact music taste with Pioneer CDJ consoles, high-output line arrays & live Punjabi dhol.`
+                    : `Direct artist pricing, verified performance ratings, and complete stage & sound coordination by Magnevents.`}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  if (formRef.current) formRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  setTimeout(() => { if (phoneInputRef.current) phoneInputRef.current.focus(); }, 400);
+                }}
+                className="seo-browse-all-link"
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#FFE032' }}
+              >
+                <span>⚡ Check Live Availability</span>
+                <span>→</span>
+              </button>
+            </div>
+
+            {isDJ ? (
+              <div className="seo-dj-features-grid">
+                {/* Card 1: Pioneer DJ Consoles & Sound */}
+                <div
+                  className="seo-dj-feat-card"
+                  onClick={() => {
+                    setSelectedEventType('Wedding DJ & Sangeet');
+                    if (formRef.current) formRef.current.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <div className="seo-dj-feat-img-wrap">
+                    <Image
+                      src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80"
+                      alt="Pioneer DJ Consoles and Line Array Sound Systems"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      style={{ objectFit: 'cover' }}
+                      loading="eager"
+                    />
+                    <div className="seo-dj-feat-overlay" />
+                    <span className="seo-dj-feat-tag">Included in Setup</span>
+                    <span className="seo-dj-feat-icon-bubble">🎛️</span>
+                  </div>
+                  <div className="seo-dj-feat-body">
+                    <h4>Pioneer DJ Consoles & Sound</h4>
+                    <p>Club-grade Pioneer CDJ/XDJ setups with high-clarity JBL / RCF line array speakers and wireless dual mics.</p>
+                    <div className="seo-dj-feat-action-hint">
+                      <span>Check Live Setup</span>
+                      <span>→</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card 2: Live Punjabi Dhol Duo */}
+                <div
+                  className="seo-dj-feat-card"
+                  onClick={() => {
+                    setSelectedEventType('Wedding DJ & Sangeet');
+                    if (formRef.current) formRef.current.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <div className="seo-dj-feat-img-wrap">
+                    <Image
+                      src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&auto=format&fit=crop&q=80"
+                      alt="Live Punjabi Dhol Duo for Weddings and Sangeet"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      style={{ objectFit: 'cover' }}
+                      loading="eager"
+                    />
+                    <div className="seo-dj-feat-overlay" />
+                    <span className="seo-dj-feat-tag highlight">Most Requested</span>
+                    <span className="seo-dj-feat-icon-bubble">🥁</span>
+                  </div>
+                  <div className="seo-dj-feat-body">
+                    <h4>Live Punjabi Dhol Duo</h4>
+                    <p>Electrifying live dhol accompaniment to boost energy for Baraat, Sangeet & wedding celebrations in {city}.</p>
+                    <div className="seo-dj-feat-action-hint">
+                      <span>Add to Booking</span>
+                      <span>→</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card 3: Custom Curated Genres */}
+                <div
+                  className="seo-dj-feat-card"
+                  onClick={() => {
+                    setSelectedEventType('Club & After-Party');
+                    if (formRef.current) formRef.current.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <div className="seo-dj-feat-img-wrap">
+                    <Image
+                      src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&auto=format&fit=crop&q=80"
+                      alt="Bollywood, EDM and Punjabi DJ Party Crowd"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      style={{ objectFit: 'cover' }}
+                      loading="eager"
+                    />
+                    <div className="seo-dj-feat-overlay" />
+                    <span className="seo-dj-feat-tag">100% Tailored</span>
+                    <span className="seo-dj-feat-icon-bubble">🎶</span>
+                  </div>
+                  <div className="seo-dj-feat-body">
+                    <h4>Custom Curated Genres</h4>
+                    <p>Bollywood Club Remixes, Punjabi Bhangra, Commercial EDM, Tech House, 90s Nostalgia, and International Top 40.</p>
+                    <div className="seo-dj-feat-action-hint">
+                      <span>Choose Playlist</span>
+                      <span>→</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card 4: Stage Lights, SFX & Cold Pyro */}
+                <div
+                  className="seo-dj-feat-card"
+                  onClick={() => {
+                    setSelectedEventType('Private House & Pool Party');
+                    if (formRef.current) formRef.current.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <div className="seo-dj-feat-img-wrap">
+                    <Image
+                      src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&auto=format&fit=crop&q=80"
+                      alt="Stage Lights, Sharpy Beams, SFX and Cold Pyro"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      style={{ objectFit: 'cover' }}
+                      loading="eager"
+                    />
+                    <div className="seo-dj-feat-overlay" />
+                    <span className="seo-dj-feat-tag">Special Effects</span>
+                    <span className="seo-dj-feat-icon-bubble">🎆</span>
+                  </div>
+                  <div className="seo-dj-feat-body">
+                    <h4>Stage Lights, SFX & Cold Pyro</h4>
+                    <p>Intelligent Sharpy moving head lights, smoke haze machines, CO2 jets, and cold sparklers for grand entries.</p>
+                    <div className="seo-dj-feat-action-hint">
+                      <span>View SFX Options</span>
+                      <span>→</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         )}
 

@@ -179,21 +179,24 @@
   50% { opacity: 0.5; transform: scale(1.3); }
 }
 
-/* Header Text */
 .seo-hero-header {
   text-align: center;
   max-width: 980px;
+  width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .seo-hero-title {
   font-family: var(--font-display, "Playfair Display", serif);
-  font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+  font-size: clamp(2.2rem, 5.5vw, 4.4rem);
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin: 0 0 16px 0;
   color: #ffffff;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .seo-hero-gradient-text {
@@ -202,41 +205,54 @@
   -webkit-text-fill-color: transparent;
   display: inline-block;
   text-shadow: 0 0 40px rgba(255, 224, 50, 0.25);
+  max-width: 100%;
 }
 
 .seo-hero-subtitle {
-  font-size: clamp(1.05rem, 1.8vw, 1.28rem);
+  font-size: clamp(0.95rem, 1.8vw, 1.28rem);
   color: rgba(255, 255, 255, 0.82);
   line-height: 1.6;
   max-width: 800px;
+  width: 100%;
   margin: 0 auto 18px;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Live Social Proof Strip */
 .seo-live-social-proof {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 8px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 224, 50, 0.25);
   border-radius: 30px;
   padding: 6px 18px;
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .seo-live-dot {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #ef4444;
   box-shadow: 0 0 10px #ef4444;
   animation: pulse-ring 1.5s infinite;
+  flex-shrink: 0;
 }
 
 .seo-live-text {
   font-size: 13px;
   color: #f3f4f6;
   font-weight: 500;
+  line-height: 1.35;
+  white-space: normal;
+  word-break: break-word;
+  text-align: center;
 }
 
 .seo-live-text strong {
@@ -1416,4 +1432,463 @@
   margin: 0 auto 16px;
   box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
 }
+
+/* ==========================================================================
+   DJ Specialized Features & Production Grid
+   ========================================================================== */
+.seo-dj-features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 20px;
+}
+
+@media (max-width: 1024px) {
+  .seo-dj-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .seo-dj-features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.seo-dj-feat-card {
+  position: relative;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.05) 0%, rgba(16, 16, 22, 0.95) 100%);
+  border: 1px solid rgba(255, 224, 50, 0.2);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.seo-dj-feat-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 224, 50, 0.55);
+  box-shadow: 0 20px 45px rgba(255, 224, 50, 0.18), 0 10px 30px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(160deg, rgba(255, 224, 50, 0.08) 0%, rgba(22, 22, 30, 0.98) 100%);
+}
+
+.seo-dj-feat-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 175px;
+  overflow: hidden;
+  background: #111;
+}
+
+.seo-dj-feat-img-wrap img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.seo-dj-feat-card:hover .seo-dj-feat-img-wrap img {
+  transform: scale(1.08);
+}
+
+.seo-dj-feat-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(16, 16, 22, 1) 0%, rgba(16, 16, 22, 0.35) 50%, rgba(0, 0, 0, 0.15) 100%);
+  pointer-events: none;
+}
+
+.seo-dj-feat-icon-bubble {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(14, 14, 18, 0.85);
+  border: 1px solid rgba(255, 224, 50, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.seo-dj-feat-card:hover .seo-dj-feat-icon-bubble {
+  transform: scale(1.12) rotate(6deg);
+  border-color: #FFE032;
+}
+
+.seo-dj-feat-body {
+  padding: 16px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.seo-dj-feat-body h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.seo-dj-feat-body p {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+  flex: 1;
+}
+
+.seo-dj-feat-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.7);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 2;
+}
+
+.seo-dj-feat-tag.highlight {
+  background: rgba(255, 224, 50, 0.25);
+  color: #FFE032;
+  border-color: rgba(255, 224, 50, 0.6);
+  box-shadow: 0 2px 10px rgba(255, 224, 50, 0.25);
+}
+
+.seo-dj-feat-action-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  font-weight: 700;
+  color: #FFE032;
+  letter-spacing: 0.02em;
+  transition: transform 0.2s ease;
+}
+
+.seo-dj-feat-card:hover .seo-dj-feat-action-hint {
+  color: #fff;
+}
+
+/* ==========================================================================
+   Comprehensive Mobile Viewport Optimization (Zero Clutter, App-Like Experience)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .seo-hero-root {
+    padding: 12px 14px 40px;
+    min-height: auto;
+  }
+
+  .seo-hero-container {
+    gap: 18px;
+  }
+
+  /* Compact 5k Badge */
+  .seo-5k-badge-wrap {
+    margin-bottom: 0;
+  }
+
+  .seo-5k-events-badge {
+    padding: 4px 12px 4px 6px;
+    gap: 8px;
+  }
+
+  .seo-stack-avatar {
+    width: 28px;
+    height: 28px;
+    margin-left: -8px;
+    border-width: 2px;
+  }
+
+  .seo-avatar-count {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+    margin-left: -8px;
+    border-width: 2px;
+  }
+
+  .seo-5k-text strong {
+    font-size: 12px;
+  }
+
+  .seo-5k-text span {
+    font-size: 10px;
+  }
+
+  /* Slim Trust Badges */
+  .seo-trust-strip {
+    gap: 6px;
+    margin-bottom: 0;
+  }
+
+  .seo-pill-badge {
+    padding: 4px 10px;
+    font-size: 11px;
+    gap: 5px;
+  }
+
+  /* Cleaner Hero Typography */
+  .seo-hero-title {
+    font-size: clamp(1.6rem, 6.5vw, 2rem);
+    line-height: 1.2;
+    margin: 4px 0 8px 0;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .seo-hero-subtitle {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin: 0 auto 10px;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    padding: 0 4px;
+  }
+
+  .seo-live-social-proof {
+    display: inline-flex;
+    max-width: 100%;
+    padding: 5px 12px;
+    font-size: 11px;
+    margin: 0 auto 12px;
+    text-align: center;
+    box-sizing: border-box;
+    gap: 6px;
+  }
+
+  .seo-live-text {
+    font-size: 11.5px;
+    line-height: 1.3;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  /* Smooth Native Horizontal Pill Scroll */
+  .seo-query-pills {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 4px 14px 8px;
+    margin-left: -14px;
+    margin-right: -14px;
+    width: calc(100% + 28px);
+  }
+
+  .seo-query-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .seo-query-chip {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    font-size: 12px;
+    border-radius: 999px;
+  }
+
+  /* Section Headers */
+  .seo-section-head-v2 {
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+
+  .seo-section-head-v2 .badge {
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+
+  .seo-section-head-v2 h2 {
+    font-size: 1.35rem;
+  }
+
+  .seo-section-head-v2 p {
+    font-size: 0.82rem;
+  }
+
+  /* Artists Cards Carousel */
+  .seo-artists-cards-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding: 4px 14px 14px;
+    margin-left: -14px;
+    margin-right: -14px;
+    width: calc(100% + 28px);
+    scrollbar-width: none;
+  }
+
+  .seo-artists-cards-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .seo-artist-card {
+    min-width: 220px;
+    max-width: 235px;
+    border-radius: 16px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  .seo-card-img-wrap {
+    aspect-ratio: 1 / 1.08;
+  }
+
+  .seo-card-body {
+    padding: 12px 14px 14px;
+    gap: 8px;
+  }
+
+  .seo-card-name {
+    font-size: 1.05rem;
+  }
+
+  /* DJ Feature Cards Mobile */
+  .seo-dj-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .seo-dj-feat-card {
+    border-radius: 16px;
+  }
+
+  .seo-dj-feat-img-wrap {
+    height: 120px;
+  }
+
+  .seo-dj-feat-icon-bubble {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    bottom: 8px;
+    left: 10px;
+    border-radius: 8px;
+  }
+
+  .seo-dj-feat-tag {
+    font-size: 8.5px;
+    padding: 2px 7px;
+    top: 8px;
+    right: 8px;
+  }
+
+  .seo-dj-feat-body {
+    padding: 10px 12px 14px;
+    gap: 6px;
+  }
+
+  .seo-dj-feat-body h4 {
+    font-size: 0.95rem;
+    line-height: 1.25;
+  }
+
+  .seo-dj-feat-body p {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .seo-dj-feat-action-hint {
+    padding-top: 8px;
+    font-size: 11px;
+  }
+
+  /* Lead Capture Form */
+  .seo-interactive-booking-card {
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
+
+  .seo-booking-header {
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+  }
+
+  .seo-booking-title-group h3 {
+    font-size: 1.15rem;
+  }
+
+  .seo-booking-title-group p {
+    font-size: 0.82rem;
+  }
+
+  .seo-booking-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .seo-input-control,
+  .seo-phone-input {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .seo-booking-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .seo-btn-submit,
+  .seo-btn-whatsapp {
+    width: 100%;
+    min-width: 0;
+    padding: 13px 18px;
+    font-size: 14px;
+  }
+
+  /* Pricing Cards Grid */
+  .seo-pricing-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .seo-tier-card {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+
+  /* Guarantees Bar */
+  .seo-guarantee-bar {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 18px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .seo-dj-features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
 
