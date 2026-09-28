@@ -25,14 +25,82 @@ export const buildSection = (title, contentHTML) => {
   `;
 };
 
+export const parseDevice = (uaString = '', clientDeviceType = '') => {
+  let device = '';
+  let os = '';
+  let browser = '';
+
+  const ua = (uaString || '').toLowerCase();
+
+  // 1. Detect OS & Device type
+  if (ua.includes('iphone')) {
+    device = '📱 iPhone';
+    os = 'iOS';
+  } else if (ua.includes('ipad')) {
+    device = '📱 iPad';
+    os = 'iPadOS';
+  } else if (ua.includes('android')) {
+    const isTablet = !ua.includes('mobile') || ua.includes('tablet');
+    device = isTablet ? '📱 Android Tablet' : '📱 Android Mobile';
+    os = 'Android';
+  } else if (ua.includes('windows nt 10.0')) {
+    device = '💻 Windows PC';
+    os = 'Windows 10/11';
+  } else if (ua.includes('windows')) {
+    device = '💻 Windows PC';
+    os = 'Windows';
+  } else if (ua.includes('macintosh') || ua.includes('mac os x')) {
+    device = '💻 Apple Mac';
+    os = 'macOS';
+  } else if (ua.includes('cros')) {
+    device = '💻 Chromebook';
+    os = 'ChromeOS';
+  } else if (ua.includes('linux')) {
+    device = '💻 Linux PC';
+    os = 'Linux';
+  } else if (clientDeviceType === 'M' || clientDeviceType === 'Mobile') {
+    device = '📱 Mobile Device';
+  } else if (clientDeviceType === 'T' || clientDeviceType === 'Tablet') {
+    device = '📱 Tablet Device';
+  } else if (clientDeviceType === 'D' || clientDeviceType === 'Desktop') {
+    device = '💻 Desktop PC';
+  } else if (clientDeviceType) {
+    device = clientDeviceType;
+  }
+
+  // 2. Detect Browser
+  if (ua.includes('edg/')) {
+    browser = 'Edge';
+  } else if (ua.includes('opr/') || ua.includes('opera')) {
+    browser = 'Opera';
+  } else if (ua.includes('samsungbrowser')) {
+    browser = 'Samsung Internet';
+  } else if (ua.includes('chrome') || ua.includes('crios')) {
+    browser = 'Chrome';
+  } else if (ua.includes('firefox') || ua.includes('fxios')) {
+    browser = 'Firefox';
+  } else if (ua.includes('safari') && !ua.includes('chrome')) {
+    browser = 'Safari';
+  }
+
+  const parts = [];
+  if (device) parts.push(device);
+  if (os && !device.includes(os)) parts.push(os);
+  if (browser) parts.push(browser);
+
+  return parts.length > 0 ? parts.join(' • ') : (clientDeviceType === 'M' ? '📱 Mobile' : clientDeviceType === 'T' ? '📱 Tablet' : clientDeviceType === 'D' ? '💻 Desktop' : '💻 Desktop');
+};
+
 export const buildEmailTemplate = (data, isRegister, isCallRequest, dbArtistInfo, coverPhotoHtml) => {
   let contentSections = '';
+  const deviceDisplay = data.device || data.deviceInfo || parseDevice(data.userAgent, data.deviceType);
   
   if (isRegister) {
     contentSections += buildSection('🎤 Artist Details', 
       row('Artist Name', data.name) +
       row('Email', data.email, true, `mailto:${data.email}`) +
       row('Phone', data.phone, true, `tel:${data.phone}`) +
+      (deviceDisplay ? row('Device', deviceDisplay) : '') +
       row('Category', data.category) +
       row('City', data.city) +
       row('Price', data.price ? '₹' + data.price : 'N/A')
@@ -55,11 +123,11 @@ export const buildEmailTemplate = (data, isRegister, isCallRequest, dbArtistInfo
 
     contentSections += buildSection('🎭 Bio & Experience', `<tr><td style="padding: 8px 0; color: #fbbf24;">${data.bio || 'No bio provided.'}</td></tr>`);
   } else {
-    const nameWithDevice = data.deviceType ? `${data.name} [${data.deviceType}]` : data.name;
     contentSections += buildSection('👤 User & Contact Details', 
-      row('Name', nameWithDevice) +
+      row('Name', data.name) +
       row('Email', data.email, true, `mailto:${data.email}`) +
       row('Phone', data.phone, true, `tel:${data.phone}`) +
+      (deviceDisplay ? row('Device', deviceDisplay) : '') +
       (data.ipAddress ? row('IP Address', data.ipAddress) : '')
     );
     contentSections += buildSection('📅 Event Details', 

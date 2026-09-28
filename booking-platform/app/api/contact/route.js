@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { buildEmailTemplate, row, buildSection } from '@/app/services/api/contact.service.js';
+import { buildEmailTemplate, row, buildSection, parseDevice } from '@/app/services/api/contact.service.js';
 
 export async function POST(req) {
   try {
@@ -39,6 +39,12 @@ export async function POST(req) {
       const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
       const supabase = createClient(supabaseUrl, supabaseKey);
       
+      const userAgent = req.headers.get('user-agent') || data.userAgent || '';
+      const deviceStr = parseDevice(userAgent, data.deviceType || data.device);
+      data.device = deviceStr;
+      data.deviceInfo = deviceStr;
+      data.userAgent = userAgent;
+
       // Track API hit asynchronously
       const reqUrl = new URL(req.url);
       const origin = reqUrl.origin;
@@ -48,7 +54,7 @@ export async function POST(req) {
         body: JSON.stringify({
           path: '/api/contact',
           type: 'api_call',
-          userAgent: req.headers.get('user-agent') || 'unknown',
+          userAgent: userAgent || 'unknown',
           sessionId: 'api-call'
         })
       }).catch(() => {});
@@ -89,6 +95,7 @@ export async function POST(req) {
       let formLink = data.formLink || pageUrl || '';
 
       if (data.message) notesArray.push(`Message: ${data.message}`);
+      if (deviceStr) notesArray.push(`Device: ${deviceStr}`);
       if (keywords) notesArray.push(`Keywords Used: ${keywords}`);
       if (formLink) notesArray.push(`Form Link: ${formLink}`);
       if (pageUrl || pagePath) notesArray.push(`Page Endpoint: ${pageUrl || pagePath}`);
@@ -98,7 +105,6 @@ export async function POST(req) {
         notesArray.push(`Requested Types: ${typesStr}`);
       }
       if (data.formName || data.formType) notesArray.push(`Source Form: ${data.formName || data.formType}`);
-      if (data.deviceType) notesArray.push(`Device: ${data.deviceType}`);
 
       if (isRegister) {
         evType = 'Artist Registration';

@@ -13,7 +13,17 @@ export const bookingService = {
     let referrer = formData?.referrer || '';
     let keywords = formData?.keywords || '';
 
+    let deviceType = formData?.deviceType || 'Desktop';
+    let userAgent = '';
     if (typeof window !== 'undefined') {
+      userAgent = navigator.userAgent || '';
+      if (!formData?.deviceType) {
+        if (window.innerWidth <= 768 || /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+          deviceType = 'Mobile';
+        } else if (window.innerWidth <= 1024 || /iPad|Tablet/i.test(navigator.userAgent)) {
+          deviceType = 'Tablet';
+        }
+      }
       if (!pageUrl) pageUrl = window.location.href;
       if (!pagePath) pagePath = window.location.pathname;
       if (!formLink) formLink = window.location.href;
@@ -51,6 +61,8 @@ export const bookingService = {
 
     const enrichedData = {
       ...formData,
+      deviceType,
+      userAgent,
       pageUrl,
       pagePath,
       formLink: formLink || pageUrl,

@@ -329,7 +329,7 @@ function InnerLeadForm({ onClose }) {
           <span>Event Details / Requirement</span>
         </label>
         <div className="ai-textarea-wrapper">
-          <span className="ai-field-icon" style={{ top: '20px' }}>🎤</span>
+          <span className="ai-field-icon">🎤</span>
           <textarea 
             id="lead-req" 
             rows="2"
@@ -337,7 +337,6 @@ function InnerLeadForm({ onClose }) {
             value={formData.requirement} 
             onChange={(e) => setFormData({ ...formData, requirement: e.target.value })} 
             className="ai-lux-textarea"
-            style={{ minHeight: '60px', paddingLeft: '44px' }}
           />
         </div>
       </div>
