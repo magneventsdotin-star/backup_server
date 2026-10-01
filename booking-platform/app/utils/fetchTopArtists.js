@@ -8,7 +8,17 @@ import { supabase } from '@database/connection/supabase';
  * 3. Artists nationwide matching category (e.g. Singer, Dj, Band)
  * 4. Top featured / rated artists in the database
  */
+// In-memory cache to make repeated SSR requests execute in under 1ms
+const seoArtistCache = new Map();
+const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
 export async function getTopArtistsForSEO({ category = 'All', subCategory = '', city = 'All Cities', limit = 5 }) {
+  const cacheKey = `${category}__${subCategory}__${city}__${limit}`.toLowerCase();
+  const cached = seoArtistCache.get(cacheKey);
+  if (cached && (Date.now() - cached.timestamp < CACHE_TTL_MS)) {
+    return cached.data;
+  }
+
   try {
     let artists = [];
 
@@ -123,7 +133,9 @@ export async function getTopArtistsForSEO({ category = 'All', subCategory = '', 
       }
     }
 
-    return artists.slice(0, limit);
+    const finalArtists = artists.slice(0, limit);
+    seoArtistCache.set(cacheKey, { data: finalArtists, timestamp: Date.now() });
+    return finalArtists;
   } catch (err) {
     console.error('Error fetching top artists for SEO:', err);
     return [];

@@ -85,6 +85,24 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/(favicon.ico|icon.png|icon-512.png|apple-icon.png|site.webmanifest)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
     ];
 
     if (process.env.VERCEL_ENV === 'preview' || process.env.VERCEL_ENV === 'development') {

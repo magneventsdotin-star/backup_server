@@ -13,6 +13,9 @@ function slugToName(slug) {
   return slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 }
 
+export const revalidate = 86400; // Cache at Edge CDN for 24 hours
+
+
 export async function generateMetadata({ params }) {
   const awaitedParams = await params;
   const { city_slug } = awaitedParams;

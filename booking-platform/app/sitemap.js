@@ -1,13 +1,12 @@
 import { supabase } from '@database/connection/supabase';
 import { defaultBlogs } from '@/app/blog-post/data';
 
-export const revalidate = 86400; // Cache sitemap for 24 hours
+export const revalidate = 86400; 
 
 export default async function sitemap() {
   const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in').replace(/\/+$/, '');
   const now = new Date().toISOString();
 
-  // 1. Core High-Priority Static Pages (Must all return HTTP 200)
   const coreRoutes = [
     { route: '', priority: 1.0, changeFrequency: 'daily' },
     { route: '/ai-search', priority: 0.95, changeFrequency: 'daily' },
@@ -28,8 +27,7 @@ export default async function sitemap() {
     priority: item.priority,
   }));
 
-  // 2. High-Intent Event & Location Landing Pages (Served via [location_slug])
-  const landingPages = [
+  const rawLandingPages = [
     '/singers-near-me',
     '/singer-for-house-party',
     '/live-singer-for-private-party',
@@ -343,14 +341,113 @@ export default async function sitemap() {
     '/corporate-singer-in-khora',
     '/live-band-in-chittoor',
     '/birthday-singer-in-bhusawal'
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: now,
-    changeFrequency: 'weekly',
-    priority: 0.85,
-  }));
+  ];
 
-  // 3. Dynamic Database Routes (Safe & Isolated per Resource)
+  const DELHI_NCR_KEYWORDS = [
+    'delhi',
+    'new-delhi',
+    'noida',
+    'greater-noida',
+    'gurgaon',
+    'gurugram',
+    'ghaziabad',
+    'faridabad',
+    'meerut',
+    'hapur',
+    'bulandshahr',
+    'sonipat',
+    'panipat',
+    'rohtak',
+    'loni',
+    'khora',
+    'karawal-nagar',
+    'kirari-suleman-nagar',
+    'nangloi-jat',
+    'bhalswa-jahangir-pur',
+  ];
+
+  const MUMBAI_REGION_KEYWORDS = [
+    'mumbai',
+    'navi-mumbai',
+    'thane',
+    'pune',
+    'kalyan-dombivli',
+    'vasai-virar',
+    'mira-bhayandar',
+    'ulhasnagar',
+    'bhiwandi',
+    'pimpri-chinchwad',
+  ];
+
+  const KEY_METRO_KEYWORDS = [
+    'bangalore',
+    'bengaluru',
+    'hyderabad',
+    'jaipur',
+    'chandigarh',
+    'kolkata',
+    'chennai',
+    'ahmedabad',
+    'lucknow',
+    'goa',
+  ];
+
+  const isDelhiNcr = (pathOrSlug) => {
+    if (!pathOrSlug) return false;
+    const lower = String(pathOrSlug).toLowerCase();
+    return DELHI_NCR_KEYWORDS.some((kw) => lower.includes(kw));
+  };
+
+  const isMumbaiRegion = (pathOrSlug) => {
+    if (!pathOrSlug) return false;
+    const lower = String(pathOrSlug).toLowerCase();
+    return MUMBAI_REGION_KEYWORDS.some((kw) => lower.includes(kw));
+  };
+
+  const isKeyMetro = (pathOrSlug) => {
+    if (!pathOrSlug) return false;
+    const lower = String(pathOrSlug).toLowerCase();
+    return KEY_METRO_KEYWORDS.some((kw) => lower.includes(kw));
+  };
+
+  // Group Landing Pages by Priority Tiers
+  const delhiNcrLandingPages = [];
+  const mumbaiLandingPages = [];
+  const keyMetroLandingPages = [];
+  const otherLandingPages = [];
+
+  for (const route of rawLandingPages) {
+    if (isDelhiNcr(route)) {
+      delhiNcrLandingPages.push({
+        url: `${baseUrl}${route}`,
+        lastModified: now,
+        changeFrequency: 'daily',
+        priority: 0.98,
+      });
+    } else if (isMumbaiRegion(route)) {
+      mumbaiLandingPages.push({
+        url: `${baseUrl}${route}`,
+        lastModified: now,
+        changeFrequency: 'daily',
+        priority: 0.92,
+      });
+    } else if (isKeyMetro(route)) {
+      keyMetroLandingPages.push({
+        url: `${baseUrl}${route}`,
+        lastModified: now,
+        changeFrequency: 'daily',
+        priority: 0.85,
+      });
+    } else {
+      otherLandingPages.push({
+        url: `${baseUrl}${route}`,
+        lastModified: now,
+        changeFrequency: 'weekly',
+        priority: 0.70,
+      });
+    }
+  }
+
   let artistRoutes = [];
   try {
     const { data: artists } = await supabase
@@ -366,7 +463,7 @@ export default async function sitemap() {
           url: `${baseUrl}/artist/${slug || artist.id}`,
           lastModified: artist.updated_at ? new Date(artist.updated_at).toISOString() : now,
           changeFrequency: 'weekly',
-          priority: 0.9,
+          priority: 0.88,
         };
       });
     }
@@ -374,7 +471,10 @@ export default async function sitemap() {
     console.error('Error fetching artists for sitemap:', err);
   }
 
-  let cityRoutes = [];
+  let delhiNcrCityRoutes = [];
+  let mumbaiCityRoutes = [];
+  let keyMetroCityRoutes = [];
+  let otherCityRoutes = [];
   try {
     const { data: cities } = await supabase
       .from('seo_cities')
@@ -382,18 +482,46 @@ export default async function sitemap() {
       .eq('is_active', true);
 
     if (cities && cities.length > 0) {
-      cityRoutes = cities.map((city) => ({
-        url: `${baseUrl}/city/${city.slug}`,
-        lastModified: city.updated_at ? new Date(city.updated_at).toISOString() : now,
-        changeFrequency: 'daily',
-        priority: 0.9,
-      }));
+      for (const city of cities) {
+        if (isDelhiNcr(city.slug)) {
+          delhiNcrCityRoutes.push({
+            url: `${baseUrl}/city/${city.slug}`,
+            lastModified: city.updated_at ? new Date(city.updated_at).toISOString() : now,
+            changeFrequency: 'daily',
+            priority: 0.95,
+          });
+        } else if (isMumbaiRegion(city.slug)) {
+          mumbaiCityRoutes.push({
+            url: `${baseUrl}/city/${city.slug}`,
+            lastModified: city.updated_at ? new Date(city.updated_at).toISOString() : now,
+            changeFrequency: 'daily',
+            priority: 0.90,
+          });
+        } else if (isKeyMetro(city.slug)) {
+          keyMetroCityRoutes.push({
+            url: `${baseUrl}/city/${city.slug}`,
+            lastModified: city.updated_at ? new Date(city.updated_at).toISOString() : now,
+            changeFrequency: 'daily',
+            priority: 0.82,
+          });
+        } else {
+          otherCityRoutes.push({
+            url: `${baseUrl}/city/${city.slug}`,
+            lastModified: city.updated_at ? new Date(city.updated_at).toISOString() : now,
+            changeFrequency: 'weekly',
+            priority: 0.70,
+          });
+        }
+      }
     }
   } catch (err) {
     console.error('Error fetching cities for sitemap:', err);
   }
 
-  let cityBlogRoutes = [];
+  let delhiNcrCityBlogRoutes = [];
+  let mumbaiCityBlogRoutes = [];
+  let keyMetroCityBlogRoutes = [];
+  let otherCityBlogRoutes = [];
   try {
     const { data: seoBlogs } = await supabase
       .from('seo_blogs')
@@ -401,14 +529,41 @@ export default async function sitemap() {
       .eq('status', 'published');
 
     if (seoBlogs && seoBlogs.length > 0) {
-      cityBlogRoutes = seoBlogs
-        .filter((blog) => blog.seo_cities?.slug && blog.slug)
-        .map((blog) => ({
-          url: `${baseUrl}/city/${blog.seo_cities.slug}/blog/${blog.slug}`,
-          lastModified: blog.updated_at ? new Date(blog.updated_at).toISOString() : now,
-          changeFrequency: 'weekly',
-          priority: 0.85,
-        }));
+      for (const blog of seoBlogs) {
+        if (!blog.slug || !blog.seo_cities?.slug) continue;
+        const citySlug = blog.seo_cities.slug;
+        const checkStr = `${citySlug}-${blog.slug}`;
+        
+        if (isDelhiNcr(checkStr)) {
+          delhiNcrCityBlogRoutes.push({
+            url: `${baseUrl}/city/${citySlug}/blog/${blog.slug}`,
+            lastModified: blog.updated_at ? new Date(blog.updated_at).toISOString() : now,
+            changeFrequency: 'daily',
+            priority: 0.90,
+          });
+        } else if (isMumbaiRegion(checkStr)) {
+          mumbaiCityBlogRoutes.push({
+            url: `${baseUrl}/city/${citySlug}/blog/${blog.slug}`,
+            lastModified: blog.updated_at ? new Date(blog.updated_at).toISOString() : now,
+            changeFrequency: 'daily',
+            priority: 0.85,
+          });
+        } else if (isKeyMetro(checkStr)) {
+          keyMetroCityBlogRoutes.push({
+            url: `${baseUrl}/city/${citySlug}/blog/${blog.slug}`,
+            lastModified: blog.updated_at ? new Date(blog.updated_at).toISOString() : now,
+            changeFrequency: 'daily',
+            priority: 0.78,
+          });
+        } else {
+          otherCityBlogRoutes.push({
+            url: `${baseUrl}/city/${citySlug}/blog/${blog.slug}`,
+            lastModified: blog.updated_at ? new Date(blog.updated_at).toISOString() : now,
+            changeFrequency: 'weekly',
+            priority: 0.68,
+          });
+        }
+      }
     }
   } catch (err) {
     console.error('Error fetching SEO city blogs for sitemap:', err);
@@ -416,7 +571,6 @@ export default async function sitemap() {
 
   let generalBlogRoutes = [];
   try {
-    // A. Database Blogs
     const { data: blogs } = await supabase
       .from('blogs')
       .select('slug, updated_at');
@@ -428,17 +582,16 @@ export default async function sitemap() {
           url: `${baseUrl}/blog-post/${b.slug}`,
           lastModified: b.updated_at ? new Date(b.updated_at).toISOString() : now,
           changeFrequency: 'weekly',
-          priority: 0.8,
+          priority: 0.75,
         }));
     }
 
-    // B. Static Default Blogs (fallback & fast discoverability)
     if (defaultBlogs && Array.isArray(defaultBlogs)) {
       const staticBlogUrls = defaultBlogs.map((b) => ({
         url: `${baseUrl}/blog-post/${b.slug}`,
         lastModified: now,
         changeFrequency: 'weekly',
-        priority: 0.8,
+        priority: 0.75,
       }));
       generalBlogRoutes = [...generalBlogRoutes, ...staticBlogUrls];
     }
@@ -446,13 +599,27 @@ export default async function sitemap() {
     console.error('Error fetching general blogs for sitemap:', err);
   }
 
-  // 4. Combine and Deduplicate URLs
+  // Hierarchy: Core (1.0) -> Delhi-NCR 1st (0.98) -> Mumbai/Pune 2nd (0.92) -> Key Metros 3rd (0.85) -> Artists -> Other Cities
   const allEntries = [
     ...coreRoutes,
-    ...landingPages,
+    // 🥇 1st Place: Delhi & Delhi-NCR
+    ...delhiNcrLandingPages,
+    ...delhiNcrCityRoutes,
+    ...delhiNcrCityBlogRoutes,
+    // 🥈 2nd Place: Mumbai & Mumbai Region (MMR / Pune)
+    ...mumbaiLandingPages,
+    ...mumbaiCityRoutes,
+    ...mumbaiCityBlogRoutes,
+    // 🥉 3rd Place: Key Metros (Bangalore, Hyderabad, Jaipur, Chandigarh, Kolkata, Chennai, etc.)
+    ...keyMetroLandingPages,
+    ...keyMetroCityRoutes,
+    ...keyMetroCityBlogRoutes,
+    // Artist Profiles
     ...artistRoutes,
-    ...cityRoutes,
-    ...cityBlogRoutes,
+    // Other Cities & General Blogs
+    ...otherLandingPages,
+    ...otherCityRoutes,
+    ...otherCityBlogRoutes,
     ...generalBlogRoutes,
   ];
 

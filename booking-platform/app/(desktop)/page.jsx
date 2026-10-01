@@ -20,6 +20,8 @@ export const metadata = {
   },
 };
 
+export const revalidate = 86400; // Cache on Edge CDN for instant loading
+
 export default function HomePage() {
   const schema = {
     "@context": "https://schema.org",

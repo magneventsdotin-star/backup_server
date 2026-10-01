@@ -3,6 +3,8 @@ import SEOLandingPage from '@/app/components/common/SEOLandingPage';
 import { generateOverview, generateServices, generateFAQs, generateRelatedLinks } from '@/app/utils/seoTemplates';
 import { getTopArtistsForSEO } from '@/app/utils/fetchTopArtists';
 
+export const revalidate = 86400; // Cache at Edge CDN for 24 hours - instant 5ms loading
+
 export async function generateMetadata({ params }) {
   // Await params in Next.js 15 before using properties
   const awaitedParams = await params;

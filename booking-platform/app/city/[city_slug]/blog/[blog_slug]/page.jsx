@@ -7,8 +7,10 @@ import VideoGridSection from '@/app/components/home/VideoGridSection';
 import PromotionalOfferSection from '@/app/components/home/PromotionalOfferSection';
 import ContactSection from '@/app/components/home/ContactSection';
 import AllCitiesSection from '@/app/components/common/AllCitiesSection';
-import { getTopArtistsForSEO } from '@/app/utils/fetchTopArtists';
 import '../../../../seo-pages.css';
+
+export const revalidate = 86400; // Cache at Edge CDN for 24 hours
+
 
 function slugToName(slug) {
   if (!slug) return 'India';

@@ -3,6 +3,9 @@ import { supabase } from '@database/connection/supabase';
 
 const CLOUDFLARE_BASE = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL || 'https://customer-placeholder.cloudflarestream.com/';
 
+const clientArtistsCache = new Map();
+const featuredCache = new Map();
+
 const constructCloudflareUrl = (url) => {
   if (!url) return '';
   if (url.startsWith('http')) return url;
@@ -16,6 +19,15 @@ export const useArtists = (itemsPerPage = 15) => {
   const [error, setError] = useState(null);
 
   const fetchArtists = useCallback(async (page = 1, category = 'All', city = 'All Cities') => {
+    const cacheKey = `${page}_${category}_${city}_${itemsPerPage}`.toLowerCase();
+    const cached = clientArtistsCache.get(cacheKey);
+    if (cached) {
+      setArtists(cached.artists);
+      setTotalPages(cached.totalPages);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
@@ -74,7 +86,9 @@ export const useArtists = (itemsPerPage = 15) => {
           quote: artist.bio || '',
         }));
         setArtists(formattedArtists);
-        setTotalPages(Math.ceil((count || 0) / itemsPerPage));
+        const total = Math.ceil((count || 0) / itemsPerPage);
+        setTotalPages(total);
+        clientArtistsCache.set(cacheKey, { artists: formattedArtists, totalPages: total });
       }
     } catch (err) {
       console.error('Error fetching artists:', err);
@@ -94,6 +108,13 @@ export const useFeaturedArtists = (limit = 6) => {
   const [loading, setLoading] = useState(true);
 
   const fetchFeatured = useCallback(async () => {
+    const cached = featuredCache.get(limit);
+    if (cached) {
+      setFeaturedArtists(cached);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
       const { data, error } = await supabase
@@ -123,7 +144,9 @@ export const useFeaturedArtists = (limit = 6) => {
       }));
 
       if (data && data.length > 0) {
-        setFeaturedArtists(formatArtistData(data));
+        const formatted = formatArtistData(data);
+        setFeaturedArtists(formatted);
+        featuredCache.set(limit, formatted);
       } else {
         const { data: anyData } = await supabase
           .from('artists')
@@ -132,7 +155,9 @@ export const useFeaturedArtists = (limit = 6) => {
           .limit(limit);
           
         if (anyData && anyData.length > 0) {
-          setFeaturedArtists(formatArtistData(anyData));
+          const formatted = formatArtistData(anyData);
+          setFeaturedArtists(formatted);
+          featuredCache.set(limit, formatted);
         } else {
           setFeaturedArtists([]);
         }

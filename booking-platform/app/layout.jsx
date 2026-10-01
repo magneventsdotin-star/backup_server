@@ -132,6 +132,12 @@ export default function RootLayout({ children }) {
     <html lang="en-IN" className={inter.variable}>
       <head>
         <meta name="mobile-web-app-capable" content="yes" />
+        <link rel="preconnect" href="https://ecwaqfsjajeidhslybdi.supabase.co" />
+        <link rel="dns-prefetch" href="https://ecwaqfsjajeidhslybdi.supabase.co" />
+        <link rel="preconnect" href="https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -146,9 +152,9 @@ export default function RootLayout({ children }) {
     
         <Script 
           src="https://www.googletagmanager.com/gtag/js?id=G-VBP8HRFLFG"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -157,7 +163,7 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-F1VERBXK87');
           `}
         </Script>
-        <Script id="google-tag-manager" strategy="afterInteractive">
+        <Script id="google-tag-manager" strategy="lazyOnload">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
