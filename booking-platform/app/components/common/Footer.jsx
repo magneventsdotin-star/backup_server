@@ -5,7 +5,10 @@ import BrandMark from '@/app/components/common/BrandMark';
 import '@/app/styles/components/Footer.css';
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonthYear = currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
   const [openSections, setOpenSections] = useState({
     platform: false,
     company: false,
@@ -118,7 +121,7 @@ export default function Footer() {
 
         <div className="lux-footer-bottom">
           <div className="lux-footer-copyright">
-            © {currentYear} Magnevents. All rights reserved. Designed for Excellence. | Last updated: August 2026
+            © {currentYear} Magnevents. All rights reserved. Designed for Excellence. | Last updated: {currentMonthYear}
           </div>
           <div className="lux-footer-legal">
             <span style={{ cursor: 'default', opacity: 0.5 }}>Terms</span>
