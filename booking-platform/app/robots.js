@@ -1,5 +1,6 @@
 export default function robots() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in';
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in').replace(/\/+$/, '');
+  
   return {
     rules: [
       {
@@ -10,27 +11,8 @@ export default function robots() {
           '/admin/', 
           '/dashboard/',
           '/private/', 
-          '/preview/', 
-        ],
-      },
-      {
-        userAgent: 'Googlebot',
-        allow: [
-          '/',
-          '/ai-search',
-          '/artists',
-          '/services',
-          '/pricing',
-          '/how-to-book',
-          '/city/',
-          '/artist/',
-        ],
-        disallow: [
-          '/api/',
-          '/admin/',
-          '/dashboard/',
-          '/private/',
           '/preview/',
+          '/thank-you',
         ],
       },
     ],

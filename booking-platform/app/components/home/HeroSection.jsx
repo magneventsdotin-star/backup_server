@@ -81,7 +81,7 @@ export default function HeroSection() {
                   }
                 }}
               >
-                Book India's <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">Verified Singers</strong> <br className="hp-desktop-br" /> For Weddings, Events & <strong className="hp-gradient-text italic">House Parties</strong>
+                Book India&apos;s <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">Verified Singers</strong> <br className="hp-desktop-br" /> For Weddings, Events & <strong className="hp-gradient-text italic">House Parties</strong>
               </motion.h1>
 
               <motion.p 
@@ -181,7 +181,7 @@ export default function HeroSection() {
           {/* Section 2: Headline */}
           <div className="hp-mob-section">
             <h1 className="hp-mob-h1">
-              Book India's <span className="hp-gradient-text">Verified Singers</span> For Weddings, Events & <span className="hp-gradient-text">House Parties</span>
+              Book India&apos;s <span className="hp-gradient-text">Verified Singers</span> For Weddings, Events & <span className="hp-gradient-text">House Parties</span>
             </h1>
           </div>
 
@@ -262,11 +262,11 @@ export default function HeroSection() {
                     <div className="mps-inner-card">
                       <h4 className="mps-slide-title">⭐ Our Reviews</h4>
                       <div className="mps-review">
-                        <p>"Magnevents made our wedding unforgettable! The singer was phenomenal."</p>
+                        <p>&quot;Magnevents made our wedding unforgettable! The singer was phenomenal.&quot;</p>
                         <span>- Priya S., Mumbai</span>
                       </div>
                       <div className="mps-review">
-                        <p>"Super transparent and professional. Highly recommended for corporate events."</p>
+                        <p>&quot;Super transparent and professional. Highly recommended for corporate events.&quot;</p>
                         <span>- Rahul M., Delhi</span>
                       </div>
                     </div>

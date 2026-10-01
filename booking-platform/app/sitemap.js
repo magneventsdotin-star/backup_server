@@ -1,31 +1,34 @@
 import { supabase } from '@database/connection/supabase';
+import { defaultBlogs } from '@/app/blog-post/data';
+
+export const revalidate = 86400; // Cache sitemap for 24 hours
 
 export default async function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in';
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.magnevents.in').replace(/\/+$/, '');
+  const now = new Date().toISOString();
 
-
-  // Core High-Priority Pages
+  // 1. Core High-Priority Static Pages (Must all return HTTP 200)
   const coreRoutes = [
     { route: '', priority: 1.0, changeFrequency: 'daily' },
     { route: '/ai-search', priority: 0.95, changeFrequency: 'daily' },
-    { route: '/artists', priority: 0.9, changeFrequency: 'daily' },
+    { route: '/artists', priority: 0.95, changeFrequency: 'daily' },
     { route: '/services', priority: 0.9, changeFrequency: 'weekly' },
-    { route: '/pricing', priority: 0.85, changeFrequency: 'weekly' },
+    { route: '/pricing', priority: 0.9, changeFrequency: 'weekly' },
     { route: '/how-to-book', priority: 0.85, changeFrequency: 'weekly' },
     { route: '/why-choose', priority: 0.85, changeFrequency: 'weekly' },
-    { route: '/about', priority: 0.8, changeFrequency: 'monthly' },
     { route: '/gallery', priority: 0.8, changeFrequency: 'weekly' },
     { route: '/testimonials', priority: 0.8, changeFrequency: 'weekly' },
-    { route: '/blog-post', priority: 0.8, changeFrequency: 'weekly' },
-    { route: '/register', priority: 0.7, changeFrequency: 'monthly' },
+    { route: '/blog-post', priority: 0.85, changeFrequency: 'weekly' },
+    { route: '/register', priority: 0.75, changeFrequency: 'monthly' },
+    { route: '/register/artist', priority: 0.75, changeFrequency: 'monthly' },
   ].map((item) => ({
     url: `${baseUrl}${item.route}`,
-    lastModified: new Date().toISOString(),
+    lastModified: now,
     changeFrequency: item.changeFrequency,
     priority: item.priority,
   }));
 
-  // Targeted Long-tail City & Event Landing Pages (including Top GSC Queries)
+  // 2. High-Intent Event & Location Landing Pages (Served via [location_slug])
   const landingPages = [
     '/singers-near-me',
     '/singer-for-house-party',
@@ -34,21 +37,69 @@ export default async function sitemap() {
     '/house-gig',
     '/book-singer-music-band',
     '/book-live-singer',
+    '/singer-in-delhi',
+    '/singer-in-noida',
+    '/singer-in-gurgaon',
+    '/singer-in-mumbai',
+    '/singer-in-bangalore',
+    '/singer-in-pune',
+    '/singer-in-hyderabad',
+    '/singer-in-kolkata',
+    '/singer-in-jaipur',
+    '/singer-in-lucknow',
+    '/singer-in-ahmedabad',
+    '/singer-in-chandigarh',
+    '/singer-in-bhubaneswar',
+    '/singer-in-chennai',
+    '/singer-in-indore',
+    '/singer-in-bhopal',
+    '/singer-in-kanpur',
+    '/singer-in-nagpur',
+    '/singer-in-patna',
+    '/singer-in-vadodara',
+    '/singer-in-ghaziabad',
+    '/singer-in-faridabad',
+    '/singer-in-varanasi',
+    '/singer-in-agra',
+    '/singer-in-nashik',
+    '/singer-in-ranchi',
+    '/singer-in-amritsar',
+    '/singer-in-ludhiana',
+    '/dj-in-delhi',
+    '/dj-in-noida',
+    '/dj-in-mumbai',
+    '/dj-in-bangalore',
     '/dj-in-kochi',
+    '/dj-in-pune',
     '/dj-booking-near-me',
+    '/live-band-in-delhi',
+    '/live-band-in-mumbai',
     '/live-band-in-pune',
+    '/live-band-in-bangalore',
+    '/live-band-in-hyderabad',
+    '/live-band-in-jaipur',
+    '/live-band-in-chandigarh',
+    '/wedding-singer-in-delhi',
+    '/wedding-singer-in-mumbai',
+    '/wedding-singer-in-pune',
+    '/wedding-singer-in-jaipur',
+    '/wedding-band-in-delhi',
+    '/wedding-band-in-mumbai',
+    '/wedding-band-in-hyderabad',
     '/book-singer-for-house-party-in-delhi',
     '/book-live-band-in-delhi',
     '/book-singer-for-wedding',
-    '/wedding-band-in-mumbai',
-    '/live-band-in-delhi',
     '/corporate-musician-in-bangalore',
-    '/wedding-band-in-hyderabad',
+    '/corporate-musician-in-delhi',
+    '/corporate-musician-in-mumbai',
     '/house-party-singer-in-ahmedabad',
+    '/house-party-singer-in-delhi',
+    '/house-party-singer-in-gurgaon',
+    '/house-party-singer-in-noida',
     '/wedding-singer-in-chennai',
     '/sufi-singer-in-kolkata',
+    '/sufi-singer-in-delhi',
     '/wedding-musicians-in-surat',
-    '/wedding-singer-in-pune',
     '/corporate-singer-in-jaipur',
     '/corporate-musician-in-lucknow',
     '/live-singer-in-kanpur',
@@ -64,10 +115,14 @@ export default async function sitemap() {
     '/sangeet-singer-in-ludhiana',
     '/corporate-singer-in-agra',
     '/ghazal-singer-in-nashik',
+    '/ghazal-singer-in-delhi',
+    '/ghazal-singer-in-mumbai',
+    '/ghazal-singer-in-bhubaneswar',
     '/live-band-in-ranchi',
     '/house-party-singer-in-faridabad',
     '/live-singer-in-meerut',
     '/acoustic-singer-in-rajkot',
+    '/acoustic-singer-in-delhi',
     '/corporate-event-singer-in-kalyan-dombivli',
     '/acoustic-singer-in-vasai-virar',
     '/live-band-in-varanasi',
@@ -76,6 +131,8 @@ export default async function sitemap() {
     '/corporate-event-singer-in-dhanbad',
     '/acoustic-singer-in-amritsar',
     '/punjabi-singer-in-navi-mumbai',
+    '/punjabi-singer-in-delhi',
+    '/punjabi-singer-in-chandigarh',
     '/live-singer-in-allahabad',
     '/corporate-musician-in-howrah',
     '/birthday-singer-in-gwalior',
@@ -98,7 +155,6 @@ export default async function sitemap() {
     '/corporate-event-singer-in-gurgaon',
     '/punjabi-singer-in-moradabad',
     '/corporate-singer-in-jalandhar',
-    '/ghazal-singer-in-bhubaneswar',
     '/punjabi-singer-in-salem',
     '/wedding-band-in-warangal',
     '/shaadi-singer-in-mira-bhayandar',
@@ -289,64 +345,126 @@ export default async function sitemap() {
     '/birthday-singer-in-bhusawal'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: new Date().toISOString(),
+    lastModified: now,
     changeFrequency: 'weekly',
     priority: 0.85,
   }));
 
-  let dynamicRoutes = [];
+  // 3. Dynamic Database Routes (Safe & Isolated per Resource)
+  let artistRoutes = [];
   try {
     const { data: artists } = await supabase
       .from('artists')
-      .select('id, name, alias, is_live')
+      .select('id, name, alias, is_live, updated_at')
       .eq('is_live', true);
 
-    if (artists) {
-      const artistRoutes = artists.map((artist) => {
+    if (artists && artists.length > 0) {
+      artistRoutes = artists.map((artist) => {
         const rawName = artist.alias || artist.name || artist.id;
-        const slug = encodeURIComponent(rawName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''));
+        const slug = rawName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
         return {
-          url: `${baseUrl}/artist/${slug}`,
-          lastModified: new Date().toISOString(),
+          url: `${baseUrl}/artist/${slug || artist.id}`,
+          lastModified: artist.updated_at ? new Date(artist.updated_at).toISOString() : now,
           changeFrequency: 'weekly',
           priority: 0.9,
         };
       });
-      dynamicRoutes = [...dynamicRoutes, ...artistRoutes];
     }
-    
+  } catch (err) {
+    console.error('Error fetching artists for sitemap:', err);
+  }
+
+  let cityRoutes = [];
+  try {
     const { data: cities } = await supabase
       .from('seo_cities')
       .select('slug, updated_at')
       .eq('is_active', true);
-      
-    if (cities) {
-      const cityRoutes = cities.map((city) => ({
+
+    if (cities && cities.length > 0) {
+      cityRoutes = cities.map((city) => ({
         url: `${baseUrl}/city/${city.slug}`,
-        lastModified: city.updated_at || new Date().toISOString(),
+        lastModified: city.updated_at ? new Date(city.updated_at).toISOString() : now,
         changeFrequency: 'daily',
         priority: 0.9,
       }));
-      dynamicRoutes = [...dynamicRoutes, ...cityRoutes];
     }
+  } catch (err) {
+    console.error('Error fetching cities for sitemap:', err);
+  }
 
-    const { data: blogs } = await supabase
+  let cityBlogRoutes = [];
+  try {
+    const { data: seoBlogs } = await supabase
       .from('seo_blogs')
-      .select('slug, updated_at, seo_cities!inner(slug)')
+      .select('slug, updated_at, seo_cities(slug)')
       .eq('status', 'published');
 
-    if (blogs) {
-      const blogRoutes = blogs.map((blog) => ({
-        url: `${baseUrl}/city/${blog.seo_cities.slug}/blog/${blog.slug}`,
-        lastModified: blog.updated_at || new Date().toISOString(),
+    if (seoBlogs && seoBlogs.length > 0) {
+      cityBlogRoutes = seoBlogs
+        .filter((blog) => blog.seo_cities?.slug && blog.slug)
+        .map((blog) => ({
+          url: `${baseUrl}/city/${blog.seo_cities.slug}/blog/${blog.slug}`,
+          lastModified: blog.updated_at ? new Date(blog.updated_at).toISOString() : now,
+          changeFrequency: 'weekly',
+          priority: 0.85,
+        }));
+    }
+  } catch (err) {
+    console.error('Error fetching SEO city blogs for sitemap:', err);
+  }
+
+  let generalBlogRoutes = [];
+  try {
+    // A. Database Blogs
+    const { data: blogs } = await supabase
+      .from('blogs')
+      .select('slug, updated_at');
+
+    if (blogs && blogs.length > 0) {
+      generalBlogRoutes = blogs
+        .filter((b) => b.slug)
+        .map((b) => ({
+          url: `${baseUrl}/blog-post/${b.slug}`,
+          lastModified: b.updated_at ? new Date(b.updated_at).toISOString() : now,
+          changeFrequency: 'weekly',
+          priority: 0.8,
+        }));
+    }
+
+    // B. Static Default Blogs (fallback & fast discoverability)
+    if (defaultBlogs && Array.isArray(defaultBlogs)) {
+      const staticBlogUrls = defaultBlogs.map((b) => ({
+        url: `${baseUrl}/blog-post/${b.slug}`,
+        lastModified: now,
         changeFrequency: 'weekly',
         priority: 0.8,
       }));
-      dynamicRoutes = [...dynamicRoutes, ...blogRoutes];
+      generalBlogRoutes = [...generalBlogRoutes, ...staticBlogUrls];
     }
-  } catch (error) {
-    console.error('Error fetching dynamic routes for sitemap', error);
+  } catch (err) {
+    console.error('Error fetching general blogs for sitemap:', err);
   }
 
-  return [...coreRoutes, ...landingPages, ...dynamicRoutes];
+  // 4. Combine and Deduplicate URLs
+  const allEntries = [
+    ...coreRoutes,
+    ...landingPages,
+    ...artistRoutes,
+    ...cityRoutes,
+    ...cityBlogRoutes,
+    ...generalBlogRoutes,
+  ];
+
+  const seenUrls = new Set();
+  const deduplicated = [];
+
+  for (const entry of allEntries) {
+    if (entry.url && !seenUrls.has(entry.url)) {
+      seenUrls.add(entry.url);
+      deduplicated.push(entry);
+    }
+  }
+
+  return deduplicated;
 }

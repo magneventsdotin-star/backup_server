@@ -114,42 +114,7 @@ const nextConfig = {
     ];
   },
   async redirects() {
-    const seoRedirects = [
-      'live-singers-in-delhi',
-      'live-singer-for-house-party',
-      'book-singer-for-house-party',
-      'singer-for-house-party',
-      'guitarist-near-me',
-      'book-live-singer',
-      'sufi-singers-in-delhi',
-      'guitarist-for-house-party',
-      'live-bands-for-wedding-in-delhi',
-      'singer-in-delhi',
-      'guitarist-at-home',
-      'live-singer-for-house-party-near-me',
-      'live-singer-near-me',
-      'live-bands-in-delhi',
-      'singer-for-birthday-party',
-      'live-singer',
-      'guitarist-for-birthday-party-in-delhi',
-      'live-music-at-home',
-      'live-music-singers-near-me',
-      'singer-for-home-party',
-      'live-band-for-wedding',
-      'singer-near-me',
-      'singers-for-wedding',
-      'singer-at-home',
-      'singer-for-house-party-in-gurgaon',
-      'local-singers-near-me',
-      'how-to-book-a-singer-in-delhi-for-your-next-event'
-    ].map(keyword => ({
-      source: `/${keyword}`,
-      destination: '/artists',
-      permanent: true,
-    }));
-
     return [
-      ...seoRedirects,
       {
         source: '/about',
         destination: '/blog-post',
@@ -176,33 +141,8 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: '/live-musicians-for-hire-near-me',
-        destination: '/artists',
-        permanent: true,
-      },
-      {
-        source: '/singers-in-delhi',
-        destination: '/artists',
-        permanent: true,
-      },
-      {
-        source: '/book-singer-for-house-party',
-        destination: '/artists',
-        permanent: true,
-      },
-      {
-        source: '/book-top-singers',
-        destination: '/artists',
-        permanent: true,
-      },
-      {
-        source: '/blog-post/booking-singer-for-house-party',
-        destination: '/artists',
-        permanent: true,
-      },
-      {
         source: '/search',
-        destination: '/artists',
+        destination: '/ai-search',
         permanent: true,
       },
       {

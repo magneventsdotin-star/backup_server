@@ -54,7 +54,7 @@ export default function NotFound() {
           maxWidth: '480px',
           margin: '0 auto 36px auto'
         }}>
-          Oops! The page you are looking for doesn't exist or may have been moved to another section.
+          Oops! The page you are looking for doesn&apos;t exist or may have been moved to another section.
         </p>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
