@@ -306,35 +306,18 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
       longitude: geoData.longitude,
       detectedLocation: geoData.detectedLocation
     }
-    setIsSubmitting(true);
+    const res = bookingService.submitInstantRequest({ 
+      ...submissionData, 
+      formType, 
+      formName: 'Artist Booking Modal' 
+    });
 
-    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('event', 'generate_lead', { event_category: 'form', event_label: 'contact_modal_submit' });
-      window.gtag('event', 'conversion', {
-        'send_to': 'AW-16657289873/9sBzCMry1eocEJGl6IY-',
-        'value': 1.0,
-        'currency': 'INR'
-      });
-    }
-
-    bookingService.submitRequest({ ...submissionData, formType, formName: 'Artist Booking Modal' })
-      .then((res) => {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('magnevents-form-filled', 'true');
-          window.dispatchEvent(new Event('form-filled'));
-        }
-        setSubmitted(true);
-        setIsSubmitting(false);
-        const refParam = res?.referenceCode ? `?ref=${encodeURIComponent(res.referenceCode)}` : '';
-        setTimeout(() => {
-          router.push(`/thank-you${refParam}`);
-        }, 500);
-      })
-      .catch((error) => {
-        console.error("Booking error:", error);
-        setFormError(error.message || 'Submission failed. Please check your connection and try again.');
-        setIsSubmitting(false);
-      });
+    setSubmitted(true);
+    setIsSubmitting(false);
+    const refParam = res?.referenceCode ? `?ref=${encodeURIComponent(res.referenceCode)}` : '';
+    setTimeout(() => {
+      router.push(`/thank-you${refParam}`);
+    }, 400);
   }
 
   if (submitted) {

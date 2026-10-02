@@ -219,45 +219,25 @@ export default function SEOLandingHero({
       return;
     }
 
-    setIsSubmitting(true);
+    const res = bookingService.submitInstantRequest({
+      name: name.trim() || 'Event Host',
+      phone: cleanPhone,
+      eventType: selectedEventType,
+      date: eventDate,
+      budget: selectedBudget,
+      selectedArtist: selectedArtist ? selectedArtist.name : null,
+      category: category,
+      city: city,
+      service: `${category} in ${city}`,
+      formName: `SEO Instant Lead Engine - ${category} in ${city}`,
+      formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#instant-lead` : '',
+      formType: 'booking',
+      message: `Direct SEO Lead for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}. Budget: ${selectedBudget}.${selectedArtist ? ` Preferred Performer: ${selectedArtist.name}.` : ''}`
+    });
 
-    try {
-      const res = await bookingService.submitRequest({
-        name: name.trim() || 'Event Host',
-        phone: cleanPhone,
-        eventType: selectedEventType,
-        date: eventDate,
-        budget: selectedBudget,
-        selectedArtist: selectedArtist ? selectedArtist.name : null,
-        category: category,
-        city: city,
-        service: `${category} in ${city}`,
-        formName: `SEO Instant Lead Engine - ${category} in ${city}`,
-        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#instant-lead` : '',
-        formType: 'booking',
-        message: `Direct SEO Lead for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}. Budget: ${selectedBudget}.${selectedArtist ? ` Preferred Performer: ${selectedArtist.name}.` : ''}`
-      });
-
-      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        window.gtag('event', 'generate_lead', {
-          event_category: 'form',
-          event_label: 'seo_landing_hero_submit'
-        });
-        window.gtag('event', 'conversion', {
-          'send_to': 'AW-16657289873/9sBzCMry1eocEJGl6IY-',
-          'value': 1.0,
-          'currency': 'INR'
-        });
-      }
-
-      setRefCode(res?.referenceCode || '');
-      setIsSubmitted(true);
-    } catch (err) {
-      console.error("Booking submission error:", err);
-      setPhoneError(err.message || "Unable to submit inquiry. Please check your internet or retry.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    setRefCode(res?.referenceCode || '');
+    setIsSubmitted(true);
+    setIsSubmitting(false);
   };
 
   // Select an artist and focus phone input
@@ -284,7 +264,7 @@ export default function SEOLandingHero({
     }, 150);
   };
 
-  const handleQuickTierSubmit = async (e) => {
+  const handleQuickTierSubmit = (e) => {
     e.preventDefault();
     setQuickPhoneError("");
 
@@ -294,35 +274,28 @@ export default function SEOLandingHero({
       return;
     }
 
-    setQuickSubmitting(true);
-    try {
-      await bookingService.submitRequest({
-        name: name.trim() || 'Event Host',
-        phone: quickPhone,
-        eventType: `${activeTier?.title || category} Booking`,
-        budget: activeTier?.price || 'TBD',
-        selectedPlan: activeTier ? {
-          name: activeTier.title,
-          price: activeTier.price,
-          tagline: activeTier.desc,
-          features: activeTier.features
-        } : null,
-        category: category,
-        city: city,
-        keywords: `${category}, ${activeTier?.title || ''}, ${city}`,
-        formName: `Pricing Tier Quick Check - ${activeTier?.title || 'Package'} in ${city}`,
-        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#pricing` : '',
-        formType: 'booking',
-        message: `Package Inquiry for ${activeTier?.title} (${activeTier?.price}) in ${city}. Features: ${activeTier?.features?.join(', ')}. Checking live artist availability.`
-      });
+    bookingService.submitInstantRequest({
+      name: name.trim() || 'Event Host',
+      phone: quickPhone,
+      eventType: `${activeTier?.title || category} Booking`,
+      budget: activeTier?.price || 'TBD',
+      selectedPlan: activeTier ? {
+        name: activeTier.title,
+        price: activeTier.price,
+        tagline: activeTier.desc,
+        features: activeTier.features
+      } : null,
+      category: category,
+      city: city,
+      keywords: `${category}, ${activeTier?.title || ''}, ${city}`,
+      formName: `Pricing Tier Quick Check - ${activeTier?.title || 'Package'} in ${city}`,
+      formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#pricing` : '',
+      formType: 'booking',
+      message: `Package Inquiry for ${activeTier?.title} (${activeTier?.price}) in ${city}. Features: ${activeTier?.features?.join(', ')}. Checking live artist availability.`
+    });
 
-      setQuickSubmitted(true);
-    } catch (err) {
-      console.error("Quick tier submission error:", err);
-      setQuickSubmitted(true);
-    } finally {
-      setQuickSubmitting(false);
-    }
+    setQuickSubmitted(true);
+    setQuickSubmitting(false);
   };
 
   const handleImageError = (artistId) => {

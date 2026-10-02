@@ -138,36 +138,24 @@ function InnerQuickBookingForm({ onClose }) {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     if (!validate()) return
 
-    setIsSubmitting(true)
-    
-    try {
-      const res = await bookingService.submitRequest({
-        name: formData.name,
-        phone: formData.phone,
-        location: formData.location,
-        type: 'call_request',
-        formType: 'quick_booking',
-        formName: 'Quick Contact Modal',
-        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search || ''}#quick-contact` : '',
-        latitude: geoData.latitude,
-        longitude: geoData.longitude,
-        detectedLocation: geoData.detectedLocation
-      })
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('magnevents-form-filled', 'true')
-        window.dispatchEvent(new Event('form-filled'))
-      }
-      setIsSuccess(true)
-      setIsSubmitting(false)
-    } catch (err) {
-      console.error("Quick booking submission error:", err)
-      setErrors({ form: err.message || 'Failed to submit inquiry. Please try again.' })
-      setIsSubmitting(false)
-    }
+    bookingService.submitInstantRequest({
+      name: formData.name,
+      phone: formData.phone,
+      location: formData.location,
+      type: 'call_request',
+      formType: 'quick_booking',
+      formName: 'Quick Contact Modal',
+      formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search || ''}#quick-contact` : '',
+      latitude: geoData.latitude,
+      longitude: geoData.longitude,
+      detectedLocation: geoData.detectedLocation
+    });
+
+    setIsSuccess(true);
   }
 
   if (isSuccess) {

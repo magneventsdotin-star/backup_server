@@ -80,32 +80,15 @@ export default function BookPage() {
       deviceType
     };
 
-    setIsSubmitting(true);
+    const res = bookingService.submitInstantRequest({
+      ...submissionData,
+      formType: 'booking',
+      formName: 'Single Page Booking Form'
+    });
 
-    try {
-      const res = await bookingService.submitRequest({
-        ...submissionData,
-        formType: 'booking',
-        formName: 'Single Page Booking Form'
-      });
-
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('magnevents-form-filled', 'true');
-        window.dispatchEvent(new Event('form-filled'));
-        if (typeof window.gtag === 'function') {
-          window.gtag('event', 'generate_lead', { event_category: 'form', event_label: 'book_page_submit' });
-        }
-      }
-
-      setSubmitted(true);
-      const refCode = res?.referenceCode || '';
-      router.push(`/thank-you${refCode ? `?ref=${refCode}` : ''}`);
-    } catch (error) {
-      console.error('Booking error:', error);
-      setFormError(error.message || 'Failed to submit booking request. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    setSubmitted(true);
+    const refCode = res?.referenceCode || '';
+    router.push(`/thank-you${refCode ? `?ref=${refCode}` : ''}`);
   };
 
   return (

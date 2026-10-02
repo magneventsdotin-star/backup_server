@@ -77,28 +77,13 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
     const phoneErr = validatePhone(submissionData.phone);
     if (phoneErr) return setFormError(phoneErr);
 
-    setIsSubmitting(true);
-
-    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('event', 'generate_lead', {
-        event_category: 'form',
-        event_label: 'event_register_submit'
-      });
-    }
-
-    try {
-      const res = await bookingService.submitRequest({ ...submissionData, formType: 'booking', formName: 'Event Registration Modal' });
-      setSubmitted(true);
-      setIsSubmitting(false);
-      const refParam = res?.referenceCode ? `?ref=${encodeURIComponent(res.referenceCode)}` : '';
-      setTimeout(() => {
-        router.push(`/thank-you${refParam}`);
-      }, 500);
-    } catch (error) {
-      console.error("Event registration error:", error);
-      setFormError(error.message || 'Failed to submit. Please try again.');
-      setIsSubmitting(false);
-    }
+    const res = bookingService.submitInstantRequest({ ...submissionData, formType: 'booking', formName: 'Event Registration Modal' });
+    setSubmitted(true);
+    setIsSubmitting(false);
+    const refParam = res?.referenceCode ? `?ref=${encodeURIComponent(res.referenceCode)}` : '';
+    setTimeout(() => {
+      router.push(`/thank-you${refParam}`);
+    }, 400);
   };
 
   const handleOpenAiAssistant = () => {

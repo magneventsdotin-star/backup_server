@@ -42,39 +42,20 @@ export default function ContactSection() {
       else if (window.innerWidth <= 1024) deviceType = 'T';
     }
 
-    setIsSubmitting(true);
-    try {
-      const res = await bookingService.submitRequest({
-        ...submissionData,
-        type: 'call_request',
-        deviceType,
-        formName: 'Homepage Contact Section',
-        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#contact` : '',
-        pageUrl: typeof window !== 'undefined' ? window.location.href : '',
-        pagePath: typeof window !== 'undefined' ? window.location.pathname : '',
-      });
+    const res = bookingService.submitInstantRequest({
+      ...submissionData,
+      type: 'call_request',
+      deviceType,
+      formName: 'Homepage Contact Section',
+      formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#contact` : '',
+      pageUrl: typeof window !== 'undefined' ? window.location.href : '',
+      pagePath: typeof window !== 'undefined' ? window.location.pathname : '',
+    });
 
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('magnevents-form-filled', 'true');
-        window.dispatchEvent(new Event('form-filled'));
-        if (typeof window.gtag === 'function') {
-          window.gtag('event', 'generate_lead', {
-            event_category: 'form',
-            event_label: 'contact_section_submit'
-          });
-        }
-      }
-
-      setRefCode(res?.referenceCode || '');
-      setSubmitted(true);
-      setFormData({ name: '', email: '', phone: '' });
-      setTimeout(() => setSubmitted(false), 5000);
-    } catch (error) {
-      console.error("Contact form error:", error);
-      setFormError(error.message || "Failed to submit request. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    setRefCode(res?.referenceCode || '');
+    setSubmitted(true);
+    setFormData({ name: '', email: '', phone: '' });
+    setTimeout(() => setSubmitted(false), 6000);
   };
 
   return (

@@ -55,31 +55,15 @@ export default function EventRegistrationPage() {
     const phoneErr = validatePhone(submissionData.phone);
     if (phoneErr) return setFormError(phoneErr);
 
-    setIsSubmitting(true);
+    const res = bookingService.submitInstantRequest({
+      ...submissionData,
+      formType: 'booking',
+      formName: 'Event Registration Page'
+    });
 
-    try {
-      const res = await bookingService.submitRequest({
-        ...submissionData,
-        formType: 'booking',
-        formName: 'Event Registration Page'
-      });
-
-      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        window.gtag('event', 'generate_lead', {
-          event_category: 'form',
-          event_label: 'event_register_submit'
-        });
-      }
-
-      setSubmitted(true);
-      const refCode = res?.referenceCode || '';
-      router.push(`/thank-you${refCode ? `?ref=${refCode}` : ''}`);
-    } catch (error) {
-      console.error("Event registration error:", error);
-      setFormError(error.message || "Failed to submit event registration. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    setSubmitted(true);
+    const refCode = res?.referenceCode || '';
+    router.push(`/thank-you${refCode ? `?ref=${refCode}` : ''}`);
   }
 
   return (
