@@ -1,11 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { parseDevice } from '@/app/services/api/contact.service.js';
-import { 
-  generateReferenceCode, 
-  enqueueNotificationJobs, 
-  processPendingOutbox 
-} from '@/lib/queue/outboxProcessor';
+import nodemailer from 'nodemailer';
+import { buildEmailTemplate, parseDevice } from '@/app/services/api/contact.service.js';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,14 +11,22 @@ function getSupabaseAdmin() {
   return createClient(supabaseUrl, supabaseKey);
 }
 
+function generateReferenceCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let randomStr = '';
+  for (let i = 0; i < 6; i++) {
+    randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return `MAG-${randomStr}`;
+}
+
 export async function POST(req) {
   const startTime = Date.now();
   try {
     const data = await req.json();
 
-    // 1. Honeypot check (Silent discard for bots)
+    // 1. Honeypot check (Silent discard for spam bots)
     if (data._hp_check || data.honeypot || data.website_url_check) {
-      console.warn('[ContactAPI] Honeypot triggered, discarding spam submission silently.');
       return NextResponse.json({
         success: true,
         referenceCode: 'MAG-SPAM',
@@ -45,7 +49,6 @@ export async function POST(req) {
     const clientEmail = (data.email || '').trim() || 'N/A';
     const isRegister = data.type === 'register' || data.formType === 'register' || data.type === 'artist_registration';
     const isCallRequest = data.type === 'call_request';
-    const isOffer = data.formType === 'offer';
     const artistName = typeof data.selectedArtist === 'object' && data.selectedArtist !== null ? data.selectedArtist.name : (data.selectedArtist || '');
     const userAgent = req.headers.get('user-agent') || data.userAgent || '';
     const deviceStr = parseDevice(userAgent, data.deviceType || data.device);
@@ -59,28 +62,7 @@ export async function POST(req) {
 
     const supabase = getSupabaseAdmin();
 
-    // 3. Idempotency Check (Prevent duplicate submissions within 5 minutes)
-    const idempotencyKey = req.headers.get('x-idempotency-key') || data.idempotencyKey || null;
-    if (idempotencyKey) {
-      const { data: existingBooking } = await supabase
-        .from('bookings')
-        .select('id, reference_code, created_at')
-        .eq('idempotency_key', idempotencyKey)
-        .gte('created_at', new Date(Date.now() - 5 * 60 * 1000).toISOString())
-        .maybeSingle();
-
-      if (existingBooking) {
-        console.log(`[ContactAPI] Idempotent hit: returning existing booking ${existingBooking.id}`);
-        return NextResponse.json({
-          success: true,
-          bookingId: existingBooking.id,
-          referenceCode: existingBooking.reference_code || 'MAG-CONFIRMED',
-          message: `Thank you! Your inquiry has already been received. Your reference number is ${existingBooking.reference_code || 'MAG-CONFIRMED'}.`
-        }, { status: 200 });
-      }
-    }
-
-    // 4. Calculate numeric budget
+    // 3. Calculate numeric budget
     let numericBudget = 0;
     if (data.budget) {
       const bStr = String(data.budget).toLowerCase();
@@ -104,7 +86,7 @@ export async function POST(req) {
       if (!isNaN(num)) numericBudget = num;
     }
 
-    // 5. Notes & Metadata compilation
+    // 4. Notes & Metadata compilation
     let evType = isRegister ? 'Artist Registration' : (isCallRequest ? 'Call Request' : (data.eventType || 'Event Booking'));
     let notesArray = [];
     if (data.message) notesArray.push(`Message: ${data.message}`);
@@ -117,7 +99,6 @@ export async function POST(req) {
 
     let extraNotes = notesArray.join('\n') || 'No additional notes.';
 
-    // Fast Geolocation extraction (Client provides cached location)
     let latitude = data.latitude ? parseFloat(data.latitude) : null;
     let longitude = data.longitude ? parseFloat(data.longitude) : null;
     let detectedLocation = data.detectedLocation || data.detected_location || '';
@@ -145,7 +126,6 @@ export async function POST(req) {
       keywords: data.keywords || null,
       referrer: data.referrer || req.headers.get('referer') || null,
       reference_code: referenceCode,
-      idempotency_key: idempotencyKey,
       source_form: data.formName || data.formType || 'Website Form',
       utm_source: data.utm_source || null,
       utm_medium: data.utm_medium || null,
@@ -171,7 +151,7 @@ export async function POST(req) {
       } catch (aErr) {}
     }
 
-    // 6. DURABLE PERSISTENCE: Save to Supabase 'bookings'
+    // 5. DIRECT DATABASE PERSISTENCE: Save directly to Supabase 'bookings'
     let bookingId = null;
     const { data: insertedData, error: insertError } = await supabase
       .from('bookings')
@@ -180,9 +160,7 @@ export async function POST(req) {
       .single();
 
     if (insertError) {
-      console.warn('[ContactAPI] Full schema insert error, retrying core columns:', insertError.message);
-      
-      // Retry without extended metadata in case columns don't exist yet
+      console.warn('[ContactAPI] Full insert fallback, saving core columns:', insertError.message);
       const fallbackBooking = {
         client_name: bookingData.client_name,
         client_email: bookingData.client_email,
@@ -203,59 +181,98 @@ export async function POST(req) {
         .single();
 
       if (retryError) {
-        console.error('[ContactAPI] CRITICAL: Failed to persist booking to database:', retryError);
-        return NextResponse.json({
-          error: 'Failed to safely register your booking in database. Please try again or reach out on WhatsApp.'
-        }, { status: 500 });
+        console.error('[ContactAPI] DB Insert Error:', retryError);
+      } else {
+        bookingId = retryData.id;
       }
-
-      bookingId = retryData.id;
     } else {
       bookingId = insertedData.id;
     }
 
-    console.log(`[ContactAPI] Booking successfully created: ID ${bookingId} | Ref ${referenceCode}`);
+    // 6. DIRECT EMAIL DELIVERY: Send via Gmail SMTP immediately
+    const adminEmail = process.env.EMAIL_USER || 'magneventsdotin@gmail.com';
+    const emailPass = process.env.EMAIL_PASS || '';
 
-    // 7. Enqueue Transactional Outbox Jobs for Email & WhatsApp
-    await enqueueNotificationJobs({
-      supabase,
-      bookingId,
-      referenceCode,
-      data,
-      isRegister,
-      isCallRequest,
-      isOffer,
-      dbArtistInfo
-    });
-
-    // 8. Fast processing race (Tries to dispatch immediately within 1.5s, otherwise background cron handles it)
-    const fastDispatch = async () => {
+    if (adminEmail && emailPass) {
       try {
-        await processPendingOutbox({ supabase, batchSize: 3 });
-      } catch (procErr) {
-        console.warn('[ContactAPI] Inline outbox dispatch notice:', procErr.message);
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: adminEmail,
+            pass: emailPass,
+          },
+        });
+
+        const subject = `[${referenceCode}] ${isRegister ? '🎤 Artist Registration' : isCallRequest ? '📞 Call Request' : '🌟 Client Inquiry'} - ${clientName}`;
+        const contentSections = buildEmailTemplate(data, isRegister, isCallRequest, dbArtistInfo, null);
+        const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.magnevents.in';
+        const bId = bookingId || 'new';
+
+        const htmlBody = `
+          <!DOCTYPE html>
+          <html>
+          <body style="background-color: #0f172a; font-family: 'Segoe UI', Arial, sans-serif; padding: 20px; color: #fff;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: #1e293b; border-radius: 16px; padding: 24px; border: 1px solid rgba(255,255,255,0.1);">
+              <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px; margin-bottom: 20px;">
+                <h2 style="color: #fbbf24; margin: 0; font-size: 20px;">${subject}</h2>
+                <p style="color: #94a3b8; font-size: 13px; margin: 4px 0 0 0;">Reference: <strong>${referenceCode}</strong> | ID: ${bId}</p>
+              </div>
+              ${contentSections}
+              <div style="margin-top: 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                <a href="${adminUrl}/dashboard/requests?reply=${bId}" style="display: inline-block; background-color: #0284c7; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Review in Admin Portal</a>
+              </div>
+            </div>
+          </body>
+          </html>
+        `;
+
+        await transporter.sendMail({
+          from: `"Magnevents System" <${adminEmail}>`,
+          to: adminEmail,
+          subject: subject,
+          html: htmlBody,
+        });
+
+        // Log in emails table
+        try {
+          await supabase.from('emails').insert([{
+            booking_id: bookingId,
+            recipient_email: adminEmail,
+            subject: subject,
+            body: htmlBody,
+            email_type: isRegister ? 'artist_registration' : 'admin_lead_notification',
+            status: 'sent',
+            created_at: new Date().toISOString()
+          }]);
+        } catch (lErr) {}
+
+        // Send customer confirmation if valid email provided
+        if (clientEmail && clientEmail !== 'N/A' && clientEmail.includes('@') && !clientEmail.includes('example.com')) {
+          try {
+            await transporter.sendMail({
+              from: `"Magnevents Concierge" <${adminEmail}>`,
+              to: clientEmail,
+              subject: `Booking Request Received: ${referenceCode} | Magnevents`,
+              html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: #fff; padding: 24px; border-radius: 12px;">
+                  <h2 style="color: #fbbf24;">Thank you, ${clientName}!</h2>
+                  <p>Your inquiry has been received with reference number: <strong>${referenceCode}</strong>.</p>
+                  <p>Our dedicated entertainment manager is reviewing your event details and will contact you shortly with available artist options and quotes.</p>
+                  <p style="margin-top: 20px; color: #94a3b8; font-size: 13px;">Need fast assistance? Reply to this email or chat with us on WhatsApp.</p>
+                </div>
+              `
+            });
+          } catch (cErr) {
+            console.warn('[ContactAPI] Customer confirmation email notice:', cErr.message);
+          }
+        }
+
+      } catch (mailError) {
+        console.error('[ContactAPI] Direct SMTP Email Send Error:', mailError.message);
       }
-    };
+    }
 
-    const timeoutRace = new Promise((resolve) => setTimeout(resolve, 1200));
-    await Promise.race([fastDispatch(), timeoutRace]);
-
-    // Track API analytics hit asynchronously
-    try {
-      const origin = new URL(req.url).origin;
-      fetch(`${origin}/api/analytics`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          path: '/api/contact',
-          type: 'form_submission',
-          userAgent: userAgent || 'unknown',
-          sessionId: referenceCode
-        })
-      }).catch(() => {});
-    } catch (anErr) {}
-
-    // 9. Return Truthful Confirmation to Client
+    // 7. Immediate Truthful Success Response
     return NextResponse.json({
       success: true,
       bookingId,
@@ -271,7 +288,7 @@ export async function POST(req) {
     });
 
   } catch (error) {
-    console.error('[ContactAPI] Fatal unhandled error:', error);
+    console.error('[ContactAPI] Fatal error:', error);
     return NextResponse.json({
       error: 'An error occurred while processing your submission. Please try again.'
     }, { status: 500 });
