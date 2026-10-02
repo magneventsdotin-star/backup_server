@@ -80,30 +80,29 @@ export default function BookPage() {
       deviceType
     };
 
-    setIsSubmitting(true);
+    // Instant optimistic transition
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('magnevents-form-filled', 'true');
+      window.dispatchEvent(new Event('form-filled'));
+    }
+
+    setSubmitted(true);
+    setIsSubmitting(false);
 
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('event', 'generate_lead', { event_category: 'form', event_label: 'book_page_submit' });
     }
 
+    // Fire API request in background
     bookingService.submitRequest({ ...submissionData, formType: 'booking', formName: 'Single Page Booking Form' })
-      .then(() => {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('magnevents-form-filled', 'true');
-          window.dispatchEvent(new Event('form-filled'));
-        }
-        setSubmitted(true);
-        setTimeout(() => {
-          router.push('/thank-you');
-        }, 1500);
-      })
       .catch(error => {
         console.error('Booking error:', error);
-        setFormError('Failed to submit. Please try again.');
-      })
-      .finally(() => {
-        setIsSubmitting(false);
       });
+
+    // Smooth fast redirect to Thank You page
+    setTimeout(() => {
+      router.push('/thank-you');
+    }, 400);
   };
 
   return (

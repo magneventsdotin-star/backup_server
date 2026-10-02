@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import { buildEmailTemplate, row, buildSection, parseDevice } from '@/app/services/api/contact.service.js';
+import { sendAdminWhatsAppNotification } from '@/app/services/api/whatsapp.service.js';
 
 export async function POST(req) {
   try {
@@ -489,17 +490,33 @@ export async function POST(req) {
         booking_id: bookingId,
         recipient_email: process.env.EMAIL_USER,
         subject: `${subjectPrefix} - ${data.name}`,
-        body: emailBody + '\\n\\n' + htmlBody, // simplified storage
+        body: emailBody + '\n\n' + htmlBody, // simplified storage
         email_type: isRegister ? 'artist_registration_inquiry' : 'client_inquiry',
         status: emailStatus
       }]);
     } catch (dbErr) {
       console.error("Failed to log email to database:", dbErr);
     }
+
+    // 3. Send WhatsApp notification to Admin
+    try {
+      await sendAdminWhatsAppNotification({
+        data,
+        bookingId,
+        isRegister,
+        isCallRequest,
+        isOffer,
+        dbArtistInfo
+      });
+    } catch (wpErr) {
+      console.warn("WhatsApp notification error:", wpErr.message);
+    }
     }; // End of processRequestInBackground
 
-    // Execute process and await it so Vercel doesn't kill the serverless function prematurely
-    await processRequestInBackground();
+    // Execute notifications and logging asynchronously in background so response returns instantly
+    processRequestInBackground().catch((err) => {
+      console.error("Background notification processing error:", err);
+    });
 
     return new Response(JSON.stringify({ success: true, message: 'Request processed successfully!' }), {
       status: 200,

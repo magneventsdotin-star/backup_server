@@ -249,7 +249,7 @@ export default async function CityBlogPage({ params }) {
                     <p>Get instant price quotes, performance video clips, and availability for your date within 6 minutes.</p>
                     <div className="seo-cta-actions">
                       <a
-                        href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi Magnevents! I read your article "${blog.title}". I want to check availability & quotes for live singers in ${cityName}.`)}`}
+                        href={`https://wa.me/917355931587?text=${encodeURIComponent(`Hi Magnevents! I read your article "${blog.title}". I want to check availability & quotes for live singers in ${cityName}.`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="seo-cta-whatsapp-btn"
@@ -278,7 +278,7 @@ export default async function CityBlogPage({ params }) {
                       <p>Talk to our artist booking manager directly & receive custom packages for {cityName}.</p>
                     </div>
                     <a
-                      href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi! I want to check available artists for my event in ${cityName}.`)}`}
+                      href={`https://wa.me/917355931587?text=${encodeURIComponent(`Hi! I want to check available artists for my event in ${cityName}.`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="seo-sidebar-whatsapp-link"

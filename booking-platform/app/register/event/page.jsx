@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { bookingService } from '@/app/services/bookingService'
 import '@/app/styles/components/ContactModal.css'
@@ -8,6 +9,7 @@ import '@/app/styles/pages/Register.css'
 import { validateName, validateEmail, validatePhone } from '@helpers/validation';
 
 export default function EventRegistrationPage() {
+  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [formError, setFormError] = useState('')
@@ -53,15 +55,26 @@ export default function EventRegistrationPage() {
     const phoneErr = validatePhone(submissionData.phone);
     if (phoneErr) return setFormError(phoneErr);
 
-    setIsSubmitting(true)
-    try {
-      await bookingService.submitRequest({ ...submissionData, formType: 'booking', formName: 'Event Registration Page' })
-      setIsSubmitting(false)
-      setSubmitted(true)
-    } catch (error) {
-      console.error("Event registration error:", error)
-      setIsSubmitting(false)
+    // Instant optimistic transition
+    setSubmitted(true);
+    setIsSubmitting(false);
+
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'generate_lead', {
+        event_category: 'form',
+        event_label: 'event_register_submit'
+      });
     }
+
+    // Fire API request in background
+    bookingService.submitRequest({ ...submissionData, formType: 'booking', formName: 'Event Registration Page' }).catch(error => {
+      console.error("Event registration error:", error);
+    });
+
+    // Smooth fast redirect to Thank You page
+    setTimeout(() => {
+      router.push('/thank-you');
+    }, 400);
   }
 
   return (

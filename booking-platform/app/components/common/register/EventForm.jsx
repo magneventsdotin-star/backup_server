@@ -77,24 +77,26 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
     const phoneErr = validatePhone(submissionData.phone);
     if (phoneErr) return setFormError(phoneErr);
 
-    setIsSubmitting(true);
-    try {
-      await bookingService.submitRequest({ ...submissionData, formType: 'booking', formName: 'Event Registration Modal' });
-      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        window.gtag('event', 'generate_lead', {
-          event_category: 'form',
-          event_label: 'event_register_submit'
-        });
-      }
-      setIsSubmitting(false);
-      setSubmitted(true);
-      setTimeout(() => {
-        router.push('/thank-you');
-      }, 1500);
-    } catch (error) {
-      console.error("Event registration error:", error);
-      setIsSubmitting(false);
+    // Instant optimistic transition for immediate responsive experience
+    setSubmitted(true);
+    setIsSubmitting(false);
+
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'generate_lead', {
+        event_category: 'form',
+        event_label: 'event_register_submit'
+      });
     }
+
+    // Fire API request in background
+    bookingService.submitRequest({ ...submissionData, formType: 'booking', formName: 'Event Registration Modal' }).catch(error => {
+      console.error("Event registration error:", error);
+    });
+
+    // Smooth fast redirect to Thank You page
+    setTimeout(() => {
+      router.push('/thank-you');
+    }, 400);
   };
 
   const handleOpenAiAssistant = () => {
@@ -296,7 +298,7 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
           </button>
 
           <a
-            href={`https://wa.me/918076515257?text=Hi%20Magnevents,%20I'm%20interested%20in%20booking%20an%20artist!`}
+            href={`https://wa.me/917355931587?text=Hi%20Magnevents,%20I'm%20interested%20in%20booking%20an%20artist!`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-whatsapp-premium"

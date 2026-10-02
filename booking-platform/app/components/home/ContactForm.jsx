@@ -41,7 +41,9 @@ export default function ContactForm() {
 
   function submit(e) {
     e.preventDefault()
-    setLoading(true)
+    setSent(true)
+    setLoading(false)
+
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('event', 'generate_lead', {
         event_category: 'form',
@@ -54,6 +56,7 @@ export default function ContactForm() {
       });
     }
 
+    // Fire API in background
     bookingService.submitRequest({
       name: form.name,
       phone: form.phone,
@@ -65,12 +68,8 @@ export default function ContactForm() {
       longitude: geoData.longitude,
       detectedLocation: geoData.detectedLocation,
       formName: 'Home Contact Form'
-    }).then(() => {
-      setLoading(false)
-      setSent(true)
     }).catch(err => {
-      console.error(err)
-      setLoading(false)
+      console.error("Home contact form error:", err)
     })
   }
 

@@ -9,7 +9,7 @@ export default function FloatingWhatsApp() {
 
   return (
     <a
-      href="https://wa.me/918076515257?text=Hi%20Magnevents,%20I'm%20interested%20in%20booking%20an%20artist!"
+      href="https://wa.me/917355931587?text=Hi%20Magnevents,%20I'm%20interested%20in%20booking%20an%20artist!"
       target="_blank"
       rel="noopener noreferrer"
       className={`lux-floating-whatsapp-root ${scrollDirection === 'down' ? 'is-scrolled-down' : ''}`}

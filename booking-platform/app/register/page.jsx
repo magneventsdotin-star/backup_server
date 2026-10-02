@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { AppShellWrapper } from '@/app/layouts/AppShellWrapper'
 import { bookingService } from '@/app/services/bookingService'
@@ -10,6 +11,7 @@ import '@/app/styles/pages/Register.css'
 import { validateName, validateEmail, validatePhone } from '@helpers/validation';
 
 export default function RegisterPage() {
+  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
@@ -40,23 +42,26 @@ export default function RegisterPage() {
     const phoneErr = validatePhone(submissionData.phone);
     if (phoneErr) return setFormError(phoneErr);
 
-    setIsSubmitting(true)
-    try {
-      await bookingService.submitRequest({ ...submissionData, type: 'artist_registration', formName: 'Generic Registration Page' })
-      
-      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        window.gtag('event', 'generate_lead', {
-          event_category: 'form',
-          event_label: 'artist_registration_submit'
-        });
-      }
+    // Instant optimistic transition
+    setSubmitted(true);
+    setIsSubmitting(false);
 
-      setIsSubmitting(false)
-      setSubmitted(true)
-    } catch (error) {
-      console.error("Registration error:", error)
-      setIsSubmitting(false)
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'generate_lead', {
+        event_category: 'form',
+        event_label: 'artist_registration_submit'
+      });
     }
+
+    // Fire API request in background
+    bookingService.submitRequest({ ...submissionData, type: 'artist_registration', formName: 'Generic Registration Page' }).catch(error => {
+      console.error("Registration error:", error);
+    });
+
+    // Smooth fast redirect to Thank You page
+    setTimeout(() => {
+      router.push('/thank-you');
+    }, 400);
   }
 
   return (

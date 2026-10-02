@@ -318,7 +318,7 @@ export default function AIAssistantModal() {
                       <div className="lux-ai-action-buttons">
                         {msg.actionType === 'whatsapp' ? (
                           <a
-                            href={`https://wa.me/918076515257?text=Hi%20Magnevents!%20I'm%20inquiring%20about%20booking%20an%20artist.%20My%20requirement:%20${encodeURIComponent(lead.requirement || 'Live Singer')}`}
+                            href={`https://wa.me/917355931587?text=Hi%20Magnevents!%20I'm%20inquiring%20about%20booking%20an%20artist.%20My%20requirement:%20${encodeURIComponent(lead.requirement || 'Live Singer')}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="lux-ai-action-btn wa"

@@ -81,7 +81,7 @@ export default function HeroSection() {
                   }
                 }}
               >
-                Book India&apos;s <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">Verified Singers</strong> <br className="hp-desktop-br" /> For Weddings, Events & <strong className="hp-gradient-text italic">House Parties</strong>
+                Book Delhi &amp; Delhi NCR&apos;s <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">Verified Singers</strong> <br className="hp-desktop-br" /> For Weddings, Events &amp; <strong className="hp-gradient-text italic">House Parties</strong>
               </motion.h1>
 
               <motion.p 
@@ -111,8 +111,8 @@ export default function HeroSection() {
                   <span>Check Artist Availability</span>
                   <span style={{ marginLeft: '8px', fontSize: '15px', display: 'inline-block' }}>📅</span>
                 </Link>
-                <a href="tel:+918076515257" className="hp-btn hp-btn-glass call-btn">
-                  <span className="hp-call-icon">📞</span> +91 80765 15257
+                <a href="tel:+917355931587" className="hp-btn hp-btn-glass call-btn">
+                  <span className="hp-call-icon">📞</span> +91 73559 31587
                 </a>
               </motion.div>
 
@@ -181,7 +181,7 @@ export default function HeroSection() {
           {/* Section 2: Headline */}
           <div className="hp-mob-section">
             <h1 className="hp-mob-h1">
-              Book India&apos;s <span className="hp-gradient-text">Verified Singers</span> For Weddings, Events & <span className="hp-gradient-text">House Parties</span>
+              Book Delhi &amp; Delhi NCR&apos;s <span className="hp-gradient-text">Verified Singers</span> For Weddings, Events &amp; <span className="hp-gradient-text">House Parties</span>
             </h1>
           </div>
 
@@ -197,8 +197,8 @@ export default function HeroSection() {
               <Link href="/artists" className="mob-btn-secondary" style={{ flex: 1 }}>
                 Browse Artists
               </Link>
-              <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, padding: '14px 6px', fontSize: '13.5px', whiteSpace: 'nowrap' }}>
-                📞 +91 80765 15257
+              <a href="tel:+917355931587" className="mob-btn-secondary" style={{ flex: 1, padding: '14px 6px', fontSize: '13.5px', whiteSpace: 'nowrap' }}>
+                📞 +91 73559 31587
               </a>
             </div>
           </div>

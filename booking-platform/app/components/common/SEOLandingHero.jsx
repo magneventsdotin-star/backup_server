@@ -201,7 +201,7 @@ export default function SEOLandingHero({
   const handleWhatsAppQuote = () => {
     const artistText = selectedArtist ? ` Preferred Performer: ${selectedArtist.name} (Fee: ~₹${selectedArtist.price_min?.toLocaleString('en-IN')}).` : '';
     const text = `Hi Magnevents! I want to check availability & get a price list for a ${category} in ${city}.${artistText} Event Type: ${selectedEventType}, Tentative Date: ${eventDate}, Budget: ${selectedBudget}. Please share available profiles and performance clips.`;
-    window.open(`https://wa.me/918076515257?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(`https://wa.me/917355931587?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   // Direct 1-Step Form Submission
@@ -217,32 +217,28 @@ export default function SEOLandingHero({
       return;
     }
 
-    setIsSubmitting(true);
+    // Instant optimistic transition
+    setIsSubmitted(true);
+    setIsSubmitting(false);
 
-    try {
-      await bookingService.submitRequest({
-        name: name.trim() || 'Event Host',
-        phone: cleanPhone,
-        eventType: selectedEventType,
-        date: eventDate,
-        budget: selectedBudget,
-        selectedArtist: selectedArtist ? selectedArtist.name : null,
-        category: category,
-        city: city,
-        service: `${category} in ${city}`,
-        formName: `SEO Instant Lead Engine - ${category} in ${city}`,
-        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#instant-lead` : '',
-        formType: 'booking',
-        message: `Direct SEO Lead for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}. Budget: ${selectedBudget}.${selectedArtist ? ` Preferred Performer: ${selectedArtist.name}.` : ''}`
-      });
-
-      setIsSubmitted(true);
-    } catch (err) {
+    // Fire API request in background
+    bookingService.submitRequest({
+      name: name.trim() || 'Event Host',
+      phone: cleanPhone,
+      eventType: selectedEventType,
+      date: eventDate,
+      budget: selectedBudget,
+      selectedArtist: selectedArtist ? selectedArtist.name : null,
+      category: category,
+      city: city,
+      service: `${category} in ${city}`,
+      formName: `SEO Instant Lead Engine - ${category} in ${city}`,
+      formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#instant-lead` : '',
+      formType: 'booking',
+      message: `Direct SEO Lead for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}. Budget: ${selectedBudget}.${selectedArtist ? ` Preferred Performer: ${selectedArtist.name}.` : ''}`
+    }).catch(err => {
       console.error("Booking submission error:", err);
-      setIsSubmitted(true);
-    } finally {
-      setIsSubmitting(false);
-    }
+    });
   };
 
   // Select an artist and focus phone input
@@ -1193,7 +1189,7 @@ export default function SEOLandingHero({
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '20px' }}>
                     <a
-                      href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi Magnevents, I just requested availability for ${activeTier.title} (${activeTier.price}) in ${city}. Please share available artists.`)}`}
+                      href={`https://wa.me/917355931587?text=${encodeURIComponent(`Hi Magnevents, I just requested availability for ${activeTier.title} (${activeTier.price}) in ${city}. Please share available artists.`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="seo-btn-whatsapp"

@@ -93,11 +93,11 @@ export default function ContactSection() {
         <div className="hp-contact-info">
 
           <div className="hp-contact-channels">
-            <a href="tel:+918076515257" className="hp-channel-card">
+            <a href="tel:+917355931587" className="hp-channel-card">
               <span className="hp-channel-icon">📱</span>
               <div>
                 <strong>Phone</strong>
-                <span>+91 8076515257</span>
+                <span>+91 7355931587</span>
               </div>
             </a>
             <a href="mailto:magneventsdotin@gmail.com" className="hp-channel-card">
@@ -107,7 +107,7 @@ export default function ContactSection() {
                 <span>magneventsdotin@gmail.com</span>
               </div>
             </a>
-            <a href="https://wa.me/918076515257" target="_blank" rel="noreferrer" className="hp-channel-card">
+            <a href="https://wa.me/917355931587" target="_blank" rel="noreferrer" className="hp-channel-card">
               <span className="hp-channel-icon">💬</span>
               <div>
                 <strong>Connect on WhatsApp</strong>
