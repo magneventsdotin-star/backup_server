@@ -123,9 +123,9 @@ export async function enqueueNotificationJobs({
  * Builds HTML for Customer Confirmation Email
  */
 function buildCustomerConfirmationHtml({ clientName, referenceCode, eventType, date, location, budget, selectedArtist }) {
-  const adminPhone = '+91 73559 31587';
-  const cleanPhone = '917355931587';
-  const waUrl = `https://wa.me/${cleanPhone}?text=Hi%20Magnevents,%20my%20booking%20reference%20is%20${referenceCode}.%20I%20would%20like%20to%20get%20artist%20videos%20and%20quotes!`;
+  const adminPhone = '+91 80765 15257';
+  const cleanPhone = '918076515257';
+  const waUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(`Hi Magnevents, my booking reference is ${referenceCode}. I would like to get artist videos and quotes!`)}`;
 
   return `
     <!DOCTYPE html>

@@ -268,7 +268,9 @@ export async function POST(req) {
 
     // Action button links
     const premiumBtnBase = "display: block; width: 100%; box-sizing: border-box; color: #ffffff; padding: 14px 16px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px; margin-bottom: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1);";
-    const whatsappLink = data.phone ? `https://wa.me/${data.phone.replace(/[^0-9]/g, '')}` : '#';
+    let rawPhoneDigits = (data.phone || '').replace(/[^0-9]/g, '');
+    if (rawPhoneDigits.length === 10) rawPhoneDigits = '91' + rawPhoneDigits;
+    const whatsappLink = rawPhoneDigits ? `https://api.whatsapp.com/send?phone=${rawPhoneDigits}` : '#';
 
     let buttonsHtml = '';
     if (isRegister) {
@@ -399,17 +401,66 @@ export async function POST(req) {
         // Customer confirmation email if valid email provided
         if (clientEmail && clientEmail !== 'N/A' && clientEmail.includes('@') && !clientEmail.includes('example.com')) {
           try {
+            const customerWaUrl = `https://api.whatsapp.com/send?phone=918076515257&text=${encodeURIComponent(`Hi Magnevents! I just submitted an inquiry (${clientName}) and want to fast-track artist availability and quotes.`)}`;
             await transporter.sendMail({
               from: `"Magnevents Concierge" <${adminEmail}>`,
               to: clientEmail,
               subject: `Booking Request Received | Magnevents`,
               html: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: #fff; padding: 24px; border-radius: 12px;">
-                  <h2 style="color: #fbbf24;">Thank you, ${clientName}!</h2>
-                  <p>Your inquiry has been received successfully.</p>
-                  <p>Our dedicated entertainment manager is reviewing your event details and will contact you shortly with available artist options and quotes.</p>
-                  <p style="margin-top: 20px; color: #94a3b8; font-size: 13px;">Need instant assistance? Reply directly to this email or chat with us on WhatsApp at +91 80765 15257.</p>
-                </div>
+                <!DOCTYPE html>
+                <html>
+                <head><meta charset="utf-8"></head>
+                <body style="background-color: #020617; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 30px 10px; color: #ffffff;">
+                  <div style="max-width: 580px; margin: 0 auto; background-color: #0f172a; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);">
+                    
+                    <div style="background: linear-gradient(135deg, #020617 0%, #0f172a 100%); padding: 36px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                      <h1 style="color: #ffffff; font-size: 26px; font-weight: 900; margin: 0; letter-spacing: 2px;">MAGNEVENTS</h1>
+                      <p style="color: #fbbf24; font-size: 11px; margin: 8px 0 0 0; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;">BOOKING INQUIRY RECEIVED</p>
+                    </div>
+
+                    <div style="padding: 32px 24px;">
+                      <h2 style="color: #fbbf24; font-size: 22px; margin-top: 0; margin-bottom: 14px; font-weight: 800;">Thank you, ${clientName}!</h2>
+                      <p style="color: #cbd5e1; font-size: 15px; line-height: 1.6; margin-bottom: 20px;">
+                        Your inquiry has been received successfully. Our dedicated entertainment concierge team is currently reviewing your event requirements and will contact you shortly with available artist options, video samples, and direct transparent quotes.
+                      </p>
+
+                      <div style="background-color: #1e293b; border-radius: 12px; padding: 18px 20px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 24px;">
+                        ${bookingId ? `<div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.06);"><span style="color: #94a3b8; font-size: 12.5px;">Reference ID:</span> <strong style="color: #fbbf24; font-size: 13.5px; font-family: monospace; margin-left: 6px;">${bookingId}</strong></div>` : ''}
+                        ${evType && evType !== 'General Inquiry' ? `<div style="margin-bottom: 6px;"><span style="color: #94a3b8; font-size: 12.5px;">Requirement:</span> <strong style="color: #ffffff; font-size: 13.5px; margin-left: 6px;">${evType}</strong></div>` : ''}
+                        ${evCity && evCity !== 'N/A' ? `<div style="margin-bottom: 6px;"><span style="color: #94a3b8; font-size: 12.5px;">Location:</span> <strong style="color: #ffffff; font-size: 13.5px; margin-left: 6px;">${evCity}</strong></div>` : ''}
+                        ${evDate && evDate !== 'N/A' ? `<div style="margin-bottom: 6px;"><span style="color: #94a3b8; font-size: 12.5px;">Date:</span> <strong style="color: #ffffff; font-size: 13.5px; margin-left: 6px;">${evDate}</strong></div>` : ''}
+                      </div>
+
+                      <!-- 1-CLICK DIRECT WHATSAPP BUTTON -->
+                      <div style="text-align: center; margin: 28px 0 20px 0;">
+                        <a href="${customerWaUrl}" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           style="display: inline-block; background-color: #25D366; color: #ffffff !important; text-decoration: none; padding: 14px 28px; border-radius: 10px; font-weight: 800; font-size: 15px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);">
+                          💬 Chat Directly on WhatsApp (+91 80765 15257)
+                        </a>
+                      </div>
+
+                      <!-- EXPLICIT CLICKABLE WHATSAPP TEXT LINK -->
+                      <p style="margin-top: 24px; color: #94a3b8; font-size: 13px; line-height: 1.6; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 18px;">
+                        Need instant assistance? Reply directly to this email or chat directly on WhatsApp:
+                        <br />
+                        <a href="${customerWaUrl}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: #25D366; font-weight: 700; text-decoration: underline; font-size: 14px; display: inline-block; margin-top: 6px;">
+                          👉 Click to open WhatsApp chat (+91 80765 15257)
+                        </a>
+                      </p>
+                    </div>
+
+                    <div style="background-color: #020617; padding: 16px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
+                      <p style="color: #64748b; font-size: 11px; margin: 0;">Magnevents • India's #1 Live Music &amp; Singer Booking Network</p>
+                    </div>
+
+                  </div>
+                </body>
+                </html>
               `
             });
           } catch (cMailErr) {}

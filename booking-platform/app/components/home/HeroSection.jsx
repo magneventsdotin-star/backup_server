@@ -7,12 +7,29 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 
 import { HERO_SPOTLIGHT_SLIDES } from '@/app/constants'
-import AISingerBookingCard from '@/app/components/home/AISingerBookingCard'
 
 export default function HeroSection() {
   const router = useRouter()
   const [heroSlide, setHeroSlide] = useState(0)
   const [mobCardSlide, setMobCardSlide] = useState(0)
+
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const handleSearchSubmit = (e) => {
+    e?.preventDefault()
+    if (searchQuery.trim()) {
+      router.push(`/ai-search?q=${encodeURIComponent(searchQuery.trim())}`)
+    } else {
+      window.dispatchEvent(new CustomEvent('open-quick-booking'))
+    }
+  }
+
+  const QUICK_TAGS = [
+    { label: 'Bollywood Hits 🎤', query: 'Bollywood singer for party' },
+    { label: 'Acoustic / Unplugged 🎸', query: 'Acoustic guitarist singer' },
+    { label: 'Sufi & Ghazal 🌙', query: 'Sufi singer in Delhi NCR' },
+    { label: 'Live Bands 🥁', query: 'Live band for wedding' },
+  ]
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -59,113 +76,164 @@ export default function HeroSection() {
       <div className="hp-mobile-hero-overlay" aria-hidden="true" />
 
       {/* ======================================================== */}
-      {/* DESKTOP HERO (DO NOT MODIFY, strictly preserved) */}
+      {/* DESKTOP HERO - LUXURY SINGLE WINDOW PROPER               */}
       {/* ======================================================== */}
-      <div className="hp-hero hp-desktop-hero">
-        <div className="hp-shell hp-hero-content">
-          <div className="hp-hero-split">
-            
-            {/* LEFT 60% */}
-            <div className="hp-hero-left">
-              <div className="hp-hero-text-backdrop">
-                <motion.div
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.25 }}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '6px 14px',
-                    background: 'rgba(255, 224, 50, 0.1)',
-                    border: '1px solid rgba(255, 224, 50, 0.3)',
-                    borderRadius: '100px',
-                    marginBottom: '16px'
-                  }}
-                >
-                  <span style={{ fontSize: '13px' }}>🏆</span>
-                  <span style={{ color: '#FFE032', fontSize: '12px', fontWeight: '700', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                    India&apos;s #1 Live Artist &amp; Singer Booking Platform
-                  </span>
-                </motion.div>
+      <div className="hp-hero hp-desktop-hero hp-single-window">
+        <div className="hp-shell hp-sw-shell">
+          <div className="hp-sw-content">
 
-                <motion.h1
-                className="hp-hero-h1"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: { opacity: 0, y: 15 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }
-                  }
-                }}
-              >
-                <span className="hp-hero-lead-text">Book Singer for</span> <br className="hp-desktop-br" />
-                <span className="hp-hero-gold-text">House Party in Delhi</span> <br className="hp-desktop-br" />
-                <span className="hp-hero-amp">&amp; </span>
-                <span className="hp-hero-gold-text">Delhi NCR</span>
-              </motion.h1>
+            {/* 1. TOP TRUST BADGE */}
+            <motion.div
+              className="hp-sw-badge"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+            >
+              <span className="hp-sw-badge-trophy">🏆</span>
+              <span className="hp-sw-badge-text">
+                India&apos;s #1 Live Artist &amp; Singer Booking Platform
+              </span>
+              <span className="hp-sw-badge-dot">•</span>
+              <span className="hp-sw-badge-highlight">0% Commission Markup</span>
+            </motion.div>
 
-              <motion.p 
-                className="hp-hero-sub"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-              >
-                Book from <strong>1500+ verified singers</strong> for weddings, corporate events &amp; house parties. 
-                Trusted by <strong>2500+ happy clients</strong> with a 4.9★ rating &amp; instant transparent quotes.
-              </motion.p>
+            {/* 2. MAIN HEADLINE */}
+            <motion.h1
+              className="hp-sw-h1"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <span className="hp-sw-h1-lead">Book Singer for </span>
+              <br className="hp-sw-br" />
+              <span className="hp-sw-h1-gold">House Party in Delhi &amp; NCR</span>
+            </motion.h1>
 
-              <motion.div
-                className="hp-hero-actions"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              >
+            {/* 3. SUBTITLE */}
+            <motion.p
+              className="hp-sw-sub"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.35 }}
+            >
+              Book from <strong>1,500+ verified singers &amp; bands</strong> for weddings, corporate events &amp; house parties. Instant transparent quotes with <strong>100% artist arrival guarantee</strong>.
+            </motion.p>
+
+            {/* 4. FAST AI SEARCH & MATCH INPUT BAR */}
+            <motion.form
+              onSubmit={handleSearchSubmit}
+              className="hp-sw-search-bar"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+            >
+              <span className="hp-sw-search-sparkle">✨</span>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="What artist do you need? e.g. Bollywood singer under ₹25k, Acoustic, Sufi..."
+                className="hp-sw-search-input"
+                aria-label="Search singer or live artist"
+              />
+              <button type="submit" className="hp-sw-search-btn">
+                <span>Match Artist</span>
+                <span className="hp-sw-btn-arrow">➔</span>
+              </button>
+            </motion.form>
+
+            {/* 5. QUICK SUGGESTION CHIPS */}
+            <motion.div
+              className="hp-sw-quick-tags"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.55 }}
+            >
+              <span className="hp-sw-tags-label">Trending:</span>
+              {QUICK_TAGS.map((tag) => (
                 <button
-                  onClick={() => window.dispatchEvent(new CustomEvent('open-quick-booking'))}
-                  className="hp-btn hp-btn-primary"
+                  key={tag.label}
+                  type="button"
+                  onClick={() => router.push(`/ai-search?q=${encodeURIComponent(tag.query)}`)}
+                  className="hp-sw-tag-chip"
                 >
-                  <span>Get Free Quote</span>
-                  <span style={{ marginLeft: '8px', fontSize: '18px', display: 'inline-block' }}>→</span>
+                  {tag.label}
                 </button>
-                <Link href="/artists" className="hp-btn hp-btn-glass">
-                  <span>Check Artist Availability</span>
-                  <span style={{ marginLeft: '8px', fontSize: '15px', display: 'inline-block' }}>📅</span>
-                </Link>
-                <a href="tel:+918076515257" className="hp-btn hp-btn-glass call-btn">
-                  <span className="hp-call-icon">📞</span> +91 80765 15257
-                </a>
-              </motion.div>
+              ))}
+            </motion.div>
 
-              <motion.div
-                className="hp-hero-trust-row"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.7 }}
+            {/* 6. PRIMARY ACTION BUTTONS */}
+            <motion.div
+              className="hp-sw-actions"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.65 }}
+            >
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent('open-quick-booking'))}
+                className="hp-sw-btn-primary"
               >
-                <div className="hp-trust-mini-card">★ 4.9 Google Rating</div>
-                <div className="hp-trust-mini-card">👥 2500+ Successful Bookings</div>
-                <div className="hp-trust-mini-card">🛡️ 100% Verified Artists</div>
-              </motion.div>
+                <span>Get Free Instant Quote</span>
+                <span className="hp-sw-arrow">→</span>
+              </button>
 
+              <Link href="/artists" className="hp-sw-btn-glass">
+                <span>Check Artist Availability</span>
+                <span className="hp-sw-icon">📅</span>
+              </Link>
+
+              <a href="tel:+918076515257" className="hp-sw-btn-call">
+                <span className="hp-sw-call-icon">📞</span>
+                <span>+91 80765 15257</span>
+              </a>
+            </motion.div>
+
+            {/* 7. HORIZONTAL SINGLE-WINDOW TRUST DOCK */}
+            <motion.div
+              className="hp-sw-trust-dock"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.75 }}
+            >
+              <div className="hp-sw-trust-item">
+                <span className="hp-sw-trust-icon">🛡️</span>
+                <div className="hp-sw-trust-info">
+                  <strong>100% Arrival Guarantee</strong>
+                  <span>Emergency Artist Backup</span>
+                </div>
               </div>
-            </div>
 
-            {/* RIGHT 40% — DEDICATED AI SEARCH BOX */}
-            <div className="hp-hero-right-clean" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <motion.div 
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                style={{ width: '100%', maxWidth: '480px' }}
-              >
-                <AISingerBookingCard />
-              </motion.div>
-            </div>
-            
+              <div className="hp-sw-trust-sep" />
+
+              <div className="hp-sw-trust-item">
+                <span className="hp-sw-trust-icon">💎</span>
+                <div className="hp-sw-trust-info">
+                  <strong>0% Commission Markup</strong>
+                  <span>Direct Transparent Pricing</span>
+                </div>
+              </div>
+
+              <div className="hp-sw-trust-sep" />
+
+              <div className="hp-sw-trust-item">
+                <span className="hp-sw-trust-icon">⭐</span>
+                <div className="hp-sw-trust-info">
+                  <strong>4.9★ Google Rating</strong>
+                  <span>2,500+ Verified Events</span>
+                </div>
+              </div>
+
+              <div className="hp-sw-trust-sep" />
+
+              <div className="hp-sw-trust-item">
+                <span className="hp-sw-trust-icon">🎧</span>
+                <div className="hp-sw-trust-info">
+                  <strong>Dedicated Event Manager</strong>
+                  <span>Sound &amp; Stage Coordination</span>
+                </div>
+              </div>
+            </motion.div>
+
           </div>
         </div>
       </div>

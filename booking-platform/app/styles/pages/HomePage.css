@@ -6195,4 +6195,425 @@
   font-weight: 900;
 }
 
+/* ======================================================== */
+/* SINGLE WINDOW PROPER - LUXURY DESKTOP HERO REDESIGN      */
+/* ======================================================== */
+
+@media (min-width: 769px) {
+  .hp-hero-wrapper {
+    height: 100vh !important;
+    min-height: 680px !important;
+    max-height: 980px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .hp-hero-wrapper .hp-hero-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+    background: linear-gradient(
+      90deg,
+      rgba(8, 7, 6, 0.94) 0%,
+      rgba(8, 7, 6, 0.88) 38%,
+      rgba(8, 7, 6, 0.48) 64%,
+      rgba(8, 7, 6, 0.15) 82%,
+      rgba(8, 7, 6, 0.35) 100%
+    ) !important;
+  }
+
+  .hp-desktop-hero.hp-single-window {
+    height: 100% !important;
+    min-height: 100% !important;
+    padding-top: 80px !important; /* height of fixed navbar */
+    padding-bottom: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    z-index: 10 !important;
+    background: transparent !important;
+  }
+
+  .hp-sw-shell {
+    width: min(1440px, 92%);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+  }
+
+  .hp-sw-content {
+    max-width: 780px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    position: relative;
+    z-index: 12;
+  }
+
+  /* 1. TOP TRUST BADGE */
+  .hp-sw-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(255, 224, 50, 0.1);
+    border: 1px solid rgba(255, 224, 50, 0.32);
+    border-radius: 100px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    margin-bottom: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(255, 224, 50, 0.08);
+  }
+
+  .hp-sw-badge-trophy {
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .hp-sw-badge-text {
+    color: #FFE032;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hp-sw-badge-dot {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 11px;
+  }
+
+  .hp-sw-badge-highlight {
+    color: #F8FAFC;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+
+  /* 2. HEADLINE */
+  .hp-sw-h1 {
+    font-family: var(--font-display, "Playfair Display", Georgia, serif) !important;
+    font-size: clamp(38px, 4.3vw, 58px) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.025em !important;
+    margin: 0 0 14px 0 !important;
+    text-align: left !important;
+    filter: none !important;
+  }
+
+  .hp-sw-h1-lead {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    font-weight: 800 !important;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.9) !important;
+  }
+
+  .hp-sw-h1-gold {
+    background: linear-gradient(135deg, #FFF9C4 0%, #FFE032 32%, #FFB300 75%, #FF8F00 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    font-weight: 900 !important;
+    font-style: italic !important;
+    display: inline-block !important;
+    padding-right: 4px;
+    filter: none !important;
+  }
+
+  /* 3. SUBTITLE */
+  .hp-sw-sub {
+    font-size: 16.5px !important;
+    line-height: 1.6 !important;
+    color: #E2E8F0 !important;
+    text-align: left !important;
+    max-width: 660px !important;
+    margin: 0 0 20px 0 !important;
+    font-weight: 400 !important;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9) !important;
+  }
+
+  .hp-sw-sub strong {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+  }
+
+  /* 4. FAST AI SEARCH & MATCH INPUT BAR */
+  .hp-sw-search-bar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 640px;
+    background: rgba(18, 16, 15, 0.88);
+    border: 1.5px solid rgba(255, 224, 50, 0.38);
+    border-radius: 14px;
+    padding: 6px 6px 6px 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 24px rgba(255, 224, 50, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    margin-bottom: 10px;
+    transition: all 0.25s ease;
+  }
+
+  .hp-sw-search-bar:focus-within {
+    border-color: #FFE032;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 224, 50, 0.25);
+    background: rgba(22, 19, 17, 0.95);
+  }
+
+  .hp-sw-search-sparkle {
+    font-size: 18px;
+    margin-right: 12px;
+    line-height: 1;
+    filter: drop-shadow(0 0 6px #FFE032);
+    animation: sparkleGlow 3s infinite ease-in-out;
+  }
+
+  @keyframes sparkleGlow {
+    0%, 100% { filter: drop-shadow(0 0 4px #FFE032); transform: scale(1); }
+    50% { filter: drop-shadow(0 0 10px #FFD700); transform: scale(1.12); }
+  }
+
+  .hp-sw-search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #FFFFFF;
+    font-size: 14.5px;
+    font-weight: 500;
+    font-family: inherit;
+    min-width: 0;
+  }
+
+  .hp-sw-search-input::placeholder {
+    color: #94A3B8;
+    font-size: 13.5px;
+  }
+
+  .hp-sw-search-btn {
+    background: linear-gradient(135deg, #FFE032 0%, #FFB700 100%);
+    color: #0D0B09;
+    border: none;
+    font-size: 13.5px;
+    font-weight: 800;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 14px rgba(255, 224, 50, 0.35);
+  }
+
+  .hp-sw-search-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+    box-shadow: 0 6px 18px rgba(255, 224, 50, 0.5);
+  }
+
+  .hp-sw-btn-arrow {
+    font-size: 13px;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .hp-sw-search-btn:hover .hp-sw-btn-arrow {
+    transform: translateX(2px);
+  }
+
+  /* 5. QUICK SUGGESTION CHIPS */
+  .hp-sw-quick-tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .hp-sw-tags-label {
+    font-size: 12px;
+    color: #94A3B8;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .hp-sw-tag-chip {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 100px;
+    padding: 4px 12px;
+    color: #E2E8F0;
+    font-size: 11.5px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .hp-sw-tag-chip:hover {
+    background: rgba(255, 224, 50, 0.15);
+    border-color: rgba(255, 224, 50, 0.5);
+    color: #FFE032;
+    transform: translateY(-1px);
+  }
+
+  /* 6. PRIMARY ACTION BUTTONS */
+  .hp-sw-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .hp-sw-btn-primary {
+    background: linear-gradient(135deg, #FFE032 0%, #FFC700 100%);
+    color: #000000 !important;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    font-size: 15px;
+    font-weight: 800;
+    padding: 13px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 8px 24px rgba(255, 224, 50, 0.45);
+    transition: all 0.25s ease;
+  }
+
+  .hp-sw-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255, 224, 50, 0.65);
+    filter: brightness(1.08);
+  }
+
+  .hp-sw-arrow {
+    font-size: 16px;
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  .hp-sw-btn-primary:hover .hp-sw-arrow {
+    transform: translateX(3px);
+  }
+
+  .hp-sw-btn-glass {
+    background: rgba(15, 23, 42, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #FFFFFF !important;
+    font-size: 14.5px;
+    font-weight: 600;
+    padding: 13px 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    transition: all 0.25s ease;
+  }
+
+  .hp-sw-btn-glass:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.45);
+    transform: translateY(-2px);
+  }
+
+  .hp-sw-icon {
+    font-size: 15px;
+  }
+
+  .hp-sw-btn-call {
+    background: rgba(255, 224, 50, 0.1);
+    border: 1px solid rgba(255, 224, 50, 0.38);
+    color: #FFE032 !important;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 13px 18px;
+    border-radius: 12px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    transition: all 0.25s ease;
+  }
+
+  .hp-sw-btn-call:hover {
+    background: rgba(255, 224, 50, 0.22);
+    border-color: rgba(255, 224, 50, 0.65);
+    transform: translateY(-2px);
+  }
+
+  .hp-sw-call-icon {
+    font-size: 15px;
+  }
+
+  /* 7. HORIZONTAL SINGLE-WINDOW TRUST DOCK */
+  .hp-sw-trust-dock {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 20px;
+    background: rgba(15, 13, 12, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.03);
+    max-width: 100%;
+  }
+
+  .hp-sw-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .hp-sw-trust-icon {
+    font-size: 18px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .hp-sw-trust-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+  }
+
+  .hp-sw-trust-info strong {
+    color: #F8FAFC;
+    font-size: 12.5px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .hp-sw-trust-info span {
+    color: #94A3B8;
+    font-size: 10.5px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .hp-sw-trust-sep {
+    width: 1px;
+    height: 26px;
+    background: rgba(255, 255, 255, 0.14);
+    flex-shrink: 0;
+  }
+}
+
 
