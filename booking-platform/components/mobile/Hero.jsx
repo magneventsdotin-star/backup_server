@@ -27,13 +27,13 @@ export default function MobileHero() {
         </h1>
         
         <div style={{ marginBottom: '24px' }}>
-          <a href="tel:+917355931587" style={{ 
+          <a href="tel:+918076515257" style={{ 
             display: 'inline-flex', alignItems: 'center', gap: '8px',
             padding: '12px 20px', background: 'rgba(255,255,255,0.1)', 
             border: '1px solid rgba(255,255,255,0.2)', borderRadius: '100px',
             color: '#fff', textDecoration: 'none', fontSize: '14px', fontWeight: '600'
           }}>
-            <span>📞</span> Contact Us on <strong style={{ color: '#FFE032' }}>+91 73559 31587</strong>
+            <span>📞</span> Contact Us on <strong style={{ color: '#FFE032' }}>+91 80765 15257</strong>
           </a>
         </div>
         

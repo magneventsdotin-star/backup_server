@@ -492,7 +492,7 @@ function AISearchContent() {
                           Book Artist
                         </button>
                         <a
-                          href={`https://wa.me/917355931587?text=Hi%20Magnevents!%20I%20found%20${encodeURIComponent(artist.name)}%20via%20AI%20Search%20and%20want%20to%20check%20video%20samples%20and%20availability.`}
+                          href={`https://wa.me/918076515257?text=Hi%20Magnevents!%20I%20found%20${encodeURIComponent(artist.name)}%20via%20AI%20Search%20and%20want%20to%20check%20video%20samples%20and%20availability.`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="lux-ai-card-btn secondary"

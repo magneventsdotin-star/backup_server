@@ -198,7 +198,7 @@ export default function RootLayout({ children }) {
               "image": "https://www.magnevents.in/icon-512.png",
               "logo": "https://www.magnevents.in/icon-512.png",
               "url": "https://www.magnevents.in",
-              "telephone": "+91-7355931587",
+              "telephone": "+91-8076515257",
               "email": "magneventsdotin@gmail.com",
               "priceRange": "₹₹",
               "address": {
@@ -238,14 +238,14 @@ export default function RootLayout({ children }) {
               "contactPoint": [
                 {
                   "@type": "ContactPoint",
-                  "telephone": "+91-7355931587",
+                  "telephone": "+91-8076515257",
                   "contactType": "customer support",
                   "availableLanguage": ["English", "Hindi"],
                   "contactOption": "HearingImpairedSupported"
                 },
                 {
                   "@type": "ContactPoint",
-                  "telephone": "+91-8078515257",
+                  "telephone": "+91-8076515257",
                   "contactType": "booking concierge",
                   "availableLanguage": ["English", "Hindi"]
                 }

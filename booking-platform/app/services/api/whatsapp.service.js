@@ -130,7 +130,7 @@ export async function sendAdminWhatsAppNotification({
   isOffer = false,
   dbArtistInfo = null
 }) {
-  const adminPhoneRaw = process.env.ADMIN_WHATSAPP_PHONE || process.env.NEXT_PUBLIC_ADMIN_PHONE || '917355931587';
+  const adminPhoneRaw = process.env.ADMIN_WHATSAPP_PHONE || process.env.NEXT_PUBLIC_ADMIN_PHONE || '918076515257';
   const cleanAdminPhone = adminPhoneRaw.replace(/[^0-9]/g, '');
   const targetPhone = cleanAdminPhone.startsWith('91') || cleanAdminPhone.length > 10 ? cleanAdminPhone : `91${cleanAdminPhone}`;
 

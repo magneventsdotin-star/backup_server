@@ -18,7 +18,7 @@ function MobileContact() {
         </p>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <a href="tel:+917355931587" style={{
+          <a href="tel:+918076515257" style={{
             background: '#000',
             color: '#fff',
             padding: '16px',
@@ -27,7 +27,7 @@ function MobileContact() {
             fontWeight: '600',
             fontSize: '16px'
           }}>
-            Call +91 73559 31587
+            Call +91 80765 15257
           </a>
           <button 
             onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'general' } }))}

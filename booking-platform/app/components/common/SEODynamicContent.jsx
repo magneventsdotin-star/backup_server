@@ -23,7 +23,7 @@ export default function SEODynamicContent({ category, city, overviewHtml, servic
 
   const handleWhatsApp = () => {
     const text = `Hi Magnevents! I am looking to hire a ${category} in ${city}. Please share pricing and available performers.`;
-    window.open(`https://wa.me/917355931587?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(`https://wa.me/918076515257?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (

@@ -111,8 +111,8 @@ export default function HeroSection() {
                   <span>Check Artist Availability</span>
                   <span style={{ marginLeft: '8px', fontSize: '15px', display: 'inline-block' }}>📅</span>
                 </Link>
-                <a href="tel:+917355931587" className="hp-btn hp-btn-glass call-btn">
-                  <span className="hp-call-icon">📞</span> +91 73559 31587
+                <a href="tel:+918076515257" className="hp-btn hp-btn-glass call-btn">
+                  <span className="hp-call-icon">📞</span> +91 80765 15257
                 </a>
               </motion.div>
 
@@ -197,8 +197,8 @@ export default function HeroSection() {
               <Link href="/artists" className="mob-btn-secondary" style={{ flex: 1 }}>
                 Browse Artists
               </Link>
-              <a href="tel:+917355931587" className="mob-btn-secondary" style={{ flex: 1, padding: '14px 6px', fontSize: '13.5px', whiteSpace: 'nowrap' }}>
-                📞 +91 73559 31587
+              <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, padding: '14px 6px', fontSize: '13.5px', whiteSpace: 'nowrap' }}>
+                📞 +91 80765 15257
               </a>
             </div>
           </div>

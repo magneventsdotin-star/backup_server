@@ -112,7 +112,7 @@ export default function PromotionalOfferSection({ className = "" }) {
               <span>→</span>
             </button>
             <a
-              href="https://wa.me/917355931587?text=Hi%20Magnevents!%20I%20want%20to%20claim%20the%2060%25%20OFF%20first%20booking%20discount%20for%20my%20event."
+              href="https://wa.me/918076515257?text=Hi%20Magnevents!%20I%20want%20to%20claim%20the%2060%25%20OFF%20first%20booking%20discount%20for%20my%20event."
               target="_blank"
               rel="noopener noreferrer"
               className="lux-promo-wa-btn"

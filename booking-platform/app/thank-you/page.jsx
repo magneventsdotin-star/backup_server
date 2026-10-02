@@ -24,7 +24,7 @@ export default function ThankYouPage() {
         setWaLink(savedLink);
       } else {
         const cleanRef = savedRef ? `%20(Ref:%20${encodeURIComponent(savedRef)})` : '';
-        setWaLink(`https://wa.me/917355931587?text=Hi%20Magnevents!%20I%20just%20submitted%20a%20booking%20inquiry${cleanRef}.`);
+        setWaLink(`https://wa.me/918076515257?text=Hi%20Magnevents!%20I%20just%20submitted%20a%20booking%20inquiry${cleanRef}.`);
       }
     }
   }, []);

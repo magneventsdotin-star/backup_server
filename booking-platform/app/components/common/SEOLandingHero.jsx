@@ -201,7 +201,7 @@ export default function SEOLandingHero({
   const handleWhatsAppQuote = () => {
     const artistText = selectedArtist ? ` Preferred Performer: ${selectedArtist.name} (Fee: ~₹${selectedArtist.price_min?.toLocaleString('en-IN')}).` : '';
     const text = `Hi Magnevents! I want to check availability & get a price list for a ${category} in ${city}.${artistText} Event Type: ${selectedEventType}, Tentative Date: ${eventDate}, Budget: ${selectedBudget}. Please share available profiles and performance clips.`;
-    window.open(`https://wa.me/917355931587?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(`https://wa.me/918076515257?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   const [refCode, setRefCode] = useState("");
@@ -1224,7 +1224,7 @@ export default function SEOLandingHero({
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '20px' }}>
                     <a
-                      href={`https://wa.me/917355931587?text=${encodeURIComponent(`Hi Magnevents, I just requested availability for ${activeTier.title} (${activeTier.price}) in ${city}. Please share available artists.`)}`}
+                      href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi Magnevents, I just requested availability for ${activeTier.title} (${activeTier.price}) in ${city}. Please share available artists.`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="seo-btn-whatsapp"
