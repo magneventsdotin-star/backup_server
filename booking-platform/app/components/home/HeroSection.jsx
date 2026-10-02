@@ -81,7 +81,7 @@ export default function HeroSection() {
                   }
                 }}
               >
-                Book Delhi &amp; Delhi NCR&apos;s <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">Verified Singers</strong> <br className="hp-desktop-br" /> For Weddings, Events &amp; <strong className="hp-gradient-text italic">House Parties</strong>
+                Book a Singer for <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">House Party in Delhi-NCR</strong>, <br className="hp-desktop-br" /> Weddings &amp; <strong className="hp-gradient-text italic">Private Events</strong>
               </motion.h1>
 
               <motion.p 
@@ -181,7 +181,7 @@ export default function HeroSection() {
           {/* Section 2: Headline */}
           <div className="hp-mob-section">
             <h1 className="hp-mob-h1">
-              Book Delhi &amp; Delhi NCR&apos;s <span className="hp-gradient-text">Verified Singers</span> For Weddings, Events &amp; <span className="hp-gradient-text">House Parties</span>
+              Book a Singer for <span className="hp-gradient-text">House Party in Delhi-NCR</span>, Weddings &amp; <span className="hp-gradient-text">Private Events</span>
             </h1>
           </div>
 
