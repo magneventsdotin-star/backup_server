@@ -185,7 +185,14 @@ export default function HeroSection() {
             </h1>
           </div>
 
-          {/* Section 3: CTAs (Upper Part) */}
+          {/* Section 3: Subtitle / Description Text */}
+          <div className="hp-mob-section">
+            <p className="hp-mob-sub">
+              Book from 1500+ verified singers for weddings, corporate events &amp; celebrations. Trusted for 2500+ successful bookings with 4.9★ Google rating &amp; instant transparent quotes.
+            </p>
+          </div>
+
+          {/* Section 4: CTAs */}
           <div className="hp-mob-section hp-mob-cta-section">
             <button 
               className="mob-btn-primary"
@@ -201,13 +208,6 @@ export default function HeroSection() {
                 📞 +91 80765 15257
               </a>
             </div>
-          </div>
-
-          {/* Section 4: Subtitle / Description Text (Lower Part) */}
-          <div className="hp-mob-section">
-            <p className="hp-mob-sub">
-              Book from 1500+ verified singers for weddings, corporate events & celebrations. Trusted for 2500+ successful bookings with 4.9★ Google rating & instant transparent quotes.
-            </p>
           </div>
 
           {/* Section 5: Trust Cards */}
