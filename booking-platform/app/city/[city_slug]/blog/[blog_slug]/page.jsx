@@ -3,6 +3,7 @@ import { supabase } from '@database/connection/supabase';
 import Link from 'next/link';
 import SEOLandingHero from '@/app/components/common/SEOLandingHero';
 import SEOArtistsGrid from '@/app/components/common/SEOArtistsGrid';
+import { getTopArtistsForSEO } from '@/app/utils/fetchTopArtists';
 import VideoGridSection from '@/app/components/home/VideoGridSection';
 import PromotionalOfferSection from '@/app/components/home/PromotionalOfferSection';
 import ContactSection from '@/app/components/home/ContactSection';
