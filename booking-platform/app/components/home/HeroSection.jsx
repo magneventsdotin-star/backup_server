@@ -188,53 +188,78 @@ export default function HeroSection() {
               </a>
             </motion.div>
 
-            {/* 7. HORIZONTAL SINGLE-WINDOW TRUST DOCK */}
+            {/* 7. QUICK TRUST PROOF PILLS */}
             <motion.div
-              className="hp-sw-trust-dock"
-              initial={{ opacity: 0, y: 15 }}
+              className="hp-sw-trust-row"
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.75 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
             >
-              <div className="hp-sw-trust-item">
-                <span className="hp-sw-trust-icon">🛡️</span>
-                <div className="hp-sw-trust-info">
-                  <strong>100% Arrival Guarantee</strong>
-                  <span>Emergency Artist Backup</span>
-                </div>
-              </div>
-
-              <div className="hp-sw-trust-sep" />
-
-              <div className="hp-sw-trust-item">
-                <span className="hp-sw-trust-icon">💎</span>
-                <div className="hp-sw-trust-info">
-                  <strong>0% Commission Markup</strong>
-                  <span>Direct Transparent Pricing</span>
-                </div>
-              </div>
-
-              <div className="hp-sw-trust-sep" />
-
-              <div className="hp-sw-trust-item">
-                <span className="hp-sw-trust-icon">⭐</span>
-                <div className="hp-sw-trust-info">
-                  <strong>4.9★ Google Rating</strong>
-                  <span>2,500+ Verified Events</span>
-                </div>
-              </div>
-
-              <div className="hp-sw-trust-sep" />
-
-              <div className="hp-sw-trust-item">
-                <span className="hp-sw-trust-icon">🎧</span>
-                <div className="hp-sw-trust-info">
-                  <strong>Dedicated Event Manager</strong>
-                  <span>Sound &amp; Stage Coordination</span>
-                </div>
-              </div>
+              <div className="hp-sw-trust-pill">★ 4.9 Google Rating</div>
+              <div className="hp-sw-trust-pill">👥 2,500+ Celebrated Events</div>
+              <div className="hp-sw-trust-pill">🛡️ 100% Verified Artists</div>
             </motion.div>
 
           </div>
+
+          {/* RIGHT COLUMN: SLEEK "WHY CHOOSE MAGNEVENTS" FROSTED GLASS CARD */}
+          <motion.div
+            className="hp-sw-why-card"
+            initial={{ opacity: 0, x: 25 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="hp-sw-why-header">
+              <div className="hp-sw-why-badge-icon">🎤</div>
+              <div className="hp-sw-why-header-text">
+                <h3 className="hp-sw-why-title">Why Choose Magnevents?</h3>
+                <span className="hp-sw-why-subtitle">India&apos;s 1st AI Live Music Network</span>
+              </div>
+            </div>
+
+            <div className="hp-sw-why-list">
+              <div className="hp-sw-why-item">
+                <span className="hp-sw-why-icon">🛡️</span>
+                <div className="hp-sw-why-text">
+                  <strong>100% Artist Arrival Guarantee</strong>
+                  <span>Backed by instant emergency replacement</span>
+                </div>
+              </div>
+
+              <div className="hp-sw-why-item">
+                <span className="hp-sw-why-icon">💎</span>
+                <div className="hp-sw-why-text">
+                  <strong>Direct Pricing (0% Markup)</strong>
+                  <span>Direct transparent rates with zero middlemen</span>
+                </div>
+              </div>
+
+              <div className="hp-sw-why-item">
+                <span className="hp-sw-why-icon">✨</span>
+                <div className="hp-sw-why-text">
+                  <strong>Smart AI Artist Match</strong>
+                  <span>Instant match by genre, city &amp; budget</span>
+                </div>
+              </div>
+
+              <div className="hp-sw-why-item">
+                <span className="hp-sw-why-icon">🎧</span>
+                <div className="hp-sw-why-text">
+                  <strong>Dedicated Event Manager</strong>
+                  <span>24/7 expert support &amp; sound coordination</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="hp-sw-why-footer">
+              <span className="hp-sw-why-tag">⭐ 4.9★ Rated</span>
+              <span className="hp-sw-why-dot">•</span>
+              <span className="hp-sw-why-tag">👥 2500+ Shows</span>
+              <span className="hp-sw-why-dot">•</span>
+              <span className="hp-sw-why-tag">Pan-India</span>
+            </div>
+          </motion.div>
+
         </div>
       </div>
 
