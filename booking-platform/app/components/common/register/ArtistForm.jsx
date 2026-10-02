@@ -66,9 +66,7 @@ export default function ArtistForm({ copyToClipboard, setSubmitted }) {
     if (phoneErr) return setFormError(phoneErr);
     if (!submissionData.city) return setFormError("Please select or enter your city.");
 
-    // Instant optimistic transition for immediate user feedback
-    setSubmitted(true);
-    setIsSubmitting(false);
+    setIsSubmitting(true);
 
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('event', 'generate_lead', {
@@ -77,10 +75,15 @@ export default function ArtistForm({ copyToClipboard, setSubmitted }) {
       });
     }
 
-    // Fire API request in background
-    bookingService.submitRequest({ ...submissionData, type: 'artist_registration', formName: 'Artist Registration Modal' }).catch(error => {
+    try {
+      await bookingService.submitRequest({ ...submissionData, type: 'artist_registration', formName: 'Artist Registration Modal' });
+      setSubmitted(true);
+      setIsSubmitting(false);
+    } catch (error) {
       console.error("Artist registration error:", error);
-    });
+      setFormError(error.message || 'Failed to submit registration. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
   return (

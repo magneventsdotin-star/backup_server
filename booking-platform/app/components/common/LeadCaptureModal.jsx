@@ -127,6 +127,7 @@ function InnerLeadForm({ onClose }) {
   const [submitted, setSubmitted] = useState(false)
   const [formError, setFormError] = useState('')
   const [formData, setFormData] = useState({ name: '', phone: '', requirement: '' })
+  const [refCode, setRefCode] = useState('')
   const [geoData, setGeoData] = useState({ latitude: null, longitude: null, detectedLocation: '' })
 
   useEffect(() => {
@@ -147,7 +148,7 @@ function InnerLeadForm({ onClose }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setFormError('')
     
@@ -170,46 +171,51 @@ function InnerLeadForm({ onClose }) {
       else if (window.innerWidth <= 1024) deviceType = 'T';
     }
 
-    // Instantly track conversion and mark form filled
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('magnevents-form-filled', 'true');
-      window.dispatchEvent(new Event('form-filled'));
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', 'generate_lead', { event_category: 'form', event_label: 'lead_capture_modal_submit' });
-        window.gtag('event', 'conversion', {
-          'send_to': 'AW-16657289873/9sBzCMry1eocEJGl6IY-',
-          'value': 1.0,
-          'currency': 'INR'
-        });
+    setIsSubmitting(true)
+
+    try {
+      const res = await bookingService.submitRequest({ 
+        name: trimmedName,
+        phone: cleanPhone,
+        message: formData.requirement || 'Requested quote via Quick Inquiry Modal',
+        eventType: 'Live Artist Booking',
+        deviceType: deviceType,
+        formName: 'Lead Capture Modal',
+        formType: 'inquiry',
+        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search || ''}#inquiry` : '',
+        keywords: formData.requirement,
+        pageUrl: typeof window !== 'undefined' ? window.location.href : '',
+        pagePath: typeof window !== 'undefined' ? window.location.pathname : '',
+        referrer: typeof document !== 'undefined' ? (document.referrer || 'Direct') : '',
+        latitude: geoData.latitude,
+        longitude: geoData.longitude,
+        detectedLocation: geoData.detectedLocation
+      })
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('magnevents-form-filled', 'true');
+        window.dispatchEvent(new Event('form-filled'));
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'generate_lead', { event_category: 'form', event_label: 'lead_capture_modal_submit' });
+          window.gtag('event', 'conversion', {
+            'send_to': 'AW-16657289873/9sBzCMry1eocEJGl6IY-',
+            'value': 1.0,
+            'currency': 'INR'
+          });
+        }
       }
+
+      setRefCode(res?.referenceCode || '')
+      setSubmitted(true)
+      setTimeout(() => {
+        onClose()
+      }, 4000)
+    } catch (error) {
+      console.error("Lead capture submission error:", error)
+      setFormError(error.message || "Failed to submit request. Please check your internet connection and retry.")
+    } finally {
+      setIsSubmitting(false)
     }
-
-    // Instant optimistic transition - zero user waiting time
-    setSubmitted(true);
-    setTimeout(() => {
-      onClose();
-    }, 2400);
-
-    // Fire background request asynchronously
-    bookingService.submitRequest({ 
-      name: trimmedName,
-      phone: cleanPhone,
-      message: formData.requirement || 'Requested quote via Quick Inquiry Modal',
-      eventType: 'Live Artist Booking',
-      deviceType: deviceType,
-      formName: 'Lead Capture Modal',
-      formType: 'inquiry',
-      formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search || ''}#inquiry` : '',
-      keywords: formData.requirement,
-      pageUrl: typeof window !== 'undefined' ? window.location.href : '',
-      pagePath: typeof window !== 'undefined' ? window.location.pathname : '',
-      referrer: typeof document !== 'undefined' ? (document.referrer || 'Direct') : '',
-      latitude: geoData.latitude,
-      longitude: geoData.longitude,
-      detectedLocation: geoData.detectedLocation
-    }).catch((error) => {
-      console.error("Background booking error:", error);
-    });
   }
 
   if (submitted) {
@@ -226,6 +232,22 @@ function InnerLeadForm({ onClose }) {
         <h4 style={{ color: '#ffffff', fontSize: '24px', fontWeight: 800, marginBottom: '8px' }}>
           Inquiry Received!
         </h4>
+        {refCode && (
+          <div style={{
+            display: 'inline-block',
+            margin: '0 auto 12px',
+            padding: '4px 14px',
+            background: 'rgba(255, 224, 50, 0.15)',
+            border: '1px solid rgba(255, 224, 50, 0.4)',
+            borderRadius: '100px',
+            fontSize: '12px',
+            fontWeight: 700,
+            color: '#FFE032',
+            letterSpacing: '0.05em'
+          }}>
+            REF: {refCode}
+          </div>
+        )}
         <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: 1.5, maxWidth: '400px', margin: '0 auto 16px' }}>
           Our event specialists in your city are reviewing your request and will contact you with transparent quotes.
         </p>

@@ -57,26 +57,31 @@ export default function ArtistRegistrationPage() {
     if (phoneErr) return setFormError(phoneErr);
     if (!submissionData.city) return setFormError("Please select or enter your city.");
 
-    // Instant optimistic transition
-    setSubmitted(true);
-    setIsSubmitting(false);
+    setIsSubmitting(true);
 
-    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('event', 'generate_lead', {
-        event_category: 'form',
-        event_label: 'artist_register_submit'
+    try {
+      const res = await bookingService.submitRequest({
+        ...submissionData,
+        type: 'artist_registration',
+        formName: 'Artist Registration Page'
       });
-    }
 
-    // Fire API request in background
-    bookingService.submitRequest({ ...submissionData, type: 'artist_registration', formName: 'Artist Registration Page' }).catch(error => {
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'form',
+          event_label: 'artist_register_submit'
+        });
+      }
+
+      setSubmitted(true);
+      const refCode = res?.referenceCode || '';
+      router.push(`/thank-you${refCode ? `?ref=${refCode}` : ''}`);
+    } catch (error) {
       console.error("Artist registration error:", error);
-    });
-
-    // Smooth fast redirect to Thank You page
-    setTimeout(() => {
-      router.push('/thank-you');
-    }, 400);
+      setFormError(error.message || "Failed to submit registration. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (

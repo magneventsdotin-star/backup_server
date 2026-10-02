@@ -142,30 +142,32 @@ function InnerQuickBookingForm({ onClose }) {
     e.preventDefault()
     if (!validate()) return
 
-    // Instant optimistic feedback
-    setIsSuccess(true)
-    setIsSubmitting(false)
-
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('magnevents-form-filled', 'true')
-      window.dispatchEvent(new Event('form-filled'))
-    }
+    setIsSubmitting(true)
     
-    // Fire API request in background
-    bookingService.submitRequest({
-      name: formData.name,
-      phone: formData.phone,
-      location: formData.location,
-      type: 'call_request',
-      formType: 'quick_booking',
-      formName: 'Quick Contact Modal',
-      formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search || ''}#quick-contact` : '',
-      latitude: geoData.latitude,
-      longitude: geoData.longitude,
-      detectedLocation: geoData.detectedLocation
-    }).catch(err => {
+    try {
+      const res = await bookingService.submitRequest({
+        name: formData.name,
+        phone: formData.phone,
+        location: formData.location,
+        type: 'call_request',
+        formType: 'quick_booking',
+        formName: 'Quick Contact Modal',
+        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search || ''}#quick-contact` : '',
+        latitude: geoData.latitude,
+        longitude: geoData.longitude,
+        detectedLocation: geoData.detectedLocation
+      })
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('magnevents-form-filled', 'true')
+        window.dispatchEvent(new Event('form-filled'))
+      }
+      setIsSuccess(true)
+      setIsSubmitting(false)
+    } catch (err) {
       console.error("Quick booking submission error:", err)
-    })
+      setErrors({ form: err.message || 'Failed to submit inquiry. Please try again.' })
+      setIsSubmitting(false)
+    }
   }
 
   if (isSuccess) {

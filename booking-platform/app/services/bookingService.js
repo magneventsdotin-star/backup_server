@@ -14,7 +14,7 @@ const budgetMap = {
   '5L_plus': '₹5,00,000+'
 };
 
-export const createWhatsAppLeadUrl = (data = {}) => {
+export const createWhatsAppLeadUrl = (data = {}, referenceCode = '') => {
   const adminPhoneRaw = process.env.NEXT_PUBLIC_ADMIN_PHONE || '917355931587';
   const adminPhone = adminPhoneRaw.replace(/[^0-9]/g, '');
   const name = data.name || 'Client';
@@ -43,6 +43,7 @@ export const createWhatsAppLeadUrl = (data = {}) => {
   const lines = [
     title,
     '━━━━━━━━━━━━━━━━━━━━',
+    ...(referenceCode ? [`🔖 *Ref Code:* ${referenceCode}`] : []),
     `👤 *Name:* ${name}`,
     `📱 *Phone:* ${phone}`,
     `📧 *Email:* ${email}`,
@@ -65,7 +66,7 @@ export const createWhatsAppLeadUrl = (data = {}) => {
   }
 
   lines.push('━━━━━━━━━━━━━━━━━━━━');
-  lines.push('⚡ *Generated instantly from Website Form Submission*');
+  lines.push('⚡ *Generated from Website Form Submission*');
 
   return `https://wa.me/${adminPhone}?text=${encodeURIComponent(lines.join('\n'))}`;
 };
@@ -73,18 +74,22 @@ export const createWhatsAppLeadUrl = (data = {}) => {
 export const bookingService = {
 
   submitRequest: async (formData) => {
-    // 1. Enrich with cached silent geolocation data if missing
+    // 1. Enrich with cached silent geolocation data
     const cachedGeo = getCachedGeolocation();
 
-    // 2. Auto-detect endpoint, referrer, and keywords in browser
+    // 2. Auto-detect endpoint, referrer, UTM and keywords in browser
     let pageUrl = formData?.pageUrl || '';
     let pagePath = formData?.pagePath || '';
     let formLink = formData?.formLink || '';
     let referrer = formData?.referrer || '';
     let keywords = formData?.keywords || '';
+    let utmSource = formData?.utm_source || '';
+    let utmMedium = formData?.utm_medium || '';
+    let utmCampaign = formData?.utm_campaign || '';
 
     let deviceType = formData?.deviceType || 'Desktop';
     let userAgent = '';
+
     if (typeof window !== 'undefined') {
       userAgent = navigator.userAgent || '';
       if (!formData?.deviceType) {
@@ -101,16 +106,18 @@ export const bookingService = {
         referrer = document.referrer ? (document.referrer.includes(window.location.hostname) ? 'Internal Site' : document.referrer) : 'Direct Visit';
       }
 
-      if (!keywords) {
-        try {
-          const urlParams = new URLSearchParams(window.location.search);
-          const searchQ = urlParams.get('q') || urlParams.get('query') || urlParams.get('keyword') || urlParams.get('utm_term') || urlParams.get('vibe');
-          if (searchQ) keywords = searchQ;
-        } catch (e) {}
-      }
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (!keywords) {
+          keywords = urlParams.get('q') || urlParams.get('query') || urlParams.get('keyword') || urlParams.get('utm_term') || urlParams.get('vibe') || '';
+        }
+        if (!utmSource) utmSource = urlParams.get('utm_source') || '';
+        if (!utmMedium) utmMedium = urlParams.get('utm_medium') || '';
+        if (!utmCampaign) utmCampaign = urlParams.get('utm_campaign') || '';
+      } catch (e) {}
     }
 
-    // 3. If still no explicit keywords, intelligently extract key intent keywords from user's message/requirement
+    // 3. Keyword extraction fallback
     if (!keywords && (formData?.message || formData?.requirement)) {
       const text = (formData.message || formData.requirement || '').toLowerCase();
       const matched = [];
@@ -129,8 +136,12 @@ export const bookingService = {
       }
     }
 
+    // 4. Generate client idempotency key for safe retries
+    const idempotencyKey = formData?.idempotencyKey || `mag_idemp_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
     const enrichedData = {
       ...formData,
+      idempotencyKey,
       deviceType,
       userAgent,
       pageUrl,
@@ -138,6 +149,9 @@ export const bookingService = {
       formLink: formLink || pageUrl,
       referrer,
       keywords: keywords || formData?.eventType || 'Live Artist Booking',
+      utm_source: utmSource || null,
+      utm_medium: utmMedium || null,
+      utm_campaign: utmCampaign || null,
       latitude: formData?.latitude || cachedGeo?.latitude || null,
       longitude: formData?.longitude || cachedGeo?.longitude || null,
       detectedLocation: formData?.detectedLocation || cachedGeo?.detectedLocation || null,
@@ -147,23 +161,14 @@ export const bookingService = {
       isp: formData?.isp || cachedGeo?.isp || null,
     };
 
-    console.log("Submitting form data to server:", enrichedData);
-
-    // 4. Save last lead WhatsApp link to localStorage only if user wants it later on Thank You page
-    let waUrl = '';
-    if (typeof window !== 'undefined') {
-      waUrl = createWhatsAppLeadUrl(enrichedData);
-      try {
-        localStorage.setItem('magnevents-last-lead-wa', waUrl);
-        localStorage.setItem('magnevents-last-lead-name', enrichedData.name || '');
-      } catch (waErr) {}
-    }
+    console.log("[BookingService] Submitting payload to /api/contact:", enrichedData);
 
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-idempotency-key': idempotencyKey,
         },
         body: JSON.stringify(enrichedData),
         keepalive: true,
@@ -171,17 +176,34 @@ export const bookingService = {
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data?.error || `Server error: ${res.status}`);
+        throw new Error(data?.error || `Server error (${res.status}): Failed to save booking.`);
+      }
+
+      const referenceCode = data.referenceCode || 'MAG-CONFIRMED';
+      const waUrl = createWhatsAppLeadUrl(enrichedData, referenceCode);
+
+      // Save to localStorage for Thank You page & fast recovery
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('magnevents-form-filled', 'true');
+          localStorage.setItem('magnevents-last-lead-ref', referenceCode);
+          localStorage.setItem('magnevents-last-lead-id', data.bookingId || '');
+          localStorage.setItem('magnevents-last-lead-wa', waUrl);
+          localStorage.setItem('magnevents-last-lead-name', enrichedData.name || '');
+          window.dispatchEvent(new Event('form-filled'));
+        } catch (stErr) {}
       }
 
       return {
         success: true,
-        message: data.message || "Submission received successfully.",
+        bookingId: data.bookingId,
+        referenceCode,
+        message: data.message || `Thank you! Your enquiry has been received successfully. Your reference number is ${referenceCode}.`,
         waUrl,
-        ...data
+        ...data,
       };
     } catch (error) {
-      console.error("Booking service submission error:", error);
+      console.error("[BookingService] Submission error:", error);
       throw error;
     }
   }

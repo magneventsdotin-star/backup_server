@@ -39,38 +39,43 @@ export default function ContactForm() {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
   }
 
-  function submit(e) {
+  async function submit(e) {
     e.preventDefault()
-    setSent(true)
-    setLoading(false)
+    setLoading(true)
 
-    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('event', 'generate_lead', {
-        event_category: 'form',
-        event_label: 'home_contact_submit'
-      });
-      window.gtag('event', 'conversion', {
-        'send_to': 'AW-16657289873/9sBzCMry1eocEJGl6IY-',
-        'value': 1.0,
-        'currency': 'INR'
-      });
-    }
+    try {
+      const res = await bookingService.submitRequest({
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        location: form.city,
+        eventType: form.type,
+        message: form.details,
+        latitude: geoData.latitude,
+        longitude: geoData.longitude,
+        detectedLocation: geoData.detectedLocation,
+        formName: 'Home Contact Form'
+      })
 
-    // Fire API in background
-    bookingService.submitRequest({
-      name: form.name,
-      phone: form.phone,
-      email: form.email,
-      location: form.city,
-      eventType: form.type,
-      message: form.details,
-      latitude: geoData.latitude,
-      longitude: geoData.longitude,
-      detectedLocation: geoData.detectedLocation,
-      formName: 'Home Contact Form'
-    }).catch(err => {
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'form',
+          event_label: 'home_contact_submit'
+        });
+        window.gtag('event', 'conversion', {
+          'send_to': 'AW-16657289873/9sBzCMry1eocEJGl6IY-',
+          'value': 1.0,
+          'currency': 'INR'
+        });
+      }
+
+      setSent(true)
+    } catch (err) {
       console.error("Home contact form error:", err)
-    })
+      alert(err.message || "Failed to submit enquiry. Please check your connection and try again.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (sent) {

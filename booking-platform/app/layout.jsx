@@ -198,15 +198,32 @@ export default function RootLayout({ children }) {
               "image": "https://www.magnevents.in/icon-512.png",
               "logo": "https://www.magnevents.in/icon-512.png",
               "url": "https://www.magnevents.in",
-              "telephone": "+91-8078515257",
+              "telephone": "+91-7355931587",
               "email": "magneventsdotin@gmail.com",
               "priceRange": "₹₹",
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Delhi NCR",
+                "addressRegion": "Delhi",
                 "addressCountry": "IN"
               },
-              "areaServed": ["Delhi NCR", "Mumbai", "Bangalore", "Pune", "Hyderabad", "Jaipur", "Chandigarh", "Kolkata", "Chennai", "India"],
+              "areaServed": [
+                { "@type": "City", "name": "Delhi" },
+                { "@type": "City", "name": "New Delhi" },
+                { "@type": "City", "name": "Noida" },
+                { "@type": "City", "name": "Gurugram" },
+                { "@type": "City", "name": "Ghaziabad" },
+                { "@type": "City", "name": "Faridabad" },
+                { "@type": "City", "name": "Mumbai" },
+                { "@type": "City", "name": "Navi Mumbai" },
+                { "@type": "City", "name": "Thane" },
+                { "@type": "City", "name": "Pune" },
+                { "@type": "City", "name": "Bangalore" },
+                { "@type": "City", "name": "Hyderabad" },
+                { "@type": "City", "name": "Jaipur" },
+                { "@type": "City", "name": "Chandigarh" },
+                { "@type": "AdministrativeArea", "name": "Delhi NCR" }
+              ],
               "openingHoursSpecification": {
                 "@type": "OpeningHoursSpecification",
                 "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
@@ -218,12 +235,21 @@ export default function RootLayout({ children }) {
                 "ratingValue": "4.9",
                 "reviewCount": "350"
               },
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+91-8078515257",
-                "contactType": "customer support",
-                "availableLanguage": ["English", "Hindi"]
-              },
+              "contactPoint": [
+                {
+                  "@type": "ContactPoint",
+                  "telephone": "+91-7355931587",
+                  "contactType": "customer support",
+                  "availableLanguage": ["English", "Hindi"],
+                  "contactOption": "HearingImpairedSupported"
+                },
+                {
+                  "@type": "ContactPoint",
+                  "telephone": "+91-8078515257",
+                  "contactType": "booking concierge",
+                  "availableLanguage": ["English", "Hindi"]
+                }
+              ],
               "sameAs": [
                 "https://www.instagram.com/magnevents.in?igsh=MXY2NmtjMm82bTFnaA==",
                 "https://x.com/magnevents94",

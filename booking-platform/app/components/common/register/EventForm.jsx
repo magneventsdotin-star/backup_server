@@ -77,9 +77,7 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
     const phoneErr = validatePhone(submissionData.phone);
     if (phoneErr) return setFormError(phoneErr);
 
-    // Instant optimistic transition for immediate responsive experience
-    setSubmitted(true);
-    setIsSubmitting(false);
+    setIsSubmitting(true);
 
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('event', 'generate_lead', {
@@ -88,15 +86,19 @@ export default function EventForm({ copyToClipboard, setSubmitted }) {
       });
     }
 
-    // Fire API request in background
-    bookingService.submitRequest({ ...submissionData, formType: 'booking', formName: 'Event Registration Modal' }).catch(error => {
+    try {
+      const res = await bookingService.submitRequest({ ...submissionData, formType: 'booking', formName: 'Event Registration Modal' });
+      setSubmitted(true);
+      setIsSubmitting(false);
+      const refParam = res?.referenceCode ? `?ref=${encodeURIComponent(res.referenceCode)}` : '';
+      setTimeout(() => {
+        router.push(`/thank-you${refParam}`);
+      }, 500);
+    } catch (error) {
       console.error("Event registration error:", error);
-    });
-
-    // Smooth fast redirect to Thank You page
-    setTimeout(() => {
-      router.push('/thank-you');
-    }, 400);
+      setFormError(error.message || 'Failed to submit. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
   const handleOpenAiAssistant = () => {

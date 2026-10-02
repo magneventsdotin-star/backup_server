@@ -5,9 +5,12 @@ import { motion } from 'framer-motion'
 import FadeSection from '@/app/components/common/FadeSection'
 import { validateName, validateEmail, validatePhone } from '@helpers/validation';
 
+import { bookingService } from '@/app/services/bookingService';
+
 export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [refCode, setRefCode] = useState('');
   const [formError, setFormError] = useState('');
   
   const [formData, setFormData] = useState({
@@ -41,44 +44,35 @@ export default function ContactSection() {
 
     setIsSubmitting(true);
     try {
-      fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          ...submissionData, 
-          name: submissionData.name, 
-          type: 'call_request', 
-          deviceType, 
-          formName: 'Homepage Contact Section',
-          formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#contact` : '',
-          pageUrl: typeof window !== 'undefined' ? window.location.href : '',
-          pagePath: typeof window !== 'undefined' ? window.location.pathname : '',
-        }),
-        keepalive: true,
-      }).catch(error => {
-        console.error("Failed to send contact inquiry:", error);
+      const res = await bookingService.submitRequest({
+        ...submissionData,
+        type: 'call_request',
+        deviceType,
+        formName: 'Homepage Contact Section',
+        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#contact` : '',
+        pageUrl: typeof window !== 'undefined' ? window.location.href : '',
+        pagePath: typeof window !== 'undefined' ? window.location.pathname : '',
       });
-      
-      setTimeout(() => {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('magnevents-form-filled', 'true');
-          window.dispatchEvent(new Event('form-filled'));
-        }
-        setSubmitted(true);
-        setIsSubmitting(false);
 
-        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('magnevents-form-filled', 'true');
+        window.dispatchEvent(new Event('form-filled'));
+        if (typeof window.gtag === 'function') {
           window.gtag('event', 'generate_lead', {
             event_category: 'form',
             event_label: 'contact_section_submit'
           });
         }
+      }
 
-        setFormData({ name: '', email: '', phone: '' });
-        setTimeout(() => setSubmitted(false), 3000);
-      }, 300);
+      setRefCode(res?.referenceCode || '');
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '' });
+      setTimeout(() => setSubmitted(false), 5000);
     } catch (error) {
-      console.error("Unexpected error:", error);
+      console.error("Contact form error:", error);
+      setFormError(error.message || "Failed to submit request. Please try again.");
+    } finally {
       setIsSubmitting(false);
     }
   };

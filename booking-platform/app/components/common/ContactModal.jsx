@@ -306,14 +306,7 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
       longitude: geoData.longitude,
       detectedLocation: geoData.detectedLocation
     }
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('magnevents-form-filled', 'true');
-      window.dispatchEvent(new Event('form-filled'));
-    }
-    
-    // Instant optimistic transition for immediate user feedback
-    setSubmitted(true);
-    setIsSubmitting(false);
+    setIsSubmitting(true);
 
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('event', 'generate_lead', { event_category: 'form', event_label: 'contact_modal_submit' });
@@ -324,15 +317,24 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
       });
     }
 
-    // Fire API request in background
-    bookingService.submitRequest({ ...submissionData, formType, formName: 'Artist Booking Modal' }).catch(error => {
-      console.error("Booking error:", error);
-    });
-
-    // Smooth quick transition to Thank You page
-    setTimeout(() => {
-      router.push('/thank-you');
-    }, 400);
+    bookingService.submitRequest({ ...submissionData, formType, formName: 'Artist Booking Modal' })
+      .then((res) => {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('magnevents-form-filled', 'true');
+          window.dispatchEvent(new Event('form-filled'));
+        }
+        setSubmitted(true);
+        setIsSubmitting(false);
+        const refParam = res?.referenceCode ? `?ref=${encodeURIComponent(res.referenceCode)}` : '';
+        setTimeout(() => {
+          router.push(`/thank-you${refParam}`);
+        }, 500);
+      })
+      .catch((error) => {
+        console.error("Booking error:", error);
+        setFormError(error.message || 'Submission failed. Please check your connection and try again.');
+        setIsSubmitting(false);
+      });
   }
 
   if (submitted) {

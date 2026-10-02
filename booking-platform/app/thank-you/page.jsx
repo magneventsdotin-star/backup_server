@@ -6,14 +6,25 @@ import Script from 'next/script';
 
 export default function ThankYouPage() {
   const [waLink, setWaLink] = useState('');
+  const [refCode, setRefCode] = useState('');
+  const [clientName, setClientName] = useState('');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlRef = urlParams.get('ref');
+      const savedRef = localStorage.getItem('magnevents-last-lead-ref') || urlRef || '';
+      const savedName = localStorage.getItem('magnevents-last-lead-name') || '';
       const savedLink = localStorage.getItem('magnevents-last-lead-wa');
+
+      if (savedRef) setRefCode(savedRef);
+      if (savedName) setClientName(savedName);
+
       if (savedLink) {
         setWaLink(savedLink);
       } else {
-        setWaLink('https://wa.me/917355931587?text=Hi%20Magnevents!%20I%20just%20submitted%20a%20booking%20request%20on%20your%20website.');
+        const cleanRef = savedRef ? `%20(Ref:%20${encodeURIComponent(savedRef)})` : '';
+        setWaLink(`https://wa.me/917355931587?text=Hi%20Magnevents!%20I%20just%20submitted%20a%20booking%20inquiry${cleanRef}.`);
       }
     }
   }, []);
@@ -30,13 +41,12 @@ export default function ThankYouPage() {
           gtag('config', 'G-F1VERBXK87');
         `}
       </Script>
-      {/* Event snippet for Submit lead form (1) conversion page */}
+      {/* Event snippet for Submit lead form conversion */}
       <Script id="google-ads-conversion" strategy="afterInteractive">
         {`
           gtag('event', 'conversion', {'send_to': 'AW-16657289873/-Hl8CMKBmdUcEJGl6IY-'});
         `}
       </Script>
-      {/* Event snippet for Submit lead form Av conversion page */}
       <Script id="google-ads-conversion-av" strategy="afterInteractive">
         {`
           gtag('event', 'conversion', {
@@ -46,7 +56,7 @@ export default function ThankYouPage() {
           });
         `}
       </Script>
-      {/* End Google Tag Manager (noscript) */}
+
       <main style={{
         minHeight: '100vh',
         display: 'flex',
@@ -55,7 +65,7 @@ export default function ThankYouPage() {
         justifyContent: 'center',
         background: '#080808',
         color: '#fff',
-        padding: '24px 16px',
+        padding: '32px 16px',
         textAlign: 'center'
       }}>
         <div style={{ maxWidth: '560px', width: '100%' }}>
@@ -67,19 +77,38 @@ export default function ThankYouPage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            margin: '0 auto 24px',
+            margin: '0 auto 20px',
             fontSize: '36px',
             color: '#10b981',
             background: 'rgba(16, 185, 129, 0.1)',
-            boxShadow: '0 0 30px rgba(16, 185, 129, 0.2)'
+            boxShadow: '0 0 30px rgba(16, 185, 129, 0.25)'
           }}>
             ✓
           </div>
-          <h1 style={{ fontSize: '36px', marginBottom: '12px', fontFamily: 'var(--font-display, serif)', color: '#ffffff' }}>
-            Inquiry Received!
+
+          <h1 style={{ fontSize: '32px', marginBottom: '8px', fontFamily: 'var(--font-display, serif)', color: '#ffffff' }}>
+            {clientName ? `Thank You, ${clientName}!` : 'Inquiry Confirmed!'}
           </h1>
-          <p style={{ color: '#94a3b8', fontSize: '16px', lineHeight: '1.6', marginBottom: '28px' }}>
-            Your details have been registered. For faster quotes and artist video samples, connect directly on WhatsApp with our booking team.
+
+          {refCode && (
+            <div style={{
+              display: 'inline-block',
+              margin: '8px auto 18px',
+              padding: '6px 16px',
+              background: 'rgba(251, 191, 36, 0.1)',
+              border: '1px solid rgba(251, 191, 36, 0.3)',
+              borderRadius: '20px',
+              color: '#fbbf24',
+              fontSize: '14px',
+              fontWeight: '700',
+              letterSpacing: '1px'
+            }}>
+              REFERENCE CODE: <span style={{ fontFamily: 'monospace', fontSize: '15px' }}>{refCode}</span>
+            </div>
+          )}
+
+          <p style={{ color: '#94a3b8', fontSize: '15px', lineHeight: '1.6', marginBottom: '28px' }}>
+            Your booking request is safely registered in our verified network. Our artist management team is preparing customized artist profiles and quotes for your event.
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', alignItems: 'center' }}>
@@ -102,7 +131,7 @@ export default function ThankYouPage() {
                   textDecoration: 'none',
                   fontWeight: '700',
                   fontSize: '15px',
-                  boxShadow: '0 8px 24px -4px rgba(37, 211, 102, 0.35)',
+                  boxShadow: '0 8px 24px -4px rgba(37, 211, 102, 0.4)',
                   transition: 'all 0.2s ease'
                 }}
               >

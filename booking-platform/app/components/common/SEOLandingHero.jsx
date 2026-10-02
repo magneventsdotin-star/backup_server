@@ -204,6 +204,8 @@ export default function SEOLandingHero({
     window.open(`https://wa.me/917355931587?text=${encodeURIComponent(text)}`, '_blank');
   };
 
+  const [refCode, setRefCode] = useState("");
+
   // Direct 1-Step Form Submission
   const handleInlineSubmit = async (e) => {
     e.preventDefault();
@@ -217,28 +219,45 @@ export default function SEOLandingHero({
       return;
     }
 
-    // Instant optimistic transition
-    setIsSubmitted(true);
-    setIsSubmitting(false);
+    setIsSubmitting(true);
 
-    // Fire API request in background
-    bookingService.submitRequest({
-      name: name.trim() || 'Event Host',
-      phone: cleanPhone,
-      eventType: selectedEventType,
-      date: eventDate,
-      budget: selectedBudget,
-      selectedArtist: selectedArtist ? selectedArtist.name : null,
-      category: category,
-      city: city,
-      service: `${category} in ${city}`,
-      formName: `SEO Instant Lead Engine - ${category} in ${city}`,
-      formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#instant-lead` : '',
-      formType: 'booking',
-      message: `Direct SEO Lead for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}. Budget: ${selectedBudget}.${selectedArtist ? ` Preferred Performer: ${selectedArtist.name}.` : ''}`
-    }).catch(err => {
+    try {
+      const res = await bookingService.submitRequest({
+        name: name.trim() || 'Event Host',
+        phone: cleanPhone,
+        eventType: selectedEventType,
+        date: eventDate,
+        budget: selectedBudget,
+        selectedArtist: selectedArtist ? selectedArtist.name : null,
+        category: category,
+        city: city,
+        service: `${category} in ${city}`,
+        formName: `SEO Instant Lead Engine - ${category} in ${city}`,
+        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#instant-lead` : '',
+        formType: 'booking',
+        message: `Direct SEO Lead for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}. Budget: ${selectedBudget}.${selectedArtist ? ` Preferred Performer: ${selectedArtist.name}.` : ''}`
+      });
+
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'form',
+          event_label: 'seo_landing_hero_submit'
+        });
+        window.gtag('event', 'conversion', {
+          'send_to': 'AW-16657289873/9sBzCMry1eocEJGl6IY-',
+          'value': 1.0,
+          'currency': 'INR'
+        });
+      }
+
+      setRefCode(res?.referenceCode || '');
+      setIsSubmitted(true);
+    } catch (err) {
       console.error("Booking submission error:", err);
-    });
+      setPhoneError(err.message || "Unable to submit inquiry. Please check your internet or retry.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Select an artist and focus phone input
@@ -938,6 +957,22 @@ export default function SEOLandingHero({
             <div className="seo-success-box">
               <div className="seo-success-icon">✓</div>
               <h3>Inquiry Received for {city}!</h3>
+              {refCode && (
+                <div style={{
+                  display: 'inline-block',
+                  margin: '0 auto 12px',
+                  padding: '4px 14px',
+                  background: 'rgba(255, 224, 50, 0.15)',
+                  border: '1px solid rgba(255, 224, 50, 0.4)',
+                  borderRadius: '100px',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  color: '#FFE032',
+                  letterSpacing: '0.05em'
+                }}>
+                  BOOKING REF: {refCode}
+                </div>
+              )}
               <p>
                 Thank you{name ? `, ${name}` : ''}! Our dedicated {city} entertainment manager is preparing available {category} profiles, video clips, and customized price packages for your event on {eventDate}.
               </p>

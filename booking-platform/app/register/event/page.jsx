@@ -55,26 +55,31 @@ export default function EventRegistrationPage() {
     const phoneErr = validatePhone(submissionData.phone);
     if (phoneErr) return setFormError(phoneErr);
 
-    // Instant optimistic transition
-    setSubmitted(true);
-    setIsSubmitting(false);
+    setIsSubmitting(true);
 
-    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('event', 'generate_lead', {
-        event_category: 'form',
-        event_label: 'event_register_submit'
+    try {
+      const res = await bookingService.submitRequest({
+        ...submissionData,
+        formType: 'booking',
+        formName: 'Event Registration Page'
       });
-    }
 
-    // Fire API request in background
-    bookingService.submitRequest({ ...submissionData, formType: 'booking', formName: 'Event Registration Page' }).catch(error => {
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'form',
+          event_label: 'event_register_submit'
+        });
+      }
+
+      setSubmitted(true);
+      const refCode = res?.referenceCode || '';
+      router.push(`/thank-you${refCode ? `?ref=${refCode}` : ''}`);
+    } catch (error) {
       console.error("Event registration error:", error);
-    });
-
-    // Smooth fast redirect to Thank You page
-    setTimeout(() => {
-      router.push('/thank-you');
-    }, 400);
+      setFormError(error.message || "Failed to submit event registration. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (

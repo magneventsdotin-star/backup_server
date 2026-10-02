@@ -43,7 +43,7 @@ export default function BookPage() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError('');
     const nameVal = formData.name || '';
@@ -80,29 +80,32 @@ export default function BookPage() {
       deviceType
     };
 
-    // Instant optimistic transition
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('magnevents-form-filled', 'true');
-      window.dispatchEvent(new Event('form-filled'));
-    }
+    setIsSubmitting(true);
 
-    setSubmitted(true);
-    setIsSubmitting(false);
-
-    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('event', 'generate_lead', { event_category: 'form', event_label: 'book_page_submit' });
-    }
-
-    // Fire API request in background
-    bookingService.submitRequest({ ...submissionData, formType: 'booking', formName: 'Single Page Booking Form' })
-      .catch(error => {
-        console.error('Booking error:', error);
+    try {
+      const res = await bookingService.submitRequest({
+        ...submissionData,
+        formType: 'booking',
+        formName: 'Single Page Booking Form'
       });
 
-    // Smooth fast redirect to Thank You page
-    setTimeout(() => {
-      router.push('/thank-you');
-    }, 400);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('magnevents-form-filled', 'true');
+        window.dispatchEvent(new Event('form-filled'));
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'generate_lead', { event_category: 'form', event_label: 'book_page_submit' });
+        }
+      }
+
+      setSubmitted(true);
+      const refCode = res?.referenceCode || '';
+      router.push(`/thank-you${refCode ? `?ref=${refCode}` : ''}`);
+    } catch (error) {
+      console.error('Booking error:', error);
+      setFormError(error.message || 'Failed to submit booking request. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
