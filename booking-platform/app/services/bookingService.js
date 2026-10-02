@@ -15,7 +15,8 @@ const budgetMap = {
 };
 
 export const createWhatsAppLeadUrl = (data = {}) => {
-  const adminPhone = '917355931587';
+  const adminPhoneRaw = process.env.NEXT_PUBLIC_ADMIN_PHONE || '917355931587';
+  const adminPhone = adminPhoneRaw.replace(/[^0-9]/g, '');
   const name = data.name || 'Client';
   const phone = data.phone || 'N/A';
   const email = data.email || 'N/A';
