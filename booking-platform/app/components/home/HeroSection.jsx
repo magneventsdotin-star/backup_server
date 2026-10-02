@@ -68,7 +68,28 @@ export default function HeroSection() {
             {/* LEFT 60% */}
             <div className="hp-hero-left">
               <div className="hp-hero-text-backdrop">
-              <motion.h1
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.25 }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '6px 14px',
+                    background: 'rgba(255, 224, 50, 0.1)',
+                    border: '1px solid rgba(255, 224, 50, 0.3)',
+                    borderRadius: '100px',
+                    marginBottom: '16px'
+                  }}
+                >
+                  <span style={{ fontSize: '13px' }}>🏆</span>
+                  <span style={{ color: '#FFE032', fontSize: '12px', fontWeight: '700', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                    India&apos;s #1 Live Artist &amp; Singer Booking Platform
+                  </span>
+                </motion.div>
+
+                <motion.h1
                 className="hp-hero-h1"
                 initial="hidden"
                 animate="visible"
@@ -168,8 +189,8 @@ export default function HeroSection() {
           {/* Section 1: Badge + Quick AI Match Pill */}
           <div className="hp-mob-section">
             <div className="hp-mob-badge-row">
-              <div className="hp-mob-badge">
-                <span className="mob-stars">⭐⭐⭐⭐⭐</span> 2500+ Happy Clients
+              <div className="hp-mob-badge" style={{ background: 'rgba(255, 224, 50, 0.12)', border: '1px solid rgba(255, 224, 50, 0.3)', color: '#FFE032', fontWeight: '700' }}>
+                <span>🏆 #1 Artist Booking Platform</span>
               </div>
               <Link href="/ai-search" className="hp-mob-ai-chip-top">
                 <span>✨ AI Search</span>
