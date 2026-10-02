@@ -100,29 +100,7 @@ export async function enqueueNotificationJobs({
     });
   }
 
-  // 3. Admin WhatsApp Notification Job
-  const adminPhone = process.env.ADMIN_WHATSAPP_PHONE || process.env.NEXT_PUBLIC_ADMIN_PHONE || '917355931587';
-  jobs.push({
-    booking_id: bookingId,
-    reference_code: referenceCode,
-    channel: 'whatsapp_admin',
-    recipient: adminPhone,
-    subject: `WhatsApp Alert: ${referenceCode}`,
-    payload: {
-      data,
-      bookingId,
-      referenceCode,
-      isRegister,
-      isCallRequest,
-      isOffer,
-      dbArtistInfo,
-    },
-    status: 'pending',
-    retry_count: 0,
-    max_retries: 4,
-  });
-
-  // Persist into notifications_outbox
+  // Persist into notifications_outbox (DB + Email only)
   try {
     const { data: insertedJobs, error } = await supabase
       .from('notifications_outbox')
