@@ -237,11 +237,15 @@ function InnerQuickBookingForm({ onClose }) {
         <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Mobile Number *</label>
         <input 
           type="tel" 
+          inputMode="numeric"
+          pattern="[0-9]*"
+          maxLength={10}
           className="lux-input"
-          placeholder="+91 98765 43210"
+          placeholder="e.g. 9876543210"
           value={formData.phone}
           onChange={e => {
-            setFormData({...formData, phone: e.target.value});
+            const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+            setFormData({...formData, phone: digits});
             if (errors.phone) setErrors({...errors, phone: null});
           }}
           style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.phone ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}

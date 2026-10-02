@@ -829,11 +829,14 @@ export default function SEOLandingHero({
                       ref={phoneInputRef}
                       id="seo-phone"
                       type="tel"
-                      maxLength={15}
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      maxLength={10}
                       placeholder="Enter 10-digit mobile"
                       value={phone}
                       onChange={(e) => {
-                        setPhone(e.target.value);
+                        const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                        setPhone(digits);
                         if (phoneError) setPhoneError("");
                       }}
                       className="seo-phone-input"
@@ -1146,14 +1149,17 @@ export default function SEOLandingHero({
                       ref={quickPhoneRef}
                       id="seo-quick-phone"
                       type="tel"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       value={quickPhone}
                       onChange={(e) => {
-                        setQuickPhone(e.target.value);
+                        const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                        setQuickPhone(digits);
                         if (quickPhoneError) setQuickPhoneError("");
                       }}
-                      placeholder="e.g. 98765 43210"
+                      placeholder="e.g. 9876543210"
                       className="seo-tier-phone-input"
-                      maxLength={14}
+                      maxLength={10}
                       autoFocus
                     />
                   </div>

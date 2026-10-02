@@ -311,12 +311,15 @@ function InnerLeadForm({ onClose }) {
           <input 
             id="lead-phone" 
             type="tel" 
+            inputMode="numeric"
+            pattern="[0-9]*"
+            maxLength={10}
             required 
-            placeholder="98765 43210" 
+            placeholder="9876543210" 
             value={formData.phone} 
             onChange={(e) => {
-              const val = e.target.value.replace(/[^0-9+ ]/g, '')
-              setFormData({ ...formData, phone: val })
+              const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+              setFormData({ ...formData, phone: digits })
             }} 
             className="ai-lux-input with-prefix"
           />
