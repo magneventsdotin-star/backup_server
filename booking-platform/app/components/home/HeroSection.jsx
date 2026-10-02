@@ -102,7 +102,10 @@ export default function HeroSection() {
                   }
                 }}
               >
-                Book Singer for <br className="hp-desktop-br" /> <strong className="hp-gradient-text italic">House Party in Delhi</strong> <br className="hp-desktop-br" /> &amp; <strong className="hp-gradient-text italic">Delhi NCR</strong>
+                <span className="hp-hero-lead-text">Book Singer for</span> <br className="hp-desktop-br" />
+                <span className="hp-hero-gold-text">House Party in Delhi</span> <br className="hp-desktop-br" />
+                <span className="hp-hero-amp">&amp; </span>
+                <span className="hp-hero-gold-text">Delhi NCR</span>
               </motion.h1>
 
               <motion.p 
@@ -111,8 +114,8 @@ export default function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
-                Book from 1500+ verified singers for weddings, corporate events & celebrations. 
-                Trusted by 2500+ happy clients with a 4.9★ Google rating, transparent pricing, and instant quotes.
+                Book from <strong>1500+ verified singers</strong> for weddings, corporate events &amp; house parties. 
+                Trusted by <strong>2500+ happy clients</strong> with a 4.9★ rating &amp; instant transparent quotes.
               </motion.p>
 
               <motion.div
@@ -202,14 +205,17 @@ export default function HeroSection() {
           {/* Section 2: Headline */}
           <div className="hp-mob-section">
             <h1 className="hp-mob-h1">
-              Book Singer for <span className="hp-gradient-text">House Party in Delhi</span> &amp; <span className="hp-gradient-text">Delhi NCR</span>
+              <span className="hp-mob-lead-text">Book Singer for</span> <br />
+              <span className="hp-mob-gold-text">House Party in Delhi</span> <br />
+              <span className="hp-mob-amp">&amp; </span>
+              <span className="hp-mob-gold-text">Delhi NCR</span>
             </h1>
           </div>
 
           {/* Section 3: Subtitle / Description Text */}
           <div className="hp-mob-section">
             <p className="hp-mob-sub">
-              Book from 1500+ verified singers for weddings, corporate events &amp; celebrations. Trusted for 2500+ successful bookings with 4.9★ Google rating &amp; instant transparent quotes.
+              Book from <strong>1500+ verified singers</strong> for weddings, corporate events &amp; house parties. Trusted by <strong>2500+ happy clients</strong> with 4.9★ rating.
             </p>
           </div>
 
