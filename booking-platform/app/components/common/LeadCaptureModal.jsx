@@ -61,6 +61,8 @@ export default function LeadCaptureModal() {
           className="lux-modal-root" 
           style={{ 
             zIndex: 100000, 
+            padding: '16px 12px',
+            alignItems: 'center',
             fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
           }}
         >
@@ -74,19 +76,24 @@ export default function LeadCaptureModal() {
 
           <motion.div
             className="lux-modal-content booking"
-            initial={{ opacity: 0, scale: 0.94, y: 24 }}
+            initial={{ opacity: 0, scale: 0.94, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 24 }}
+            exit={{ opacity: 0, scale: 0.94, y: 20 }}
             transition={{ type: "spring", damping: 28, stiffness: 380 }}
             style={{
-              maxWidth: '510px',
-              padding: '22px 24px 22px',
+              maxWidth: '500px',
+              width: '100%',
+              margin: 'auto',
+              maxHeight: 'calc(100vh - 32px)',
+              overflowY: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              padding: '20px 18px 18px',
               borderRadius: '22px',
               background: 'linear-gradient(180deg, #151322 0%, #0d0b16 100%)',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
+              border: '1px solid rgba(255, 255, 255, 0.14)',
               boxShadow: '0 30px 90px rgba(0, 0, 0, 0.92), 0 0 45px rgba(255, 224, 50, 0.1)',
               position: 'relative',
-              overflow: 'hidden',
+              boxSizing: 'border-box',
               fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
             }}
           >
@@ -105,12 +112,12 @@ export default function LeadCaptureModal() {
               }} 
             />
 
-            {/* Top Bar with Live Tag and Non-Overlapping Close Button */}
+            {/* Top Bar with Status Tag and Close Button */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginBottom: '14px',
+              marginBottom: '12px',
               position: 'relative',
               zIndex: 2
             }}>
@@ -118,7 +125,7 @@ export default function LeadCaptureModal() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
-                padding: '4px 12px',
+                padding: '4px 10px',
                 background: 'rgba(255, 224, 50, 0.08)',
                 border: '1px solid rgba(255, 224, 50, 0.28)',
                 borderRadius: '100px',
@@ -147,8 +154,8 @@ export default function LeadCaptureModal() {
                   height: '32px',
                   borderRadius: '50%',
                   background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.14)',
-                  color: 'rgba(255, 255, 255, 0.8)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  color: 'rgba(255, 255, 255, 0.85)',
                   fontSize: '14px',
                   display: 'flex',
                   alignItems: 'center',
@@ -163,7 +170,7 @@ export default function LeadCaptureModal() {
                 }}
                 onMouseLeave={(e) => { 
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'; 
-                  e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)'; 
+                  e.currentTarget.style.color = 'rgba(255, 255, 255, 0.85)'; 
                 }}
               >
                 ✕
@@ -175,48 +182,54 @@ export default function LeadCaptureModal() {
               background: 'linear-gradient(135deg, rgba(255, 107, 0, 0.24) 0%, rgba(255, 224, 50, 0.25) 50%, rgba(239, 68, 68, 0.2) 100%)',
               border: '1px solid rgba(255, 224, 50, 0.38)',
               borderRadius: '14px',
-              padding: '11px 16px',
-              marginBottom: '16px',
+              padding: '10px 14px',
+              marginBottom: '14px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              gap: '12px',
+              gap: '10px',
               boxShadow: '0 6px 24px rgba(255, 107, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
               backdropFilter: 'blur(10px)',
               position: 'relative',
               zIndex: 1
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
                 <div style={{
-                  width: '34px',
-                  height: '34px',
+                  width: '32px',
+                  height: '32px',
                   borderRadius: '10px',
                   background: 'rgba(255, 224, 50, 0.18)',
                   border: '1px solid rgba(255, 224, 50, 0.35)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '18px',
+                  fontSize: '17px',
                   flexShrink: 0
                 }}>
                   🎉
                 </div>
-                <div>
+                <div style={{ minWidth: 0 }}>
                   <div style={{ 
-                    fontSize: '13.5px', 
+                    fontSize: '13px', 
                     fontWeight: 900, 
                     color: '#FFE032', 
                     letterSpacing: '0.01em',
-                    lineHeight: 1.2
+                    lineHeight: 1.2,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
                   }}>
                     FLAT 55% – 65% OFF
                   </div>
                   <div style={{ 
-                    fontSize: '11.5px', 
+                    fontSize: '11px', 
                     color: 'rgba(255, 255, 255, 0.85)', 
                     fontWeight: 600,
                     lineHeight: 1.2,
-                    marginTop: '2px'
+                    marginTop: '2px',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
                   }}>
                     On Your First Booking • Limited Period
                   </div>
@@ -227,8 +240,8 @@ export default function LeadCaptureModal() {
                 background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
                 color: '#0c0a14',
                 fontWeight: 900,
-                fontSize: '11.5px',
-                padding: '6px 12px',
+                fontSize: '11px',
+                padding: '5px 11px',
                 borderRadius: '100px',
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
@@ -241,12 +254,12 @@ export default function LeadCaptureModal() {
             </div>
 
             {/* Modal Header */}
-            <div style={{ textAlign: 'center', marginBottom: '16px', position: 'relative', zIndex: 1 }}>
+            <div style={{ textAlign: 'center', marginBottom: '14px', position: 'relative', zIndex: 1 }}>
               <h3 style={{ 
-                fontSize: '23px', 
+                fontSize: '22px', 
                 fontWeight: 900, 
                 color: '#ffffff', 
-                margin: '0 0 6px', 
+                margin: '0 0 5px', 
                 lineHeight: 1.2,
                 fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
                 letterSpacing: '-0.02em'
@@ -262,7 +275,7 @@ export default function LeadCaptureModal() {
                 </span>
               </h3>
               <p style={{ 
-                fontSize: '12.5px', 
+                fontSize: '12px', 
                 color: 'rgba(255, 255, 255, 0.72)', 
                 margin: 0, 
                 lineHeight: 1.45,
@@ -288,6 +301,8 @@ function InnerLeadForm({ onClose }) {
   const [refCode, setRefCode] = useState('')
   const [paymentDetails, setPaymentDetails] = useState(null)
   const [geoData, setGeoData] = useState({ latitude: null, longitude: null, detectedLocation: '' })
+
+  const [activeFocus, setActiveFocus] = useState(null)
 
   useEffect(() => {
     getSilentLocationIfGranted().then(geo => {
@@ -536,20 +551,20 @@ function InnerLeadForm({ onClose }) {
       style={{ 
         display: 'flex', 
         flexDirection: 'column', 
-        gap: '13px',
+        gap: '12px',
         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
       }}
     >
       
-      {/* Full Name */}
-      <div className="lux-form-group full-width" style={{ margin: 0 }}>
+      {/* 1. Full Name - Flexbox Container (Guaranteed No Overlap) */}
+      <div style={{ margin: 0 }}>
         <label 
           htmlFor="lead-name" 
           style={{ 
             fontSize: '11.5px', 
             fontWeight: 800, 
             color: 'rgba(255, 255, 255, 0.92)', 
-            marginBottom: '6px', 
+            marginBottom: '5px', 
             display: 'flex', 
             alignItems: 'center', 
             gap: '4px',
@@ -560,22 +575,33 @@ function InnerLeadForm({ onClose }) {
           <span>Full Name</span>
           <span style={{ color: '#FFE032' }}>*</span>
         </label>
-        <div style={{ position: 'relative' }}>
-          <span style={{ 
-            position: 'absolute', 
-            left: '14px', 
-            top: '50%', 
-            transform: 'translateY(-50%)', 
-            color: 'rgba(255, 255, 255, 0.5)', 
-            pointerEvents: 'none',
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          background: 'rgba(255, 255, 255, 0.05)',
+          border: activeFocus === 'name' ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          boxShadow: activeFocus === 'name' ? '0 0 0 3px rgba(255, 224, 50, 0.15)' : 'none',
+          transition: 'all 0.2s ease',
+          boxSizing: 'border-box'
+        }}>
+          <div style={{
+            width: '42px',
+            height: '46px',
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: activeFocus === 'name' ? '#FFE032' : 'rgba(255, 255, 255, 0.5)',
+            borderRight: '1px solid rgba(255, 255, 255, 0.12)',
+            background: 'rgba(255, 255, 255, 0.02)',
+            flexShrink: 0
           }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
-          </span>
+          </div>
           <input 
             id="lead-name" 
             type="text" 
@@ -583,36 +609,28 @@ function InnerLeadForm({ onClose }) {
             placeholder="e.g. Arjun Sharma" 
             value={formData.name} 
             onChange={(e) => setFormData({ ...formData, name: e.target.value })} 
+            onFocus={() => setActiveFocus('name')}
+            onBlur={() => setActiveFocus(null)}
             style={{
+              flex: 1,
               width: '100%',
-              padding: '12px 14px 12px 40px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.16)',
-              borderRadius: '12px',
+              height: '46px',
+              padding: '0 14px',
+              background: 'transparent',
+              border: 'none',
               color: '#ffffff',
-              fontSize: '14px',
+              fontSize: '14.5px',
               fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
               outline: 'none',
-              boxSizing: 'border-box',
-              transition: 'all 0.2s ease'
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = '#FFE032';
-              e.target.style.background = 'rgba(255, 255, 255, 0.08)';
-              e.target.style.boxShadow = '0 0 0 3px rgba(255, 224, 50, 0.15)';
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)';
-              e.target.style.background = 'rgba(255, 255, 255, 0.05)';
-              e.target.style.boxShadow = 'none';
+              boxSizing: 'border-box'
             }}
           />
         </div>
       </div>
       
-      {/* Phone Number */}
-      <div className="lux-form-group full-width" style={{ margin: 0 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+      {/* 2. Phone Number - Flexbox Container (Guaranteed No Overlap) */}
+      <div style={{ margin: 0 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
           <label 
             htmlFor="lead-phone" 
             style={{ 
@@ -639,22 +657,32 @@ function InnerLeadForm({ onClose }) {
             </span>
           )}
         </div>
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          background: 'rgba(255, 255, 255, 0.05)',
+          border: activeFocus === 'phone' ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          boxShadow: activeFocus === 'phone' ? '0 0 0 3px rgba(255, 224, 50, 0.15)' : 'none',
+          transition: 'all 0.2s ease',
+          boxSizing: 'border-box'
+        }}>
           <div style={{
-            position: 'absolute',
-            left: '12px',
             display: 'flex',
             alignItems: 'center',
-            gap: '5px',
-            paddingRight: '8px',
-            borderRight: '1px solid rgba(255, 255, 255, 0.15)',
-            fontSize: '13px',
-            fontWeight: 700,
-            color: 'rgba(255, 255, 255, 0.8)',
-            pointerEvents: 'none',
-            zIndex: 1
+            gap: '6px',
+            padding: '0 12px',
+            background: 'rgba(255, 224, 50, 0.08)',
+            borderRight: '1px solid rgba(255, 255, 255, 0.14)',
+            height: '46px',
+            color: '#FFE032',
+            fontWeight: 800,
+            fontSize: '13.5px',
+            userSelect: 'none',
+            flexShrink: 0
           }}>
-            <span>🇮🇳</span>
+            <span style={{ fontSize: '15px' }}>🇮🇳</span>
             <span>+91</span>
           </div>
           <input 
@@ -670,43 +698,35 @@ function InnerLeadForm({ onClose }) {
               const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
               setFormData({ ...formData, phone: digits })
             }} 
+            onFocus={() => setActiveFocus('phone')}
+            onBlur={() => setActiveFocus(null)}
             style={{
+              flex: 1,
               width: '100%',
-              padding: '12px 14px 12px 70px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.16)',
-              borderRadius: '12px',
+              height: '46px',
+              padding: '0 14px',
+              background: 'transparent',
+              border: 'none',
               color: '#ffffff',
-              fontSize: '14px',
+              fontSize: '15px',
               fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
               outline: 'none',
               boxSizing: 'border-box',
-              letterSpacing: '0.04em',
-              transition: 'all 0.2s ease'
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = '#FFE032';
-              e.target.style.background = 'rgba(255, 255, 255, 0.08)';
-              e.target.style.boxShadow = '0 0 0 3px rgba(255, 224, 50, 0.15)';
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)';
-              e.target.style.background = 'rgba(255, 255, 255, 0.05)';
-              e.target.style.boxShadow = 'none';
+              letterSpacing: '0.04em'
             }}
           />
         </div>
       </div>
 
-      {/* Requirement / Note */}
-      <div className="lux-form-group full-width" style={{ margin: 0 }}>
+      {/* 3. Requirement / Note - Flexbox Container (Guaranteed No Overlap) */}
+      <div style={{ margin: 0 }}>
         <label 
           htmlFor="lead-req" 
           style={{ 
             fontSize: '11.5px', 
             fontWeight: 800, 
             color: 'rgba(255, 255, 255, 0.92)', 
-            marginBottom: '6px', 
+            marginBottom: '5px', 
             display: 'block',
             letterSpacing: '0.02em',
             textTransform: 'uppercase'
@@ -714,53 +734,54 @@ function InnerLeadForm({ onClose }) {
         >
           <span>Event Details / Requirement (Optional)</span>
         </label>
-        <div style={{ position: 'relative' }}>
-          <span style={{ 
-            position: 'absolute', 
-            left: '14px', 
-            top: '13px', 
-            color: 'rgba(255, 255, 255, 0.5)', 
-            pointerEvents: 'none',
+        <div style={{
+          display: 'flex',
+          background: 'rgba(255, 255, 255, 0.05)',
+          border: activeFocus === 'req' ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          boxShadow: activeFocus === 'req' ? '0 0 0 3px rgba(255, 224, 50, 0.15)' : 'none',
+          transition: 'all 0.2s ease',
+          boxSizing: 'border-box'
+        }}>
+          <div style={{
+            width: '42px',
+            paddingTop: '12px',
             display: 'flex',
-            alignItems: 'center'
+            justifyContent: 'center',
+            color: activeFocus === 'req' ? '#FFE032' : 'rgba(255, 255, 255, 0.5)',
+            borderRight: '1px solid rgba(255, 255, 255, 0.12)',
+            background: 'rgba(255, 255, 255, 0.02)',
+            flexShrink: 0
           }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
               <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
               <line x1="12" y1="19" x2="12" y2="23"/>
               <line x1="8" y1="23" x2="16" y2="23"/>
             </svg>
-          </span>
+          </div>
           <textarea 
             id="lead-req" 
             rows="2"
             placeholder="e.g. Singer/Band for wedding reception or house party on 20th Dec..." 
             value={formData.requirement} 
             onChange={(e) => setFormData({ ...formData, requirement: e.target.value })} 
+            onFocus={() => setActiveFocus('req')}
+            onBlur={() => setActiveFocus(null)}
             style={{
+              flex: 1,
               width: '100%',
-              padding: '11px 14px 11px 38px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.16)',
-              borderRadius: '12px',
+              padding: '11px 14px',
+              background: 'transparent',
+              border: 'none',
               color: '#ffffff',
               fontSize: '13px',
               fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
               outline: 'none',
               resize: 'none',
               boxSizing: 'border-box',
-              lineHeight: 1.4,
-              transition: 'all 0.2s ease'
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = '#FFE032';
-              e.target.style.background = 'rgba(255, 255, 255, 0.08)';
-              e.target.style.boxShadow = '0 0 0 3px rgba(255, 224, 50, 0.15)';
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)';
-              e.target.style.background = 'rgba(255, 255, 255, 0.05)';
-              e.target.style.boxShadow = 'none';
+              lineHeight: 1.4
             }}
           />
         </div>
@@ -784,7 +805,7 @@ function InnerLeadForm({ onClose }) {
       )}
 
       {/* Submit & Pay ₹99 Button */}
-      <div style={{ marginTop: '4px' }}>
+      <div style={{ marginTop: '2px' }}>
         <button 
           type="submit" 
           disabled={isSubmitting} 
@@ -850,8 +871,8 @@ function InnerLeadForm({ onClose }) {
 
       {/* Trust Guarantee Badges with Crisp SVGs */}
       <div style={{
-        marginTop: '6px',
-        paddingTop: '10px',
+        marginTop: '4px',
+        paddingTop: '8px',
         borderTop: '1px solid rgba(255, 255, 255, 0.08)',
         display: 'flex',
         alignItems: 'center',
@@ -865,7 +886,7 @@ function InnerLeadForm({ onClose }) {
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             <path d="M9 12l2 2 4-4"/>
           </svg>
-          <span>100% Artist Arrival</span>
+          <span>100% Arrival</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFE032" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
