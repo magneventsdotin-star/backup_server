@@ -66,7 +66,14 @@ export default function QuickBookingModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div key="quick-booking-modal" className="lux-modal-root" style={{ zIndex: 999999 }}>
+        <div 
+          key="quick-booking-modal" 
+          className="lux-modal-root" 
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsOpen(false)
+          }}
+          style={{ zIndex: 999999 }}
+        >
           <motion.div
             className="lux-modal-backdrop"
             initial={{ opacity: 0 }}
@@ -76,6 +83,7 @@ export default function QuickBookingModal() {
           />
 
           <motion.div
+            onClick={(e) => e.stopPropagation()}
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}

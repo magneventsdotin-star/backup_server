@@ -95,7 +95,13 @@ export default function ContactModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div key="contact-modal" className="lux-modal-root">
+        <div 
+          key="contact-modal" 
+          className="lux-modal-root"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) onClose()
+          }}
+        >
           <motion.div
             className="lux-modal-backdrop"
             initial={{ opacity: 0 }}
@@ -106,6 +112,7 @@ export default function ContactModal() {
 
         <motion.div
           className={`lux-modal-content ${formType}`}
+          onClick={(e) => e.stopPropagation()}
           initial={{ opacity: 0, scale: 0.95, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 30 }}

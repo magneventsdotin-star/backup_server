@@ -59,6 +59,11 @@ export default function LeadCaptureModal() {
         <div 
           key="lead-modal" 
           className="lux-modal-root" 
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              onClose();
+            }
+          }}
           style={{ 
             zIndex: 100000, 
             padding: '16px 12px',
@@ -76,6 +81,7 @@ export default function LeadCaptureModal() {
 
           <motion.div
             className="lux-modal-content booking"
+            onClick={(e) => e.stopPropagation()}
             initial={{ opacity: 0, scale: 0.94, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 20 }}
@@ -152,114 +158,6 @@ export default function LeadCaptureModal() {
               </button>
             </div>
 
-            {/* Modal Header */}
-            <div style={{ textAlign: 'center', marginBottom: '14px', position: 'relative', zIndex: 1 }}>
-              <h3 style={{ 
-                fontSize: '22px', 
-                fontWeight: 900, 
-                color: '#ffffff', 
-                margin: '0 0 5px', 
-                lineHeight: 1.2,
-                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                letterSpacing: '-0.02em'
-              }}>
-                Book Artist for{' '}
-                <span style={{ 
-                  background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  display: 'inline-block'
-                }}>
-                  ₹99
-                </span>
-              </h3>
-              <p style={{ 
-                fontSize: '12px', 
-                color: 'rgba(255, 255, 255, 0.72)', 
-                margin: 0, 
-                lineHeight: 1.45,
-                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-              }}>
-                Pay ₹99 token to lock your date & artist slot with guaranteed <strong style={{ color: '#FFE032' }}>55%–65% OFF</strong> on your final quote!
-              </p>
-            </div>
-
-            {/* High-Converting 55% - 65% OFF Banner */}
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(255, 107, 0, 0.24) 0%, rgba(255, 224, 50, 0.25) 50%, rgba(239, 68, 68, 0.2) 100%)',
-              border: '1px solid rgba(255, 224, 50, 0.38)',
-              borderRadius: '14px',
-              padding: '10px 14px',
-              marginBottom: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '10px',
-              boxShadow: '0 6px 24px rgba(255, 107, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-              backdropFilter: 'blur(10px)',
-              position: 'relative',
-              zIndex: 1
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
-                <div style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '10px',
-                  background: 'rgba(255, 224, 50, 0.18)',
-                  border: '1px solid rgba(255, 224, 50, 0.35)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '17px',
-                  flexShrink: 0
-                }}>
-                  🎉
-                </div>
-                <div style={{ minWidth: 0 }}>
-                  <div style={{ 
-                    fontSize: '13px', 
-                    fontWeight: 900, 
-                    color: '#FFE032', 
-                    letterSpacing: '0.01em',
-                    lineHeight: 1.2,
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
-                  }}>
-                    FLAT 55% – 65% OFF
-                  </div>
-                  <div style={{ 
-                    fontSize: '11px', 
-                    color: 'rgba(255, 255, 255, 0.85)', 
-                    fontWeight: 600,
-                    lineHeight: 1.2,
-                    marginTop: '2px',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
-                  }}>
-                    On Your First Booking • Limited Period
-                  </div>
-                </div>
-              </div>
-
-              <div style={{
-                background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
-                color: '#0c0a14',
-                fontWeight: 900,
-                fontSize: '11px',
-                padding: '5px 11px',
-                borderRadius: '100px',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                whiteSpace: 'nowrap',
-                boxShadow: '0 4px 14px rgba(255, 224, 50, 0.45)',
-                flexShrink: 0
-              }}>
-                SAVE 65%
-              </div>
-            </div>
-
             <InnerLeadForm onClose={onClose} />
           </motion.div>
         </div>
@@ -311,18 +209,22 @@ function InnerLeadForm({ onClose }) {
 
   // 1. Handler for ₹99 Slot Booking
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    if (e && e.preventDefault) e.preventDefault()
     setFormError('')
     
     const trimmedName = formData.name.trim()
     if (!trimmedName || trimmedName.length < 2) {
       setFormError('Please enter your full name.')
+      const el = document.getElementById('lead-name')
+      if (el) { el.focus(); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
       return
     }
 
     const cleanPhone = (formData.phone || '').replace(/[^0-9]/g, '').slice(0, 10)
     if (cleanPhone.length < 10) {
       setFormError('Please enter a valid 10-digit mobile number.')
+      const el = document.getElementById('lead-phone')
+      if (el) { el.focus(); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
       return
     }
 
@@ -480,18 +382,23 @@ function InnerLeadForm({ onClose }) {
   }
 
   // 2. Secondary Option: Free Quotes & Callback Without Payment
-  const handleFreeSubmit = async () => {
+  const handleFreeSubmit = async (e) => {
+    if (e && e.preventDefault) e.preventDefault()
     setFormError('')
     
     const trimmedName = formData.name.trim()
     if (!trimmedName || trimmedName.length < 2) {
       setFormError('Please enter your full name to receive free quotes.')
+      const el = document.getElementById('lead-name')
+      if (el) { el.focus(); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
       return
     }
 
     const cleanPhone = (formData.phone || '').replace(/[^0-9]/g, '').slice(0, 10)
     if (cleanPhone.length < 10) {
       setFormError('Please enter a valid 10-digit mobile number so we can send quotes.')
+      const el = document.getElementById('lead-phone')
+      if (el) { el.focus(); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
       return
     }
 
@@ -694,15 +601,124 @@ function InnerLeadForm({ onClose }) {
   }
 
   return (
-    <form 
-      onSubmit={handleSubmit} 
-      style={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: '12px',
-        fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
-      }}
-    >
+    <>
+      {/* Modal Header */}
+      <div style={{ textAlign: 'center', marginBottom: '14px', position: 'relative', zIndex: 1 }}>
+        <h3 style={{ 
+          fontSize: '22px', 
+          fontWeight: 900, 
+          color: '#ffffff', 
+          margin: '0 0 5px', 
+          lineHeight: 1.2,
+          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          letterSpacing: '-0.02em'
+        }}>
+          Book Artist for{' '}
+          <span style={{ 
+            background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            display: 'inline-block'
+          }}>
+            ₹99
+          </span>
+        </h3>
+        <p style={{ 
+          fontSize: '12px', 
+          color: 'rgba(255, 255, 255, 0.72)', 
+          margin: 0, 
+          lineHeight: 1.45,
+          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }}>
+          Pay ₹99 token to lock your date & artist slot with guaranteed <strong style={{ color: '#FFE032' }}>55%–65% OFF</strong> on your final quote!
+        </p>
+      </div>
+
+      {/* High-Converting 55% - 65% OFF Banner */}
+      <div style={{
+        background: 'linear-gradient(135deg, rgba(255, 107, 0, 0.24) 0%, rgba(255, 224, 50, 0.25) 50%, rgba(239, 68, 68, 0.2) 100%)',
+        border: '1px solid rgba(255, 224, 50, 0.38)',
+        borderRadius: '14px',
+        padding: '10px 14px',
+        marginBottom: '14px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '10px',
+        boxShadow: '0 6px 24px rgba(255, 107, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+        backdropFilter: 'blur(10px)',
+        position: 'relative',
+        zIndex: 1
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+          <div style={{
+            width: '32px',
+            height: '32px',
+            borderRadius: '10px',
+            background: 'rgba(255, 224, 50, 0.18)',
+            border: '1px solid rgba(255, 224, 50, 0.35)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '17px',
+            flexShrink: 0
+          }}>
+            🎉
+          </div>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ 
+              fontSize: '13px', 
+              fontWeight: 900, 
+              color: '#FFE032', 
+              letterSpacing: '0.01em',
+              lineHeight: 1.2,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}>
+              FLAT 55% – 65% OFF
+            </div>
+            <div style={{ 
+              fontSize: '11px', 
+              color: 'rgba(255, 255, 255, 0.85)', 
+              fontWeight: 600,
+              lineHeight: 1.2,
+              marginTop: '2px',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}>
+              On Your First Booking • Limited Period
+            </div>
+          </div>
+        </div>
+
+        <div style={{
+          background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
+          color: '#0c0a14',
+          fontWeight: 900,
+          fontSize: '11px',
+          padding: '5px 11px',
+          borderRadius: '100px',
+          letterSpacing: '0.04em',
+          textTransform: 'uppercase',
+          whiteSpace: 'nowrap',
+          boxShadow: '0 4px 14px rgba(255, 224, 50, 0.45)',
+          flexShrink: 0
+        }}>
+          SAVE 65%
+        </div>
+      </div>
+
+      <form 
+        onSubmit={handleSubmit} 
+        style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '12px',
+          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+        }}
+      >
       
       {/* 1. Full Name - Flexbox Container (Guaranteed No Overlap) */}
       <div style={{ margin: 0 }}>
@@ -727,10 +743,14 @@ function InnerLeadForm({ onClose }) {
           display: 'flex',
           alignItems: 'center',
           background: 'rgba(255, 255, 255, 0.05)',
-          border: activeFocus === 'name' ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)',
+          border: (formError && (!formData.name || formData.name.trim().length < 2))
+            ? '1.5px solid #ef4444'
+            : (activeFocus === 'name' ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)'),
           borderRadius: '12px',
           overflow: 'hidden',
-          boxShadow: activeFocus === 'name' ? '0 0 0 3px rgba(255, 224, 50, 0.15)' : 'none',
+          boxShadow: (formError && (!formData.name || formData.name.trim().length < 2))
+            ? '0 0 0 3px rgba(239, 68, 68, 0.25)'
+            : (activeFocus === 'name' ? '0 0 0 3px rgba(255, 224, 50, 0.15)' : 'none'),
           transition: 'all 0.2s ease',
           boxSizing: 'border-box'
         }}>
@@ -740,7 +760,7 @@ function InnerLeadForm({ onClose }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: activeFocus === 'name' ? '#FFE032' : 'rgba(255, 255, 255, 0.5)',
+            color: (formError && (!formData.name || formData.name.trim().length < 2)) ? '#ef4444' : (activeFocus === 'name' ? '#FFE032' : 'rgba(255, 255, 255, 0.5)'),
             borderRight: '1px solid rgba(255, 255, 255, 0.12)',
             background: 'rgba(255, 255, 255, 0.02)',
             flexShrink: 0
@@ -756,7 +776,10 @@ function InnerLeadForm({ onClose }) {
             required 
             placeholder="e.g. Arjun Sharma" 
             value={formData.name} 
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })} 
+            onChange={(e) => {
+              setFormData({ ...formData, name: e.target.value })
+              if (formError) setFormError('')
+            }} 
             onFocus={() => setActiveFocus('name')}
             onBlur={() => setActiveFocus(null)}
             style={{
@@ -809,10 +832,14 @@ function InnerLeadForm({ onClose }) {
           display: 'flex',
           alignItems: 'center',
           background: 'rgba(255, 255, 255, 0.05)',
-          border: activeFocus === 'phone' ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)',
+          border: (formError && (formData.phone || '').replace(/\D/g, '').length < 10)
+            ? '1.5px solid #ef4444'
+            : (activeFocus === 'phone' ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)'),
           borderRadius: '12px',
           overflow: 'hidden',
-          boxShadow: activeFocus === 'phone' ? '0 0 0 3px rgba(255, 224, 50, 0.15)' : 'none',
+          boxShadow: (formError && (formData.phone || '').replace(/\D/g, '').length < 10)
+            ? '0 0 0 3px rgba(239, 68, 68, 0.25)'
+            : (activeFocus === 'phone' ? '0 0 0 3px rgba(255, 224, 50, 0.15)' : 'none'),
           transition: 'all 0.2s ease',
           boxSizing: 'border-box'
         }}>
@@ -845,6 +872,7 @@ function InnerLeadForm({ onClose }) {
             onChange={(e) => {
               const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
               setFormData({ ...formData, phone: digits })
+              if (formError) setFormError('')
             }} 
             onFocus={() => setActiveFocus('phone')}
             onBlur={() => setActiveFocus(null)}
@@ -1037,7 +1065,7 @@ function InnerLeadForm({ onClose }) {
         <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.1)' }} />
       </div>
 
-      {/* Secondary Option: Request Free Quotes (No Advance Needed) */}
+      {/* Secondary Option: Request Free Quotes (No Advance Needed) - Solid Elevated Button */}
       <div>
         <button 
           type="button" 
@@ -1045,33 +1073,36 @@ function InnerLeadForm({ onClose }) {
           disabled={isSubmitting || isFreeSubmitting}
           style={{
             width: '100%',
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid rgba(255, 255, 255, 0.18)',
+            background: 'linear-gradient(180deg, #25213b 0%, #171424 100%)',
+            border: '1.5px solid rgba(255, 255, 255, 0.26)',
             borderRadius: '12px',
-            padding: '11px 16px',
+            padding: '12px 18px',
             color: '#ffffff',
-            fontSize: '13px',
+            fontSize: '13.5px',
             fontWeight: 800,
             cursor: (isSubmitting || isFreeSubmitting) ? 'not-allowed' : 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
             transition: 'all 0.2s ease',
             fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
             opacity: isFreeSubmitting ? 0.75 : 1
           }}
           onMouseEnter={(e) => {
             if (!isSubmitting && !isFreeSubmitting) {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
+              e.currentTarget.style.background = 'linear-gradient(180deg, #342d52 0%, #201b33 100%)';
+              e.currentTarget.style.borderColor = '#FFE032';
               e.currentTarget.style.color = '#FFE032';
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 224, 50, 0.25)';
             }
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.18)';
+            e.currentTarget.style.background = 'linear-gradient(180deg, #25213b 0%, #171424 100%)';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.26)';
             e.currentTarget.style.color = '#ffffff';
+            e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12)';
           }}
         >
           {isFreeSubmitting ? (
@@ -1089,5 +1120,6 @@ function InnerLeadForm({ onClose }) {
         </button>
       </div>
     </form>
+  </>
   )
 }
