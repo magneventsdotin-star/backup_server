@@ -152,6 +152,38 @@ export default function LeadCaptureModal() {
               </button>
             </div>
 
+            {/* Modal Header */}
+            <div style={{ textAlign: 'center', marginBottom: '14px', position: 'relative', zIndex: 1 }}>
+              <h3 style={{ 
+                fontSize: '22px', 
+                fontWeight: 900, 
+                color: '#ffffff', 
+                margin: '0 0 5px', 
+                lineHeight: 1.2,
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                letterSpacing: '-0.02em'
+              }}>
+                Book Artist for{' '}
+                <span style={{ 
+                  background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  display: 'inline-block'
+                }}>
+                  ₹99
+                </span>
+              </h3>
+              <p style={{ 
+                fontSize: '12px', 
+                color: 'rgba(255, 255, 255, 0.72)', 
+                margin: 0, 
+                lineHeight: 1.45,
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+              }}>
+                Pay ₹99 token to lock your date & artist slot with guaranteed <strong style={{ color: '#FFE032' }}>55%–65% OFF</strong> on your final quote!
+              </p>
+            </div>
+
             {/* High-Converting 55% - 65% OFF Banner */}
             <div style={{
               background: 'linear-gradient(135deg, rgba(255, 107, 0, 0.24) 0%, rgba(255, 224, 50, 0.25) 50%, rgba(239, 68, 68, 0.2) 100%)',
@@ -226,38 +258,6 @@ export default function LeadCaptureModal() {
               }}>
                 SAVE 65%
               </div>
-            </div>
-
-            {/* Modal Header */}
-            <div style={{ textAlign: 'center', marginBottom: '14px', position: 'relative', zIndex: 1 }}>
-              <h3 style={{ 
-                fontSize: '22px', 
-                fontWeight: 900, 
-                color: '#ffffff', 
-                margin: '0 0 5px', 
-                lineHeight: 1.2,
-                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                letterSpacing: '-0.02em'
-              }}>
-                Book Artist for{' '}
-                <span style={{ 
-                  background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  display: 'inline-block'
-                }}>
-                  ₹99
-                </span>
-              </h3>
-              <p style={{ 
-                fontSize: '12px', 
-                color: 'rgba(255, 255, 255, 0.72)', 
-                margin: 0, 
-                lineHeight: 1.45,
-                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-              }}>
-                Pay ₹99 token to lock your date & artist slot with guaranteed <strong style={{ color: '#FFE032' }}>55%–65% OFF</strong> on your final quote!
-              </p>
             </div>
 
             <InnerLeadForm onClose={onClose} />
