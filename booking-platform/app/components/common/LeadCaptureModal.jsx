@@ -112,40 +112,15 @@ export default function LeadCaptureModal() {
               }} 
             />
 
-            {/* Top Bar with Status Tag and Close Button */}
+            {/* Top Close Button Bar */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: '12px',
+              justifyContent: 'flex-end',
+              marginBottom: '10px',
               position: 'relative',
               zIndex: 2
             }}>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '4px 10px',
-                background: 'rgba(255, 224, 50, 0.08)',
-                border: '1px solid rgba(255, 224, 50, 0.28)',
-                borderRadius: '100px',
-                fontSize: '11px',
-                fontWeight: 800,
-                color: '#FFE032',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase'
-              }}>
-                <span style={{ 
-                  width: '7px', 
-                  height: '7px', 
-                  borderRadius: '50%', 
-                  background: '#22c55e', 
-                  boxShadow: '0 0 8px #22c55e',
-                  display: 'inline-block' 
-                }} />
-                <span>Verified Artist Slot</span>
-              </div>
-
               <button
                 onClick={onClose}
                 aria-label="Close modal"
@@ -1112,40 +1087,6 @@ function InnerLeadForm({ onClose }) {
             </>
           )}
         </button>
-      </div>
-
-      {/* Trust Guarantee Badges with Crisp SVGs */}
-      <div style={{
-        marginTop: '2px',
-        paddingTop: '8px',
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        fontSize: '11px',
-        fontWeight: 600,
-        color: 'rgba(255, 255, 255, 0.78)'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            <path d="M9 12l2 2 4-4"/>
-          </svg>
-          <span>100% Arrival</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFE032" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-          </svg>
-          <span>55%–65% Flat OFF</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
-          <span>Secure Razorpay</span>
-        </div>
       </div>
     </form>
   )
