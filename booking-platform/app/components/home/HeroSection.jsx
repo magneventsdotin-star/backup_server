@@ -42,7 +42,7 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section className="hp-hero-wrapper">
+    <section className="hp-hero-wrapper" suppressHydrationWarning>
       {/* BACKGROUND (Shared for both) */}
       <div className="hp-hero-bg" style={{ pointerEvents: 'none' }}>
         {HERO_SPOTLIGHT_SLIDES.map((src, idx) => (
@@ -88,13 +88,14 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
+              suppressHydrationWarning
             >
-              <span className="hp-sw-badge-trophy">🏆</span>
-              <span className="hp-sw-badge-text">
+              <span className="hp-sw-badge-trophy" suppressHydrationWarning>🏆</span>
+              <span className="hp-sw-badge-text" suppressHydrationWarning>
                 India&apos;s #1 Live Artist &amp; Singer Booking Platform
               </span>
-              <span className="hp-sw-badge-dot">•</span>
-              <span className="hp-sw-badge-highlight">0% Commission Markup</span>
+              <span className="hp-sw-badge-dot" suppressHydrationWarning>•</span>
+              <span className="hp-sw-badge-highlight" suppressHydrationWarning>0% Commission Markup</span>
             </motion.div>
 
             {/* 2. MAIN HEADLINE */}
@@ -173,7 +174,7 @@ export default function HeroSection() {
                 onClick={() => window.dispatchEvent(new CustomEvent('open-quick-booking'))}
                 className="hp-sw-btn-primary"
               >
-                <span>Get Free Instant Quote</span>
+                <span>Pay ₹99 &amp; Book Your Slot (Confirmed)</span>
                 <span className="hp-sw-arrow">→</span>
               </button>
 
@@ -218,6 +219,33 @@ export default function HeroSection() {
             </div>
 
             <div className="hp-sw-why-list">
+              <div 
+                className="hp-sw-why-item hp-sw-why-item-promo"
+                onClick={() => window.dispatchEvent(new CustomEvent('open-quick-booking'))}
+                role="button"
+                tabIndex={0}
+                style={{ cursor: 'pointer' }}
+                aria-label="Book slot for only 99 rupees"
+              >
+                <span className="hp-sw-why-icon">⚡</span>
+                <div className="hp-sw-why-text">
+                  <strong>Only ₹99 to Book &amp; Fix Your Slot</strong>
+                  <span>Instant slot confirmation with 100% money-back guarantee</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.dispatchEvent(new CustomEvent('open-quick-booking'));
+                  }}
+                  className="hp-sw-why-cta-btn"
+                  aria-label="Book slot for ₹99"
+                >
+                  <span>Book Now</span>
+                  <span className="hp-sw-why-arrow">➔</span>
+                </button>
+              </div>
+
               <div className="hp-sw-why-item">
                 <span className="hp-sw-why-icon">🛡️</span>
                 <div className="hp-sw-why-text">
@@ -266,97 +294,103 @@ export default function HeroSection() {
       {/* ======================================================== */}
       {/* MOBILE HERO (Premium App-Like Layout) */}
       {/* ======================================================== */}
-      <div className="hp-mobile-hero">
-        <div className="hp-mobile-content">
+      <div className="hp-mobile-hero" suppressHydrationWarning>
+        <div className="hp-mobile-content" suppressHydrationWarning>
           
-          {/* Section 0: TOP AI SEARCH BANNER (Top of Mobile View) */}
-          <div className="hp-mob-section hp-mob-top-ai-section">
-            <Link href="/ai-search" className="mob-top-ai-banner">
-              <div className="mob-top-ai-left">
-                <span className="mob-top-ai-sparkle">✨</span>
-                <span className="mob-top-ai-text">
-                  <strong className="mob-top-ai-gold">AI Search:</strong> Find Best Match in 10s
+          {/* Section 1: TOP PROMOTIONAL BANNER */}
+          <div className="hp-mob-section">
+            <div 
+              className="hp-mob-promo-top-banner"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('open-quick-booking'));
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label="Claim first booking offer: 55% to 65% OFF - Book for 99 rupees"
+            >
+              <div className="hp-mob-promo-top-left">
+                <span className="hp-mob-promo-badge-tag">EXCLUSIVE OFFER</span>
+                <span className="hp-mob-promo-top-text">
+                  🔥 <strong>55%–65% OFF</strong> First Booking
                 </span>
               </div>
-              <span className="mob-top-ai-pill">TRY AI SEARCH ➔</span>
-            </Link>
-          </div>
-
-          {/* Section 1: Badge + Quick AI Match Pill */}
-          <div className="hp-mob-section">
-            <div className="hp-mob-badge-row">
-              <div className="hp-mob-badge" style={{ background: 'rgba(255, 224, 50, 0.12)', border: '1px solid rgba(255, 224, 50, 0.3)', color: '#FFE032', fontWeight: '700' }}>
-                <span>🏆 #1 Artist Booking Platform</span>
-              </div>
-              <Link href="/ai-search" className="hp-mob-ai-chip-top">
-                <span>✨ AI Search</span>
-                <span className="arrow">➔</span>
-              </Link>
+              <span className="hp-mob-promo-pill">₹99 TOKEN ➔</span>
             </div>
           </div>
 
-          {/* Section 2: Headline */}
+          {/* Section 2: BOLD PROMOTIONAL HEADLINE */}
           <div className="hp-mob-section">
-            <h1 className="hp-mob-h1">
-              <span className="hp-mob-lead-text">Book Singer for</span> <br />
-              <span className="hp-mob-gold-text">House Party in Delhi</span> <br />
-              <span className="hp-mob-amp">&amp; </span>
-              <span className="hp-mob-gold-text">Delhi NCR</span>
+            <div className="hp-mob-offer-badge-pill">
+              <span className="hp-mob-offer-badge-dot">●</span>
+              <span>FIRST-TIME CLIENT SPECIAL</span>
+            </div>
+            <h1 className="hp-mob-h1 hp-mob-offer-h1">
+              <span className="hp-mob-offer-main">Get 55%–65% OFF</span>
+              <span className="hp-mob-offer-sub-title">
+                Book Verified Artists for <span className="hp-mob-offer-price">Only ₹99</span>
+              </span>
             </h1>
           </div>
 
-          {/* Section 3: Subtitle / Description Text */}
+          {/* Section 3: PROMOTIONAL SUBTITLE / OFFER DETAILS */}
           <div className="hp-mob-section">
-            <p className="hp-mob-sub">
-              Book from <strong>1500+ verified singers</strong> for weddings, corporate events &amp; house parties. Trusted by <strong>2500+ happy clients</strong> with 4.9★ rating.
+            <p className="hp-mob-sub hp-mob-offer-sub">
+              Fill the form to claim your offer &amp; book verified singers, live bands &amp; DJs for <strong>only ₹99 token amount</strong>. Enjoy flat <strong>55%–65% discount</strong> with 100% artist arrival guarantee across Delhi NCR.
             </p>
           </div>
 
-          {/* Section 4: CTAs */}
+          {/* Section 4: CLEAR CALL-TO-ACTIONS */}
           <div className="hp-mob-section hp-mob-cta-section">
             <button 
-              className="mob-btn-primary"
-              onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }))}
+              className="mob-btn-primary mob-btn-offer-pulse"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('open-quick-booking'));
+                }
+              }}
+              aria-label="Book Now for 99 rupees with 55% to 65% off"
             >
-              Get Free Quote
+              <div className="mob-btn-offer-content">
+                <span className="mob-btn-offer-title">Book Now — Only ₹99</span>
+                <span className="mob-btn-offer-badge">CLAIM 55%–65% OFF ➔</span>
+              </div>
             </button>
-            <div style={{ display: 'flex', gap: '12px', width: '100%' }}>
-              <Link href="/artists" className="mob-btn-secondary" style={{ flex: 1 }}>
-                Browse Artists
+            <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
+              <Link href="/artists" className="mob-btn-secondary" style={{ flex: 1, height: '48px', fontSize: '13.5px' }}>
+                Browse 1500+ Artists
               </Link>
-              <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, padding: '14px 6px', fontSize: '13.5px', whiteSpace: 'nowrap' }}>
+              <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, height: '48px', fontSize: '13px', whiteSpace: 'nowrap' }}>
                 📞 +91 80765 15257
               </a>
             </div>
           </div>
 
-          {/* Section 5: Trust Cards */}
+          {/* Section 5: PROMOTIONAL TRUST & VALUE HIGHLIGHTS */}
           <div className="hp-mob-section">
             <div className="hp-mob-trust-grid">
-              <div className="mob-trust-card"><span className="mob-check">✓</span> Verified Artists</div>
-              <div className="mob-trust-card"><span className="mob-check">✓</span> Instant Quotes</div>
-              <div className="mob-trust-card"><span className="mob-check">✓</span> Transparent Pricing</div>
-              <div className="mob-trust-card"><span className="mob-check">✓</span> Pan India</div>
+              <div className="mob-trust-card"><span className="mob-check">⚡</span> Book for Just ₹99</div>
+              <div className="mob-trust-card"><span className="mob-check">🏷️</span> Flat 55%–65% Off</div>
+              <div className="mob-trust-card"><span className="mob-check">✓</span> 1500+ Verified Artists</div>
+              <div className="mob-trust-card"><span className="mob-check">🛡️</span> 100% Arrival Guarantee</div>
             </div>
           </div>
 
-          {/* Section 6: Mobile Premium Slider Card */}
+          {/* Section 6: MOBILE SLIDER CARD: HOW TO CLAIM OFFER */}
           <div className="hp-mob-section">
             <div className="mob-premium-slider-card">
-
               <div className="mps-body">
                 {mobCardSlide === 0 && (
                   <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mps-slide">
                     <div className="mps-inner-card">
-                      <h4 className="mps-slide-title">🎤 Why Choose Magnevents?</h4>
+                      <h4 className="mps-slide-title">🎁 First-Time Booking Benefits</h4>
                       <ul className="mps-list">
-
-                        <li><span className="mps-check">✓</span> Verified Professional Artists</li>
-                        <li><span className="mps-check">✓</span> 100% Artist Arrival Guarantee</li>
-                        <li><span className="mps-check">✓</span> Fast Booking Process (0% Markup)</li>
-                        <li><span className="mps-check">✓</span> Transparent Pricing & Escrow</li>
-                        <li><span className="mps-check">✓</span> 24/7 Dedicated Event Support</li>
-                        <li><span className="mps-check">✓</span> Pan India Service</li>
+                        <li><span className="mps-check">✓</span> <strong>Flat 55%–65% Discount</strong> on live singers &amp; bands</li>
+                        <li><span className="mps-check">✓</span> <strong>Lock Artist for ₹99 Only</strong> (No big advance upfront)</li>
+                        <li><span className="mps-check">✓</span> <strong>100% Artist Arrival Guarantee</strong> or instant full refund</li>
+                        <li><span className="mps-check">✓</span> <strong>0% Commission Markup</strong> direct artist rates</li>
+                        <li><span className="mps-check">✓</span> <strong>24/7 Event Manager</strong> sound coordination support</li>
                       </ul>
                     </div>
                   </motion.div>
@@ -365,13 +399,11 @@ export default function HeroSection() {
                 {mobCardSlide === 1 && (
                   <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mps-slide">
                     <div className="mps-inner-card">
-                      <h4 className="mps-slide-title">📱 How to Book?</h4>
+                      <h4 className="mps-slide-title">📱 3 Steps to Book for ₹99</h4>
                       <ul className="mps-list">
-                        <li><span className="mps-check">1️⃣</span> Share your event details</li>
-                        <li><span className="mps-check">2️⃣</span> Get curated artist options</li>
-                        <li><span className="mps-check">3️⃣</span> Compare prices & profiles</li>
-                        <li><span className="mps-check">4️⃣</span> Confirm booking securely</li>
-                        <li><span className="mps-check">5️⃣</span> Enjoy a flawless performance</li>
+                        <li><span className="mps-check">1️⃣</span> <strong>Fill Form:</strong> Tell event date &amp; budget</li>
+                        <li><span className="mps-check">2️⃣</span> <strong>Lock Artist:</strong> Pay ₹99 token to confirm slot</li>
+                        <li><span className="mps-check">3️⃣</span> <strong>Enjoy Event:</strong> Get 55%–65% off final price!</li>
                       </ul>
                     </div>
                   </motion.div>
@@ -380,21 +412,21 @@ export default function HeroSection() {
                 {mobCardSlide === 2 && (
                   <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mps-slide">
                     <div className="mps-inner-card">
-                      <h4 className="mps-slide-title">⭐ Our Reviews</h4>
+                      <h4 className="mps-slide-title">⭐ Verified Client Reviews</h4>
                       <div className="mps-review">
-                        <p>&quot;Magnevents made our wedding unforgettable! The singer was phenomenal.&quot;</p>
-                        <span>- Priya S., Mumbai</span>
+                        <p>&quot;Locked our house party singer for just ₹99 and got 60% off! Unreal service.&quot;</p>
+                        <span>- Priya S., Delhi NCR</span>
                       </div>
                       <div className="mps-review">
-                        <p>&quot;Super transparent and professional. Highly recommended for corporate events.&quot;</p>
-                        <span>- Rahul M., Delhi</span>
+                        <p>&quot;Magnevents made booking seamless. Amazing singer, transparent pricing.&quot;</p>
+                        <span>- Rahul M., Gurgaon</span>
                       </div>
                     </div>
                   </motion.div>
                 )}
               </div>
               <div className="hp-trust-badge-bottom">
-                ⭐ Trusted by 2500+ Happy Clients
+                ⭐ Trusted by 2500+ Happy Clients • 4.9★ Google Rating
               </div>
             </div>
           </div>

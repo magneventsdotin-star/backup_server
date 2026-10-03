@@ -13,7 +13,7 @@ function TopPerformerSection() {
   const [artist, setArtist] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(null); // null = not yet determined (avoids SSR mismatch)
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -96,7 +96,7 @@ function TopPerformerSection() {
       <div className="hp-aom-card">
         {loading ? (
           <>
-            <div className="hp-aom-img-wrap skeleton-pulse" style={{ background: 'rgba(255,255,255,0.05)', minHeight: isMobile ? '350px' : '100%' }}></div>
+            <div className="hp-aom-img-wrap skeleton-pulse" style={{ background: 'rgba(255,255,255,0.05)', minHeight: '100%' }} suppressHydrationWarning></div>
             <div className="hp-aom-content" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                {/* Genres */}
                <div className="skeleton-pulse" style={{ height: '12px', width: '30%', background: 'rgba(255,255,255,0.05)', marginBottom: '12px', borderRadius: '4px' }}></div>
@@ -173,7 +173,7 @@ function TopPerformerSection() {
                 >
                   Book Now
                 </button>
-                <Link href={`/artist/${encodeURIComponent((artist.alias || artist.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''))}`} target={isMobile ? "_self" : "_blank"} style={{ flex: 1, textDecoration: 'none', display: 'flex' }}>
+                <Link href={`/artist/${encodeURIComponent((artist.alias || artist.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''))}`} target="_blank" rel="noopener noreferrer" style={{ flex: 1, textDecoration: 'none', display: 'flex' }}>
                   <button
                     className="hp-btn"
                     style={{ 

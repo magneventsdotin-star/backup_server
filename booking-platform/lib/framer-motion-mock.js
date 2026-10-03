@@ -1,22 +1,44 @@
 import React from 'react';
 
-// A mock motion object that returns standard HTML elements
+// All framer-motion-specific props that must NOT be forwarded to DOM elements
+const MOTION_PROPS = new Set([
+  'initial', 'animate', 'transition', 'variants', 'whileHover', 'whileTap',
+  'whileInView', 'whileDrag', 'whileFocus', 'viewport', 'exit', 'layout',
+  'layoutId', 'layoutDependency', 'onAnimationStart', 'onAnimationComplete',
+  'onUpdate', 'onLayoutAnimationStart', 'onLayoutAnimationComplete',
+  'drag', 'dragConstraints', 'dragElastic', 'dragMomentum', 'dragPropagation',
+  'dragSnapToOrigin', 'dragTransition', 'dragDirectionLock', 'onDrag',
+  'onDragStart', 'onDragEnd', 'onDirectionLock', 'onMeasureDragConstraints',
+  'transformTemplate', 'custom', 'inherit', 'ignoreStrict',
+]);
+
+const componentCache = new Map();
+
+function createMotionComponent(tagName) {
+  const MotionMock = React.forwardRef((allProps, ref) => {
+    const domProps = {};
+    for (const key in allProps) {
+      if (!MOTION_PROPS.has(key)) {
+        domProps[key] = allProps[key];
+      }
+    }
+    return React.createElement(tagName, { ref, ...domProps });
+  });
+  MotionMock.displayName = `motion.${tagName}`;
+  return MotionMock;
+}
+
+// A mock motion object that returns standard HTML elements with stable references
 export const motion = new Proxy({}, {
   get: (target, prop) => {
-    // Return a functional component that renders the element directly
-    const MotionMock = React.forwardRef(({ 
-      initial, animate, transition, variants, whileHover, whileTap, 
-      whileInView, viewport, exit, layout, layoutId, onAnimationStart, 
-      onAnimationComplete, style, ...props 
-    }, ref) => {
-      const Element = prop;
-      // We pass through safe props and ignore framer-motion specific ones
-      return React.createElement(Element, { ref, style, ...props });
-    });
-    MotionMock.displayName = `motion(${prop})`;
-    return MotionMock;
+    if (typeof prop !== 'string') return undefined;
+    if (!componentCache.has(prop)) {
+      componentCache.set(prop, createMotionComponent(prop));
+    }
+    return componentCache.get(prop);
   }
 });
+export const m = motion;
 
 // AnimatePresence just renders its children immediately without exit animations
 export const AnimatePresence = ({ children }) => <>{children}</>;

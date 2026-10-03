@@ -1,3 +1,22 @@
+/* FadeSection animation (replaces framer-motion) */
+.fade-section {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-section:not(.fade-section-visible) {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.fade-section.fade-section-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+.is-mobile-static {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 :root {
 
   --bg-main: #242424;

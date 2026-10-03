@@ -257,7 +257,7 @@
   }
   .hp-hero-content {
     margin-top: 0 !important;
-    padding-top: 60px !important;
+    padding-top: 64px !important;
   }
 }
 
@@ -5496,7 +5496,7 @@
 /* Keep content 100% sharp above background blur */
 .hp-hero-wrapper .hp-desktop-hero,
 .hp-hero {
-  padding-top: 80px !important;
+  padding-top: 64px !important;
   padding-bottom: 25px !important;
   min-height: auto !important;
 }
@@ -6042,9 +6042,311 @@
    MOBILE TOP AI BUTTON & PRIMARY CTA STYLES
    ============================================================ */
 
-.hp-mob-top-ai-section {
+.hp-mob-top-ai-section,
+.hp-mob-top-offer-section {
   margin-bottom: 8px !important;
   width: 100%;
+}
+
+/* ============================================================
+   MOBILE PROMOTIONAL FIRST-BOOKING HERO SECTION
+   ============================================================ */
+
+.hp-mob-promo-top-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255, 120, 0, 0.25) 0%, rgba(255, 224, 50, 0.22) 50%, rgba(220, 38, 38, 0.22) 100%);
+  border: 1.5px solid rgba(255, 224, 50, 0.65);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255, 180, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: all 0.25s ease;
+  animation: mobOfferGlow 3s infinite ease-in-out;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.hp-mob-promo-top-banner:active {
+  transform: scale(0.98);
+}
+
+.hp-mob-promo-top-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.hp-mob-promo-badge-tag {
+  background: linear-gradient(135deg, #FF4500 0%, #E60000 100%);
+  color: #FFFFFF;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(255, 69, 0, 0.4);
+}
+
+.hp-mob-promo-top-text {
+  font-size: 12.5px;
+  color: #FFFFFF;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hp-mob-promo-pill {
+  background: #FFE032;
+  color: #05070A;
+  font-size: 10.5px;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: 8px;
+  box-shadow: 0 2px 8px rgba(255, 224, 50, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.hp-mob-promo-top-banner:hover .hp-mob-promo-pill {
+  transform: translateX(2px);
+}
+
+.hp-mob-offer-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 224, 50, 0.12);
+  border: 1px solid rgba(255, 224, 50, 0.35);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #FFE032;
+  margin-bottom: 8px;
+  font-family: var(--font-sans, 'Inter', system-ui, sans-serif) !important;
+  box-shadow: 0 2px 10px rgba(255, 224, 50, 0.12);
+}
+
+.hp-mob-offer-badge-dot {
+  color: #FFE032;
+  font-size: 8px;
+  animation: pulseBadgeDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseBadgeDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.hp-mob-offer-h1 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 0 10px 0;
+  font-family: var(--font-sans, 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+  font-style: normal !important;
+}
+
+.hp-mob-offer-main {
+  font-family: var(--font-sans, 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+  font-size: clamp(32px, 8.5vw, 38px) !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  letter-spacing: -0.025em;
+  background: linear-gradient(135deg, #FFFFFF 15%, #FFE032 60%, #FFB703 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 14px rgba(255, 224, 50, 0.35));
+  line-height: 1.12 !important;
+  display: block;
+}
+
+.hp-mob-offer-sub-title {
+  font-family: var(--font-sans, 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+  font-size: clamp(19px, 5.2vw, 22px) !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  color: #F1F5F9 !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.01em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.hp-mob-offer-price {
+  display: inline-block;
+  background: linear-gradient(135deg, #FFE032 0%, #FF9900 100%);
+  color: #05070A !important;
+  -webkit-text-fill-color: #05070A !important;
+  font-weight: 900 !important;
+  font-size: 0.9em !important;
+  padding: 3px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(255, 224, 50, 0.45);
+  text-decoration: none !important;
+  letter-spacing: 0.01em;
+}
+
+.hp-mob-offer-sub {
+  font-size: 14.5px !important;
+  line-height: 1.55 !important;
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+.mob-btn-offer-pulse {
+  background: linear-gradient(135deg, #FFE032 0%, #FF9900 100%) !important;
+  border: 1.5px solid #FFF078 !important;
+  box-shadow: 0 8px 30px rgba(255, 224, 50, 0.5), 0 0 15px rgba(255, 224, 50, 0.3) !important;
+  animation: pulseOfferBtn 2.5s infinite ease-in-out !important;
+  height: 60px !important;
+  border-radius: 20px !important;
+  padding: 0 16px !important;
+  cursor: pointer;
+}
+
+@keyframes pulseOfferBtn {
+  0%, 100% {
+    box-shadow: 0 8px 30px rgba(255, 224, 50, 0.5), 0 0 15px rgba(255, 224, 50, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 12px 38px rgba(255, 224, 50, 0.7), 0 0 25px rgba(255, 224, 50, 0.45);
+    transform: scale(1.015);
+  }
+}
+
+.mob-btn-offer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.mob-btn-offer-title {
+  font-size: 16.5px;
+  font-weight: 900;
+  color: #05070A;
+  letter-spacing: -0.01em;
+}
+
+.mob-btn-offer-badge {
+  background: #05070A;
+  color: #FFE032;
+  font-size: 10.5px;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.mob-top-offer-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255, 120, 0, 0.22) 0%, rgba(255, 224, 50, 0.22) 50%, rgba(220, 38, 38, 0.2) 100%);
+  border: 1.5px solid rgba(255, 224, 50, 0.55);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(255, 180, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.25s ease;
+  animation: mobOfferGlow 3s infinite ease-in-out;
+  text-align: left;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.mob-top-offer-banner:hover {
+  border-color: #FFE032;
+  box-shadow: 0 6px 22px rgba(255, 224, 50, 0.4);
+}
+
+.mob-top-offer-banner:active {
+  transform: scale(0.98);
+}
+
+@keyframes mobOfferGlow {
+  0%, 100% {
+    box-shadow: 0 4px 18px rgba(255, 180, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 224, 50, 0.5);
+  }
+  50% {
+    box-shadow: 0 6px 25px rgba(255, 224, 50, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    border-color: #FFE032;
+  }
+}
+
+.mob-top-offer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.mob-top-offer-sparkle {
+  font-size: 15px;
+  flex-shrink: 0;
+  display: inline-block;
+  animation: pulseGift 2s ease-in-out infinite;
+}
+
+@keyframes pulseGift {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+.mob-top-offer-text {
+  font-size: 12px;
+  color: #FFFFFF;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mob-top-offer-gold {
+  color: #FFE032;
+  font-weight: 800;
+}
+
+.mob-top-offer-pill {
+  background: #FFE032;
+  color: #05070A;
+  font-size: 10.5px;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: 8px;
+  box-shadow: 0 2px 8px rgba(255, 224, 50, 0.35);
+  transition: transform 0.2s ease;
+}
+
+.mob-top-offer-banner:hover .mob-top-offer-pill {
+  transform: translateX(2px);
 }
 
 .mob-top-ai-banner {
@@ -6217,18 +6519,18 @@
     pointer-events: none !important;
     background: linear-gradient(
       90deg,
-      rgba(8, 7, 6, 0.94) 0%,
-      rgba(8, 7, 6, 0.82) 40%,
-      rgba(8, 7, 6, 0.28) 60%,
-      rgba(8, 7, 6, 0.55) 85%,
-      rgba(8, 7, 6, 0.8) 100%
+      rgba(8, 7, 6, 0.55) 0%,
+      rgba(8, 7, 6, 0.38) 40%,
+      rgba(8, 7, 6, 0.12) 60%,
+      rgba(8, 7, 6, 0.20) 85%,
+      rgba(8, 7, 6, 0.30) 100%
     ) !important;
   }
 
   .hp-desktop-hero.hp-single-window {
     height: 100% !important;
     min-height: 100% !important;
-    padding-top: 80px !important; /* height of fixed navbar */
+    padding-top: 64px !important; /* height of fixed navbar */
     padding-bottom: 24px !important;
     display: flex !important;
     align-items: center !important;
@@ -6653,8 +6955,8 @@
   .hp-sw-why-list {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    margin-bottom: 16px;
+    gap: 12.5px;
+    margin-bottom: 14px;
   }
 
   .hp-sw-why-item {
@@ -6686,6 +6988,58 @@
     color: #94A3B8;
     font-size: 13.5px;
     font-weight: 450;
+  }
+
+  .hp-sw-why-item-promo {
+    align-items: center;
+    background: rgba(255, 224, 50, 0.08);
+    border: 1px solid rgba(255, 224, 50, 0.28);
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin: -3px 0;
+    transition: all 0.25s ease;
+  }
+
+  .hp-sw-why-item-promo:hover {
+    background: rgba(255, 224, 50, 0.14);
+    border-color: rgba(255, 224, 50, 0.55);
+    box-shadow: 0 4px 18px rgba(255, 224, 50, 0.15);
+  }
+
+  .hp-sw-why-item-promo .hp-sw-why-text {
+    flex: 1;
+  }
+
+  .hp-sw-why-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #FFE032 0%, #FF9900 100%);
+    color: #05070A !important;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 3px 12px rgba(255, 224, 50, 0.35);
+    transition: all 0.2s ease;
+  }
+
+  .hp-sw-why-cta-btn:hover {
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 5px 16px rgba(255, 224, 50, 0.55);
+  }
+
+  .hp-sw-why-cta-btn .hp-sw-why-arrow {
+    font-size: 11px;
+    transition: transform 0.2s ease;
+  }
+
+  .hp-sw-why-cta-btn:hover .hp-sw-why-arrow {
+    transform: translateX(2px);
   }
 
   .hp-sw-why-footer {

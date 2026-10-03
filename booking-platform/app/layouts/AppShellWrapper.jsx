@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Nav from '@/app/components/layout/Nav';
 import BottomNav from '@/app/components/layout/BottomNav';
@@ -11,14 +11,25 @@ const HIDE_CHROME_ON = ['/checkout', '/confirmed', '/login', '/signup', '/onboar
 
 export function AppShellWrapper({ children }) {
   const pathname = usePathname();
-  const hideChrome = HIDE_CHROME_ON.some(p => pathname.startsWith(p));
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useMouseGlow();
 
-  const routeTransitionClass = ['/artists', '/services', '/gallery', '/events', '/pricing', '/book', '/blog-post', '/contact', '/search', '/markets']
+  // Use pathname-based logic only after mount to avoid hydration mismatch
+  const hideChrome = mounted && HIDE_CHROME_ON.some(p => pathname.startsWith(p));
+
+  const routeTransitionClass = mounted && ['/artists', '/services', '/gallery', '/events', '/pricing', '/book', '/blog-post', '/contact', '/search', '/markets']
     .includes(pathname)
     ? 'route-showcase'
     : 'route-default';
+
+  const topPadding = mounted && !hideChrome && pathname !== '/' && pathname !== '/how-to-book'
+    ? '72px'
+    : '0px';
 
   return (
     <div className="flow-unify-shell">
@@ -31,7 +42,7 @@ export function AppShellWrapper({ children }) {
         </div>
       )}
 
-      <div className={`page-enter ${routeTransitionClass}`} style={{ minHeight: '100vh', paddingTop: (hideChrome || pathname === '/' || pathname === '/how-to-book') ? '0px' : '72px' }}>
+      <div className={`page-enter ${routeTransitionClass}`} style={{ minHeight: '100vh', paddingTop: topPadding }} suppressHydrationWarning>
         <div className="flow-unify-page-wrap">
           {children}
         </div>

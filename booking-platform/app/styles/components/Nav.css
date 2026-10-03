@@ -18,7 +18,7 @@
   left: 0;
   right: 0;
   z-index: 9997 !important;
-  height: 80px;
+  height: 64px;
   display: flex;
   align-items: center;
   padding: 0 var(--spacing-6, 24px);
@@ -30,7 +30,7 @@
 }
 
 .lux-nav.is-scrolled {
-  height: 70px;
+  height: 59px;
   background: rgba(8, 7, 7, 0.96);
   border-bottom-color: rgba(255, 224, 50, 0.2);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
@@ -350,7 +350,7 @@
 @media (max-width: 768px) {
   .lux-nav {
     padding: 0 16px;
-    height: 68px !important;
+    height: 60px !important;
   }
   .lux-nav-brand {
     transform: scale(0.9);

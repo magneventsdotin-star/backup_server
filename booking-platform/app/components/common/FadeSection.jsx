@@ -1,40 +1,51 @@
 "use client";
 
-import { useRef, useState, useEffect } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useRef, useEffect, useState } from 'react'
 
 export default function FadeSection({ children, className = '', delay = 0, ...props }) {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
+  const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [inView, setInView] = useState(false)
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
+    setMounted(true)
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
     checkMobile()
     window.addEventListener('resize', checkMobile, { passive: true })
-    return () => window.removeEventListener('resize', checkMobile)
+
+    // Use IntersectionObserver for fade-in instead of framer-motion
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true) },
+      { rootMargin: '-60px' }
+    )
+    if (ref.current) observer.observe(ref.current)
+
+    return () => {
+      window.removeEventListener('resize', checkMobile)
+      observer.disconnect()
+    }
   }, [])
 
-  if (isMobile) {
-    return (
-      <section ref={ref} className={`${className} is-mobile-static`} {...props}>
-        {children}
-      </section>
-    )
+  // Always render the same <section> element on SSR and client
+  // Only apply animation classes after mount to prevent hydration mismatch
+  let sectionClass = className
+  if (mounted) {
+    if (isMobile) {
+      sectionClass = `${className} is-mobile-static`
+    } else {
+      sectionClass = `${className} fade-section ${inView ? 'fade-section-visible' : ''}`
+    }
   }
 
   return (
-    <motion.section
+    <section
       ref={ref}
-      className={className}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={sectionClass}
+      suppressHydrationWarning
       {...props}
     >
       {children}
-    </motion.section>
+    </section>
   )
 }

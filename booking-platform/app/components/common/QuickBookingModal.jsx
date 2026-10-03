@@ -5,26 +5,43 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import { validateName, validatePhone } from '@helpers/validation'
 import { bookingService } from '@/app/services/bookingService'
-import { getUserGeolocation, getCachedGeolocation, getSilentLocationIfGranted } from '@/app/utils/geolocation'
-import { AIIcon } from '@/app/components/icons/NavigationIcons'
+import { getSilentLocationIfGranted } from '@/app/utils/geolocation'
 import '@/app/styles/components/ContactModal.css'
 
 export default function QuickBookingModal() {
   const [isOpen, setIsOpen] = useState(false)
-  
   const pathname = usePathname()
 
   useEffect(() => {
     const handleOpen = () => setIsOpen(true)
     window.addEventListener('open-quick-booking', handleOpen)
+    window.addEventListener('open-token-booking', handleOpen)
 
-    if (typeof window !== 'undefined') {
-      if (window.location.hash === '#quick-contact' || window.location.search.includes('quick-booking')) {
-        setIsOpen(true)
+    const checkHash = () => {
+      if (typeof window !== 'undefined') {
+        const hash = window.location.hash
+        const search = window.location.search
+        if (
+          hash === '#book-99' ||
+          hash === '#instant-form' ||
+          hash === '#quick-booking' ||
+          hash === '#quick-contact' ||
+          search.includes('quick-booking') ||
+          search.includes('instant-form')
+        ) {
+          setIsOpen(true)
+        }
       }
     }
 
-    return () => window.removeEventListener('open-quick-booking', handleOpen)
+    checkHash()
+    window.addEventListener('hashchange', checkHash)
+
+    return () => {
+      window.removeEventListener('open-quick-booking', handleOpen)
+      window.removeEventListener('open-token-booking', handleOpen)
+      window.removeEventListener('hashchange', checkHash)
+    }
   }, [])
 
   useEffect(() => {
@@ -49,7 +66,7 @@ export default function QuickBookingModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div key="quick-booking-modal" className="lux-modal-root">
+        <div key="quick-booking-modal" className="lux-modal-root" style={{ zIndex: 999999 }}>
           <motion.div
             className="lux-modal-backdrop"
             initial={{ opacity: 0 }}
@@ -59,26 +76,52 @@ export default function QuickBookingModal() {
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            exit={{ opacity: 0, scale: 0.95, y: 15 }}
+            transition={{ type: 'spring', damping: 28, stiffness: 360 }}
             className="lux-modal-content"
-            style={{ maxWidth: '480px' }}
+            style={{ 
+              maxWidth: '380px', 
+              width: '90%',
+              margin: 'auto',
+              background: 'linear-gradient(165deg, #16130e 0%, #0d0b09 100%)',
+              border: '1px solid rgba(255, 224, 50, 0.35)',
+              borderRadius: '20px',
+              padding: '24px 20px 20px',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 224, 50, 0.12)',
+              position: 'relative'
+            }}
           >
             <button
               onClick={() => setIsOpen(false)}
-              className="lux-modal-close"
               aria-label="Close modal"
+              style={{
+                position: 'absolute',
+                top: '14px',
+                right: '14px',
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                color: 'rgba(255, 255, 255, 0.8)',
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer'
+              }}
             >
               ✕
             </button>
 
-            <div className="lux-modal-header" style={{ marginBottom: '20px' }}>
-              <span className="header-badge" style={{ color: '#FFE032', borderColor: 'rgba(255, 224, 50, 0.3)', background: 'rgba(255, 224, 50, 0.1)' }}>QUICK CONTACT</span>
-              <h3 style={{ fontSize: '28px', marginTop: '8px', marginBottom: '8px' }}>Quick Contact</h3>
-              <p className="lux-modal-desc" style={{ fontSize: '14px', lineHeight: '1.4' }}>
-                Provide your details below and our event booking expert will contact you within minutes.
+            <div style={{ textAlign: 'center', marginBottom: '18px' }}>
+              <h3 style={{ fontSize: '22px', fontWeight: '900', color: '#fff', margin: '0 0 4px', lineHeight: '1.25' }}>
+                Book Artist for <span style={{ color: '#FFE032' }}>₹99</span>
+              </h3>
+              <p style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>
+                Flat <strong style={{ color: '#FFE032' }}>55%–65% OFF</strong> on your first booking
               </p>
             </div>
 
@@ -93,34 +136,33 @@ export default function QuickBookingModal() {
 function InnerQuickBookingForm({ onClose }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [formData, setFormData] = useState({ name: '', phone: '', location: '' })
+  const [formData, setFormData] = useState({ name: '', phone: '' })
   const [errors, setErrors] = useState({})
+  const [refCode, setRefCode] = useState('')
+  const [paymentDetails, setPaymentDetails] = useState(null)
   const [geoData, setGeoData] = useState({ latitude: null, longitude: null, detectedLocation: '' })
-  const [isDetectingLoc, setIsDetectingLoc] = useState(false)
-
-  const handleDetectLocation = async () => {
-    setIsDetectingLoc(true)
-    const geo = await getUserGeolocation()
-    setIsDetectingLoc(false)
-    if (geo.success) {
-      setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
-      if (geo.city || geo.detectedLocation) {
-        setFormData(prev => ({ ...prev, location: prev.location || geo.city || geo.detectedLocation }))
-        if (errors.location) setErrors(prev => ({ ...prev, location: null }))
-      }
-    }
-  }
 
   useEffect(() => {
     getSilentLocationIfGranted().then(geo => {
       if (geo && geo.success) {
         setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
-        if (geo.city || geo.detectedLocation) {
-          setFormData(prev => ({ ...prev, location: prev.location || geo.city || geo.detectedLocation }))
-        }
       }
     })
   }, [])
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      if (typeof window !== 'undefined' && window.Razorpay) {
+        resolve(true)
+        return
+      }
+      const script = document.createElement('script')
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+      script.onload = () => resolve(true)
+      script.onerror = () => resolve(false)
+      document.body.appendChild(script)
+    })
+  }
 
   const validate = () => {
     const newErrors = {}
@@ -130,153 +172,323 @@ function InnerQuickBookingForm({ onClose }) {
     const phoneErr = validatePhone(formData.phone)
     if (phoneErr) newErrors.phone = phoneErr
 
-    if (!formData.location || !formData.location.trim()) {
-      newErrors.location = 'Please provide an event location'
-    }
-
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
 
-    bookingService.submitInstantRequest({
-      name: formData.name,
-      phone: formData.phone,
-      location: formData.location,
-      type: 'call_request',
-      formType: 'quick_booking',
-      formName: 'Quick Contact Modal',
-      formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}${window.location.search || ''}#quick-contact` : '',
-      latitude: geoData.latitude,
-      longitude: geoData.longitude,
-      detectedLocation: geoData.detectedLocation
-    });
+    setIsSubmitting(true)
 
-    setIsSuccess(true);
+    try {
+      // 1. Create ₹99 Order on backend
+      const orderRes = await fetch('/api/razorpay/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          phone: formData.phone.trim()
+        })
+      })
+
+      const orderData = await orderRes.json()
+
+      if (!orderRes.ok || !orderData.orderId) {
+        throw new Error(orderData.error || 'Failed to initiate Razorpay payment.')
+      }
+
+      // 2. Load Razorpay checkout script
+      const isLoaded = await loadRazorpayScript()
+      if (!isLoaded) {
+        throw new Error('Could not load Razorpay payment gateway. Please check your internet connection.')
+      }
+
+      // 3. Open Razorpay Checkout modal
+      const options = {
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'Magnevents',
+        description: '₹2 Artist Slot Booking Token (Testing Phase)',
+        order_id: orderData.orderId,
+        prefill: {
+          name: formData.name.trim(),
+          contact: formData.phone.trim()
+        },
+        theme: {
+          color: '#FFE032'
+        },
+        handler: async function (response) {
+          setIsSubmitting(true)
+          try {
+            // 4. Verify payment signature on backend
+            const verifyRes = await fetch('/api/razorpay/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                customer_name: formData.name.trim(),
+                customer_phone: formData.phone.trim()
+              })
+            })
+
+            const verifyData = await verifyRes.json()
+
+            // Record lead in background for CRM & WhatsApp notifications
+            try {
+              let deviceType = 'M'
+              if (typeof window !== 'undefined') {
+                if (window.innerWidth > 1024) deviceType = 'D'
+                else if (window.innerWidth > 768) deviceType = 'T'
+              }
+              await bookingService.submitInstantRequest({
+                name: formData.name.trim(),
+                phone: formData.phone.trim(),
+                message: `PAID ₹99 TOKEN. Razorpay Payment ID: ${response.razorpay_payment_id}, Order ID: ${response.razorpay_order_id}. Flat 55%-65% discount applied!`,
+                eventType: 'Live Artist Slot Booking (₹99 Paid)',
+                type: 'token_booking_99_paid',
+                formType: 'quick_booking',
+                formName: 'Quick ₹99 Razorpay Modal',
+                deviceType: deviceType,
+                formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#book-99` : '',
+                latitude: geoData.latitude,
+                longitude: geoData.longitude,
+                detectedLocation: geoData.detectedLocation
+              })
+            } catch (leadErr) {
+              console.warn('Lead submit notification warning:', leadErr)
+            }
+
+            setPaymentDetails({
+              paymentId: response.razorpay_payment_id,
+              orderId: response.razorpay_order_id
+            })
+            setRefCode(verifyData?.referenceCode || response.razorpay_payment_id)
+            setIsSuccess(true)
+          } catch (vErr) {
+            console.error('Payment verification error:', vErr)
+            setIsSuccess(true)
+          } finally {
+            setIsSubmitting(false)
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            setIsSubmitting(false)
+          }
+        }
+      }
+
+      const rzp = new window.Razorpay(options)
+      rzp.on('payment.failed', function (failRes) {
+        setIsSubmitting(false)
+        setErrors({ phone: failRes.error?.description || 'Payment was cancelled or unsuccessful. Please try again.' })
+      })
+      rzp.open()
+
+    } catch (err) {
+      console.error('Razorpay initiation error:', err)
+      setErrors({ phone: err.message || 'Payment initiation failed. Please try again.' })
+      setIsSubmitting(false)
+    }
   }
 
   if (isSuccess) {
     return (
-      <div style={{ textAlign: 'center', padding: '24px 0' }}>
-        <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(255, 224, 50, 0.15)', color: '#FFE032', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: '32px' }}>
+      <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
+        <div style={{ 
+          width: '56px', 
+          height: '56px', 
+          borderRadius: '50%', 
+          background: 'linear-gradient(135deg, rgba(255, 224, 50, 0.25) 0%, rgba(34, 197, 94, 0.25) 100%)', 
+          border: '2px solid #FFE032',
+          color: '#FFE032', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          margin: '0 auto 12px', 
+          fontSize: '26px',
+          fontWeight: '900' 
+        }}>
           ✓
         </div>
-        <h4 style={{ margin: '0 0 8px', color: '#fff', fontSize: '22px', fontWeight: '700' }}>Request Received!</h4>
-        <p style={{ margin: '0', color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>We will contact you shortly with the best options.</p>
+        <h4 style={{ margin: '0 0 6px', color: '#fff', fontSize: '20px', fontWeight: '800' }}>
+          Slot Confirmed &amp; Token Paid!
+        </h4>
+        <div style={{
+          display: 'inline-block',
+          background: 'rgba(34, 197, 94, 0.15)',
+          border: '1px solid rgba(34, 197, 94, 0.4)',
+          borderRadius: '20px',
+          padding: '3px 12px',
+          color: '#4ade80',
+          fontSize: '12px',
+          fontWeight: '700',
+          marginBottom: '10px'
+        }}>
+          ⚡ ₹99 Token Successfully Paid
+        </div>
+        <p style={{ margin: '0 0 14px', color: 'rgba(255,255,255,0.85)', fontSize: '13.5px', lineHeight: '1.45' }}>
+          Thank you, <strong style={{ color: '#FFE032' }}>{formData.name}</strong>! Your artist slot is locked. Our senior event coordinator will call you at <strong style={{ color: '#fff' }}>+91 {formData.phone}</strong> in 5 minutes with your 55%–65% discount.
+        </p>
+        {(paymentDetails?.paymentId || refCode) && (
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px dashed rgba(255, 224, 50, 0.4)',
+            borderRadius: '8px',
+            padding: '6px 14px',
+            display: 'inline-block',
+            marginBottom: '14px',
+            fontSize: '12px',
+            color: '#FFE032',
+            fontWeight: '700'
+          }}>
+            {paymentDetails?.paymentId ? `PAYMENT ID: ${paymentDetails.paymentId}` : `REF: ${refCode}`}
+          </div>
+        )}
         <button 
           onClick={onClose}
-          className="lux-btn-primary"
-          style={{ marginTop: '24px', width: '100%', padding: '14px', borderRadius: '12px', background: 'linear-gradient(135deg, #FFE032 0%, #d4af37 100%)', color: '#000', fontWeight: '800', border: 'none', cursor: 'pointer' }}
+          style={{ 
+            width: '100%', 
+            padding: '12px', 
+            borderRadius: '12px', 
+            background: 'linear-gradient(135deg, #FFE032 0%, #FF9900 100%)', 
+            color: '#05070A', 
+            fontWeight: '900', 
+            fontSize: '14px',
+            border: 'none', 
+            cursor: 'pointer' 
+          }}
         >
-          Close
+          Done
         </button>
       </div>
     )
   }
 
-  const handleOpenAiAssistant = () => {
-    onClose();
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('open-ai-chatbot'));
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="lux-modal-form" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-      {/* Magnetic AI Chatbot Call-to-Action Card */}
-      <div 
-        className="ai-chatbot-magnetic-card" 
-        onClick={handleOpenAiAssistant} 
-        role="button" 
-        tabIndex={0}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleOpenAiAssistant(); }}
-        aria-label="Open Magnevents AI Concierge Chatbot"
-        style={{ marginBottom: '4px' }}
-      >
-        <div className="ai-chatbot-magnetic-glow" aria-hidden="true" />
-        <div className="ai-chatbot-magnetic-left">
-          <div className="ai-chatbot-magnetic-avatar">
-            <AIIcon color="#ffffff" size={22} />
-            <span className="ai-avatar-dot" />
-          </div>
-          <div className="ai-chatbot-magnetic-info">
-            <div className="ai-chatbot-badge-row">
-              <span className="ai-chatbot-tag">✨ SMART AI MATCH</span>
-              <span className="ai-chatbot-live-status">● ONLINE</span>
-            </div>
-            <h4 className="ai-chatbot-magnetic-title">Match with AI Assistant</h4>
-            <p className="ai-chatbot-magnetic-sub">Get instant verified quotes tailored to your budget</p>
-          </div>
-        </div>
-        <div className="ai-chatbot-magnetic-cta">
-          <span className="ai-cta-text">Start Chat</span>
-          <span className="ai-cta-arrow">➔</span>
-        </div>
-      </div>
-
-      <div className="lux-form-group">
-        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Full Name *</label>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      
+      {/* 1. Name */}
+      <div>
         <input 
           type="text" 
-          className="lux-input"
-          placeholder="Your Full Name"
+          placeholder="Your Name"
           value={formData.name}
           onChange={e => {
             setFormData({...formData, name: e.target.value});
             if (errors.name) setErrors({...errors, name: null});
           }}
-          style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.name ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
-        />
-        {errors.name && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.name}</span>}
-      </div>
-
-      <div className="lux-form-group">
-        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Mobile Number *</label>
-        <input 
-          type="tel" 
-          inputMode="numeric"
-          pattern="[0-9]*"
-          maxLength={10}
-          className="lux-input"
-          placeholder="e.g. 9876543210"
-          value={formData.phone}
-          onChange={e => {
-            const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
-            setFormData({...formData, phone: digits});
-            if (errors.phone) setErrors({...errors, phone: null});
+          autoFocus
+          style={{ 
+            width: '100%', 
+            padding: '12px 14px', 
+            borderRadius: '10px', 
+            background: 'rgba(255, 255, 255, 0.06)', 
+            border: errors.name ? '1.5px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', 
+            color: '#fff',
+            fontSize: '14.5px',
+            outline: 'none',
+            boxSizing: 'border-box'
           }}
-          style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.phone ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
         />
-        {errors.phone && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.phone}</span>}
+        {errors.name && <span style={{ color: '#ff4d4d', fontSize: '11px', marginTop: '2px', display: 'block', textAlign: 'left' }}>{errors.name}</span>}
       </div>
 
-      <div className="lux-form-group">
-        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: '600', marginBottom: '6px' }}>Event Location *</label>
-        <input 
-          type="text" 
-          className="lux-input"
-          placeholder="e.g. Delhi NCR, Mumbai..."
-          value={formData.location}
-          onChange={e => {
-            setFormData({...formData, location: e.target.value});
-            if (errors.location) setErrors({...errors, location: null});
+      {/* 2. Phone Number */}
+      <div>
+        <div 
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            borderRadius: '10px', 
+            background: 'rgba(255, 255, 255, 0.06)', 
+            border: errors.phone ? '1.5px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.16)', 
+            overflow: 'hidden',
+            boxSizing: 'border-box'
           }}
-          style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.05)', border: errors.location ? '1px solid #ff4d4d' : '1px solid rgba(255, 255, 255, 0.15)', color: '#fff' }}
-        />
-        {errors.location && <span style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '4px', display: 'block' }}>{errors.location}</span>}
+        >
+          <div 
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '6px', 
+              padding: '0 12px', 
+              background: 'rgba(255, 224, 50, 0.1)', 
+              borderRight: '1px solid rgba(255, 255, 255, 0.12)', 
+              height: '44px',
+              color: '#FFE032', 
+              fontWeight: '800', 
+              fontSize: '13.5px',
+              userSelect: 'none',
+              flexShrink: 0
+            }}
+          >
+            <span style={{ fontSize: '15px' }}>🇮🇳</span>
+            <span>+91</span>
+          </div>
+          <input 
+            type="tel" 
+            inputMode="numeric"
+            pattern="[0-9]*"
+            maxLength={10}
+            placeholder="10-digit mobile number"
+            value={formData.phone}
+            onChange={e => {
+              const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+              setFormData({...formData, phone: digits});
+              if (errors.phone) setErrors({...errors, phone: null});
+            }}
+            style={{ 
+              flex: 1,
+              width: '100%',
+              height: '44px',
+              padding: '0 12px', 
+              background: 'transparent', 
+              border: 'none', 
+              color: '#fff',
+              fontSize: '14.5px',
+              fontWeight: '600',
+              outline: 'none',
+              boxSizing: 'border-box',
+              letterSpacing: '0.04em'
+            }}
+          />
+        </div>
+        {errors.phone && <span style={{ color: '#ff4d4d', fontSize: '11px', marginTop: '2px', display: 'block', textAlign: 'left' }}>{errors.phone}</span>}
       </div>
 
+      {/* Submit Button */}
       <button 
         type="submit" 
-        className="lux-btn-primary" 
         disabled={isSubmitting}
-        style={{ width: '100%', marginTop: '8px', padding: '14px', borderRadius: '12px', background: 'linear-gradient(135deg, #FFE032 0%, #d4af37 100%)', color: '#000', fontWeight: '800', border: 'none', cursor: 'pointer' }}
+        style={{ 
+          width: '100%', 
+          marginTop: '4px', 
+          padding: '13px', 
+          borderRadius: '10px', 
+          background: 'linear-gradient(135deg, #FFE032 0%, #FF9900 100%)', 
+          color: '#05070A', 
+          fontWeight: '900', 
+          fontSize: '15px',
+          border: 'none', 
+          cursor: isSubmitting ? 'not-allowed' : 'pointer',
+          boxShadow: '0 4px 16px rgba(255, 224, 50, 0.35)',
+          transition: 'all 0.15s ease'
+        }}
       >
-        {isSubmitting ? 'Submitting...' : 'Submit Request'}
+        {isSubmitting ? 'Initiating Razorpay...' : 'Pay ₹99 & Confirm Slot ➔'}
       </button>
+
+      <div style={{ textAlign: 'center', fontSize: '11px', color: 'rgba(255, 255, 255, 0.55)', marginTop: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+        <span>🔒 Secure Razorpay</span>
+        <span>•</span>
+        <span>100% Refundable Token</span>
+      </div>
     </form>
   )
 }
