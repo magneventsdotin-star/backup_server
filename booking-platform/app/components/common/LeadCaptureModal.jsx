@@ -56,7 +56,14 @@ export default function LeadCaptureModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div key="lead-modal" className="lux-modal-root" style={{ zIndex: 100000 }}>
+        <div 
+          key="lead-modal" 
+          className="lux-modal-root" 
+          style={{ 
+            zIndex: 100000, 
+            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+          }}
+        >
           <motion.div
             className="lux-modal-backdrop"
             initial={{ opacity: 0 }}
@@ -67,108 +74,200 @@ export default function LeadCaptureModal() {
 
           <motion.div
             className="lux-modal-content booking"
-            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            initial={{ opacity: 0, scale: 0.94, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 30 }}
-            transition={{ type: "spring", damping: 30, stiffness: 400 }}
+            exit={{ opacity: 0, scale: 0.94, y: 24 }}
+            transition={{ type: "spring", damping: 28, stiffness: 380 }}
             style={{
-              maxWidth: '520px',
-              padding: '24px 22px 20px',
-              borderRadius: '20px',
-              background: 'linear-gradient(180deg, #13111e 0%, #0d0b16 100%)',
-              border: '1px solid rgba(255, 224, 50, 0.22)',
-              boxShadow: '0 30px 80px rgba(0, 0, 0, 0.85), 0 0 40px rgba(255, 224, 50, 0.12)',
-              position: 'relative'
+              maxWidth: '510px',
+              padding: '22px 24px 22px',
+              borderRadius: '22px',
+              background: 'linear-gradient(180deg, #151322 0%, #0d0b16 100%)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              boxShadow: '0 30px 90px rgba(0, 0, 0, 0.92), 0 0 45px rgba(255, 224, 50, 0.1)',
+              position: 'relative',
+              overflow: 'hidden',
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
             }}
           >
-            {/* Top Close Button */}
-            <button
-              onClick={onClose}
-              aria-label="Close modal"
+            {/* Ambient luxury glow in top corner */}
+            <div 
               style={{
                 position: 'absolute',
-                top: '14px',
-                right: '14px',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                background: 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                color: 'rgba(255, 255, 255, 0.85)',
-                fontSize: '14px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                zIndex: 10
-              }}
-            >
-              ✕
-            </button>
+                top: '-40px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '320px',
+                height: '140px',
+                background: 'radial-gradient(ellipse at center, rgba(255, 224, 50, 0.16) 0%, rgba(255, 107, 0, 0.08) 50%, transparent 70%)',
+                pointerEvents: 'none',
+                zIndex: 0
+              }} 
+            />
 
-            {/* Prominent Top Banner: 55% - 65% OFF First Booking */}
+            {/* Top Bar with Live Tag and Non-Overlapping Close Button */}
             <div style={{
-              background: 'linear-gradient(135deg, rgba(255, 107, 0, 0.25) 0%, rgba(255, 224, 50, 0.28) 50%, rgba(255, 75, 43, 0.25) 100%)',
-              border: '1px solid rgba(255, 224, 50, 0.45)',
-              borderRadius: '12px',
-              padding: '10px 14px',
-              marginBottom: '16px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              gap: '10px',
-              boxShadow: '0 4px 20px rgba(255, 107, 0, 0.15)',
-              backdropFilter: 'blur(8px)'
+              marginBottom: '14px',
+              position: 'relative',
+              zIndex: 2
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '18px' }}>🎉</span>
-                <div>
-                  <div style={{ fontSize: '13px', fontWeight: 900, color: '#FFE032', letterSpacing: '0.02em', textTransform: 'uppercase' }}>
-                    Flat 55% – 65% OFF
-                  </div>
-                  <div style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.85)', fontWeight: 600 }}>
-                    On Your First Booking • Limited Period
-                  </div>
-                </div>
-              </div>
-              <div style={{
-                background: '#FFE032',
-                color: '#0a0a0c',
-                fontWeight: 900,
-                fontSize: '11px',
-                padding: '4px 10px',
-                borderRadius: '100px',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                whiteSpace: 'nowrap',
-                boxShadow: '0 2px 8px rgba(255, 224, 50, 0.4)'
-              }}>
-                Save 65%
-              </div>
-            </div>
-
-            {/* Modal Header */}
-            <div style={{ textAlign: 'center', marginBottom: '16px' }}>
               <div style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
                 padding: '4px 12px',
-                background: 'rgba(255, 224, 50, 0.1)',
-                border: '1px solid rgba(255, 224, 50, 0.25)',
+                background: 'rgba(255, 224, 50, 0.08)',
+                border: '1px solid rgba(255, 224, 50, 0.28)',
                 borderRadius: '100px',
                 fontSize: '11px',
-                fontWeight: 700,
+                fontWeight: 800,
                 color: '#FFE032',
-                marginBottom: '8px'
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase'
               }}>
-                <span>⭐</span>
-                <span>EXCLUSIVE ARTIST OFFER</span>
+                <span style={{ 
+                  width: '7px', 
+                  height: '7px', 
+                  borderRadius: '50%', 
+                  background: '#22c55e', 
+                  boxShadow: '0 0 8px #22c55e',
+                  display: 'inline-block' 
+                }} />
+                <span>Verified Artist Slot</span>
               </div>
-              <h3 style={{ fontSize: '22px', fontWeight: 900, color: '#ffffff', margin: '0 0 6px', lineHeight: 1.25 }}>
-                Book Artist for <span style={{ color: '#FFE032' }}>₹99</span>
+
+              <button
+                onClick={onClose}
+                aria-label="Close modal"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.14)',
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  fontSize: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  flexShrink: 0
+                }}
+                onMouseEnter={(e) => { 
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.18)'; 
+                  e.currentTarget.style.color = '#ffffff'; 
+                }}
+                onMouseLeave={(e) => { 
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'; 
+                  e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)'; 
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* High-Converting 55% - 65% OFF Banner */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(255, 107, 0, 0.24) 0%, rgba(255, 224, 50, 0.25) 50%, rgba(239, 68, 68, 0.2) 100%)',
+              border: '1px solid rgba(255, 224, 50, 0.38)',
+              borderRadius: '14px',
+              padding: '11px 16px',
+              marginBottom: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '12px',
+              boxShadow: '0 6px 24px rgba(255, 107, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+              backdropFilter: 'blur(10px)',
+              position: 'relative',
+              zIndex: 1
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '10px',
+                  background: 'rgba(255, 224, 50, 0.18)',
+                  border: '1px solid rgba(255, 224, 50, 0.35)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '18px',
+                  flexShrink: 0
+                }}>
+                  🎉
+                </div>
+                <div>
+                  <div style={{ 
+                    fontSize: '13.5px', 
+                    fontWeight: 900, 
+                    color: '#FFE032', 
+                    letterSpacing: '0.01em',
+                    lineHeight: 1.2
+                  }}>
+                    FLAT 55% – 65% OFF
+                  </div>
+                  <div style={{ 
+                    fontSize: '11.5px', 
+                    color: 'rgba(255, 255, 255, 0.85)', 
+                    fontWeight: 600,
+                    lineHeight: 1.2,
+                    marginTop: '2px'
+                  }}>
+                    On Your First Booking • Limited Period
+                  </div>
+                </div>
+              </div>
+
+              <div style={{
+                background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
+                color: '#0c0a14',
+                fontWeight: 900,
+                fontSize: '11.5px',
+                padding: '6px 12px',
+                borderRadius: '100px',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap',
+                boxShadow: '0 4px 14px rgba(255, 224, 50, 0.45)',
+                flexShrink: 0
+              }}>
+                SAVE 65%
+              </div>
+            </div>
+
+            {/* Modal Header */}
+            <div style={{ textAlign: 'center', marginBottom: '16px', position: 'relative', zIndex: 1 }}>
+              <h3 style={{ 
+                fontSize: '23px', 
+                fontWeight: 900, 
+                color: '#ffffff', 
+                margin: '0 0 6px', 
+                lineHeight: 1.2,
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                letterSpacing: '-0.02em'
+              }}>
+                Book Artist for{' '}
+                <span style={{ 
+                  background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  display: 'inline-block'
+                }}>
+                  ₹99
+                </span>
               </h3>
-              <p style={{ fontSize: '12.5px', color: 'rgba(255, 255, 255, 0.72)', margin: 0, lineHeight: 1.45 }}>
+              <p style={{ 
+                fontSize: '12.5px', 
+                color: 'rgba(255, 255, 255, 0.72)', 
+                margin: 0, 
+                lineHeight: 1.45,
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+              }}>
                 Pay ₹99 token to lock your date & artist slot with guaranteed <strong style={{ color: '#FFE032' }}>55%–65% OFF</strong> on your final quote!
               </p>
             </div>
@@ -350,27 +449,32 @@ function InnerLeadForm({ onClose }) {
   if (isSuccess) {
     return (
       <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }} 
+        initial={{ opacity: 0, scale: 0.92 }} 
         animate={{ opacity: 1, scale: 1 }} 
         className="lux-modal-success"
-        style={{ padding: '24px 10px', textAlign: 'center' }}
+        style={{ 
+          padding: '24px 10px', 
+          textAlign: 'center',
+          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }}
       >
         <div style={{
-          width: '60px',
-          height: '60px',
+          width: '64px',
+          height: '64px',
           margin: '0 auto 16px',
           borderRadius: '50%',
-          background: 'rgba(34, 197, 94, 0.15)',
+          background: 'rgba(34, 197, 94, 0.14)',
           border: '2px solid #22c55e',
+          boxShadow: '0 0 24px rgba(34, 197, 94, 0.3)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '28px',
+          fontSize: '30px',
           color: '#22c55e'
         }}>
           ✓
         </div>
-        <h4 style={{ color: '#ffffff', fontSize: '22px', fontWeight: 800, margin: '0 0 6px' }}>
+        <h4 style={{ color: '#ffffff', fontSize: '22px', fontWeight: 900, margin: '0 0 6px', letterSpacing: '-0.01em' }}>
           Slot Confirmed & Payment Verified!
         </h4>
         <p style={{ color: '#FFE032', fontSize: '13px', fontWeight: 700, margin: '0 0 14px' }}>
@@ -381,11 +485,11 @@ function InnerLeadForm({ onClose }) {
           <div style={{
             display: 'inline-block',
             margin: '0 auto 14px',
-            padding: '6px 16px',
+            padding: '6px 18px',
             background: 'rgba(255, 224, 50, 0.12)',
-            border: '1px solid rgba(255, 224, 50, 0.35)',
+            border: '1px solid rgba(255, 224, 50, 0.4)',
             borderRadius: '100px',
-            fontSize: '12.5px',
+            fontSize: '13px',
             fontWeight: 800,
             color: '#FFE032',
             letterSpacing: '0.04em'
@@ -395,27 +499,30 @@ function InnerLeadForm({ onClose }) {
         )}
 
         {paymentDetails?.paymentId && (
-          <p style={{ fontSize: '11.5px', color: 'rgba(255, 255, 255, 0.6)', margin: '0 0 16px', fontFamily: 'monospace' }}>
+          <p style={{ fontSize: '11.5px', color: 'rgba(255, 255, 255, 0.65)', margin: '0 0 16px', fontFamily: 'monospace' }}>
             Payment ID: {paymentDetails.paymentId}
           </p>
         )}
 
-        <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', lineHeight: 1.5, maxWidth: '380px', margin: '0 auto 20px' }}>
-          Our event coordinator is assigning the best verified live artists in your city. You will receive an official confirmation call & WhatsApp shortly.
+        <p style={{ color: 'rgba(255, 255, 255, 0.82)', fontSize: '13px', lineHeight: 1.55, maxWidth: '380px', margin: '0 auto 20px' }}>
+          Our event coordinator is assigning the verified live artists for your date. You will receive an official confirmation call & WhatsApp shortly.
         </p>
 
         <button
           onClick={onClose}
           style={{
-            padding: '10px 24px',
+            padding: '11px 26px',
             background: 'rgba(255, 255, 255, 0.1)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
+            border: '1px solid rgba(255, 255, 255, 0.22)',
             borderRadius: '100px',
             color: '#ffffff',
             fontSize: '13px',
             fontWeight: 700,
-            cursor: 'pointer'
+            cursor: 'pointer',
+            transition: 'all 0.2s ease'
           }}
+          onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.18)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
         >
           Close & Explore Artists
         </button>
@@ -424,17 +531,50 @@ function InnerLeadForm({ onClose }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+    <form 
+      onSubmit={handleSubmit} 
+      style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        gap: '13px',
+        fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+      }}
+    >
       
       {/* Full Name */}
       <div className="lux-form-group full-width" style={{ margin: 0 }}>
-        <label htmlFor="lead-name" style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.9)', marginBottom: '5px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <label 
+          htmlFor="lead-name" 
+          style={{ 
+            fontSize: '11.5px', 
+            fontWeight: 800, 
+            color: 'rgba(255, 255, 255, 0.92)', 
+            marginBottom: '6px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '4px',
+            letterSpacing: '0.02em',
+            textTransform: 'uppercase'
+          }}
+        >
           <span>Full Name</span>
           <span style={{ color: '#FFE032' }}>*</span>
         </label>
         <div style={{ position: 'relative' }}>
-          <span style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', fontSize: '14px', opacity: 0.6, pointerEvents: 'none' }}>
-            👤
+          <span style={{ 
+            position: 'absolute', 
+            left: '14px', 
+            top: '50%', 
+            transform: 'translateY(-50%)', 
+            color: 'rgba(255, 255, 255, 0.5)', 
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
           </span>
           <input 
             id="lead-name" 
@@ -447,12 +587,24 @@ function InnerLeadForm({ onClose }) {
               width: '100%',
               padding: '12px 14px 12px 40px',
               background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.14)',
+              border: '1px solid rgba(255, 255, 255, 0.16)',
               borderRadius: '12px',
               color: '#ffffff',
               fontSize: '14px',
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
               outline: 'none',
-              boxSizing: 'border-box'
+              boxSizing: 'border-box',
+              transition: 'all 0.2s ease'
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = '#FFE032';
+              e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+              e.target.style.boxShadow = '0 0 0 3px rgba(255, 224, 50, 0.15)';
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+              e.target.style.boxShadow = 'none';
             }}
           />
         </div>
@@ -460,13 +612,29 @@ function InnerLeadForm({ onClose }) {
       
       {/* Phone Number */}
       <div className="lux-form-group full-width" style={{ margin: 0 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
-          <label htmlFor="lead-phone" style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.9)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+          <label 
+            htmlFor="lead-phone" 
+            style={{ 
+              fontSize: '11.5px', 
+              fontWeight: 800, 
+              color: 'rgba(255, 255, 255, 0.92)', 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '4px',
+              letterSpacing: '0.02em',
+              textTransform: 'uppercase'
+            }}
+          >
             <span>Phone Number (For Booking Confirmation)</span>
             <span style={{ color: '#FFE032' }}>*</span>
           </label>
           {rawDigits.length > 0 && (
-            <span style={{ fontSize: '11px', fontWeight: 700, color: isPhoneValid ? '#22c55e' : '#f59e0b' }}>
+            <span style={{ 
+              fontSize: '11px', 
+              fontWeight: 800, 
+              color: isPhoneValid ? '#22c55e' : '#f59e0b' 
+            }}>
               {isPhoneValid ? '✓ 10 Digits' : `${rawDigits.length}/10 digits`}
             </span>
           )}
@@ -477,10 +645,12 @@ function InnerLeadForm({ onClose }) {
             left: '12px',
             display: 'flex',
             alignItems: 'center',
-            gap: '4px',
+            gap: '5px',
+            paddingRight: '8px',
+            borderRight: '1px solid rgba(255, 255, 255, 0.15)',
             fontSize: '13px',
             fontWeight: 700,
-            color: 'rgba(255, 255, 255, 0.7)',
+            color: 'rgba(255, 255, 255, 0.8)',
             pointerEvents: 'none',
             zIndex: 1
           }}>
@@ -502,14 +672,27 @@ function InnerLeadForm({ onClose }) {
             }} 
             style={{
               width: '100%',
-              padding: '12px 14px 12px 64px',
+              padding: '12px 14px 12px 70px',
               background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.14)',
+              border: '1px solid rgba(255, 255, 255, 0.16)',
               borderRadius: '12px',
               color: '#ffffff',
               fontSize: '14px',
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
               outline: 'none',
-              boxSizing: 'border-box'
+              boxSizing: 'border-box',
+              letterSpacing: '0.04em',
+              transition: 'all 0.2s ease'
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = '#FFE032';
+              e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+              e.target.style.boxShadow = '0 0 0 3px rgba(255, 224, 50, 0.15)';
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+              e.target.style.boxShadow = 'none';
             }}
           />
         </div>
@@ -517,30 +700,67 @@ function InnerLeadForm({ onClose }) {
 
       {/* Requirement / Note */}
       <div className="lux-form-group full-width" style={{ margin: 0 }}>
-        <label htmlFor="lead-req" style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.9)', marginBottom: '5px', display: 'block' }}>
+        <label 
+          htmlFor="lead-req" 
+          style={{ 
+            fontSize: '11.5px', 
+            fontWeight: 800, 
+            color: 'rgba(255, 255, 255, 0.92)', 
+            marginBottom: '6px', 
+            display: 'block',
+            letterSpacing: '0.02em',
+            textTransform: 'uppercase'
+          }}
+        >
           <span>Event Details / Requirement (Optional)</span>
         </label>
         <div style={{ position: 'relative' }}>
-          <span style={{ position: 'absolute', left: '14px', top: '14px', fontSize: '14px', opacity: 0.6, pointerEvents: 'none' }}>
-            🎤
+          <span style={{ 
+            position: 'absolute', 
+            left: '14px', 
+            top: '13px', 
+            color: 'rgba(255, 255, 255, 0.5)', 
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
           </span>
           <textarea 
             id="lead-req" 
             rows="2"
-            placeholder="e.g. Singer/Band for wedding or house party on 20th Dec..." 
+            placeholder="e.g. Singer/Band for wedding reception or house party on 20th Dec..." 
             value={formData.requirement} 
             onChange={(e) => setFormData({ ...formData, requirement: e.target.value })} 
             style={{
               width: '100%',
-              padding: '10px 14px 10px 40px',
+              padding: '11px 14px 11px 38px',
               background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.14)',
+              border: '1px solid rgba(255, 255, 255, 0.16)',
               borderRadius: '12px',
               color: '#ffffff',
               fontSize: '13px',
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
               outline: 'none',
               resize: 'none',
-              boxSizing: 'border-box'
+              boxSizing: 'border-box',
+              lineHeight: 1.4,
+              transition: 'all 0.2s ease'
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = '#FFE032';
+              e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+              e.target.style.boxShadow = '0 0 0 3px rgba(255, 224, 50, 0.15)';
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+              e.target.style.boxShadow = 'none';
             }}
           />
         </div>
@@ -550,7 +770,7 @@ function InnerLeadForm({ onClose }) {
         <div style={{
           background: 'rgba(239, 68, 68, 0.15)',
           border: '1px solid rgba(239, 68, 68, 0.4)',
-          borderRadius: '8px',
+          borderRadius: '10px',
           padding: '8px 12px',
           color: '#fca5a5',
           fontSize: '12px',
@@ -570,37 +790,65 @@ function InnerLeadForm({ onClose }) {
           disabled={isSubmitting} 
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #FFE032 0%, #FFA500 100%)',
-            color: '#0a0a0c',
+            background: 'linear-gradient(135deg, #FFE032 0%, #FFA800 100%)',
+            color: '#0c0a14',
             fontWeight: 900,
-            fontSize: '15px',
+            fontSize: '15.5px',
+            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
             padding: '14px 20px',
             borderRadius: '12px',
             border: 'none',
             cursor: isSubmitting ? 'not-allowed' : 'pointer',
-            boxShadow: '0 8px 24px rgba(255, 224, 50, 0.35)',
+            boxShadow: '0 8px 26px rgba(255, 224, 50, 0.38)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            transition: 'all 0.2s ease',
+            letterSpacing: '-0.01em',
+            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
             opacity: isSubmitting ? 0.75 : 1
+          }}
+          onMouseEnter={(e) => {
+            if (!isSubmitting) {
+              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.boxShadow = '0 12px 30px rgba(255, 224, 50, 0.5)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 8px 26px rgba(255, 224, 50, 0.38)';
           }}
         >
           {isSubmitting ? (
             <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="ai-spinner-dot" /> Processing Checkout...
+              <span className="ai-spinner-dot" /> Initiating Payment...
             </span>
           ) : (
             <>
-              <span>⚡</span>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
               <span>Pay ₹99 & Lock Your Slot</span>
             </>
           )}
         </button>
+
+        <div style={{
+          textAlign: 'center',
+          marginTop: '6px',
+          fontSize: '11px',
+          color: 'rgba(255, 255, 255, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '4px'
+        }}>
+          <span>🔒</span>
+          <span>100% Refundable if artist is unavailable</span>
+        </div>
       </div>
 
-      {/* Trust Guarantee Badges */}
+      {/* Trust Guarantee Badges with Crisp SVGs */}
       <div style={{
         marginTop: '6px',
         paddingTop: '10px',
@@ -609,18 +857,27 @@ function InnerLeadForm({ onClose }) {
         alignItems: 'center',
         justifyContent: 'space-around',
         fontSize: '11px',
-        color: 'rgba(255, 255, 255, 0.7)'
+        fontWeight: 600,
+        color: 'rgba(255, 255, 255, 0.78)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <span>🛡️</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
           <span>100% Artist Arrival</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <span>💎</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFE032" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
           <span>55%–65% Flat OFF</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <span>🔒</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
           <span>Secure Razorpay</span>
         </div>
       </div>
