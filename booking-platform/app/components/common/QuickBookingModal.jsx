@@ -896,7 +896,7 @@ function InnerQuickBookingForm({ onClose }) {
           <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.1)' }} />
         </div>
 
-        {/* Secondary Option: Request Free Quotes (No Advance Needed) - Solid Elevated Button */}
+        {/* Secondary Option: Request Free Quotes (No Advance Needed) - Vibrant Filled Button */}
         <div>
           <button 
             type="button" 
@@ -904,36 +904,35 @@ function InnerQuickBookingForm({ onClose }) {
             disabled={isSubmitting || isFreeSubmitting}
             style={{
               width: '100%',
-              background: 'linear-gradient(180deg, #25213b 0%, #171424 100%)',
-              border: '1.5px solid rgba(255, 255, 255, 0.26)',
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              border: 'none',
               borderRadius: '12px',
-              padding: '12px 18px',
+              padding: '13px 20px',
               color: '#ffffff',
-              fontSize: '13.5px',
-              fontWeight: 800,
+              fontSize: '14px',
+              fontWeight: 900,
               cursor: (isSubmitting || isFreeSubmitting) ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
-              transition: 'all 0.2s ease',
+              boxShadow: '0 8px 24px rgba(16, 185, 129, 0.4)',
+              letterSpacing: '-0.01em',
+              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
               fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
               opacity: isFreeSubmitting ? 0.75 : 1
             }}
             onMouseEnter={(e) => {
               if (!isSubmitting && !isFreeSubmitting) {
-                e.currentTarget.style.background = 'linear-gradient(180deg, #342d52 0%, #201b33 100%)';
-                e.currentTarget.style.borderColor = '#FFE032';
-                e.currentTarget.style.color = '#FFE032';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 224, 50, 0.25)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.background = 'linear-gradient(135deg, #34d399 0%, #059669 100%)';
+                e.currentTarget.style.boxShadow = '0 12px 28px rgba(16, 185, 129, 0.55)';
               }
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'linear-gradient(180deg, #25213b 0%, #171424 100%)';
-              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.26)';
-              e.currentTarget.style.color = '#ffffff';
-              e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12)';
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+              e.currentTarget.style.boxShadow = '0 8px 24px rgba(16, 185, 129, 0.4)';
             }}
           >
             {isFreeSubmitting ? (
@@ -942,13 +941,27 @@ function InnerQuickBookingForm({ onClose }) {
               </span>
             ) : (
               <>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                 </svg>
                 <span>Request Free Quotes (No Advance Needed)</span>
               </>
             )}
           </button>
+
+          <div style={{
+            textAlign: 'center',
+            marginTop: '5px',
+            fontSize: '10.5px',
+            color: 'rgba(255, 255, 255, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '4px'
+          }}>
+            <span>⚡</span>
+            <span>Instant WhatsApp Callback · Verified Artist Quotes</span>
+          </div>
         </div>
       </form>
     </>
