@@ -295,7 +295,9 @@ export default function LeadCaptureModal() {
 
 function InnerLeadForm({ onClose }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isFreeSubmitting, setIsFreeSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isFreeSuccess, setIsFreeSuccess] = useState(false)
   const [formError, setFormError] = useState('')
   const [formData, setFormData] = useState({ name: '', phone: '', requirement: '' })
   const [refCode, setRefCode] = useState('')
@@ -329,6 +331,7 @@ function InnerLeadForm({ onClose }) {
     })
   }
 
+  // 1. Handler for Paid ₹99 Slot Booking (Razorpay)
   const handleSubmit = async (e) => {
     e.preventDefault()
     setFormError('')
@@ -461,6 +464,136 @@ function InnerLeadForm({ onClose }) {
     }
   }
 
+  // 2. Secondary Option: Free Quotes & Callback Without Payment
+  const handleFreeSubmit = async () => {
+    setFormError('')
+    
+    const trimmedName = formData.name.trim()
+    if (!trimmedName || trimmedName.length < 2) {
+      setFormError('Please enter your full name to receive free quotes.')
+      return
+    }
+
+    const cleanPhone = (formData.phone || '').replace(/[^0-9]/g, '').slice(0, 10)
+    if (cleanPhone.length < 10) {
+      setFormError('Please enter a valid 10-digit mobile number so we can send quotes.')
+      return
+    }
+
+    setIsFreeSubmitting(true)
+
+    try {
+      let deviceType = 'M'
+      if (typeof window !== 'undefined') {
+        if (window.innerWidth > 1024) deviceType = 'D'
+        else if (window.innerWidth > 768) deviceType = 'T'
+      }
+
+      const res = await bookingService.submitInstantRequest({
+        name: trimmedName,
+        phone: cleanPhone,
+        message: formData.requirement || 'User requested free quotes without ₹99 advance token.',
+        eventType: 'Live Artist Booking (Free Inquiry)',
+        type: 'free_quote_request',
+        formType: 'quick_booking',
+        formName: 'Lead Capture (Free Quote Option)',
+        deviceType: deviceType,
+        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#free-quote` : '',
+        latitude: geoData.latitude,
+        longitude: geoData.longitude,
+        detectedLocation: geoData.detectedLocation
+      })
+
+      setRefCode(res?.referenceCode || `MAG-FREE-${Date.now().toString().slice(-6)}`)
+      setIsFreeSuccess(true)
+    } catch (err) {
+      console.error('Free quote request error:', err)
+      setFormError('Could not submit inquiry. Please try again.')
+    } finally {
+      setIsFreeSubmitting(false)
+    }
+  }
+
+  // Success Screen: Free Inquiry
+  if (isFreeSuccess) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.92 }} 
+        animate={{ opacity: 1, scale: 1 }} 
+        className="lux-modal-success"
+        style={{ 
+          padding: '24px 10px', 
+          textAlign: 'center',
+          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }}
+      >
+        <div style={{
+          width: '64px',
+          height: '64px',
+          margin: '0 auto 16px',
+          borderRadius: '50%',
+          background: 'rgba(56, 189, 248, 0.14)',
+          border: '2px solid #38bdf8',
+          boxShadow: '0 0 24px rgba(56, 189, 248, 0.3)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '30px',
+          color: '#38bdf8'
+        }}>
+          ✓
+        </div>
+        <h4 style={{ color: '#ffffff', fontSize: '22px', fontWeight: 900, margin: '0 0 6px', letterSpacing: '-0.01em' }}>
+          Free Inquiry Received!
+        </h4>
+        <p style={{ color: '#38bdf8', fontSize: '13px', fontWeight: 700, margin: '0 0 14px' }}>
+          No advance payment needed • Transparent verified quotes
+        </p>
+
+        {refCode && (
+          <div style={{
+            display: 'inline-block',
+            margin: '0 auto 14px',
+            padding: '6px 18px',
+            background: 'rgba(56, 189, 248, 0.12)',
+            border: '1px solid rgba(56, 189, 248, 0.4)',
+            borderRadius: '100px',
+            fontSize: '13px',
+            fontWeight: 800,
+            color: '#38bdf8',
+            letterSpacing: '0.04em'
+          }}>
+            REF: {refCode}
+          </div>
+        )}
+
+        <p style={{ color: 'rgba(255, 255, 255, 0.82)', fontSize: '13px', lineHeight: 1.55, maxWidth: '380px', margin: '0 auto 20px' }}>
+          Our event coordinator will contact you at <strong style={{ color: '#ffffff' }}>+91 {formData.phone}</strong> shortly with verified artists available on your date.
+        </p>
+
+        <button
+          onClick={onClose}
+          style={{
+            padding: '11px 26px',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.22)',
+            borderRadius: '100px',
+            color: '#ffffff',
+            fontSize: '13px',
+            fontWeight: 700,
+            cursor: 'pointer',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.18)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+        >
+          Close & Explore Artists
+        </button>
+      </motion.div>
+    )
+  }
+
+  // Success Screen: Paid Slot Confirmation
   if (isSuccess) {
     return (
       <motion.div 
@@ -804,11 +937,11 @@ function InnerLeadForm({ onClose }) {
         </div>
       )}
 
-      {/* Submit & Pay ₹99 Button */}
+      {/* Primary Action: Pay ₹99 Button */}
       <div style={{ marginTop: '2px' }}>
         <button 
           type="submit" 
-          disabled={isSubmitting} 
+          disabled={isSubmitting || isFreeSubmitting} 
           style={{
             width: '100%',
             background: 'linear-gradient(135deg, #FFE032 0%, #FFA800 100%)',
@@ -816,10 +949,10 @@ function InnerLeadForm({ onClose }) {
             fontWeight: 900,
             fontSize: '15.5px',
             fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-            padding: '14px 20px',
+            padding: '13px 20px',
             borderRadius: '12px',
             border: 'none',
-            cursor: isSubmitting ? 'not-allowed' : 'pointer',
+            cursor: (isSubmitting || isFreeSubmitting) ? 'not-allowed' : 'pointer',
             boxShadow: '0 8px 26px rgba(255, 224, 50, 0.38)',
             display: 'flex',
             alignItems: 'center',
@@ -830,7 +963,7 @@ function InnerLeadForm({ onClose }) {
             opacity: isSubmitting ? 0.75 : 1
           }}
           onMouseEnter={(e) => {
-            if (!isSubmitting) {
+            if (!isSubmitting && !isFreeSubmitting) {
               e.currentTarget.style.transform = 'translateY(-1px)';
               e.currentTarget.style.boxShadow = '0 12px 30px rgba(255, 224, 50, 0.5)';
             }
@@ -856,8 +989,8 @@ function InnerLeadForm({ onClose }) {
 
         <div style={{
           textAlign: 'center',
-          marginTop: '6px',
-          fontSize: '11px',
+          marginTop: '5px',
+          fontSize: '10.5px',
           color: 'rgba(255, 255, 255, 0.5)',
           display: 'flex',
           alignItems: 'center',
@@ -869,9 +1002,81 @@ function InnerLeadForm({ onClose }) {
         </div>
       </div>
 
+      {/* Elegant Divider: Or Pay Nothing Now */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        margin: '6px 0 4px',
+        gap: '10px'
+      }}>
+        <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.1)' }} />
+        <span style={{ 
+          fontSize: '10px', 
+          color: 'rgba(255, 255, 255, 0.45)', 
+          fontWeight: 800, 
+          textTransform: 'uppercase', 
+          letterSpacing: '0.06em' 
+        }}>
+          OR PAY NOTHING NOW
+        </span>
+        <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.1)' }} />
+      </div>
+
+      {/* Secondary Option: Request Free Quotes (No Advance Needed) */}
+      <div>
+        <button 
+          type="button" 
+          onClick={handleFreeSubmit}
+          disabled={isSubmitting || isFreeSubmitting}
+          style={{
+            width: '100%',
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.18)',
+            borderRadius: '12px',
+            padding: '11px 16px',
+            color: '#ffffff',
+            fontSize: '13px',
+            fontWeight: 800,
+            cursor: (isSubmitting || isFreeSubmitting) ? 'not-allowed' : 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            transition: 'all 0.2s ease',
+            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            opacity: isFreeSubmitting ? 0.75 : 1
+          }}
+          onMouseEnter={(e) => {
+            if (!isSubmitting && !isFreeSubmitting) {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
+              e.currentTarget.style.color = '#FFE032';
+            }
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.18)';
+            e.currentTarget.style.color = '#ffffff';
+          }}
+        >
+          {isFreeSubmitting ? (
+            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span className="ai-spinner-dot" /> Submitting Free Inquiry...
+            </span>
+          ) : (
+            <>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              <span>Request Free Quotes (No Advance Needed)</span>
+            </>
+          )}
+        </button>
+      </div>
+
       {/* Trust Guarantee Badges with Crisp SVGs */}
       <div style={{
-        marginTop: '4px',
+        marginTop: '2px',
         paddingTop: '8px',
         borderTop: '1px solid rgba(255, 255, 255, 0.08)',
         display: 'flex',
