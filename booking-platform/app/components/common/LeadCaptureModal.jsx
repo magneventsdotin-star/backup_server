@@ -331,7 +331,10 @@ function InnerLeadForm({ onClose }) {
     })
   }
 
-  // 1. Handler for Paid ₹99 Slot Booking (Razorpay)
+  // Set to true once Razorpay merchant account review is approved
+  const ENABLE_RAZORPAY_CHECKOUT = false;
+
+  // 1. Handler for ₹99 Slot Booking
   const handleSubmit = async (e) => {
     e.preventDefault()
     setFormError('')
@@ -350,8 +353,45 @@ function InnerLeadForm({ onClose }) {
 
     setIsSubmitting(true)
 
+    // Direct submit while Razorpay merchant account is under review
+    if (!ENABLE_RAZORPAY_CHECKOUT) {
+      try {
+        let deviceType = 'M'
+        if (typeof window !== 'undefined') {
+          if (window.innerWidth > 1024) deviceType = 'D'
+          else if (window.innerWidth > 768) deviceType = 'T'
+        }
+
+        const generatedRef = `MAG-99-${Date.now().toString().slice(-6)}`
+        const res = await bookingService.submitInstantRequest({
+          name: trimmedName,
+          phone: cleanPhone,
+          message: `[₹99 ARTIST SLOT RESERVED] Req: ${formData.requirement || 'Not specified'}. Flat 55%-65% discount reserved!`,
+          eventType: 'Live Artist Slot Booking (₹99 Reserved)',
+          type: 'token_booking_99_reserved',
+          formType: 'quick_booking',
+          formName: 'Lead Capture ₹99 Modal',
+          deviceType: deviceType,
+          formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#book-99` : '',
+          referenceCode: generatedRef,
+          latitude: geoData.latitude,
+          longitude: geoData.longitude,
+          detectedLocation: geoData.detectedLocation
+        })
+
+        setRefCode(res?.referenceCode || generatedRef)
+        setIsSuccess(true)
+      } catch (err) {
+        console.error('Booking submission error:', err)
+        setFormError('Could not submit booking request. Please try again.')
+      } finally {
+        setIsSubmitting(false)
+      }
+      return
+    }
+
     try {
-      // 1. Create Order on backend
+      // 1. Create Order on backend (Razorpay Flow - preserved for when account is active)
       const orderRes = await fetch('/api/razorpay/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -975,14 +1015,14 @@ function InnerLeadForm({ onClose }) {
         >
           {isSubmitting ? (
             <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="ai-spinner-dot" /> Initiating Payment...
+              <span className="ai-spinner-dot" /> Reserving Slot...
             </span>
           ) : (
             <>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
               </svg>
-              <span>Pay ₹99 & Lock Your Slot</span>
+              <span>Book Artist Slot for ₹99</span>
             </>
           )}
         </button>
@@ -998,7 +1038,7 @@ function InnerLeadForm({ onClose }) {
           gap: '4px'
         }}>
           <span>🔒</span>
-          <span>100% Refundable if artist is unavailable</span>
+          <span>Pay on confirmation • 100% Refundable Guarantee</span>
         </div>
       </div>
 

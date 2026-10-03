@@ -118,10 +118,10 @@ export default function QuickBookingModal() {
 
             <div style={{ textAlign: 'center', marginBottom: '18px' }}>
               <h3 style={{ fontSize: '22px', fontWeight: '900', color: '#fff', margin: '0 0 4px', lineHeight: '1.25' }}>
-                Book Artist for <span style={{ color: '#FFE032' }}>₹99</span>
+                Book Artist with <span style={{ color: '#FFE032' }}>55%–65% OFF</span>
               </h3>
               <p style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>
-                Flat <strong style={{ color: '#FFE032' }}>55%–65% OFF</strong> on your first booking
+                Lock your date & get flat <strong style={{ color: '#FFE032' }}>55%–65% OFF</strong> on your first booking
               </p>
             </div>
 
@@ -176,14 +176,54 @@ function InnerQuickBookingForm({ onClose }) {
     return Object.keys(newErrors).length === 0
   }
 
+  // Set to true once Razorpay merchant account review is approved
+  const ENABLE_RAZORPAY_CHECKOUT = false;
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
 
     setIsSubmitting(true)
 
+    // Direct submit while Razorpay merchant account is under review
+    if (!ENABLE_RAZORPAY_CHECKOUT) {
+      try {
+        let deviceType = 'M'
+        if (typeof window !== 'undefined') {
+          if (window.innerWidth > 1024) deviceType = 'D'
+          else if (window.innerWidth > 768) deviceType = 'T'
+        }
+
+        const generatedRef = `MAG-99-${Date.now().toString().slice(-6)}`
+        await bookingService.submitInstantRequest({
+          name: formData.name.trim(),
+          phone: formData.phone.trim(),
+          message: `[₹99 ARTIST SLOT RESERVED] Flat 55%-65% discount reserved!`,
+          eventType: 'Live Artist Slot Booking (₹99 Reserved)',
+          type: 'token_booking_99_reserved',
+          formType: 'quick_booking',
+          formName: 'Quick ₹99 Modal',
+          deviceType: deviceType,
+          formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#book-99` : '',
+          referenceCode: generatedRef,
+          latitude: geoData.latitude,
+          longitude: geoData.longitude,
+          detectedLocation: geoData.detectedLocation
+        })
+
+        setRefCode(generatedRef)
+        setIsSuccess(true)
+      } catch (err) {
+        console.error('Quick booking submission error:', err)
+        alert('Could not submit booking. Please try again.')
+      } finally {
+        setIsSubmitting(false)
+      }
+      return
+    }
+
     try {
-      // 1. Create ₹99 Order on backend
+      // 1. Create ₹99 Order on backend (Razorpay flow preserved)
       const orderRes = await fetch('/api/razorpay/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
