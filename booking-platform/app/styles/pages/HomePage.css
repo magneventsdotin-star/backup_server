@@ -7673,6 +7673,45 @@
   justify-content: center;
 }
 
+.hp-poster-playpause-fab {
+  position: absolute;
+  top: 56px;
+  left: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(8, 8, 14, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FFE032;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+  transition: all 0.2s ease;
+  z-index: 4;
+}
+
+.hp-poster-playpause-fab:hover,
+.hp-poster-playpause-fab:active {
+  transform: scale(1.08);
+  border-color: #FFE032;
+  background: rgba(255, 224, 50, 0.25);
+}
+
+.hp-poster-media-pill {
+  font-size: 10px;
+  font-weight: 700;
+  color: #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.9;
+  letter-spacing: 0.04em;
+}
+
 /* Integrated Tag Row inside Bottom Content */
 .hp-poster-tag-row {
   display: flex;

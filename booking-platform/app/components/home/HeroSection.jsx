@@ -508,35 +508,48 @@ export default function HeroSection() {
                             )}
                           </div>
 
-                          {/* Sound Toggle Button (Plays without music by default, tap to listen) */}
-                          <button
-                            type="button"
-                            className="hp-poster-ctrl-circle hp-poster-audio-btn"
-                            onClick={toggleMute}
-                            aria-label={isVideoMuted ? "Unmute video (Turn sound on)" : "Mute video (Turn sound off)"}
-                            title={isVideoMuted ? "Tap to listen with sound" : "Mute audio"}
-                          >
-                            <span className="hp-ctrl-icon">{isVideoMuted ? "🔇" : "🔊"}</span>
-                          </button>
+                          {/* Sound Toggle Button (Shown ONLY for video cards) */}
+                          {current.videoUrl ? (
+                            <button
+                              type="button"
+                              className="hp-poster-ctrl-circle hp-poster-audio-btn"
+                              onClick={toggleMute}
+                              aria-label={isVideoMuted ? "Unmute video (Turn sound on)" : "Mute video (Turn sound off)"}
+                              title={isVideoMuted ? "Tap to listen with sound" : "Mute audio"}
+                            >
+                              <span className="hp-ctrl-icon">{isVideoMuted ? "🔇" : "🔊"}</span>
+                            </button>
+                          ) : (
+                            <span className="hp-poster-tag-badge" style={{ margin: 0 }}>
+                              ✨ VERIFIED
+                            </span>
+                          )}
                         </div>
 
-                        {/* Floating Play / Pause Control Button */}
-                        <div className="hp-poster-mid-bar">
-                          <span className="hp-poster-tag-badge">{current.tag}</span>
-
+                        {/* Floating Play / Pause Control Button (Shown ONLY for video cards) */}
+                        {current.videoUrl && (
                           <button
                             type="button"
-                            className="hp-poster-ctrl-circle hp-poster-playpause-btn"
+                            className="hp-poster-playpause-fab"
                             onClick={togglePlayPause}
                             aria-label={isVideoPlaying ? "Pause video" : "Play video"}
                             title={isVideoPlaying ? "Pause video" : "Play video"}
                           >
                             <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸" : "▶"}</span>
                           </button>
-                        </div>
+                        )}
 
                         {/* Bottom Card Content */}
                         <div className="hp-poster-bottom">
+                          <div className="hp-poster-tag-row">
+                            <span className="hp-poster-tag-badge">{current.tag}</span>
+                            {current.videoUrl ? (
+                              <span className="hp-poster-media-pill">🎬 LIVE VIDEO</span>
+                            ) : (
+                              <span className="hp-poster-media-pill">🎨 ARTIST POSTER</span>
+                            )}
+                          </div>
+
                           <div className="hp-poster-title-row">
                             <h4 className="hp-poster-card-title">{current.title}</h4>
                             <p className="hp-poster-card-sub">{current.subtitle}</p>
