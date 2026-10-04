@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -180,6 +180,30 @@ export default function HeroSection() {
   const [selectedVideo, setSelectedVideo] = useState(null)
   const [touchStartX, setTouchStartX] = useState(0)
   const [isPosterHovered, setIsPosterHovered] = useState(false)
+  const [isVideoMuted, setIsVideoMuted] = useState(true)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true)
+  const activeVideoRef = useRef(null)
+
+  const toggleMute = (e) => {
+    e?.stopPropagation()
+    const next = !isVideoMuted
+    setIsVideoMuted(next)
+    if (activeVideoRef.current) {
+      activeVideoRef.current.muted = next
+    }
+  }
+
+  const togglePlayPause = (e) => {
+    e?.stopPropagation()
+    if (!activeVideoRef.current) return
+    if (activeVideoRef.current.paused) {
+      activeVideoRef.current.play().catch(() => {})
+      setIsVideoPlaying(true)
+    } else {
+      activeVideoRef.current.pause()
+      setIsVideoPlaying(false)
+    }
+  }
 
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -540,7 +564,7 @@ export default function HeroSection() {
                 ))}
               </div>
 
-              {/* Main Swipeable Poster Card */}
+              {/* Main Swipeable Reel/Video Card */}
               {(() => {
                 const current = EVENT_POSTERS[posterIndex];
                 return (
@@ -564,48 +588,76 @@ export default function HeroSection() {
                       }
                     }}
                   >
-                    {/* Poster Background Image */}
-                    <div className="hp-poster-img-container">
-                      <Image
-                        src={current.poster}
-                        alt={`${current.title} - Magnevents Verified Live Artists`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 600px"
-                        priority
-                        className="hp-poster-img"
-                        style={{ objectFit: 'cover' }}
-                      />
+                    {/* Inline Performance Video Player (Plays without music by default, loops seamlessly) */}
+                    <div className="hp-poster-img-container hp-poster-media-container">
+                      {current.videoUrl ? (
+                        <video
+                          ref={activeVideoRef}
+                          key={current.videoUrl + current.id}
+                          src={current.videoUrl}
+                          poster={current.poster}
+                          autoPlay
+                          loop
+                          muted={isVideoMuted}
+                          playsInline
+                          className="hp-poster-video-elem"
+                          onPlay={() => setIsVideoPlaying(true)}
+                          onPause={() => setIsVideoPlaying(false)}
+                        />
+                      ) : (
+                        <Image
+                          src={current.poster}
+                          alt={`${current.title} - Magnevents Verified Live Artists`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 600px"
+                          priority
+                          className="hp-poster-img"
+                          style={{ objectFit: 'cover' }}
+                        />
+                      )}
                     </div>
 
-                    {/* Gradient Vignette Overlay */}
+                    {/* Gradient Vignette Overlay for Crisp Readability */}
                     <div className="hp-poster-vignette" />
 
-                    {/* Top Floating Badges */}
+                    {/* Top Floating Controls Bar */}
                     <div className="hp-poster-top-bar">
-                      <span className="hp-poster-tag-badge">{current.tag}</span>
-                      <div className="hp-poster-live-slot">
-                        <span className="hp-poster-live-dot" />
-                        <span>{current.slots}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span className="hp-poster-category-pill">
+                          {current.tab.replace(/^[^\s]+\s/, '')}
+                        </span>
+                        <div className="hp-poster-live-slot">
+                          <span className="hp-poster-live-dot" />
+                          <span>{current.slots}</span>
+                        </div>
                       </div>
+
+                      {/* Sound Toggle Button (Plays without music by default, tap to listen) */}
+                      <button
+                        type="button"
+                        className="hp-poster-ctrl-circle hp-poster-audio-btn"
+                        onClick={toggleMute}
+                        aria-label={isVideoMuted ? "Unmute video (Turn sound on)" : "Mute video (Turn sound off)"}
+                        title={isVideoMuted ? "Tap to listen with sound" : "Mute audio"}
+                      >
+                        <span className="hp-ctrl-icon">{isVideoMuted ? "🔇" : "🔊"}</span>
+                      </button>
                     </div>
 
-                    {/* Floating Watch Live Video Button */}
-                    <button
-                      type="button"
-                      className="hp-poster-video-trigger"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedVideo({
-                          url: current.videoUrl,
-                          title: current.videoTitle,
-                          orientation: 'portrait'
-                        });
-                      }}
-                      aria-label={`Watch live video clip for ${current.title}`}
-                    >
-                      <span className="hp-poster-play-icon">▶</span>
-                      <span>Watch Live Clip</span>
-                    </button>
+                    {/* Floating Play / Pause Control Button */}
+                    <div className="hp-poster-mid-bar">
+                      <span className="hp-poster-tag-badge">{current.tag}</span>
+
+                      <button
+                        type="button"
+                        className="hp-poster-ctrl-circle hp-poster-playpause-btn"
+                        onClick={togglePlayPause}
+                        aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                        title={isVideoPlaying ? "Pause video" : "Play video"}
+                      >
+                        <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸" : "▶"}</span>
+                      </button>
+                    </div>
 
                     {/* Bottom Card Content */}
                     <div className="hp-poster-bottom">
@@ -629,22 +681,39 @@ export default function HeroSection() {
                         </div>
                       </div>
 
-                      {/* High-Converting Direct Booking Button */}
-                      <button
-                        type="button"
-                        className="hp-poster-cta-btn"
-                        onClick={() => {
-                          if (typeof window !== 'undefined') {
-                            window.dispatchEvent(new CustomEvent('open-quick-booking', {
-                              detail: { eventType: current.category }
-                            }));
-                          }
-                        }}
-                        aria-label={`Book ${current.title} for 99 rupees`}
-                      >
-                        <span>⚡ Book {current.tab.replace(/^[^\s]+\s/, '')} for ₹99</span>
-                        <span>➔</span>
-                      </button>
+                      {/* Actions Row: View Details & Instant Book for ₹99 */}
+                      <div className="hp-poster-action-row">
+                        <button
+                          type="button"
+                          className="hp-poster-view-details-btn"
+                          onClick={() => {
+                            setSelectedVideo({
+                              url: current.videoUrl,
+                              title: current.videoTitle,
+                              orientation: 'portrait'
+                            });
+                          }}
+                          aria-label={`View details for ${current.title}`}
+                        >
+                          <span>View Details</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          className="hp-poster-cta-btn"
+                          onClick={() => {
+                            if (typeof window !== 'undefined') {
+                              window.dispatchEvent(new CustomEvent('open-quick-booking', {
+                                detail: { eventType: current.category }
+                              }));
+                            }
+                          }}
+                          aria-label={`Book ${current.title} for 99 rupees`}
+                        >
+                          <span>⚡ Book for ₹99</span>
+                          <span>➔</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );

@@ -7266,45 +7266,126 @@
   100% { transform: scale(0.9); opacity: 0.8; }
 }
 
-/* Floating Watch Live Video Pill / Button */
-.hp-poster-video-trigger {
+/* Media container & Video element */
+.hp-poster-media-container {
   position: absolute;
-  top: 52px;
-  right: 14px;
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(0, 0, 0, 0.72);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.hp-poster-video-elem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Category pill on top-left */
+.hp-poster-category-pill {
+  background: rgba(255, 255, 255, 0.16);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 215, 0, 0.55);
-  color: #FFE032;
-  font-size: 11px;
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #FFFFFF;
+  font-size: 11.5px;
   font-weight: 700;
-  padding: 6px 12px;
+  padding: 5px 12px;
   border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 14px rgba(255, 215, 0, 0.3);
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
 }
 
-.hp-poster-video-trigger:hover, .hp-poster-video-trigger:active {
-  background: rgba(255, 215, 0, 0.25);
-  transform: scale(1.04);
-  box-shadow: 0 6px 24px rgba(255, 215, 0, 0.5);
-}
-
-.hp-poster-play-icon {
+/* Frosted glass circle buttons for Audio (Mute) & Play/Pause */
+.hp-poster-ctrl-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #FFE032;
-  color: #000;
-  font-size: 9px;
-  padding-left: 2px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  transition: all 0.2s ease;
+  z-index: 5;
+}
+
+.hp-poster-ctrl-circle:hover,
+.hp-poster-ctrl-circle:active {
+  transform: scale(1.08);
+  border-color: #FFE032;
+  background: rgba(255, 224, 50, 0.25);
+}
+
+.hp-ctrl-icon {
+  font-size: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mid bar on video reel */
+.hp-poster-mid-bar {
+  position: absolute;
+  bottom: 175px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hp-poster-mid-bar > * {
+  pointer-events: auto;
+}
+
+/* Action row: View Details + Book */
+.hp-poster-action-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.hp-poster-view-details-btn {
+  flex: 0 0 auto;
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.hp-poster-view-details-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.hp-poster-card-wrapper .hp-poster-cta-btn {
+  flex: 1;
+  margin-top: 0;
+  height: 48px;
 }
 
 /* Bottom Poster Content */
