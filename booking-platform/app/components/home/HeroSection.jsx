@@ -14,6 +14,7 @@ export default function HeroSection() {
   const router = useRouter()
   const [heroSlide, setHeroSlide] = useState(0)
   const [posterIndex, setPosterIndex] = useState(0)
+  const [hasUnlockedCreatedCards, setHasUnlockedCreatedCards] = useState(false)
   const [selectedVideo, setSelectedVideo] = useState(null)
   const [touchStartX, setTouchStartX] = useState(0)
   const [isPosterHovered, setIsPosterHovered] = useState(false)
@@ -70,13 +71,35 @@ export default function HeroSection() {
     return () => window.clearInterval(id)
   }, [])
 
+  // Initially show first 4 video cards; unlock all created cards after 14s (10-15s) or after cycling
+  const availablePosters = hasUnlockedCreatedCards ? EVENT_POSTERS : EVENT_POSTERS.slice(0, 4)
+
+  // Unlock created cards if user stays on website for 14 seconds (10-15s)
   useEffect(() => {
-    if (isPosterHovered || !isVideoMuted) return
-    const id = window.setInterval(() => {
-      setPosterIndex(prev => (prev + 1) % EVENT_POSTERS.length)
-    }, 5500)
-    return () => window.clearInterval(id)
-  }, [isPosterHovered, isVideoMuted])
+    const timer = window.setTimeout(() => {
+      setHasUnlockedCreatedCards(true)
+    }, 14000)
+    return () => window.clearTimeout(timer)
+  }, [])
+
+  const safePosterIndex = posterIndex % availablePosters.length
+  const currentCard = availablePosters[safePosterIndex] || availablePosters[0]
+
+  // Auto-advance cards: 12 seconds for videos (10-15s), 6 seconds for created image cards
+  useEffect(() => {
+    if (isPosterHovered || !isVideoMuted || !isVideoPlaying) return
+    const duration = currentCard?.videoUrl ? 12000 : 6000
+    const id = window.setTimeout(() => {
+      setPosterIndex(prev => {
+        const next = prev + 1
+        if (next >= 4 && !hasUnlockedCreatedCards) {
+          setHasUnlockedCreatedCards(true)
+        }
+        return next
+      })
+    }, duration)
+    return () => window.clearTimeout(id)
+  }, [isPosterHovered, isVideoMuted, isVideoPlaying, currentCard?.videoUrl, hasUnlockedCreatedCards, posterIndex, availablePosters.length])
 
 
   return (
@@ -368,11 +391,12 @@ export default function HeroSection() {
             <div className="hp-posters-showcase">
               {/* Main Swipeable Reel/Video Card with Visible Peek Stage */}
               {(() => {
-                const current = EVENT_POSTERS[posterIndex] || EVENT_POSTERS[0];
-                const nextIndex = (posterIndex + 1) % EVENT_POSTERS.length;
-                const nextPoster = EVENT_POSTERS[nextIndex];
-                const prevIndex = (posterIndex - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length;
-                const prevPoster = EVENT_POSTERS[prevIndex];
+                const safeIndex = posterIndex % availablePosters.length;
+                const current = availablePosters[safeIndex] || availablePosters[0];
+                const nextIndex = (safeIndex + 1) % availablePosters.length;
+                const nextPoster = availablePosters[nextIndex];
+                const prevIndex = (safeIndex - 1 + availablePosters.length) % availablePosters.length;
+                const prevPoster = availablePosters[prevIndex];
 
                 return (
                   <div className="hp-poster-carousel-stage">
@@ -411,9 +435,9 @@ export default function HeroSection() {
                           const diff = touchStartX - e.changedTouches[0].clientX;
                           if (Math.abs(diff) > 40) {
                             if (diff > 0) {
-                              setPosterIndex((prev) => (prev + 1) % EVENT_POSTERS.length);
+                              setPosterIndex((prev) => (prev + 1) % availablePosters.length);
                             } else {
-                              setPosterIndex((prev) => (prev - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length);
+                              setPosterIndex((prev) => (prev - 1 + availablePosters.length) % availablePosters.length);
                             }
                           }
                         }}
@@ -454,36 +478,45 @@ export default function HeroSection() {
                         {/* Luxury Cinematic Vignette Overlay */}
                         <div className="hp-poster-vignette" />
 
-                        {/* Top Floating Controls Bar */}
+                        {/* Top Floating Controls Bar: Left Mute/Unmute, Right Play/Pause */}
                         <div className="hp-poster-top-bar">
                           <div className="hp-poster-top-left">
-                            <span className="hp-poster-category-pill">
-                              {current.tab.replace(/^[^\s]+\s/, '')}
-                            </span>
-                            {current.videoUrl && (
-                              <span className="hp-poster-live-chip">
-                                <span className="hp-poster-live-dot" /> LIVE
+                            {current.videoUrl ? (
+                              <button
+                                type="button"
+                                className={`hp-poster-ctrl-pill hp-poster-ctrl-mute ${!isVideoMuted ? 'is-active' : ''}`}
+                                onClick={toggleMute}
+                                aria-label={isVideoMuted ? "Unmute sound" : "Mute sound"}
+                                title={isVideoMuted ? "Tap to Unmute" : "Tap to Mute"}
+                              >
+                                <span className="hp-ctrl-icon">{isVideoMuted ? "🔇" : "🔊"}</span>
+                                <span className="hp-ctrl-label">{isVideoMuted ? "Mute" : "Sound"}</span>
+                              </button>
+                            ) : (
+                              <span className="hp-poster-verified-pill">
+                                ✨ VERIFIED
                               </span>
                             )}
                           </div>
 
-                          {current.videoUrl ? (
-                            <button
-                              type="button"
-                              className="hp-poster-sound-pill"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                toggleMute();
-                              }}
-                              aria-label={isVideoMuted ? "Unmute video (Turn sound on)" : "Mute video"}
-                            >
-                              <span>{isVideoMuted ? "🔇 Tap for Sound" : "🔊 Sound On"}</span>
-                            </button>
-                          ) : (
-                            <span className="hp-poster-verified-pill">
-                              ✨ VERIFIED
-                            </span>
-                          )}
+                          <div className="hp-poster-top-right">
+                            {current.videoUrl ? (
+                              <button
+                                type="button"
+                                className={`hp-poster-ctrl-pill hp-poster-ctrl-play ${!isVideoPlaying ? 'is-paused' : ''}`}
+                                onClick={togglePlayPause}
+                                aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                                title={isVideoPlaying ? "Tap to Pause" : "Tap to Play"}
+                              >
+                                <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸" : "▶"}</span>
+                                <span className="hp-ctrl-label">{isVideoPlaying ? "Pause" : "Play"}</span>
+                              </button>
+                            ) : (
+                              <span className="hp-poster-top-tag">
+                                ⭐ 4.95★
+                              </span>
+                            )}
+                          </div>
                         </div>
 
                         {/* Bottom Card Content */}
