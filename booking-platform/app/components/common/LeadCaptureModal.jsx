@@ -264,60 +264,6 @@ export default function LeadCaptureModal() {
               </p>
             </div>
 
-            {/* Quick Format Categories Selector */}
-            <div style={{
-              display: 'flex',
-              gap: '6px',
-              overflowX: 'auto',
-              scrollbarWidth: 'none',
-              paddingBottom: '4px',
-              marginBottom: '12px',
-              position: 'relative',
-              zIndex: 2
-            }}>
-              {EVENT_POSTERS.map((p, idx) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => {
-                    setCardIndex(idx)
-                    setIsInteracting(true)
-                    setTimeout(() => setIsInteracting(false), 5000)
-                  }}
-                  style={{
-                    padding: '5px 11px',
-                    borderRadius: '999px',
-                    border: cardIndex === idx ? '1px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.12)',
-                    background: cardIndex === idx ? 'rgba(255, 224, 50, 0.22)' : 'rgba(255, 255, 255, 0.04)',
-                    color: cardIndex === idx ? '#FFE032' : 'rgba(255, 255, 255, 0.7)',
-                    fontSize: '11px',
-                    fontWeight: cardIndex === idx ? 800 : 600,
-                    whiteSpace: 'nowrap',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px'
-                  }}
-                >
-                  <span>{p.tab}</span>
-                  {idx < 4 && (
-                    <span style={{
-                      fontSize: '8.5px',
-                      background: 'rgba(239, 68, 68, 0.3)',
-                      color: '#FCA5A5',
-                      borderRadius: '4px',
-                      padding: '1px 4px',
-                      fontWeight: 800,
-                      letterSpacing: '0.04em'
-                    }}>
-                      VIDEO
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-
             {/* ══════════════════════════════════════════════════════════
                 SHOWCASE CAROUSEL (PEEK PREV & NEXT CARDS + ACTIVE CARD)
                 ══════════════════════════════════════════════════════════ */}
@@ -409,37 +355,6 @@ export default function LeadCaptureModal() {
                 aspectRatio: '3 / 3.4',
                 maxHeight: '340px'
               }}>
-                {/* Story-Style Auto-Advance Progress Indicators */}
-                <div style={{
-                  position: 'absolute',
-                  top: '6px',
-                  left: '10px',
-                  right: '10px',
-                  display: 'flex',
-                  gap: '4px',
-                  zIndex: 6
-                }}>
-                  {EVENT_POSTERS.map((_, idx) => (
-                    <div
-                      key={idx}
-                      onClick={() => {
-                        setCardIndex(idx)
-                        setIsInteracting(true)
-                        setTimeout(() => setIsInteracting(false), 4000)
-                      }}
-                      style={{
-                        flex: 1,
-                        height: '2.5px',
-                        borderRadius: '2px',
-                        background: cardIndex > idx ? '#FFE032' : cardIndex === idx ? '#FFE032' : 'rgba(255, 255, 255, 0.25)',
-                        boxShadow: cardIndex === idx ? '0 0 6px rgba(255, 224, 50, 0.8)' : 'none',
-                        transition: 'all 0.3s ease',
-                        cursor: 'pointer'
-                      }}
-                    />
-                  ))}
-                </div>
-
                 {/* Media: Video (GIF-like seamless autoPlay loop, muted by default) or Poster */}
                 <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
                   {current.mediaType === 'video' && current.videoUrl ? (
@@ -506,7 +421,7 @@ export default function LeadCaptureModal() {
                     }}>
                       {current.tab.replace(/^[^\s]+\s/, '')}
                     </span>
-                    {current.mediaType === 'video' ? (
+                    {current.mediaType === 'video' && (
                       <span style={{
                         background: 'rgba(239, 68, 68, 0.25)',
                         border: '1px solid rgba(239, 68, 68, 0.55)',
@@ -522,23 +437,11 @@ export default function LeadCaptureModal() {
                         <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#EF4444', display: 'inline-block' }} />
                         LIVE VIDEO
                       </span>
-                    ) : (
-                      <span style={{
-                        background: 'rgba(59, 130, 246, 0.25)',
-                        border: '1px solid rgba(59, 130, 246, 0.55)',
-                        color: '#93C5FD',
-                        fontSize: '9.5px',
-                        fontWeight: 800,
-                        padding: '3px 8px',
-                        borderRadius: '100px',
-                      }}>
-                        📸 ARTIST POSTER
-                      </span>
                     )}
                   </div>
 
                   {/* Audition Audio Toggle for Videos */}
-                  {current.mediaType === 'video' ? (
+                  {current.mediaType === 'video' && (
                     <button
                       type="button"
                       onClick={toggleMute}
@@ -565,19 +468,6 @@ export default function LeadCaptureModal() {
                       <span>{isVideoMuted ? '🔇' : '🔊'}</span>
                       <span>{isVideoMuted ? 'Live Sound' : 'Audition On'}</span>
                     </button>
-                  ) : (
-                    <div style={{
-                      padding: '4px 10px',
-                      borderRadius: '100px',
-                      background: 'rgba(8, 8, 14, 0.75)',
-                      backdropFilter: 'blur(10px)',
-                      border: '1px solid rgba(255, 255, 255, 0.15)',
-                      color: 'rgba(255, 255, 255, 0.8)',
-                      fontSize: '10.5px',
-                      fontWeight: 700
-                    }}>
-                      Card {cardIndex + 1}/{EVENT_POSTERS.length}
-                    </div>
                   )}
                 </div>
 
@@ -938,24 +828,6 @@ function MinimalBookingForm({ currentCard, onClose }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-      {/* Selected Format Highlight */}
-      <div style={{
-        background: 'rgba(255, 224, 50, 0.08)',
-        border: '1px solid rgba(255, 224, 50, 0.22)',
-        borderRadius: '10px',
-        padding: '7px 12px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        fontSize: '11.5px',
-        color: '#FFFFFF'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span>🎤</span>
-          <span>Selected: <strong style={{ color: '#FFE032' }}>{currentCard.tab.replace(/^[^\s]+\s/, '')}</strong></span>
-        </div>
-        <span style={{ color: '#34D399', fontWeight: 800 }}>Only ₹99</span>
-      </div>
 
       {/* Field 1: Name */}
       <div>
