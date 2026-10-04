@@ -804,10 +804,7 @@ export default function LeadCaptureModal() {
 function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
   const [formData, setFormData] = useState({ 
     name: '', 
-    phone: '', 
-    eventDate: '', 
-    eventLocation: '', 
-    eventNotes: '' 
+    phone: ''
   })
   const [selectedEventType, setSelectedEventType] = useState('🎤 House Party')
   const [errorMsg, setErrorMsg] = useState('')
@@ -820,9 +817,6 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
     getSilentLocationIfGranted().then(geo => {
       if (geo && geo.success) {
         setGeoData({ latitude: geo.latitude, longitude: geo.longitude, detectedLocation: geo.detectedLocation })
-        if (geo.detectedLocation) {
-          setFormData(prev => ({ ...prev, eventLocation: prev.eventLocation || geo.detectedLocation }))
-        }
       }
     })
   }, [])
@@ -855,21 +849,14 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         else if (window.innerWidth > 768) deviceType = 'T'
       }
 
-      const eventDetailsSummary = [
-        selectedEventType,
-        formData.eventDate ? `Date: ${formData.eventDate.trim()}` : null,
-        formData.eventLocation ? `City: ${formData.eventLocation.trim()}` : null,
-        formData.eventNotes ? `Notes: ${formData.eventNotes.trim()}` : null
-      ].filter(Boolean).join(' | ')
-
       const generatedRef = `MAG-ART-${Date.now().toString().slice(-6)}`
       await bookingService.submitInstantRequest({
         name: trimmedName,
         phone: cleanPhone,
-        date: formData.eventDate?.trim() || '',
-        location: formData.eventLocation?.trim() || geoData.detectedLocation || '',
-        eventDetails: formData.eventNotes?.trim() || '',
-        message: `[ARTIST BOOKING REQUEST] ${eventDetailsSummary}. Reserved: ${currentCard.title} (${currentCard.category}). Check availability and confirm artist slot.`,
+        date: '',
+        location: geoData.detectedLocation || '',
+        eventDetails: '',
+        message: `[ARTIST BOOKING REQUEST] ${selectedEventType}. Reserved: ${currentCard.title} (${currentCard.category}). Check availability and confirm artist slot.`,
         eventType: selectedEventType || currentCard.category || 'Live Artist Booking',
         type: 'token_booking_99_reserved',
         formType: 'welcome_popup',
@@ -1151,131 +1138,6 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         </div>
       </div>
 
-      {/* Field 3: About The Event */}
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '5px' }}>
-          <label style={{ fontSize: '11px', fontWeight: 800, color: '#FFE032', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            📅 About The Event:
-          </label>
-          <span style={{ fontSize: '10.5px', color: 'rgba(255, 255, 255, 0.5)' }}>Date & Venue</span>
-        </div>
-
-        {/* Date & Location Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '8px' }}>
-          <input
-            id="popup-lead-date"
-            type="text"
-            value={formData.eventDate}
-            onChange={(e) => {
-              setFormData(prev => ({ ...prev, eventDate: e.target.value }))
-              if (errorMsg) setErrorMsg('')
-            }}
-            placeholder="📅 Date (e.g. 25 Oct)"
-            style={{
-              width: '100%',
-              height: '44px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.16)',
-              borderRadius: '13px',
-              padding: '0 12px',
-              color: '#FFFFFF',
-              fontSize: '13px',
-              boxSizing: 'border-box',
-              outline: 'none',
-              boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)',
-              transition: 'all 0.25s ease'
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = '#FFE032'
-              e.target.style.background = 'rgba(255, 255, 255, 0.09)'
-              e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)'
-              e.target.style.background = 'rgba(255, 255, 255, 0.05)'
-              e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)'
-            }}
-          />
-
-          <input
-            id="popup-lead-location"
-            type="text"
-            value={formData.eventLocation}
-            onChange={(e) => {
-              setFormData(prev => ({ ...prev, eventLocation: e.target.value }))
-              if (errorMsg) setErrorMsg('')
-            }}
-            placeholder="📍 City / Area (e.g. Delhi NCR)"
-            style={{
-              width: '100%',
-              height: '44px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.16)',
-              borderRadius: '13px',
-              padding: '0 12px',
-              color: '#FFFFFF',
-              fontSize: '13px',
-              boxSizing: 'border-box',
-              outline: 'none',
-              boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)',
-              transition: 'all 0.25s ease'
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = '#FFE032'
-              e.target.style.background = 'rgba(255, 255, 255, 0.09)'
-              e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)'
-              e.target.style.background = 'rgba(255, 255, 255, 0.05)'
-              e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)'
-            }}
-          />
-        </div>
-
-        {/* Requirements / Special Requests */}
-        <input
-          id="popup-lead-notes"
-          type="text"
-          value={formData.eventNotes}
-          onChange={(e) => {
-            setFormData(prev => ({ ...prev, eventNotes: e.target.value }))
-            if (errorMsg) setErrorMsg('')
-          }}
-          placeholder="📝 Event Details (e.g. 25 guests, Bollywood & Sufi)"
-          style={{
-            width: '100%',
-            height: '44px',
-            background: 'rgba(255, 255, 255, 0.05)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.16)',
-            borderRadius: '13px',
-            padding: '0 14px',
-            color: '#FFFFFF',
-            fontSize: '13px',
-            boxSizing: 'border-box',
-            outline: 'none',
-            boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)',
-            transition: 'all 0.25s ease'
-          }}
-          onFocus={(e) => {
-            e.target.style.borderColor = '#FFE032'
-            e.target.style.background = 'rgba(255, 255, 255, 0.09)'
-            e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
-          }}
-          onBlur={(e) => {
-            e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)'
-            e.target.style.background = 'rgba(255, 255, 255, 0.05)'
-            e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)'
-          }}
-        />
-      </div>
-
       {errorMsg && (
         <div style={{ color: '#FF6B6B', fontSize: '11.5px', fontWeight: 600 }}>
           ⚠️ {errorMsg}
@@ -1310,31 +1172,6 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
       >
         <span>{isSubmitting ? 'Reserving Slot & Claiming 55%–65% OFF...' : `⚡ Claim 55%–65% OFF & Book Slot ➔`}</span>
       </button>
-
-      {/* Trust & Guarantee Strip */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        fontSize: '10.5px',
-        color: 'rgba(255, 255, 255, 0.7)',
-        marginTop: '4px',
-        flexWrap: 'wrap',
-        background: 'rgba(255, 255, 255, 0.035)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        borderRadius: '100px',
-        padding: '6px 14px',
-        boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.06)'
-      }}>
-        <span>🛡️ 100% Arrival Guarantee</span>
-        <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
-        <span>💎 0% Markup</span>
-        <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
-        <span>💬 Instant WhatsApp Connect</span>
-      </div>
     </form>
   )
 }
