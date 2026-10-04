@@ -1,4 +1,7 @@
 export const EVENT_POSTERS = [
+  // ─────────────────────────────────────────────────────────────
+  // FIRST 5 CARDS: SIMPLE HIGH-QUALITY IMAGE CARDS (FAST & LIGHT)
+  // ─────────────────────────────────────────────────────────────
   {
     id: 'house-party',
     category: 'House Party & Acoustic',
@@ -7,8 +10,8 @@ export const EVENT_POSTERS = [
     title: 'Private House Party Acoustic Singer',
     subtitle: 'Soulful Bollywood, Pop & Unplugged Vocalists with Compact Sound Setup for Living Rooms',
     poster: '/posters/house_party_acoustic.jpg',
-    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/house%20party%20Landscape.mp4',
-    videoTitle: 'Live House Party Singer Performance',
+    videoUrl: null, // First 5 are simple image cards
+    mediaType: 'image',
     regularPrice: '₹16,000',
     offerPrice: '₹6,999',
     discount: '55%–65% OFF',
@@ -23,8 +26,8 @@ export const EVENT_POSTERS = [
     title: 'Rooftop Terrace Sundowner Jam',
     subtitle: 'Acoustic Guitarist & Bongo Percussionist for Open-Air Golden Hour & Sunset Vibes',
     poster: '/posters/terrace_sundowner_jam.jpg',
-    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/farm%20house%20Portrait.mp4',
-    videoTitle: 'Rooftop Sundowner Jam Session',
+    videoUrl: null, // First 5 are simple image cards
+    mediaType: 'image',
     regularPrice: '₹20,000',
     offerPrice: '₹8,499',
     discount: 'Flat 58% OFF',
@@ -39,8 +42,8 @@ export const EVENT_POSTERS = [
     title: 'Birthday House Party Singer',
     subtitle: 'High-Energy Bollywood Medleys, Retro Classics & Singalongs with Portable Sound',
     poster: '/posters/birthday_party_singer.jpg',
-    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Birthday%20Party%20Landscape.mp4',
-    videoTitle: 'Birthday Celebration Live Performance',
+    videoUrl: null, // First 5 are simple image cards
+    mediaType: 'image',
     regularPrice: '₹15,000',
     offerPrice: '₹6,499',
     discount: 'Flat 57% OFF',
@@ -55,8 +58,8 @@ export const EVENT_POSTERS = [
     title: 'Farmhouse Lawn Cocktail Party',
     subtitle: 'Bollywood Fusion Singer & Saxophone Duo for Poolside & Lawn Gatherings',
     poster: '/posters/farmhouse_cocktail_party.jpg',
-    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/farm%20house%20Portrait.mp4',
-    videoTitle: 'Farmhouse Cocktail Night Performance',
+    videoUrl: null, // First 5 are simple image cards
+    mediaType: 'image',
     regularPrice: '₹32,000',
     offerPrice: '₹13,999',
     discount: 'Flat 56% OFF',
@@ -71,14 +74,18 @@ export const EVENT_POSTERS = [
     title: 'Intimate Ghazal & Sufi Mehfil',
     subtitle: 'Live Harmonium, Acoustic Tabla & Classical Vocalist for Candlelight Dinners & Anniversaries',
     poster: '/posters/ghazal_sufi_night.jpg',
-    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Book%20a%20Bhajan%20concert%20at%20home%20Portrait.mp4',
-    videoTitle: 'Soulful Ghazal & Sufi Mehfil',
+    videoUrl: null, // First 5 are simple image cards
+    mediaType: 'image',
     regularPrice: '₹24,000',
     offerPrice: '₹9,999',
     discount: 'Flat 58% OFF',
     slots: '3 Slots Left',
     rating: '5.0★ (740+ Anniversaries)'
   },
+
+  // ─────────────────────────────────────────────────────────────
+  // LAST 5 CARDS: VIDEOS / GIF PREVIEW CARDS (SEAMLESS LOOPING)
+  // ─────────────────────────────────────────────────────────────
   {
     id: 'wedding-band',
     category: 'Wedding & Sangeet',
@@ -89,6 +96,7 @@ export const EVENT_POSTERS = [
     poster: '/posters/wedding_sangeet_band.jpg',
     videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/house%20party%20Landscape.mp4',
     videoTitle: 'Grand Sangeet Live Band Concert',
+    mediaType: 'video',
     regularPrice: '₹65,000',
     offerPrice: '₹28,999',
     discount: 'Up to 60% OFF',
@@ -105,6 +113,7 @@ export const EVENT_POSTERS = [
     poster: '/posters/haldi_mehendi_celebration.jpg',
     videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Birthday%20Party%20Landscape.mp4',
     videoTitle: 'Haldi & Mehendi Celebration Performance',
+    mediaType: 'video',
     regularPrice: '₹18,000',
     offerPrice: '₹7,499',
     discount: 'Flat 58% OFF',
@@ -121,6 +130,7 @@ export const EVENT_POSTERS = [
     poster: '/posters/club_dj_sundowner.jpg',
     videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/farm%20house%20Portrait.mp4',
     videoTitle: 'High-Energy DJ & Dhol Session',
+    mediaType: 'video',
     regularPrice: '₹28,000',
     offerPrice: '₹11,999',
     discount: 'Flat 57% OFF',
@@ -137,6 +147,7 @@ export const EVENT_POSTERS = [
     poster: '/posters/corporate_gala_anchor.jpg',
     videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Birthday%20Party%20Landscape.mp4',
     videoTitle: 'Corporate Gala Live Entertainment',
+    mediaType: 'video',
     regularPrice: '₹45,000',
     offerPrice: '₹19,999',
     discount: 'Flat 55% OFF',
@@ -153,6 +164,7 @@ export const EVENT_POSTERS = [
     poster: '/posters/bhajan_bhakti_concert.jpg',
     videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Book%20a%20Bhajan%20concert%20at%20home%20Portrait.mp4',
     videoTitle: 'Home Bhajan Sandhya Live Concert',
+    mediaType: 'video',
     regularPrice: '₹16,000',
     offerPrice: '₹6,999',
     discount: 'Flat 56% OFF',

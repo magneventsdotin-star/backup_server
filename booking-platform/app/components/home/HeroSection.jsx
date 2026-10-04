@@ -507,31 +507,35 @@ export default function HeroSection() {
                             </div>
                           </div>
 
-                          {/* Sound Toggle Button (Plays without music by default, tap to listen) */}
-                          <button
-                            type="button"
-                            className="hp-poster-ctrl-circle hp-poster-audio-btn"
-                            onClick={toggleMute}
-                            aria-label={isVideoMuted ? "Unmute video (Turn sound on)" : "Mute video (Turn sound off)"}
-                            title={isVideoMuted ? "Tap to listen with sound" : "Mute audio"}
-                          >
-                            <span className="hp-ctrl-icon">{isVideoMuted ? "🔇" : "🔊"}</span>
-                          </button>
+                          {/* Sound Toggle Button (Only for cards with video previews) */}
+                          {current.videoUrl && (
+                            <button
+                              type="button"
+                              className="hp-poster-ctrl-circle hp-poster-audio-btn"
+                              onClick={toggleMute}
+                              aria-label={isVideoMuted ? "Unmute video (Turn sound on)" : "Mute video (Turn sound off)"}
+                              title={isVideoMuted ? "Tap to listen with sound" : "Mute audio"}
+                            >
+                              <span className="hp-ctrl-icon">{isVideoMuted ? "🔇" : "🔊"}</span>
+                            </button>
+                          )}
                         </div>
 
                         {/* Floating Play / Pause Control Button */}
                         <div className="hp-poster-mid-bar">
                           <span className="hp-poster-tag-badge">{current.tag}</span>
 
-                          <button
-                            type="button"
-                            className="hp-poster-ctrl-circle hp-poster-playpause-btn"
-                            onClick={togglePlayPause}
-                            aria-label={isVideoPlaying ? "Pause video" : "Play video"}
-                            title={isVideoPlaying ? "Pause video" : "Play video"}
-                          >
-                            <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸" : "▶"}</span>
-                          </button>
+                          {current.videoUrl && (
+                            <button
+                              type="button"
+                              className="hp-poster-ctrl-circle hp-poster-playpause-btn"
+                              onClick={togglePlayPause}
+                              aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                              title={isVideoPlaying ? "Pause video" : "Play video"}
+                            >
+                              <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸" : "▶"}</span>
+                            </button>
+                          )}
                         </div>
 
                         {/* Bottom Card Content */}
@@ -600,65 +604,9 @@ export default function HeroSection() {
                       </div>
                     </div>
 
-                    {/* Up Next Quick Preview Strip */}
-                    <div className="hp-poster-next-indicator-strip">
-                      <span className="hp-poster-curr-badge">Card {posterIndex + 1} of {EVENT_POSTERS.length}</span>
-                      <button
-                        type="button"
-                        className="hp-poster-next-pill-btn"
-                        onClick={() => setPosterIndex(nextIndex)}
-                        aria-label={`Go to next: ${nextPoster.tab}`}
-                      >
-                        <span>Up Next:</span>
-                        <strong>{nextPoster.tab}</strong>
-                        <span className="hp-next-pill-arrow">➔</span>
-                      </button>
-                    </div>
                   </>
                 );
               })()}
-
-              {/* Navigation Controls & Dot Indicators */}
-              <div className="hp-poster-nav-bar">
-                <button
-                  type="button"
-                  className="hp-poster-nav-btn"
-                  onClick={() => setPosterIndex((prev) => (prev - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length)}
-                  aria-label="Previous event poster"
-                >
-                  ◀
-                </button>
-
-                <div className="hp-poster-dots">
-                  {EVENT_POSTERS.map((_, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      className={`hp-poster-dot ${posterIndex === idx ? 'is-active' : ''}`}
-                      onClick={() => setPosterIndex(idx)}
-                      aria-label={`Go to event poster ${idx + 1}`}
-                    />
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  className="hp-poster-nav-btn"
-                  onClick={() => setPosterIndex((prev) => (prev + 1) % EVENT_POSTERS.length)}
-                  aria-label="Next event poster"
-                >
-                  ▶
-                </button>
-              </div>
-
-              {/* Value & Trust Guarantees */}
-              <div className="hp-poster-guarantee-strip">
-                <span>🛡️ <strong>100% Arrival Guarantee</strong></span>
-                <span>•</span>
-                <span>💎 <strong>0% Middleman Markup</strong></span>
-                <span>•</span>
-                <span>⭐ <strong>{EVENT_POSTERS[posterIndex].rating}</strong></span>
-              </div>
 
             </div>
           </div>
