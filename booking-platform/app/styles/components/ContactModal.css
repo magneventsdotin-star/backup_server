@@ -32,6 +32,41 @@
   overflow-x: hidden !important;
 }
 
+/* Enhanced High-Contrast Crystal-Clear Modal Placeholders */
+#popup-lead-name::placeholder,
+#popup-lead-phone::placeholder,
+#popup-lead-event-details::placeholder,
+.popup-lead-input::placeholder {
+  color: rgba(255, 255, 255, 0.72) !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  opacity: 1 !important;
+  letter-spacing: 0.01em !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.72) !important;
+}
+
+#popup-lead-name::-webkit-input-placeholder,
+#popup-lead-phone::-webkit-input-placeholder,
+#popup-lead-event-details::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.72) !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.72) !important;
+}
+
+#popup-lead-name::-moz-placeholder,
+#popup-lead-phone::-moz-placeholder,
+#popup-lead-event-details::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.72) !important;
+  opacity: 1 !important;
+}
+
+#popup-lead-name:-ms-input-placeholder,
+#popup-lead-phone:-ms-input-placeholder,
+#popup-lead-event-details:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.72) !important;
+  opacity: 1 !important;
+}
+
 .modal-glow-bg {
   position: absolute;
   top: -20%;

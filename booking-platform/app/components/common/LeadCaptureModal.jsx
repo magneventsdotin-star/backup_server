@@ -940,6 +940,7 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
       <div>
         <input
           id="popup-lead-name"
+          className="popup-lead-input"
           type="text"
           value={formData.name}
           onChange={(e) => {
@@ -950,28 +951,29 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
           style={{
             width: '100%',
             height: '46px',
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: 'rgba(255, 255, 255, 0.08)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.16)',
+            border: '1.2px solid rgba(255, 255, 255, 0.22)',
             borderRadius: '13px',
             padding: '0 14px',
             color: '#FFFFFF',
             fontSize: '13.5px',
+            fontWeight: 500,
             boxSizing: 'border-box',
             outline: 'none',
-            boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)',
+            boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.1)',
             transition: 'all 0.25s ease'
           }}
           onFocus={(e) => {
             e.target.style.borderColor = '#FFE032'
-            e.target.style.background = 'rgba(255, 255, 255, 0.09)'
-            e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
+            e.target.style.background = 'rgba(255, 255, 255, 0.12)'
+            e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.3), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
           }}
           onBlur={(e) => {
-            e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)'
-            e.target.style.background = 'rgba(255, 255, 255, 0.05)'
-            e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)'
+            e.target.style.borderColor = 'rgba(255, 255, 255, 0.22)'
+            e.target.style.background = 'rgba(255, 255, 255, 0.08)'
+            e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.1)'
           }}
         />
       </div>
@@ -985,23 +987,26 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
             top: '50%',
             transform: 'translateY(-50%)',
             fontSize: '12.5px',
-            color: '#E2E8F0',
-            fontWeight: 700,
-            background: 'rgba(255, 255, 255, 0.08)',
+            color: '#FFE032',
+            fontWeight: 800,
+            background: 'rgba(255, 224, 50, 0.14)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.14)',
+            border: '1.2px solid rgba(255, 224, 50, 0.45)',
             borderRadius: '8px',
             padding: '3px 8px',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '4px',
-            boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.15)'
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25)',
+            zIndex: 2,
+            letterSpacing: '0.02em'
           }}>
             🇮🇳 +91
           </span>
           <input
             id="popup-lead-phone"
+            className="popup-lead-input"
             type="tel"
             maxLength={10}
             value={formData.phone}
@@ -1014,28 +1019,29 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
             style={{
               width: '100%',
               height: '46px',
-              background: 'rgba(255, 255, 255, 0.05)',
+              background: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.16)',
+              border: '1.2px solid rgba(255, 255, 255, 0.22)',
               borderRadius: '13px',
               padding: '0 14px 0 76px',
               color: '#FFFFFF',
               fontSize: '13.5px',
+              fontWeight: 500,
               boxSizing: 'border-box',
               outline: 'none',
-              boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)',
+              boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.1)',
               transition: 'all 0.25s ease'
             }}
             onFocus={(e) => {
               e.target.style.borderColor = '#FFE032'
-              e.target.style.background = 'rgba(255, 255, 255, 0.09)'
-              e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
+              e.target.style.background = 'rgba(255, 255, 255, 0.12)'
+              e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.3), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
             }}
             onBlur={(e) => {
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)'
-              e.target.style.background = 'rgba(255, 255, 255, 0.05)'
-              e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)'
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.22)'
+              e.target.style.background = 'rgba(255, 255, 255, 0.08)'
+              e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.1)'
             }}
           />
         </div>
@@ -1045,6 +1051,7 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
       <div>
         <textarea
           id="popup-lead-event-details"
+          className="popup-lead-input"
           rows={2}
           value={formData.eventDetails}
           onChange={(e) => {
@@ -1056,10 +1063,10 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
             width: '100%',
             minHeight: '48px',
             maxHeight: '80px',
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: 'rgba(255, 255, 255, 0.08)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.16)',
+            border: '1.2px solid rgba(255, 255, 255, 0.22)',
             borderRadius: '13px',
             padding: '10px 14px',
             color: '#FFFFFF',
@@ -1069,18 +1076,18 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
             outline: 'none',
             resize: 'none',
             fontFamily: 'inherit',
-            boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)',
+            boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.1)',
             transition: 'all 0.25s ease'
           }}
           onFocus={(e) => {
             e.target.style.borderColor = '#FFE032'
-            e.target.style.background = 'rgba(255, 255, 255, 0.09)'
-            e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
+            e.target.style.background = 'rgba(255, 255, 255, 0.12)'
+            e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.3), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
           }}
           onBlur={(e) => {
-            e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)'
-            e.target.style.background = 'rgba(255, 255, 255, 0.05)'
-            e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)'
+            e.target.style.borderColor = 'rgba(255, 255, 255, 0.22)'
+            e.target.style.background = 'rgba(255, 255, 255, 0.08)'
+            e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.1)'
           }}
         />
       </div>
