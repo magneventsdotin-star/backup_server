@@ -435,35 +435,7 @@ export default function HeroSection() {
                           }
                         }}
                       >
-                        {/* Floating Previous Orb */}
-                        <button
-                          type="button"
-                          className="hp-poster-floating-nav hp-poster-floating-prev"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setPosterIndex(prevIndex);
-                          }}
-                          aria-label="Previous celebration"
-                          title={`Previous: ${prevPoster.tab}`}
-                        >
-                          <span>‹</span>
-                        </button>
-
-                        {/* Floating Next Orb */}
-                        <button
-                          type="button"
-                          className="hp-poster-floating-nav hp-poster-floating-next"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setPosterIndex(nextIndex);
-                          }}
-                          aria-label="Next celebration"
-                          title={`Next: ${nextPoster.tab}`}
-                        >
-                          <span>›</span>
-                        </button>
-
-                        {/* Inline Performance Video Player (Plays without music by default, loops seamlessly) */}
+                        {/* Inline Performance Video Player or Image */}
                         <div className="hp-poster-img-container hp-poster-media-container">
                           {current.videoUrl ? (
                             <video
@@ -521,25 +493,22 @@ export default function HeroSection() {
                           )}
                         </div>
 
-                        {/* Floating Play / Pause Control Button */}
-                        <div className="hp-poster-mid-bar">
-                          <span className="hp-poster-tag-badge">{current.tag}</span>
-
-                          {current.videoUrl && (
-                            <button
-                              type="button"
-                              className="hp-poster-ctrl-circle hp-poster-playpause-btn"
-                              onClick={togglePlayPause}
-                              aria-label={isVideoPlaying ? "Pause video" : "Play video"}
-                              title={isVideoPlaying ? "Pause video" : "Play video"}
-                            >
-                              <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸" : "▶"}</span>
-                            </button>
-                          )}
-                        </div>
-
-                        {/* Bottom Card Content */}
+                        {/* Bottom Card Content with Integrated Tag Row */}
                         <div className="hp-poster-bottom">
+                          <div className="hp-poster-tag-row">
+                            <span className="hp-poster-tag-badge">{current.tag}</span>
+                            {current.videoUrl && (
+                              <button
+                                type="button"
+                                className="hp-poster-ctrl-pill hp-poster-playpause-btn"
+                                onClick={togglePlayPause}
+                                aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                                title={isVideoPlaying ? "Pause video" : "Play video"}
+                              >
+                                <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸ Pause" : "▶ Play"}</span>
+                              </button>
+                            )}
+                          </div>
                           <div className="hp-poster-title-row">
                             <h4 className="hp-poster-card-title">{current.title}</h4>
                             <p className="hp-poster-card-sub">{current.subtitle}</p>
