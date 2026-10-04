@@ -513,7 +513,7 @@ export default function HeroSection() {
                           >
                             <div className="hp-poster-feature-block">
                               <span className="hp-poster-feature-highlight">⭐ 4.95★ Verified Artists</span>
-                              <span className="hp-poster-feature-sub">Sound Setup Included • 100% Arrival</span>
+                              <span className="hp-poster-feature-sub">Sound Included • 100% Arrival</span>
                             </div>
                             <div className="hp-poster-feature-badge">
                               <span>Book Artist ➔</span>
