@@ -8,12 +8,39 @@ import { motion, AnimatePresence } from 'framer-motion'
 import VideoModal from './VideoModal'
 
 import { HERO_SPOTLIGHT_SLIDES } from '@/app/constants'
-import { FEATURED_IMAGE_CARDS } from '@/app/constants/eventPosters'
+import { EVENT_POSTERS } from '@/app/constants/eventPosters'
 
 export default function HeroSection() {
   const router = useRouter()
   const [heroSlide, setHeroSlide] = useState(0)
+  const [posterIndex, setPosterIndex] = useState(0)
   const [selectedVideo, setSelectedVideo] = useState(null)
+  const [touchStartX, setTouchStartX] = useState(0)
+  const [isPosterHovered, setIsPosterHovered] = useState(false)
+  const [isVideoMuted, setIsVideoMuted] = useState(true)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true)
+  const activeVideoRef = useRef(null)
+
+  const toggleMute = (e) => {
+    e?.stopPropagation()
+    const next = !isVideoMuted
+    setIsVideoMuted(next)
+    if (activeVideoRef.current) {
+      activeVideoRef.current.muted = next
+    }
+  }
+
+  const togglePlayPause = (e) => {
+    e?.stopPropagation()
+    if (!activeVideoRef.current) return
+    if (activeVideoRef.current.paused) {
+      activeVideoRef.current.play().catch(() => {})
+      setIsVideoPlaying(true)
+    } else {
+      activeVideoRef.current.pause()
+      setIsVideoPlaying(false)
+    }
+  }
 
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -42,6 +69,14 @@ export default function HeroSection() {
     }, 8000)
     return () => window.clearInterval(id)
   }, [])
+
+  useEffect(() => {
+    if (isPosterHovered || !isVideoMuted) return
+    const id = window.setInterval(() => {
+      setPosterIndex(prev => (prev + 1) % EVENT_POSTERS.length)
+    }, 5500)
+    return () => window.clearInterval(id)
+  }, [isPosterHovered, isVideoMuted])
 
 
   return (
@@ -328,105 +363,305 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* CURATED CELEBRATION MOMENTS (MAIN MOBILE CENTERPIECE) */}
+          {/* 10 LUXURY EVENT SHOWCASE CARDS (MAIN MOBILE CENTERPIECE) */}
           <div className="hp-mob-section">
-            <div className="media-section-head" style={{ marginBottom: '16px' }}>
-              <div className="media-section-badge">
-                <span>🌟</span>
-                <span>CURATED CELEBRATION MOMENTS</span>
+            <div className="hp-posters-showcase">
+              {/* Category Quick Tabs (10 Categories) */}
+              <div className="hp-posters-tabs" role="tablist">
+                {EVENT_POSTERS.map((poster, idx) => (
+                  <button
+                    key={poster.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={posterIndex === idx}
+                    className={`hp-poster-tab ${posterIndex === idx ? 'is-active' : ''}`}
+                    onClick={() => setPosterIndex(idx)}
+                  >
+                    <span>{poster.tab}</span>
+                  </button>
+                ))}
               </div>
-              <h2 className="media-section-title">
-                Trending Celebrations &amp; <span>Live Experiences</span>
-              </h2>
-              <p className="media-section-subtitle">
-                Verified live artist setups with professional acoustic sound gear · Direct 0% commission rates
-              </p>
-            </div>
 
-            <div className="media-image-grid-5">
-              {FEATURED_IMAGE_CARDS.map((item, idx) => (
-                <div
-                  key={item.id}
-                  className="media-image-card"
-                  onClick={() => {
-                    if (typeof window !== 'undefined') {
-                      window.dispatchEvent(
-                        new CustomEvent('open-quick-booking', {
-                          detail: {
-                            category: item.category,
-                            packageTitle: item.title,
-                            preferredBudget: item.price,
-                          },
-                        })
-                      );
-                    }
-                  }}
-                  tabIndex={0}
-                  role="button"
-                  aria-label={`View and book ${item.title}`}
-                >
-                  <div className="media-card-thumb">
-                    <Image
-                      src={item.image}
-                      alt={`${item.title} - Magnevents Verified Artist`}
-                      fill
-                      sizes="(max-width: 640px) 270px, 300px"
-                      priority={idx === 0}
-                      className="media-card-img"
-                    />
-                    <div className="media-card-gradient" />
-                    
-                    {/* Floating Badges */}
-                    <div className="media-card-top-badges">
-                      <span className="media-badge-tag">{item.tag}</span>
-                      <span className="media-badge-rating">{item.rating}</span>
-                    </div>
+              {/* Main Swipeable Reel/Video Card with Visible Peek Stage */}
+              {(() => {
+                const current = EVENT_POSTERS[posterIndex] || EVENT_POSTERS[0];
+                const nextIndex = (posterIndex + 1) % EVENT_POSTERS.length;
+                const nextPoster = EVENT_POSTERS[nextIndex];
+                const prevIndex = (posterIndex - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length;
+                const prevPoster = EVENT_POSTERS[prevIndex];
 
-                    {/* Feature Pill */}
-                    <div className="media-card-feature-pill">
-                      <span>✓</span>
-                      <span>{item.badge}</span>
-                    </div>
-                  </div>
-
-                  <div className="media-card-body">
-                    <span className="media-card-category">{item.category}</span>
-                    <h3 className="media-card-title">{item.title}</h3>
-                    <p className="media-card-subtitle">{item.subtitle}</p>
-
-                    <div className="media-card-pricing-strip">
-                      <div>
-                        <span className="media-price-cut">{item.regularPrice}</span>
-                        <span className="media-price-val">{item.price}</span>
+                return (
+                  <>
+                    <div className="hp-poster-carousel-stage">
+                      {/* Left Peek Card (Previous) */}
+                      <div
+                        className="hp-poster-peek-card hp-poster-peek-left"
+                        onClick={() => setPosterIndex(prevIndex)}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Previous celebration: ${prevPoster.title}`}
+                        title={`Previous: ${prevPoster.tab}`}
+                      >
+                        <Image
+                          src={prevPoster.poster}
+                          alt={prevPoster.title}
+                          fill
+                          sizes="80px"
+                          className="hp-poster-peek-img"
+                        />
+                        <div className="hp-poster-peek-overlay">
+                          <span className="hp-poster-peek-arrow">‹</span>
+                        </div>
                       </div>
-                      <span className="media-discount-pill">{item.discount}</span>
+
+                      {/* Active Central Card */}
+                      <div
+                        className="hp-poster-card-wrapper"
+                        onMouseEnter={() => setIsPosterHovered(true)}
+                        onMouseLeave={() => setIsPosterHovered(false)}
+                        onTouchStart={(e) => {
+                          setIsPosterHovered(true);
+                          setTouchStartX(e.touches[0].clientX);
+                        }}
+                        onTouchEnd={(e) => {
+                          setIsPosterHovered(false);
+                          const diff = touchStartX - e.changedTouches[0].clientX;
+                          if (Math.abs(diff) > 40) {
+                            if (diff > 0) {
+                              setPosterIndex((prev) => (prev + 1) % EVENT_POSTERS.length);
+                            } else {
+                              setPosterIndex((prev) => (prev - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length);
+                            }
+                          }
+                        }}
+                      >
+                        {/* Floating Previous Orb */}
+                        <button
+                          type="button"
+                          className="hp-poster-floating-nav hp-poster-floating-prev"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPosterIndex(prevIndex);
+                          }}
+                          aria-label="Previous celebration"
+                          title={`Previous: ${prevPoster.tab}`}
+                        >
+                          <span>‹</span>
+                        </button>
+
+                        {/* Floating Next Orb */}
+                        <button
+                          type="button"
+                          className="hp-poster-floating-nav hp-poster-floating-next"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPosterIndex(nextIndex);
+                          }}
+                          aria-label="Next celebration"
+                          title={`Next: ${nextPoster.tab}`}
+                        >
+                          <span>›</span>
+                        </button>
+
+                        {/* Inline Performance Video Player (Plays without music by default, loops seamlessly) */}
+                        <div className="hp-poster-img-container hp-poster-media-container">
+                          {current.videoUrl ? (
+                            <video
+                              ref={activeVideoRef}
+                              key={current.videoUrl + current.id}
+                              src={current.videoUrl}
+                              poster={current.poster}
+                              autoPlay
+                              loop
+                              muted={isVideoMuted}
+                              playsInline
+                              className="hp-poster-video-elem"
+                              onPlay={() => setIsVideoPlaying(true)}
+                              onPause={() => setIsVideoPlaying(false)}
+                            />
+                          ) : (
+                            <Image
+                              src={current.poster}
+                              alt={`${current.title} - Magnevents Verified Live Artists`}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 600px"
+                              priority
+                              className="hp-poster-img"
+                              style={{ objectFit: 'cover' }}
+                            />
+                          )}
+                        </div>
+
+                        {/* Gradient Vignette Overlay for Crisp Readability */}
+                        <div className="hp-poster-vignette" />
+
+                        {/* Top Floating Controls Bar */}
+                        <div className="hp-poster-top-bar">
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span className="hp-poster-category-pill">
+                              {current.tab.replace(/^[^\s]+\s/, '')}
+                            </span>
+                            {current.slots && (
+                              <div className="hp-poster-live-slot">
+                                <span className="hp-poster-live-dot" />
+                                <span>{current.slots}</span>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Sound Toggle Button (Plays without music by default, tap to listen) */}
+                          <button
+                            type="button"
+                            className="hp-poster-ctrl-circle hp-poster-audio-btn"
+                            onClick={toggleMute}
+                            aria-label={isVideoMuted ? "Unmute video (Turn sound on)" : "Mute video (Turn sound off)"}
+                            title={isVideoMuted ? "Tap to listen with sound" : "Mute audio"}
+                          >
+                            <span className="hp-ctrl-icon">{isVideoMuted ? "🔇" : "🔊"}</span>
+                          </button>
+                        </div>
+
+                        {/* Floating Play / Pause Control Button */}
+                        <div className="hp-poster-mid-bar">
+                          <span className="hp-poster-tag-badge">{current.tag}</span>
+
+                          <button
+                            type="button"
+                            className="hp-poster-ctrl-circle hp-poster-playpause-btn"
+                            onClick={togglePlayPause}
+                            aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                            title={isVideoPlaying ? "Pause video" : "Play video"}
+                          >
+                            <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸" : "▶"}</span>
+                          </button>
+                        </div>
+
+                        {/* Bottom Card Content */}
+                        <div className="hp-poster-bottom">
+                          <div className="hp-poster-title-row">
+                            <h4 className="hp-poster-card-title">{current.title}</h4>
+                            <p className="hp-poster-card-sub">{current.subtitle}</p>
+                          </div>
+
+                          {/* Pricing and Offer Strip */}
+                          <div className="hp-poster-value-bar">
+                            <div className="hp-poster-price-block">
+                              <span className="hp-poster-regular-price">{current.regularPrice}</span>
+                              <div className="hp-poster-offer-price">
+                                <span>{current.offerPrice}</span>
+                                <span className="hp-poster-discount-badge">{current.discount}</span>
+                              </div>
+                            </div>
+                            <div className="hp-poster-token-badge">
+                              <span className="hp-poster-token-top">Lock Slot</span>
+                              <span className="hp-poster-token-amt">₹99 Only</span>
+                            </div>
+                          </div>
+
+                          {/* High-Converting Full-Width ₹99 Booking Button (Matches User Screenshot) */}
+                          <button
+                            type="button"
+                            className="hp-poster-cta-btn"
+                            onClick={() => {
+                              if (typeof window !== 'undefined') {
+                                window.dispatchEvent(new CustomEvent('open-quick-booking', {
+                                  detail: { eventType: current.title, category: current.category, item: current, index: posterIndex }
+                                }));
+                                window.dispatchEvent(new CustomEvent('open-lead-capture', {
+                                  detail: { eventType: current.title, category: current.category, item: current, index: posterIndex }
+                                }));
+                              }
+                            }}
+                            aria-label={`Book ${current.title} for 99 rupees`}
+                          >
+                            <span>⚡ Book {current.tab.replace(/^[^\s]+\s/, '')} for ₹99</span>
+                            <span>➔</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Right Peek Card (Next) */}
+                      <div
+                        className="hp-poster-peek-card hp-poster-peek-right"
+                        onClick={() => setPosterIndex(nextIndex)}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Next celebration: ${nextPoster.title}`}
+                        title={`Next: ${nextPoster.tab}`}
+                      >
+                        <Image
+                          src={nextPoster.poster}
+                          alt={nextPoster.title}
+                          fill
+                          sizes="80px"
+                          className="hp-poster-peek-img"
+                        />
+                        <div className="hp-poster-peek-overlay">
+                          <span className="hp-poster-peek-arrow">›</span>
+                        </div>
+                      </div>
                     </div>
 
+                    {/* Up Next Quick Preview Strip */}
+                    <div className="hp-poster-next-indicator-strip">
+                      <span className="hp-poster-curr-badge">Card {posterIndex + 1} of {EVENT_POSTERS.length}</span>
+                      <button
+                        type="button"
+                        className="hp-poster-next-pill-btn"
+                        onClick={() => setPosterIndex(nextIndex)}
+                        aria-label={`Go to next: ${nextPoster.tab}`}
+                      >
+                        <span>Up Next:</span>
+                        <strong>{nextPoster.tab}</strong>
+                        <span className="hp-next-pill-arrow">➔</span>
+                      </button>
+                    </div>
+                  </>
+                );
+              })()}
+
+              {/* Navigation Controls & Dot Indicators */}
+              <div className="hp-poster-nav-bar">
+                <button
+                  type="button"
+                  className="hp-poster-nav-btn"
+                  onClick={() => setPosterIndex((prev) => (prev - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length)}
+                  aria-label="Previous event poster"
+                >
+                  ◀
+                </button>
+
+                <div className="hp-poster-dots">
+                  {EVENT_POSTERS.map((_, idx) => (
                     <button
+                      key={idx}
                       type="button"
-                      className="media-card-action-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (typeof window !== 'undefined') {
-                          window.dispatchEvent(
-                            new CustomEvent('open-quick-booking', {
-                              detail: {
-                                category: item.category,
-                                packageTitle: item.title,
-                                preferredBudget: item.price,
-                              },
-                            })
-                          );
-                        }
-                      }}
-                      aria-label={`Book ${item.title} for 99 rupees`}
-                    >
-                      <span>⚡ Book for ₹99</span>
-                      <span>➔</span>
-                    </button>
-                  </div>
+                      className={`hp-poster-dot ${posterIndex === idx ? 'is-active' : ''}`}
+                      onClick={() => setPosterIndex(idx)}
+                      aria-label={`Go to event poster ${idx + 1}`}
+                    />
+                  ))}
                 </div>
-              ))}
+
+                <button
+                  type="button"
+                  className="hp-poster-nav-btn"
+                  onClick={() => setPosterIndex((prev) => (prev + 1) % EVENT_POSTERS.length)}
+                  aria-label="Next event poster"
+                >
+                  ▶
+                </button>
+              </div>
+
+              {/* Value & Trust Guarantees */}
+              <div className="hp-poster-guarantee-strip">
+                <span>🛡️ <strong>100% Arrival Guarantee</strong></span>
+                <span>•</span>
+                <span>💎 <strong>0% Middleman Markup</strong></span>
+                <span>•</span>
+                <span>⭐ <strong>{EVENT_POSTERS[posterIndex]?.rating || '4.95★'}</strong></span>
+              </div>
+
             </div>
           </div>
 
