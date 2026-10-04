@@ -1,0 +1,3784 @@
+[
+  {
+    "s_no": 1,
+    "client_name": "Raj Kumar",
+    "client_phone": "9811582291",
+    "client_email": "rajkumar1709@hotmail.com",
+    "venue": "Panipat",
+    "event_type": "Haldhi Ceremony at Day",
+    "budget": "35000.0",
+    "date": "17/7/2026, 8:41:29 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "ADITYA",
+        "category": "DJs & VDJs",
+        "location": "Delhi NCR",
+        "phone": "9318344059",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vdj_aadi?igsh=NzFxMGZrMWVveDBy&utm_source=qr",
+        "specialization": "VDJ (Visual DJ) & Electronic Artist"
+      },
+      {
+        "rank": 4,
+        "name": "Dj Deep  Singhania",
+        "category": "Rappers & Beatboxers",
+        "location": "Delhi NCR",
+        "phone": "9717579713",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/djdeep_singhania?igsh=MTF5NWtobTE4NHdyeg%3D%3D&utm_source=qr",
+        "specialization": "Rapper / Hip-Hop Artist"
+      },
+      {
+        "rank": 5,
+        "name": "Jashandeep Singh",
+        "category": "Home & Acoustic Singers",
+        "location": "Delhi NCR",
+        "phone": "+919351810784",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/thejashandeep?igsi=ZHk3c3psNHFzbW94",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      }
+    ]
+  },
+  {
+    "s_no": 2,
+    "client_name": "Ruchika Aneja",
+    "client_phone": "9811026182",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "20/8/2026, 4:49:07 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 7,
+    "client_name": "ATUL SHUKLA",
+    "client_phone": "+917000417204",
+    "client_email": "atulshukla28071987@gmail.com",
+    "venue": "Jabalpur",
+    "event_type": "All kinds of muscle shows",
+    "budget": "10000.0",
+    "date": "10/7/2026, 3:27:35 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Chitranshu Srivastava",
+        "category": "Sufi Singers & Bands",
+        "location": "Madhya Pradesh (Indore/Gwalior)",
+        "phone": "8770972538",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/chitranshu_srivastava?igsh=MXJsNTZqcTY1ZDhpcA%3D%3D&utm_source=qr&wa_status_inline=true",
+        "specialization": "Sufi / Ghazal Singer"
+      },
+      {
+        "rank": 2,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 11,
+    "client_name": "Siddhant",
+    "client_phone": "+918875289028",
+    "client_email": "siddhantmahato126@gmail.com",
+    "venue": "Varanasi",
+    "event_type": "Any type of shows",
+    "budget": "5000.0",
+    "date": "12/7/2026, 9:04:50 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 12,
+    "client_name": "Rohit",
+    "client_phone": "8123112000",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "31/7/2026, 6:20:03 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 58,
+    "client_name": "PC",
+    "client_phone": "9540134646",
+    "client_email": "p.dahiya.four@gmail.com",
+    "venue": "MUMBAI",
+    "event_type": "Sangeet",
+    "budget": "50000.0",
+    "date": "23/7/2026, 3:08:39 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Satyendra Kumar",
+        "category": "Live Bands & Groups",
+        "location": "Mumbai, Maharashtra",
+        "phone": "+919997278577",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/satyendrakumar___?igsh=MTc0Zzc4d29jemRkNQ==",
+        "specialization": "Live Rock / Pop / Bollywood Band"
+      },
+      {
+        "rank": 2,
+        "name": "KABIR",
+        "category": "Sufi Singers & Bands",
+        "location": "Mumbai, Maharashtra",
+        "phone": "+918692898694",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/kabirkollective?igsh=MTlkem14aGZzaWg3cQ==",
+        "specialization": "Sufi / Qawwali / Folk Fusion Band"
+      },
+      {
+        "rank": 3,
+        "name": "dharmik chudasama",
+        "category": "Sufi Singers & Bands",
+        "location": "Mumbai, Maharashtra",
+        "phone": "9265327685",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/dharmixioo/",
+        "specialization": "Sufi / Ghazal Singer"
+      },
+      {
+        "rank": 4,
+        "name": "Arvind Agarwal Pune",
+        "category": "Live Bands & Groups",
+        "location": "Pune, Maharashtra",
+        "phone": "+919822329329",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/arvindagarwal.live?igsh=aHI3MGFpOThsYnZv",
+        "specialization": "Live Rock / Pop / Bollywood Band"
+      },
+      {
+        "rank": 5,
+        "name": "Mihir Kallianpur",
+        "category": "Magicians & Mentalists",
+        "location": "Mumbai, Maharashtra",
+        "phone": "97404 47370",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/p/CysW_1zo8lz/?igsh=bHA0ZjJ6aHZub3I1",
+        "specialization": "Magician / Mentalist / Hypnotist"
+      }
+    ]
+  },
+  {
+    "s_no": 67,
+    "client_name": "Uparjan",
+    "client_phone": "9540134646",
+    "client_email": "p.dahiya.four@gmail.com",
+    "venue": "MUMBAI",
+    "event_type": "Private",
+    "budget": "500000.0",
+    "date": "23/7/2026, 4:16:46 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Arvind A",
+        "category": "Home & Acoustic Singers",
+        "location": "Navi Mumbai, Maharashtra",
+        "phone": "9840517838",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/paithankararvind_musical?igsh=MXEyMWcwMzhhaTdrdg==",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      },
+      {
+        "rank": 2,
+        "name": "Ankur Rawat",
+        "category": "Home & Acoustic Singers",
+        "location": "Mumbai, Maharashtra",
+        "phone": "8467918040",
+        "fee": "Quote on Request",
+        "portfolio": "https://drive.google.com/drive/folders/15GC9xlhuz4tb2X482QhsVcKc6pfpA582",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      },
+      {
+        "rank": 3,
+        "name": "KABIR",
+        "category": "Sufi Singers & Bands",
+        "location": "Mumbai, Maharashtra",
+        "phone": "+918692898694",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/kabirkollective?igsh=MTlkem14aGZzaWg3cQ==",
+        "specialization": "Sufi / Qawwali / Folk Fusion Band"
+      },
+      {
+        "rank": 4,
+        "name": "Mihir Kallianpur",
+        "category": "Magicians & Mentalists",
+        "location": "Mumbai, Maharashtra",
+        "phone": "97404 47370",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/p/CysW_1zo8lz/?igsh=bHA0ZjJ6aHZub3I1",
+        "specialization": "Magician / Mentalist / Hypnotist"
+      },
+      {
+        "rank": 5,
+        "name": "Nikhil",
+        "category": "Rappers & Beatboxers",
+        "location": "Mumbai, Maharashtra",
+        "phone": "7900116131",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/who_got_that_dope?igsh=MXJ1cGF4ZWV2Y3QxOA==",
+        "specialization": "Rapper / Hip-Hop Artist"
+      }
+    ]
+  },
+  {
+    "s_no": 77,
+    "client_name": "Nikhil Malhotra",
+    "client_phone": "+917892083924",
+    "client_email": "nikhilmalho@gmail.com",
+    "venue": "Karnal",
+    "event_type": "Wedding",
+    "budget": "80000.0",
+    "date": "27/7/2026, 5:00:21 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Neon Tramlines",
+        "category": "Live Bands & Groups",
+        "location": "Kolkata, West Bengal",
+        "phone": "7980954731",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/neontramlines?igsh=MW80MW85bHdneGIzMQ==",
+        "specialization": "Live Rock / Pop / Bollywood Band"
+      }
+    ]
+  },
+  {
+    "s_no": 89,
+    "client_name": "Janam",
+    "client_phone": "9971777101",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "1/8/2026, 4:33:21 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 105,
+    "client_name": "Vinni",
+    "client_phone": "8377954992",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "2/8/2026, 12:25:10 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 106,
+    "client_name": "Shubhi",
+    "client_phone": "9818091006",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "2/8/2026, 1:29:09 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 110,
+    "client_name": "Mohan Das",
+    "client_phone": "9199338946",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "3/8/2026, 12:59:55 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 112,
+    "client_name": "Gajendra pratap singh",
+    "client_phone": "9015090041",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "4/8/2026, 3:37:09 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 113,
+    "client_name": "Lalatendu",
+    "client_phone": "9810107985",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "5/8/2026, 10:31:57 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 114,
+    "client_name": "AJAY SARIN",
+    "client_phone": "+9109811054523",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "6/8/2026, 12:28:57 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 115,
+    "client_name": "Vishakha",
+    "client_phone": "8700454367",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "6/8/2026, 3:37:14 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 116,
+    "client_name": "Vinod  Kumar",
+    "client_phone": "9893672222",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "6/8/2026, 7:53:26 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 118,
+    "client_name": "Gautam",
+    "client_phone": "9891906489",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "13/8/2026, 12:27:17 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 122,
+    "client_name": "Seema",
+    "client_phone": "9147070647",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "16/8/2026, 8:31:33 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 132,
+    "client_name": "Sapna",
+    "client_phone": "9891126537",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "17/8/2026, 2:14:40 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 134,
+    "client_name": "Jyoti",
+    "client_phone": "9650433274",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "17/8/2026, 7:55:43 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 141,
+    "client_name": "ARUSHI",
+    "client_phone": "9999159540",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "19/8/2026, 11:08:06 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 161,
+    "client_name": "Aayan",
+    "client_phone": "8252122828",
+    "client_email": "aayanliveevents@gmail.com",
+    "venue": "TBD",
+    "event_type": "Call Request",
+    "budget": "N/A",
+    "date": "21/8/2026, 2:22:00 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 165,
+    "client_name": "Vandana",
+    "client_phone": "9810031710",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "23/8/2026, 2:17:42 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 167,
+    "client_name": "Shilpi gupta",
+    "client_phone": "9968060680",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "24/8/2026, 6:20:52 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 170,
+    "client_name": "Rupali",
+    "client_phone": "9643277169",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "25/8/2026, 9:47:10 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 171,
+    "client_name": "Minlun Hangmi",
+    "client_phone": "8837253185",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "25/8/2026, 11:13:07 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 174,
+    "client_name": "Nanda sharma",
+    "client_phone": "9999084729",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "26/8/2026, 5:48:04 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 177,
+    "client_name": "Kiran",
+    "client_phone": "9810429255",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "28/8/2026, 5:02:16 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 178,
+    "client_name": "Amar",
+    "client_phone": "9871155533",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "28/8/2026, 5:51:18 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 180,
+    "client_name": "Kiran Marwaha",
+    "client_phone": "9825004999",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "29/8/2026, 12:06:22 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 196,
+    "client_name": "Priyan",
+    "client_phone": "7428719733",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "30/8/2026, 7:31:13 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 220,
+    "client_name": "Shaila",
+    "client_phone": "9899634242",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "2/9/2026, 7:47:10 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 223,
+    "client_name": "Gaurav Roy",
+    "client_phone": "7002276614",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "2/9/2026, 11:07:05 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 227,
+    "client_name": "Priyaanshu Jorra",
+    "client_phone": "+917710876109",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "4/9/2026, 7:41:25 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 228,
+    "client_name": "Sudhasharma",
+    "client_phone": "9811193079",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "5/9/2026, 5:43:14 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 231,
+    "client_name": "Ashish",
+    "client_phone": "9599862858",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "6/9/2026, 3:27:05 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 232,
+    "client_name": "Sushil",
+    "client_phone": "9307755841",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "6/9/2026, 4:36:05 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 233,
+    "client_name": "Navin",
+    "client_phone": "8826832943",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "6/9/2026, 10:56:00 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 234,
+    "client_name": "Nandita",
+    "client_phone": "9810959149",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "7/9/2026, 9:26:45 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 251,
+    "client_name": "Ravi",
+    "client_phone": "8800978912",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "8/9/2026, 9:02:19 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 253,
+    "client_name": "Adarsh Tiwari",
+    "client_phone": "8810564735",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "9/9/2026, 10:21:22 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 254,
+    "client_name": "Abhinash Bhatt",
+    "client_phone": "7983457479",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "10/9/2026, 12:29:18 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 255,
+    "client_name": "manish",
+    "client_phone": "7982009067",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "10/9/2026, 9:40:30 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 256,
+    "client_name": "Rohit",
+    "client_phone": "8630087769",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "10/9/2026, 3:18:26 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 258,
+    "client_name": "Shubam Beri",
+    "client_phone": "9810717613",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "12/9/2026, 9:37:08 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 259,
+    "client_name": "Preeti",
+    "client_phone": "7982200760",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "13/9/2026, 9:30:15 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 260,
+    "client_name": "Gunjan",
+    "client_phone": "7696988819",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "13/9/2026, 10:02:40 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 261,
+    "client_name": "Nitinesh",
+    "client_phone": "9810036049",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "14/9/2026, 11:29:38 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 262,
+    "client_name": "Nimisha",
+    "client_phone": "9957022959",
+    "client_email": "nimisha@firefoxproductions.in",
+    "venue": "Guwahati",
+    "event_type": "Corporate",
+    "budget": "80000.0",
+    "date": "15/9/2026, 1:13:53 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "ADITYA",
+        "category": "DJs & VDJs",
+        "location": "Delhi NCR",
+        "phone": "9318344059",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vdj_aadi?igsh=NzFxMGZrMWVveDBy&utm_source=qr",
+        "specialization": "VDJ (Visual DJ) & Electronic Artist"
+      },
+      {
+        "rank": 2,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "KARAN RAWAT LIVE",
+        "category": "DJs & VDJs",
+        "location": "Delhi NCR",
+        "phone": "9310036977",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/karanrawatlive?igsh=bjJ5cXZienNkdjFy",
+        "specialization": "Club & Event DJ (Open Format / Bollywood / EDM)"
+      },
+      {
+        "rank": 4,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Shubham",
+        "category": "DJs & VDJs",
+        "location": "Delhi NCR",
+        "phone": "8700750566",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/djxubam?igsh=bXRrN2FuYmhxc21k",
+        "specialization": "Club & Event DJ (Open Format / Bollywood / EDM)"
+      }
+    ]
+  },
+  {
+    "s_no": 266,
+    "client_name": "Mallikarjun Chairman",
+    "client_phone": "9113548129",
+    "client_email": "mallikarjunchairman@gmail.com",
+    "venue": "Gabbaru raichur",
+    "event_type": "Wedding",
+    "budget": "10000.0",
+    "date": "17/9/2026, 11:07:56 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Neon Tramlines",
+        "category": "Live Bands & Groups",
+        "location": "Kolkata, West Bengal",
+        "phone": "7980954731",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/neontramlines?igsh=MW80MW85bHdneGIzMQ==",
+        "specialization": "Live Rock / Pop / Bollywood Band"
+      }
+    ]
+  },
+  {
+    "s_no": 267,
+    "client_name": "Kapur",
+    "client_phone": "9910643258",
+    "client_email": "",
+    "venue": "TBD",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "18/9/2026, 10:33:30 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Monty",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "9643415285",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/reel/DQlR9K8E0s3/?igsh=dXJxY2FubnFwZ2g5",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 4,
+        "name": "Vithal Kurakula",
+        "category": "Live Singers (Commercial)",
+        "location": "Hyderabad, Telangana",
+        "phone": "7032835100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vithal741?igsh=aDZ2cWc3c2d4YTMz&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Gajendra",
+        "category": "Live Singers (Commercial)",
+        "location": "Udaipur, Rajasthan",
+        "phone": "+917906129492",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/gajendralive_?igsh=MWp1NTcwMG1kMTEydQ==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 270,
+    "client_name": "Rahul Verma",
+    "client_phone": "+919876543210",
+    "client_email": "",
+    "venue": "Muzaffarnagar, Uttar Pradesh, India",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "24/9/2026, 11:59:37 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Saif Khan",
+        "category": "Sufi Singers & Bands",
+        "location": "Lucknow / Uttar Pradesh",
+        "phone": "+91 7905263502",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/saifkhan.live?igsi=eXBvbmo4NjV4ZnV0",
+        "specialization": "Sufi / Qawwali / Folk Fusion Band"
+      },
+      {
+        "rank": 2,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "DJ SHUB",
+        "category": "DJs & VDJs",
+        "location": "Dehradun, Uttarakhand",
+        "phone": "9557751557",
+        "fee": "Budget-Friendly / On Request",
+        "portfolio": "https://www.instagram.com/dj.shub1?igsh=ZXR3dzhjdjdkcG9l",
+        "specialization": "Club & Event DJ (Open Format / Bollywood / EDM)"
+      },
+      {
+        "rank": 4,
+        "name": "Chitranshu Srivastava",
+        "category": "Sufi Singers & Bands",
+        "location": "Madhya Pradesh (Indore/Gwalior)",
+        "phone": "8770972538",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/chitranshu_srivastava?igsh=MXJsNTZqcTY1ZDhpcA%3D%3D&utm_source=qr&wa_status_inline=true",
+        "specialization": "Sufi / Ghazal Singer"
+      },
+      {
+        "rank": 5,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 280,
+    "client_name": "Amit mittal",
+    "client_phone": "7906070600",
+    "client_email": "",
+    "venue": "Saharanpur, Uttar Pradesh, India (IP-based)",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "24/9/2026, 11:12:07 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Saif Khan",
+        "category": "Sufi Singers & Bands",
+        "location": "Lucknow / Uttar Pradesh",
+        "phone": "+91 7905263502",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/saifkhan.live?igsi=eXBvbmo4NjV4ZnV0",
+        "specialization": "Sufi / Qawwali / Folk Fusion Band"
+      },
+      {
+        "rank": 2,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "DJ SHUB",
+        "category": "DJs & VDJs",
+        "location": "Dehradun, Uttarakhand",
+        "phone": "9557751557",
+        "fee": "Budget-Friendly / On Request",
+        "portfolio": "https://www.instagram.com/dj.shub1?igsh=ZXR3dzhjdjdkcG9l",
+        "specialization": "Club & Event DJ (Open Format / Bollywood / EDM)"
+      },
+      {
+        "rank": 4,
+        "name": "Chitranshu Srivastava",
+        "category": "Sufi Singers & Bands",
+        "location": "Madhya Pradesh (Indore/Gwalior)",
+        "phone": "8770972538",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/chitranshu_srivastava?igsh=MXJsNTZqcTY1ZDhpcA%3D%3D&utm_source=qr&wa_status_inline=true",
+        "specialization": "Sufi / Ghazal Singer"
+      },
+      {
+        "rank": 5,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 288,
+    "client_name": "Swaran",
+    "client_phone": "9992690193",
+    "client_email": "",
+    "venue": "Ludhiana, Punjab, India (IP-based)",
+    "event_type": "Live Music / Performance",
+    "budget": "N/A",
+    "date": "26/9/2026, 12:47:39 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Surmandeep Singh",
+        "category": "Sufi Singers & Bands",
+        "location": "Punjab / Chandigarh",
+        "phone": "8264124307",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/surman_sings?igsh=MWZibXp3d3RsaDRldA==",
+        "specialization": "Sufi / Qawwali / Folk Fusion Band"
+      },
+      {
+        "rank": 2,
+        "name": "Jaadi",
+        "category": "Live Singers (Commercial)",
+        "location": "Pan India (Available on Request)",
+        "phone": "7814019655",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/jaadivillasra?igsh=dGN3OHJxaWY3Z3kw&utm_source=qr",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Mirza Yaar",
+        "category": "Live Singers (Commercial)",
+        "location": "Pan India (Available on Request)",
+        "phone": "9416880074",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/_mirzayaar_?stkn=YmczczliY2Zvc3Rn&utm_source=qr",
+        "specialization": "Punjabi Vocalist / Performer"
+      },
+      {
+        "rank": 4,
+        "name": "JD Siingh",
+        "category": "Live Singers (Commercial)",
+        "location": "Pan India (Available on Request)",
+        "phone": "9186065646",
+        "fee": "Quote on Request",
+        "portfolio": "https://youtu.be/KI_JnZ-7Lyo?si=yEcdBLgK3UXqkezp",
+        "specialization": "Punjabi Vocalist / Performer"
+      },
+      {
+        "rank": 5,
+        "name": "Kabir Biswal",
+        "category": "Sufi Singers & Bands",
+        "location": "Pan India (Available on Request)",
+        "phone": "+917061934100",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/kabirrr01?igsh=emM5czcyem9ienNs&igsi=emM5czcyem9ienNs&utm_source=qr",
+        "specialization": "Sufi / Ghazal Singer"
+      }
+    ]
+  },
+  {
+    "s_no": 289,
+    "client_name": "Samriddhi Srivastava",
+    "client_phone": "8989430277",
+    "client_email": "srivastava.samriddhi2@gmail.com",
+    "venue": "Jabalpur",
+    "event_type": "Private",
+    "budget": "10000.0",
+    "date": "26/9/2026, 6:14:06 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Rohit joshi",
+        "category": "Home & Acoustic Singers",
+        "location": "Pan India (Available on Request)",
+        "phone": "9368474825",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/rohitsings__/?hl=en",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      },
+      {
+        "rank": 2,
+        "name": "Dj Robin",
+        "category": "DJs & VDJs",
+        "location": "Ahmedabad, Gujarat",
+        "phone": "8128569146",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/djrobinindia?igsh=bG0yeDZ2OWpxcTlq&utm_source=qr",
+        "specialization": "Club & Event DJ (Open Format / Bollywood / EDM)"
+      },
+      {
+        "rank": 3,
+        "name": "DJ SHUB",
+        "category": "DJs & VDJs",
+        "location": "Dehradun, Uttarakhand",
+        "phone": "9557751557",
+        "fee": "Budget-Friendly / On Request",
+        "portfolio": "https://www.instagram.com/dj.shub1?igsh=ZXR3dzhjdjdkcG9l",
+        "specialization": "Club & Event DJ (Open Format / Bollywood / EDM)"
+      },
+      {
+        "rank": 4,
+        "name": "ADITYA",
+        "category": "DJs & VDJs",
+        "location": "Delhi NCR",
+        "phone": "9318344059",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/vdj_aadi?igsh=NzFxMGZrMWVveDBy&utm_source=qr",
+        "specialization": "VDJ (Visual DJ) & Electronic Artist"
+      },
+      {
+        "rank": 5,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 293,
+    "client_name": "waquar ahmed",
+    "client_phone": "7978604847",
+    "client_email": "",
+    "venue": "Bhubaneswar, Odisha, India",
+    "event_type": "Wedding / Reception",
+    "budget": "5000.0",
+    "date": "28/9/2026, 3:03:52 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Anurag anand",
+        "category": "Live Singers (Commercial)",
+        "location": "Delhi NCR",
+        "phone": "8076069504",
+        "fee": "Quote on Request",
+        "portfolio": "https://instagram.com/anurag_anand0412?igshid=bdxg61abrcoe",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 2,
+        "name": "Akshant Bhuiyar",
+        "category": "Live Singers (Commercial)",
+        "location": "Haridwar, Uttarakhand",
+        "phone": "+919084230488",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/fxc.aksh?igsh=MW95cmpid2NjcnNxZg==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 3,
+        "name": "Jayant dabla",
+        "category": "Live Bands & Groups",
+        "location": "North India (Touring)",
+        "phone": "8440909844",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/jayanth_live?igsh=aWdzZGliMnllYXc0",
+        "specialization": "Live Rock / Pop / Bollywood Band"
+      },
+      {
+        "rank": 4,
+        "name": "Kashish guglani",
+        "category": "Live Singers (Commercial)",
+        "location": "Pan India / Worldwide",
+        "phone": "8950548863",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/kashishguglanilive?igsh=MTEzODVqeDg5ZWVvcw==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      },
+      {
+        "rank": 5,
+        "name": "Parleen Gill",
+        "category": "Live Singers (Commercial)",
+        "location": "Pan India / Worldwide",
+        "phone": "9158243974",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/parleen.gill?igsh=MXh5Y2ZxcHdmaHlhZw==",
+        "specialization": "Bollywood / Classical / Commercial Vocalist"
+      }
+    ]
+  },
+  {
+    "s_no": 294,
+    "client_name": "Event Host",
+    "client_phone": "8218815616",
+    "client_email": "",
+    "venue": "Mumbai, Maharashtra, India",
+    "event_type": "Private House Party",
+    "budget": "5000.0",
+    "date": "28/9/2026, 8:30:08 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Ankur Rawat",
+        "category": "Home & Acoustic Singers",
+        "location": "Mumbai, Maharashtra",
+        "phone": "8467918040",
+        "fee": "Quote on Request",
+        "portfolio": "https://drive.google.com/drive/folders/15GC9xlhuz4tb2X482QhsVcKc6pfpA582",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      },
+      {
+        "rank": 2,
+        "name": "Mihir Kallianpur",
+        "category": "Magicians & Mentalists",
+        "location": "Mumbai, Maharashtra",
+        "phone": "97404 47370",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/p/CysW_1zo8lz/?igsh=bHA0ZjJ6aHZub3I1",
+        "specialization": "Magician / Mentalist / Hypnotist"
+      },
+      {
+        "rank": 3,
+        "name": "dharmik chudasama",
+        "category": "Sufi Singers & Bands",
+        "location": "Mumbai, Maharashtra",
+        "phone": "9265327685",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/dharmixioo/",
+        "specialization": "Sufi / Ghazal Singer"
+      },
+      {
+        "rank": 4,
+        "name": "Arvind A",
+        "category": "Home & Acoustic Singers",
+        "location": "Navi Mumbai, Maharashtra",
+        "phone": "9840517838",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/paithankararvind_musical?igsh=MXEyMWcwMzhhaTdrdg==",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      },
+      {
+        "rank": 5,
+        "name": "KABIR",
+        "category": "Sufi Singers & Bands",
+        "location": "Mumbai, Maharashtra",
+        "phone": "+918692898694",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/kabirkollective?igsh=MTlkem14aGZzaWg3cQ==",
+        "specialization": "Sufi / Qawwali / Folk Fusion Band"
+      }
+    ]
+  },
+  {
+    "s_no": 295,
+    "client_name": "Event Host",
+    "client_phone": "8104145512",
+    "client_email": "",
+    "venue": "Mumbai, Maharashtra, India",
+    "event_type": "Ghazal / Sufi Mehfil",
+    "budget": "5000.0",
+    "date": "28/9/2026, 10:44:43 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "dharmik chudasama",
+        "category": "Sufi Singers & Bands",
+        "location": "Mumbai, Maharashtra",
+        "phone": "9265327685",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/dharmixioo/",
+        "specialization": "Sufi / Ghazal Singer"
+      },
+      {
+        "rank": 2,
+        "name": "Ankur Rawat",
+        "category": "Home & Acoustic Singers",
+        "location": "Mumbai, Maharashtra",
+        "phone": "8467918040",
+        "fee": "Quote on Request",
+        "portfolio": "https://drive.google.com/drive/folders/15GC9xlhuz4tb2X482QhsVcKc6pfpA582",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      },
+      {
+        "rank": 3,
+        "name": "KABIR",
+        "category": "Sufi Singers & Bands",
+        "location": "Mumbai, Maharashtra",
+        "phone": "+918692898694",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/kabirkollective?igsh=MTlkem14aGZzaWg3cQ==",
+        "specialization": "Sufi / Qawwali / Folk Fusion Band"
+      },
+      {
+        "rank": 4,
+        "name": "Arvind A",
+        "category": "Home & Acoustic Singers",
+        "location": "Navi Mumbai, Maharashtra",
+        "phone": "9840517838",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/paithankararvind_musical?igsh=MXEyMWcwMzhhaTdrdg==",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      },
+      {
+        "rank": 5,
+        "name": "Mihir Kallianpur",
+        "category": "Magicians & Mentalists",
+        "location": "Mumbai, Maharashtra",
+        "phone": "97404 47370",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/p/CysW_1zo8lz/?igsh=bHA0ZjJ6aHZub3I1",
+        "specialization": "Magician / Mentalist / Hypnotist"
+      }
+    ]
+  },
+  {
+    "s_no": 296,
+    "client_name": "Harsh Patil",
+    "client_phone": "8104145512",
+    "client_email": "haarsh0030@gmail.com",
+    "venue": "Mumbai",
+    "event_type": "Private",
+    "budget": "10000.0",
+    "date": "28/9/2026, 10:46:15 pm",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "Arvind A",
+        "category": "Home & Acoustic Singers",
+        "location": "Navi Mumbai, Maharashtra",
+        "phone": "9840517838",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/paithankararvind_musical?igsh=MXEyMWcwMzhhaTdrdg==",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      },
+      {
+        "rank": 2,
+        "name": "Ankur Rawat",
+        "category": "Home & Acoustic Singers",
+        "location": "Mumbai, Maharashtra",
+        "phone": "8467918040",
+        "fee": "Quote on Request",
+        "portfolio": "https://drive.google.com/drive/folders/15GC9xlhuz4tb2X482QhsVcKc6pfpA582",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      },
+      {
+        "rank": 3,
+        "name": "KABIR",
+        "category": "Sufi Singers & Bands",
+        "location": "Mumbai, Maharashtra",
+        "phone": "+918692898694",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/kabirkollective?igsh=MTlkem14aGZzaWg3cQ==",
+        "specialization": "Sufi / Qawwali / Folk Fusion Band"
+      },
+      {
+        "rank": 4,
+        "name": "Mihir Kallianpur",
+        "category": "Magicians & Mentalists",
+        "location": "Mumbai, Maharashtra",
+        "phone": "97404 47370",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/p/CysW_1zo8lz/?igsh=bHA0ZjJ6aHZub3I1",
+        "specialization": "Magician / Mentalist / Hypnotist"
+      },
+      {
+        "rank": 5,
+        "name": "Nikhil",
+        "category": "Rappers & Beatboxers",
+        "location": "Mumbai, Maharashtra",
+        "phone": "7900116131",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/who_got_that_dope?igsh=MXJ1cGF4ZWV2Y3QxOA==",
+        "specialization": "Rapper / Hip-Hop Artist"
+      }
+    ]
+  },
+  {
+    "s_no": 300,
+    "client_name": "Event Host",
+    "client_phone": "9920047387",
+    "client_email": "",
+    "venue": "Mumbai, Maharashtra, India",
+    "event_type": "Classic Ghazal & Sufi Trio Booking",
+    "budget": "5000.0",
+    "date": "1/10/2026, 11:49:31 am",
+    "matched_artists": [
+      {
+        "rank": 1,
+        "name": "dharmik chudasama",
+        "category": "Sufi Singers & Bands",
+        "location": "Mumbai, Maharashtra",
+        "phone": "9265327685",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/dharmixioo/",
+        "specialization": "Sufi / Ghazal Singer"
+      },
+      {
+        "rank": 2,
+        "name": "Ankur Rawat",
+        "category": "Home & Acoustic Singers",
+        "location": "Mumbai, Maharashtra",
+        "phone": "8467918040",
+        "fee": "Quote on Request",
+        "portfolio": "https://drive.google.com/drive/folders/15GC9xlhuz4tb2X482QhsVcKc6pfpA582",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      },
+      {
+        "rank": 3,
+        "name": "KABIR",
+        "category": "Sufi Singers & Bands",
+        "location": "Mumbai, Maharashtra",
+        "phone": "+918692898694",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/kabirkollective?igsh=MTlkem14aGZzaWg3cQ==",
+        "specialization": "Sufi / Qawwali / Folk Fusion Band"
+      },
+      {
+        "rank": 4,
+        "name": "Arvind A",
+        "category": "Home & Acoustic Singers",
+        "location": "Navi Mumbai, Maharashtra",
+        "phone": "9840517838",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/paithankararvind_musical?igsh=MXEyMWcwMzhhaTdrdg==",
+        "specialization": "Acoustic / Unplugged / Cafe Performer"
+      },
+      {
+        "rank": 5,
+        "name": "Mihir Kallianpur",
+        "category": "Magicians & Mentalists",
+        "location": "Mumbai, Maharashtra",
+        "phone": "97404 47370",
+        "fee": "Quote on Request",
+        "portfolio": "https://www.instagram.com/p/CysW_1zo8lz/?igsh=bHA0ZjJ6aHZub3I1",
+        "specialization": "Magician / Mentalist / Hypnotist"
+      }
+    ]
+  }
+]
