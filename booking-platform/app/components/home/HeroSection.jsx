@@ -366,22 +366,6 @@ export default function HeroSection() {
           {/* 10 LUXURY EVENT SHOWCASE CARDS (MAIN MOBILE CENTERPIECE) */}
           <div className="hp-mob-section">
             <div className="hp-posters-showcase">
-              {/* Category Quick Tabs (10 Categories) */}
-              <div className="hp-posters-tabs" role="tablist">
-                {EVENT_POSTERS.map((poster, idx) => (
-                  <button
-                    key={poster.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={posterIndex === idx}
-                    className={`hp-poster-tab ${posterIndex === idx ? 'is-active' : ''}`}
-                    onClick={() => setPosterIndex(idx)}
-                  >
-                    <span>{poster.tab}</span>
-                  </button>
-                ))}
-              </div>
-
               {/* Main Swipeable Reel/Video Card with Visible Peek Stage */}
               {(() => {
                 const current = EVENT_POSTERS[posterIndex] || EVENT_POSTERS[0];
