@@ -696,67 +696,24 @@ export default function LeadCaptureModal() {
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        padding: '16px 12px 8px 12px',
+                        padding: '16px 12px 10px 12px',
                         zIndex: 3,
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '5px',
-                        background: 'linear-gradient(180deg, rgba(8, 8, 14, 0) 0%, rgba(8, 8, 14, 0.88) 35%, #08080e 100%)'
+                        gap: '4px',
+                        background: 'linear-gradient(180deg, rgba(8, 8, 14, 0) 0%, rgba(8, 8, 14, 0.88) 40%, #08080e 100%)'
                       }}>
-                        <div>
-                          <h4 style={{
-                            fontSize: '14.5px',
-                            fontWeight: 800,
-                            color: '#FFFFFF',
-                            margin: 0,
-                            lineHeight: 1.2,
-                            letterSpacing: '-0.01em',
-                            textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)'
-                          }}>
-                            {card.title}
-                          </h4>
-                        </div>
-
-                        {/* Verified Features Bar */}
-                        <div style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          background: 'rgba(14, 12, 26, 0.72)',
-                          backdropFilter: 'blur(20px)',
-                          WebkitBackdropFilter: 'blur(20px)',
-                          border: '1px solid rgba(255, 255, 255, 0.18)',
-                          borderRadius: '11px',
-                          padding: '6px 11px',
-                          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.25)'
+                        <h4 style={{
+                          fontSize: '14px',
+                          fontWeight: 800,
+                          color: '#FFFFFF',
+                          margin: 0,
+                          lineHeight: 1.25,
+                          letterSpacing: '-0.01em',
+                          textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)'
                         }}>
-                          <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#FFE032', textShadow: '0 0 10px rgba(255, 224, 50, 0.3)' }}>
-                              ⭐ 4.95★ Verified Performer
-                            </span>
-                            <span style={{ fontSize: '9.5px', color: 'rgba(255, 255, 255, 0.75)' }}>
-                              Sound Included • 100% Arrival
-                            </span>
-                          </div>
-
-                          <div style={{
-                            background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
-                            color: '#000000',
-                            fontWeight: 900,
-                            fontSize: '10.5px',
-                            padding: '5px 11px',
-                            borderRadius: '7px',
-                            boxShadow: '0 3px 12px rgba(255, 224, 50, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.6)',
-                            border: '1px solid rgba(255, 255, 255, 0.4)',
-                            letterSpacing: '0.2px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '3px',
-                            whiteSpace: 'nowrap'
-                          }}>
-                            <span>Reserve ➔</span>
-                          </div>
-                        </div>
+                          {card.title}
+                        </h4>
                       </div>
                     </div>
                   )
@@ -797,9 +754,9 @@ export default function LeadCaptureModal() {
             </div>
 
             {/* ══════════════════════════════════════════════════════════
-                MINIMAL FORM (NAME + PHONE NUMBER + EVENT DETAILS)
+                MINIMAL FORM (EVENT SELECTOR + NAME + PHONE NUMBER)
                 ══════════════════════════════════════════════════════════ */}
-            <MinimalBookingForm currentCard={current} onClose={onClose} />
+            <MinimalBookingForm currentCard={current} onSelectEvent={handleSelectEvent} onClose={onClose} />
           </motion.div>
         </div>
       )}
@@ -807,12 +764,13 @@ export default function LeadCaptureModal() {
   )
 }
 
-function MinimalBookingForm({ currentCard, onClose }) {
+function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
   const [formData, setFormData] = useState({ 
     name: '', 
     phone: '',
     eventDetails: ''
   })
+  const selectedEventType = currentCard?.tab || currentCard?.category || 'Live Artist Booking'
   const [errorMsg, setErrorMsg] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -862,8 +820,8 @@ function MinimalBookingForm({ currentCard, onClose }) {
         date: '',
         location: geoData.detectedLocation || '',
         eventDetails: formData.eventDetails?.trim() || '',
-        message: `[ARTIST BOOKING REQUEST] Reserved: ${currentCard.title} (${currentCard.category})${formData.eventDetails ? ` | Details: ${formData.eventDetails.trim()}` : ''}. Check availability and confirm artist slot.`,
-        eventType: currentCard.category || 'Live Artist Booking',
+        message: `[ARTIST BOOKING REQUEST] ${selectedEventType}${formData.eventDetails ? ` | Details: ${formData.eventDetails.trim()}` : ''}. Reserved: ${currentCard.title} (${currentCard.category}). Check availability and confirm artist slot.`,
+        eventType: selectedEventType || currentCard.category || 'Live Artist Booking',
         type: 'token_booking_99_reserved',
         formType: 'welcome_popup',
         formName: 'Welcome 10-Card Popup',
@@ -978,7 +936,6 @@ function MinimalBookingForm({ currentCard, onClose }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-
       {/* Field 1: Name */}
       <div>
         <input
