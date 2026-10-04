@@ -632,17 +632,6 @@ export default function LeadCaptureModal() {
                       <span style={{ fontSize: '16px', fontWeight: 900, color: '#FFE032' }}>
                         {current.offerPrice}
                       </span>
-                      <span style={{
-                        fontSize: '9.5px',
-                        fontWeight: 800,
-                        background: 'rgba(34, 197, 94, 0.2)',
-                        border: '1px solid rgba(34, 197, 94, 0.4)',
-                        color: '#4ADE80',
-                        padding: '2px 5px',
-                        borderRadius: '5px'
-                      }}>
-                        {current.discount}
-                      </span>
                     </div>
                   </div>
 
