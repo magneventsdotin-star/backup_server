@@ -90,7 +90,7 @@ const FEATURED_SLIDER_ARTISTS = [
     id: "6b53eed6-8ba6-49b7-9cae-c56bd0f909ac",
     name: "Arman Azmi (Azmi Live)",
     category: "Ghazal & Sufi Singer",
-    subCategory: "Classical Ghazals, Bollywood & Sufi",
+    subCategory: "Classical Ghazals, Mehfils & Intimate Evenings",
     city: "Delhi NCR",
     rating: 5.0,
     successful_bookings: 35,
@@ -103,7 +103,7 @@ const FEATURED_SLIDER_ARTISTS = [
     id: "0a7ee8d6-06e1-4051-969e-0ca24950c4f1",
     name: "Abhishek (Abhi)",
     category: "Acoustic Singer",
-    subCategory: "Bollywood Melodies & Unplugged",
+    subCategory: "Bollywood Melodies & Unplugged House Party",
     city: "Jaipur / NCR",
     rating: 4.9,
     successful_bookings: 30,
@@ -111,6 +111,32 @@ const FEATURED_SLIDER_ARTISTS = [
     price_max: 15000,
     img: "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/talent-track/artists/38c91e71-c0f9-4a46-8fba-620efc7f8b9e.jpeg",
     slug: "abhishek"
+  },
+  {
+    id: "c18e9a21-72f1-4db5-9e4a-5b1287e0fa12",
+    name: "Kavya Sharma",
+    category: "Acoustic Vocalist",
+    subCategory: "Romantic Bollywood, Western Pop & Sundowner",
+    city: "Delhi NCR",
+    rating: 4.9,
+    successful_bookings: 44,
+    price_min: 8000,
+    price_max: 20000,
+    img: "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/assets/duo-musical-performance.webp",
+    slug: "kavya-sharma"
+  },
+  {
+    id: "d47c8b10-61b4-4e92-8a9d-3f091c78b401",
+    name: "The Delhi Sufi & Rock Collective",
+    category: "Live Music Band",
+    subCategory: "4-Piece Live Band for House Parties & Grand Events",
+    city: "Delhi NCR",
+    rating: 5.0,
+    successful_bookings: 92,
+    price_min: 22000,
+    price_max: 60000,
+    img: "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/assets/lux-live-band-concert.webp",
+    slug: "the-delhi-sufi-rock-collective"
   }
 ];
 
@@ -352,27 +378,106 @@ function AISearchContent() {
             Describe your event in everyday natural language. AI Search understands Indian event vibes, sound rider setups, direct 0% commission artist pricing, and instant bookings.
           </p>
 
-          {/* Trust signals */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '28px',
-            flexWrap: 'wrap',
-            marginBottom: '36px',
-            padding: '14px 24px',
-            background: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.07)',
-            borderRadius: '16px',
-            backdropFilter: 'blur(10px)'
-          }}>
-            {[['1,500+', 'Verified Artists'], ['0%', 'Commission'], ['100%', 'Arrival Guarantee'], ['⚡', 'Instant Match']].map(([val, label]) => (
-              <div key={label} style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '18px', fontWeight: '900', color: '#FFE032', letterSpacing: '-0.02em' }}>{val}</div>
-                <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: '2px' }}>{label}</div>
+          {/* ══════════════════════════════════════════════════════════
+              FEATURED ARTIST PROFILES SLIDER (IN PLACE OF METRICS BOX)
+              ══════════════════════════════════════════════════════════ */}
+          <div className="lux-ai-slider-section" aria-label="Featured Artist Profiles">
+            <div className="lux-ai-slider-header">
+              <div className="lux-ai-slider-heading-wrap">
+                <span className="lux-ai-slider-badge">👑 TOP 10 HOUSE PARTY & EVENT ARTISTS</span>
+                <h2 className="lux-ai-slider-title">
+                  Featured <span>Artist Profiles</span>
+                </h2>
+                <p className="lux-ai-slider-subtitle">
+                  Slide horizontally to explore top verified artists · Direct pricing · 0% commission
+                </p>
               </div>
-            ))}
+              <div className="lux-ai-slider-nav-arrows">
+                <button
+                  type="button"
+                  className="lux-ai-slider-arrow-btn"
+                  onClick={() => scrollSlider('left')}
+                  aria-label="Previous artist profiles"
+                >
+                  ◀
+                </button>
+                <button
+                  type="button"
+                  className="lux-ai-slider-arrow-btn"
+                  onClick={() => scrollSlider('right')}
+                  aria-label="Next artist profiles"
+                >
+                  ▶
+                </button>
+              </div>
+            </div>
+
+            <div className="lux-ai-slider-track" ref={sliderRef}>
+              {FEATURED_SLIDER_ARTISTS.map((artist) => (
+                <div key={artist.id} className="lux-ai-slider-card">
+                  <div className="lux-ai-slider-card-thumb">
+                    <Image
+                      src={artist.img}
+                      alt={`${artist.name} - ${artist.category}`}
+                      fill
+                      sizes="280px"
+                      className="lux-ai-slider-card-img"
+                      unoptimized
+                    />
+                    <div className="lux-ai-slider-badge-row">
+                      <span className="lux-ai-slider-verified">
+                        <span>✓</span> Verified Pro
+                      </span>
+                      <span className="lux-ai-slider-rating">
+                        ★ {Number(artist.rating).toFixed(1)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="lux-ai-slider-card-body">
+                    <h3 className="lux-ai-slider-artist-name">{artist.name}</h3>
+
+                    <div className="lux-ai-slider-meta-row">
+                      <span>{artist.category}</span>
+                      <span>•</span>
+                      <span className="lux-ai-slider-city">📍 {artist.city}</span>
+                    </div>
+
+                    <p className="lux-ai-slider-genres">
+                      {artist.subCategory}
+                    </p>
+
+                    <div className="lux-ai-slider-pricing">
+                      <span className="lux-ai-slider-rate">
+                        Starts ₹{Number(artist.price_min).toLocaleString('en-IN')}
+                      </span>
+                      <span className="lux-ai-slider-badge-zero">0% Markup</span>
+                    </div>
+
+                    {/* Two Explicit Action Options: Book for ₹99 & View Details */}
+                    <div className="lux-ai-slider-actions">
+                      <button
+                        type="button"
+                        className="lux-ai-slider-btn-book"
+                        onClick={() => handleBookArtist(artist.name, artist.category)}
+                        aria-label={`Book ${artist.name} for 99 rupees`}
+                      >
+                        <span>⚡ Book for ₹99</span>
+                      </button>
+                      <Link
+                        href={`/artist/${artist.slug || artist.id}`}
+                        className="lux-ai-slider-btn-view"
+                        aria-label={`View details of ${artist.name}`}
+                      >
+                        <span>View Details ➔</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+
 
           <div className="lux-ai-searchbox-card">
             <form
@@ -459,105 +564,7 @@ function AISearchContent() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════════════════════════
-            HORIZONTAL FEATURED ARTISTS SLIDER SECTION
-            ══════════════════════════════════════════════════════════ */}
-        <section className="lux-ai-slider-section" aria-label="Featured Artist Profiles">
-          <div className="lux-ai-slider-header">
-            <div className="lux-ai-slider-heading-wrap">
-              <span className="lux-ai-slider-badge">⭐ TOP VERIFIED PERFORMERS</span>
-              <h2 className="lux-ai-slider-title">
-                Featured <span>Artist Profiles</span>
-              </h2>
-              <p className="lux-ai-slider-subtitle">
-                Slide horizontally to discover top verified singers &amp; bands · Direct pricing · 0% commission markup
-              </p>
-            </div>
-            <div className="lux-ai-slider-nav-arrows">
-              <button
-                type="button"
-                className="lux-ai-slider-arrow-btn"
-                onClick={() => scrollSlider('left')}
-                aria-label="Previous artist profiles"
-              >
-                ◀
-              </button>
-              <button
-                type="button"
-                className="lux-ai-slider-arrow-btn"
-                onClick={() => scrollSlider('right')}
-                aria-label="Next artist profiles"
-              >
-                ▶
-              </button>
-            </div>
-          </div>
 
-          <div className="lux-ai-slider-track" ref={sliderRef}>
-            {FEATURED_SLIDER_ARTISTS.map((artist) => (
-              <div key={artist.id} className="lux-ai-slider-card">
-                <div className="lux-ai-slider-card-thumb">
-                  <Image
-                    src={artist.img}
-                    alt={`${artist.name} - ${artist.category}`}
-                    fill
-                    sizes="280px"
-                    className="lux-ai-slider-card-img"
-                    unoptimized
-                  />
-                  <div className="lux-ai-slider-badge-row">
-                    <span className="lux-ai-slider-verified">
-                      <span>✓</span> Verified Pro
-                    </span>
-                    <span className="lux-ai-slider-rating">
-                      ★ {Number(artist.rating).toFixed(1)}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="lux-ai-slider-card-body">
-                  <h3 className="lux-ai-slider-artist-name">{artist.name}</h3>
-
-                  <div className="lux-ai-slider-meta-row">
-                    <span>{artist.category}</span>
-                    <span>•</span>
-                    <span className="lux-ai-slider-city">📍 {artist.city}</span>
-                  </div>
-
-                  <p className="lux-ai-slider-genres">
-                    {artist.subCategory}
-                  </p>
-
-                  <div className="lux-ai-slider-pricing">
-                    <span className="lux-ai-slider-rate">
-                      Starts ₹{Number(artist.price_min).toLocaleString('en-IN')}
-                    </span>
-                    <span className="lux-ai-slider-badge-zero">0% Markup</span>
-                  </div>
-
-                  {/* Two Explicit Action Options: Book & View Details */}
-                  <div className="lux-ai-slider-actions">
-                    <button
-                      type="button"
-                      className="lux-ai-slider-btn-book"
-                      onClick={() => handleBookArtist(artist.name, artist.category)}
-                      aria-label={`Book ${artist.name}`}
-                    >
-                      <span>⚡ Book</span>
-                    </button>
-                    <Link
-                      href={`/artist/${artist.slug || artist.id}`}
-                      className="lux-ai-slider-btn-view"
-                      aria-label={`View details of ${artist.name}`}
-                    >
-                      <span>View Details ➔</span>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* Loading / Thinking State */}
         {isLoading && (

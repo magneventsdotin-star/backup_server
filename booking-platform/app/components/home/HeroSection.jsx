@@ -14,17 +14,81 @@ const EVENT_POSTERS = [
     id: 'house-party',
     category: 'House Party & Acoustic',
     tab: '🎤 House Party',
-    tag: '🔥 WEEKEND TOP CHOICE',
-    title: 'House Parties & Acoustic Jams',
-    subtitle: 'Soulful Bollywood, Pop & Unplugged Vocalists for Living Rooms & Terraces',
+    tag: '🔥 #1 FOR HOUSE PARTIES',
+    title: 'Private House Party Acoustic Singer',
+    subtitle: 'Soulful Bollywood, Pop & Unplugged Vocalists with Compact Sound Setup for Living Rooms',
     poster: '/posters/house_party_acoustic.jpg',
     videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/house%20party%20Landscape.mp4',
     videoTitle: 'Live House Party Singer Performance',
-    regularPrice: '₹18,000',
-    offerPrice: '₹7,999',
+    regularPrice: '₹16,000',
+    offerPrice: '₹6,999',
     discount: '55%–65% OFF',
     slots: '3 Slots Left Today',
-    rating: '4.95★ (1,200+ Parties)'
+    rating: '4.96★ (1,450+ Parties)'
+  },
+  {
+    id: 'terrace-sundowner',
+    category: 'Terrace & Sundowner',
+    tab: '🌆 Terrace Jam',
+    tag: '🌅 SUNSET SPECIAL',
+    title: 'Rooftop Terrace Sundowner Jam',
+    subtitle: 'Acoustic Guitarist & Bongo Percussionist for Open-Air Golden Hour & Sunset Vibes',
+    poster: '/posters/terrace_sundowner_jam.jpg',
+    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/farm%20house%20Portrait.mp4',
+    videoTitle: 'Rooftop Sundowner Jam Session',
+    regularPrice: '₹20,000',
+    offerPrice: '₹8,499',
+    discount: 'Flat 58% OFF',
+    slots: '4 Slots Left for Weekend',
+    rating: '4.94★ (680+ Rooftops)'
+  },
+  {
+    id: 'birthday-party',
+    category: 'Birthday Celebrations',
+    tab: '🎂 Birthday Bash',
+    tag: '🎉 BIRTHDAY SPECIAL',
+    title: 'Birthday House Party Singer',
+    subtitle: 'High-Energy Bollywood Medleys, Retro Classics & Singalongs with Portable Sound',
+    poster: '/posters/birthday_party_singer.jpg',
+    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Birthday%20Party%20Landscape.mp4',
+    videoTitle: 'Birthday Celebration Live Performance',
+    regularPrice: '₹15,000',
+    offerPrice: '₹6,499',
+    discount: 'Flat 57% OFF',
+    slots: '5 Slots Left Today',
+    rating: '4.98★ (2,100+ Birthdays)'
+  },
+  {
+    id: 'farmhouse-cocktail',
+    category: 'Farmhouse & Cocktails',
+    tab: '🍸 Farmhouse Party',
+    tag: '🌴 LUXURY LAWN PARTY',
+    title: 'Farmhouse Lawn Cocktail Party',
+    subtitle: 'Bollywood Fusion Singer & Saxophone Duo for Poolside & Lawn Gatherings',
+    poster: '/posters/farmhouse_cocktail_party.jpg',
+    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/farm%20house%20Portrait.mp4',
+    videoTitle: 'Farmhouse Cocktail Night Performance',
+    regularPrice: '₹32,000',
+    offerPrice: '₹13,999',
+    discount: 'Flat 56% OFF',
+    slots: '2 Slots Left This Weekend',
+    rating: '4.97★ (520+ Farmhouses)'
+  },
+  {
+    id: 'ghazal-sufi',
+    category: 'Ghazal & Sufi',
+    tab: '🌙 Sufi & Ghazal',
+    tag: '🕯️ ROMANTIC EVENING',
+    title: 'Intimate Ghazal & Sufi Mehfil',
+    subtitle: 'Live Harmonium, Acoustic Tabla & Classical Vocalist for Candlelight Dinners & Anniversaries',
+    poster: '/posters/ghazal_sufi_night.jpg',
+    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Book%20a%20Bhajan%20concert%20at%20home%20Portrait.mp4',
+    videoTitle: 'Soulful Ghazal & Sufi Mehfil',
+    regularPrice: '₹24,000',
+    offerPrice: '₹9,999',
+    discount: 'Flat 58% OFF',
+    slots: '3 Slots Left',
+    rating: '5.0★ (740+ Anniversaries)'
   },
   {
     id: 'wedding-band',
@@ -32,10 +96,10 @@ const EVENT_POSTERS = [
     tab: '👑 Wedding Band',
     tag: '👑 ROYAL SANGEET SPECIAL',
     title: 'Grand Sangeet & Royal Live Bands',
-    subtitle: 'High-Octane Sufi Rock, Bollywood Bands & 5-Piece Ensembles',
+    subtitle: 'High-Octane 5 to 7 Piece Live Troupe, Sufi Rock & Bollywood Anthems',
     poster: '/posters/wedding_sangeet_band.jpg',
-    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Book%20a%20Bhajan%20concert%20at%20home%20Portrait.mp4',
-    videoTitle: 'Grand Sangeet & Live Band Concert',
+    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/house%20party%20Landscape.mp4',
+    videoTitle: 'Grand Sangeet Live Band Concert',
     regularPrice: '₹65,000',
     offerPrice: '₹28,999',
     discount: 'Up to 60% OFF',
@@ -43,36 +107,68 @@ const EVENT_POSTERS = [
     rating: '4.98★ (850+ Weddings)'
   },
   {
+    id: 'haldi-mehendi',
+    category: 'Haldi & Mehendi',
+    tab: '🌼 Haldi & Mehendi',
+    tag: '💛 WEDDING FESTIVITIES',
+    title: 'Haldi & Mehendi Folk & Dholak Troupe',
+    subtitle: 'Upbeat Punjabi Wedding Folk, Dholak & Traditional Tappe Singalongs for Home Functions',
+    poster: '/posters/haldi_mehendi_celebration.jpg',
+    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Birthday%20Party%20Landscape.mp4',
+    videoTitle: 'Haldi & Mehendi Celebration Performance',
+    regularPrice: '₹18,000',
+    offerPrice: '₹7,499',
+    discount: 'Flat 58% OFF',
+    slots: '3 Slots Left',
+    rating: '4.95★ (1,100+ Functions)'
+  },
+  {
     id: 'club-dj',
-    category: 'DJs & Sundowners',
-    tab: '⚡ Club DJ & Dhol',
+    category: 'DJs & Club Nights',
+    tab: '⚡ DJ & Dhol',
     tag: '⚡ HIGH-OCTANE NIGHTS',
-    title: 'Club DJs & Live Dhol Sundowners',
-    subtitle: 'EDM, Commercial Hits, Punjabi Beats with Live Percussion & Lasers',
+    title: 'Club DJs & Live Punjabi Dhol Beats',
+    subtitle: 'Commercial EDM, Bollywood Remixes & Live Dhol with Laser Sound Setup',
     poster: '/posters/club_dj_sundowner.jpg',
     videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/farm%20house%20Portrait.mp4',
-    videoTitle: 'Farmhouse Sundowner & DJ Session',
-    regularPrice: '₹30,000',
-    offerPrice: '₹12,499',
-    discount: 'Flat 60% OFF',
+    videoTitle: 'High-Energy DJ & Dhol Session',
+    regularPrice: '₹28,000',
+    offerPrice: '₹11,999',
+    discount: 'Flat 57% OFF',
     slots: '4 Slots Left for Weekend',
-    rating: '4.92★ (950+ Club Nights)'
+    rating: '4.93★ (980+ DJ Nights)'
   },
   {
     id: 'corporate-gala',
-    category: 'Corporate & Anchors',
+    category: 'Corporate Events',
     tab: '🌟 VIP Corporate',
-    tag: '🌟 PRESTIGE CORPORATE GALA',
+    tag: '👔 ELITE CORPORATE GALA',
     title: 'Corporate Summits & Celebrity Hosts',
-    subtitle: 'Celebrity Emcees, Standup Comedians & Mentalists for Annual Galas',
+    subtitle: 'Award Show Anchors, Standup Comedians & Mentalists for Annual Galas',
     poster: '/posters/corporate_gala_anchor.jpg',
     videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Birthday%20Party%20Landscape.mp4',
-    videoTitle: 'Corporate Gala & Live Entertainment Show',
+    videoTitle: 'Corporate Gala Live Entertainment',
     regularPrice: '₹45,000',
     offerPrice: '₹19,999',
     discount: 'Flat 55% OFF',
     slots: '2 Slots Left This Month',
-    rating: '4.96★ (500+ Galas)'
+    rating: '4.96★ (540+ Galas)'
+  },
+  {
+    id: 'bhajan-bhakti',
+    category: 'Devotional & Bhajan',
+    tab: '🪔 Bhajan Sandhya',
+    tag: '🙏 SPIRITUAL CONCERT',
+    title: 'Bhakti Sangeet & Bhajan Sandhya at Home',
+    subtitle: 'Soulful Krishna, Mata Ki Chowki & Kirtan Vocalists with Dholak & Flute for Home Poojas',
+    poster: '/posters/bhajan_bhakti_concert.jpg',
+    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Book%20a%20Bhajan%20concert%20at%20home%20Portrait.mp4',
+    videoTitle: 'Home Bhajan Sandhya Live Concert',
+    regularPrice: '₹16,000',
+    offerPrice: '₹6,999',
+    discount: 'Flat 56% OFF',
+    slots: '3 Slots Left',
+    rating: '5.0★ (620+ Poojas)'
   }
 ]
 
@@ -414,64 +510,21 @@ export default function HeroSection() {
             </h1>
           </div>
 
-          {/* Section 3: PROMOTIONAL SUBTITLE / OFFER DETAILS */}
-          <div className="hp-mob-section">
-            <p className="hp-mob-sub hp-mob-offer-sub">
-              Fill the form to claim your offer &amp; book verified singers, live bands &amp; DJs for <strong>only ₹99 token amount</strong>. Enjoy flat <strong>55%–65% discount</strong> with 100% artist arrival guarantee across Delhi NCR.
-            </p>
-          </div>
-
-          {/* Section 4: CLEAR CALL-TO-ACTIONS */}
-          <div className="hp-mob-section hp-mob-cta-section">
-            <button 
-              className="mob-btn-primary mob-btn-offer-pulse"
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  window.dispatchEvent(new CustomEvent('open-quick-booking'));
-                }
-              }}
-              aria-label="Book Now for 99 rupees with 55% to 65% off"
-            >
-              <div className="mob-btn-offer-content">
-                <span className="mob-btn-offer-title">Book Now — Only ₹99</span>
-                <span className="mob-btn-offer-badge">CLAIM 55%–65% OFF ➔</span>
-              </div>
-            </button>
-            <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
-              <Link href="/artists" className="mob-btn-secondary" style={{ flex: 1, height: '48px', fontSize: '13.5px' }}>
-                Browse 1500+ Artists
-              </Link>
-              <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, height: '48px', fontSize: '13px', whiteSpace: 'nowrap' }}>
-                📞 +91 80765 15257
-              </a>
-            </div>
-          </div>
-
-          {/* Section 5: PROMOTIONAL TRUST & VALUE HIGHLIGHTS */}
-          <div className="hp-mob-section">
-            <div className="hp-mob-trust-grid">
-              <div className="mob-trust-card"><span className="mob-check">⚡</span> Book for Just ₹99</div>
-              <div className="mob-trust-card"><span className="mob-check">🏷️</span> Flat 55%–65% Off</div>
-              <div className="mob-trust-card"><span className="mob-check">✓</span> 1500+ Verified Artists</div>
-              <div className="mob-trust-card"><span className="mob-check">🛡️</span> 100% Arrival Guarantee</div>
-            </div>
-          </div>
-
-          {/* Section 6: LUXURY 4-POSTER EVENT SHOWCASE WITH LIVE VIDEOS */}
+          {/* Section 3: 10 LUXURY EVENT SHOWCASE CARDS (MAIN MOBILE CENTERPIECE) */}
           <div className="hp-mob-section">
             <div className="hp-posters-showcase">
               
               {/* Header */}
               <div className="hp-posters-header">
                 <div className="hp-posters-heading-wrap">
-                  <span className="hp-posters-badge">👑 TOP EVENT EXPERIENCES</span>
+                  <span className="hp-posters-badge">👑 TOP 10 CELEBRATION FORMATS</span>
                   <h3 className="hp-posters-title">
-                    Live Artists for <span>Every Celebration</span>
+                    House Parties &amp; <span>Events Showcase</span>
                   </h3>
                 </div>
               </div>
 
-              {/* Category Quick Tabs */}
+              {/* Category Quick Tabs (10 Categories) */}
               <div className="hp-posters-tabs" role="tablist">
                 {EVENT_POSTERS.map((poster, idx) => (
                   <button
@@ -640,6 +693,49 @@ export default function HeroSection() {
               </div>
 
             </div>
+          </div>
+
+          {/* Section 4: CLEAR CALL-TO-ACTIONS */}
+          <div className="hp-mob-section hp-mob-cta-section">
+            <button 
+              className="mob-btn-primary mob-btn-offer-pulse"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('open-quick-booking'));
+                }
+              }}
+              aria-label="Book Now for 99 rupees with 55% to 65% off"
+            >
+              <div className="mob-btn-offer-content">
+                <span className="mob-btn-offer-title">Book Now — Only ₹99</span>
+                <span className="mob-btn-offer-badge">CLAIM 55%–65% OFF ➔</span>
+              </div>
+            </button>
+            <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
+              <Link href="/artists" className="mob-btn-secondary" style={{ flex: 1, height: '48px', fontSize: '13.5px' }}>
+                Browse 1500+ Artists
+              </Link>
+              <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, height: '48px', fontSize: '13px', whiteSpace: 'nowrap' }}>
+                📞 +91 80765 15257
+              </a>
+            </div>
+          </div>
+
+          {/* Section 5: PROMOTIONAL TRUST & VALUE HIGHLIGHTS */}
+          <div className="hp-mob-section">
+            <div className="hp-mob-trust-grid">
+              <div className="mob-trust-card"><span className="mob-check">⚡</span> Book for Just ₹99</div>
+              <div className="mob-trust-card"><span className="mob-check">🏷️</span> Flat 55%–65% Off</div>
+              <div className="mob-trust-card"><span className="mob-check">✓</span> 1500+ Verified Artists</div>
+              <div className="mob-trust-card"><span className="mob-check">🛡️</span> 100% Arrival Guarantee</div>
+            </div>
+          </div>
+
+          {/* Section 6: PROMOTIONAL SUBTITLE / OFFER DETAILS */}
+          <div className="hp-mob-section">
+            <p className="hp-mob-sub hp-mob-offer-sub">
+              Fill the form to claim your offer &amp; book verified singers, live bands &amp; DJs for <strong>only ₹99 token amount</strong>. Enjoy flat <strong>55%–65% discount</strong> with 100% artist arrival guarantee across Delhi NCR.
+            </p>
           </div>
           
         </div>
