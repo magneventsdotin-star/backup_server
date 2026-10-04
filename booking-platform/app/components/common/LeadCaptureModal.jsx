@@ -13,7 +13,19 @@ export default function LeadCaptureModal() {
   const [cardIndex, setCardIndex] = useState(0)
   const [isVideoMuted, setIsVideoMuted] = useState(true)
   const [isVideoPlaying, setIsVideoPlaying] = useState(true)
+  const [isInteracting, setIsInteracting] = useState(false)
   const videoRef = useRef(null)
+
+  // Auto-run carousel so user easily sees all cards and videos
+  useEffect(() => {
+    if (!isOpen || isInteracting || !isVideoMuted) return
+
+    const timer = setInterval(() => {
+      setCardIndex(prev => (prev + 1) % EVENT_POSTERS.length)
+    }, 4500)
+
+    return () => clearInterval(timer)
+  }, [isOpen, isInteracting, isVideoMuted])
 
   useEffect(() => {
     const handleOpen = (e) => {
@@ -263,42 +275,99 @@ export default function LeadCaptureModal() {
                 <button
                   key={p.id}
                   type="button"
-                  onClick={() => setCardIndex(idx)}
+                  onClick={() => {
+                    setCardIndex(idx)
+                    setIsInteracting(true)
+                    setTimeout(() => setIsInteracting(false), 5000)
+                  }}
                   style={{
-                    padding: '5px 10px',
+                    padding: '5px 11px',
                     borderRadius: '999px',
                     border: cardIndex === idx ? '1px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.12)',
-                    background: cardIndex === idx ? 'rgba(255, 224, 50, 0.2)' : 'rgba(255, 255, 255, 0.04)',
+                    background: cardIndex === idx ? 'rgba(255, 224, 50, 0.22)' : 'rgba(255, 255, 255, 0.04)',
                     color: cardIndex === idx ? '#FFE032' : 'rgba(255, 255, 255, 0.7)',
                     fontSize: '11px',
                     fontWeight: cardIndex === idx ? 800 : 600,
                     whiteSpace: 'nowrap',
                     cursor: 'pointer',
-                    transition: 'all 0.2s ease'
+                    transition: 'all 0.2s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px'
                   }}
                 >
-                  {p.tab}
+                  <span>{p.tab}</span>
+                  {idx < 4 && (
+                    <span style={{
+                      fontSize: '8.5px',
+                      background: 'rgba(239, 68, 68, 0.3)',
+                      color: '#FCA5A5',
+                      borderRadius: '4px',
+                      padding: '1px 4px',
+                      fontWeight: 800,
+                      letterSpacing: '0.04em'
+                    }}>
+                      VIDEO
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
 
             {/* ══════════════════════════════════════════════════════════
-                SHOWCASE CARD (ONE BY ONE WITH CAROUSEL CONTROLS)
+                SHOWCASE CARD (AUTO-RUN WITH AUDITION SOUND & CAROUSEL)
                 ══════════════════════════════════════════════════════════ */}
-            <div style={{
-              position: 'relative',
-              borderRadius: '18px',
-              overflow: 'hidden',
-              border: '1px solid rgba(255, 215, 0, 0.35)',
-              background: '#07060B',
-              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.8)',
-              marginBottom: '14px',
-              aspectRatio: '3 / 3.4',
-              maxHeight: '340px'
-            }}>
-              {/* Media: Video (muted without music by default) or Poster */}
+            <div 
+              onMouseEnter={() => setIsInteracting(true)}
+              onMouseLeave={() => setIsInteracting(false)}
+              onTouchStart={() => setIsInteracting(true)}
+              onTouchEnd={() => setTimeout(() => setIsInteracting(false), 2500)}
+              style={{
+                position: 'relative',
+                borderRadius: '18px',
+                overflow: 'hidden',
+                border: '1px solid rgba(255, 215, 0, 0.35)',
+                background: '#07060B',
+                boxShadow: '0 16px 40px rgba(0, 0, 0, 0.8)',
+                marginBottom: '14px',
+                aspectRatio: '3 / 3.4',
+                maxHeight: '340px'
+              }}
+            >
+              {/* Story-Style Auto-Advance Progress Indicators */}
+              <div style={{
+                position: 'absolute',
+                top: '6px',
+                left: '10px',
+                right: '10px',
+                display: 'flex',
+                gap: '4px',
+                zIndex: 6
+              }}>
+                {EVENT_POSTERS.map((_, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => {
+                      setCardIndex(idx)
+                      setIsInteracting(true)
+                      setTimeout(() => setIsInteracting(false), 4000)
+                    }}
+                    style={{
+                      flex: 1,
+                      height: '2.5px',
+                      borderRadius: '2px',
+                      background: cardIndex > idx ? '#FFE032' : cardIndex === idx ? '#FFE032' : 'rgba(255, 255, 255, 0.25)',
+                      boxShadow: cardIndex === idx ? '0 0 6px rgba(255, 224, 50, 0.8)' : 'none',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer'
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Media: Video (GIF-like seamless autoPlay loop, muted by default) or Poster */}
               <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-                {current.videoUrl ? (
+                {current.mediaType === 'video' && current.videoUrl ? (
                   <video
                     ref={videoRef}
                     key={current.videoUrl + current.id}
@@ -308,6 +377,7 @@ export default function LeadCaptureModal() {
                     loop
                     muted={isVideoMuted}
                     playsInline
+                    preload="auto"
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     onPlay={() => setIsVideoPlaying(true)}
                     onPause={() => setIsVideoPlaying(false)}
@@ -320,6 +390,7 @@ export default function LeadCaptureModal() {
                     sizes="460px"
                     style={{ objectFit: 'cover' }}
                     unoptimized
+                    priority
                   />
                 )}
               </div>
@@ -335,55 +406,104 @@ export default function LeadCaptureModal() {
               {/* Top Controls Bar */}
               <div style={{
                 position: 'absolute',
-                top: '12px',
+                top: '14px',
                 left: '12px',
                 right: '12px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                zIndex: 3
+                zIndex: 4
               }}>
-                <span style={{
-                  background: 'rgba(8, 8, 14, 0.85)',
-                  backdropFilter: 'blur(14px)',
-                  WebkitBackdropFilter: 'blur(14px)',
-                  border: '1px solid rgba(255, 224, 50, 0.45)',
-                  color: '#FFE032',
-                  fontSize: '11px',
-                  fontWeight: 800,
-                  padding: '5px 13px',
-                  borderRadius: '100px',
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)'
-                }}>
-                  {current.tab.replace(/^[^\s]+\s/, '')}
-                </span>
-
-                {/* Sound Toggle (Muted by default) */}
-                <button
-                  type="button"
-                  onClick={toggleMute}
-                  aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
-                  title={isVideoMuted ? "Tap to listen with sound" : "Mute sound"}
-                  style={{
-                    width: '34px',
-                    height: '34px',
-                    borderRadius: '50%',
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{
                     background: 'rgba(8, 8, 14, 0.85)',
                     backdropFilter: 'blur(14px)',
-                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                    WebkitBackdropFilter: 'blur(14px)',
+                    border: '1px solid rgba(255, 224, 50, 0.45)',
                     color: '#FFE032',
-                    fontSize: '13px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)'
-                  }}
-                >
-                  {isVideoMuted ? '🔇' : '🔊'}
-                </button>
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    padding: '5px 12px',
+                    borderRadius: '100px',
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)'
+                  }}>
+                    {current.tab.replace(/^[^\s]+\s/, '')}
+                  </span>
+                  {current.mediaType === 'video' ? (
+                    <span style={{
+                      background: 'rgba(239, 68, 68, 0.25)',
+                      border: '1px solid rgba(239, 68, 68, 0.55)',
+                      color: '#FCA5A5',
+                      fontSize: '9.5px',
+                      fontWeight: 800,
+                      padding: '3px 8px',
+                      borderRadius: '100px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}>
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#EF4444', display: 'inline-block' }} />
+                      LIVE VIDEO
+                    </span>
+                  ) : (
+                    <span style={{
+                      background: 'rgba(59, 130, 246, 0.25)',
+                      border: '1px solid rgba(59, 130, 246, 0.55)',
+                      color: '#93C5FD',
+                      fontSize: '9.5px',
+                      fontWeight: 800,
+                      padding: '3px 8px',
+                      borderRadius: '100px',
+                    }}>
+                      📸 ARTIST POSTER
+                    </span>
+                  )}
+                </div>
+
+                {/* Audition Audio Toggle for Videos */}
+                {current.mediaType === 'video' ? (
+                  <button
+                    type="button"
+                    onClick={toggleMute}
+                    aria-label={isVideoMuted ? "Unmute live audition sound" : "Mute audition sound"}
+                    title={isVideoMuted ? "Tap to listen to live audition sound" : "Mute audition sound"}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      height: '32px',
+                      padding: '0 11px',
+                      borderRadius: '100px',
+                      background: isVideoMuted ? 'rgba(8, 8, 14, 0.88)' : 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
+                      backdropFilter: 'blur(14px)',
+                      border: isVideoMuted ? '1px solid rgba(255, 224, 50, 0.45)' : '1px solid #FFE032',
+                      color: isVideoMuted ? '#FFE032' : '#000000',
+                      fontSize: '11px',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <span>{isVideoMuted ? '🔇' : '🔊'}</span>
+                    <span>{isVideoMuted ? 'Live Sound' : 'Audition On'}</span>
+                  </button>
+                ) : (
+                  <div style={{
+                    padding: '4px 10px',
+                    borderRadius: '100px',
+                    background: 'rgba(8, 8, 14, 0.75)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    fontSize: '10.5px',
+                    fontWeight: 700
+                  }}>
+                    Card {cardIndex + 1}/{EVENT_POSTERS.length}
+                  </div>
+                )}
               </div>
 
               {/* Floating Left and Right Arrow Navigation Overlays */}
