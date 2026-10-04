@@ -127,7 +127,7 @@ export default function ContactModal() {
           <div className="lux-modal-header" style={{ position: 'relative', paddingTop: '32px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', paddingRight: '56px' }}>
               <div className="header-badge" style={{ margin: 0 }}>
-                {formType === 'register' ? 'JOIN OUR ROSTER' : formType === 'offer' ? 'LIMITED TIME OFFER' : 'DIRECT SUPPORT'}
+                {formType === 'register' ? 'JOIN OUR ROSTER' : formType === 'offer' ? 'LIMITED TIME OFFER' : 'EVENT BOOKING REQUEST'}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <button 
@@ -143,7 +143,7 @@ export default function ContactModal() {
               </div>
             </div>
             <h3 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '32px', marginTop: '4px' }}>
-              {formType === 'register' ? 'Artist Registration' : formType === 'offer' ? (discountValue ? `Claim Upto ${discountValue}% OFF!` : 'Claim Special Offer!') : 'Booking form'}
+              {formType === 'register' ? 'Artist Registration' : formType === 'offer' ? (discountValue ? `Claim Upto ${discountValue}% OFF!` : 'Claim Special Offer!') : 'Book an Artist'}
             </h3>
             {initialArtist ? (
               <div style={{ marginTop: '12px', padding: '10px 16px', background: 'rgba(255,224,50,0.1)', border: '1px solid rgba(255,224,50,0.2)', borderRadius: '8px', display: 'inline-block' }}>
@@ -173,7 +173,7 @@ export default function ContactModal() {
               <p>
                 {formType === 'register' ? 'Showcase your talent to the world. Join Magnevents and perform at premium venues.' :
                  formType === 'offer' ? `Fill out the form below to claim your exclusive ${discountValue ? 'upto ' + discountValue + '% ' : '60% '}discount on your first booking with Magnevents!` :
-                 'Tell us your vision, and get up to 60% OFF on your first booking with verified artists!'}
+                 'Tell us your event details and get verified artist availability and instant quotes with zero markup.'}
               </p>
             )}
           </div>
@@ -397,7 +397,7 @@ function InnerContactForm({ formType, initialArtist, initialPlan, initialService
       )}
       <div className="lux-modal-footer" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '8px' }}>
         <button type="submit" className="btn-submit-premium" disabled={isSubmitting}>
-          <span className="btn-text">{isSubmitting ? 'Processing...' : (formType === 'register' ? 'Register as Artist' : formType === 'offer' ? (discountValue ? `Claim Upto ${discountValue}% Off & Request Booking` : 'Claim Offer & Request Booking') : 'Request Booking')}</span>
+          <span className="btn-text">{isSubmitting ? 'Processing...' : (formType === 'register' ? 'Register as Artist' : formType === 'offer' ? (discountValue ? `Claim Upto ${discountValue}% Off & Request Booking` : 'Claim Offer & Request Booking') : 'Submit Booking Request')}</span>
           <div className="btn-glow" />
         </button>
         {formType !== 'offer' && (

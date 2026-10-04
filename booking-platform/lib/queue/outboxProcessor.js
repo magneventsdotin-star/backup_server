@@ -251,7 +251,7 @@ export async function processOutboxJob({ supabase, job }) {
           body: htmlBody,
           email_type: isRegister ? 'artist_registration' : 'admin_lead_notification',
           status: 'sent',
-          created_at: new Date().toISOString()
+          sent_at: new Date().toISOString()
         }]);
       } catch (logErr) {}
 
@@ -273,7 +273,7 @@ export async function processOutboxJob({ supabase, job }) {
           body: htmlBody,
           email_type: 'customer_confirmation',
           status: 'sent',
-          created_at: new Date().toISOString()
+          sent_at: new Date().toISOString()
         }]);
       } catch (logErr) {}
 

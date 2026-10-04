@@ -4750,12 +4750,13 @@
   .hp-mobile-hero {
     position: relative;
     z-index: 4;
-    padding: 80px 16px 100px; /* Space for sticky CTA at bottom */
+    padding: 64px 12px 90px;
     width: 100%;
+    box-sizing: border-box;
   }
 
   .hp-mob-section {
-    margin-bottom: 24px;
+    margin-bottom: 10px;
     animation: fadeUpMob 0.3s ease-out forwards;
     opacity: 0;
     transform: translateY(10px);
@@ -7521,49 +7522,53 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  gap: 8px;
-  margin: 0 auto;
+  gap: 10px;
+  margin: 6px auto 8px;
+  padding: 8px 0 14px;
   overflow: visible;
-  height: 485px;
+  height: clamp(380px, 52dvh, 480px);
 }
 
-/* Side Peek Cards - Substantially visible, luxury glass previews */
+/* Side Peek Cards - Substantially visible, luxury glass previews matching Image 2 */
 .hp-poster-peek-card {
   position: relative;
-  flex: 0 0 28px;
-  min-width: 26px;
-  height: 415px;
-  border-radius: 16px;
+  flex: 0 0 54px;
+  min-width: 48px;
+  max-width: 62px;
+  height: clamp(325px, 45dvh, 420px);
+  border-radius: 18px;
   overflow: hidden;
   cursor: pointer;
-  opacity: 0.65;
+  opacity: 0.68;
   transform: scale(0.92);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   border: 1.5px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.25);
-  background: rgba(14, 15, 24, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(14, 15, 24, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  flex-shrink: 0;
 }
 
 @media (min-width: 380px) {
   .hp-poster-peek-card {
-    flex: 0 0 32px;
-    min-width: 30px;
+    flex: 0 0 60px;
+    min-width: 52px;
+    max-width: 68px;
   }
 }
 
 .hp-poster-peek-card:hover,
 .hp-poster-peek-card:active {
   opacity: 0.96;
-  transform: scale(0.97);
-  border-color: rgba(255, 224, 50, 0.65);
-  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 224, 50, 0.3);
+  transform: scale(0.96);
+  border-color: rgba(255, 224, 50, 0.7);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 224, 50, 0.35);
 }
 
 .hp-poster-peek-img {
   object-fit: cover;
-  filter: brightness(0.85) contrast(1.05);
+  filter: brightness(0.8) contrast(1.05);
   transition: transform 0.4s ease;
 }
 
@@ -7576,9 +7581,9 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(8, 8, 14, 0.15) 0%,
-    rgba(8, 8, 14, 0.45) 50%,
-    rgba(8, 8, 14, 0.85) 100%
+    rgba(8, 8, 14, 0.35) 0%,
+    rgba(8, 8, 14, 0.5) 45%,
+    rgba(8, 8, 14, 0.88) 100%
   );
   display: flex;
   flex-direction: column;
@@ -7589,22 +7594,82 @@
   -webkit-backdrop-filter: blur(1.5px);
 }
 
-.hp-poster-peek-arrow {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(14, 16, 25, 0.85);
+/* Category Badge at top of peek cards */
+.hp-poster-peek-tag-wrap {
+  position: absolute;
+  top: 10px;
+  left: 3px;
+  right: 3px;
+  display: flex;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hp-poster-peek-tag {
+  background: rgba(10, 8, 20, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 224, 50, 0.45);
+  border: 1px solid rgba(255, 224, 50, 0.55);
+  color: #FFE032;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 3px 6px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* Arrow in center of peek card */
+.hp-poster-peek-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(14, 16, 25, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 224, 50, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 16px;
   color: #FFE032;
   font-weight: 900;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-  text-shadow: 0 0 8px rgba(255, 224, 50, 0.5);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
+  text-shadow: 0 0 8px rgba(255, 224, 50, 0.6);
+  z-index: 3;
+}
+
+/* Title at bottom of peek card */
+.hp-poster-peek-title-wrap {
+  position: absolute;
+  bottom: 8px;
+  left: 3px;
+  right: 3px;
+  display: flex;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hp-poster-peek-title {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 8.5px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
+  word-break: break-word;
 }
 
 /* Poster Card Frame - Ultra-Luxury Vertical Video Showcase */
@@ -7756,6 +7821,23 @@
   box-shadow: 0 4px 20px rgba(239, 68, 68, 0.45);
 }
 
+.hp-poster-category-pill {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(10, 8, 20, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.2px solid rgba(255, 224, 50, 0.65);
+  color: #FFE032;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
 .hp-poster-top-tag {
   display: inline-flex;
   align-items: center;
@@ -7802,18 +7884,18 @@
   display: block;
 }
 
-/* Bottom Poster Content - Minimal floating cinematic overlay */
+/* Bottom Poster Content - Minimal floating cinematic overlay matching Image 2 */
 .hp-poster-bottom {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 12px 10px 10px 10px;
+  padding: 36px 16px 14px 16px;
   z-index: 3;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  background: transparent;
+  gap: 4px;
+  background: linear-gradient(180deg, rgba(8, 8, 14, 0) 0%, rgba(8, 8, 14, 0.72) 45%, rgba(6, 6, 10, 0.96) 100%);
   pointer-events: auto;
 }
 
@@ -7859,12 +7941,13 @@
 
 .hp-poster-card-title {
   color: #FFFFFF;
-  font-size: 16.5px;
-  font-weight: 900;
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 18px;
+  font-weight: 800;
   line-height: 1.25;
   margin: 0;
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
 }
 
 .hp-poster-card-sub {
@@ -7915,13 +7998,7 @@
 }
 
 .hp-poster-feature-sub {
-  font-size: 9.5px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.75);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  letter-spacing: 0.1px;
+  display: none !important;
 }
 
 .hp-poster-feature-badge {
@@ -8030,41 +8107,120 @@
   color: #FFFFFF;
 }
 
-/* Mobile Horizontal Showcase Card Format */
+/* ============================================================
+   DYNAMIC RESPONSIVE MOBILE SHOWCASE & CTA STYLES
+   Adapts fluidly across all mobile screens (iPhone SE, Android, iPhone 12-16)
+   ============================================================ */
+
 @media (max-width: 768px) {
+  /* Default Mobile Portrait Format - Fluid Viewport Units */
+  .hp-poster-carousel-stage {
+    height: clamp(330px, 46dvh, 410px) !important;
+    gap: 8px !important;
+    margin: 0 auto !important;
+  }
+
   .hp-poster-peek-row {
     align-items: center !important;
     gap: 8px !important;
   }
 
+  .hp-poster-carousel-stage {
+    height: clamp(380px, 52dvh, 470px) !important;
+    padding: 6px 0 10px !important;
+    margin: 4px auto 6px !important;
+  }
+
   .hp-poster-card-wrapper {
-    width: min(400px, calc(100% - 56px)) !important;
-    max-width: 100% !important;
-    height: auto !important;
-    aspect-ratio: 16 / 10.5 !important;
-    max-height: 250px !important;
-    border-radius: 18px !important;
-    border-width: 1.2px !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 224, 50, 0.15) !important;
+    height: clamp(360px, 50dvh, 445px) !important;
+    aspect-ratio: 9 / 13.8 !important;
+    width: auto !important;
+    max-width: min(305px, calc(100% - 108px)) !important;
+    border-radius: 22px !important;
+    border: 1.5px solid rgba(255, 224, 50, 0.55) !important;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 224, 50, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+    overflow: hidden !important;
+    background: #000 !important;
   }
 
   .hp-poster-peek-card {
-    height: 195px !important;
-    max-height: 80% !important;
-    border-radius: 12px !important;
-    flex: 0 0 20px !important;
-    min-width: 18px !important;
+    height: clamp(310px, 44dvh, 395px) !important;
+    max-height: 90% !important;
+    border-radius: 16px !important;
+    flex: 0 0 52px !important;
+    min-width: 46px !important;
+    max-width: 62px !important;
+  }
+
+  .hp-poster-peek-arrow {
+    display: none !important;
+  }
+
+  .hp-mob-carousel-scroll {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  .hp-mob-carousel-scroll::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 
   .hp-poster-top-bar {
-    top: 8px !important;
-    left: 8px !important;
-    right: 8px !important;
+    top: 10px !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: calc(100% - 20px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    z-index: 5 !important;
+    pointer-events: auto !important;
+  }
+
+  .hp-poster-top-left,
+  .hp-poster-top-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+
+  .hp-poster-top-right {
+    margin-left: auto !important;
+  }
+
+  .hp-poster-category-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: rgba(10, 8, 20, 0.78) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 224, 50, 0.55) !important;
+    color: #FFE032 !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    padding: 4px 9px !important;
+    border-radius: 100px !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+    white-space: nowrap !important;
   }
 
   .hp-poster-glass-btn {
-    width: 30px !important;
-    height: 30px !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    background: rgba(12, 14, 24, 0.72) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
   }
 
   .hp-poster-glass-btn svg {
@@ -8072,42 +8228,365 @@
     height: 14px !important;
   }
 
+  .hp-poster-verified-pill {
+    font-size: 10px !important;
+    padding: 4px 9px !important;
+  }
+
+  .hp-poster-top-tag {
+    font-size: 10px !important;
+    padding: 4px 9px !important;
+    background: rgba(10, 8, 20, 0.78) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 224, 50, 0.55) !important;
+  }
+
+  .hp-poster-vignette {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.05) 20%,
+      rgba(0, 0, 0, 0.4) 62%,
+      rgba(6, 7, 12, 0.92) 94%
+    ) !important;
+  }
+
   .hp-poster-bottom {
-    padding: 10px 8px 8px 8px !important;
-    gap: 4px !important;
+    padding: 14px 12px 14px 12px !important;
+    gap: 8px !important;
   }
 
   .hp-poster-card-title {
-    font-size: 14px !important;
-    line-height: 1.2 !important;
+    font-size: clamp(14.5px, 2.2vh, 17px) !important;
+    line-height: 1.25 !important;
+    font-weight: 800 !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9) !important;
+    margin-bottom: 2px !important;
   }
 
   .hp-poster-value-bar {
-    padding: 5px 8px !important;
-    border-radius: 9px !important;
-    gap: 6px !important;
+    padding: 7px 11px !important;
+    border-radius: 11px !important;
+    gap: 7px !important;
   }
 
   .hp-poster-feature-highlight {
-    font-size: 10.5px !important;
+    font-size: 11px !important;
   }
 
   .hp-poster-feature-sub {
-    font-size: 8.5px !important;
+    font-size: 9px !important;
   }
 
   .hp-poster-feature-badge {
-    font-size: 10px !important;
-    padding: 4px 8px !important;
-    border-radius: 6px !important;
+    font-size: 10.5px !important;
+    padding: 6px 11px !important;
+    border-radius: 7px !important;
   }
 
   .hp-poster-floating-nav {
-    width: 24px !important;
-    height: 24px !important;
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 15px !important;
+  }
+
+  /* Compact CTA Section Buttons */
+  .hp-mob-cta-section {
+    gap: 8px !important;
+    margin-top: 4px !important;
+  }
+
+  .mob-btn-primary.mob-btn-offer-pulse {
+    height: 46px !important;
+    border-radius: 14px !important;
+    padding: 0 14px !important;
+  }
+
+  .mob-btn-offer-title {
+    font-size: 13.5px !important;
+  }
+
+  .mob-btn-offer-sub {
+    font-size: 8.5px !important;
+  }
+
+  .mob-btn-offer-pill {
+    font-size: 10px !important;
+    padding: 4px 8px !important;
+  }
+
+  /* Dedicated Dual Action Buttons Row (Phone & Browse) */
+  .hp-mob-dual-btn-row {
+    display: flex !important;
+    gap: 8px !important;
+    width: 100% !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+  }
+
+  .hp-mob-phone-btn {
+    flex: 1 1 52% !important;
+    min-width: 0 !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+    background: rgba(34, 197, 94, 0.16) !important;
+    border: 1.5px solid rgba(34, 197, 94, 0.6) !important;
+    color: #4ade80 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    font-weight: 800 !important;
+    font-size: 13px !important;
+    text-decoration: none !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 16px rgba(34, 197, 94, 0.18) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+  }
+
+  .hp-mob-phone-btn:hover,
+  .hp-mob-phone-btn:active {
+    background: rgba(34, 197, 94, 0.28) !important;
+    border-color: #22c55e !important;
+    color: #86efac !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3) !important;
+  }
+
+  .hp-mob-phone-icon {
     font-size: 14px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .hp-mob-phone-num {
+    font-weight: 800 !important;
+    letter-spacing: 0.2px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .hp-mob-browse-btn {
+    flex: 1 1 48% !important;
+    min-width: 0 !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    font-weight: 700 !important;
+    font-size: 12.5px !important;
+    text-decoration: none !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+  }
+
+  .hp-mob-browse-btn:hover,
+  .hp-mob-browse-btn:active {
+    background: rgba(255, 224, 50, 0.15) !important;
+    border-color: rgba(255, 224, 50, 0.55) !important;
+    color: #FFE032 !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .hp-mob-browse-text {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .hp-mob-browse-arrow {
+    color: #FFE032 !important;
+    font-size: 12px !important;
+    flex-shrink: 0 !important;
   }
 }
+
+/* Compact Mobile Screens (e.g. iPhone SE 375x667, Short Androids <= 700px height) */
+@media (max-width: 768px) and (max-height: 720px) {
+  .hp-mobile-hero {
+    padding: 58px 10px 85px !important;
+  }
+
+  .hp-mob-section {
+    margin-bottom: 8px !important;
+  }
+
+  .hp-mob-promo-top-banner {
+    padding: 6px 10px !important;
+  }
+
+  .hp-mob-promo-top-text {
+    font-size: 11.5px !important;
+  }
+
+  .hp-poster-carousel-stage {
+    height: clamp(320px, 46dvh, 365px) !important;
+    gap: 7px !important;
+    padding: 4px 0 8px !important;
+  }
+
+  .hp-poster-card-wrapper {
+    height: clamp(315px, 45dvh, 355px) !important;
+    max-width: min(265px, calc(100% - 84px)) !important;
+    border-radius: 18px !important;
+  }
+
+  .hp-poster-peek-card {
+    height: clamp(270px, 39dvh, 310px) !important;
+    flex: 0 0 42px !important;
+    min-width: 38px !important;
+    max-width: 48px !important;
+    border-radius: 12px !important;
+  }
+
+  .hp-poster-card-title {
+    font-size: 14.5px !important;
+  }
+
+  .hp-poster-bottom {
+    padding: 10px 10px 10px 10px !important;
+    gap: 6px !important;
+  }
+
+  .hp-poster-value-bar {
+    padding: 4px 7px !important;
+    border-radius: 8px !important;
+  }
+
+  .hp-poster-feature-highlight {
+    font-size: 9.5px !important;
+  }
+
+  .hp-poster-feature-sub {
+    font-size: 8px !important;
+  }
+
+  .hp-poster-feature-badge {
+    font-size: 9px !important;
+    padding: 4px 7px !important;
+  }
+
+  .mob-btn-primary.mob-btn-offer-pulse {
+    height: 42px !important;
+    border-radius: 12px !important;
+  }
+
+  .mob-btn-offer-title {
+    font-size: 12.5px !important;
+  }
+
+  .mob-btn-offer-pill {
+    font-size: 9.5px !important;
+    padding: 3px 7px !important;
+  }
+
+  .hp-mob-phone-btn,
+  .hp-mob-browse-btn {
+    height: 40px !important;
+    border-radius: 10px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Very Narrow Devices (< 360px width) */
+@media (max-width: 350px) {
+  .hp-mob-phone-btn {
+    font-size: 11px !important;
+    padding: 0 4px !important;
+  }
+  .hp-mob-browse-btn {
+    font-size: 11px !important;
+    padding: 0 4px !important;
+  }
+}
+
+/* ============================================================
+   DYNAMIC AMBIENT BLURRED BACKDROP FOR MOBILE HERO
+   Shows active celebration image with luxury blur & live glow
+   while keeping all data, cards, and text ultra-legible
+   ============================================================ */
+.hp-mob-ambient-backdrop {
+  position: absolute;
+  inset: -24px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hp-mob-ambient-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.hp-mob-ambient-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  filter: blur(34px) saturate(160%) brightness(0.60) !important;
+  transform: scale(1.18) !important;
+}
+
+.hp-mob-ambient-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 9, 14, 0.44) 0%,
+    rgba(8, 9, 14, 0.58) 25%,
+    rgba(6, 7, 12, 0.78) 65%,
+    rgba(6, 7, 12, 0.94) 100%
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.hp-mob-ambient-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: radial-gradient(
+    ellipse at 50% 32%,
+    transparent 20%,
+    rgba(4, 5, 8, 0.45) 80%,
+    rgba(4, 5, 8, 0.85) 100%
+  );
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .hp-hero-wrapper .hp-hero-bg,
+  .hp-mobile-hero-overlay {
+    display: none !important;
+  }
+
+  .hp-mobile-hero {
+    position: relative !important;
+    overflow: hidden !important;
+    z-index: 4 !important;
+    background: #08090E !important;
+  }
+
+  .hp-mobile-content {
+    position: relative !important;
+    z-index: 4 !important;
+  }
+}
+
 
 
 

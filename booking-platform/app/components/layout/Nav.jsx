@@ -124,7 +124,11 @@ export default function Nav() {
             <button
               type="button"
               className="lux-nav-register-btn"
-              onClick={() => openContactModal('register')}
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('open-register-modal', { detail: { view: 'artist' } }));
+                }
+              }}
               aria-label="Register as an Artist"
             >
               Register

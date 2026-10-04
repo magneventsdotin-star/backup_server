@@ -394,9 +394,11 @@ export async function POST(req) {
             body: plainTextBody + '\n\n' + htmlBody,
             email_type: isRegister ? 'artist_registration_inquiry' : 'client_inquiry',
             status: 'sent',
-            created_at: new Date().toISOString()
+            sent_at: new Date().toISOString()
           }]);
-        } catch (eLogErr) {}
+        } catch (eLogErr) {
+          console.error('[ContactAPI] Error logging sent email to Supabase:', eLogErr.message);
+        }
 
         // Customer confirmation email if valid email provided
         if (clientEmail && clientEmail !== 'N/A' && clientEmail.includes('@') && !clientEmail.includes('example.com')) {
@@ -463,11 +465,41 @@ export async function POST(req) {
                 </html>
               `
             });
-          } catch (cMailErr) {}
+
+            // Log customer email in emails table
+            try {
+              await supabase.from('emails').insert([{
+                booking_id: bookingId,
+                recipient_email: clientEmail,
+                subject: `Booking Request Received | Magnevents`,
+                body: `Customer confirmation sent to ${clientName} (${clientEmail})`,
+                email_type: 'customer_confirmation',
+                status: 'sent',
+                sent_at: new Date().toISOString()
+              }]);
+            } catch (cLogErr) {}
+          } catch (cMailErr) {
+            console.warn('[ContactAPI] Customer confirmation email error:', cMailErr.message);
+          }
         }
 
       } catch (mailErr) {
         console.error('[ContactAPI] Direct SMTP Email Send Error:', mailErr.message);
+        // Log failed attempt in emails table so admin sees it in Dashboard Email Logs
+        try {
+          await supabase.from('emails').insert([{
+            booking_id: bookingId,
+            recipient_email: adminEmail,
+            subject: emailSubject,
+            body: plainTextBody + '\n\n' + htmlBody,
+            email_type: isRegister ? 'artist_registration_inquiry' : 'client_inquiry',
+            status: 'failed',
+            error_message: mailErr.message,
+            sent_at: new Date().toISOString()
+          }]);
+        } catch (logFailErr) {
+          console.error('[ContactAPI] Error logging failed email to Supabase:', logFailErr.message);
+        }
       }
     }
 

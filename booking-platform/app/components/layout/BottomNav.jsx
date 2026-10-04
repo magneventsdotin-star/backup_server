@@ -50,7 +50,7 @@ export default function BottomNav() {
 
   const handleOpenContact = () => {
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('open-quick-booking'));
+      window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
     }
   };
 

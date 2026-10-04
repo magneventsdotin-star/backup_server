@@ -44,6 +44,39 @@ export default function HeroSection() {
     }
   }
 
+  const [dragOffset, setDragOffset] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const touchStartXRef = useRef(0)
+  const touchCurrentXRef = useRef(0)
+
+  const handleTouchStart = (e) => {
+    setIsPosterHovered(true)
+    setIsDragging(true)
+    touchStartXRef.current = e.touches[0].clientX
+    touchCurrentXRef.current = e.touches[0].clientX
+  }
+
+  const handleTouchMove = (e) => {
+    touchCurrentXRef.current = e.touches[0].clientX
+    const diff = touchCurrentXRef.current - touchStartXRef.current
+    setDragOffset(diff * 0.75)
+  }
+
+  const handleTouchEnd = () => {
+    const diff = touchCurrentXRef.current - touchStartXRef.current
+    setIsDragging(false)
+    setDragOffset(0)
+    setTimeout(() => setIsPosterHovered(false), 2500)
+
+    if (Math.abs(diff) > 35) {
+      if (diff < 0) {
+        setPosterIndex((prev) => (prev + 1) % availablePosters.length)
+      } else {
+        setPosterIndex((prev) => (prev - 1 + availablePosters.length) % availablePosters.length)
+      }
+    }
+  }
+
   const [searchQuery, setSearchQuery] = useState('')
 
   const handleSearchSubmit = (e) => {
@@ -103,13 +136,14 @@ export default function HeroSection() {
   }, [isPosterHovered, isVideoMuted, isVideoPlaying, currentCard?.videoUrl, hasUnlockedCreatedCards, posterIndex, availablePosters.length])
 
 
+
   return (
     <section className="hp-hero-wrapper" suppressHydrationWarning>
       {/* BACKGROUND (Shared for both) */}
       <div className="hp-hero-bg" style={{ pointerEvents: 'none' }}>
         {HERO_SPOTLIGHT_SLIDES.map((src, idx) => (
           <div
-            key={src}
+            key={typeof src === 'string' ? `${src}-${idx}` : idx}
             className={`hp-hero-slide ${heroSlide === idx ? 'is-active' : ''}`}
             style={{
               position: 'absolute',
@@ -357,6 +391,38 @@ export default function HeroSection() {
       {/* MOBILE HERO (Premium App-Like Layout) */}
       {/* ======================================================== */}
       <div className="hp-mobile-hero" suppressHydrationWarning>
+        {/* Dynamic Ambient Blurred Backdrop - Shows active live celebration image with soft blur and glowing live effect */}
+        <div className="hp-mob-ambient-backdrop" aria-hidden="true">
+          {availablePosters.map((posterItem, idx) => {
+            const isActive = safePosterIndex === idx;
+            return (
+              <div
+                key={posterItem.id || `ambient-${idx}`}
+                className={`hp-mob-ambient-layer ${isActive ? 'is-active' : ''}`}
+                style={{
+                  opacity: isActive ? 1 : 0,
+                  visibility: isActive ? 'visible' : 'hidden',
+                  transition: 'opacity 0.75s ease, visibility 0.75s ease'
+                }}
+              >
+                <Image
+                  src={posterItem.poster}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className="hp-mob-ambient-img"
+                  unoptimized
+                  priority={idx === 0}
+                />
+              </div>
+            );
+          })}
+          {/* Translucent Dark Scrim with Gaussian Blur for High Contrast & Readability */}
+          <div className="hp-mob-ambient-scrim" />
+          {/* Edge Vignette for Cinematic Glow */}
+          <div className="hp-mob-ambient-vignette" />
+        </div>
+
         <div className="hp-mobile-content" suppressHydrationWarning>
           
           {/* SEO Accessible Heading */}
@@ -400,54 +466,78 @@ export default function HeroSection() {
                 const prevPoster = availablePosters[prevIndex];
 
                 return (
-                  <div className="hp-poster-carousel-stage">
-                      {/* Left Peek Card (Previous) */}
+                  <div className="hp-poster-carousel-wrapper">
+                    {/* Infinite Circular 3-Card Stage with Drag Physics */}
+                    <div
+                      className="hp-poster-carousel-stage"
+                      onTouchStart={handleTouchStart}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={handleTouchEnd}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%',
+                        gap: '10px',
+                        position: 'relative',
+                        overflow: 'visible',
+                        padding: '6px 0 12px',
+                        margin: '6px 0 4px',
+                        transform: `translateX(${dragOffset}px)`,
+                        transition: isDragging ? 'none' : 'transform 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
+                        userSelect: 'none'
+                      }}
+                    >
+                      {/* Left Peek Preview Card (Always visible prior card in circular cycle) */}
                       <div
                         className="hp-poster-peek-card hp-poster-peek-left"
                         onClick={() => setPosterIndex(prevIndex)}
                         role="button"
-                        tabIndex={0}
-                        aria-label={`Previous celebration: ${prevPoster.title}`}
-                        title={`Previous: ${prevPoster.tab}`}
+                        aria-label={`Previous card: ${prevPoster.title}`}
                       >
                         <Image
                           src={prevPoster.poster}
                           alt={prevPoster.title}
                           fill
-                          sizes="(max-width: 768px) 120px, 150px"
+                          sizes="90px"
                           className="hp-poster-peek-img"
+                          style={{ objectFit: 'cover' }}
                         />
                         <div className="hp-poster-peek-overlay">
-                          <span className="hp-poster-peek-arrow">‹</span>
+                          <div className="hp-poster-peek-tag-wrap">
+                            <span className="hp-poster-peek-tag">PREV</span>
+                          </div>
+                          <div className="hp-poster-peek-arrow">‹</div>
+                          <div className="hp-poster-peek-title-wrap">
+                            <span className="hp-poster-peek-title">{prevPoster.title}</span>
+                          </div>
                         </div>
                       </div>
 
-                      {/* Active Central Card */}
-                      <div
+                      {/* Center Active Main Showcase Card */}
+                      <motion.div
+                        key={`active-poster-${current.id || safeIndex}`}
+                        initial={{ opacity: 0.88, scale: 0.96 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                         className="hp-poster-card-wrapper"
-                        onMouseEnter={() => setIsPosterHovered(true)}
-                        onMouseLeave={() => setIsPosterHovered(false)}
-                        onTouchStart={(e) => {
-                          setIsPosterHovered(true);
-                          setTouchStartX(e.touches[0].clientX);
-                        }}
-                        onTouchEnd={(e) => {
-                          setIsPosterHovered(false);
-                          const diff = touchStartX - e.changedTouches[0].clientX;
-                          if (Math.abs(diff) > 40) {
-                            if (diff > 0) {
-                              setPosterIndex((prev) => (prev + 1) % availablePosters.length);
-                            } else {
-                              setPosterIndex((prev) => (prev - 1 + availablePosters.length) % availablePosters.length);
-                            }
+                        onClick={(e) => {
+                          if (e.target.closest('button')) return;
+                          if (typeof window !== 'undefined') {
+                            window.dispatchEvent(new CustomEvent('open-quick-booking'));
                           }
                         }}
+                        style={{
+                          cursor: 'pointer',
+                          position: 'relative',
+                          border: '1.8px solid rgba(255, 224, 50, 0.75)',
+                          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 224, 50, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.25)'
+                        }}
                       >
-                        {/* Inline Performance Video Player (Plays 4-5s GIF loop for instant zero-lag playback, full video on unmute) */}
+                        {/* Inline Performance Video Player or Image */}
                         <div 
                           className="hp-poster-img-container hp-poster-media-container"
-                          onClick={current.videoUrl ? togglePlayPause : undefined}
-                          style={{ cursor: current.videoUrl ? 'pointer' : 'default' }}
+                          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
                         >
                           {current.videoUrl ? (
                             <video
@@ -470,7 +560,7 @@ export default function HeroSection() {
                               src={current.poster}
                               alt={`${current.title} - Magnevents Verified Live Artists`}
                               fill
-                              sizes="(max-width: 768px) 100vw, 600px"
+                              sizes="(max-width: 768px) 85vw, 400px"
                               priority
                               className="hp-poster-img"
                               style={{ objectFit: 'cover' }}
@@ -481,11 +571,24 @@ export default function HeroSection() {
                         {/* Luxury Cinematic Vignette Overlay */}
                         <div className="hp-poster-vignette" />
 
-                        {/* Top Floating Controls Bar: Left Mute/Unmute, Right Play/Pause */}
-                        {/* Top Floating Controls Bar: Left Glass Unmute/Mute, Right Glass Pause/Play */}
-                        <div className="hp-poster-top-bar">
-                          <div className="hp-poster-top-left">
-                            {current.videoUrl ? (
+                        {/* Top Floating Controls Bar */}
+                        {current.videoUrl && (
+                          <div 
+                            className="hp-poster-top-bar"
+                            style={{
+                              position: 'absolute',
+                              top: '14px',
+                              left: '14px',
+                              right: '14px',
+                              width: 'calc(100% - 28px)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              zIndex: 10,
+                              pointerEvents: 'none'
+                            }}
+                          >
+                            <div className="hp-poster-top-left" style={{ pointerEvents: 'auto' }}>
                               <button
                                 type="button"
                                 className={`hp-poster-glass-btn ${!isVideoMuted ? 'is-active' : ''}`}
@@ -494,28 +597,22 @@ export default function HeroSection() {
                                 title={isVideoMuted ? "Tap to Unmute" : "Tap to Mute"}
                               >
                                 {isVideoMuted ? (
-                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" fillOpacity="0.25"/>
                                     <line x1="23" y1="9" x2="17" y2="15"/>
                                     <line x1="17" y1="9" x2="23" y2="15"/>
                                   </svg>
                                 ) : (
-                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" fillOpacity="0.25"/>
                                     <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
                                     <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
                                   </svg>
                                 )}
                               </button>
-                            ) : (
-                              <span className="hp-poster-verified-pill">
-                                ✨ VERIFIED
-                              </span>
-                            )}
-                          </div>
+                            </div>
 
-                          <div className="hp-poster-top-right">
-                            {current.videoUrl ? (
+                            <div className="hp-poster-top-right" style={{ marginLeft: 'auto', pointerEvents: 'auto' }}>
                               <button
                                 type="button"
                                 className={`hp-poster-glass-btn ${!isVideoPlaying ? 'is-paused' : ''}`}
@@ -524,23 +621,19 @@ export default function HeroSection() {
                                 title={isVideoPlaying ? "Tap to Pause" : "Tap to Play"}
                               >
                                 {isVideoPlaying ? (
-                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                     <rect x="6" y="4" width="4" height="16" rx="1.5" />
                                     <rect x="14" y="4" width="4" height="16" rx="1.5" />
                                   </svg>
                                 ) : (
-                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: '2px' }}>
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: '1px' }}>
                                     <polygon points="6 4 20 12 6 20 6 4" />
                                   </svg>
                                 )}
                               </button>
-                            ) : (
-                              <span className="hp-poster-top-tag">
-                                ⭐ 4.95★
-                              </span>
-                            )}
+                            </div>
                           </div>
-                        </div>
+                        )}
 
                         {/* Bottom Card Content */}
                         <div className="hp-poster-bottom">
@@ -548,10 +641,11 @@ export default function HeroSection() {
                             <h4 className="hp-poster-card-title">{current.title}</h4>
                           </div>
 
-                          {/* Verified Features & Booking Bar (Prices strictly disclosed in /pricing) */}
+                          {/* Booking Action Bar */}
                           <div 
                             className="hp-poster-value-bar"
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               if (typeof window !== 'undefined') {
                                 window.dispatchEvent(new CustomEvent('open-quick-booking'));
                               }
@@ -561,42 +655,118 @@ export default function HeroSection() {
                             aria-label={`Book verified artists for ${current.title}`}
                           >
                             <div className="hp-poster-feature-block">
-                              <span className="hp-poster-feature-highlight">🎉 55%–65% OFF First Booking</span>
-                              <span className="hp-poster-feature-sub">⭐ 4.95★ Verified • Sound Included</span>
+                              <span className="hp-poster-feature-highlight">🎉 Flat 55%–65% OFF</span>
                             </div>
                             <div className="hp-poster-feature-badge">
-                              <span>Book Artist ➔</span>
+                              <span>Book Now ➔</span>
                             </div>
                           </div>
-
                         </div>
-                        </div>
+                      </motion.div>
 
-                      {/* Right Peek Card (Next) */}
+                      {/* Right Peek Preview Card (Always visible next card in circular cycle) */}
                       <div
                         className="hp-poster-peek-card hp-poster-peek-right"
                         onClick={() => setPosterIndex(nextIndex)}
                         role="button"
-                        tabIndex={0}
-                        aria-label={`Next celebration: ${nextPoster.title}`}
-                        title={`Next: ${nextPoster.tab}`}
+                        aria-label={`Next card: ${nextPoster.title}`}
                       >
                         <Image
                           src={nextPoster.poster}
                           alt={nextPoster.title}
                           fill
-                          sizes="(max-width: 768px) 120px, 150px"
+                          sizes="90px"
                           className="hp-poster-peek-img"
+                          style={{ objectFit: 'cover' }}
                         />
                         <div className="hp-poster-peek-overlay">
-                          <span className="hp-poster-peek-arrow">›</span>
+                          <div className="hp-poster-peek-tag-wrap">
+                            <span className="hp-poster-peek-tag">NEXT</span>
+                          </div>
+                          <div className="hp-poster-peek-arrow">›</div>
+                          <div className="hp-poster-peek-title-wrap">
+                            <span className="hp-poster-peek-title">{nextPoster.title}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  );
-                })()}
-              </div>
+
+                    {/* Sliding Fluid Dots Indicator - Zero layout shift, silky smooth glide */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginTop: '16px',
+                      marginBottom: '8px',
+                      userSelect: 'none'
+                    }}>
+                      <div style={{
+                        position: 'relative',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        padding: '4px',
+                        background: 'rgba(255, 255, 255, 0.04)',
+                        borderRadius: '100px',
+                        border: '1px solid rgba(255, 255, 255, 0.08)'
+                      }}>
+                        {/* Smooth Sliding Active Pill Indicator */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '4px',
+                            left: '2px',
+                            width: '18px',
+                            height: '6px',
+                            borderRadius: '100px',
+                            background: 'linear-gradient(90deg, #FFE032 0%, #FF9900 100%)',
+                            boxShadow: '0 0 12px rgba(255, 224, 50, 0.8)',
+                            transform: `translateX(${safeIndex * 14}px)`,
+                            transition: 'transform 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.15)',
+                            pointerEvents: 'none',
+                            zIndex: 2
+                          }}
+                        />
+
+                        {/* Fixed Background Dots */}
+                        {availablePosters.map((_, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => setPosterIndex(idx)}
+                            aria-label={`Go to slide ${idx + 1}`}
+                            style={{
+                              width: '14px',
+                              height: '6px',
+                              padding: 0,
+                              border: 'none',
+                              background: 'transparent',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              position: 'relative',
+                              zIndex: 1
+                            }}
+                          >
+                            <span
+                              style={{
+                                width: '5px',
+                                height: '5px',
+                                borderRadius: '50%',
+                                background: 'rgba(255, 255, 255, 0.28)',
+                                opacity: safeIndex === idx ? 0 : 1,
+                                transition: 'opacity 0.2s ease'
+                              }}
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
+          </div>
 
           {/* Section 4: CLEAR CALL-TO-ACTIONS */}
           <div className="hp-mob-section hp-mob-cta-section">
@@ -620,12 +790,22 @@ export default function HeroSection() {
                 </div>
               </div>
             </button>
-            <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
-              <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, height: '48px', fontSize: '13px', whiteSpace: 'nowrap' }}>
-                📞 +91 80765 15257
+            <div className="hp-mob-dual-btn-row">
+              <a 
+                href="tel:+918076515257" 
+                className="hp-mob-phone-btn"
+                aria-label="Call +91 80765 15257 for instant artist booking"
+              >
+                <span className="hp-mob-phone-icon">📞</span>
+                <span className="hp-mob-phone-num">+91 80765 15257</span>
               </a>
-              <Link href="/artists" className="mob-btn-secondary" style={{ flex: 1, height: '48px', fontSize: '13.5px' }}>
-                Browse 1500+ Artists
+              <Link 
+                href="/artists" 
+                className="hp-mob-browse-btn"
+                aria-label="Browse 1500+ verified artists"
+              >
+                <span className="hp-mob-browse-text">Browse 1500+</span>
+                <span className="hp-mob-browse-arrow">➔</span>
               </Link>
             </div>
           </div>

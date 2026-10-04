@@ -14,52 +14,48 @@ export default function LeadCaptureModal() {
   const [isVideoMuted, setIsVideoMuted] = useState(true)
   const [isVideoPlaying, setIsVideoPlaying] = useState(true)
   const [isInteracting, setIsInteracting] = useState(false)
+  const [touchStartX, setTouchStartX] = useState(0)
   const videoRef = useRef(null)
   const carouselRef = useRef(null)
   const isProgrammaticScroll = useRef(false)
-  const isDraggingRef = useRef(false)
-  const dragStartXRef = useRef(0)
-  const scrollStartLeftRef = useRef(0)
+  const scrollTimeoutRef = useRef(null)
 
   // Smooth scroll carousel to target card index
   const scrollToCard = (index, smooth = true) => {
-    if (!carouselRef.current) return
+    setCardIndex(index)
     const container = carouselRef.current
-    const targetCard = container.querySelector(`[data-card-index="${index}"]`)
-    if (targetCard) {
-      isProgrammaticScroll.current = true
-      const scrollTarget = targetCard.offsetLeft - (container.clientWidth - targetCard.offsetWidth) / 2
-      container.scrollTo({
-        left: Math.max(0, scrollTarget),
-        behavior: smooth ? 'smooth' : 'auto'
-      })
-      setTimeout(() => {
-        isProgrammaticScroll.current = false
-      }, 420)
-    }
+    if (!container) return
+    const cardEl = container.children[index]
+    if (!cardEl) return
+    const targetLeft = cardEl.offsetLeft - (container.clientWidth - cardEl.offsetWidth) / 2
+    isProgrammaticScroll.current = true
+    container.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: smooth ? 'smooth' : 'auto'
+    })
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current)
+    scrollTimeoutRef.current = setTimeout(() => {
+      isProgrammaticScroll.current = false
+    }, 450)
   }
 
   // Detect which card is centered while user scrolls horizontally on mobile/desktop
   const handleCarouselScroll = () => {
-    if (!carouselRef.current || isProgrammaticScroll.current) return
+    if (isProgrammaticScroll.current) return
     const container = carouselRef.current
-    const scrollCenter = container.scrollLeft + container.clientWidth / 2
-    const children = Array.from(container.querySelectorAll('[data-card-index]'))
-    if (!children.length) return
-
-    let closestIndex = cardIndex
-    let closestDist = Infinity
-
-    children.forEach((child) => {
-      const childIndex = Number(child.getAttribute('data-card-index'))
+    if (!container) return
+    const center = container.scrollLeft + container.clientWidth / 2
+    const children = Array.from(container.children)
+    let closestIndex = 0
+    let minDistance = Infinity
+    children.forEach((child, idx) => {
       const childCenter = child.offsetLeft + child.offsetWidth / 2
-      const dist = Math.abs(scrollCenter - childCenter)
-      if (dist < closestDist) {
-        closestDist = dist
-        closestIndex = childIndex
+      const dist = Math.abs(center - childCenter)
+      if (dist < minDistance) {
+        minDistance = dist
+        closestIndex = idx
       }
     })
-
     if (closestIndex !== cardIndex) {
       setCardIndex(closestIndex)
     }
@@ -67,48 +63,57 @@ export default function LeadCaptureModal() {
 
   // Mouse drag support for desktop/devtools
   const handleMouseDown = (e) => {
-    if (!carouselRef.current) return
-    isDraggingRef.current = true
     setIsInteracting(true)
     dragStartXRef.current = e.pageX
-    scrollStartLeftRef.current = carouselRef.current.scrollLeft
   }
 
-  const handleMouseMove = (e) => {
-    if (!isDraggingRef.current || !carouselRef.current) return
-    e.preventDefault()
-    const dx = e.pageX - dragStartXRef.current
-    carouselRef.current.scrollLeft = scrollStartLeftRef.current - dx
-  }
+  const handleMouseMove = (e) => {}
 
-  const handleMouseUp = () => {
-    isDraggingRef.current = false
-    setTimeout(() => setIsInteracting(false), 2500)
+  const handleMouseUp = (e) => {
+    setIsInteracting(false)
+    if (dragStartXRef.current && e?.pageX) {
+      const diff = dragStartXRef.current - e.pageX
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) {
+          handleNextCard(e)
+        } else {
+          handlePrevCard(e)
+        }
+      }
+    }
   }
 
   const handleMouseLeave = () => {
-    isDraggingRef.current = false
     setIsInteracting(false)
   }
 
-  const handleTouchStart = () => {
+  const handleTouchStart = (e) => {
     setIsInteracting(true)
+    if (e.touches && e.touches[0]) {
+      setTouchStartX(e.touches[0].clientX)
+    }
   }
 
-  const handleTouchEnd = () => {
-    setTimeout(() => setIsInteracting(false), 3000)
+  const handleTouchEnd = (e) => {
+    setTimeout(() => setIsInteracting(false), 2500)
+    if (e.changedTouches && e.changedTouches[0]) {
+      const diff = touchStartX - e.changedTouches[0].clientX
+      if (Math.abs(diff) > 35) {
+        if (diff > 0) {
+          handleNextCard(e)
+        } else {
+          handlePrevCard(e)
+        }
+      }
+    }
   }
 
-  // Auto-run carousel so user easily sees all cards and videos
+  // Auto-run circular carousel so user easily sees all cards and videos
   useEffect(() => {
     if (!isOpen || isInteracting || !isVideoMuted) return
 
     const timer = setInterval(() => {
-      setCardIndex(prev => {
-        const next = (prev + 1) % EVENT_POSTERS.length
-        scrollToCard(next, true)
-        return next
-      })
+      setCardIndex(prev => (prev + 1) % EVENT_POSTERS.length)
     }, 4800)
 
     return () => clearInterval(timer)
@@ -424,333 +429,265 @@ export default function LeadCaptureModal() {
             </div>
 
             {/* ══════════════════════════════════════════════════════════
-                HORIZONTALLY SCROLLABLE SHOWCASE CAROUSEL (MOBILE & DESKTOP)
+                HORIZONTAL SCROLLING SHOWCASE CAROUSEL
                 ══════════════════════════════════════════════════════════ */}
             <div 
+              ref={carouselRef}
+              onScroll={handleCarouselScroll}
+              onMouseEnter={() => setIsInteracting(true)}
+              onMouseLeave={() => setIsInteracting(false)}
+              onTouchStart={() => setIsInteracting(true)}
+              onTouchEnd={() => setTimeout(() => setIsInteracting(false), 3000)}
+              className="lux-modal-carousel-scroll"
               style={{
                 position: 'relative',
                 marginBottom: '10px',
-                width: '100%',
-                overflowX: 'hidden'
+                width: 'calc(100% + 28px)',
+                marginLeft: '-14px',
+                marginRight: '-14px',
+                display: 'flex',
+                alignItems: 'stretch',
+                gap: '12px',
+                overflowX: 'auto',
+                scrollSnapType: 'x mandatory',
+                WebkitOverflowScrolling: 'touch',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+                padding: '8px 18px 12px 18px',
+                userSelect: 'none',
+                scrollBehavior: 'smooth'
               }}
-              onMouseEnter={() => setIsInteracting(true)}
-              onMouseLeave={() => setIsInteracting(false)}
             >
-              {/* Floating Sleek Left Navigation Arrow */}
-              <button
-                type="button"
-                onClick={handlePrevCard}
-                aria-label="Previous card"
-                title="Previous card"
-                style={{
-                  position: 'absolute',
-                  left: '4px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  zIndex: 12,
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: 'rgba(12, 10, 22, 0.88)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  border: '1.2px solid rgba(255, 224, 50, 0.65)',
-                  color: '#FFE032',
-                  fontSize: '18px',
-                  fontWeight: 900,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  boxShadow: '0 6px 18px rgba(0, 0, 0, 0.8), 0 0 14px rgba(255, 224, 50, 0.3)',
-                  transition: 'all 0.2s ease',
-                  padding: 0,
-                  lineHeight: 1
-                }}
-              >
-                ‹
-              </button>
+              {EVENT_POSTERS.map((card, idx) => {
+                const isActive = cardIndex === idx;
+                return (
+                  <div
+                    key={card.id || card.title || idx}
+                    onClick={() => {
+                      scrollToCard(idx, true);
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Select ${card.title}`}
+                    style={{
+                      flex: '0 0 min(255px, 74vw)',
+                      maxWidth: '280px',
+                      height: 'clamp(280px, 38vh, 325px)',
+                      position: 'relative',
+                      borderRadius: '18px',
+                      overflow: 'hidden',
+                      scrollSnapAlign: 'center',
+                      cursor: 'pointer',
+                      border: isActive ? '1.8px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)',
+                      background: 'rgba(10, 8, 20, 0.95)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      boxShadow: isActive
+                        ? '0 16px 40px rgba(0, 0, 0, 0.85), 0 0 24px rgba(255, 224, 50, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.4)'
+                        : '0 8px 24px rgba(0, 0, 0, 0.6)',
+                      opacity: isActive ? 1 : 0.65,
+                      transform: isActive ? 'scale(1)' : 'scale(0.95)',
+                      transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease',
+                      flexShrink: 0
+                    }}
+                  >
+                    {/* Media: Video if active & has videoUrl, Poster otherwise */}
+                    <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+                      {isActive && card.videoUrl ? (
+                        <video
+                          ref={videoRef}
+                          key={card.videoUrl + card.id}
+                          src={card.videoUrl}
+                          poster={card.poster}
+                          autoPlay
+                          loop
+                          muted={isVideoMuted}
+                          playsInline
+                          preload="auto"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          onPlay={() => setIsVideoPlaying(true)}
+                          onPause={() => setIsVideoPlaying(false)}
+                        />
+                      ) : (
+                        <Image
+                          src={card.poster}
+                          alt={card.title}
+                          fill
+                          sizes="(max-width: 640px) 80vw, 300px"
+                          style={{ objectFit: 'cover' }}
+                          unoptimized
+                          priority={idx <= 2}
+                        />
+                      )}
+                    </div>
 
-              {/* Floating Sleek Right Navigation Arrow */}
-              <button
-                type="button"
-                onClick={handleNextCard}
-                aria-label="Next card"
-                title="Next card"
-                style={{
-                  position: 'absolute',
-                  right: '4px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  zIndex: 12,
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: 'rgba(12, 10, 22, 0.88)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  border: '1.2px solid rgba(255, 224, 50, 0.65)',
-                  color: '#FFE032',
-                  fontSize: '18px',
-                  fontWeight: 900,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  boxShadow: '0 6px 18px rgba(0, 0, 0, 0.8), 0 0 14px rgba(255, 224, 50, 0.3)',
-                  transition: 'all 0.2s ease',
-                  padding: 0,
-                  lineHeight: 1
-                }}
-              >
-                ›
-              </button>
+                    {/* Vignette Overlay */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.65) 60%, rgba(8,7,12,0.96) 95%)',
+                      pointerEvents: 'none'
+                    }} />
 
-              {/* Horizontal Scrollable Track */}
-              <div 
-                ref={carouselRef}
-                onScroll={handleCarouselScroll}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseLeave}
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-                style={{
-                  display: 'flex',
-                  gap: '10px',
-                  overflowX: 'auto',
-                  overflowY: 'hidden',
-                  scrollSnapType: 'x mandatory',
-                  WebkitOverflowScrolling: 'touch',
-                  scrollbarWidth: 'none',
-                  msOverflowStyle: 'none',
-                  width: '100%',
-                  position: 'relative',
-                  padding: '4px 6px 8px',
-                  touchAction: 'pan-x pan-y',
-                  cursor: isDraggingRef.current ? 'grabbing' : 'grab'
-                }}
-              >
-                {EVENT_POSTERS.map((card, idx) => {
-                  const isActive = cardIndex === idx
-                  return (
-                    <div 
-                      key={card.id || idx}
-                      data-card-index={idx}
-                      onClick={() => {
-                        if (!isActive) {
-                          setCardIndex(idx)
-                          scrollToCard(idx, true)
-                        }
-                      }}
-                      style={{
-                        flex: '0 0 65%',
-                        minWidth: '190px',
-                        maxWidth: '240px',
-                        scrollSnapAlign: 'center',
-                        position: 'relative',
-                        borderRadius: '16px',
-                        overflow: 'hidden',
-                        border: isActive ? '1.5px solid rgba(255, 224, 50, 0.6)' : '1px solid rgba(255, 255, 255, 0.12)',
-                        background: 'rgba(10, 8, 20, 0.9)',
-                        backdropFilter: 'blur(20px)',
-                        WebkitBackdropFilter: 'blur(20px)',
-                        boxShadow: isActive
-                          ? '0 16px 40px rgba(0, 0, 0, 0.8), 0 0 28px rgba(255, 224, 50, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35)'
-                          : '0 6px 18px rgba(0, 0, 0, 0.5)',
-                        aspectRatio: '3 / 4',
-                        maxHeight: '235px',
-                        opacity: isActive ? 1 : 0.62,
-                        transform: isActive ? 'scale(1)' : 'scale(0.96)',
-                        transition: 'transform 0.25s ease, opacity 0.25s ease, border-color 0.25s ease',
-                        cursor: isActive ? (card.videoUrl ? 'pointer' : 'default') : 'pointer',
-                        userSelect: 'none',
-                        flexShrink: 0
-                      }}
-                    >
-                      {/* Media: Video if active & available, Poster otherwise */}
-                      <div 
-                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-                        onClick={isActive && card.videoUrl ? togglePlayPause : undefined}
-                      >
-                        {isActive && card.videoUrl ? (
-                          <video
-                            ref={videoRef}
-                            key={card.videoUrl + card.id}
-                            src={card.videoUrl}
-                            poster={card.poster}
-                            autoPlay
-                            loop
-                            muted={isVideoMuted}
-                            playsInline
-                            preload="auto"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                            onPlay={() => setIsVideoPlaying(true)}
-                            onPause={() => setIsVideoPlaying(false)}
-                          />
-                        ) : (
-                          <Image
-                            src={card.poster}
-                            alt={card.title}
-                            fill
-                            sizes="(max-width: 640px) 85vw, 420px"
-                            style={{ objectFit: 'cover' }}
-                            unoptimized
-                            priority={idx === 0}
-                          />
-                        )}
-                      </div>
-
-                      {/* Vignette Overlay */}
-                      <div style={{
-                        position: 'absolute',
-                        inset: 0,
-                        background: 'linear-gradient(180deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.65) 60%, rgba(8,7,12,0.95) 95%)',
-                        pointerEvents: 'none'
-                      }} />
-
-                      {/* Top Controls Bar */}
+                    {/* Top Controls Bar - Both icons in opposite corners on active video card */}
+                    {isActive && card.videoUrl && (
                       <div style={{
                         position: 'absolute',
                         top: '10px',
                         left: '10px',
                         right: '10px',
+                        width: 'calc(100% - 20px)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         zIndex: 4,
-                        pointerEvents: isActive ? 'auto' : 'none'
+                        pointerEvents: 'none'
                       }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <span style={{
-                            background: 'rgba(10, 8, 20, 0.75)',
-                            backdropFilter: 'blur(16px)',
-                            WebkitBackdropFilter: 'blur(16px)',
-                            border: '1px solid rgba(255, 224, 50, 0.55)',
-                            color: '#FFE032',
-                            fontSize: '10px',
-                            fontWeight: 800,
-                            padding: '4px 10px',
-                            borderRadius: '100px',
-                            letterSpacing: '0.04em',
-                            textTransform: 'uppercase',
-                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.25)'
-                          }}>
-                            {card.tab.replace(/^[^\s]+\s/, '')}
-                          </span>
-                        </div>
+                        <button
+                          type="button"
+                          className={`hp-poster-glass-btn ${!isVideoMuted ? 'is-active' : ''}`}
+                          onClick={(e) => { e.stopPropagation(); toggleMute(); }}
+                          aria-label={isVideoMuted ? "Unmute sound" : "Mute sound"}
+                          title={isVideoMuted ? "Tap to Unmute" : "Tap to Mute"}
+                          style={{ width: '30px', height: '30px', pointerEvents: 'auto' }}
+                        >
+                          {isVideoMuted ? (
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" fillOpacity="0.25"/>
+                              <line x1="23" y1="9" x2="17" y2="15"/>
+                              <line x1="17" y1="9" x2="23" y2="15"/>
+                            </svg>
+                          ) : (
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" fillOpacity="0.25"/>
+                              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                            </svg>
+                          )}
+                        </button>
 
-                        {/* Glass Unmute & Pause Controls (Active video card) */}
-                        {isActive && card.videoUrl && (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <button
-                              type="button"
-                              className={`hp-poster-glass-btn ${!isVideoMuted ? 'is-active' : ''}`}
-                              onClick={toggleMute}
-                              aria-label={isVideoMuted ? "Unmute sound" : "Mute sound"}
-                              title={isVideoMuted ? "Tap to Unmute" : "Tap to Mute"}
-                              style={{ width: '30px', height: '30px' }}
-                            >
-                              {isVideoMuted ? (
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" fillOpacity="0.25"/>
-                                  <line x1="23" y1="9" x2="17" y2="15"/>
-                                  <line x1="17" y1="9" x2="23" y2="15"/>
-                                </svg>
-                              ) : (
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" fillOpacity="0.25"/>
-                                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                                </svg>
-                              )}
-                            </button>
-
-                            <button
-                              type="button"
-                              className={`hp-poster-glass-btn ${!isVideoPlaying ? 'is-paused' : ''}`}
-                              onClick={togglePlayPause}
-                              aria-label={isVideoPlaying ? "Pause video" : "Play video"}
-                              title={isVideoPlaying ? "Tap to Pause" : "Tap to Play"}
-                              style={{ width: '30px', height: '30px' }}
-                            >
-                              {isVideoPlaying ? (
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                                  <rect x="6" y="4" width="4" height="16" rx="1.5" />
-                                  <rect x="14" y="4" width="4" height="16" rx="1.5" />
-                                </svg>
-                              ) : (
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: '1px' }}>
-                                  <polygon points="6 4 20 12 6 20 6 4" />
-                                </svg>
-                              )}
-                            </button>
-                          </div>
-                        )}
+                        <button
+                          type="button"
+                          className={`hp-poster-glass-btn ${!isVideoPlaying ? 'is-paused' : ''}`}
+                          onClick={(e) => { e.stopPropagation(); togglePlayPause(); }}
+                          aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                          title={isVideoPlaying ? "Tap to Pause" : "Tap to Play"}
+                          style={{ width: '30px', height: '30px', marginLeft: 'auto', pointerEvents: 'auto' }}
+                        >
+                          {isVideoPlaying ? (
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                              <rect x="6" y="4" width="4" height="16" rx="1.5" />
+                              <rect x="14" y="4" width="4" height="16" rx="1.5" />
+                            </svg>
+                          ) : (
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: '1px' }}>
+                              <polygon points="6 4 20 12 6 20 6 4" />
+                            </svg>
+                          )}
+                        </button>
                       </div>
+                    )}
 
-                      {/* Card Bottom Overlay */}
-                      <div style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        padding: '16px 12px 10px 12px',
-                        zIndex: 3,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '4px',
-                        background: 'linear-gradient(180deg, rgba(8, 8, 14, 0) 0%, rgba(8, 8, 14, 0.88) 40%, #08080e 100%)'
+                    {/* Card Bottom Overlay */}
+                    <div style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: '24px 14px 12px 14px',
+                      zIndex: 3,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '4px',
+                      background: 'linear-gradient(180deg, rgba(8, 8, 14, 0) 0%, rgba(8, 8, 14, 0.72) 45%, #08080e 100%)'
+                    }}>
+                      <h4 style={{
+                        fontSize: '15px',
+                        fontWeight: 800,
+                        fontFamily: "var(--font-serif, 'Playfair Display', Georgia, serif)",
+                        color: '#FFFFFF',
+                        margin: 0,
+                        lineHeight: 1.25,
+                        letterSpacing: '-0.01em',
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.9)'
                       }}>
-                        <h4 style={{
-                          fontSize: '14px',
-                          fontWeight: 800,
-                          color: '#FFFFFF',
-                          margin: 0,
-                          lineHeight: 1.25,
-                          letterSpacing: '-0.01em',
-                          textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)'
-                        }}>
-                          {card.title}
-                        </h4>
-                      </div>
+                        {card.title}
+                      </h4>
                     </div>
-                  )
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
 
-            {/* Dots Counter */}
+            {/* Sliding Fluid Dots Indicator - Zero layout shift, silky smooth glide */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '6px',
-              marginBottom: '12px'
+              marginBottom: '14px',
+              userSelect: 'none'
             }}>
-              {EVENT_POSTERS.map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => {
-                    setCardIndex(idx)
-                    scrollToCard(idx, true)
-                  }}
-                  aria-label={`Go to slide ${idx + 1}`}
+              <div style={{
+                position: 'relative',
+                display: 'inline-flex',
+                alignItems: 'center',
+                padding: '4px',
+                background: 'rgba(255, 255, 255, 0.04)',
+                borderRadius: '100px',
+                border: '1px solid rgba(255, 255, 255, 0.08)'
+              }}>
+                {/* Smooth Sliding Active Pill Indicator */}
+                <div
                   style={{
-                    width: cardIndex === idx ? '18px' : '6px',
+                    position: 'absolute',
+                    top: '4px',
+                    left: '2px',
+                    width: '18px',
                     height: '6px',
-                    borderRadius: '999px',
-                    background: cardIndex === idx ? 'linear-gradient(90deg, #FFE032, #FF9900)' : 'rgba(255, 255, 255, 0.22)',
-                    boxShadow: cardIndex === idx ? '0 0 10px rgba(255, 224, 50, 0.6)' : 'none',
-                    border: 'none',
-                    padding: 0,
-                    cursor: 'pointer',
-                    transition: 'all 0.25s ease'
+                    borderRadius: '100px',
+                    background: 'linear-gradient(90deg, #FFE032 0%, #FF9900 100%)',
+                    boxShadow: '0 0 12px rgba(255, 224, 50, 0.8)',
+                    transform: `translateX(${cardIndex * 14}px)`,
+                    transition: 'transform 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.15)',
+                    pointerEvents: 'none',
+                    zIndex: 2
                   }}
                 />
-              ))}
+
+                {/* Fixed Background Dots (Each 14px slot, dots never jump or shift) */}
+                {EVENT_POSTERS.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => scrollToCard(idx, true)}
+                    aria-label={`Go to slide ${idx + 1}`}
+                    style={{
+                      width: '14px',
+                      height: '6px',
+                      padding: 0,
+                      border: 'none',
+                      background: 'transparent',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      position: 'relative',
+                      zIndex: 1
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: '5px',
+                        height: '5px',
+                        borderRadius: '50%',
+                        background: 'rgba(255, 255, 255, 0.28)',
+                        opacity: cardIndex === idx ? 0 : 1,
+                        transition: 'opacity 0.2s ease'
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* ══════════════════════════════════════════════════════════
