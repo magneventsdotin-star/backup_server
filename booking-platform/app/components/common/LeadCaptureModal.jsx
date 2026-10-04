@@ -335,46 +335,75 @@ export default function LeadCaptureModal() {
               {/* Top Controls Bar */}
               <div style={{
                 position: 'absolute',
-                top: '10px',
-                left: '10px',
-                right: '10px',
+                top: '12px',
+                left: '12px',
+                right: '12px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 zIndex: 3
               }}>
-                <span style={{
-                  background: 'rgba(0, 0, 0, 0.7)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  color: '#FFFFFF',
-                  fontSize: '10px',
-                  fontWeight: 700,
-                  padding: '4px 9px',
-                  borderRadius: '6px'
-                }}>
-                  {current.tag}
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{
+                    background: 'rgba(8, 8, 14, 0.85)',
+                    backdropFilter: 'blur(14px)',
+                    WebkitBackdropFilter: 'blur(14px)',
+                    border: '1px solid rgba(255, 224, 50, 0.45)',
+                    color: '#FFE032',
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    padding: '4px 10px',
+                    borderRadius: '100px',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase'
+                  }}>
+                    {current.tab.replace(/^[^\s]+\s/, '')}
+                  </span>
 
-                {/* Sound Toggle (Muted without music by default, tap to listen) */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    background: 'rgba(16, 185, 129, 0.2)',
+                    backdropFilter: 'blur(12px)',
+                    border: '1px solid rgba(16, 185, 129, 0.45)',
+                    color: '#34D399',
+                    fontSize: '10.5px',
+                    fontWeight: 700,
+                    padding: '3px 8px',
+                    borderRadius: '100px'
+                  }}>
+                    <span style={{
+                      width: '6px',
+                      height: '6px',
+                      borderRadius: '50%',
+                      background: '#10B981',
+                      boxShadow: '0 0 6px #10B981'
+                    }} />
+                    <span>{current.slots}</span>
+                  </div>
+                </div>
+
+                {/* Sound Toggle (Muted by default) */}
                 <button
                   type="button"
                   onClick={toggleMute}
                   aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
                   title={isVideoMuted ? "Tap to listen with sound" : "Mute sound"}
                   style={{
-                    width: '32px',
-                    height: '32px',
+                    width: '34px',
+                    height: '34px',
                     borderRadius: '50%',
-                    background: 'rgba(0, 0, 0, 0.65)',
-                    backdropFilter: 'blur(12px)',
+                    background: 'rgba(8, 8, 14, 0.85)',
+                    backdropFilter: 'blur(14px)',
                     border: '1px solid rgba(255, 255, 255, 0.25)',
                     color: '#FFE032',
                     fontSize: '13px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)'
                   }}
                 >
                   {isVideoMuted ? '🔇' : '🔊'}
@@ -442,29 +471,57 @@ export default function LeadCaptureModal() {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                padding: '12px 14px 10px',
+                padding: '24px 14px 14px 14px',
                 zIndex: 3,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '6px'
+                gap: '8px',
+                background: 'linear-gradient(180deg, rgba(8, 8, 14, 0) 0%, rgba(8, 8, 14, 0.88) 25%, #08080e 100%)'
               }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                  <span style={{
+                    background: 'rgba(255, 224, 50, 0.12)',
+                    border: '1px solid rgba(255, 224, 50, 0.4)',
+                    color: '#FFE032',
+                    fontSize: '9.5px',
+                    fontWeight: 800,
+                    padding: '3px 8px',
+                    borderRadius: '6px',
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase'
+                  }}>
+                    {current.tag}
+                  </span>
+                  {current.rating && (
+                    <span style={{
+                      color: 'rgba(255, 255, 255, 0.8)',
+                      fontSize: '10.5px',
+                      fontWeight: 700
+                    }}>
+                      ⭐ {current.rating}
+                    </span>
+                  )}
+                </div>
+
                 <div>
                   <h4 style={{
-                    fontSize: '15px',
+                    fontSize: '16.5px',
                     fontWeight: 800,
                     color: '#FFFFFF',
-                    margin: '0 0 2px',
-                    lineHeight: 1.2
+                    margin: '0 0 3px',
+                    lineHeight: 1.25,
+                    letterSpacing: '-0.02em',
+                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)'
                   }}>
                     {current.title}
                   </h4>
                   <p style={{
-                    fontSize: '11px',
-                    color: 'rgba(255, 255, 255, 0.7)',
+                    fontSize: '11.5px',
+                    color: '#94A3B8',
                     margin: 0,
-                    lineHeight: 1.3,
+                    lineHeight: 1.35,
                     display: '-webkit-box',
-                    WebkitLineClamp: 1,
+                    WebkitLineClamp: 2,
                     WebkitBoxOrient: 'vertical',
                     overflow: 'hidden'
                   }}>
@@ -477,35 +534,48 @@ export default function LeadCaptureModal() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  borderRadius: '10px',
-                  padding: '5px 9px'
+                  background: 'rgba(18, 18, 26, 0.88)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255, 215, 0, 0.25)',
+                  borderRadius: '12px',
+                  padding: '7px 11px'
                 }}>
-                  <div>
-                    <span style={{ fontSize: '10px', color: '#94A3B8', textDecoration: 'line-through', marginRight: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ fontSize: '10.5px', color: '#64748B', textDecoration: 'line-through' }}>
                       {current.regularPrice}
                     </span>
-                    <span style={{ fontSize: '14px', fontWeight: 900, color: '#FFE032' }}>
-                      {current.offerPrice}
-                    </span>
-                    <span style={{
-                      marginLeft: '6px',
-                      fontSize: '9px',
-                      fontWeight: 800,
-                      background: 'rgba(16, 185, 129, 0.25)',
-                      color: '#34D399',
-                      padding: '1px 5px',
-                      borderRadius: '4px'
-                    }}>
-                      {current.discount}
-                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span style={{ fontSize: '16px', fontWeight: 900, color: '#FFE032' }}>
+                        {current.offerPrice}
+                      </span>
+                      <span style={{
+                        fontSize: '9.5px',
+                        fontWeight: 800,
+                        background: 'rgba(34, 197, 94, 0.2)',
+                        border: '1px solid rgba(34, 197, 94, 0.4)',
+                        color: '#4ADE80',
+                        padding: '2px 5px',
+                        borderRadius: '5px'
+                      }}>
+                        {current.discount}
+                      </span>
+                    </div>
                   </div>
 
-                  <div style={{ textAlign: 'right' }}>
-                    <span style={{ fontSize: '9px', color: 'rgba(255, 255, 255, 0.6)', textTransform: 'uppercase', display: 'block' }}>Lock Slot</span>
-                    <span style={{ fontSize: '12px', fontWeight: 800, color: '#FFFFFF' }}>₹99 Only</span>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
+                    color: '#000000',
+                    fontWeight: 900,
+                    fontSize: '11px',
+                    padding: '6px 12px',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 10px rgba(255, 224, 50, 0.35)',
+                    letterSpacing: '0.2px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}>
+                    <span>⚡ LOCK SLOT ₹99</span>
                   </div>
                 </div>
               </div>
