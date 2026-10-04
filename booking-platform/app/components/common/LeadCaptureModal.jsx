@@ -343,46 +343,22 @@ export default function LeadCaptureModal() {
                 justifyContent: 'space-between',
                 zIndex: 3
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{
-                    background: 'rgba(8, 8, 14, 0.85)',
-                    backdropFilter: 'blur(14px)',
-                    WebkitBackdropFilter: 'blur(14px)',
-                    border: '1px solid rgba(255, 224, 50, 0.45)',
-                    color: '#FFE032',
-                    fontSize: '11px',
-                    fontWeight: 800,
-                    padding: '4px 10px',
-                    borderRadius: '100px',
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase'
-                  }}>
-                    {current.tab.replace(/^[^\s]+\s/, '')}
-                  </span>
-
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    background: 'rgba(16, 185, 129, 0.2)',
-                    backdropFilter: 'blur(12px)',
-                    border: '1px solid rgba(16, 185, 129, 0.45)',
-                    color: '#34D399',
-                    fontSize: '10.5px',
-                    fontWeight: 700,
-                    padding: '3px 8px',
-                    borderRadius: '100px'
-                  }}>
-                    <span style={{
-                      width: '6px',
-                      height: '6px',
-                      borderRadius: '50%',
-                      background: '#10B981',
-                      boxShadow: '0 0 6px #10B981'
-                    }} />
-                    <span>{current.slots}</span>
-                  </div>
-                </div>
+                <span style={{
+                  background: 'rgba(8, 8, 14, 0.85)',
+                  backdropFilter: 'blur(14px)',
+                  WebkitBackdropFilter: 'blur(14px)',
+                  border: '1px solid rgba(255, 224, 50, 0.45)',
+                  color: '#FFE032',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  padding: '5px 13px',
+                  borderRadius: '100px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)'
+                }}>
+                  {current.tab.replace(/^[^\s]+\s/, '')}
+                </span>
 
                 {/* Sound Toggle (Muted by default) */}
                 <button

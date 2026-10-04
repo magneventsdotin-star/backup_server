@@ -7604,17 +7604,7 @@
 }
 
 .hp-poster-live-slot {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(16, 185, 129, 0.2);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(16, 185, 129, 0.45);
-  color: #34D399;
-  font-size: 10.5px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 999px;
+  display: none !important;
 }
 
 .hp-poster-live-dot {
