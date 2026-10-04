@@ -8030,5 +8030,84 @@
   color: #FFFFFF;
 }
 
+/* Mobile Horizontal Showcase Card Format */
+@media (max-width: 768px) {
+  .hp-poster-peek-row {
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .hp-poster-card-wrapper {
+    width: min(400px, calc(100% - 56px)) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 10.5 !important;
+    max-height: 250px !important;
+    border-radius: 18px !important;
+    border-width: 1.2px !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 224, 50, 0.15) !important;
+  }
+
+  .hp-poster-peek-card {
+    height: 195px !important;
+    max-height: 80% !important;
+    border-radius: 12px !important;
+    flex: 0 0 20px !important;
+    min-width: 18px !important;
+  }
+
+  .hp-poster-top-bar {
+    top: 8px !important;
+    left: 8px !important;
+    right: 8px !important;
+  }
+
+  .hp-poster-glass-btn {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .hp-poster-glass-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .hp-poster-bottom {
+    padding: 10px 8px 8px 8px !important;
+    gap: 4px !important;
+  }
+
+  .hp-poster-card-title {
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+  }
+
+  .hp-poster-value-bar {
+    padding: 5px 8px !important;
+    border-radius: 9px !important;
+    gap: 6px !important;
+  }
+
+  .hp-poster-feature-highlight {
+    font-size: 10.5px !important;
+  }
+
+  .hp-poster-feature-sub {
+    font-size: 8.5px !important;
+  }
+
+  .hp-poster-feature-badge {
+    font-size: 10px !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+  }
+
+  .hp-poster-floating-nav {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 14px !important;
+  }
+}
+
 
 

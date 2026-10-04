@@ -117,7 +117,10 @@ export default function LeadCaptureModal() {
   // Center active card when modal opens
   useEffect(() => {
     if (isOpen) {
+      const modalEl = document.querySelector('.lux-modal-content')
+      if (modalEl) modalEl.scrollLeft = 0
       const timer = setTimeout(() => {
+        if (modalEl) modalEl.scrollLeft = 0
         scrollToCard(cardIndex, false)
       }, 100)
       return () => clearTimeout(timer)
@@ -288,6 +291,7 @@ export default function LeadCaptureModal() {
               margin: 'auto',
               maxHeight: 'calc(100vh - 28px)',
               overflowY: 'auto',
+              overflowX: 'hidden',
               WebkitOverflowScrolling: 'touch',
               background: 'linear-gradient(145deg, rgba(25, 20, 42, 0.78) 0%, rgba(12, 10, 24, 0.88) 100%)',
               backdropFilter: 'blur(36px) saturate(180%)',
@@ -426,7 +430,8 @@ export default function LeadCaptureModal() {
               style={{
                 position: 'relative',
                 marginBottom: '10px',
-                width: '100%'
+                width: '100%',
+                overflowX: 'hidden'
               }}
               onMouseEnter={() => setIsInteracting(true)}
               onMouseLeave={() => setIsInteracting(false)}
@@ -521,6 +526,7 @@ export default function LeadCaptureModal() {
                   scrollbarWidth: 'none',
                   msOverflowStyle: 'none',
                   width: '100%',
+                  position: 'relative',
                   padding: '4px 6px 8px',
                   touchAction: 'pan-x pan-y',
                   cursor: isDraggingRef.current ? 'grabbing' : 'grab'
@@ -791,9 +797,9 @@ export default function LeadCaptureModal() {
             </div>
 
             {/* ══════════════════════════════════════════════════════════
-                MINIMAL FORM (EVENT SELECTOR + NAME + PHONE NUMBER)
+                MINIMAL FORM (NAME + PHONE NUMBER + EVENT DETAILS)
                 ══════════════════════════════════════════════════════════ */}
-            <MinimalBookingForm currentCard={current} onSelectEvent={handleSelectEvent} onClose={onClose} />
+            <MinimalBookingForm currentCard={current} onClose={onClose} />
           </motion.div>
         </div>
       )}
@@ -801,13 +807,12 @@ export default function LeadCaptureModal() {
   )
 }
 
-function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
+function MinimalBookingForm({ currentCard, onClose }) {
   const [formData, setFormData] = useState({ 
     name: '', 
     phone: '',
     eventDetails: ''
   })
-  const [selectedEventType, setSelectedEventType] = useState('🎤 House Party')
   const [errorMsg, setErrorMsg] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -857,8 +862,8 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         date: '',
         location: geoData.detectedLocation || '',
         eventDetails: formData.eventDetails?.trim() || '',
-        message: `[ARTIST BOOKING REQUEST] ${selectedEventType}${formData.eventDetails ? ` | Details: ${formData.eventDetails.trim()}` : ''}. Reserved: ${currentCard.title} (${currentCard.category}). Check availability and confirm artist slot.`,
-        eventType: selectedEventType || currentCard.category || 'Live Artist Booking',
+        message: `[ARTIST BOOKING REQUEST] Reserved: ${currentCard.title} (${currentCard.category})${formData.eventDetails ? ` | Details: ${formData.eventDetails.trim()}` : ''}. Check availability and confirm artist slot.`,
+        eventType: currentCard.category || 'Live Artist Booking',
         type: 'token_booking_99_reserved',
         formType: 'welcome_popup',
         formName: 'Welcome 10-Card Popup',
@@ -973,66 +978,6 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-
-      {/* Event Details Selection Section */}
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '5px' }}>
-          <label style={{ fontSize: '11px', fontWeight: 800, color: '#FFE032', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            🎪 Event Type:
-          </label>
-          <span style={{ fontSize: '10.5px', color: 'rgba(255, 255, 255, 0.5)' }}>1-Tap Selection</span>
-        </div>
-        <div style={{
-          display: 'flex',
-          gap: '6px',
-          overflowX: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          touchAction: 'pan-x',
-          scrollSnapType: 'x proximity',
-          paddingBottom: '4px',
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none'
-        }}>
-          {[
-            { label: '🎤 House Party', index: 0 },
-            { label: '🎂 Birthday', index: 2 },
-            { label: '🌆 Terrace Jam', index: 1 },
-            { label: '🍸 Cocktail', index: 3 },
-            { label: '💍 Wedding', index: 4 },
-            { label: '👔 Corporate', index: 5 }
-          ].map((item) => {
-            const isSelected = selectedEventType === item.label
-            return (
-              <button
-                key={item.label}
-                type="button"
-                onClick={() => {
-                  setSelectedEventType(item.label)
-                  onSelectEvent?.(item.index)
-                }}
-                style={{
-                  flexShrink: 0,
-                  padding: '6px 12px',
-                  borderRadius: '100px',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  border: isSelected ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.14)',
-                  background: isSelected ? 'linear-gradient(135deg, rgba(255, 224, 50, 0.25) 0%, rgba(255, 153, 0, 0.12) 100%)' : 'rgba(255, 255, 255, 0.05)',
-                  color: isSelected ? '#FFE032' : 'rgba(255, 255, 255, 0.85)',
-                  boxShadow: isSelected ? '0 4px 16px rgba(255, 224, 50, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.4)' : 'inset 0 1px 1px rgba(255, 255, 255, 0.08)',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                {item.label}
-              </button>
-            )
-          })}
-        </div>
-      </div>
 
       {/* Field 1: Name */}
       <div>
