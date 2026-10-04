@@ -550,7 +550,7 @@ function InnerQuickBookingForm({ onClose }) {
           fontWeight: '800',
           marginBottom: '12px'
         }}>
-          ⚡ ₹99 Slot Locked · 55%–65% Discount Applied
+          ⚡ Artist Slot Reserved Successfully
         </div>
         <p style={{ margin: '0 0 16px', color: 'rgba(255,255,255,0.85)', fontSize: '13px', lineHeight: '1.5' }}>
           Thank you, <strong style={{ color: '#FFE032' }}>{formData.name}</strong>! Your artist slot is locked. Our senior event coordinator will call you at <strong style={{ color: '#fff' }}>+91 {formData.phone}</strong> shortly.
@@ -604,14 +604,14 @@ function InnerQuickBookingForm({ onClose }) {
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
           letterSpacing: '-0.02em'
         }}>
-          Book Artist for{' '}
+          Book Verified{' '}
           <span style={{ 
             background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             display: 'inline-block'
           }}>
-            ₹99
+            Live Artists
           </span>
         </h3>
         <p style={{ 
@@ -621,7 +621,7 @@ function InnerQuickBookingForm({ onClose }) {
           lineHeight: 1.45,
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }}>
-          Lock your date & artist slot with guaranteed <strong style={{ color: '#FFE032' }}>55%–65% OFF</strong> on your final quote!
+          Lock your date &amp; artist slot. Connect with 1500+ verified performers across India.
         </p>
       </div>
 
@@ -856,7 +856,7 @@ function InnerQuickBookingForm({ onClose }) {
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                 </svg>
-                <span>Book Artist Slot for ₹99</span>
+                <span>Check Availability &amp; Book Slot ➔</span>
               </>
             )}
           </button>

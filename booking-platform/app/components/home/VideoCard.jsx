@@ -178,9 +178,9 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
               }));
             }} 
             className="hero-video-book-btn"
-            aria-label={`Book ${video.title} for 99 rupees`}
+            aria-label={`Book ${video.title}`}
           >
-            <span>⚡ Book for ₹99</span>
+            <span>⚡ Book Artist</span>
           </button>
 
           <button 

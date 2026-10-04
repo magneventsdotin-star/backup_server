@@ -212,7 +212,7 @@ export default function HeroSection() {
                 onClick={() => window.dispatchEvent(new CustomEvent('open-quick-booking'))}
                 className="hp-sw-btn-primary"
               >
-                <span>Pay ₹99 &amp; Book Your Slot (Confirmed)</span>
+                <span>Book Verified Artists (Confirmed)</span>
                 <span className="hp-sw-arrow">→</span>
               </button>
 
@@ -263,11 +263,11 @@ export default function HeroSection() {
                 role="button"
                 tabIndex={0}
                 style={{ cursor: 'pointer' }}
-                aria-label="Book slot for only 99 rupees"
+                aria-label="Book verified artist slot online"
               >
                 <span className="hp-sw-why-icon">⚡</span>
                 <div className="hp-sw-why-text">
-                  <strong>Only ₹99 to Book &amp; Fix Your Slot</strong>
+                  <strong>Instant Online Artist Booking</strong>
                   <span>Instant slot confirmation with 100% money-back guarantee</span>
                 </div>
                 <button
@@ -277,7 +277,7 @@ export default function HeroSection() {
                     window.dispatchEvent(new CustomEvent('open-quick-booking'));
                   }}
                   className="hp-sw-why-cta-btn"
-                  aria-label="Book slot for ₹99"
+                  aria-label="Book artist slot"
                 >
                   <span>Book Now</span>
                   <span className="hp-sw-why-arrow">➔</span>
@@ -351,15 +351,15 @@ export default function HeroSection() {
               }}
               role="button"
               tabIndex={0}
-              aria-label="Claim first booking offer: 55% to 65% OFF - Book for 99 rupees"
+              aria-label="Book verified artists online"
             >
               <div className="hp-mob-promo-top-left">
-                <span className="hp-mob-promo-badge-tag">EXCLUSIVE OFFER</span>
+                <span className="hp-mob-promo-badge-tag">EXCLUSIVE ARTISTS</span>
                 <span className="hp-mob-promo-top-text">
-                  🔥 <strong>55%–65% OFF</strong> First Booking
+                  🔥 <strong>1500+ Handpicked</strong> Singers &amp; Live Bands
                 </span>
               </div>
-              <span className="hp-mob-promo-pill">₹99 TOKEN ➔</span>
+              <span className="hp-mob-promo-pill">BOOK NOW ➔</span>
             </div>
           </div>
 
@@ -539,18 +539,14 @@ export default function HeroSection() {
                             <p className="hp-poster-card-sub">{current.subtitle}</p>
                           </div>
 
-                          {/* Pricing and Offer Strip */}
+                          {/* Verified Features & Booking Bar (Prices strictly disclosed in /pricing) */}
                           <div className="hp-poster-value-bar">
-                            <div className="hp-poster-price-block">
-                              <span className="hp-poster-regular-price">{current.regularPrice}</span>
-                              <div className="hp-poster-offer-price">
-                                <span>{current.offerPrice}</span>
-                                <span className="hp-poster-discount-badge">{current.discount}</span>
-                              </div>
+                            <div className="hp-poster-feature-block">
+                              <span className="hp-poster-feature-highlight">⭐ 4.95★ Verified Performer</span>
+                              <span className="hp-poster-feature-sub">Sound Setup Included • 100% Arrival</span>
                             </div>
-                            <div className="hp-poster-token-badge">
-                              <span className="hp-poster-token-top">Lock Slot</span>
-                              <span className="hp-poster-token-amt">₹99 Only</span>
+                            <div className="hp-poster-feature-badge">
+                              <span>Reserve Slot ➔</span>
                             </div>
                           </div>
 
@@ -592,11 +588,11 @@ export default function HeroSection() {
                   window.dispatchEvent(new CustomEvent('open-quick-booking'));
                 }
               }}
-              aria-label="Book Now for 99 rupees with 55% to 65% off"
+              aria-label="Book Verified Artists Online"
             >
               <div className="mob-btn-offer-content">
-                <span className="mob-btn-offer-title">Book Now — Only ₹99</span>
-                <span className="mob-btn-offer-badge">CLAIM 55%–65% OFF ➔</span>
+                <span className="mob-btn-offer-title">Book Verified Artists</span>
+                <span className="mob-btn-offer-badge">CHECK AVAILABILITY ➔</span>
               </div>
             </button>
             <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
@@ -612,8 +608,8 @@ export default function HeroSection() {
           {/* Section 5: PROMOTIONAL TRUST & VALUE HIGHLIGHTS */}
           <div className="hp-mob-section">
             <div className="hp-mob-trust-grid">
-              <div className="mob-trust-card"><span className="mob-check">⚡</span> Book for Just ₹99</div>
-              <div className="mob-trust-card"><span className="mob-check">🏷️</span> Flat 55%–65% Off</div>
+              <div className="mob-trust-card"><span className="mob-check">⚡</span> Instant Slot Confirmation</div>
+              <div className="mob-trust-card"><span className="mob-check">💎</span> Direct Artist Connect</div>
               <div className="mob-trust-card"><span className="mob-check">✓</span> 1500+ Verified Artists</div>
               <div className="mob-trust-card"><span className="mob-check">🛡️</span> 100% Arrival Guarantee</div>
             </div>

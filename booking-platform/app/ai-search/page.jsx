@@ -460,9 +460,9 @@ function AISearchContent() {
                         type="button"
                         className="lux-ai-slider-btn-book"
                         onClick={() => handleBookArtist(artist.name, artist.category)}
-                        aria-label={`Book ${artist.name} for 99 rupees`}
+                        aria-label={`Book ${artist.name}`}
                       >
-                        <span>⚡ Book for ₹99</span>
+                        <span>⚡ Book Artist</span>
                       </button>
                       <Link
                         href={`/artist/${artist.slug || artist.id}`}

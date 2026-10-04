@@ -120,7 +120,7 @@ export default function VideoModal({ isOpen, video, onClose }) {
                   className="hp-btn hp-btn-primary modal-quote-btn"
                   style={{ background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)', color: '#000', fontWeight: 800 }}
                 >
-                  <span>⚡ Book for ₹99</span>
+                  <span>⚡ Book Artist</span>
                 </button>
                 <button 
                   onClick={() => {

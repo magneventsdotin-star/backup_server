@@ -252,7 +252,7 @@ export default function LeadCaptureModal() {
                 lineHeight: 1.25,
                 letterSpacing: '-0.02em'
               }}>
-                Book Live Artists for <span style={{ color: '#FFE032' }}>Only ₹99</span>
+                Book Verified Live Artists <span style={{ color: '#FFE032' }}>Online</span>
               </h3>
               <p style={{
                 fontSize: '12px',
@@ -260,7 +260,7 @@ export default function LeadCaptureModal() {
                 margin: 0,
                 lineHeight: 1.4
               }}>
-                Lock any verified artist slot today. 100% refundable with artist arrival guarantee.
+                Connect with verified singers and live bands. 100% artist arrival guarantee.
               </p>
             </div>
 
@@ -523,7 +523,7 @@ export default function LeadCaptureModal() {
                     </h4>
                   </div>
 
-                  {/* Pricing Strip */}
+                  {/* Verified Features Bar (Prices strictly disclosed in /pricing) */}
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -532,17 +532,15 @@ export default function LeadCaptureModal() {
                     backdropFilter: 'blur(16px)',
                     border: '1px solid rgba(255, 215, 0, 0.25)',
                     borderRadius: '12px',
-                    padding: '7px 11px'
+                    padding: '8px 12px'
                   }}>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <span style={{ fontSize: '10.5px', color: '#64748B', textDecoration: 'line-through' }}>
-                        {current.regularPrice}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                      <span style={{ fontSize: '13px', fontWeight: 800, color: '#FFE032' }}>
+                        ⭐ 4.95★ Verified Performer
                       </span>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span style={{ fontSize: '16px', fontWeight: 900, color: '#FFE032' }}>
-                          {current.offerPrice}
-                        </span>
-                      </div>
+                      <span style={{ fontSize: '10.5px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                        Sound Setup Included • 100% Arrival
+                      </span>
                     </div>
 
                     <div style={{
@@ -556,9 +554,10 @@ export default function LeadCaptureModal() {
                       letterSpacing: '0.2px',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '4px'
+                      gap: '4px',
+                      whiteSpace: 'nowrap'
                     }}>
-                      <span>⚡ LOCK SLOT ₹99</span>
+                      <span>Reserve ➔</span>
                     </div>
                   </div>
                 </div>
@@ -708,12 +707,12 @@ function MinimalBookingForm({ currentCard, onClose }) {
         else if (window.innerWidth > 768) deviceType = 'T'
       }
 
-      const generatedRef = `MAG-99-${Date.now().toString().slice(-6)}`
+      const generatedRef = `MAG-ART-${Date.now().toString().slice(-6)}`
       await bookingService.submitInstantRequest({
         name: trimmedName,
         phone: cleanPhone,
-        message: `[₹99 SPECIAL POPUP] Reserved: ${currentCard.title} (${currentCard.category}). Offer: ${currentCard.offerPrice} (Regular: ${currentCard.regularPrice}). Discount: ${currentCard.discount}. Lock slot for ₹99 requested.`,
-        eventType: currentCard.category || 'Live Artist Booking (₹99 Special)',
+        message: `[ARTIST BOOKING REQUEST] Reserved: ${currentCard.title} (${currentCard.category}). Check availability and confirm artist slot.`,
+        eventType: currentCard.category || 'Live Artist Booking',
         type: 'token_booking_99_reserved',
         formType: 'welcome_popup',
         formName: 'Welcome 10-Card Popup',
@@ -762,10 +761,10 @@ function MinimalBookingForm({ currentCard, onClose }) {
           ✓
         </div>
         <h4 style={{ margin: '0 0 4px', color: '#FFFFFF', fontSize: '18px', fontWeight: 900 }}>
-          Slot Lock Reserved!
+          Artist Request Received!
         </h4>
         <p style={{ margin: '0 0 10px', color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>
-          Your 55%–65% discount is locked for <strong>{currentCard.title}</strong>.
+          Your artist request is locked for <strong>{currentCard.title}</strong>.
         </p>
 
         <div style={{
@@ -784,7 +783,7 @@ function MinimalBookingForm({ currentCard, onClose }) {
 
         <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
           <a
-            href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi Magnevents, I just locked the ₹99 slot for ${currentCard.title} (Ref: ${refCode}). Please share available artist profiles and confirm my slot!`)}`}
+            href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi Magnevents, I just requested a booking for ${currentCard.title} (Ref: ${refCode}). Please share available artist profiles and confirm my slot!`)}`}
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -931,7 +930,7 @@ function MinimalBookingForm({ currentCard, onClose }) {
           marginTop: '2px'
         }}
       >
-        <span>{isSubmitting ? 'Locking Slot...' : `⚡ Book for ₹99 & Claim 60% OFF ➔`}</span>
+        <span>{isSubmitting ? 'Reserving Slot...' : `⚡ Book Artist Slot ➔`}</span>
       </button>
 
       {/* Trust & Guarantee Strip */}
