@@ -33,13 +33,14 @@ export default function HeroSection() {
 
   const togglePlayPause = (e) => {
     e?.stopPropagation()
-    if (!activeVideoRef.current) return
-    if (activeVideoRef.current.paused) {
-      activeVideoRef.current.play().catch(() => {})
-      setIsVideoPlaying(true)
-    } else {
-      activeVideoRef.current.pause()
-      setIsVideoPlaying(false)
+    const nextPlaying = !isVideoPlaying
+    setIsVideoPlaying(nextPlaying)
+    if (activeVideoRef.current) {
+      if (nextPlaying) {
+        activeVideoRef.current.play().catch(() => {})
+      } else {
+        activeVideoRef.current.pause()
+      }
     }
   }
 
@@ -442,26 +443,41 @@ export default function HeroSection() {
                           }
                         }}
                       >
-                        {/* Inline Performance Video Player (Plays without music by default, loops seamlessly) */}
+                        {/* Inline Performance Video Player (Plays 4-5s GIF loop for instant zero-lag playback, full video on unmute) */}
                         <div 
                           className="hp-poster-img-container hp-poster-media-container"
                           onClick={current.videoUrl ? togglePlayPause : undefined}
                           style={{ cursor: current.videoUrl ? 'pointer' : 'default' }}
                         >
                           {current.videoUrl ? (
-                            <video
-                              ref={activeVideoRef}
-                              key={current.videoUrl + current.id}
-                              src={current.videoUrl}
-                              poster={current.poster}
-                              autoPlay
-                              loop
-                              muted={isVideoMuted}
-                              playsInline
-                              className="hp-poster-video-elem"
-                              onPlay={() => setIsVideoPlaying(true)}
-                              onPause={() => setIsVideoPlaying(false)}
-                            />
+                            !isVideoMuted ? (
+                              <video
+                                ref={activeVideoRef}
+                                key={current.videoUrl + current.id}
+                                src={current.videoUrl}
+                                poster={current.poster}
+                                autoPlay
+                                loop
+                                muted={false}
+                                playsInline
+                                className="hp-poster-video-elem"
+                                onPlay={() => setIsVideoPlaying(true)}
+                                onPause={() => setIsVideoPlaying(false)}
+                              />
+                            ) : (
+                              <img
+                                key={current.id + (isVideoPlaying ? '-playing' : '-paused')}
+                                src={isVideoPlaying ? (current.gifUrl || current.poster) : current.poster}
+                                alt={`${current.title} - Magnevents Verified Live Performance`}
+                                className="hp-poster-video-elem hp-poster-gif-elem"
+                                loading="eager"
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
+                                  objectFit: 'cover'
+                                }}
+                              />
+                            )
                           ) : (
                             <Image
                               src={current.poster}
