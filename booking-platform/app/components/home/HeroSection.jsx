@@ -4,14 +4,86 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import VideoModal from './VideoModal'
 
 import { HERO_SPOTLIGHT_SLIDES } from '@/app/constants'
+
+const EVENT_POSTERS = [
+  {
+    id: 'house-party',
+    category: 'House Party & Acoustic',
+    tab: '🎤 House Party',
+    tag: '🔥 WEEKEND TOP CHOICE',
+    title: 'House Parties & Acoustic Jams',
+    subtitle: 'Soulful Bollywood, Pop & Unplugged Vocalists for Living Rooms & Terraces',
+    poster: '/posters/house_party_acoustic.jpg',
+    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/house%20party%20Landscape.mp4',
+    videoTitle: 'Live House Party Singer Performance',
+    regularPrice: '₹18,000',
+    offerPrice: '₹7,999',
+    discount: '55%–65% OFF',
+    slots: '3 Slots Left Today',
+    rating: '4.95★ (1,200+ Parties)'
+  },
+  {
+    id: 'wedding-band',
+    category: 'Wedding & Sangeet',
+    tab: '👑 Wedding Band',
+    tag: '👑 ROYAL SANGEET SPECIAL',
+    title: 'Grand Sangeet & Royal Live Bands',
+    subtitle: 'High-Octane Sufi Rock, Bollywood Bands & 5-Piece Ensembles',
+    poster: '/posters/wedding_sangeet_band.jpg',
+    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Book%20a%20Bhajan%20concert%20at%20home%20Portrait.mp4',
+    videoTitle: 'Grand Sangeet & Live Band Concert',
+    regularPrice: '₹65,000',
+    offerPrice: '₹28,999',
+    discount: 'Up to 60% OFF',
+    slots: '2 Slots Left for Season',
+    rating: '4.98★ (850+ Weddings)'
+  },
+  {
+    id: 'club-dj',
+    category: 'DJs & Sundowners',
+    tab: '⚡ Club DJ & Dhol',
+    tag: '⚡ HIGH-OCTANE NIGHTS',
+    title: 'Club DJs & Live Dhol Sundowners',
+    subtitle: 'EDM, Commercial Hits, Punjabi Beats with Live Percussion & Lasers',
+    poster: '/posters/club_dj_sundowner.jpg',
+    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/farm%20house%20Portrait.mp4',
+    videoTitle: 'Farmhouse Sundowner & DJ Session',
+    regularPrice: '₹30,000',
+    offerPrice: '₹12,499',
+    discount: 'Flat 60% OFF',
+    slots: '4 Slots Left for Weekend',
+    rating: '4.92★ (950+ Club Nights)'
+  },
+  {
+    id: 'corporate-gala',
+    category: 'Corporate & Anchors',
+    tab: '🌟 VIP Corporate',
+    tag: '🌟 PRESTIGE CORPORATE GALA',
+    title: 'Corporate Summits & Celebrity Hosts',
+    subtitle: 'Celebrity Emcees, Standup Comedians & Mentalists for Annual Galas',
+    poster: '/posters/corporate_gala_anchor.jpg',
+    videoUrl: 'https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/heroSec/HerSec%20Videos/Birthday%20Party%20Landscape.mp4',
+    videoTitle: 'Corporate Gala & Live Entertainment Show',
+    regularPrice: '₹45,000',
+    offerPrice: '₹19,999',
+    discount: 'Flat 55% OFF',
+    slots: '2 Slots Left This Month',
+    rating: '4.96★ (500+ Galas)'
+  }
+]
 
 export default function HeroSection() {
   const router = useRouter()
   const [heroSlide, setHeroSlide] = useState(0)
   const [mobCardSlide, setMobCardSlide] = useState(0)
+  const [posterIndex, setPosterIndex] = useState(0)
+  const [selectedVideo, setSelectedVideo] = useState(null)
+  const [touchStartX, setTouchStartX] = useState(0)
+  const [isPosterHovered, setIsPosterHovered] = useState(false)
 
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -40,6 +112,14 @@ export default function HeroSection() {
     }, 8000)
     return () => window.clearInterval(id)
   }, [])
+
+  useEffect(() => {
+    if (isPosterHovered) return
+    const id = window.setInterval(() => {
+      setPosterIndex(prev => (prev + 1) % EVENT_POSTERS.length)
+    }, 6000)
+    return () => window.clearInterval(id)
+  }, [isPosterHovered])
 
   return (
     <section className="hp-hero-wrapper" suppressHydrationWarning>
@@ -377,57 +457,188 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Section 6: MOBILE SLIDER CARD: HOW TO CLAIM OFFER */}
+          {/* Section 6: LUXURY 4-POSTER EVENT SHOWCASE WITH LIVE VIDEOS */}
           <div className="hp-mob-section">
-            <div className="mob-premium-slider-card">
-              <div className="mps-body">
-                {mobCardSlide === 0 && (
-                  <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mps-slide">
-                    <div className="mps-inner-card">
-                      <h4 className="mps-slide-title">🎁 First-Time Booking Benefits</h4>
-                      <ul className="mps-list">
-                        <li><span className="mps-check">✓</span> <strong>Flat 55%–65% Discount</strong> on live singers &amp; bands</li>
-                        <li><span className="mps-check">✓</span> <strong>Lock Artist for ₹99 Only</strong> (No big advance upfront)</li>
-                        <li><span className="mps-check">✓</span> <strong>100% Artist Arrival Guarantee</strong> or instant full refund</li>
-                        <li><span className="mps-check">✓</span> <strong>0% Commission Markup</strong> direct artist rates</li>
-                        <li><span className="mps-check">✓</span> <strong>24/7 Event Manager</strong> sound coordination support</li>
-                      </ul>
-                    </div>
-                  </motion.div>
-                )}
-                
-                {mobCardSlide === 1 && (
-                  <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mps-slide">
-                    <div className="mps-inner-card">
-                      <h4 className="mps-slide-title">📱 3 Steps to Book for ₹99</h4>
-                      <ul className="mps-list">
-                        <li><span className="mps-check">1️⃣</span> <strong>Fill Form:</strong> Tell event date &amp; budget</li>
-                        <li><span className="mps-check">2️⃣</span> <strong>Lock Artist:</strong> Pay ₹99 token to confirm slot</li>
-                        <li><span className="mps-check">3️⃣</span> <strong>Enjoy Event:</strong> Get 55%–65% off final price!</li>
-                      </ul>
-                    </div>
-                  </motion.div>
-                )}
+            <div className="hp-posters-showcase">
+              
+              {/* Header */}
+              <div className="hp-posters-header">
+                <div className="hp-posters-heading-wrap">
+                  <span className="hp-posters-badge">👑 TOP EVENT EXPERIENCES</span>
+                  <h3 className="hp-posters-title">
+                    Live Artists for <span>Every Celebration</span>
+                  </h3>
+                </div>
+              </div>
 
-                {mobCardSlide === 2 && (
-                  <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mps-slide">
-                    <div className="mps-inner-card">
-                      <h4 className="mps-slide-title">⭐ Verified Client Reviews</h4>
-                      <div className="mps-review">
-                        <p>&quot;Locked our house party singer for just ₹99 and got 60% off! Unreal service.&quot;</p>
-                        <span>- Priya S., Delhi NCR</span>
-                      </div>
-                      <div className="mps-review">
-                        <p>&quot;Magnevents made booking seamless. Amazing singer, transparent pricing.&quot;</p>
-                        <span>- Rahul M., Gurgaon</span>
+              {/* Category Quick Tabs */}
+              <div className="hp-posters-tabs" role="tablist">
+                {EVENT_POSTERS.map((poster, idx) => (
+                  <button
+                    key={poster.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={posterIndex === idx}
+                    className={`hp-poster-tab ${posterIndex === idx ? 'is-active' : ''}`}
+                    onClick={() => setPosterIndex(idx)}
+                  >
+                    <span>{poster.tab}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Main Swipeable Poster Card */}
+              {(() => {
+                const current = EVENT_POSTERS[posterIndex];
+                return (
+                  <div
+                    className="hp-poster-card-wrapper"
+                    onMouseEnter={() => setIsPosterHovered(true)}
+                    onMouseLeave={() => setIsPosterHovered(false)}
+                    onTouchStart={(e) => {
+                      setIsPosterHovered(true);
+                      setTouchStartX(e.touches[0].clientX);
+                    }}
+                    onTouchEnd={(e) => {
+                      setIsPosterHovered(false);
+                      const diff = touchStartX - e.changedTouches[0].clientX;
+                      if (Math.abs(diff) > 40) {
+                        if (diff > 0) {
+                          setPosterIndex((prev) => (prev + 1) % EVENT_POSTERS.length);
+                        } else {
+                          setPosterIndex((prev) => (prev - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length);
+                        }
+                      }
+                    }}
+                  >
+                    {/* Poster Background Image */}
+                    <div className="hp-poster-img-container">
+                      <Image
+                        src={current.poster}
+                        alt={`${current.title} - Magnevents Verified Live Artists`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 600px"
+                        priority
+                        className="hp-poster-img"
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
+
+                    {/* Gradient Vignette Overlay */}
+                    <div className="hp-poster-vignette" />
+
+                    {/* Top Floating Badges */}
+                    <div className="hp-poster-top-bar">
+                      <span className="hp-poster-tag-badge">{current.tag}</span>
+                      <div className="hp-poster-live-slot">
+                        <span className="hp-poster-live-dot" />
+                        <span>{current.slots}</span>
                       </div>
                     </div>
-                  </motion.div>
-                )}
+
+                    {/* Floating Watch Live Video Button */}
+                    <button
+                      type="button"
+                      className="hp-poster-video-trigger"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedVideo({
+                          url: current.videoUrl,
+                          title: current.videoTitle,
+                          orientation: 'portrait'
+                        });
+                      }}
+                      aria-label={`Watch live video clip for ${current.title}`}
+                    >
+                      <span className="hp-poster-play-icon">▶</span>
+                      <span>Watch Live Clip</span>
+                    </button>
+
+                    {/* Bottom Card Content */}
+                    <div className="hp-poster-bottom">
+                      <div className="hp-poster-title-row">
+                        <h4 className="hp-poster-card-title">{current.title}</h4>
+                        <p className="hp-poster-card-sub">{current.subtitle}</p>
+                      </div>
+
+                      {/* Pricing and Offer Strip */}
+                      <div className="hp-poster-value-bar">
+                        <div className="hp-poster-price-block">
+                          <span className="hp-poster-regular-price">{current.regularPrice}</span>
+                          <div className="hp-poster-offer-price">
+                            <span>{current.offerPrice}</span>
+                            <span className="hp-poster-discount-badge">{current.discount}</span>
+                          </div>
+                        </div>
+                        <div className="hp-poster-token-badge">
+                          <span className="hp-poster-token-top">Lock Slot</span>
+                          <span className="hp-poster-token-amt">₹99 Only</span>
+                        </div>
+                      </div>
+
+                      {/* High-Converting Direct Booking Button */}
+                      <button
+                        type="button"
+                        className="hp-poster-cta-btn"
+                        onClick={() => {
+                          if (typeof window !== 'undefined') {
+                            window.dispatchEvent(new CustomEvent('open-quick-booking', {
+                              detail: { eventType: current.category }
+                            }));
+                          }
+                        }}
+                        aria-label={`Book ${current.title} for 99 rupees`}
+                      >
+                        <span>⚡ Book {current.tab.replace(/^[^\s]+\s/, '')} for ₹99</span>
+                        <span>➔</span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Navigation Controls & Dot Indicators */}
+              <div className="hp-poster-nav-bar">
+                <button
+                  type="button"
+                  className="hp-poster-nav-btn"
+                  onClick={() => setPosterIndex((prev) => (prev - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length)}
+                  aria-label="Previous event poster"
+                >
+                  ◀
+                </button>
+
+                <div className="hp-poster-dots">
+                  {EVENT_POSTERS.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      className={`hp-poster-dot ${posterIndex === idx ? 'is-active' : ''}`}
+                      onClick={() => setPosterIndex(idx)}
+                      aria-label={`Go to event poster ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  className="hp-poster-nav-btn"
+                  onClick={() => setPosterIndex((prev) => (prev + 1) % EVENT_POSTERS.length)}
+                  aria-label="Next event poster"
+                >
+                  ▶
+                </button>
               </div>
-              <div className="hp-trust-badge-bottom">
-                ⭐ Trusted by 2500+ Happy Clients • 4.9★ Google Rating
+
+              {/* Value & Trust Guarantees */}
+              <div className="hp-poster-guarantee-strip">
+                <span>🛡️ <strong>100% Arrival Guarantee</strong></span>
+                <span>•</span>
+                <span>💎 <strong>0% Middleman Markup</strong></span>
+                <span>•</span>
+                <span>⭐ <strong>{EVENT_POSTERS[posterIndex].rating}</strong></span>
               </div>
+
             </div>
           </div>
           
@@ -439,6 +650,13 @@ export default function HeroSection() {
       <div className="sr-only">
         <p>Looking to book a singer online for your next celebration? Whether you want to hire a singer for an intimate gathering or need a professional wedding singer to create magical moments, we offer a seamless singer booking platform. Explore our diverse roster of verified singers ranging from soulful Bollywood performers to high-energy corporate event singers and house party singers. Enjoy transparent pricing and hire a professional singer instantly. Let us help you find the perfect birthday party singer or live artist. Book artists online with complete peace of mind today.</p>
       </div>
+
+      {/* Live Video Performance Modal */}
+      <VideoModal
+        isOpen={!!selectedVideo}
+        video={selectedVideo}
+        onClose={() => setSelectedVideo(null)}
+      />
     </section>
   )
 }
