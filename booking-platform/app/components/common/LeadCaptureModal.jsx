@@ -125,6 +125,10 @@ export default function LeadCaptureModal() {
   }
 
   const current = EVENT_POSTERS[cardIndex] || EVENT_POSTERS[0]
+  const prevIndex = (cardIndex - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length
+  const nextIndex = (cardIndex + 1) % EVENT_POSTERS.length
+  const prevCard = EVENT_POSTERS[prevIndex] || EVENT_POSTERS[0]
+  const nextCard = EVENT_POSTERS[nextIndex] || EVENT_POSTERS[0]
 
   return (
     <AnimatePresence>
@@ -315,7 +319,7 @@ export default function LeadCaptureModal() {
             </div>
 
             {/* ══════════════════════════════════════════════════════════
-                SHOWCASE CARD (AUTO-RUN WITH AUDITION SOUND & CAROUSEL)
+                SHOWCASE CAROUSEL (PEEK PREV & NEXT CARDS + ACTIVE CARD)
                 ══════════════════════════════════════════════════════════ */}
             <div 
               onMouseEnter={() => setIsInteracting(true)}
@@ -324,332 +328,409 @@ export default function LeadCaptureModal() {
               onTouchEnd={() => setTimeout(() => setIsInteracting(false), 2500)}
               style={{
                 position: 'relative',
-                borderRadius: '18px',
-                overflow: 'hidden',
-                border: '1px solid rgba(255, 215, 0, 0.35)',
-                background: '#07060B',
-                boxShadow: '0 16px 40px rgba(0, 0, 0, 0.8)',
-                marginBottom: '14px',
-                aspectRatio: '3 / 3.4',
-                maxHeight: '340px'
-              }}
-            >
-              {/* Story-Style Auto-Advance Progress Indicators */}
-              <div style={{
-                position: 'absolute',
-                top: '6px',
-                left: '10px',
-                right: '10px',
-                display: 'flex',
-                gap: '4px',
-                zIndex: 6
-              }}>
-                {EVENT_POSTERS.map((_, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => {
-                      setCardIndex(idx)
-                      setIsInteracting(true)
-                      setTimeout(() => setIsInteracting(false), 4000)
-                    }}
-                    style={{
-                      flex: 1,
-                      height: '2.5px',
-                      borderRadius: '2px',
-                      background: cardIndex > idx ? '#FFE032' : cardIndex === idx ? '#FFE032' : 'rgba(255, 255, 255, 0.25)',
-                      boxShadow: cardIndex === idx ? '0 0 6px rgba(255, 224, 50, 0.8)' : 'none',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer'
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Media: Video (GIF-like seamless autoPlay loop, muted by default) or Poster */}
-              <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-                {current.mediaType === 'video' && current.videoUrl ? (
-                  <video
-                    ref={videoRef}
-                    key={current.videoUrl + current.id}
-                    src={current.videoUrl}
-                    poster={current.poster}
-                    autoPlay
-                    loop
-                    muted={isVideoMuted}
-                    playsInline
-                    preload="auto"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    onPlay={() => setIsVideoPlaying(true)}
-                    onPause={() => setIsVideoPlaying(false)}
-                  />
-                ) : (
-                  <Image
-                    src={current.poster}
-                    alt={current.title}
-                    fill
-                    sizes="460px"
-                    style={{ objectFit: 'cover' }}
-                    unoptimized
-                    priority
-                  />
-                )}
-              </div>
-
-              {/* Vignette Overlay */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.7) 60%, rgba(8,7,12,0.96) 95%)',
-                pointerEvents: 'none'
-              }} />
-
-              {/* Top Controls Bar */}
-              <div style={{
-                position: 'absolute',
-                top: '14px',
-                left: '12px',
-                right: '12px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
-                zIndex: 4
+                justifyContent: 'center',
+                gap: '8px',
+                marginBottom: '14px',
+                width: '100%'
+              }}
+            >
+              {/* Previous Card Peek (Left) */}
+              <div
+                onClick={handlePrevCard}
+                role="button"
+                tabIndex={0}
+                aria-label={`Previous card: ${prevCard.title}`}
+                title={`Previous: ${prevCard.title}`}
+                style={{
+                  width: '24px',
+                  height: '316px',
+                  borderRadius: '13px',
+                  overflow: 'hidden',
+                  position: 'relative',
+                  opacity: 0.45,
+                  transform: 'scale(0.93)',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                  border: '1px solid rgba(255, 215, 0, 0.35)',
+                  background: '#07060B',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.8)',
+                  transition: 'all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
+                }}
+              >
+                <Image
+                  src={prevCard.poster}
+                  alt={prevCard.title}
+                  fill
+                  sizes="60px"
+                  style={{ objectFit: 'cover' }}
+                  unoptimized
+                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, rgba(8, 7, 14, 0.6) 0%, rgba(8, 7, 14, 0.88) 100%)'
+                }} />
+                
+                {/* Sleek Golden Left Arrow */}
+                <div style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '18px',
+                  height: '18px',
+                  borderRadius: '50%',
+                  background: 'rgba(15, 12, 24, 0.95)',
+                  border: '1.2px solid #FFE032',
+                  color: '#FFE032',
+                  fontSize: '11px',
+                  fontWeight: 900,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 0 10px rgba(255, 224, 50, 0.5)'
+                }}>
+                  ‹
+                </div>
+              </div>
+
+              {/* Center Active Card */}
+              <div style={{
+                flex: 1,
+                minWidth: 0,
+                position: 'relative',
+                borderRadius: '18px',
+                overflow: 'hidden',
+                border: '1.5px solid rgba(255, 215, 0, 0.45)',
+                background: '#07060B',
+                boxShadow: '0 18px 45px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 224, 50, 0.12)',
+                aspectRatio: '3 / 3.4',
+                maxHeight: '340px'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{
-                    background: 'rgba(8, 8, 14, 0.85)',
-                    backdropFilter: 'blur(14px)',
-                    WebkitBackdropFilter: 'blur(14px)',
-                    border: '1px solid rgba(255, 224, 50, 0.45)',
-                    color: '#FFE032',
-                    fontSize: '11px',
-                    fontWeight: 800,
-                    padding: '5px 12px',
-                    borderRadius: '100px',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)'
-                  }}>
-                    {current.tab.replace(/^[^\s]+\s/, '')}
-                  </span>
-                  {current.mediaType === 'video' ? (
-                    <span style={{
-                      background: 'rgba(239, 68, 68, 0.25)',
-                      border: '1px solid rgba(239, 68, 68, 0.55)',
-                      color: '#FCA5A5',
-                      fontSize: '9.5px',
-                      fontWeight: 800,
-                      padding: '3px 8px',
-                      borderRadius: '100px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px'
-                    }}>
-                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#EF4444', display: 'inline-block' }} />
-                      LIVE VIDEO
-                    </span>
+                {/* Story-Style Auto-Advance Progress Indicators */}
+                <div style={{
+                  position: 'absolute',
+                  top: '6px',
+                  left: '10px',
+                  right: '10px',
+                  display: 'flex',
+                  gap: '4px',
+                  zIndex: 6
+                }}>
+                  {EVENT_POSTERS.map((_, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => {
+                        setCardIndex(idx)
+                        setIsInteracting(true)
+                        setTimeout(() => setIsInteracting(false), 4000)
+                      }}
+                      style={{
+                        flex: 1,
+                        height: '2.5px',
+                        borderRadius: '2px',
+                        background: cardIndex > idx ? '#FFE032' : cardIndex === idx ? '#FFE032' : 'rgba(255, 255, 255, 0.25)',
+                        boxShadow: cardIndex === idx ? '0 0 6px rgba(255, 224, 50, 0.8)' : 'none',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* Media: Video (GIF-like seamless autoPlay loop, muted by default) or Poster */}
+                <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+                  {current.mediaType === 'video' && current.videoUrl ? (
+                    <video
+                      ref={videoRef}
+                      key={current.videoUrl + current.id}
+                      src={current.videoUrl}
+                      poster={current.poster}
+                      autoPlay
+                      loop
+                      muted={isVideoMuted}
+                      playsInline
+                      preload="auto"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onPlay={() => setIsVideoPlaying(true)}
+                      onPause={() => setIsVideoPlaying(false)}
+                    />
                   ) : (
-                    <span style={{
-                      background: 'rgba(59, 130, 246, 0.25)',
-                      border: '1px solid rgba(59, 130, 246, 0.55)',
-                      color: '#93C5FD',
-                      fontSize: '9.5px',
-                      fontWeight: 800,
-                      padding: '3px 8px',
-                      borderRadius: '100px',
-                    }}>
-                      📸 ARTIST POSTER
-                    </span>
+                    <Image
+                      src={current.poster}
+                      alt={current.title}
+                      fill
+                      sizes="460px"
+                      style={{ objectFit: 'cover' }}
+                      unoptimized
+                      priority
+                    />
                   )}
                 </div>
 
-                {/* Audition Audio Toggle for Videos */}
-                {current.mediaType === 'video' ? (
-                  <button
-                    type="button"
-                    onClick={toggleMute}
-                    aria-label={isVideoMuted ? "Unmute live audition sound" : "Mute audition sound"}
-                    title={isVideoMuted ? "Tap to listen to live audition sound" : "Mute audition sound"}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      height: '32px',
-                      padding: '0 11px',
-                      borderRadius: '100px',
-                      background: isVideoMuted ? 'rgba(8, 8, 14, 0.88)' : 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
+                {/* Vignette Overlay */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.7) 60%, rgba(8,7,12,0.96) 95%)',
+                  pointerEvents: 'none'
+                }} />
+
+                {/* Top Controls Bar */}
+                <div style={{
+                  position: 'absolute',
+                  top: '14px',
+                  left: '12px',
+                  right: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  zIndex: 4
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{
+                      background: 'rgba(8, 8, 14, 0.85)',
                       backdropFilter: 'blur(14px)',
-                      border: isVideoMuted ? '1px solid rgba(255, 224, 50, 0.45)' : '1px solid #FFE032',
-                      color: isVideoMuted ? '#FFE032' : '#000000',
+                      WebkitBackdropFilter: 'blur(14px)',
+                      border: '1px solid rgba(255, 224, 50, 0.45)',
+                      color: '#FFE032',
                       fontSize: '11px',
                       fontWeight: 800,
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <span>{isVideoMuted ? '🔇' : '🔊'}</span>
-                    <span>{isVideoMuted ? 'Live Sound' : 'Audition On'}</span>
-                  </button>
-                ) : (
-                  <div style={{
-                    padding: '4px 10px',
-                    borderRadius: '100px',
-                    background: 'rgba(8, 8, 14, 0.75)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    fontSize: '10.5px',
-                    fontWeight: 700
-                  }}>
-                    Card {cardIndex + 1}/{EVENT_POSTERS.length}
+                      padding: '5px 12px',
+                      borderRadius: '100px',
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)'
+                    }}>
+                      {current.tab.replace(/^[^\s]+\s/, '')}
+                    </span>
+                    {current.mediaType === 'video' ? (
+                      <span style={{
+                        background: 'rgba(239, 68, 68, 0.25)',
+                        border: '1px solid rgba(239, 68, 68, 0.55)',
+                        color: '#FCA5A5',
+                        fontSize: '9.5px',
+                        fontWeight: 800,
+                        padding: '3px 8px',
+                        borderRadius: '100px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}>
+                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#EF4444', display: 'inline-block' }} />
+                        LIVE VIDEO
+                      </span>
+                    ) : (
+                      <span style={{
+                        background: 'rgba(59, 130, 246, 0.25)',
+                        border: '1px solid rgba(59, 130, 246, 0.55)',
+                        color: '#93C5FD',
+                        fontSize: '9.5px',
+                        fontWeight: 800,
+                        padding: '3px 8px',
+                        borderRadius: '100px',
+                      }}>
+                        📸 ARTIST POSTER
+                      </span>
+                    )}
                   </div>
-                )}
-              </div>
 
-              {/* Floating Left and Right Arrow Navigation Overlays */}
-              <button
-                type="button"
-                onClick={handlePrevCard}
-                aria-label="Previous event card"
-                style={{
-                  position: 'absolute',
-                  left: '8px',
-                  top: '45%',
-                  transform: 'translateY(-50%)',
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: 'rgba(0, 0, 0, 0.6)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  color: '#FFFFFF',
-                  fontSize: '13px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  zIndex: 4
-                }}
-              >
-                ◀
-              </button>
-
-              <button
-                type="button"
-                onClick={handleNextCard}
-                aria-label="Next event card"
-                style={{
-                  position: 'absolute',
-                  right: '8px',
-                  top: '45%',
-                  transform: 'translateY(-50%)',
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: 'rgba(0, 0, 0, 0.6)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  color: '#FFFFFF',
-                  fontSize: '13px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  zIndex: 4
-                }}
-              >
-                ▶
-              </button>
-
-              {/* Card Bottom Overlay */}
-              <div style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                padding: '24px 14px 14px 14px',
-                zIndex: 3,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '8px',
-                background: 'linear-gradient(180deg, rgba(8, 8, 14, 0) 0%, rgba(8, 8, 14, 0.88) 25%, #08080e 100%)'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                  <span style={{
-                    background: 'rgba(255, 224, 50, 0.12)',
-                    border: '1px solid rgba(255, 224, 50, 0.4)',
-                    color: '#FFE032',
-                    fontSize: '9.5px',
-                    fontWeight: 800,
-                    padding: '3px 8px',
-                    borderRadius: '6px',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase'
-                  }}>
-                    {current.tag}
-                  </span>
-                  {current.rating && (
-                    <span style={{
+                  {/* Audition Audio Toggle for Videos */}
+                  {current.mediaType === 'video' ? (
+                    <button
+                      type="button"
+                      onClick={toggleMute}
+                      aria-label={isVideoMuted ? "Unmute live audition sound" : "Mute audition sound"}
+                      title={isVideoMuted ? "Tap to listen to live audition sound" : "Mute audition sound"}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        height: '32px',
+                        padding: '0 11px',
+                        borderRadius: '100px',
+                        background: isVideoMuted ? 'rgba(8, 8, 14, 0.88)' : 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
+                        backdropFilter: 'blur(14px)',
+                        border: isVideoMuted ? '1px solid rgba(255, 224, 50, 0.45)' : '1px solid #FFE032',
+                        color: isVideoMuted ? '#FFE032' : '#000000',
+                        fontSize: '11px',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      <span>{isVideoMuted ? '🔇' : '🔊'}</span>
+                      <span>{isVideoMuted ? 'Live Sound' : 'Audition On'}</span>
+                    </button>
+                  ) : (
+                    <div style={{
+                      padding: '4px 10px',
+                      borderRadius: '100px',
+                      background: 'rgba(8, 8, 14, 0.75)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
                       color: 'rgba(255, 255, 255, 0.8)',
                       fontSize: '10.5px',
                       fontWeight: 700
                     }}>
-                      ⭐ {current.rating}
-                    </span>
+                      Card {cardIndex + 1}/{EVENT_POSTERS.length}
+                    </div>
                   )}
                 </div>
 
-                <div>
-                  <h4 style={{
-                    fontSize: '17px',
-                    fontWeight: 800,
-                    color: '#FFFFFF',
-                    margin: 0,
-                    lineHeight: 1.25,
-                    letterSpacing: '-0.02em',
-                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)'
-                  }}>
-                    {current.title}
-                  </h4>
-                </div>
-
-                {/* Pricing Strip */}
+                {/* Card Bottom Overlay */}
                 <div style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  padding: '24px 14px 14px 14px',
+                  zIndex: 3,
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  background: 'rgba(18, 18, 26, 0.88)',
-                  backdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(255, 215, 0, 0.25)',
-                  borderRadius: '12px',
-                  padding: '7px 11px'
+                  flexDirection: 'column',
+                  gap: '8px',
+                  background: 'linear-gradient(180deg, rgba(8, 8, 14, 0) 0%, rgba(8, 8, 14, 0.88) 25%, #08080e 100%)'
                 }}>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontSize: '10.5px', color: '#64748B', textDecoration: 'line-through' }}>
-                      {current.regularPrice}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                    <span style={{
+                      background: 'rgba(255, 224, 50, 0.12)',
+                      border: '1px solid rgba(255, 224, 50, 0.4)',
+                      color: '#FFE032',
+                      fontSize: '9.5px',
+                      fontWeight: 800,
+                      padding: '3px 8px',
+                      borderRadius: '6px',
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase'
+                    }}>
+                      {current.tag}
                     </span>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span style={{ fontSize: '16px', fontWeight: 900, color: '#FFE032' }}>
-                        {current.offerPrice}
+                    {current.rating && (
+                      <span style={{
+                        color: 'rgba(255, 255, 255, 0.8)',
+                        fontSize: '10.5px',
+                        fontWeight: 700
+                      }}>
+                        ⭐ {current.rating}
                       </span>
-                    </div>
+                    )}
                   </div>
 
+                  <div>
+                    <h4 style={{
+                      fontSize: '17px',
+                      fontWeight: 800,
+                      color: '#FFFFFF',
+                      margin: 0,
+                      lineHeight: 1.25,
+                      letterSpacing: '-0.02em',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)'
+                    }}>
+                      {current.title}
+                    </h4>
+                  </div>
+
+                  {/* Pricing Strip */}
                   <div style={{
-                    background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
-                    color: '#000000',
-                    fontWeight: 900,
-                    fontSize: '11px',
-                    padding: '6px 12px',
-                    borderRadius: '8px',
-                    boxShadow: '0 2px 10px rgba(255, 224, 50, 0.35)',
-                    letterSpacing: '0.2px',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '4px'
+                    justifyContent: 'space-between',
+                    background: 'rgba(18, 18, 26, 0.88)',
+                    backdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(255, 215, 0, 0.25)',
+                    borderRadius: '12px',
+                    padding: '7px 11px'
                   }}>
-                    <span>⚡ LOCK SLOT ₹99</span>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <span style={{ fontSize: '10.5px', color: '#64748B', textDecoration: 'line-through' }}>
+                        {current.regularPrice}
+                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span style={{ fontSize: '16px', fontWeight: 900, color: '#FFE032' }}>
+                          {current.offerPrice}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div style={{
+                      background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
+                      color: '#000000',
+                      fontWeight: 900,
+                      fontSize: '11px',
+                      padding: '6px 12px',
+                      borderRadius: '8px',
+                      boxShadow: '0 2px 10px rgba(255, 224, 50, 0.35)',
+                      letterSpacing: '0.2px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}>
+                      <span>⚡ LOCK SLOT ₹99</span>
+                    </div>
                   </div>
+                </div>
+              </div>
+
+              {/* Next Card Peek (Right) */}
+              <div
+                onClick={handleNextCard}
+                role="button"
+                tabIndex={0}
+                aria-label={`Next card: ${nextCard.title}`}
+                title={`Next: ${nextCard.title}`}
+                style={{
+                  width: '24px',
+                  height: '316px',
+                  borderRadius: '13px',
+                  overflow: 'hidden',
+                  position: 'relative',
+                  opacity: 0.45,
+                  transform: 'scale(0.93)',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                  border: '1px solid rgba(255, 215, 0, 0.35)',
+                  background: '#07060B',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.8)',
+                  transition: 'all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
+                }}
+              >
+                <Image
+                  src={nextCard.poster}
+                  alt={nextCard.title}
+                  fill
+                  sizes="60px"
+                  style={{ objectFit: 'cover' }}
+                  unoptimized
+                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, rgba(8, 7, 14, 0.6) 0%, rgba(8, 7, 14, 0.88) 100%)'
+                }} />
+                
+                {/* Sleek Golden Right Arrow */}
+                <div style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '18px',
+                  height: '18px',
+                  borderRadius: '50%',
+                  background: 'rgba(15, 12, 24, 0.95)',
+                  border: '1.2px solid #FFE032',
+                  color: '#FFE032',
+                  fontSize: '11px',
+                  fontWeight: 900,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 0 10px rgba(255, 224, 50, 0.5)'
+                }}>
+                  ›
                 </div>
               </div>
             </div>
