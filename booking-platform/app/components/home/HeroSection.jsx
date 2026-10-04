@@ -405,7 +405,7 @@ export default function HeroSection() {
                           src={prevPoster.poster}
                           alt={prevPoster.title}
                           fill
-                          sizes="80px"
+                          sizes="(max-width: 768px) 120px, 150px"
                           className="hp-poster-peek-img"
                         />
                         <div className="hp-poster-peek-overlay">
@@ -605,7 +605,7 @@ export default function HeroSection() {
                           src={nextPoster.poster}
                           alt={nextPoster.title}
                           fill
-                          sizes="80px"
+                          sizes="(max-width: 768px) 120px, 150px"
                           className="hp-poster-peek-img"
                         />
                         <div className="hp-poster-peek-overlay">
