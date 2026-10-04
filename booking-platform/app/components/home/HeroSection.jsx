@@ -495,18 +495,30 @@ export default function HeroSection() {
                         <div className="hp-poster-vignette" />
 
                         {/* Top Floating Controls Bar: Left Mute/Unmute, Right Play/Pause */}
+                        {/* Top Floating Controls Bar: Left Glass Unmute/Mute, Right Glass Pause/Play */}
                         <div className="hp-poster-top-bar">
                           <div className="hp-poster-top-left">
                             {current.videoUrl ? (
                               <button
                                 type="button"
-                                className={`hp-poster-ctrl-pill hp-poster-ctrl-mute ${!isVideoMuted ? 'is-active' : ''}`}
+                                className={`hp-poster-glass-btn ${!isVideoMuted ? 'is-active' : ''}`}
                                 onClick={toggleMute}
                                 aria-label={isVideoMuted ? "Unmute sound" : "Mute sound"}
                                 title={isVideoMuted ? "Tap to Unmute" : "Tap to Mute"}
                               >
-                                <span className="hp-ctrl-icon">{isVideoMuted ? "🔇" : "🔊"}</span>
-                                <span className="hp-ctrl-label">{isVideoMuted ? "Mute" : "Sound"}</span>
+                                {isVideoMuted ? (
+                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" fillOpacity="0.25"/>
+                                    <line x1="23" y1="9" x2="17" y2="15"/>
+                                    <line x1="17" y1="9" x2="23" y2="15"/>
+                                  </svg>
+                                ) : (
+                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" fillOpacity="0.25"/>
+                                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                                  </svg>
+                                )}
                               </button>
                             ) : (
                               <span className="hp-poster-verified-pill">
@@ -519,13 +531,21 @@ export default function HeroSection() {
                             {current.videoUrl ? (
                               <button
                                 type="button"
-                                className={`hp-poster-ctrl-pill hp-poster-ctrl-play ${!isVideoPlaying ? 'is-paused' : ''}`}
+                                className={`hp-poster-glass-btn ${!isVideoPlaying ? 'is-paused' : ''}`}
                                 onClick={togglePlayPause}
                                 aria-label={isVideoPlaying ? "Pause video" : "Play video"}
                                 title={isVideoPlaying ? "Tap to Pause" : "Tap to Play"}
                               >
-                                <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸" : "▶"}</span>
-                                <span className="hp-ctrl-label">{isVideoPlaying ? "Pause" : "Play"}</span>
+                                {isVideoPlaying ? (
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <rect x="6" y="4" width="4" height="16" rx="1.5" />
+                                    <rect x="14" y="4" width="4" height="16" rx="1.5" />
+                                  </svg>
+                                ) : (
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: '2px' }}>
+                                    <polygon points="6 4 20 12 6 20 6 4" />
+                                  </svg>
+                                )}
                               </button>
                             ) : (
                               <span className="hp-poster-top-tag">

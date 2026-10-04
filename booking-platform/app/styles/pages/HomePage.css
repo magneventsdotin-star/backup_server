@@ -7671,58 +7671,47 @@
   align-items: center;
 }
 
-.hp-poster-ctrl-pill {
+/* Glass unmute and pause circular icon buttons */
+.hp-poster-glass-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  background: rgba(10, 11, 18, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  justify-content: center;
+  background: rgba(18, 20, 32, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   color: #FFFFFF;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 6px 12px;
-  border-radius: 999px;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.12);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
   user-select: none;
 }
 
-.hp-poster-ctrl-pill:hover,
-.hp-poster-ctrl-pill:active {
-  background: rgba(255, 224, 50, 0.25);
+.hp-poster-glass-btn:hover,
+.hp-poster-glass-btn:active {
+  background: rgba(255, 224, 50, 0.22);
   border-color: #FFE032;
   color: #FFE032;
-  transform: scale(1.04);
+  transform: scale(1.08);
+  box-shadow: 0 6px 22px rgba(255, 224, 50, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
-.hp-poster-ctrl-pill.is-active {
-  background: rgba(16, 185, 129, 0.28);
-  border-color: #10B981;
+.hp-poster-glass-btn.is-active {
+  background: rgba(16, 185, 129, 0.32);
+  border-color: #34D399;
   color: #34D399;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.45);
 }
 
-.hp-poster-ctrl-pill.is-paused {
-  background: rgba(239, 68, 68, 0.28);
-  border-color: #EF4444;
+.hp-poster-glass-btn.is-paused {
+  background: rgba(239, 68, 68, 0.32);
+  border-color: #F87171;
   color: #F87171;
-}
-
-.hp-ctrl-icon {
-  font-size: 12px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hp-ctrl-label {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.45);
 }
 
 .hp-poster-top-tag {
