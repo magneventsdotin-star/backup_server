@@ -1171,26 +1171,27 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         disabled={isSubmitting}
         style={{
           width: '100%',
-          height: '48px',
+          height: '50px',
           borderRadius: '13px',
-          background: 'linear-gradient(135deg, #FFE032 0%, #FF9900 100%)',
+          background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 50%, #FF9900 100%)',
           color: '#080A0E',
-          fontSize: '14.5px',
+          fontSize: '14px',
           fontWeight: 900,
-          border: '1px solid rgba(255, 255, 255, 0.45)',
+          border: '1px solid rgba(255, 255, 255, 0.5)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '8px',
           cursor: isSubmitting ? 'not-allowed' : 'pointer',
-          boxShadow: '0 8px 25px rgba(255, 224, 50, 0.42), inset 0 1px 2px rgba(255, 255, 255, 0.7)',
+          boxShadow: '0 8px 25px rgba(255, 224, 50, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.7)',
           transition: 'all 0.25s ease',
-          marginTop: '2px',
-          letterSpacing: '0.02em',
-          textShadow: '0 1px 1px rgba(255, 255, 255, 0.3)'
+          marginTop: '4px',
+          letterSpacing: '0.01em',
+          textShadow: '0 1px 1px rgba(255, 255, 255, 0.3)',
+          whiteSpace: 'nowrap'
         }}
       >
-        <span>{isSubmitting ? 'Reserving Slot...' : `⚡ Book Artist Slot ➔`}</span>
+        <span>{isSubmitting ? 'Reserving Slot & Claiming 55%–65% OFF...' : `⚡ Claim 55%–65% OFF & Book Slot ➔`}</span>
       </button>
 
       {/* Trust & Guarantee Strip */}
