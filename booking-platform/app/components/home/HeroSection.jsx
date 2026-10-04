@@ -447,12 +447,12 @@ export default function HeroSection() {
               </div>
             </button>
             <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
-              <Link href="/artists" className="mob-btn-secondary" style={{ flex: 1, height: '48px', fontSize: '13.5px' }}>
-                Browse 1500+ Artists
-              </Link>
               <a href="tel:+918076515257" className="mob-btn-secondary" style={{ flex: 1, height: '48px', fontSize: '13px', whiteSpace: 'nowrap' }}>
                 📞 +91 80765 15257
               </a>
+              <Link href="/artists" className="mob-btn-secondary" style={{ flex: 1, height: '48px', fontSize: '13.5px' }}>
+                Browse 1500+ Artists
+              </Link>
             </div>
           </div>
 
