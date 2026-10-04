@@ -152,6 +152,11 @@ export default function LeadCaptureModal() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
+            style={{
+              background: 'rgba(6, 5, 12, 0.78)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)'
+            }}
           />
 
           <motion.div
@@ -168,27 +173,55 @@ export default function LeadCaptureModal() {
               maxHeight: 'calc(100vh - 28px)',
               overflowY: 'auto',
               WebkitOverflowScrolling: 'touch',
-              background: 'linear-gradient(180deg, #161325 0%, #0d0b17 100%)',
-              border: '1px solid rgba(255, 224, 50, 0.35)',
+              background: 'linear-gradient(145deg, rgba(25, 20, 42, 0.78) 0%, rgba(12, 10, 24, 0.88) 100%)',
+              backdropFilter: 'blur(36px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(36px) saturate(180%)',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
               borderRadius: '24px',
               padding: '18px 16px 20px',
-              boxShadow: '0 30px 90px rgba(0, 0, 0, 0.95), 0 0 45px rgba(255, 224, 50, 0.15)',
+              boxShadow: '0 30px 90px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 224, 50, 0.14), inset 0 1px 1.5px rgba(255, 255, 255, 0.3)',
               position: 'relative',
               boxSizing: 'border-box'
             }}
           >
-            {/* Top ambient luxury glow */}
+            {/* Top ambient glass glowing auroras */}
             <div
               style={{
                 position: 'absolute',
-                top: '-40px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '320px',
-                height: '140px',
-                background: 'radial-gradient(ellipse at center, rgba(255, 224, 50, 0.22) 0%, rgba(255, 107, 0, 0.08) 50%, transparent 70%)',
+                top: '-50px',
+                left: '-30px',
+                width: '260px',
+                height: '220px',
+                background: 'radial-gradient(circle, rgba(255, 224, 50, 0.22) 0%, rgba(255, 120, 0, 0.08) 50%, transparent 75%)',
                 pointerEvents: 'none',
-                zIndex: 0
+                zIndex: 0,
+                filter: 'blur(30px)'
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '-40px',
+                right: '-30px',
+                width: '240px',
+                height: '200px',
+                background: 'radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(59, 130, 246, 0.08) 50%, transparent 75%)',
+                pointerEvents: 'none',
+                zIndex: 0,
+                filter: 'blur(30px)'
+              }}
+            />
+            {/* Specular glass reflection line at top */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: '24px',
+                right: '24px',
+                height: '1px',
+                background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%)',
+                pointerEvents: 'none',
+                zIndex: 2
               }}
             />
 
@@ -205,16 +238,19 @@ export default function LeadCaptureModal() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
-                padding: '4px 11px',
-                background: 'rgba(255, 224, 50, 0.12)',
-                border: '1px solid rgba(255, 224, 50, 0.4)',
+                padding: '5px 12px',
+                background: 'linear-gradient(135deg, rgba(255, 224, 50, 0.16) 0%, rgba(255, 153, 0, 0.08) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(255, 224, 50, 0.45)',
                 borderRadius: '100px',
                 fontSize: '11px',
                 fontWeight: 800,
                 color: '#FFE032',
-                letterSpacing: '0.04em'
+                letterSpacing: '0.04em',
+                boxShadow: '0 4px 16px rgba(255, 224, 50, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35)'
               }}>
-                <span>🔥</span>
+                <span style={{ filter: 'drop-shadow(0 0 6px rgba(255, 180, 0, 0.8))' }}>🔥</span>
                 <span>FIRST-TIME SPECIAL: 55%–65% OFF</span>
               </div>
 
@@ -227,15 +263,18 @@ export default function LeadCaptureModal() {
                   height: '32px',
                   borderRadius: '50%',
                   background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.18)',
-                  color: 'rgba(255, 255, 255, 0.85)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255, 255, 255, 0.22)',
+                  color: 'rgba(255, 255, 255, 0.9)',
                   fontSize: '14px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  flexShrink: 0
+                  flexShrink: 0,
+                  boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.25), 0 4px 12px rgba(0, 0, 0, 0.35)'
                 }}
               >
                 ✕
@@ -349,9 +388,11 @@ export default function LeadCaptureModal() {
                 position: 'relative',
                 borderRadius: '16px',
                 overflow: 'hidden',
-                border: '1.5px solid rgba(255, 215, 0, 0.45)',
-                background: '#07060B',
-                boxShadow: '0 12px 35px rgba(0, 0, 0, 0.85), 0 0 24px rgba(255, 224, 50, 0.12)',
+                border: '1.5px solid rgba(255, 224, 50, 0.45)',
+                background: 'rgba(10, 8, 20, 0.85)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                boxShadow: '0 16px 40px rgba(0, 0, 0, 0.8), 0 0 28px rgba(255, 224, 50, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.35)',
                 aspectRatio: '16 / 9.5',
                 maxHeight: '190px'
               }}>
@@ -419,10 +460,10 @@ export default function LeadCaptureModal() {
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <span style={{
-                      background: 'rgba(8, 8, 14, 0.85)',
-                      backdropFilter: 'blur(14px)',
-                      WebkitBackdropFilter: 'blur(14px)',
-                      border: '1px solid rgba(255, 224, 50, 0.45)',
+                      background: 'rgba(10, 8, 20, 0.72)',
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
+                      border: '1px solid rgba(255, 224, 50, 0.55)',
                       color: '#FFE032',
                       fontSize: '10px',
                       fontWeight: 800,
@@ -430,7 +471,7 @@ export default function LeadCaptureModal() {
                       borderRadius: '100px',
                       letterSpacing: '0.04em',
                       textTransform: 'uppercase',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)'
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.25)'
                     }}>
                       {current.tab.replace(/^[^\s]+\s/, '')}
                     </span>
@@ -517,17 +558,19 @@ export default function LeadCaptureModal() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    background: 'rgba(18, 18, 26, 0.88)',
-                    backdropFilter: 'blur(16px)',
-                    border: '1px solid rgba(255, 215, 0, 0.25)',
-                    borderRadius: '10px',
-                    padding: '5px 10px'
+                    background: 'rgba(14, 12, 26, 0.72)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.18)',
+                    borderRadius: '11px',
+                    padding: '6px 11px',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.25)'
                   }}>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#FFE032' }}>
+                      <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#FFE032', textShadow: '0 0 10px rgba(255, 224, 50, 0.3)' }}>
                         ⭐ 4.95★ Verified Performer
                       </span>
-                      <span style={{ fontSize: '9.5px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                      <span style={{ fontSize: '9.5px', color: 'rgba(255, 255, 255, 0.75)' }}>
                         Sound Included • 100% Arrival
                       </span>
                     </div>
@@ -537,9 +580,10 @@ export default function LeadCaptureModal() {
                       color: '#000000',
                       fontWeight: 900,
                       fontSize: '10.5px',
-                      padding: '4px 10px',
-                      borderRadius: '6px',
-                      boxShadow: '0 2px 10px rgba(255, 224, 50, 0.35)',
+                      padding: '5px 11px',
+                      borderRadius: '7px',
+                      boxShadow: '0 3px 12px rgba(255, 224, 50, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.6)',
+                      border: '1px solid rgba(255, 255, 255, 0.4)',
                       letterSpacing: '0.2px',
                       display: 'flex',
                       alignItems: 'center',
@@ -618,8 +662,8 @@ export default function LeadCaptureModal() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '5px',
-              marginBottom: '10px'
+              gap: '6px',
+              marginBottom: '12px'
             }}>
               {EVENT_POSTERS.map((_, idx) => (
                 <button
@@ -628,14 +672,15 @@ export default function LeadCaptureModal() {
                   onClick={() => setCardIndex(idx)}
                   aria-label={`Go to slide ${idx + 1}`}
                   style={{
-                    width: cardIndex === idx ? '16px' : '5px',
-                    height: '5px',
+                    width: cardIndex === idx ? '18px' : '6px',
+                    height: '6px',
                     borderRadius: '999px',
-                    background: cardIndex === idx ? '#FFE032' : 'rgba(255, 255, 255, 0.2)',
+                    background: cardIndex === idx ? 'linear-gradient(90deg, #FFE032, #FF9900)' : 'rgba(255, 255, 255, 0.22)',
+                    boxShadow: cardIndex === idx ? '0 0 10px rgba(255, 224, 50, 0.6)' : 'none',
                     border: 'none',
                     padding: 0,
                     cursor: 'pointer',
-                    transition: 'all 0.2s ease'
+                    transition: 'all 0.25s ease'
                   }}
                 />
               ))}
@@ -853,13 +898,16 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
                 }}
                 style={{
                   flexShrink: 0,
-                  padding: '5px 11px',
+                  padding: '6px 12px',
                   borderRadius: '100px',
                   fontSize: '11px',
                   fontWeight: 700,
-                  border: isSelected ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)',
-                  background: isSelected ? 'rgba(255, 224, 50, 0.22)' : 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  border: isSelected ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.14)',
+                  background: isSelected ? 'linear-gradient(135deg, rgba(255, 224, 50, 0.25) 0%, rgba(255, 153, 0, 0.12) 100%)' : 'rgba(255, 255, 255, 0.05)',
                   color: isSelected ? '#FFE032' : 'rgba(255, 255, 255, 0.85)',
+                  boxShadow: isSelected ? '0 4px 16px rgba(255, 224, 50, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.4)' : 'inset 0 1px 1px rgba(255, 255, 255, 0.08)',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   whiteSpace: 'nowrap'
@@ -885,19 +933,30 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
           placeholder="Your Full Name (e.g. Rahul Sharma)"
           style={{
             width: '100%',
-            height: '44px',
-            background: 'rgba(255, 255, 255, 0.06)',
+            height: '46px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
             border: '1px solid rgba(255, 255, 255, 0.16)',
-            borderRadius: '12px',
+            borderRadius: '13px',
             padding: '0 14px',
             color: '#FFFFFF',
             fontSize: '13.5px',
             boxSizing: 'border-box',
             outline: 'none',
-            transition: 'border-color 0.2s ease'
+            boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)',
+            transition: 'all 0.25s ease'
           }}
-          onFocus={(e) => { e.target.style.borderColor = '#FFE032' }}
-          onBlur={(e) => { e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)' }}
+          onFocus={(e) => {
+            e.target.style.borderColor = '#FFE032'
+            e.target.style.background = 'rgba(255, 255, 255, 0.09)'
+            e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)'
+            e.target.style.background = 'rgba(255, 255, 255, 0.05)'
+            e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)'
+          }}
         />
       </div>
 
@@ -906,12 +965,22 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         <div style={{ position: 'relative' }}>
           <span style={{
             position: 'absolute',
-            left: '12px',
+            left: '10px',
             top: '50%',
             transform: 'translateY(-50%)',
-            fontSize: '13px',
-            color: '#94A3B8',
-            fontWeight: 700
+            fontSize: '12.5px',
+            color: '#E2E8F0',
+            fontWeight: 700,
+            background: 'rgba(255, 255, 255, 0.08)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.14)',
+            borderRadius: '8px',
+            padding: '3px 8px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '4px',
+            boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.15)'
           }}>
             🇮🇳 +91
           </span>
@@ -928,19 +997,30 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
             placeholder="Mobile / WhatsApp Number"
             style={{
               width: '100%',
-              height: '44px',
-              background: 'rgba(255, 255, 255, 0.06)',
+              height: '46px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.16)',
-              borderRadius: '12px',
-              padding: '0 14px 0 68px',
+              borderRadius: '13px',
+              padding: '0 14px 0 76px',
               color: '#FFFFFF',
               fontSize: '13.5px',
               boxSizing: 'border-box',
               outline: 'none',
-              transition: 'border-color 0.2s ease'
+              boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)',
+              transition: 'all 0.25s ease'
             }}
-            onFocus={(e) => { e.target.style.borderColor = '#FFE032' }}
-            onBlur={(e) => { e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)' }}
+            onFocus={(e) => {
+              e.target.style.borderColor = '#FFE032'
+              e.target.style.background = 'rgba(255, 255, 255, 0.09)'
+              e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)'
+              e.target.style.background = 'rgba(255, 255, 255, 0.05)'
+              e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)'
+            }}
           />
         </div>
       </div>
@@ -958,20 +1038,22 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         style={{
           width: '100%',
           height: '48px',
-          borderRadius: '12px',
+          borderRadius: '13px',
           background: 'linear-gradient(135deg, #FFE032 0%, #FF9900 100%)',
           color: '#080A0E',
-          fontSize: '14px',
+          fontSize: '14.5px',
           fontWeight: 900,
-          border: 'none',
+          border: '1px solid rgba(255, 255, 255, 0.45)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '8px',
           cursor: isSubmitting ? 'not-allowed' : 'pointer',
-          boxShadow: '0 6px 20px rgba(255, 224, 50, 0.35)',
-          transition: 'all 0.2s ease',
-          marginTop: '2px'
+          boxShadow: '0 8px 25px rgba(255, 224, 50, 0.42), inset 0 1px 2px rgba(255, 255, 255, 0.7)',
+          transition: 'all 0.25s ease',
+          marginTop: '2px',
+          letterSpacing: '0.02em',
+          textShadow: '0 1px 1px rgba(255, 255, 255, 0.3)'
         }}
       >
         <span>{isSubmitting ? 'Reserving Slot...' : `⚡ Book Artist Slot ➔`}</span>
@@ -984,14 +1066,21 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         justifyContent: 'center',
         gap: '8px',
         fontSize: '10.5px',
-        color: 'rgba(255, 255, 255, 0.55)',
-        marginTop: '2px',
-        flexWrap: 'wrap'
+        color: 'rgba(255, 255, 255, 0.7)',
+        marginTop: '4px',
+        flexWrap: 'wrap',
+        background: 'rgba(255, 255, 255, 0.035)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: '100px',
+        padding: '6px 14px',
+        boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.06)'
       }}>
         <span>🛡️ 100% Arrival Guarantee</span>
-        <span>•</span>
+        <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
         <span>💎 0% Markup</span>
-        <span>•</span>
+        <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
         <span>💬 Instant WhatsApp Connect</span>
       </div>
     </form>
