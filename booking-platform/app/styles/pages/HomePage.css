@@ -7749,10 +7749,7 @@
 }
 
 .hp-poster-card-sub {
-  color: #94A3B8;
-  font-size: 11.5px;
-  line-height: 1.35;
-  margin: 0;
+  display: none !important;
 }
 
 /* Pricing and Value Bar */

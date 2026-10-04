@@ -481,28 +481,16 @@ export default function LeadCaptureModal() {
 
                 <div>
                   <h4 style={{
-                    fontSize: '16.5px',
+                    fontSize: '17px',
                     fontWeight: 800,
                     color: '#FFFFFF',
-                    margin: '0 0 3px',
+                    margin: 0,
                     lineHeight: 1.25,
                     letterSpacing: '-0.02em',
                     textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)'
                   }}>
                     {current.title}
                   </h4>
-                  <p style={{
-                    fontSize: '11.5px',
-                    color: '#94A3B8',
-                    margin: 0,
-                    lineHeight: 1.35,
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden'
-                  }}>
-                    {current.subtitle}
-                  </p>
                 </div>
 
                 {/* Pricing Strip */}
