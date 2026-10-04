@@ -1,11 +1,118 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import AllCitiesSection, { ALL_CITIES_DIRECTORY } from '@/app/components/common/AllCitiesSection';
 import '@/app/styles/pages/AISearch.css';
+
+const FEATURED_SLIDER_ARTISTS = [
+  {
+    id: "b67daa32-b5a4-469c-a0a2-9fb834f18070",
+    name: "Madhur (M.D. Live)",
+    category: "Live Singer",
+    subCategory: "Bollywood Retro, Sufi, Ghazals",
+    city: "Delhi NCR",
+    rating: 5.0,
+    successful_bookings: 85,
+    price_min: 10000,
+    price_max: 35000,
+    img: "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/talent-track/artists/1aebea4e-76c8-428b-97e1-38db4bb57eca.jpeg",
+    slug: "madhur"
+  },
+  {
+    id: "9d7e53a6-9caa-4e2d-a3c1-d2962d4718dc",
+    name: "Harshit Singh (HR Live)",
+    category: "Acoustic Singer",
+    subCategory: "Bollywood, Sufi, Devotional & Unplugged",
+    city: "Delhi NCR",
+    rating: 5.0,
+    successful_bookings: 75,
+    price_min: 6000,
+    price_max: 15000,
+    img: "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/talent-track/artists/65d89432-5792-4a36-b194-8e8ec201279a.jpeg",
+    slug: "harshit-singh"
+  },
+  {
+    id: "8d6b7e3b-4b2a-4924-98d6-a133f2910cb2",
+    name: "Ridam (RDM Live)",
+    category: "Rock & Pop Vocalist",
+    subCategory: "Western Pop, Rock & Bollywood Medleys",
+    city: "Delhi NCR",
+    rating: 4.8,
+    successful_bookings: 77,
+    price_min: 16000,
+    price_max: 45000,
+    img: "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/talent-track/artists/b8a34314-3bd3-408a-b53c-d94af404986b.JPG",
+    slug: "ridam"
+  },
+  {
+    id: "dc8e3224-fee3-4fdb-bff2-5bfb25d694cd",
+    name: "Aatir (AAA Live)",
+    category: "Party Singer",
+    subCategory: "Bollywood Retro, Punjabi Hits & Sufi",
+    city: "New Delhi",
+    rating: 5.0,
+    successful_bookings: 65,
+    price_min: 15000,
+    price_max: 40000,
+    img: "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/talent-track/artists/5395cebe-5426-4b02-b782-7680026c6e0f.jpg",
+    slug: "aatir"
+  },
+  {
+    id: "ab0250b3-3f60-4d6b-abec-412212b8d1fd",
+    name: "Gaurav (H24 Live)",
+    category: "Multi-Genre Vocalist",
+    subCategory: "English Jazz, Western Retro & Bollywood",
+    city: "Delhi NCR",
+    rating: 5.0,
+    successful_bookings: 42,
+    price_min: 8000,
+    price_max: 20000,
+    img: "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/talent-track/artists/e37b24a4-0cb3-4ef4-b930-afc680e23882.jpeg",
+    slug: "gaurav"
+  },
+  {
+    id: "fbd98968-61ef-4f5d-9c5a-60fb14cd517e",
+    name: "Vipul Kumar (VIP Live)",
+    category: "Live Singer",
+    subCategory: "Bollywood, Sufi & Punjabi Beats",
+    city: "Delhi NCR",
+    rating: 4.8,
+    successful_bookings: 38,
+    price_min: 7000,
+    price_max: 25000,
+    img: "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/talent-track/artists/0b48ccea-4fcd-4eb4-bdf5-dc059a9ba4e0.jpeg",
+    slug: "vipul-kumar"
+  },
+  {
+    id: "6b53eed6-8ba6-49b7-9cae-c56bd0f909ac",
+    name: "Arman Azmi (Azmi Live)",
+    category: "Ghazal & Sufi Singer",
+    subCategory: "Classical Ghazals, Bollywood & Sufi",
+    city: "Delhi NCR",
+    rating: 5.0,
+    successful_bookings: 35,
+    price_min: 6000,
+    price_max: 18000,
+    img: "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/talent-track/artists/ae6d5914-ca49-4300-acfd-e97c8c605df5.jpeg",
+    slug: "arman-azmi"
+  },
+  {
+    id: "0a7ee8d6-06e1-4051-969e-0ca24950c4f1",
+    name: "Abhishek (Abhi)",
+    category: "Acoustic Singer",
+    subCategory: "Bollywood Melodies & Unplugged",
+    city: "Jaipur / NCR",
+    rating: 4.9,
+    successful_bookings: 30,
+    price_min: 7000,
+    price_max: 15000,
+    img: "https://pub-1802bb19214743ffa99aa227f25e7ede.r2.dev/talent-track/artists/38c91e71-c0f9-4a46-8fba-620efc7f8b9e.jpeg",
+    slug: "abhishek"
+  }
+];
 
 const QUICK_PROMPTS = [
   {
@@ -143,6 +250,14 @@ function AISearchContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [results, setResults] = useState(null);
+  const sliderRef = useRef(null);
+
+  const scrollSlider = (direction) => {
+    if (sliderRef.current) {
+      const scrollAmt = direction === 'left' ? -300 : 300;
+      sliderRef.current.scrollBy({ left: scrollAmt, behavior: 'smooth' });
+    }
+  };
 
   const runAISearch = async (searchText, city = selectedCity, eventType = selectedEventType) => {
     const finalQuery = (searchText || query).trim();
@@ -197,8 +312,11 @@ function AISearchContent() {
     runAISearch(item.query, item.city, item.eventType);
   };
 
-  const handleBookArtist = (artistName) => {
+  const handleBookArtist = (artistName, category = 'Live Singer') => {
     if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('open-quick-booking', {
+        detail: { artistName, eventType: category }
+      }));
       window.dispatchEvent(new CustomEvent('open-contact-modal', {
         detail: { type: 'booking', artistName }
       }));
@@ -338,6 +456,106 @@ function AISearchContent() {
                 ⚠️ {errorMsg}
               </p>
             )}
+          </div>
+        </section>
+
+        {/* ══════════════════════════════════════════════════════════
+            HORIZONTAL FEATURED ARTISTS SLIDER SECTION
+            ══════════════════════════════════════════════════════════ */}
+        <section className="lux-ai-slider-section" aria-label="Featured Artist Profiles">
+          <div className="lux-ai-slider-header">
+            <div className="lux-ai-slider-heading-wrap">
+              <span className="lux-ai-slider-badge">⭐ TOP VERIFIED PERFORMERS</span>
+              <h2 className="lux-ai-slider-title">
+                Featured <span>Artist Profiles</span>
+              </h2>
+              <p className="lux-ai-slider-subtitle">
+                Slide horizontally to discover top verified singers &amp; bands · Direct pricing · 0% commission markup
+              </p>
+            </div>
+            <div className="lux-ai-slider-nav-arrows">
+              <button
+                type="button"
+                className="lux-ai-slider-arrow-btn"
+                onClick={() => scrollSlider('left')}
+                aria-label="Previous artist profiles"
+              >
+                ◀
+              </button>
+              <button
+                type="button"
+                className="lux-ai-slider-arrow-btn"
+                onClick={() => scrollSlider('right')}
+                aria-label="Next artist profiles"
+              >
+                ▶
+              </button>
+            </div>
+          </div>
+
+          <div className="lux-ai-slider-track" ref={sliderRef}>
+            {FEATURED_SLIDER_ARTISTS.map((artist) => (
+              <div key={artist.id} className="lux-ai-slider-card">
+                <div className="lux-ai-slider-card-thumb">
+                  <Image
+                    src={artist.img}
+                    alt={`${artist.name} - ${artist.category}`}
+                    fill
+                    sizes="280px"
+                    className="lux-ai-slider-card-img"
+                    unoptimized
+                  />
+                  <div className="lux-ai-slider-badge-row">
+                    <span className="lux-ai-slider-verified">
+                      <span>✓</span> Verified Pro
+                    </span>
+                    <span className="lux-ai-slider-rating">
+                      ★ {Number(artist.rating).toFixed(1)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="lux-ai-slider-card-body">
+                  <h3 className="lux-ai-slider-artist-name">{artist.name}</h3>
+
+                  <div className="lux-ai-slider-meta-row">
+                    <span>{artist.category}</span>
+                    <span>•</span>
+                    <span className="lux-ai-slider-city">📍 {artist.city}</span>
+                  </div>
+
+                  <p className="lux-ai-slider-genres">
+                    {artist.subCategory}
+                  </p>
+
+                  <div className="lux-ai-slider-pricing">
+                    <span className="lux-ai-slider-rate">
+                      Starts ₹{Number(artist.price_min).toLocaleString('en-IN')}
+                    </span>
+                    <span className="lux-ai-slider-badge-zero">0% Markup</span>
+                  </div>
+
+                  {/* Two Explicit Action Options: Book & View Details */}
+                  <div className="lux-ai-slider-actions">
+                    <button
+                      type="button"
+                      className="lux-ai-slider-btn-book"
+                      onClick={() => handleBookArtist(artist.name, artist.category)}
+                      aria-label={`Book ${artist.name}`}
+                    >
+                      <span>⚡ Book</span>
+                    </button>
+                    <Link
+                      href={`/artist/${artist.slug || artist.id}`}
+                      className="lux-ai-slider-btn-view"
+                      aria-label={`View details of ${artist.name}`}
+                    >
+                      <span>View Details ➔</span>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 

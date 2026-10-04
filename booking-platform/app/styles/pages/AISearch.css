@@ -1168,3 +1168,321 @@
     padding: 6px 8px;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   HORIZONTAL ARTIST PROFILES SLIDER SECTION
+   ══════════════════════════════════════════════════════════════════ */
+.lux-ai-slider-section {
+  margin: 36px 0 24px;
+  position: relative;
+  width: 100%;
+}
+
+.lux-ai-slider-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.lux-ai-slider-heading-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lux-ai-slider-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 224, 50, 0.12);
+  border: 1px solid rgba(255, 224, 50, 0.3);
+  color: #FFE032;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.lux-ai-slider-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.lux-ai-slider-title span {
+  background: linear-gradient(135deg, #FFE032 0%, #FF9900 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.lux-ai-slider-subtitle {
+  font-size: 13px;
+  color: #94A3B8;
+  margin: 0;
+}
+
+.lux-ai-slider-nav-arrows {
+  display: flex;
+  gap: 8px;
+}
+
+.lux-ai-slider-arrow-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lux-ai-slider-arrow-btn:hover {
+  background: rgba(255, 224, 50, 0.2);
+  border-color: #FFE032;
+  color: #FFE032;
+  transform: scale(1.05);
+}
+
+.lux-ai-slider-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 4px 20px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 224, 50, 0.3) rgba(255, 255, 255, 0.05);
+}
+
+.lux-ai-slider-track::-webkit-scrollbar {
+  height: 6px;
+}
+.lux-ai-slider-track::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+}
+.lux-ai-slider-track::-webkit-scrollbar-thumb {
+  background: rgba(255, 224, 50, 0.4);
+  border-radius: 999px;
+}
+
+/* Card */
+.lux-ai-slider-card {
+  flex: 0 0 270px;
+  scroll-snap-align: start;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(13, 11, 20, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lux-ai-slider-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 224, 50, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 224, 50, 0.15);
+}
+
+.lux-ai-slider-card-thumb {
+  position: relative;
+  width: 100%;
+  height: 190px;
+  background: #110e1a;
+  overflow: hidden;
+}
+
+.lux-ai-slider-card-img {
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.lux-ai-slider-card:hover .lux-ai-slider-card-img {
+  transform: scale(1.06);
+}
+
+.lux-ai-slider-badge-row {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.lux-ai-slider-verified {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(16, 185, 129, 0.9);
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+
+.lux-ai-slider-rating {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFE032;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.lux-ai-slider-card-body {
+  padding: 14px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+}
+
+.lux-ai-slider-artist-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.lux-ai-slider-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: #94A3B8;
+  flex-wrap: wrap;
+}
+
+.lux-ai-slider-city {
+  color: #c084fc;
+  font-weight: 600;
+}
+
+.lux-ai-slider-genres {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+  min-height: 31px;
+}
+
+.lux-ai-slider-pricing {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+
+.lux-ai-slider-rate {
+  font-size: 13px;
+  font-weight: 800;
+  color: #FFE032;
+}
+
+.lux-ai-slider-badge-zero {
+  font-size: 10px;
+  color: #34D399;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+/* Two Actions: Book & View Details */
+.lux-ai-slider-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.lux-ai-slider-btn-book {
+  flex: 1;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #FFE032 0%, #FF9900 100%);
+  color: #08070d;
+  font-size: 13px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  box-shadow: 0 4px 14px rgba(255, 224, 50, 0.28);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.lux-ai-slider-btn-book:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(255, 224, 50, 0.45);
+}
+
+.lux-ai-slider-btn-view {
+  flex: 1;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.lux-ai-slider-btn-view:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 680px) {
+  .lux-ai-slider-card {
+    flex: 0 0 250px;
+  }
+  .lux-ai-slider-card-thumb {
+    height: 175px;
+  }
+  .lux-ai-slider-title {
+    font-size: 19px;
+  }
+}
+
