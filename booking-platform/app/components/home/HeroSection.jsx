@@ -156,7 +156,7 @@ export default function HeroSection() {
                 India&apos;s #1 Live Artist &amp; Singer Booking Platform
               </span>
               <span className="hp-sw-badge-dot" suppressHydrationWarning>•</span>
-              <span className="hp-sw-badge-highlight" suppressHydrationWarning>0% Commission Markup</span>
+              <span className="hp-sw-badge-highlight" suppressHydrationWarning>Flat 55%–65% OFF First Booking</span>
             </motion.div>
 
             {/* 2. MAIN HEADLINE */}
@@ -290,7 +290,7 @@ export default function HeroSection() {
               >
                 <span className="hp-sw-why-icon">⚡</span>
                 <div className="hp-sw-why-text">
-                  <strong>Instant Online Artist Booking</strong>
+                  <strong>Flat 55%–65% OFF First Booking</strong>
                   <span>Instant slot confirmation with 100% money-back guarantee</span>
                 </div>
                 <button
@@ -377,12 +377,12 @@ export default function HeroSection() {
               aria-label="Book verified artists online"
             >
               <div className="hp-mob-promo-top-left">
-                <span className="hp-mob-promo-badge-tag">EXCLUSIVE ARTISTS</span>
+                <span className="hp-mob-promo-badge-tag">EXCLUSIVE OFFER</span>
                 <span className="hp-mob-promo-top-text">
-                  🔥 <strong>1500+ Handpicked</strong> Singers &amp; Live Bands
+                  🎉 Get <strong>55%–65% OFF</strong> on your 1st booking!
                 </span>
               </div>
-              <span className="hp-mob-promo-pill">BOOK NOW ➔</span>
+              <span className="hp-mob-promo-pill">CLAIM ➔</span>
             </div>
           </div>
 
@@ -538,8 +538,8 @@ export default function HeroSection() {
                             aria-label={`Book verified artists for ${current.title}`}
                           >
                             <div className="hp-poster-feature-block">
-                              <span className="hp-poster-feature-highlight">⭐ 4.95★ Verified Artists</span>
-                              <span className="hp-poster-feature-sub">Sound Included • 100% Arrival</span>
+                              <span className="hp-poster-feature-highlight">🎉 55%–65% OFF First Booking</span>
+                              <span className="hp-poster-feature-sub">⭐ 4.95★ Verified • Sound Included</span>
                             </div>
                             <div className="hp-poster-feature-badge">
                               <span>Book Artist ➔</span>
@@ -587,8 +587,8 @@ export default function HeroSection() {
               aria-label="Book Verified Artists Online"
             >
               <div className="mob-btn-offer-content">
-                <span className="mob-btn-offer-title">Book Verified Artists</span>
-                <span className="mob-btn-offer-badge">CHECK AVAILABILITY ➔</span>
+                <span className="mob-btn-offer-title">Book Verified Artists • 55%–65% OFF</span>
+                <span className="mob-btn-offer-badge">CLAIM FIRST BOOKING OFFER ➔</span>
               </div>
             </button>
             <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
