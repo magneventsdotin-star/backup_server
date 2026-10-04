@@ -265,7 +265,7 @@ export default function LeadCaptureModal() {
             </div>
 
             {/* ══════════════════════════════════════════════════════════
-                SHOWCASE CAROUSEL (PEEK PREV & NEXT CARDS + ACTIVE CARD)
+                COMPACT SHOWCASE CAROUSEL (PEEK CARDS + ACTIVE CARD)
                 ══════════════════════════════════════════════════════════ */}
             <div 
               onMouseEnter={() => setIsInteracting(true)}
@@ -278,7 +278,7 @@ export default function LeadCaptureModal() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                marginBottom: '14px',
+                marginBottom: '10px',
                 width: '100%'
               }}
             >
@@ -290,18 +290,18 @@ export default function LeadCaptureModal() {
                 aria-label={`Previous card: ${prevCard.title}`}
                 title={`Previous: ${prevCard.title}`}
                 style={{
-                  width: '24px',
-                  height: '316px',
-                  borderRadius: '13px',
+                  width: '20px',
+                  height: '180px',
+                  borderRadius: '10px',
                   overflow: 'hidden',
                   position: 'relative',
                   opacity: 0.45,
-                  transform: 'scale(0.93)',
+                  transform: 'scale(0.94)',
                   cursor: 'pointer',
                   flexShrink: 0,
                   border: '1px solid rgba(255, 215, 0, 0.35)',
                   background: '#07060B',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.8)',
+                  boxShadow: '0 6px 18px rgba(0, 0, 0, 0.8)',
                   transition: 'all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
                 }}
               >
@@ -325,13 +325,13 @@ export default function LeadCaptureModal() {
                   top: '50%',
                   left: '50%',
                   transform: 'translate(-50%, -50%)',
-                  width: '18px',
-                  height: '18px',
+                  width: '16px',
+                  height: '16px',
                   borderRadius: '50%',
                   background: 'rgba(15, 12, 24, 0.95)',
                   border: '1.2px solid #FFE032',
                   color: '#FFE032',
-                  fontSize: '11px',
+                  fontSize: '10px',
                   fontWeight: 900,
                   display: 'flex',
                   alignItems: 'center',
@@ -342,36 +342,49 @@ export default function LeadCaptureModal() {
                 </div>
               </div>
 
-              {/* Center Active Card */}
+              {/* Center Active Card (Decreased Height & Compact) */}
               <div style={{
                 flex: 1,
                 minWidth: 0,
                 position: 'relative',
-                borderRadius: '18px',
+                borderRadius: '16px',
                 overflow: 'hidden',
                 border: '1.5px solid rgba(255, 215, 0, 0.45)',
                 background: '#07060B',
-                boxShadow: '0 18px 45px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 224, 50, 0.12)',
-                aspectRatio: '3 / 3.4',
-                maxHeight: '340px'
+                boxShadow: '0 12px 35px rgba(0, 0, 0, 0.85), 0 0 24px rgba(255, 224, 50, 0.12)',
+                aspectRatio: '16 / 9.5',
+                maxHeight: '190px'
               }}>
-                {/* Media: Video (GIF-like seamless autoPlay loop, muted by default) or Poster */}
-                <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-                  {current.mediaType === 'video' && current.videoUrl ? (
-                    <video
-                      ref={videoRef}
-                      key={current.videoUrl + current.id}
-                      src={current.videoUrl}
-                      poster={current.poster}
-                      autoPlay
-                      loop
-                      muted={isVideoMuted}
-                      playsInline
-                      preload="auto"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      onPlay={() => setIsVideoPlaying(true)}
-                      onPause={() => setIsVideoPlaying(false)}
-                    />
+                {/* Media: Video (Plays 4-5s GIF loop for instant zero-lag playback, full video on unmute) or Poster */}
+                <div 
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', cursor: current.videoUrl ? 'pointer' : 'default' }}
+                  onClick={current.videoUrl ? togglePlayPause : undefined}
+                >
+                  {current.videoUrl ? (
+                    !isVideoMuted ? (
+                      <video
+                        ref={videoRef}
+                        key={current.videoUrl + current.id}
+                        src={current.videoUrl}
+                        poster={current.poster}
+                        autoPlay
+                        loop
+                        muted={false}
+                        playsInline
+                        preload="auto"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        onPlay={() => setIsVideoPlaying(true)}
+                        onPause={() => setIsVideoPlaying(false)}
+                      />
+                    ) : (
+                      <img
+                        key={current.id + (isVideoPlaying ? '-playing' : '-paused')}
+                        src={isVideoPlaying ? (current.gifUrl || current.poster) : current.poster}
+                        alt={`${current.title} - Magnevents Verified Live Performance`}
+                        loading="eager"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    )
                   ) : (
                     <Image
                       src={current.poster}
@@ -389,16 +402,16 @@ export default function LeadCaptureModal() {
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.7) 60%, rgba(8,7,12,0.96) 95%)',
+                  background: 'linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.65) 60%, rgba(8,7,12,0.95) 95%)',
                   pointerEvents: 'none'
                 }} />
 
                 {/* Top Controls Bar */}
                 <div style={{
                   position: 'absolute',
-                  top: '14px',
-                  left: '12px',
-                  right: '12px',
+                  top: '10px',
+                  left: '10px',
+                  right: '10px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -411,63 +424,64 @@ export default function LeadCaptureModal() {
                       WebkitBackdropFilter: 'blur(14px)',
                       border: '1px solid rgba(255, 224, 50, 0.45)',
                       color: '#FFE032',
-                      fontSize: '11px',
+                      fontSize: '10px',
                       fontWeight: 800,
-                      padding: '5px 12px',
+                      padding: '4px 10px',
                       borderRadius: '100px',
-                      letterSpacing: '0.05em',
+                      letterSpacing: '0.04em',
                       textTransform: 'uppercase',
                       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)'
                     }}>
                       {current.tab.replace(/^[^\s]+\s/, '')}
                     </span>
-                    {current.mediaType === 'video' && (
-                      <span style={{
-                        background: 'rgba(239, 68, 68, 0.25)',
-                        border: '1px solid rgba(239, 68, 68, 0.55)',
-                        color: '#FCA5A5',
-                        fontSize: '9.5px',
-                        fontWeight: 800,
-                        padding: '3px 8px',
-                        borderRadius: '100px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px'
-                      }}>
-                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#EF4444', display: 'inline-block' }} />
-                        LIVE VIDEO
-                      </span>
-                    )}
                   </div>
 
-                  {/* Audition Audio Toggle for Videos */}
-                  {current.mediaType === 'video' && (
-                    <button
-                      type="button"
-                      onClick={toggleMute}
-                      aria-label={isVideoMuted ? "Unmute live audition sound" : "Mute audition sound"}
-                      title={isVideoMuted ? "Tap to listen to live audition sound" : "Mute audition sound"}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        height: '32px',
-                        padding: '0 11px',
-                        borderRadius: '100px',
-                        background: isVideoMuted ? 'rgba(8, 8, 14, 0.88)' : 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
-                        backdropFilter: 'blur(14px)',
-                        border: isVideoMuted ? '1px solid rgba(255, 224, 50, 0.45)' : '1px solid #FFE032',
-                        color: isVideoMuted ? '#FFE032' : '#000000',
-                        fontSize: '11px',
-                        fontWeight: 800,
-                        cursor: 'pointer',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
-                        transition: 'all 0.2s ease'
-                      }}
-                    >
-                      <span>{isVideoMuted ? '🔇' : '🔊'}</span>
-                      <span>{isVideoMuted ? 'Live Sound' : 'Audition On'}</span>
-                    </button>
+                  {/* Glass Unmute & Pause Controls */}
+                  {current.videoUrl && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <button
+                        type="button"
+                        className={`hp-poster-glass-btn ${!isVideoMuted ? 'is-active' : ''}`}
+                        onClick={toggleMute}
+                        aria-label={isVideoMuted ? "Unmute sound" : "Mute sound"}
+                        title={isVideoMuted ? "Tap to Unmute" : "Tap to Mute"}
+                        style={{ width: '30px', height: '30px' }}
+                      >
+                        {isVideoMuted ? (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" fillOpacity="0.25"/>
+                            <line x1="23" y1="9" x2="17" y2="15"/>
+                            <line x1="17" y1="9" x2="23" y2="15"/>
+                          </svg>
+                        ) : (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" fillOpacity="0.25"/>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                          </svg>
+                        )}
+                      </button>
+
+                      <button
+                        type="button"
+                        className={`hp-poster-glass-btn ${!isVideoPlaying ? 'is-paused' : ''}`}
+                        onClick={togglePlayPause}
+                        aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                        title={isVideoPlaying ? "Tap to Pause" : "Tap to Play"}
+                        style={{ width: '30px', height: '30px' }}
+                      >
+                        {isVideoPlaying ? (
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="4" width="4" height="16" rx="1.5" />
+                            <rect x="14" y="4" width="4" height="16" rx="1.5" />
+                          </svg>
+                        ) : (
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: '1px' }}>
+                            <polygon points="6 4 20 12 6 20 6 4" />
+                          </svg>
+                        )}
+                      </button>
+                    </div>
                   )}
                 </div>
 
@@ -477,28 +491,28 @@ export default function LeadCaptureModal() {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  padding: '24px 14px 14px 14px',
+                  padding: '16px 12px 8px 12px',
                   zIndex: 3,
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '8px',
-                  background: 'linear-gradient(180deg, rgba(8, 8, 14, 0) 0%, rgba(8, 8, 14, 0.88) 25%, #08080e 100%)'
+                  gap: '5px',
+                  background: 'linear-gradient(180deg, rgba(8, 8, 14, 0) 0%, rgba(8, 8, 14, 0.88) 35%, #08080e 100%)'
                 }}>
                   <div>
                     <h4 style={{
-                      fontSize: '17px',
+                      fontSize: '14.5px',
                       fontWeight: 800,
                       color: '#FFFFFF',
                       margin: 0,
-                      lineHeight: 1.25,
-                      letterSpacing: '-0.02em',
+                      lineHeight: 1.2,
+                      letterSpacing: '-0.01em',
                       textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)'
                     }}>
                       {current.title}
                     </h4>
                   </div>
 
-                  {/* Verified Features Bar (Prices strictly disclosed in /pricing) */}
+                  {/* Verified Features Bar */}
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -506,15 +520,15 @@ export default function LeadCaptureModal() {
                     background: 'rgba(18, 18, 26, 0.88)',
                     backdropFilter: 'blur(16px)',
                     border: '1px solid rgba(255, 215, 0, 0.25)',
-                    borderRadius: '12px',
-                    padding: '8px 12px'
+                    borderRadius: '10px',
+                    padding: '5px 10px'
                   }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                      <span style={{ fontSize: '13px', fontWeight: 800, color: '#FFE032' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#FFE032' }}>
                         ⭐ 4.95★ Verified Performer
                       </span>
-                      <span style={{ fontSize: '10.5px', color: 'rgba(255, 255, 255, 0.7)' }}>
-                        Sound Setup Included • 100% Arrival
+                      <span style={{ fontSize: '9.5px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                        Sound Included • 100% Arrival
                       </span>
                     </div>
 
@@ -522,14 +536,14 @@ export default function LeadCaptureModal() {
                       background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
                       color: '#000000',
                       fontWeight: 900,
-                      fontSize: '11px',
-                      padding: '6px 12px',
-                      borderRadius: '8px',
+                      fontSize: '10.5px',
+                      padding: '4px 10px',
+                      borderRadius: '6px',
                       boxShadow: '0 2px 10px rgba(255, 224, 50, 0.35)',
                       letterSpacing: '0.2px',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '4px',
+                      gap: '3px',
                       whiteSpace: 'nowrap'
                     }}>
                       <span>Reserve ➔</span>
@@ -546,18 +560,18 @@ export default function LeadCaptureModal() {
                 aria-label={`Next card: ${nextCard.title}`}
                 title={`Next: ${nextCard.title}`}
                 style={{
-                  width: '24px',
-                  height: '316px',
-                  borderRadius: '13px',
+                  width: '20px',
+                  height: '180px',
+                  borderRadius: '10px',
                   overflow: 'hidden',
                   position: 'relative',
                   opacity: 0.45,
-                  transform: 'scale(0.93)',
+                  transform: 'scale(0.94)',
                   cursor: 'pointer',
                   flexShrink: 0,
                   border: '1px solid rgba(255, 215, 0, 0.35)',
                   background: '#07060B',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.8)',
+                  boxShadow: '0 6px 18px rgba(0, 0, 0, 0.8)',
                   transition: 'all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
                 }}
               >
@@ -581,13 +595,13 @@ export default function LeadCaptureModal() {
                   top: '50%',
                   left: '50%',
                   transform: 'translate(-50%, -50%)',
-                  width: '18px',
-                  height: '18px',
+                  width: '16px',
+                  height: '16px',
                   borderRadius: '50%',
                   background: 'rgba(15, 12, 24, 0.95)',
                   border: '1.2px solid #FFE032',
                   color: '#FFE032',
-                  fontSize: '11px',
+                  fontSize: '10px',
                   fontWeight: 900,
                   display: 'flex',
                   alignItems: 'center',
@@ -604,8 +618,8 @@ export default function LeadCaptureModal() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '6px',
-              marginBottom: '14px'
+              gap: '5px',
+              marginBottom: '10px'
             }}>
               {EVENT_POSTERS.map((_, idx) => (
                 <button
@@ -614,8 +628,8 @@ export default function LeadCaptureModal() {
                   onClick={() => setCardIndex(idx)}
                   aria-label={`Go to slide ${idx + 1}`}
                   style={{
-                    width: cardIndex === idx ? '18px' : '6px',
-                    height: '6px',
+                    width: cardIndex === idx ? '16px' : '5px',
+                    height: '5px',
                     borderRadius: '999px',
                     background: cardIndex === idx ? '#FFE032' : 'rgba(255, 255, 255, 0.2)',
                     border: 'none',
@@ -628,9 +642,9 @@ export default function LeadCaptureModal() {
             </div>
 
             {/* ══════════════════════════════════════════════════════════
-                MINIMAL 2-FIELD FORM (NAME + PHONE NUMBER ONLY)
+                MINIMAL FORM (EVENT SELECTOR + NAME + PHONE NUMBER)
                 ══════════════════════════════════════════════════════════ */}
-            <MinimalBookingForm currentCard={current} onClose={onClose} />
+            <MinimalBookingForm currentCard={current} onSelectEvent={setCardIndex} onClose={onClose} />
           </motion.div>
         </div>
       )}
@@ -638,8 +652,9 @@ export default function LeadCaptureModal() {
   )
 }
 
-function MinimalBookingForm({ currentCard, onClose }) {
+function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
   const [formData, setFormData] = useState({ name: '', phone: '' })
+  const [selectedEventType, setSelectedEventType] = useState('🎤 House Party')
   const [errorMsg, setErrorMsg] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -686,8 +701,8 @@ function MinimalBookingForm({ currentCard, onClose }) {
       await bookingService.submitInstantRequest({
         name: trimmedName,
         phone: cleanPhone,
-        message: `[ARTIST BOOKING REQUEST] Reserved: ${currentCard.title} (${currentCard.category}). Check availability and confirm artist slot.`,
-        eventType: currentCard.category || 'Live Artist Booking',
+        message: `[ARTIST BOOKING REQUEST] Event: ${selectedEventType}. Reserved: ${currentCard.title} (${currentCard.category}). Check availability and confirm artist slot.`,
+        eventType: selectedEventType || currentCard.category || 'Live Artist Booking',
         type: 'token_booking_99_reserved',
         formType: 'welcome_popup',
         formName: 'Welcome 10-Card Popup',
@@ -801,7 +816,61 @@ function MinimalBookingForm({ currentCard, onClose }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+
+      {/* Event Details Selection Section */}
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '5px' }}>
+          <label style={{ fontSize: '11px', fontWeight: 800, color: '#FFE032', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            🎪 Event Type:
+          </label>
+          <span style={{ fontSize: '10.5px', color: 'rgba(255, 255, 255, 0.5)' }}>1-Tap Selection</span>
+        </div>
+        <div style={{
+          display: 'flex',
+          gap: '6px',
+          overflowX: 'auto',
+          paddingBottom: '3px',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none'
+        }}>
+          {[
+            { label: '🎤 House Party', index: 0 },
+            { label: '🎂 Birthday', index: 2 },
+            { label: '🌆 Terrace Jam', index: 1 },
+            { label: '🍸 Cocktail', index: 3 },
+            { label: '💍 Wedding', index: 4 },
+            { label: '👔 Corporate', index: 5 }
+          ].map((item) => {
+            const isSelected = selectedEventType === item.label
+            return (
+              <button
+                key={item.label}
+                type="button"
+                onClick={() => {
+                  setSelectedEventType(item.label)
+                  onSelectEvent?.(item.index)
+                }}
+                style={{
+                  flexShrink: 0,
+                  padding: '5px 11px',
+                  borderRadius: '100px',
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  border: isSelected ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)',
+                  background: isSelected ? 'rgba(255, 224, 50, 0.22)' : 'rgba(255, 255, 255, 0.05)',
+                  color: isSelected ? '#FFE032' : 'rgba(255, 255, 255, 0.85)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {item.label}
+              </button>
+            )
+          })}
+        </div>
+      </div>
 
       {/* Field 1: Name */}
       <div>
