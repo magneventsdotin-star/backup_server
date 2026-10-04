@@ -137,25 +137,60 @@
   color: var(--brand-primary, #FFE032);
 }
 
-.hero-video-quote-btn {
-  background: rgba(255, 224, 50, 0.1);
-  color: var(--brand-primary, #FFE032);
-  border: 1px solid rgba(255, 224, 50, 0.2);
+.hero-video-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.hero-video-book-btn {
+  flex: 1.15;
+  background: linear-gradient(135deg, #FFE032 0%, #FFB800 100%);
+  color: #000000;
+  border: none;
   border-radius: 8px;
-  padding: 8px;
+  padding: 8px 10px;
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 12px rgba(255, 224, 50, 0.25);
+  white-space: nowrap;
+}
+
+.hero-video-book-btn:hover {
+  background: linear-gradient(135deg, #FFF066 0%, #FFC820 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 224, 50, 0.4);
+}
+
+.hero-video-quote-btn {
+  flex: 0.85;
+  background: rgba(255, 224, 50, 0.08);
+  color: var(--brand-primary, #FFE032);
+  border: 1px solid rgba(255, 224, 50, 0.25);
+  border-radius: 8px;
+  padding: 8px 10px;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  white-space: nowrap;
 }
 
 .hero-video-quote-btn:hover {
-  background: var(--brand-primary, #FFE032);
-  color: #000;
+  background: rgba(255, 224, 50, 0.2);
+  border-color: rgba(255, 224, 50, 0.5);
+  color: #ffffff;
 }
 
 /* Modal */

@@ -19,11 +19,14 @@ export default function LeadCaptureModal() {
     const handleOpen = (e) => {
       if (e?.detail?.index !== undefined && e.detail.index >= 0 && e.detail.index < EVENT_POSTERS.length) {
         setCardIndex(e.detail.index)
-      } else if (e?.detail?.eventType) {
+      } else if (e?.detail?.category || e?.detail?.eventType || e?.detail?.packageTitle) {
+        const term = (e?.detail?.packageTitle || e?.detail?.category || e?.detail?.eventType || '').toLowerCase()
         const found = EVENT_POSTERS.findIndex(p => 
-          p.category.toLowerCase().includes(e.detail.eventType.toLowerCase()) ||
-          p.title.toLowerCase().includes(e.detail.eventType.toLowerCase()) ||
-          p.tab.toLowerCase().includes(e.detail.eventType.toLowerCase())
+          p.category.toLowerCase().includes(term) ||
+          p.title.toLowerCase().includes(term) ||
+          p.tab.toLowerCase().includes(term) ||
+          term.includes(p.category.toLowerCase()) ||
+          term.includes(p.title.toLowerCase())
         )
         if (found !== -1) setCardIndex(found)
       }

@@ -165,19 +165,36 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
         
         <h3 className="hero-video-title">{formatTitle(video.title)}</h3>
         
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
-          }} 
-          className="hero-video-quote-btn"
-          aria-label={`Get a quote for ${video.title}`}
-        >
-          Get Quote 
-          <svg style={{ marginLeft: 6 }} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </button>
+        <div className="hero-video-actions">
+          <button 
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              window.dispatchEvent(new CustomEvent('open-quick-booking', {
+                detail: {
+                  category: getCategory(video.title),
+                  packageTitle: formatTitle(video.title)
+                }
+              }));
+            }} 
+            className="hero-video-book-btn"
+            aria-label={`Book ${video.title} for 99 rupees`}
+          >
+            <span>⚡ Book for ₹99</span>
+          </button>
+
+          <button 
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
+            }} 
+            className="hero-video-quote-btn"
+            aria-label={`Get a quote for ${video.title}`}
+          >
+            <span>Get Quote</span>
+          </button>
+        </div>
       </div>
     </motion.div>
   );

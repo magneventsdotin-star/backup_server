@@ -106,16 +106,33 @@ export default function VideoModal({ isOpen, video, onClose }) {
                 </span>
                 <h3>{video.title}</h3>
               </div>
-              <button 
-                onClick={() => {
-                  onClose();
-                  window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
-                }} 
-                className="hp-btn hp-btn-primary modal-quote-btn"
-              >
-                <span>Get Quote</span>
-                <span className="hp-btn-shine" aria-hidden="true" />
-              </button>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <button 
+                  onClick={() => {
+                    onClose();
+                    window.dispatchEvent(new CustomEvent('open-quick-booking', {
+                      detail: {
+                        category: getCategory(video.title),
+                        packageTitle: video.title
+                      }
+                    }));
+                  }} 
+                  className="hp-btn hp-btn-primary modal-quote-btn"
+                  style={{ background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)', color: '#000', fontWeight: 800 }}
+                >
+                  <span>⚡ Book for ₹99</span>
+                </button>
+                <button 
+                  onClick={() => {
+                    onClose();
+                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
+                  }} 
+                  className="hp-btn modal-quote-btn"
+                  style={{ background: 'rgba(255, 255, 255, 0.08)', color: '#fff', border: '1px solid rgba(255, 255, 255, 0.2)' }}
+                >
+                  <span>Get Quote</span>
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>
