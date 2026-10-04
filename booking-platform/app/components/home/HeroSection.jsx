@@ -488,13 +488,6 @@ export default function HeroSection() {
 
                         {/* Bottom Card Content */}
                         <div className="hp-poster-bottom">
-                          <div className="hp-poster-tag-row">
-                            <span className="hp-poster-tag-badge">{current.tag}</span>
-                            <span className="hp-poster-media-pill">
-                              {current.videoUrl ? "🎬 LIVE PERFORMANCE" : "🎨 AI STAGE MOCK"}
-                            </span>
-                          </div>
-
                           <div className="hp-poster-title-row">
                             <h4 className="hp-poster-card-title">{current.title}</h4>
                           </div>

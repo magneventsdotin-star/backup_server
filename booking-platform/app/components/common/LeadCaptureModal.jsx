@@ -484,31 +484,6 @@ export default function LeadCaptureModal() {
                   gap: '8px',
                   background: 'linear-gradient(180deg, rgba(8, 8, 14, 0) 0%, rgba(8, 8, 14, 0.88) 25%, #08080e 100%)'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                    <span style={{
-                      background: 'rgba(255, 224, 50, 0.12)',
-                      border: '1px solid rgba(255, 224, 50, 0.4)',
-                      color: '#FFE032',
-                      fontSize: '9.5px',
-                      fontWeight: 800,
-                      padding: '3px 8px',
-                      borderRadius: '6px',
-                      letterSpacing: '0.05em',
-                      textTransform: 'uppercase'
-                    }}>
-                      {current.tag}
-                    </span>
-                    {current.rating && (
-                      <span style={{
-                        color: 'rgba(255, 255, 255, 0.8)',
-                        fontSize: '10.5px',
-                        fontWeight: 700
-                      }}>
-                        ⭐ {current.rating}
-                      </span>
-                    )}
-                  </div>
-
                   <div>
                     <h4 style={{
                       fontSize: '17px',
