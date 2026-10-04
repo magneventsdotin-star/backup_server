@@ -391,8 +391,7 @@ export default function HeroSection() {
                 const prevPoster = EVENT_POSTERS[prevIndex];
 
                 return (
-                  <>
-                    <div className="hp-poster-carousel-stage">
+                  <div className="hp-poster-carousel-stage">
                       {/* Left Peek Card (Previous) */}
                       <div
                         className="hp-poster-peek-card hp-poster-peek-left"
@@ -601,69 +600,10 @@ export default function HeroSection() {
                         </div>
                       </div>
                     </div>
-
-                    {/* Up Next Quick Preview Strip */}
-                    <div className="hp-poster-next-indicator-strip">
-                      <span className="hp-poster-curr-badge">Card {posterIndex + 1} of {EVENT_POSTERS.length}</span>
-                      <button
-                        type="button"
-                        className="hp-poster-next-pill-btn"
-                        onClick={() => setPosterIndex(nextIndex)}
-                        aria-label={`Go to next: ${nextPoster.tab}`}
-                      >
-                        <span>Up Next:</span>
-                        <strong>{nextPoster.tab}</strong>
-                        <span className="hp-next-pill-arrow">➔</span>
-                      </button>
-                    </div>
-                  </>
-                );
-              })()}
-
-              {/* Navigation Controls & Dot Indicators */}
-              <div className="hp-poster-nav-bar">
-                <button
-                  type="button"
-                  className="hp-poster-nav-btn"
-                  onClick={() => setPosterIndex((prev) => (prev - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length)}
-                  aria-label="Previous event poster"
-                >
-                  ◀
-                </button>
-
-                <div className="hp-poster-dots">
-                  {EVENT_POSTERS.map((_, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      className={`hp-poster-dot ${posterIndex === idx ? 'is-active' : ''}`}
-                      onClick={() => setPosterIndex(idx)}
-                      aria-label={`Go to event poster ${idx + 1}`}
-                    />
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  className="hp-poster-nav-btn"
-                  onClick={() => setPosterIndex((prev) => (prev + 1) % EVENT_POSTERS.length)}
-                  aria-label="Next event poster"
-                >
-                  ▶
-                </button>
+                  );
+                })()}
               </div>
-
-              {/* Value & Trust Guarantees */}
-              <div className="hp-poster-guarantee-strip">
-                <span>🛡️ <strong>100% Arrival Guarantee</strong></span>
-                <span>•</span>
-                <span>💎 <strong>0% Middleman Markup</strong></span>
-                <span>•</span>
-                <span>⭐ <strong>{EVENT_POSTERS[posterIndex]?.rating || '4.95★'}</strong></span>
-              </div>
-
             </div>
-          </div>
 
           {/* Section 4: CLEAR CALL-TO-ACTIONS */}
           <div className="hp-mob-section hp-mob-cta-section">
