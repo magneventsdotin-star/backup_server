@@ -402,30 +402,20 @@ export default function LeadCaptureModal() {
                   onClick={current.videoUrl ? togglePlayPause : undefined}
                 >
                   {current.videoUrl ? (
-                    !isVideoMuted ? (
-                      <video
-                        ref={videoRef}
-                        key={current.videoUrl + current.id}
-                        src={current.videoUrl}
-                        poster={current.poster}
-                        autoPlay
-                        loop
-                        muted={false}
-                        playsInline
-                        preload="auto"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        onPlay={() => setIsVideoPlaying(true)}
-                        onPause={() => setIsVideoPlaying(false)}
-                      />
-                    ) : (
-                      <img
-                        key={current.id + (isVideoPlaying ? '-playing' : '-paused')}
-                        src={isVideoPlaying ? (current.gifUrl || current.poster) : current.poster}
-                        alt={`${current.title} - Magnevents Verified Live Performance`}
-                        loading="eager"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    )
+                    <video
+                      ref={videoRef}
+                      key={current.videoUrl + current.id}
+                      src={current.videoUrl}
+                      poster={current.poster}
+                      autoPlay
+                      loop
+                      muted={isVideoMuted}
+                      playsInline
+                      preload="auto"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onPlay={() => setIsVideoPlaying(true)}
+                      onPause={() => setIsVideoPlaying(false)}
+                    />
                   ) : (
                     <Image
                       src={current.poster}

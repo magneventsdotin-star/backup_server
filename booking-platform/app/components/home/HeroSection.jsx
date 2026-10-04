@@ -450,34 +450,21 @@ export default function HeroSection() {
                           style={{ cursor: current.videoUrl ? 'pointer' : 'default' }}
                         >
                           {current.videoUrl ? (
-                            !isVideoMuted ? (
-                              <video
-                                ref={activeVideoRef}
-                                key={current.videoUrl + current.id}
-                                src={current.videoUrl}
-                                poster={current.poster}
-                                autoPlay
-                                loop
-                                muted={false}
-                                playsInline
-                                className="hp-poster-video-elem"
-                                onPlay={() => setIsVideoPlaying(true)}
-                                onPause={() => setIsVideoPlaying(false)}
-                              />
-                            ) : (
-                              <img
-                                key={current.id + (isVideoPlaying ? '-playing' : '-paused')}
-                                src={isVideoPlaying ? (current.gifUrl || current.poster) : current.poster}
-                                alt={`${current.title} - Magnevents Verified Live Performance`}
-                                className="hp-poster-video-elem hp-poster-gif-elem"
-                                loading="eager"
-                                style={{
-                                  width: '100%',
-                                  height: '100%',
-                                  objectFit: 'cover'
-                                }}
-                              />
-                            )
+                            <video
+                              ref={activeVideoRef}
+                              key={current.videoUrl + current.id}
+                              src={current.videoUrl}
+                              poster={current.poster}
+                              autoPlay
+                              loop
+                              muted={isVideoMuted}
+                              playsInline
+                              preload="auto"
+                              className="hp-poster-video-elem"
+                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                              onPlay={() => setIsVideoPlaying(true)}
+                              onPause={() => setIsVideoPlaying(false)}
+                            />
                           ) : (
                             <Image
                               src={current.poster}
