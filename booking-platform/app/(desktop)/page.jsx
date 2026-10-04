@@ -3,7 +3,6 @@ import HeroVideosSection from '@/app/components/home/HeroVideosSection'
 import TopPerformerSection from '@/app/components/home/TopPerformerSection'
 import CategoriesSection from '@/app/components/home/CategoriesSection'
 import FeaturedArtistsSection from '@/app/components/home/FeaturedArtistsSection'
-import PromotionalOfferSection from '@/app/components/home/PromotionalOfferSection'
 import WhyChooseSection from '@/app/components/home/WhyChooseSection'
 import TestimonialsSection from '@/app/components/home/TestimonialsSection'
 import HowToBookSection from '@/app/components/home/HowToBookSection'
@@ -45,7 +44,6 @@ export default function HomePage() {
         <HeroSection />
         <HeroVideosSection />
         <TopPerformerSection />
-        <PromotionalOfferSection />
         <CategoriesSection />
         <FeaturedArtistsSection />
         <WhyChooseSection />
