@@ -529,25 +529,6 @@ export default function HeroSection() {
                             </div>
                           </div>
 
-                          {/* High-Converting Full-Width ₹99 Booking Button (Matches User Screenshot) */}
-                          <button
-                            type="button"
-                            className="hp-poster-cta-btn"
-                            onClick={() => {
-                              if (typeof window !== 'undefined') {
-                                window.dispatchEvent(new CustomEvent('open-quick-booking', {
-                                  detail: { eventType: current.title, category: current.category, item: current, index: posterIndex }
-                                }));
-                                window.dispatchEvent(new CustomEvent('open-lead-capture', {
-                                  detail: { eventType: current.title, category: current.category, item: current, index: posterIndex }
-                                }));
-                              }
-                            }}
-                            aria-label={`Book ${current.title} for 99 rupees`}
-                          >
-                            <span>⚡ Book {current.tab.replace(/^[^\s]+\s/, '')} for ₹99</span>
-                            <span>➔</span>
-                          </button>
                         </div>
                       </div>
 
