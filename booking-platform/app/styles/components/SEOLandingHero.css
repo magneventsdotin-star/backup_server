@@ -1889,6 +1889,341 @@
   }
 }
 
+/* ==========================================================================
+   MOBILE-ONLY INSTANT HERO LEAD FORM & TEXT CLUTTER REMOVAL
+   ========================================================================== */
+.seo-mob-hero-form-card {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* Remove text clutter on mobile */
+  .seo-trust-strip {
+    display: none !important;
+  }
+
+  .seo-live-social-proof {
+    display: none !important;
+  }
+
+  .seo-top-artists-section .seo-section-head-v2 p {
+    display: none !important;
+  }
+
+  .seo-top-artists-section .seo-section-head-v2 .badge {
+    display: none !important;
+  }
+
+  /* Hide bottom duplicate form on mobile */
+  .seo-interactive-booking-card {
+    display: none !important;
+  }
+
+  /* Compact 5K Badge */
+  .seo-5k-badge-wrap {
+    margin-bottom: 4px !important;
+  }
+
+  .seo-5k-events-badge {
+    padding: 3px 10px !important;
+    gap: 6px !important;
+  }
+
+  .seo-5k-text strong {
+    font-size: 11.5px !important;
+  }
+
+  .seo-5k-text span {
+    font-size: 9.5px !important;
+  }
+
+  /* Refined Hero Header */
+  .seo-hero-title {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+    margin: 4px 0 6px 0 !important;
+  }
+
+  .seo-hero-subtitle {
+    font-size: 12.5px !important;
+    line-height: 1.4 !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+    margin: 0 auto 12px !important;
+    max-width: 100% !important;
+  }
+
+  .seo-query-pills {
+    margin-bottom: 14px !important;
+  }
+
+  /* Mobile-Only Instant Lead Form Card */
+  .seo-mob-hero-form-card {
+    display: block !important;
+    width: 100%;
+    background: linear-gradient(160deg, rgba(18, 16, 28, 0.95) 0%, rgba(10, 9, 16, 0.98) 100%);
+    border: 1.5px solid rgba(255, 224, 50, 0.35);
+    border-radius: 20px;
+    padding: 18px 14px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 224, 50, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+
+  .seo-mob-form-header {
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .seo-mob-form-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 224, 50, 0.12);
+    border: 1px solid rgba(255, 224, 50, 0.35);
+    color: #FFE032;
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+
+  .seo-mob-form-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 6px #10B981;
+  }
+
+  .seo-mob-form-title {
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 900;
+    margin: 0 0 3px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  .seo-mob-form-sub {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 11.5px;
+    margin: 0;
+    line-height: 1.35;
+  }
+
+  .seo-mob-selected-artist {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 224, 50, 0.12);
+    border: 1px dashed rgba(255, 224, 50, 0.4);
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin-bottom: 10px;
+    font-size: 11.5px;
+    color: #FFE032;
+  }
+
+  .seo-mob-selected-artist button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0 4px;
+  }
+
+  .seo-mob-input-group {
+    margin-bottom: 10px;
+  }
+
+  .seo-mob-phone-wrap {
+    display: flex;
+    align-items: center;
+    background: rgba(8, 8, 12, 0.85);
+    border: 1.5px solid rgba(255, 224, 50, 0.4);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  .seo-mob-phone-wrap:focus-within {
+    border-color: #FFE032;
+    box-shadow: 0 0 15px rgba(255, 224, 50, 0.35);
+  }
+
+  .seo-mob-phone-prefix {
+    padding: 12px 10px 12px 12px;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #FFE032;
+    background: rgba(255, 224, 50, 0.08);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+  }
+
+  .seo-mob-phone-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 10px;
+    outline: none;
+    width: 100%;
+  }
+
+  .seo-mob-phone-input::placeholder {
+    color: rgba(255, 255, 255, 0.38);
+    font-size: 12.5px;
+  }
+
+  .seo-mob-input-error {
+    display: block;
+    color: #EF4444;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 4px;
+    padding-left: 4px;
+  }
+
+  .seo-mob-row-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .seo-mob-select-control,
+  .seo-mob-date-control {
+    width: 100%;
+    background: rgba(8, 8, 12, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    color: #fff;
+    padding: 10px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .seo-mob-select-control:focus,
+  .seo-mob-date-control:focus {
+    border-color: #FFE032;
+  }
+
+  .seo-mob-btn-submit {
+    width: 100%;
+    background: linear-gradient(135deg, #FFE032 0%, #FFB800 100%);
+    color: #06080C;
+    border: none;
+    border-radius: 12px;
+    padding: 13px 16px;
+    font-size: 14.5px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255, 224, 50, 0.38);
+    transition: all 0.2s ease;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .seo-mob-btn-submit:hover,
+  .seo-mob-btn-submit:active {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(255, 224, 50, 0.5);
+  }
+
+  .seo-mob-btn-whatsapp {
+    width: 100%;
+    background: rgba(37, 211, 102, 0.14);
+    border: 1px solid rgba(37, 211, 102, 0.45);
+    color: #25D366;
+    border-radius: 12px;
+    padding: 11px 16px;
+    font-size: 13.5px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .seo-mob-btn-whatsapp:hover,
+  .seo-mob-btn-whatsapp:active {
+    background: #25D366;
+    color: #FFFFFF;
+  }
+
+  .seo-mob-form-guarantee {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Mobile Success Screen */
+  .seo-mob-success-card {
+    text-align: center;
+    padding: 14px 8px;
+  }
+
+  .seo-mob-success-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.18);
+    border: 2px solid #10B981;
+    color: #10B981;
+    font-size: 22px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.35);
+  }
+
+  .seo-mob-success-card h4 {
+    color: #fff;
+    font-size: 17px;
+    font-weight: 900;
+    margin: 0 0 6px;
+  }
+
+  .seo-mob-success-ref {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(255, 224, 50, 0.15);
+    border: 1px dashed #FFE032;
+    color: #FFE032;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .seo-mob-success-card p {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 0 0 12px;
+  }
+}
+
 
 
 

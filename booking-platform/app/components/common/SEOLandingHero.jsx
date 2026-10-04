@@ -30,6 +30,7 @@ export default function SEOLandingHero({
 }) {
   const formRef = useRef(null);
   const phoneInputRef = useRef(null);
+  const mobPhoneInputRef = useRef(null);
 
   const isDJ = (category || '').toLowerCase().includes('dj');
   const isBand = (category || '').toLowerCase().includes('band');
@@ -215,7 +216,8 @@ export default function SEOLandingHero({
     const cleanPhone = phone.replace(/[\s-]/g, '');
     if (!cleanPhone || cleanPhone.length < 10) {
       setPhoneError("Please enter a valid 10-digit mobile number");
-      if (phoneInputRef.current) phoneInputRef.current.focus();
+      if (mobPhoneInputRef.current) mobPhoneInputRef.current.focus();
+      else if (phoneInputRef.current) phoneInputRef.current.focus();
       return;
     }
 
@@ -394,6 +396,145 @@ export default function SEOLandingHero({
               );
             })}
           </div>
+        </div>
+
+        {/* ==========================================================================
+           1.5 MOBILE-ONLY INSTANT HERO LEAD FORM (Direct One-Tap Contact on Mobile)
+           ========================================================================== */}
+        <div className="seo-mob-hero-form-card">
+          {!isSubmitted ? (
+            <form onSubmit={handleInlineSubmit} className="seo-mob-form-inner">
+              <div className="seo-mob-form-header">
+                <div className="seo-mob-form-tag">
+                  <span className="seo-mob-form-dot" />
+                  <span>⚡ INSTANT AVAILABILITY &amp; QUOTE</span>
+                </div>
+                <h3 className="seo-mob-form-title">
+                  Get Verified {category}s in {city}
+                </h3>
+                <p className="seo-mob-form-sub">
+                  Direct artist rates sent to your WhatsApp in 5 mins
+                </p>
+              </div>
+
+              {selectedArtist && (
+                <div className="seo-mob-selected-artist">
+                  <span>🎯 Selected: <strong>{selectedArtist.name}</strong></span>
+                  <button type="button" onClick={() => setSelectedArtist(null)}>✕</button>
+                </div>
+              )}
+
+              {/* Mobile Phone Input */}
+              <div className="seo-mob-input-group">
+                <label htmlFor="seo-mob-phone" className="sr-only">WhatsApp or Mobile Number</label>
+                <div className="seo-mob-phone-wrap">
+                  <span className="seo-mob-phone-prefix">🇮🇳 +91</span>
+                  <input
+                    ref={mobPhoneInputRef}
+                    id="seo-mob-phone"
+                    type="tel"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={10}
+                    placeholder="Enter 10-digit WhatsApp number"
+                    value={phone}
+                    onChange={(e) => {
+                      const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                      setPhone(digits);
+                      if (phoneError) setPhoneError("");
+                    }}
+                    className="seo-mob-phone-input"
+                    required
+                  />
+                </div>
+                {phoneError && <span className="seo-mob-input-error">{phoneError}</span>}
+              </div>
+
+              {/* Quick Select Row: Event Type & Date */}
+              <div className="seo-mob-row-inputs">
+                <div className="seo-mob-select-wrap">
+                  <select
+                    id="seo-mob-event-type"
+                    value={selectedEventType}
+                    onChange={(e) => setSelectedEventType(e.target.value)}
+                    className="seo-mob-select-control"
+                    aria-label="Select event type"
+                  >
+                    {eventTypes.map(t => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="seo-mob-date-wrap">
+                  <input
+                    id="seo-mob-date"
+                    type="date"
+                    min={getMinDate()}
+                    value={eventDate}
+                    onChange={(e) => setEventDate(e.target.value)}
+                    className="seo-mob-date-control"
+                    aria-label="Select event date"
+                  />
+                </div>
+              </div>
+
+              {/* Direct Submit Action */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="seo-mob-btn-submit"
+              >
+                {isSubmitting ? (
+                  <span>⏳ Checking Availability...</span>
+                ) : (
+                  <span>⚡ Get Verified {category} Quotes ➔</span>
+                )}
+              </button>
+
+              {/* WhatsApp Secondary Fast Connect */}
+              <button
+                type="button"
+                onClick={handleWhatsAppQuote}
+                className="seo-mob-btn-whatsapp"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.458L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.725 1.451 5.437 0 9.857-4.403 9.86-9.809.001-2.618-1.01-5.08-2.858-6.93C16.528 2.015 14.07 1.006 11.453 1.006c-5.434 0-9.852 4.403-9.855 9.81-.001 2.062.54 4.079 1.566 5.86l-.99 3.613 3.712-.977zm11.304-6.816c-.302-.15-1.788-.882-2.066-.983-.277-.101-.478-.15-.678.15-.2.3-.775.983-.95 1.185-.175.201-.35.227-.652.076-.302-.15-1.274-.469-2.427-1.498-.897-.8-1.502-1.788-1.678-2.09-.175-.302-.019-.465.132-.615.136-.135.302-.35.454-.526.15-.176.2-.302.302-.503.101-.2.05-.376-.026-.526-.075-.15-.678-1.636-.93-2.243-.244-.59-.493-.51-.678-.518-.176-.008-.377-.01-.578-.01-.2 0-.527.075-.803.376-.277.301-1.055 1.031-1.055 2.516 0 1.485 1.079 2.921 1.229 3.122.15.2 2.125 3.245 5.148 4.549.719.311 1.28.497 1.717.637.722.23 1.38.197 1.901.12.58-.087 1.788-.73 2.04-1.435.252-.703.252-1.306.176-1.435-.076-.13-.277-.201-.578-.352z"/>
+                </svg>
+                <span>Chat Directly on WhatsApp</span>
+              </button>
+
+              <div className="seo-mob-form-guarantee">
+                <span>🔒 100% Free</span>
+                <span>•</span>
+                <span>🛡️ 100% Arrival</span>
+                <span>•</span>
+                <span>⚡ 0% Markup</span>
+              </div>
+            </form>
+          ) : (
+            <div className="seo-mob-success-card">
+              <div className="seo-mob-success-badge">✓</div>
+              <h4>Inquiry Received for {city}!</h4>
+              {refCode && (
+                <div className="seo-mob-success-ref">
+                  REF: {refCode}
+                </div>
+              )}
+              <p>
+                Our artist coordinator will send available <strong>{category}</strong> profiles to your WhatsApp at <strong>+91 {phone}</strong> within 5 minutes.
+              </p>
+              <a
+                href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi Magnevents, I just requested ${category} quotes in ${city} (Ref: ${refCode}). Please share available artist profiles!`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="seo-mob-btn-whatsapp"
+                style={{ marginTop: '8px' }}
+              >
+                <span>Open WhatsApp Now ➔</span>
+              </a>
+            </div>
+          )}
         </div>
 
         {/* ==========================================================================
