@@ -539,9 +539,9 @@ export default function LeadCaptureModal() {
                         }
                       }}
                       style={{
-                        flex: '0 0 86%',
-                        minWidth: '270px',
-                        maxWidth: '380px',
+                        flex: '0 0 65%',
+                        minWidth: '190px',
+                        maxWidth: '240px',
                         scrollSnapAlign: 'center',
                         position: 'relative',
                         borderRadius: '16px',
@@ -553,8 +553,8 @@ export default function LeadCaptureModal() {
                         boxShadow: isActive
                           ? '0 16px 40px rgba(0, 0, 0, 0.8), 0 0 28px rgba(255, 224, 50, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35)'
                           : '0 6px 18px rgba(0, 0, 0, 0.5)',
-                        aspectRatio: '16 / 9.5',
-                        maxHeight: '190px',
+                        aspectRatio: '3 / 4',
+                        maxHeight: '235px',
                         opacity: isActive ? 1 : 0.62,
                         transform: isActive ? 'scale(1)' : 'scale(0.96)',
                         transition: 'transform 0.25s ease, opacity 0.25s ease, border-color 0.25s ease',
@@ -804,7 +804,8 @@ export default function LeadCaptureModal() {
 function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
   const [formData, setFormData] = useState({ 
     name: '', 
-    phone: ''
+    phone: '',
+    eventDetails: ''
   })
   const [selectedEventType, setSelectedEventType] = useState('🎤 House Party')
   const [errorMsg, setErrorMsg] = useState('')
@@ -855,8 +856,8 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         phone: cleanPhone,
         date: '',
         location: geoData.detectedLocation || '',
-        eventDetails: '',
-        message: `[ARTIST BOOKING REQUEST] ${selectedEventType}. Reserved: ${currentCard.title} (${currentCard.category}). Check availability and confirm artist slot.`,
+        eventDetails: formData.eventDetails?.trim() || '',
+        message: `[ARTIST BOOKING REQUEST] ${selectedEventType}${formData.eventDetails ? ` | Details: ${formData.eventDetails.trim()}` : ''}. Reserved: ${currentCard.title} (${currentCard.category}). Check availability and confirm artist slot.`,
         eventType: selectedEventType || currentCard.category || 'Live Artist Booking',
         type: 'token_booking_99_reserved',
         formType: 'welcome_popup',
@@ -1136,6 +1137,50 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
             }}
           />
         </div>
+      </div>
+
+      {/* Field 3: Single Event Details Box */}
+      <div>
+        <textarea
+          id="popup-lead-event-details"
+          rows={2}
+          value={formData.eventDetails}
+          onChange={(e) => {
+            setFormData(prev => ({ ...prev, eventDetails: e.target.value }))
+            if (errorMsg) setErrorMsg('')
+          }}
+          placeholder="📝 Event Details (e.g. 25 Oct, House Party in Delhi, Bollywood & Sufi)"
+          style={{
+            width: '100%',
+            minHeight: '48px',
+            maxHeight: '80px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.16)',
+            borderRadius: '13px',
+            padding: '10px 14px',
+            color: '#FFFFFF',
+            fontSize: '13px',
+            lineHeight: '1.4',
+            boxSizing: 'border-box',
+            outline: 'none',
+            resize: 'none',
+            fontFamily: 'inherit',
+            boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)',
+            transition: 'all 0.25s ease'
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = '#FFE032'
+            e.target.style.background = 'rgba(255, 255, 255, 0.09)'
+            e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = 'rgba(255, 255, 255, 0.16)'
+            e.target.style.background = 'rgba(255, 255, 255, 0.05)'
+            e.target.style.boxShadow = 'inset 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08)'
+          }}
+        />
       </div>
 
       {errorMsg && (
