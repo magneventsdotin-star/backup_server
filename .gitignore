@@ -35,7 +35,13 @@ yarn-error.log*
 # Local config
 .gemini/
 
-# Client data exports
+# Sensitive Personal, Client & Artist Data
+artist data/
+artist-data/
 client data/
 client-data/
+non-delhi-matched-requests/
+helpers/scripts/
 *.xlsx
+*.csv
+*.tsv
