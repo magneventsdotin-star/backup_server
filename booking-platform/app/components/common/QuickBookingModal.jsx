@@ -811,11 +811,11 @@ function InnerQuickBookingForm({ onClose }) {
           )}
         </div>
 
-        {/* Primary Action Button: Pay ₹99 */}
-        <div style={{ marginTop: '2px' }}>
+        {/* Single Primary Action Button */}
+        <div style={{ marginTop: '4px' }}>
           <button 
             type="submit" 
-            disabled={isSubmitting || isFreeSubmitting}
+            disabled={isSubmitting}
             style={{ 
               width: '100%', 
               background: 'linear-gradient(135deg, #FFE032 0%, #FFA800 100%)', 
@@ -823,10 +823,10 @@ function InnerQuickBookingForm({ onClose }) {
               fontWeight: 900, 
               fontSize: '15px',
               fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-              padding: '13px 20px', 
+              padding: '14px 20px', 
               borderRadius: '12px', 
               border: 'none', 
-              cursor: (isSubmitting || isFreeSubmitting) ? 'not-allowed' : 'pointer',
+              cursor: isSubmitting ? 'not-allowed' : 'pointer',
               boxShadow: '0 8px 26px rgba(255, 224, 50, 0.38)',
               display: 'flex',
               alignItems: 'center',
@@ -837,7 +837,7 @@ function InnerQuickBookingForm({ onClose }) {
               opacity: isSubmitting ? 0.75 : 1
             }}
             onMouseEnter={(e) => {
-              if (!isSubmitting && !isFreeSubmitting) {
+              if (!isSubmitting) {
                 e.currentTarget.style.transform = 'translateY(-1px)';
                 e.currentTarget.style.boxShadow = '0 12px 30px rgba(255, 224, 50, 0.5)';
               }
@@ -863,104 +863,16 @@ function InnerQuickBookingForm({ onClose }) {
 
           <div style={{
             textAlign: 'center',
-            marginTop: '5px',
-            fontSize: '10.5px',
-            color: 'rgba(255, 255, 255, 0.5)',
+            marginTop: '8px',
+            fontSize: '11px',
+            color: 'rgba(255, 255, 255, 0.55)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '4px'
+            gap: '6px'
           }}>
             <span>🔒</span>
             <span>Pay on confirmation • 100% Refundable Guarantee</span>
-          </div>
-        </div>
-
-        {/* Elegant Divider: Or Pay Nothing Now */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          margin: '6px 0 4px',
-          gap: '10px'
-        }}>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.1)' }} />
-          <span style={{ 
-            fontSize: '10px', 
-            color: 'rgba(255, 255, 255, 0.45)', 
-            fontWeight: 800, 
-            textTransform: 'uppercase', 
-            letterSpacing: '0.06em' 
-          }}>
-            OR PAY NOTHING NOW
-          </span>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.1)' }} />
-        </div>
-
-        {/* Secondary Option: Request Free Quotes (No Advance Needed) - Vibrant Filled Button */}
-        <div>
-          <button 
-            type="button" 
-            onClick={handleFreeSubmit}
-            disabled={isSubmitting || isFreeSubmitting}
-            style={{
-              width: '100%',
-              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-              border: 'none',
-              borderRadius: '12px',
-              padding: '13px 20px',
-              color: '#ffffff',
-              fontSize: '14px',
-              fontWeight: 900,
-              cursor: (isSubmitting || isFreeSubmitting) ? 'not-allowed' : 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              boxShadow: '0 8px 24px rgba(16, 185, 129, 0.4)',
-              letterSpacing: '-0.01em',
-              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-              opacity: isFreeSubmitting ? 0.75 : 1
-            }}
-            onMouseEnter={(e) => {
-              if (!isSubmitting && !isFreeSubmitting) {
-                e.currentTarget.style.transform = 'translateY(-1px)';
-                e.currentTarget.style.background = 'linear-gradient(135deg, #34d399 0%, #059669 100%)';
-                e.currentTarget.style.boxShadow = '0 12px 28px rgba(16, 185, 129, 0.55)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-              e.currentTarget.style.boxShadow = '0 8px 24px rgba(16, 185, 129, 0.4)';
-            }}
-          >
-            {isFreeSubmitting ? (
-              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span className="ai-spinner-dot" /> Submitting Free Inquiry...
-              </span>
-            ) : (
-              <>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-                <span>Request Free Quotes (No Advance Needed)</span>
-              </>
-            )}
-          </button>
-
-          <div style={{
-            textAlign: 'center',
-            marginTop: '5px',
-            fontSize: '10.5px',
-            color: 'rgba(255, 255, 255, 0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '4px'
-          }}>
-            <span>⚡</span>
-            <span>Instant WhatsApp Callback · Verified Artist Quotes</span>
           </div>
         </div>
       </form>
