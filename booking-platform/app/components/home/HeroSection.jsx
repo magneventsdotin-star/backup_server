@@ -418,36 +418,12 @@ export default function HeroSection() {
                           }
                         }}
                       >
-                        {/* Floating Previous Orb */}
-                        <button
-                          type="button"
-                          className="hp-poster-floating-nav hp-poster-floating-prev"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setPosterIndex(prevIndex);
-                          }}
-                          aria-label="Previous celebration"
-                          title={`Previous: ${prevPoster.tab}`}
-                        >
-                          <span>‹</span>
-                        </button>
-
-                        {/* Floating Next Orb */}
-                        <button
-                          type="button"
-                          className="hp-poster-floating-nav hp-poster-floating-next"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setPosterIndex(nextIndex);
-                          }}
-                          aria-label="Next celebration"
-                          title={`Next: ${nextPoster.tab}`}
-                        >
-                          <span>›</span>
-                        </button>
-
                         {/* Inline Performance Video Player (Plays without music by default, loops seamlessly) */}
-                        <div className="hp-poster-img-container hp-poster-media-container">
+                        <div 
+                          className="hp-poster-img-container hp-poster-media-container"
+                          onClick={current.videoUrl ? togglePlayPause : undefined}
+                          style={{ cursor: current.videoUrl ? 'pointer' : 'default' }}
+                        >
                           {current.videoUrl ? (
                             <video
                               ref={activeVideoRef}
@@ -475,82 +451,76 @@ export default function HeroSection() {
                           )}
                         </div>
 
-                        {/* Gradient Vignette Overlay for Crisp Readability */}
+                        {/* Luxury Cinematic Vignette Overlay */}
                         <div className="hp-poster-vignette" />
 
                         {/* Top Floating Controls Bar */}
                         <div className="hp-poster-top-bar">
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <div className="hp-poster-top-left">
                             <span className="hp-poster-category-pill">
                               {current.tab.replace(/^[^\s]+\s/, '')}
                             </span>
-                            {current.slots && (
-                              <div className="hp-poster-live-slot">
-                                <span className="hp-poster-live-dot" />
-                                <span>{current.slots}</span>
-                              </div>
+                            {current.videoUrl && (
+                              <span className="hp-poster-live-chip">
+                                <span className="hp-poster-live-dot" /> LIVE
+                              </span>
                             )}
                           </div>
 
-                          {/* Sound Toggle Button (Shown ONLY for video cards) */}
                           {current.videoUrl ? (
                             <button
                               type="button"
-                              className="hp-poster-ctrl-circle hp-poster-audio-btn"
-                              onClick={toggleMute}
-                              aria-label={isVideoMuted ? "Unmute video (Turn sound on)" : "Mute video (Turn sound off)"}
-                              title={isVideoMuted ? "Tap to listen with sound" : "Mute audio"}
+                              className="hp-poster-sound-pill"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleMute();
+                              }}
+                              aria-label={isVideoMuted ? "Unmute video (Turn sound on)" : "Mute video"}
                             >
-                              <span className="hp-ctrl-icon">{isVideoMuted ? "🔇" : "🔊"}</span>
+                              <span>{isVideoMuted ? "🔇 Tap for Sound" : "🔊 Sound On"}</span>
                             </button>
                           ) : (
-                            <span className="hp-poster-tag-badge" style={{ margin: 0 }}>
+                            <span className="hp-poster-verified-pill">
                               ✨ VERIFIED
                             </span>
                           )}
                         </div>
 
-                        {/* Floating Play / Pause Control Button (Shown ONLY for video cards) */}
-                        {current.videoUrl && (
-                          <button
-                            type="button"
-                            className="hp-poster-playpause-fab"
-                            onClick={togglePlayPause}
-                            aria-label={isVideoPlaying ? "Pause video" : "Play video"}
-                            title={isVideoPlaying ? "Pause video" : "Play video"}
-                          >
-                            <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸" : "▶"}</span>
-                          </button>
-                        )}
-
                         {/* Bottom Card Content */}
                         <div className="hp-poster-bottom">
                           <div className="hp-poster-tag-row">
                             <span className="hp-poster-tag-badge">{current.tag}</span>
-                            {current.videoUrl ? (
-                              <span className="hp-poster-media-pill">🎬 LIVE VIDEO</span>
-                            ) : (
-                              <span className="hp-poster-media-pill">🎨 ARTIST POSTER</span>
-                            )}
+                            <span className="hp-poster-media-pill">
+                              {current.videoUrl ? "🎬 LIVE PERFORMANCE" : "🎨 AI STAGE MOCK"}
+                            </span>
                           </div>
 
                           <div className="hp-poster-title-row">
                             <h4 className="hp-poster-card-title">{current.title}</h4>
-                            <p className="hp-poster-card-sub">{current.subtitle}</p>
                           </div>
 
                           {/* Verified Features & Booking Bar (Prices strictly disclosed in /pricing) */}
-                          <div className="hp-poster-value-bar">
+                          <div 
+                            className="hp-poster-value-bar"
+                            onClick={() => {
+                              if (typeof window !== 'undefined') {
+                                window.dispatchEvent(new CustomEvent('open-quick-booking'));
+                              }
+                            }}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Book verified artists for ${current.title}`}
+                          >
                             <div className="hp-poster-feature-block">
-                              <span className="hp-poster-feature-highlight">⭐ 4.95★ Verified Performer</span>
+                              <span className="hp-poster-feature-highlight">⭐ 4.95★ Verified Artists</span>
                               <span className="hp-poster-feature-sub">Sound Setup Included • 100% Arrival</span>
                             </div>
                             <div className="hp-poster-feature-badge">
-                              <span>Reserve Slot ➔</span>
+                              <span>Book Artist ➔</span>
                             </div>
                           </div>
 
-                          </div>
+                        </div>
                         </div>
 
                       {/* Right Peek Card (Next) */}
