@@ -607,11 +607,17 @@ export default function HeroSection() {
                   window.dispatchEvent(new CustomEvent('open-quick-booking'));
                 }
               }}
-              aria-label="Book Verified Artists Online"
+              aria-label="Book Verified Artists Online with Special Offer"
             >
               <div className="mob-btn-offer-content">
-                <span className="mob-btn-offer-title">Book Verified Artists • 55%–65% OFF</span>
-                <span className="mob-btn-offer-badge">CLAIM FIRST BOOKING OFFER ➔</span>
+                <div className="mob-btn-offer-text-group">
+                  <span className="mob-btn-offer-sub">⚡ FIRST BOOKING SPECIAL</span>
+                  <span className="mob-btn-offer-title">Book Verified Live Artists</span>
+                </div>
+                <div className="mob-btn-offer-pill">
+                  <span>55%–65% OFF</span>
+                  <span>➔</span>
+                </div>
               </div>
             </button>
             <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
