@@ -335,7 +335,12 @@ export default function HeroSection() {
       <div className="hp-mobile-hero" suppressHydrationWarning>
         <div className="hp-mobile-content" suppressHydrationWarning>
           
-          {/* Section 1: TOP PROMOTIONAL BANNER */}
+          {/* SEO Accessible Heading */}
+          <h1 className="sr-only" style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', border: 0 }}>
+            Book Verified Artists for House Parties &amp; Events
+          </h1>
+
+          {/* TOP PROMOTIONAL BANNER */}
           <div className="hp-mob-section">
             <div 
               className="hp-mob-promo-top-banner"
@@ -358,34 +363,9 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Section 2: BOLD PROMOTIONAL HEADLINE */}
-          <div className="hp-mob-section">
-            <div className="hp-mob-offer-badge-pill">
-              <span className="hp-mob-offer-badge-dot">●</span>
-              <span>FIRST-TIME CLIENT SPECIAL</span>
-            </div>
-            <h1 className="hp-mob-h1 hp-mob-offer-h1">
-              <span className="hp-mob-offer-main">Get 55%–65% OFF</span>
-              <span className="hp-mob-offer-sub-title">
-                Book Verified Artists for <span className="hp-mob-offer-price">Only ₹99</span>
-              </span>
-            </h1>
-          </div>
-
-          {/* Section 3: 10 LUXURY EVENT SHOWCASE CARDS (MAIN MOBILE CENTERPIECE) */}
+          {/* 10 LUXURY EVENT SHOWCASE CARDS (MAIN MOBILE CENTERPIECE) */}
           <div className="hp-mob-section">
             <div className="hp-posters-showcase">
-              
-              {/* Header */}
-              <div className="hp-posters-header">
-                <div className="hp-posters-heading-wrap">
-                  <span className="hp-posters-badge">👑 TOP 10 CELEBRATION FORMATS</span>
-                  <h3 className="hp-posters-title">
-                    House Parties &amp; <span>Events Showcase</span>
-                  </h3>
-                </div>
-              </div>
-
               {/* Category Quick Tabs (10 Categories) */}
               <div className="hp-posters-tabs" role="tablist">
                 {EVENT_POSTERS.map((poster, idx) => (
@@ -402,144 +382,239 @@ export default function HeroSection() {
                 ))}
               </div>
 
-              {/* Main Swipeable Reel/Video Card */}
+              {/* Main Swipeable Reel/Video Card with Visible Peek Stage */}
               {(() => {
                 const current = EVENT_POSTERS[posterIndex];
+                const nextIndex = (posterIndex + 1) % EVENT_POSTERS.length;
+                const nextPoster = EVENT_POSTERS[nextIndex];
+                const prevIndex = (posterIndex - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length;
+                const prevPoster = EVENT_POSTERS[prevIndex];
+
                 return (
-                  <div
-                    className="hp-poster-card-wrapper"
-                    onMouseEnter={() => setIsPosterHovered(true)}
-                    onMouseLeave={() => setIsPosterHovered(false)}
-                    onTouchStart={(e) => {
-                      setIsPosterHovered(true);
-                      setTouchStartX(e.touches[0].clientX);
-                    }}
-                    onTouchEnd={(e) => {
-                      setIsPosterHovered(false);
-                      const diff = touchStartX - e.changedTouches[0].clientX;
-                      if (Math.abs(diff) > 40) {
-                        if (diff > 0) {
-                          setPosterIndex((prev) => (prev + 1) % EVENT_POSTERS.length);
-                        } else {
-                          setPosterIndex((prev) => (prev - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length);
-                        }
-                      }
-                    }}
-                  >
-                    {/* Inline Performance Video Player (Plays without music by default, loops seamlessly) */}
-                    <div className="hp-poster-img-container hp-poster-media-container">
-                      {current.videoUrl ? (
-                        <video
-                          ref={activeVideoRef}
-                          key={current.videoUrl + current.id}
-                          src={current.videoUrl}
-                          poster={current.poster}
-                          autoPlay
-                          loop
-                          muted={isVideoMuted}
-                          playsInline
-                          className="hp-poster-video-elem"
-                          onPlay={() => setIsVideoPlaying(true)}
-                          onPause={() => setIsVideoPlaying(false)}
-                        />
-                      ) : (
+                  <>
+                    <div className="hp-poster-carousel-stage">
+                      {/* Left Peek Card (Previous) */}
+                      <div
+                        className="hp-poster-peek-card hp-poster-peek-left"
+                        onClick={() => setPosterIndex(prevIndex)}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Previous celebration: ${prevPoster.title}`}
+                        title={`Previous: ${prevPoster.tab}`}
+                      >
                         <Image
-                          src={current.poster}
-                          alt={`${current.title} - Magnevents Verified Live Artists`}
+                          src={prevPoster.poster}
+                          alt={prevPoster.title}
                           fill
-                          sizes="(max-width: 768px) 100vw, 600px"
-                          priority
-                          className="hp-poster-img"
-                          style={{ objectFit: 'cover' }}
+                          sizes="80px"
+                          className="hp-poster-peek-img"
                         />
-                      )}
-                    </div>
-
-                    {/* Gradient Vignette Overlay for Crisp Readability */}
-                    <div className="hp-poster-vignette" />
-
-                    {/* Top Floating Controls Bar */}
-                    <div className="hp-poster-top-bar">
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span className="hp-poster-category-pill">
-                          {current.tab.replace(/^[^\s]+\s/, '')}
-                        </span>
-                        <div className="hp-poster-live-slot">
-                          <span className="hp-poster-live-dot" />
-                          <span>{current.slots}</span>
+                        <div className="hp-poster-peek-overlay">
+                          <span className="hp-poster-peek-arrow">‹</span>
                         </div>
                       </div>
 
-                      {/* Sound Toggle Button (Plays without music by default, tap to listen) */}
-                      <button
-                        type="button"
-                        className="hp-poster-ctrl-circle hp-poster-audio-btn"
-                        onClick={toggleMute}
-                        aria-label={isVideoMuted ? "Unmute video (Turn sound on)" : "Mute video (Turn sound off)"}
-                        title={isVideoMuted ? "Tap to listen with sound" : "Mute audio"}
-                      >
-                        <span className="hp-ctrl-icon">{isVideoMuted ? "🔇" : "🔊"}</span>
-                      </button>
-                    </div>
-
-                    {/* Floating Play / Pause Control Button */}
-                    <div className="hp-poster-mid-bar">
-                      <span className="hp-poster-tag-badge">{current.tag}</span>
-
-                      <button
-                        type="button"
-                        className="hp-poster-ctrl-circle hp-poster-playpause-btn"
-                        onClick={togglePlayPause}
-                        aria-label={isVideoPlaying ? "Pause video" : "Play video"}
-                        title={isVideoPlaying ? "Pause video" : "Play video"}
-                      >
-                        <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸" : "▶"}</span>
-                      </button>
-                    </div>
-
-                    {/* Bottom Card Content */}
-                    <div className="hp-poster-bottom">
-                      <div className="hp-poster-title-row">
-                        <h4 className="hp-poster-card-title">{current.title}</h4>
-                        <p className="hp-poster-card-sub">{current.subtitle}</p>
-                      </div>
-
-                      {/* Pricing and Offer Strip */}
-                      <div className="hp-poster-value-bar">
-                        <div className="hp-poster-price-block">
-                          <span className="hp-poster-regular-price">{current.regularPrice}</span>
-                          <div className="hp-poster-offer-price">
-                            <span>{current.offerPrice}</span>
-                            <span className="hp-poster-discount-badge">{current.discount}</span>
-                          </div>
-                        </div>
-                        <div className="hp-poster-token-badge">
-                          <span className="hp-poster-token-top">Lock Slot</span>
-                          <span className="hp-poster-token-amt">₹99 Only</span>
-                        </div>
-                      </div>
-
-                      {/* High-Converting Full-Width ₹99 Booking Button (Matches User Screenshot) */}
-                      <button
-                        type="button"
-                        className="hp-poster-cta-btn"
-                        onClick={() => {
-                          if (typeof window !== 'undefined') {
-                            window.dispatchEvent(new CustomEvent('open-quick-booking', {
-                              detail: { eventType: current.title, category: current.category, item: current, index: posterIndex }
-                            }));
-                            window.dispatchEvent(new CustomEvent('open-lead-capture', {
-                              detail: { eventType: current.title, category: current.category, item: current, index: posterIndex }
-                            }));
+                      {/* Active Central Card */}
+                      <div
+                        className="hp-poster-card-wrapper"
+                        onMouseEnter={() => setIsPosterHovered(true)}
+                        onMouseLeave={() => setIsPosterHovered(false)}
+                        onTouchStart={(e) => {
+                          setIsPosterHovered(true);
+                          setTouchStartX(e.touches[0].clientX);
+                        }}
+                        onTouchEnd={(e) => {
+                          setIsPosterHovered(false);
+                          const diff = touchStartX - e.changedTouches[0].clientX;
+                          if (Math.abs(diff) > 40) {
+                            if (diff > 0) {
+                              setPosterIndex((prev) => (prev + 1) % EVENT_POSTERS.length);
+                            } else {
+                              setPosterIndex((prev) => (prev - 1 + EVENT_POSTERS.length) % EVENT_POSTERS.length);
+                            }
                           }
                         }}
-                        aria-label={`Book ${current.title} for 99 rupees`}
                       >
-                        <span>⚡ Book {current.tab.replace(/^[^\s]+\s/, '')} for ₹99</span>
-                        <span>➔</span>
+                        {/* Floating Previous Orb */}
+                        <button
+                          type="button"
+                          className="hp-poster-floating-nav hp-poster-floating-prev"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPosterIndex(prevIndex);
+                          }}
+                          aria-label="Previous celebration"
+                          title={`Previous: ${prevPoster.tab}`}
+                        >
+                          <span>‹</span>
+                        </button>
+
+                        {/* Floating Next Orb */}
+                        <button
+                          type="button"
+                          className="hp-poster-floating-nav hp-poster-floating-next"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPosterIndex(nextIndex);
+                          }}
+                          aria-label="Next celebration"
+                          title={`Next: ${nextPoster.tab}`}
+                        >
+                          <span>›</span>
+                        </button>
+
+                        {/* Inline Performance Video Player (Plays without music by default, loops seamlessly) */}
+                        <div className="hp-poster-img-container hp-poster-media-container">
+                          {current.videoUrl ? (
+                            <video
+                              ref={activeVideoRef}
+                              key={current.videoUrl + current.id}
+                              src={current.videoUrl}
+                              poster={current.poster}
+                              autoPlay
+                              loop
+                              muted={isVideoMuted}
+                              playsInline
+                              className="hp-poster-video-elem"
+                              onPlay={() => setIsVideoPlaying(true)}
+                              onPause={() => setIsVideoPlaying(false)}
+                            />
+                          ) : (
+                            <Image
+                              src={current.poster}
+                              alt={`${current.title} - Magnevents Verified Live Artists`}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 600px"
+                              priority
+                              className="hp-poster-img"
+                              style={{ objectFit: 'cover' }}
+                            />
+                          )}
+                        </div>
+
+                        {/* Gradient Vignette Overlay for Crisp Readability */}
+                        <div className="hp-poster-vignette" />
+
+                        {/* Top Floating Controls Bar */}
+                        <div className="hp-poster-top-bar">
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span className="hp-poster-category-pill">
+                              {current.tab.replace(/^[^\s]+\s/, '')}
+                            </span>
+                            <div className="hp-poster-live-slot">
+                              <span className="hp-poster-live-dot" />
+                              <span>{current.slots}</span>
+                            </div>
+                          </div>
+
+                          {/* Sound Toggle Button (Plays without music by default, tap to listen) */}
+                          <button
+                            type="button"
+                            className="hp-poster-ctrl-circle hp-poster-audio-btn"
+                            onClick={toggleMute}
+                            aria-label={isVideoMuted ? "Unmute video (Turn sound on)" : "Mute video (Turn sound off)"}
+                            title={isVideoMuted ? "Tap to listen with sound" : "Mute audio"}
+                          >
+                            <span className="hp-ctrl-icon">{isVideoMuted ? "🔇" : "🔊"}</span>
+                          </button>
+                        </div>
+
+                        {/* Floating Play / Pause Control Button */}
+                        <div className="hp-poster-mid-bar">
+                          <span className="hp-poster-tag-badge">{current.tag}</span>
+
+                          <button
+                            type="button"
+                            className="hp-poster-ctrl-circle hp-poster-playpause-btn"
+                            onClick={togglePlayPause}
+                            aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                            title={isVideoPlaying ? "Pause video" : "Play video"}
+                          >
+                            <span className="hp-ctrl-icon">{isVideoPlaying ? "⏸" : "▶"}</span>
+                          </button>
+                        </div>
+
+                        {/* Bottom Card Content */}
+                        <div className="hp-poster-bottom">
+                          <div className="hp-poster-title-row">
+                            <h4 className="hp-poster-card-title">{current.title}</h4>
+                            <p className="hp-poster-card-sub">{current.subtitle}</p>
+                          </div>
+
+                          {/* Pricing and Offer Strip */}
+                          <div className="hp-poster-value-bar">
+                            <div className="hp-poster-price-block">
+                              <span className="hp-poster-regular-price">{current.regularPrice}</span>
+                              <div className="hp-poster-offer-price">
+                                <span>{current.offerPrice}</span>
+                                <span className="hp-poster-discount-badge">{current.discount}</span>
+                              </div>
+                            </div>
+                            <div className="hp-poster-token-badge">
+                              <span className="hp-poster-token-top">Lock Slot</span>
+                              <span className="hp-poster-token-amt">₹99 Only</span>
+                            </div>
+                          </div>
+
+                          {/* High-Converting Full-Width ₹99 Booking Button (Matches User Screenshot) */}
+                          <button
+                            type="button"
+                            className="hp-poster-cta-btn"
+                            onClick={() => {
+                              if (typeof window !== 'undefined') {
+                                window.dispatchEvent(new CustomEvent('open-quick-booking', {
+                                  detail: { eventType: current.title, category: current.category, item: current, index: posterIndex }
+                                }));
+                                window.dispatchEvent(new CustomEvent('open-lead-capture', {
+                                  detail: { eventType: current.title, category: current.category, item: current, index: posterIndex }
+                                }));
+                              }
+                            }}
+                            aria-label={`Book ${current.title} for 99 rupees`}
+                          >
+                            <span>⚡ Book {current.tab.replace(/^[^\s]+\s/, '')} for ₹99</span>
+                            <span>➔</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Right Peek Card (Next) */}
+                      <div
+                        className="hp-poster-peek-card hp-poster-peek-right"
+                        onClick={() => setPosterIndex(nextIndex)}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Next celebration: ${nextPoster.title}`}
+                        title={`Next: ${nextPoster.tab}`}
+                      >
+                        <Image
+                          src={nextPoster.poster}
+                          alt={nextPoster.title}
+                          fill
+                          sizes="80px"
+                          className="hp-poster-peek-img"
+                        />
+                        <div className="hp-poster-peek-overlay">
+                          <span className="hp-poster-peek-arrow">›</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Up Next Quick Preview Strip */}
+                    <div className="hp-poster-next-indicator-strip">
+                      <span className="hp-poster-curr-badge">Card {posterIndex + 1} of {EVENT_POSTERS.length}</span>
+                      <button
+                        type="button"
+                        className="hp-poster-next-pill-btn"
+                        onClick={() => setPosterIndex(nextIndex)}
+                        aria-label={`Go to next: ${nextPoster.tab}`}
+                      >
+                        <span>Up Next:</span>
+                        <strong>{nextPoster.tab}</strong>
+                        <span className="hp-next-pill-arrow">➔</span>
                       </button>
                     </div>
-                  </div>
+                  </>
                 );
               })()}
 
@@ -624,12 +699,6 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Section 6: PROMOTIONAL SUBTITLE / OFFER DETAILS */}
-          <div className="hp-mob-section">
-            <p className="hp-mob-sub hp-mob-offer-sub">
-              Fill the form to claim your offer &amp; book verified singers, live bands &amp; DJs for <strong>only ₹99 token amount</strong>. Enjoy flat <strong>55%–65% discount</strong> with 100% artist arrival guarantee across Delhi NCR.
-            </p>
-          </div>
           
         </div>
       </div>
