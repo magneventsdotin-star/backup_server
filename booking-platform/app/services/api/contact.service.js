@@ -121,7 +121,9 @@ export const buildEmailTemplate = (data, isRegister, isCallRequest, dbArtistInfo
       }
     }
 
-    contentSections += buildSection('🎭 Bio & Experience', `<tr><td style="padding: 8px 0; color: #fbbf24;">${data.bio || 'No bio provided.'}</td></tr>`);
+    if (data.bio && data.bio.trim() && data.bio !== 'No bio provided.') {
+      contentSections += buildSection('🎭 Bio & Experience', `<tr><td style="padding: 8px 0; color: #fbbf24;">${data.bio}</td></tr>`);
+    }
   } else {
     contentSections += buildSection('👤 User & Contact Details', 
       row('Name', data.name) +
@@ -130,10 +132,12 @@ export const buildEmailTemplate = (data, isRegister, isCallRequest, dbArtistInfo
       (deviceDisplay ? row('Device', deviceDisplay) : '') +
       (data.ipAddress ? row('IP Address', data.ipAddress) : '')
     );
+    const artistNameVal = typeof data.selectedArtist === 'object' && data.selectedArtist ? (data.selectedArtist.name || '') : (data.selectedArtist || data.artistName || '');
     contentSections += buildSection('📅 Event Details', 
       row('Event Type', data.eventType) +
       row('Event Date', data.date) +
       row('Event Location', data.location) +
+      row('Requested Artist', artistNameVal) +
       row('Requested Type', data.artistType && data.artistType.length > 0 ? (Array.isArray(data.artistType) ? data.artistType.join(', ') : data.artistType) : '') +
       row('Budget', data.budget)
     );
@@ -194,7 +198,24 @@ export const buildEmailTemplate = (data, isRegister, isCallRequest, dbArtistInfo
       }
     }
 
-    contentSections += buildSection('📝 Additional Message', `<tr><td style="padding: 16px; background-color: #f8fafc; border-radius: 8px; font-style: italic; color: #475569; border: 1px solid #e2e8f0;">"${data.message || 'No additional message provided.'}"</td></tr>`);
+    // Only display 'Additional Message' if user actually filled one in
+    let userMsg = (data.message || '').trim();
+    if (userMsg.startsWith('[ARTIST BOOKING REQUEST]')) {
+      const detailsMatch = userMsg.match(/\|\s*Details:\s*([^.]+)/i);
+      userMsg = detailsMatch ? detailsMatch[1].trim() : '';
+    } else if (
+      userMsg.startsWith('[₹99 ARTIST SLOT RESERVED]') ||
+      userMsg.startsWith('PAID ₹99 TOKEN') ||
+      userMsg.startsWith('Quick Booking:') ||
+      userMsg.startsWith('Direct SEO Lead for') ||
+      userMsg.startsWith('Package Inquiry for')
+    ) {
+      userMsg = '';
+    }
+
+    if (userMsg && userMsg !== 'No additional message provided.') {
+      contentSections += buildSection('📝 Additional Message', `<tr><td style="padding: 16px; background-color: #f8fafc; border-radius: 8px; font-style: italic; color: #475569; border: 1px solid #e2e8f0;">"${userMsg}"</td></tr>`);
+    }
 
     if (dbArtistInfo) {
       let details = '';

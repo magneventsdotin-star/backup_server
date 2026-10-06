@@ -88,6 +88,9 @@ export async function POST(req) {
     let evType = isRegister ? 'Artist Registration' : (isCallRequest ? 'Call Request' : (data.eventType || 'Event Booking'));
     let notesArray = [];
     if (data.message) notesArray.push(`Message: ${data.message}`);
+    if (data.tokenNote) notesArray.push(`Token Note: ${data.tokenNote}`);
+    if (data.internalNotes) notesArray.push(`Internal Note: ${data.internalNotes}`);
+    if (data.eventDetails && data.eventDetails !== data.message) notesArray.push(`Event Details: ${data.eventDetails}`);
     if (data.artistType && data.artistType.length > 0) {
       const typesStr = Array.isArray(data.artistType) ? data.artistType.join(', ') : data.artistType;
       notesArray.push(`Requested Types: ${typesStr}`);

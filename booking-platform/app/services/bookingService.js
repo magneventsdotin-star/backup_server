@@ -70,8 +70,21 @@ export const createWhatsAppLeadUrl = (data = {}, referenceCode = '') => {
     lines.push(`📦 *Package:* ${data.selectedPlan.name} (${data.selectedPlan.price || ''})`);
   }
 
-  if (data.message || data.bio) {
-    lines.push(`📝 *Message:* "${(data.message || data.bio).substring(0, 200)}"`);
+  let userMsg = (data.message || data.bio || '').trim();
+  if (userMsg.startsWith('[ARTIST BOOKING REQUEST]')) {
+    const detailsMatch = userMsg.match(/\|\s*Details:\s*([^.]+)/i);
+    userMsg = detailsMatch ? detailsMatch[1].trim() : '';
+  } else if (
+    userMsg.startsWith('[₹99 ARTIST SLOT RESERVED]') ||
+    userMsg.startsWith('PAID ₹99 TOKEN') ||
+    userMsg.startsWith('Quick Booking:') ||
+    userMsg.startsWith('Direct SEO Lead for') ||
+    userMsg.startsWith('Package Inquiry for')
+  ) {
+    userMsg = '';
+  }
+  if (userMsg && userMsg !== 'No additional message provided.') {
+    lines.push(`📝 *Message:* "${userMsg.substring(0, 200)}"`);
   }
 
   lines.push('━━━━━━━━━━━━━━━━━━━━');

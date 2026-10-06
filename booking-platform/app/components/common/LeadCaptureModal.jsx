@@ -757,13 +757,15 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         date: '',
         location: geoData.detectedLocation || '',
         eventDetails: formData.eventDetails?.trim() || '',
-        message: `[ARTIST BOOKING REQUEST] ${selectedEventType}${formData.eventDetails ? ` | Details: ${formData.eventDetails.trim()}` : ''}. Reserved: ${currentCard.title} (${currentCard.category}). Check availability and confirm artist slot.`,
-        eventType: selectedEventType || currentCard.category || 'Live Artist Booking',
-        type: 'token_booking_99_reserved',
+        message: formData.eventDetails?.trim() || '',
+        selectedArtist: currentCard?.title || '',
+        artistType: currentCard?.category || '',
+        eventType: selectedEventType || currentCard?.category || 'Live Artist Booking',
+        type: 'artist_booking_request',
         formType: 'welcome_popup',
         formName: 'Welcome 10-Card Popup',
         deviceType: deviceType,
-        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#book-99` : '',
+        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#artist-request` : '',
         referenceCode: generatedRef,
         latitude: geoData.latitude,
         longitude: geoData.longitude,
@@ -810,7 +812,7 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
           Artist Request Received!
         </h4>
         <p style={{ margin: '0 0 10px', color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>
-          Your artist request is locked for <strong>{currentCard.title}</strong>.
+          Your artist request is locked for <strong>{currentCard.title}</strong> with <strong>Flat 55%–65% Discount</strong>.
         </p>
 
         <div style={{
@@ -829,7 +831,7 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
 
         <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
           <a
-            href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi Magnevents, I just requested a booking for ${currentCard.title} (Ref: ${refCode}). Please share available artist profiles and confirm my slot!`)}`}
+            href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi Magnevents, I just requested a booking for ${currentCard.title} with Flat 55%–65% Discount (Ref: ${refCode}). Please share available artist profiles and confirm my slot!`)}`}
             target="_blank"
             rel="noopener noreferrer"
             style={{

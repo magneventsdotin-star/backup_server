@@ -234,7 +234,8 @@ export default function SEOLandingHero({
       formName: `SEO Instant Lead Engine - ${category} in ${city}`,
       formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#instant-lead` : '',
       formType: 'booking',
-      message: `Direct SEO Lead for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}. Budget: ${selectedBudget}.${selectedArtist ? ` Preferred Performer: ${selectedArtist.name}.` : ''}`
+      message: '',
+      internalNotes: `Direct SEO Lead for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}. Budget: ${selectedBudget}.${selectedArtist ? ` Preferred Performer: ${selectedArtist.name}.` : ''}`
     });
 
     setRefCode(res?.referenceCode || '');
@@ -293,7 +294,8 @@ export default function SEOLandingHero({
       formName: `Pricing Tier Quick Check - ${activeTier?.title || 'Package'} in ${city}`,
       formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#pricing` : '',
       formType: 'booking',
-      message: `Package Inquiry for ${activeTier?.title} (${activeTier?.price}) in ${city}. Features: ${activeTier?.features?.join(', ')}. Checking live artist availability.`
+      message: '',
+      internalNotes: `Package Inquiry for ${activeTier?.title} (${activeTier?.price}) in ${city}. Features: ${activeTier?.features?.join(', ')}. Checking live artist availability.`
     });
 
     setQuickSubmitted(true);

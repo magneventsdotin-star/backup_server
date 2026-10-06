@@ -270,17 +270,17 @@ function InnerQuickBookingForm({ onClose }) {
           else if (window.innerWidth > 768) deviceType = 'T'
         }
 
-        const generatedRef = `MAG-99-${Date.now().toString().slice(-6)}`
+        const generatedRef = `MAG-QB-${Date.now().toString().slice(-6)}`
         await bookingService.submitInstantRequest({
           name: formData.name.trim(),
           phone: formData.phone.trim(),
-          message: `[₹99 ARTIST SLOT RESERVED] Flat 55%-65% discount reserved!`,
-          eventType: 'Live Artist Slot Booking (₹99 Reserved)',
-          type: 'token_booking_99_reserved',
-          formType: 'quick_booking',
-          formName: 'Quick ₹99 Modal',
+          message: '',
+          tokenNote: 'Claimed Flat 55%–65% First Booking Discount',
+          eventType: 'Live Artist Slot Booking (55%–65% OFF)',
+          type: 'quick_booking',
+          formName: 'Quick Booking Modal',
           deviceType: deviceType,
-          formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#book-99` : '',
+          formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#quick-booking` : '',
           referenceCode: generatedRef,
           latitude: geoData.latitude,
           longitude: geoData.longitude,
@@ -299,7 +299,7 @@ function InnerQuickBookingForm({ onClose }) {
     }
 
     try {
-      // 1. Create ₹99 Order on backend (Razorpay flow preserved)
+      // 1. Create Order on backend
       const orderRes = await fetch('/api/razorpay/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -327,7 +327,7 @@ function InnerQuickBookingForm({ onClose }) {
         amount: orderData.amount,
         currency: orderData.currency,
         name: 'Magnevents',
-        description: '₹99 Artist Slot Booking Token (55%-65% OFF)',
+        description: 'Artist Slot Booking Confirmation',
         order_id: orderData.orderId,
         prefill: {
           name: formData.name.trim(),
@@ -364,13 +364,14 @@ function InnerQuickBookingForm({ onClose }) {
               await bookingService.submitInstantRequest({
                 name: formData.name.trim(),
                 phone: formData.phone.trim(),
-                message: `PAID ₹99 TOKEN. Razorpay Payment ID: ${response.razorpay_payment_id}, Order ID: ${response.razorpay_order_id}. Flat 55%-65% discount applied!`,
-                eventType: 'Live Artist Slot Booking (₹99 Paid)',
-                type: 'token_booking_99_paid',
+                message: '',
+                tokenNote: `Payment Verified. Razorpay Payment ID: ${response.razorpay_payment_id}, Order ID: ${response.razorpay_order_id}`,
+                eventType: 'Live Artist Slot Booking (Confirmed)',
+                type: 'quick_booking_paid',
                 formType: 'quick_booking',
-                formName: 'Quick ₹99 Razorpay Modal',
+                formName: 'Quick Booking Modal',
                 deviceType: deviceType,
-                formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#book-99` : '',
+                formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#quick-booking` : '',
                 latitude: geoData.latitude,
                 longitude: geoData.longitude,
                 detectedLocation: geoData.detectedLocation
@@ -430,7 +431,8 @@ function InnerQuickBookingForm({ onClose }) {
       await bookingService.submitInstantRequest({
         name: formData.name.trim(),
         phone: formData.phone.trim(),
-        message: 'Quick Booking: User requested free quotes without advance token.',
+        message: '',
+        tokenNote: 'Quick Booking: User requested free quotes without advance token.',
         eventType: 'Live Artist Booking (Free Inquiry)',
         type: 'free_quote_request',
         formType: 'quick_booking',
@@ -621,7 +623,7 @@ function InnerQuickBookingForm({ onClose }) {
           lineHeight: 1.45,
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }}>
-          Lock your date &amp; artist slot. Connect with 1500+ verified performers across India.
+          Claim <strong style={{ color: '#FFE032' }}>Flat 55%–65% OFF</strong> on your booking. Connect with 1500+ verified performers across India.
         </p>
       </div>
 
@@ -849,14 +851,14 @@ function InnerQuickBookingForm({ onClose }) {
           >
             {isSubmitting ? (
               <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span className="ai-spinner-dot" /> Reserving Slot...
+                <span className="ai-spinner-dot" /> Claiming 55%–65% OFF &amp; Reserving...
               </span>
             ) : (
               <>
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                 </svg>
-                <span>Check Availability &amp; Book Slot ➔</span>
+                <span>⚡ Claim 55%–65% OFF &amp; Book Slot ➔</span>
               </>
             )}
           </button>
@@ -871,8 +873,8 @@ function InnerQuickBookingForm({ onClose }) {
             justifyContent: 'center',
             gap: '6px'
           }}>
-            <span>🔒</span>
-            <span>Pay on confirmation • 100% Refundable Guarantee</span>
+            <span>🎉</span>
+            <span>Flat 55%–65% Discount Applied • 100% Verified Artists</span>
           </div>
         </div>
       </form>

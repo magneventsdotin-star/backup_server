@@ -38,8 +38,20 @@ export const formatWhatsAppNotification = ({
   const rawBudget = data.budget || (data.price ? `₹${data.price}` : '');
   const budget = budgetMap[rawBudget] || rawBudget || 'Quote on Request';
   const location = data.location || data.city || data.detectedLocation || 'Not specified';
-  const detectedLocation = data.detectedLocation || data.detected_location || '';
-  const message = data.message || data.bio || data.notes || '';
+  let rawMsg = data.message || data.bio || '';
+  if (rawMsg.startsWith('[ARTIST BOOKING REQUEST]')) {
+    const detailsMatch = rawMsg.match(/\|\s*Details:\s*([^.]+)/i);
+    rawMsg = detailsMatch ? detailsMatch[1].trim() : '';
+  } else if (
+    rawMsg.startsWith('[₹99 ARTIST SLOT RESERVED]') ||
+    rawMsg.startsWith('PAID ₹99 TOKEN') ||
+    rawMsg.startsWith('Quick Booking:') ||
+    rawMsg.startsWith('Direct SEO Lead for') ||
+    rawMsg.startsWith('Package Inquiry for')
+  ) {
+    rawMsg = '';
+  }
+  const message = rawMsg;
   
   let artistRequested = '';
   if (data.selectedArtist) {

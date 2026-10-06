@@ -70,12 +70,12 @@ export async function POST(req) {
           {
             client_name: customer_name,
             client_phone: customer_phone,
-            event_type: 'Live Artist Slot Booking (₹99 Paid)',
-            budget: '₹99 Token Paid',
-            notes: `[PAID ₹99 VIA RAZORPAY] Payment ID: ${razorpay_payment_id}, Order ID: ${razorpay_order_id}. First-time 55%-65% OFF Applied.`,
+            event_type: 'Live Artist Slot Booking (Confirmed)',
+            budget: 'Confirmed Booking',
+            notes: `[PAYMENT VERIFIED VIA RAZORPAY] Payment ID: ${razorpay_payment_id}, Order ID: ${razorpay_order_id}. First-time 55%-65% OFF Applied.`,
             status: 'confirmed',
             booking_source: 'website',
-            source_form: 'Quick ₹99 Razorpay Modal',
+            source_form: 'Quick Booking Modal',
             reference_code: referenceCode
           }
         ]);
@@ -86,7 +86,7 @@ export async function POST(req) {
 
     return NextResponse.json({
       success: true,
-      message: '₹99 Payment verified and slot confirmed!',
+      message: 'Payment verified and slot confirmed!',
       paymentId: razorpay_payment_id,
       orderId: razorpay_order_id,
       referenceCode: referenceCode
