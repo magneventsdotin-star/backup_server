@@ -24,6 +24,7 @@ import {
   BarChart3, 
   Download, 
   ChevronRight, 
+  ChevronDown,
   TrendingUp, 
   X,
   Target,
@@ -32,6 +33,7 @@ import {
   Link2
 } from 'lucide-react';
 import { formatDistanceToNow, format, isToday as checkIsToday, isYesterday as checkIsYesterday } from 'date-fns';
+import { exportToExcel } from '@/lib/exportExcel';
 
 interface AnalyticsRecord {
   id: string;
@@ -133,6 +135,8 @@ export default function AnalyticsPage() {
   const [activeTab, setActiveTab] = useState<'daily' | 'stream'>('stream');
   const [copiedIp, setCopiedIp] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const [exportingExcel, setExportingExcel] = useState(false);
   const { toast } = useToast();
 
   const fetchRecords = async (showToast = false) => {
@@ -447,6 +451,86 @@ export default function AnalyticsPage() {
     };
   }, [records, dailyStatsList]);
 
+  // Export Detailed Visitor Logs to Excel (.xlsx)
+  const handleExportVisitorLogsExcel = async () => {
+    if (filteredRecords.length === 0) {
+      toast({ variant: 'destructive', title: 'No Data', description: 'No visitor logs to export.' });
+      return;
+    }
+    setExportingExcel(true);
+    try {
+      const excelRows = filteredRecords.map((r) => {
+        const d = getRecordData(r);
+        return {
+          'Date & Time': format(new Date(r.created_at), 'yyyy-MM-dd HH:mm:ss'),
+          'IP Address': d.ip,
+          'City': d.city,
+          'Region / State': d.region,
+          'Country': d.country,
+          'ISP / Carrier': d.isp,
+          'Traffic Type': d.isAd ? 'Paid Ad' : d.channelCategory === 'organic' ? 'Organic Search' : d.channelCategory === 'social' ? 'Social Media' : 'Direct Visit',
+          'Ad Platform': d.adPlatform || '—',
+          'Campaign Name': d.campaignName || '—',
+          'Campaign ID': d.campaignId || '—',
+          'Ad Click ID': d.adClickId || '—',
+          'Search Keyword': d.keyword || '—',
+          'Visited Page': r.path || '/',
+          'Device Type': d.deviceType,
+          'Device Model': d.deviceLabel,
+          'Browser': d.browser,
+          'Operating System': d.os,
+          'Screen Resolution': d.screen || '—',
+          'Language': d.language || '—',
+          'Referrer Source': d.trafficSource,
+          'Full Referrer URL': d.channelCategory !== 'direct' ? (r.referrer || d.trafficSource) : 'Direct'
+        };
+      });
+
+      const dateStr = format(new Date(), 'yyyy-MM-dd');
+      await exportToExcel(excelRows, `Magnevents_Visitor_Logs_${dateStr}`, 'Visitor Logs');
+      toast({ title: 'Excel Export Successful', description: `Exported ${excelRows.length} visitor records to Excel (.xlsx).` });
+    } catch (err: any) {
+      console.error('Excel Export Error:', err);
+      toast({ variant: 'destructive', title: 'Export Failed', description: err.message || 'Failed to generate Excel file' });
+    } finally {
+      setExportingExcel(false);
+    }
+  };
+
+  // Export Day-Wise Summary to Excel (.xlsx)
+  const handleExportDailySummaryExcel = async () => {
+    if (dailyStatsList.length === 0) {
+      toast({ variant: 'destructive', title: 'No Data', description: 'No daily records to export.' });
+      return;
+    }
+    setExportingExcel(true);
+    try {
+      const excelRows = dailyStatsList.map((d) => ({
+        'Date': d.formattedDate,
+        'Day': d.dayLabel,
+        'Total Hits': d.totalHits,
+        'Unique Visitors': d.uniqueIps,
+        'Paid Ad Hits': d.adCount,
+        'Organic Search Hits': d.organicCount,
+        'Direct / Other Hits': d.directCount,
+        'Top Locality': d.topCity,
+        'Mobile %': `${d.mobilePercent}%`,
+        'Desktop %': `${100 - d.mobilePercent}%`,
+        'Top Visited Page': d.topPage,
+        'Top Campaign': d.topCampaign
+      }));
+
+      const dateStr = format(new Date(), 'yyyy-MM-dd');
+      await exportToExcel(excelRows, `Magnevents_Daily_Summary_${dateStr}`, 'Daily Summary');
+      toast({ title: 'Excel Export Successful', description: 'Exported day-by-day analytics to Excel (.xlsx).' });
+    } catch (err: any) {
+      console.error('Excel Export Error:', err);
+      toast({ variant: 'destructive', title: 'Export Failed', description: err.message || 'Failed to generate Excel file' });
+    } finally {
+      setExportingExcel(false);
+    }
+  };
+
   // Export Daily Summary as CSV
   const exportCsv = () => {
     const headers = ['Date', 'Total Hits', 'Unique Visitors', 'Ad Hits', 'Organic/Direct Hits', 'Top City', 'Mobile %', 'Top Page'];
@@ -497,14 +581,63 @@ export default function AnalyticsPage() {
             Auto-refresh (15s)
           </label>
 
-          <button
-            onClick={exportCsv}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-50 transition shadow-sm"
-            title="Download Day-wise CSV"
-          >
-            <Download className="h-3.5 w-3.5 text-slate-500" />
-            Export CSV
-          </button>
+          {/* Export Dropdown (Excel & CSV) */}
+          <div className="relative">
+            <button
+              onClick={() => setExportMenuOpen(!exportMenuOpen)}
+              disabled={exportingExcel}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition shadow-sm disabled:opacity-50"
+              title="Download Data as Excel (.xlsx)"
+            >
+              <Download className={`h-3.5 w-3.5 ${exportingExcel ? 'animate-bounce' : ''}`} />
+              <span>{exportingExcel ? 'Exporting...' : 'Export Excel'}</span>
+              <ChevronDown className="h-3 w-3 text-emerald-200" />
+            </button>
+
+            {exportMenuOpen && (
+              <div 
+                className="absolute right-0 mt-1.5 w-60 bg-white rounded-xl shadow-xl border border-slate-200 z-50 py-1.5 animate-in fade-in slide-in-from-top-1"
+                onMouseLeave={() => setExportMenuOpen(false)}
+              >
+                <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 flex items-center justify-between">
+                  <span>Excel & Data Reports</span>
+                  <span className="text-[9px] bg-emerald-50 text-emerald-700 px-1 rounded font-bold">.XLSX</span>
+                </div>
+
+                <button
+                  onClick={() => { setExportMenuOpen(false); handleExportVisitorLogsExcel(); }}
+                  className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-800 flex items-center gap-2.5 transition"
+                >
+                  <span className="p-1 rounded bg-emerald-100 text-emerald-700 font-mono text-[10px] font-bold">XLSX</span>
+                  <div>
+                    <div className="font-bold">Visitor Logs Excel</div>
+                    <div className="text-[10px] text-slate-400 font-normal">All {filteredRecords.length} visitor hits, IPs & ads</div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => { setExportMenuOpen(false); handleExportDailySummaryExcel(); }}
+                  className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-800 flex items-center gap-2.5 transition"
+                >
+                  <span className="p-1 rounded bg-emerald-100 text-emerald-700 font-mono text-[10px] font-bold">XLSX</span>
+                  <div>
+                    <div className="font-bold">Day-Wise Summary Excel</div>
+                    <div className="text-[10px] text-slate-400 font-normal">Daily totals, hits & ad performance</div>
+                  </div>
+                </button>
+
+                <div className="border-t border-slate-100 my-1" />
+
+                <button
+                  onClick={() => { setExportMenuOpen(false); exportCsv(); }}
+                  className="w-full text-left px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2.5 transition"
+                >
+                  <span className="p-1 rounded bg-slate-100 text-slate-600 font-mono text-[10px] font-bold">CSV</span>
+                  <span>Download as CSV</span>
+                </button>
+              </div>
+            )}
+          </div>
 
           <button
             onClick={() => fetchRecords(true)}
@@ -678,13 +811,24 @@ export default function AnalyticsPage() {
 
           {/* Visitor List Card */}
           <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-200 bg-slate-50/50 flex items-center justify-between">
+            <div className="px-4 py-3 border-b border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                 Visitor Hits ({filteredRecords.length})
               </span>
-              <span className="text-xs text-slate-400">
-                Latest extracted logs with Ad / Direct attribution
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="text-xs text-slate-400 hidden sm:inline">
+                  Latest extracted logs with Ad / Direct attribution
+                </span>
+                <button
+                  onClick={handleExportVisitorLogsExcel}
+                  disabled={exportingExcel || filteredRecords.length === 0}
+                  className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-lg transition disabled:opacity-50"
+                  title="Export this visitor table to Excel"
+                >
+                  <Download className="h-3 w-3 text-emerald-700" />
+                  <span>Download Table to Excel</span>
+                </button>
+              </div>
             </div>
 
             {loading ? (
@@ -993,6 +1137,18 @@ export default function AnalyticsPage() {
                 <p className="text-xs text-slate-400">
                   Daily aggregates of visits, ad clicks, unique users, top cities, and landing pages
                 </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleExportDailySummaryExcel}
+                  disabled={exportingExcel || dailyStatsList.length === 0}
+                  className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-lg transition disabled:opacity-50"
+                  title="Export Day-Wise Summary to Excel"
+                >
+                  <Download className="h-3 w-3 text-emerald-700" />
+                  <span>Download Day-Wise Excel</span>
+                </button>
               </div>
 
               {selectedDate && (
