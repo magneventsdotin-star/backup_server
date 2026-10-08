@@ -16,16 +16,20 @@ import {
   Users, 
   Eye, 
   Activity, 
-  Calendar,
-  CalendarDays,
-  Filter,
-  Bot,
-  Wifi,
-  BarChart3,
-  Download,
-  ChevronRight,
-  TrendingUp,
-  X
+  Calendar, 
+  CalendarDays, 
+  Filter, 
+  Bot, 
+  Wifi, 
+  BarChart3, 
+  Download, 
+  ChevronRight, 
+  TrendingUp, 
+  X,
+  Target,
+  Share2,
+  Sparkles,
+  Link2
 } from 'lucide-react';
 import { formatDistanceToNow, format, isToday as checkIsToday, isYesterday as checkIsYesterday } from 'date-fns';
 
@@ -47,6 +51,22 @@ interface AnalyticsRecord {
   referrer?: string;
   details?: {
     ip?: string;
+    isAd?: boolean;
+    trafficSource?: string;
+    campaign?: {
+      isAd?: boolean;
+      adPlatform?: string;
+      channelType?: string;
+      campaignName?: string;
+      campaignId?: string;
+      adId?: string;
+      adClickId?: string;
+      keyword?: string;
+      utmSource?: string;
+      utmMedium?: string;
+      utmCampaign?: string;
+      rawParams?: Record<string, string>;
+    };
     locality?: {
       city?: string;
       region?: string;
@@ -74,6 +94,7 @@ interface AnalyticsRecord {
       trafficSource?: string;
       fullUrl?: string;
       utm?: Record<string, string>;
+      campaignParams?: Record<string, string>;
       network?: string;
     };
     timestamp?: string;
@@ -88,11 +109,15 @@ interface DailyStats {
   isYesterday: boolean;
   totalHits: number;
   uniqueIps: number;
+  adCount: number;
+  organicCount: number;
+  directCount: number;
   topCity: string;
   topCityCount: number;
   mobilePercent: number;
   topPage: string;
   topSource: string;
+  topCampaign: string;
   records: AnalyticsRecord[];
 }
 
@@ -102,9 +127,10 @@ export default function AnalyticsPage() {
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [deviceFilter, setDeviceFilter] = useState('all');
+  const [channelFilter, setChannelFilter] = useState('all'); // all, ad, organic, direct, social
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [dateRangeDays, setDateRangeDays] = useState<number>(14);
-  const [activeTab, setActiveTab] = useState<'daily' | 'stream'>('daily');
+  const [activeTab, setActiveTab] = useState<'daily' | 'stream'>('stream');
   const [copiedIp, setCopiedIp] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const { toast } = useToast();
@@ -151,7 +177,7 @@ export default function AnalyticsPage() {
     setTimeout(() => setCopiedIp(null), 2000);
   };
 
-  // Helper to safely extract record data
+  // Helper to extract rich visitor and ad/campaign data
   const getRecordData = (record: AnalyticsRecord) => {
     const ip = record.ip_address || record.details?.ip || 'N/A';
     const locality = record.details?.locality || {};
@@ -169,8 +195,51 @@ export default function AnalyticsPage() {
     const os = record.os || user.os || 'OS';
     const screen = user.screen || '';
     const language = user.language || '';
-    const trafficSource = user.trafficSource || (record.referrer ? 'Referral' : 'Direct');
     const isBot = user.isBot || false;
+
+    // Ad & Campaign Intelligence
+    const campaignObj = record.details?.campaign || {};
+    const userUtm = user.utm || user.campaignParams || {};
+    const path = record.path || '/';
+
+    const hasGclid = path.includes('gclid=') || !!campaignObj.adClickId || !!userUtm.gclid;
+    const hasFbclid = path.includes('fbclid=') || !!userUtm.fbclid;
+    const hasCampaignParam = path.includes('utm_campaign=') || path.includes('campaign_id=') || !!campaignObj.campaignName || !!userUtm.utm_campaign;
+    const isPaidMedium = /cpc|ppc|paid|ad|meta_ad|google_ad/i.test(userUtm.utm_medium || userUtm.medium || campaignObj.utmMedium || '');
+
+    const isAd = campaignObj.isAd === true || 
+                 record.details?.isAd === true || 
+                 hasGclid || 
+                 hasFbclid || 
+                 isPaidMedium || 
+                 (hasCampaignParam && !record.referrer);
+
+    const adPlatform = campaignObj.adPlatform || 
+                       (hasGclid ? 'Google Ads' : hasFbclid ? 'Meta / Instagram Ads' : isAd ? 'Paid Campaign' : null);
+
+    const campaignName = campaignObj.campaignName || userUtm.utm_campaign || userUtm.campaign || null;
+    const campaignId = campaignObj.campaignId || userUtm.campaign_id || userUtm.utm_id || null;
+    const adClickId = campaignObj.adClickId || userUtm.gclid || userUtm.fbclid || (hasGclid ? 'gclid detected' : null);
+    const keyword = campaignObj.keyword || userUtm.utm_term || null;
+
+    // Traffic Source Classification
+    const rawSource = record.details?.trafficSource || user.trafficSource || (record.referrer ? 'Referral' : 'Direct');
+    let channelCategory: 'ad' | 'organic' | 'social' | 'direct' | 'referral' = 'direct';
+    let channelLabel = '🔗 Direct Visit';
+
+    if (isAd) {
+      channelCategory = 'ad';
+      channelLabel = `🎯 ${adPlatform || 'Paid Ad'}${campaignName ? `: ${campaignName}` : ''}`;
+    } else if (rawSource.toLowerCase().includes('google') || rawSource.toLowerCase().includes('bing') || rawSource.toLowerCase().includes('yahoo')) {
+      channelCategory = 'organic';
+      channelLabel = '🔍 Google Search (Organic)';
+    } else if (rawSource.toLowerCase().includes('instagram') || rawSource.toLowerCase().includes('facebook') || rawSource.toLowerCase().includes('youtube') || rawSource.toLowerCase().includes('whatsapp') || rawSource.toLowerCase().includes('twitter') || rawSource.toLowerCase().includes('x.com')) {
+      channelCategory = 'social';
+      channelLabel = rawSource;
+    } else if (rawSource.toLowerCase().includes('referral') || record.referrer) {
+      channelCategory = 'referral';
+      channelLabel = rawSource;
+    }
 
     const createdAtDate = new Date(record.created_at);
     const dateKey = !isNaN(createdAtDate.getTime()) ? createdAtDate.toISOString().split('T')[0] : '';
@@ -189,14 +258,21 @@ export default function AnalyticsPage() {
       os,
       screen,
       language,
-      trafficSource,
+      trafficSource: channelLabel,
+      channelCategory,
+      isAd,
+      adPlatform,
+      campaignName,
+      campaignId,
+      adClickId,
+      keyword,
       isBot,
       dateKey,
       createdAtDate
     };
   };
 
-  // 1. Group records day-wise
+  // 1. Group records day-wise with Ad vs Organic breakdown
   const dailyStatsList: DailyStats[] = useMemo(() => {
     const groups: Record<string, AnalyticsRecord[]> = {};
 
@@ -222,14 +298,28 @@ export default function AnalyticsPage() {
       const totalHits = dayRecords.length;
       const uniqueIps = new Set(dayRecords.map((r) => r.ip_address || r.details?.ip || r.ip_hash)).size;
 
-      // Top City
+      let adCount = 0;
+      let organicCount = 0;
+      let directCount = 0;
       const cityCounts: Record<string, number> = {};
       let mobileCount = 0;
       const pageCounts: Record<string, number> = {};
       const sourceCounts: Record<string, number> = {};
+      const campaignCounts: Record<string, number> = {};
 
       dayRecords.forEach((r) => {
         const d = getRecordData(r);
+        if (d.isAd) {
+          adCount++;
+          if (d.campaignName) {
+            campaignCounts[d.campaignName] = (campaignCounts[d.campaignName] || 0) + 1;
+          }
+        } else if (d.channelCategory === 'organic') {
+          organicCount++;
+        } else {
+          directCount++;
+        }
+
         if (d.city && d.city !== 'Unknown City' && d.city !== 'Local Development') {
           cityCounts[d.city] = (cityCounts[d.city] || 0) + 1;
         }
@@ -249,6 +339,9 @@ export default function AnalyticsPage() {
       const sortedSources = Object.entries(sourceCounts).sort((a, b) => b[1] - a[1]);
       const topSource = sortedSources[0] ? sortedSources[0][0] : 'Direct';
 
+      const sortedCampaigns = Object.entries(campaignCounts).sort((a, b) => b[1] - a[1]);
+      const topCampaign = sortedCampaigns[0] ? sortedCampaigns[0][0] : '—';
+
       const mobilePercent = totalHits > 0 ? Math.round((mobileCount / totalHits) * 100) : 0;
 
       return {
@@ -259,17 +352,21 @@ export default function AnalyticsPage() {
         isYesterday,
         totalHits,
         uniqueIps,
+        adCount,
+        organicCount,
+        directCount,
         topCity,
         topCityCount,
         mobilePercent,
         topPage,
         topSource,
+        topCampaign,
         records: dayRecords
       };
     });
   }, [records]);
 
-  // Filtered by dateRangeDays for the chart
+  // Chart data
   const chartDays = useMemo(() => {
     return dailyStatsList.slice(0, dateRangeDays).reverse();
   }, [dailyStatsList, dateRangeDays]);
@@ -297,6 +394,14 @@ export default function AnalyticsPage() {
         if (deviceFilter === 'tablet' && data.deviceType.toLowerCase() !== 'tablet') return false;
       }
 
+      // Channel / Ad filter
+      if (channelFilter !== 'all') {
+        if (channelFilter === 'ad' && !data.isAd) return false;
+        if (channelFilter === 'organic' && data.channelCategory !== 'organic') return false;
+        if (channelFilter === 'social' && data.channelCategory !== 'social') return false;
+        if (channelFilter === 'direct' && (data.channelCategory !== 'direct' || data.isAd)) return false;
+      }
+
       if (!q) return true;
 
       return (
@@ -308,46 +413,59 @@ export default function AnalyticsPage() {
         data.browser.toLowerCase().includes(q) ||
         data.os.toLowerCase().includes(q) ||
         data.trafficSource.toLowerCase().includes(q) ||
+        (data.campaignName && data.campaignName.toLowerCase().includes(q)) ||
+        (data.campaignId && data.campaignId.toLowerCase().includes(q)) ||
+        (data.adClickId && data.adClickId.toLowerCase().includes(q)) ||
         r.path.toLowerCase().includes(q)
       );
     });
-  }, [records, searchQuery, deviceFilter, selectedDate]);
+  }, [records, searchQuery, deviceFilter, channelFilter, selectedDate]);
 
   // Overall summary metrics
   const stats = useMemo(() => {
     const totalHits = records.length;
     const uniqueIps = new Set(records.map((r) => r.ip_address || r.details?.ip || r.ip_hash)).size;
     const todayStats = dailyStatsList.find((d) => d.isToday);
-    const yesterdayStats = dailyStatsList.find((d) => d.isYesterday);
+    
+    let totalAds = 0;
+    records.forEach((r) => {
+      const d = getRecordData(r);
+      if (d.isAd) totalAds++;
+    });
+
+    const adPercentage = totalHits > 0 ? Math.round((totalAds / totalHits) * 100) : 0;
 
     return {
       totalHits,
       uniqueIps,
       todayHits: todayStats?.totalHits || 0,
       todayUnique: todayStats?.uniqueIps || 0,
+      todayAds: todayStats?.adCount || 0,
       todayTopCity: todayStats?.topCity || '—',
-      yesterdayHits: yesterdayStats?.totalHits || 0
+      totalAds,
+      adPercentage
     };
   }, [records, dailyStatsList]);
 
   // Export Daily Summary as CSV
   const exportCsv = () => {
-    const headers = ['Date', 'Total Hits', 'Unique Visitors', 'Top City', 'Mobile %', 'Top Page', 'Top Source'];
+    const headers = ['Date', 'Total Hits', 'Unique Visitors', 'Ad Hits', 'Organic/Direct Hits', 'Top City', 'Mobile %', 'Top Page'];
     const rows = dailyStatsList.map((d) => [
       d.formattedDate,
       d.totalHits,
       d.uniqueIps,
+      d.adCount,
+      d.organicCount + d.directCount,
       `"${d.topCity}"`,
       `${d.mobilePercent}%`,
-      `"${d.topPage}"`,
-      `"${d.topSource}"`
+      `"${d.topPage}"`
     ]);
 
     const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `magnevents_daily_traffic_${format(new Date(), 'yyyy-MM-dd')}.csv`);
+    link.setAttribute('download', `magnevents_traffic_${format(new Date(), 'yyyy-MM-dd')}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -361,10 +479,10 @@ export default function AnalyticsPage() {
         <div>
           <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <Activity className="h-6 w-6 text-amber-500" />
-            Visitor Intelligence & Day-by-Day Analytics
+            Visitor Intelligence & Ad Campaign Tracking
           </h1>
           <p className="text-sm text-slate-500 mt-0.5">
-            Real-time IP extraction, locality (city/region/country), and daily visitor trends
+            Real-time IP extraction, locality (city/region/country), and Ad vs Direct search attribution
           </p>
         </div>
 
@@ -399,9 +517,9 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      {/* Top KPI Cards */}
+      {/* Top KPI Cards (Including Ad Campaign Tracking) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Today's Hits */}
+        {/* Today's Traffic */}
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between text-slate-500 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Today&apos;s Traffic</span>
@@ -413,17 +531,21 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Unique Visitors */}
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between text-slate-500 mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider">Total Unique Visitors</span>
-            <Users className="h-4 w-4 text-emerald-500" />
+        {/* Ad Campaign Traffic */}
+        <div className="bg-white p-4 rounded-xl border border-purple-200 bg-gradient-to-br from-white to-purple-50/40 shadow-sm">
+          <div className="flex items-center justify-between text-purple-600 mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+              <Target className="h-3.5 w-3.5 text-purple-600" /> Ad & Campaign Hits
+            </span>
+            <Sparkles className="h-4 w-4 text-purple-500" />
           </div>
-          <div className="text-2xl font-bold text-slate-900">{stats.uniqueIps}</div>
-          <p className="text-xs text-slate-400 mt-1">Across all logged days</p>
+          <div className="text-2xl font-bold text-purple-950">{stats.totalAds}</div>
+          <div className="flex items-center gap-1 text-xs text-purple-700 mt-1">
+            <span>{stats.adPercentage}% of total traffic from ads</span>
+          </div>
         </div>
 
-        {/* Top Locality Today */}
+        {/* Top Locality */}
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between text-slate-500 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Top Locality (Today)</span>
@@ -432,34 +554,22 @@ export default function AnalyticsPage() {
           <div className="text-2xl font-bold text-slate-900 truncate" title={stats.todayTopCity}>
             {stats.todayTopCity}
           </div>
-          <p className="text-xs text-slate-400 mt-1">Primary traffic region</p>
+          <p className="text-xs text-slate-400 mt-1">Most frequent visitor city</p>
         </div>
 
         {/* Total Hits Recorded */}
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between text-slate-500 mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider">Total Hits Logged</span>
-            <Eye className="h-4 w-4 text-blue-500" />
+            <span className="text-xs font-semibold uppercase tracking-wider">Total Unique Visitors</span>
+            <Users className="h-4 w-4 text-blue-500" />
           </div>
-          <div className="text-2xl font-bold text-slate-900">{stats.totalHits}</div>
-          <p className="text-xs text-slate-400 mt-1">Total page view events</p>
+          <div className="text-2xl font-bold text-slate-900">{stats.uniqueIps}</div>
+          <p className="text-xs text-slate-400 mt-1">Across all logged days</p>
         </div>
       </div>
 
       {/* Main Tabs Navigation */}
       <div className="flex items-center gap-2 border-b border-slate-200">
-        <button
-          onClick={() => setActiveTab('daily')}
-          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-bold border-b-2 transition ${
-            activeTab === 'daily'
-              ? 'border-amber-500 text-amber-600'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
-          }`}
-        >
-          <CalendarDays className="h-4 w-4" />
-          Day-Wise Breakdown ({dailyStatsList.length} Days)
-        </button>
-
         <button
           onClick={() => setActiveTab('stream')}
           className={`flex items-center gap-2 px-4 py-2.5 text-sm font-bold border-b-2 transition ${
@@ -476,9 +586,296 @@ export default function AnalyticsPage() {
             </span>
           )}
         </button>
+
+        <button
+          onClick={() => setActiveTab('daily')}
+          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-bold border-b-2 transition ${
+            activeTab === 'daily'
+              ? 'border-amber-500 text-amber-600'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <CalendarDays className="h-4 w-4" />
+          Day-Wise Breakdown ({dailyStatsList.length} Days)
+        </button>
       </div>
 
-      {/* TAB 1: DAY-WISE BREAKDOWN & TREND CHART */}
+      {/* TAB 1: LIVE VISITOR STREAM */}
+      {activeTab === 'stream' && (
+        <div className="space-y-4">
+          {/* Active Date Filter Banner if set */}
+          {selectedDate && (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs font-semibold text-amber-900">
+                <Calendar className="h-4 w-4 text-amber-600" />
+                <span>Showing visitor hits exclusively for date: <strong>{selectedDate}</strong></span>
+              </div>
+              <button
+                onClick={() => setSelectedDate(null)}
+                className="text-xs font-bold text-amber-800 hover:text-amber-950 flex items-center gap-1 bg-amber-200/60 px-2 py-1 rounded"
+              >
+                <X className="h-3 w-3" /> Clear Date Filter (Show All)
+              </button>
+            </div>
+          )}
+
+          {/* Search and Filters Bar */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+            {/* Search Input */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search by IP, City, Region, Campaign, Ad Click ID, Path..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition"
+              />
+            </div>
+
+            {/* Ad / Traffic Source Filter */}
+            <div className="flex flex-wrap items-center gap-2">
+              <select
+                value={channelFilter}
+                onChange={(e) => setChannelFilter(e.target.value)}
+                className="text-xs font-bold bg-purple-50 border border-purple-200 rounded-lg px-3 py-2 text-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              >
+                <option value="all">All Traffic Sources</option>
+                <option value="ad">🎯 Paid Ads Only</option>
+                <option value="organic">🔍 Organic Search Only</option>
+                <option value="direct">🔗 Direct Search / Visit</option>
+                <option value="social">📱 Social Media Only</option>
+              </select>
+
+              {/* Device Filter */}
+              <select
+                value={deviceFilter}
+                onChange={(e) => setDeviceFilter(e.target.value)}
+                className="text-xs font-medium bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400"
+              >
+                <option value="all">All Devices</option>
+                <option value="mobile">📱 Mobile Only</option>
+                <option value="desktop">💻 Desktop Only</option>
+                <option value="tablet">📱 Tablet Only</option>
+                <option value="bot">🤖 Bots Only</option>
+              </select>
+
+              {/* Day Selector */}
+              <select
+                value={selectedDate || ''}
+                onChange={(e) => setSelectedDate(e.target.value || null)}
+                className="text-xs font-medium bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400"
+              >
+                <option value="">All Dates</option>
+                {dailyStatsList.map((d) => (
+                  <option key={d.dateKey} value={d.dateKey}>
+                    {d.dayLabel} ({d.totalHits} hits)
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Visitor List Card */}
+          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="px-4 py-3 border-b border-slate-200 bg-slate-50/50 flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                Visitor Hits ({filteredRecords.length})
+              </span>
+              <span className="text-xs text-slate-400">
+                Latest extracted logs with Ad / Direct attribution
+              </span>
+            </div>
+
+            {loading ? (
+              <div className="p-12 text-center text-slate-400">
+                <RefreshCw className="h-6 w-6 animate-spin mx-auto mb-2 text-amber-500" />
+                Loading visitor logs...
+              </div>
+            ) : filteredRecords.length === 0 ? (
+              <div className="p-12 text-center text-slate-400">
+                <Globe className="h-8 w-8 mx-auto mb-2 text-slate-300" />
+                No visitor logs matched this filter.
+              </div>
+            ) : (
+              <div className="divide-y divide-slate-100">
+                {filteredRecords.map((record) => {
+                  const data = getRecordData(record);
+                  const isExpanded = expandedId === record.id;
+
+                  return (
+                    <div key={record.id} className="p-4 hover:bg-slate-50/80 transition space-y-2">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        {/* Left: IP & Locality & AD BADGE */}
+                        <div className="space-y-1.5 flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2">
+                            {/* IP Badge */}
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-900 text-white font-mono text-xs font-bold rounded-md">
+                              {data.ip}
+                              <button
+                                onClick={() => copyToClipboard(data.ip)}
+                                title="Copy IP"
+                                className="hover:text-amber-400 transition"
+                              >
+                                {copiedIp === data.ip ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
+                              </button>
+                            </span>
+
+                            {/* Locality Badge */}
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-rose-50 text-rose-700 border border-rose-200 text-xs font-medium rounded-md">
+                              <MapPin className="h-3 w-3 text-rose-500 shrink-0" />
+                              {[data.city, data.region, data.country].filter(Boolean).join(', ') || 'Unknown Locality'}
+                            </span>
+
+                            {/* Google Maps Link if coords exist */}
+                            {data.mapLink && (
+                              <a
+                                href={data.mapLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-[11px] text-blue-600 hover:underline"
+                              >
+                                <ExternalLink className="h-3 w-3" />
+                                Map
+                              </a>
+                            )}
+
+                            {/* AD / TRAFFIC ORIGIN BADGE */}
+                            {data.isAd ? (
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-purple-100 text-purple-900 border border-purple-300 text-xs font-extrabold rounded-md shadow-sm">
+                                <Target className="h-3.5 w-3.5 text-purple-700 animate-pulse" />
+                                <span>PAID AD: {data.adPlatform || 'Campaign'}</span>
+                              </span>
+                            ) : data.channelCategory === 'organic' ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-sky-50 text-sky-800 border border-sky-200 text-xs font-semibold rounded-md">
+                                <Search className="h-3 w-3 text-sky-600" />
+                                <span>Organic Search</span>
+                              </span>
+                            ) : data.channelCategory === 'social' ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-pink-50 text-pink-800 border border-pink-200 text-xs font-semibold rounded-md">
+                                <Share2 className="h-3 w-3 text-pink-600" />
+                                <span>Social Media</span>
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-100 text-slate-700 border border-slate-200 text-xs font-medium rounded-md">
+                                <Link2 className="h-3 w-3 text-slate-500" />
+                                <span>Direct Search / Visit</span>
+                              </span>
+                            )}
+
+                            {/* ISP */}
+                            {data.isp && (
+                              <span className="inline-flex items-center gap-1 text-[11px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                                <Wifi className="h-2.5 w-2.5 text-slate-400" />
+                                {data.isp}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Visited URL & Source Details */}
+                          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
+                            <span className="font-semibold text-slate-800 bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded font-mono">
+                              {record.path || '/'}
+                            </span>
+                            <span className="text-slate-400">•</span>
+                            <span>Source: <strong className="text-slate-800">{data.trafficSource}</strong></span>
+                            {data.screen && (
+                              <>
+                                <span className="text-slate-400">•</span>
+                                <span>Screen: {data.screen}</span>
+                              </>
+                            )}
+                            {data.language && (
+                              <>
+                                <span className="text-slate-400">•</span>
+                                <span>Lang: {data.language}</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Right: Device details & Time */}
+                        <div className="flex flex-row md:flex-col items-center md:items-end justify-between gap-1.5 shrink-0">
+                          <div className="flex items-center gap-1.5">
+                            <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 bg-slate-100 text-slate-700 rounded-md">
+                              {data.isBot ? (
+                                <Bot className="h-3.5 w-3.5 text-purple-600" />
+                              ) : data.deviceType.toLowerCase() === 'mobile' ? (
+                                <Smartphone className="h-3.5 w-3.5 text-amber-600" />
+                              ) : (
+                                <Laptop className="h-3.5 w-3.5 text-blue-600" />
+                              )}
+                              {data.deviceLabel}
+                            </span>
+
+                            <span className="text-xs text-slate-600 bg-slate-100 px-2 py-1 rounded-md">
+                              {data.browser} • {data.os}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-2 text-xs text-slate-400">
+                            <span>
+                              {format(new Date(record.created_at), 'hh:mm:ss a')} • {formatDistanceToNow(new Date(record.created_at), { addSuffix: true })}
+                            </span>
+                            <button
+                              onClick={() => setExpandedId(isExpanded ? null : record.id)}
+                              className="text-slate-400 hover:text-slate-600 text-[11px] underline"
+                            >
+                              {isExpanded ? 'Hide Raw' : 'JSON'}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Prominent Ad / Campaign Bar if this visitor used an Ad */}
+                      {data.isAd && (
+                        <div className="bg-purple-50/70 border border-purple-200 rounded-lg p-2.5 text-xs text-purple-950 flex flex-wrap items-center gap-3">
+                          <span className="font-extrabold uppercase text-[10px] tracking-wider bg-purple-200 text-purple-900 px-2 py-0.5 rounded">
+                            Ad Intelligence
+                          </span>
+
+                          {data.adPlatform && (
+                            <span>Platform: <strong>{data.adPlatform}</strong></span>
+                          )}
+
+                          {data.campaignName && (
+                            <span>Campaign Name: <strong>{data.campaignName}</strong></span>
+                          )}
+
+                          {data.campaignId && (
+                            <span className="flex items-center gap-1">
+                              Campaign ID: <code className="bg-white px-1.5 py-0.5 rounded border border-purple-200 font-mono text-[11px] font-bold">{data.campaignId}</code>
+                            </span>
+                          )}
+
+                          {data.adClickId && (
+                            <span className="flex items-center gap-1">
+                              Click ID: <code className="bg-white px-1.5 py-0.5 rounded border border-purple-200 font-mono text-[11px] truncate max-w-[150px] inline-block">{data.adClickId}</code>
+                            </span>
+                          )}
+
+                          {data.keyword && (
+                            <span>Search Keyword: <em>&ldquo;{data.keyword}&rdquo;</em></span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Expanded JSON inspector */}
+                      {isExpanded && (
+                        <div className="mt-3 p-3 bg-slate-900 rounded-lg text-slate-100 text-xs font-mono overflow-x-auto">
+                          <pre>{JSON.stringify(record.details || record, null, 2)}</pre>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: DAY-WISE BREAKDOWN & TREND CHART */}
       {activeTab === 'daily' && (
         <div className="space-y-6">
           {/* Daily Interactive Chart Card */}
@@ -487,10 +884,10 @@ export default function AnalyticsPage() {
               <div>
                 <h3 className="font-bold text-slate-900 text-base flex items-center gap-2">
                   <BarChart3 className="h-4 w-4 text-amber-500" />
-                  Daily Traffic Timeline (Page Hits vs Unique Visitors)
+                  Daily Traffic Timeline (Total Hits vs Unique Visitors)
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Click on any day bar to filter and inspect all visitor logs for that date
+                  Click on any day bar to filter and view all visitor logs and ad hits for that date
                 </p>
               </div>
 
@@ -534,7 +931,7 @@ export default function AnalyticsPage() {
                         className={`flex-1 min-w-[40px] flex flex-col items-center justify-end h-full group cursor-pointer transition-all ${
                           isSelected ? 'opacity-100 scale-105' : 'hover:opacity-90'
                         }`}
-                        title={`${day.dayLabel}: ${day.totalHits} Hits, ${day.uniqueIps} Unique IPs`}
+                        title={`${day.dayLabel}: ${day.totalHits} Hits, ${day.adCount} from Ads, ${day.uniqueIps} Unique IPs`}
                       >
                         {/* Bars container */}
                         <div className="w-full max-w-[28px] flex items-end justify-center gap-1 h-full">
@@ -586,15 +983,15 @@ export default function AnalyticsPage() {
             )}
           </div>
 
-          {/* Day-Wise Data Table */}
+          {/* Day-Wise Data Table with Ad Attribution */}
           <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div className="p-4 border-b border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
-                  Day-by-Day Traffic Breakdown
+                  Day-by-Day Traffic Breakdown (Ads vs Direct)
                 </h3>
                 <p className="text-xs text-slate-400">
-                  Daily aggregates of visits, unique users, top cities, and landing pages
+                  Daily aggregates of visits, ad clicks, unique users, top cities, and landing pages
                 </p>
               </div>
 
@@ -618,12 +1015,12 @@ export default function AnalyticsPage() {
                 <thead className="bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
                   <tr>
                     <th className="py-3 px-4">Date</th>
-                    <th className="py-3 px-4 text-center">Hits</th>
-                    <th className="py-3 px-4 text-center">Unique Visitors</th>
+                    <th className="py-3 px-4 text-center">Total Hits</th>
+                    <th className="py-3 px-4 text-center">Unique Users</th>
+                    <th className="py-3 px-4">Traffic Origin</th>
                     <th className="py-3 px-4">Top Locality</th>
                     <th className="py-3 px-4">Device Split</th>
                     <th className="py-3 px-4">Top Landing Page</th>
-                    <th className="py-3 px-4">Primary Source</th>
                     <th className="py-3 px-4 text-right">Action</th>
                   </tr>
                 </thead>
@@ -671,6 +1068,24 @@ export default function AnalyticsPage() {
                           </span>
                         </td>
 
+                        {/* Traffic Origin: Ads vs Direct */}
+                        <td className="py-3.5 px-4">
+                          <div className="flex items-center gap-2 text-xs">
+                            {day.adCount > 0 ? (
+                              <span className="inline-flex items-center gap-1 font-bold text-purple-700 bg-purple-50 border border-purple-200 px-2 py-0.5 rounded">
+                                <Target className="h-3 w-3" />
+                                {day.adCount} Ads
+                              </span>
+                            ) : (
+                              <span className="text-slate-400 text-xs">0 Ads</span>
+                            )}
+                            <span className="text-slate-300">•</span>
+                            <span className="text-slate-600">
+                              {day.organicCount + day.directCount} Direct/Search
+                            </span>
+                          </div>
+                        </td>
+
                         {/* Top Locality */}
                         <td className="py-3.5 px-4">
                           <span className="inline-flex items-center gap-1 font-medium text-slate-800">
@@ -691,7 +1106,6 @@ export default function AnalyticsPage() {
                             <span className="text-slate-300">•</span>
                             <span>💻 {100 - day.mobilePercent}%</span>
                           </div>
-                          {/* Progress bar */}
                           <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden mt-1">
                             <div 
                               className="h-full bg-amber-500" 
@@ -705,11 +1119,6 @@ export default function AnalyticsPage() {
                           <code className="text-xs bg-slate-100 text-slate-800 px-2 py-0.5 rounded font-mono truncate max-w-[150px] inline-block">
                             {day.topPage}
                           </code>
-                        </td>
-
-                        {/* Top Source */}
-                        <td className="py-3.5 px-4 text-xs font-medium text-slate-700">
-                          {day.topSource}
                         </td>
 
                         {/* Action: Drilldown */}
@@ -732,211 +1141,6 @@ export default function AnalyticsPage() {
                 </tbody>
               </table>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* TAB 2: LIVE VISITOR STREAM */}
-      {activeTab === 'stream' && (
-        <div className="space-y-4">
-          {/* Active Date Filter Banner if set */}
-          {selectedDate && (
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-semibold text-amber-900">
-                <Calendar className="h-4 w-4 text-amber-600" />
-                <span>Showing visitor hits exclusively for date: <strong>{selectedDate}</strong></span>
-              </div>
-              <button
-                onClick={() => setSelectedDate(null)}
-                className="text-xs font-bold text-amber-800 hover:text-amber-950 flex items-center gap-1 bg-amber-200/60 px-2 py-1 rounded"
-              >
-                <X className="h-3 w-3" /> Clear Date Filter (Show All)
-              </button>
-            </div>
-          )}
-
-          {/* Search and Filters */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Search by IP, City, Region, Country, Path, Browser..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition"
-              />
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-slate-400" />
-              <select
-                value={deviceFilter}
-                onChange={(e) => setDeviceFilter(e.target.value)}
-                className="text-xs font-medium bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400"
-              >
-                <option value="all">All Devices</option>
-                <option value="mobile">📱 Mobile Only</option>
-                <option value="desktop">💻 Desktop Only</option>
-                <option value="tablet">📱 Tablet Only</option>
-                <option value="bot">🤖 Bots Only</option>
-              </select>
-
-              {/* Day Selector dropdown */}
-              <select
-                value={selectedDate || ''}
-                onChange={(e) => setSelectedDate(e.target.value || null)}
-                className="text-xs font-medium bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400"
-              >
-                <option value="">All Days</option>
-                {dailyStatsList.map((d) => (
-                  <option key={d.dateKey} value={d.dateKey}>
-                    {d.dayLabel} ({d.totalHits} hits)
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Visitor List Card */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-200 bg-slate-50/50 flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                Visitor Hits ({filteredRecords.length})
-              </span>
-              <span className="text-xs text-slate-400">
-                Latest extracted logs
-              </span>
-            </div>
-
-            {loading ? (
-              <div className="p-12 text-center text-slate-400">
-                <RefreshCw className="h-6 w-6 animate-spin mx-auto mb-2 text-amber-500" />
-                Loading visitor logs...
-              </div>
-            ) : filteredRecords.length === 0 ? (
-              <div className="p-12 text-center text-slate-400">
-                <Globe className="h-8 w-8 mx-auto mb-2 text-slate-300" />
-                No visitor logs matched this filter.
-              </div>
-            ) : (
-              <div className="divide-y divide-slate-100">
-                {filteredRecords.map((record) => {
-                  const data = getRecordData(record);
-                  const isExpanded = expandedId === record.id;
-
-                  return (
-                    <div key={record.id} className="p-4 hover:bg-slate-50/80 transition">
-                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                        {/* Left: IP & Locality */}
-                        <div className="space-y-1.5 flex-1 min-w-0">
-                          <div className="flex flex-wrap items-center gap-2">
-                            {/* IP Badge */}
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-900 text-white font-mono text-xs font-bold rounded-md">
-                              {data.ip}
-                              <button
-                                onClick={() => copyToClipboard(data.ip)}
-                                title="Copy IP"
-                                className="hover:text-amber-400 transition"
-                              >
-                                {copiedIp === data.ip ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
-                              </button>
-                            </span>
-
-                            {/* Locality Badge */}
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-rose-50 text-rose-700 border border-rose-200 text-xs font-medium rounded-md">
-                              <MapPin className="h-3 w-3 text-rose-500 shrink-0" />
-                              {[data.city, data.region, data.country].filter(Boolean).join(', ') || 'Unknown Locality'}
-                            </span>
-
-                            {/* Google Maps Link if coords exist */}
-                            {data.mapLink && (
-                              <a
-                                href={data.mapLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-[11px] text-blue-600 hover:underline"
-                              >
-                                <ExternalLink className="h-3 w-3" />
-                                Map
-                              </a>
-                            )}
-
-                            {/* ISP */}
-                            {data.isp && (
-                              <span className="inline-flex items-center gap-1 text-[11px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
-                                <Wifi className="h-2.5 w-2.5 text-slate-400" />
-                                {data.isp}
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Visited URL & Source */}
-                          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
-                            <span className="font-semibold text-slate-800 bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded font-mono">
-                              {record.path || '/'}
-                            </span>
-                            <span className="text-slate-400">•</span>
-                            <span>Source: <strong className="text-slate-700">{data.trafficSource}</strong></span>
-                            {data.screen && (
-                              <>
-                                <span className="text-slate-400">•</span>
-                                <span>Screen: {data.screen}</span>
-                              </>
-                            )}
-                            {data.language && (
-                              <>
-                                <span className="text-slate-400">•</span>
-                                <span>Lang: {data.language}</span>
-                              </>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Right: Device details & Time */}
-                        <div className="flex flex-row md:flex-col items-center md:items-end justify-between gap-1.5 shrink-0">
-                          <div className="flex items-center gap-1.5">
-                            <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 bg-slate-100 text-slate-700 rounded-md">
-                              {data.isBot ? (
-                                <Bot className="h-3.5 w-3.5 text-purple-600" />
-                              ) : data.deviceType.toLowerCase() === 'mobile' ? (
-                                <Smartphone className="h-3.5 w-3.5 text-amber-600" />
-                              ) : (
-                                <Laptop className="h-3.5 w-3.5 text-blue-600" />
-                              )}
-                              {data.deviceLabel}
-                            </span>
-
-                            <span className="text-xs text-slate-600 bg-slate-100 px-2 py-1 rounded-md">
-                              {data.browser} • {data.os}
-                            </span>
-                          </div>
-
-                          <div className="flex items-center gap-2 text-xs text-slate-400">
-                            <span>
-                              {format(new Date(record.created_at), 'hh:mm:ss a')} • {formatDistanceToNow(new Date(record.created_at), { addSuffix: true })}
-                            </span>
-                            <button
-                              onClick={() => setExpandedId(isExpanded ? null : record.id)}
-                              className="text-slate-400 hover:text-slate-600 text-[11px] underline"
-                            >
-                              {isExpanded ? 'Hide Raw' : 'JSON'}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Expanded JSON inspector */}
-                      {isExpanded && (
-                        <div className="mt-3 p-3 bg-slate-900 rounded-lg text-slate-100 text-xs font-mono overflow-x-auto">
-                          <pre>{JSON.stringify(record.details || record, null, 2)}</pre>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
           </div>
         </div>
       )}

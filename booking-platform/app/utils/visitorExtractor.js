@@ -297,37 +297,114 @@ export function parseUserDetails(uaString = '', clientMetadata = {}) {
     if (match) browserVersion = match[1];
   }
 
-  // 5. Detect Traffic Source & Referrer Category
+  // 5. Detect Ad / Campaign & Traffic Origin
+  const campaignParams = clientMetadata.campaignParams || clientMetadata.utm || {};
   const referrer = clientMetadata.referrer || '';
-  let trafficSource = 'Direct';
 
-  if (referrer) {
+  const gclid = campaignParams.gclid || '';
+  const fbclid = campaignParams.fbclid || '';
+  const wbraid = campaignParams.wbraid || campaignParams.gbraid || '';
+  const msclkid = campaignParams.msclkid || '';
+  const ttclid = campaignParams.ttclid || '';
+  const twclid = campaignParams.twclid || '';
+
+  const utmSource = (campaignParams.utm_source || '').toLowerCase();
+  const utmMedium = (campaignParams.utm_medium || '').toLowerCase();
+  const utmCampaign = campaignParams.utm_campaign || campaignParams.campaign || '';
+  const campaignId = campaignParams.campaign_id || campaignParams.utm_id || '';
+  const adId = campaignParams.ad_id || campaignParams.adid || '';
+  const keyword = campaignParams.utm_term || '';
+
+  // Determine if this visitor arrived via a Paid Ad / Sponsored Campaign
+  const isPaidMedium = /cpc|ppc|paid|ad|meta_ad|google_ad|paidsearch|paidsocial|display/i.test(utmMedium);
+  const hasAdClickId = !!(gclid || fbclid || wbraid || msclkid || ttclid || twclid);
+  const isAd = hasAdClickId || isPaidMedium || !!(campaignId && !referrer);
+
+  let adPlatform = null;
+  let channelType = 'Direct';
+  let trafficSource = 'Direct Visit';
+
+  if (gclid || wbraid || (utmSource.includes('google') && isPaidMedium)) {
+    adPlatform = 'Google Ads';
+    channelType = 'Paid Search';
+    trafficSource = `🎯 Google Ads${utmCampaign ? ` (${utmCampaign})` : ''}`;
+  } else if (fbclid || ((utmSource.includes('facebook') || utmSource.includes('instagram') || utmSource.includes('meta')) && isPaidMedium)) {
+    adPlatform = 'Meta / Instagram Ads';
+    channelType = 'Paid Social';
+    trafficSource = `🎯 Meta Ads${utmCampaign ? ` (${utmCampaign})` : ''}`;
+  } else if (msclkid || (utmSource.includes('bing') && isPaidMedium)) {
+    adPlatform = 'Microsoft / Bing Ads';
+    channelType = 'Paid Search';
+    trafficSource = `🎯 Bing Ads${utmCampaign ? ` (${utmCampaign})` : ''}`;
+  } else if (ttclid || (utmSource.includes('tiktok') && isPaidMedium)) {
+    adPlatform = 'TikTok Ads';
+    channelType = 'Paid Social';
+    trafficSource = `🎯 TikTok Ads${utmCampaign ? ` (${utmCampaign})` : ''}`;
+  } else if (isAd) {
+    adPlatform = campaignParams.utm_source ? `${campaignParams.utm_source} Ad` : 'Paid Ad Campaign';
+    channelType = 'Paid Campaign';
+    trafficSource = `🎯 ${adPlatform}${utmCampaign ? ` (${utmCampaign})` : ''}`;
+  } else if (referrer) {
     const refLower = referrer.toLowerCase();
-    if (refLower.includes('google.')) trafficSource = 'Google Search';
-    else if (refLower.includes('instagram.')) trafficSource = 'Instagram';
-    else if (refLower.includes('facebook.') || refLower.includes('fb.')) trafficSource = 'Facebook';
-    else if (refLower.includes('youtube.')) trafficSource = 'YouTube';
-    else if (refLower.includes('x.com') || refLower.includes('twitter.')) trafficSource = 'X / Twitter';
-    else if (refLower.includes('linkedin.')) trafficSource = 'LinkedIn';
-    else if (refLower.includes('whatsapp.')) trafficSource = 'WhatsApp';
-    else if (refLower.includes('pinterest.')) trafficSource = 'Pinterest';
-    else if (refLower.includes('bing.')) trafficSource = 'Bing Search';
-    else if (refLower.includes('yahoo.')) trafficSource = 'Yahoo';
-    else {
+    if (refLower.includes('google.')) {
+      channelType = 'Organic Search';
+      trafficSource = '🔍 Google Search (Organic)';
+    } else if (refLower.includes('bing.')) {
+      channelType = 'Organic Search';
+      trafficSource = '🔍 Bing Search (Organic)';
+    } else if (refLower.includes('yahoo.')) {
+      channelType = 'Organic Search';
+      trafficSource = '🔍 Yahoo Search (Organic)';
+    } else if (refLower.includes('instagram.')) {
+      channelType = 'Organic Social';
+      trafficSource = '📱 Instagram';
+    } else if (refLower.includes('facebook.') || refLower.includes('fb.')) {
+      channelType = 'Organic Social';
+      trafficSource = '📱 Facebook';
+    } else if (refLower.includes('youtube.')) {
+      channelType = 'Organic Social';
+      trafficSource = '📱 YouTube';
+    } else if (refLower.includes('x.com') || refLower.includes('twitter.')) {
+      channelType = 'Organic Social';
+      trafficSource = '📱 X / Twitter';
+    } else if (refLower.includes('linkedin.')) {
+      channelType = 'Organic Social';
+      trafficSource = '📱 LinkedIn';
+    } else if (refLower.includes('whatsapp.')) {
+      channelType = 'Chat / Referral';
+      trafficSource = '💬 WhatsApp';
+    } else if (refLower.includes('pinterest.')) {
+      channelType = 'Organic Social';
+      trafficSource = '📱 Pinterest';
+    } else {
+      channelType = 'Referral';
       try {
         const urlObj = new URL(referrer);
-        trafficSource = urlObj.hostname.replace(/^www\./, '');
+        trafficSource = '🌐 ' + urlObj.hostname.replace(/^www\./, '');
       } catch (e) {
-        trafficSource = 'Referral';
+        trafficSource = '🌐 Referral';
       }
     }
+  } else {
+    channelType = 'Direct';
+    trafficSource = '🔗 Direct Visit';
   }
 
-  // UTM override if present
-  const utm = clientMetadata.utm || {};
-  if (utm.source) {
-    trafficSource = `Campaign: ${utm.source}${utm.medium ? ` / ${utm.medium}` : ''}`;
-  }
+  const campaign = {
+    isAd,
+    adPlatform,
+    channelType,
+    campaignName: utmCampaign || null,
+    campaignId: campaignId || null,
+    adId: adId || null,
+    adClickId: gclid || fbclid || msclkid || wbraid || ttclid || twclid || null,
+    keyword: keyword || null,
+    utmSource: campaignParams.utm_source || null,
+    utmMedium: campaignParams.utm_medium || null,
+    utmCampaign: campaignParams.utm_campaign || null,
+    utmContent: campaignParams.utm_content || null,
+    rawParams: Object.keys(campaignParams).length > 0 ? campaignParams : null
+  };
 
   return {
     isBot,
@@ -338,6 +415,9 @@ export function parseUserDetails(uaString = '', clientMetadata = {}) {
     browser,
     browserVersion,
     trafficSource,
+    channelType,
+    isAd,
+    campaign,
     referrer,
     screen: clientMetadata.screen || '',
     viewport: clientMetadata.viewport || '',
@@ -347,7 +427,7 @@ export function parseUserDetails(uaString = '', clientMetadata = {}) {
     platform: clientMetadata.platform || '',
     network: clientMetadata.network || '',
     fullUrl: clientMetadata.fullUrl || '',
-    utm
+    utm: campaignParams
   };
 }
 

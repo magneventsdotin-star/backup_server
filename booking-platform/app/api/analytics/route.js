@@ -93,6 +93,9 @@ export async function POST(req) {
         fullUrl: parsedUser.fullUrl,
         utm: parsedUser.utm
       },
+      campaign: parsedUser.campaign || null,
+      trafficSource: parsedUser.trafficSource,
+      isAd: parsedUser.isAd || false,
       timestamp: new Date().toISOString()
     };
 
