@@ -34,6 +34,7 @@ import {
   Eye,
   User,
   PencilLine,
+  Activity,
 } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { CreateArtistModal } from '@/components/artists/CreateArtistModal';
@@ -104,6 +105,7 @@ export default function DashboardOverview() {
   ]);
   const [recentArtists, setRecentArtists] = useState<any[]>([]);
   const [recentBookings, setRecentBookings] = useState<any[]>([]);
+  const [dailyTrafficOverview, setDailyTrafficOverview] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentUserData, setCurrentUserData] = useState<{ id: string, canViewAll: boolean } | null>(null);
   const [spotlightArtists, setSpotlightArtists] = useState<any[]>([]);
@@ -244,6 +246,50 @@ export default function DashboardOverview() {
 
       const recentBookingsList = bookings || [];
       setRecentBookings(recentBookingsList);
+
+      // Fetch Recent Analytics for Day-wise visitor intelligence
+      try {
+        const { data: analyticsRows } = await supabase
+          .from('analytics')
+          .select('created_at, details, ip_address, city')
+          .order('created_at', { ascending: false })
+          .limit(150);
+
+        if (analyticsRows && analyticsRows.length > 0) {
+          const dayMap: Record<string, { hits: number; uniqueIps: Set<string>; cities: Record<string, number> }> = {};
+          const todayKey = new Date().toISOString().split('T')[0];
+
+          analyticsRows.forEach((r: any) => {
+            const dKey = new Date(r.created_at).toISOString().split('T')[0];
+            if (!dayMap[dKey]) {
+              dayMap[dKey] = { hits: 0, uniqueIps: new Set(), cities: {} };
+            }
+            dayMap[dKey].hits++;
+            const ip = r.ip_address || r.details?.ip || r.ip_hash || 'unknown';
+            dayMap[dKey].uniqueIps.add(ip);
+            const city = r.city || r.details?.locality?.city;
+            if (city && city !== 'Unknown City' && city !== 'Local Development') {
+              dayMap[dKey].cities[city] = (dayMap[dKey].cities[city] || 0) + 1;
+            }
+          });
+
+          const sortedDays = Object.keys(dayMap).sort((a, b) => b.localeCompare(a)).slice(0, 5);
+          const daysSummary = sortedDays.map((dKey) => {
+            const sortedCities = Object.entries(dayMap[dKey].cities).sort((a, b) => b[1] - a[1]);
+            return {
+              dateKey: dKey,
+              isToday: dKey === todayKey,
+              hits: dayMap[dKey].hits,
+              unique: dayMap[dKey].uniqueIps.size,
+              topCity: sortedCities[0] ? sortedCities[0][0] : '—'
+            };
+          });
+
+          setDailyTrafficOverview(daysSummary);
+        }
+      } catch (e) {
+        // Non-blocking
+      }
 
       // Store in memory cache
       setDashboardCache({
@@ -740,6 +786,74 @@ export default function DashboardOverview() {
                 ))
              )}
            </div>
+        </div>
+      </div>
+
+      {/* Live Visitors & Daily Traffic Intelligence Section */}
+      <div className="luxe-card p-6 border-white/40">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
+              <Activity size={20} strokeWidth={2.5} />
+            </div>
+            <div>
+              <h3 className="font-black text-slate-900 text-lg">Daily Traffic & Visitor Intelligence</h3>
+              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                Day-by-day visitor hits, extracted IP locality & unique users
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/dashboard/analytics"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition shadow-sm self-start sm:self-auto"
+          >
+            <span>Full Day-Wise Analysis & Logs</span>
+            <ChevronRight size={14} />
+          </Link>
+        </div>
+
+        {/* 5-Column Day Summary Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          {dailyTrafficOverview.length === 0 ? (
+            <div className="col-span-full py-6 text-center text-slate-400 text-xs">
+              Waiting for live visitor traffic. Logged visits will automatically appear here day-by-day.
+            </div>
+          ) : (
+            dailyTrafficOverview.map((day) => (
+              <Link
+                key={day.dateKey}
+                href="/dashboard/analytics"
+                className={`p-3.5 rounded-xl border transition-all block group ${
+                  day.isToday 
+                    ? 'bg-amber-50/50 border-amber-200 hover:border-amber-300 hover:shadow-md' 
+                    : 'bg-white border-slate-100 hover:border-slate-300 hover:shadow-sm'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className={`text-[11px] font-bold uppercase tracking-wider ${
+                    day.isToday ? 'text-amber-800' : 'text-slate-500'
+                  }`}>
+                    {day.isToday ? 'Today' : day.dateKey}
+                  </span>
+                  {day.isToday && (
+                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                  )}
+                </div>
+
+                <div className="flex items-baseline gap-1.5 mb-1">
+                  <span className="text-xl font-black text-slate-900">{day.hits}</span>
+                  <span className="text-[11px] text-slate-400 font-semibold">hits</span>
+                </div>
+
+                <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-100">
+                  <span>{day.unique} unique</span>
+                  <span className="text-slate-700 font-medium truncate max-w-[70px]" title={day.topCity}>
+                    {day.topCity}
+                  </span>
+                </div>
+              </Link>
+            ))
+          )}
         </div>
       </div>
 

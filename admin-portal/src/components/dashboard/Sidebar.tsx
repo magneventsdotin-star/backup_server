@@ -32,6 +32,7 @@ export const navSections = [
     title: 'Main Menu',
     items: [
       { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+      { name: 'Live Visitors', href: '/dashboard/analytics', icon: Activity },
       { name: 'Artists', href: '/dashboard/artists', icon: Mic2 },
       { name: 'Bookings', href: '/dashboard/bookings', icon: CalendarCheck },
       {

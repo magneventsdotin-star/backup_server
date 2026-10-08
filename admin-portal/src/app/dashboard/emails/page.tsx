@@ -134,6 +134,8 @@ function EmailsContent() {
   const [selectedEmail, setSelectedEmail] = useState<any | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [resendingId, setResendingId] = useState<string | null>(null);
+  const [resendingAll, setResendingAll] = useState(false);
   const { toast } = useToast();
 
   const fetchEmails = useCallback(async () => {
@@ -166,6 +168,65 @@ function EmailsContent() {
       setLoading(false);
     }
   }, [searchQuery, sortOrder, filterType, toast]);
+
+  const handleResendEmail = async (emailId: string) => {
+    setResendingId(emailId);
+    try {
+      const res = await fetch('/api/resend-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ emailId })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || (data.results?.[0]?.error) || 'Failed to send email');
+      }
+      toast({
+        title: "Email Sent Successfully",
+        description: "The email has been delivered to the mailbox.",
+      });
+      await fetchEmails();
+      if (selectedEmail && selectedEmail.id === emailId) {
+        setSelectedEmail((prev: any) => ({ ...prev, status: 'sent', error_message: null }));
+      }
+    } catch (err: any) {
+      toast({
+        title: "Failed to Send Email",
+        description: err.message,
+        variant: "destructive"
+      });
+    } finally {
+      setResendingId(null);
+    }
+  };
+
+  const handleResendAllFailed = async () => {
+    const failedEmails = emails.filter(e => e.status === 'failed');
+    if (failedEmails.length === 0) return;
+    setResendingAll(true);
+    try {
+      const res = await fetch('/api/resend-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ emailIds: failedEmails.map(e => e.id) })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to resend');
+      toast({
+        title: "Retry Completed",
+        description: "Processed delivery for failed emails.",
+      });
+      await fetchEmails();
+    } catch (err: any) {
+      toast({
+        title: "Error retrying emails",
+        description: err.message,
+        variant: "destructive"
+      });
+    } finally {
+      setResendingAll(false);
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -412,17 +473,38 @@ ${plainTextBody}`;
         </div>
       </div>
 
-      <div className="relative group w-full max-w-md">
-        <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-          <Search size={16} className="text-slate-400" />
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <div className="relative group w-full max-w-md">
+          <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+            <Search size={16} className="text-slate-400" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search by email, subject, or type..."
+            className="w-full pl-12 pr-4 h-11 rounded-xl border border-slate-200 bg-white shadow-sm text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
-        <input
-          type="text"
-          placeholder="Search by email, subject, or type..."
-          className="w-full pl-12 pr-4 h-11 rounded-xl border border-slate-200 bg-white shadow-sm text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+
+        {emails.filter(e => e.status === 'failed').length > 0 && (
+          <div className="flex items-center justify-between gap-3 px-4 py-2 bg-rose-50 border border-rose-200 rounded-xl text-rose-700">
+            <div className="flex items-center gap-2">
+              <AlertCircle size={16} className="text-rose-500 flex-shrink-0" />
+              <span className="text-xs font-bold">
+                {emails.filter(e => e.status === 'failed').length} failed to send
+              </span>
+            </div>
+            <button
+              onClick={handleResendAllFailed}
+              disabled={resendingAll}
+              className="px-3 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm disabled:opacity-50"
+            >
+              {resendingAll ? <Loader2 size={12} className="animate-spin" /> : <RefreshCw size={12} />}
+              {resendingAll ? 'Retrying...' : 'Retry All Failed'}
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="luxe-card overflow-hidden">
@@ -491,7 +573,21 @@ ${plainTextBody}`;
                         )}
                       </div>
                     </div>
-                    <div className="text-right flex-shrink-0">
+                    <div className="text-right flex-shrink-0 flex items-center gap-3">
+                      {email.status === 'failed' && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleResendEmail(email.id);
+                          }}
+                          disabled={resendingId === email.id}
+                          title="Retry sending this email"
+                          className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition-colors flex items-center gap-1.5 text-xs font-bold"
+                        >
+                          {resendingId === email.id ? <Loader2 size={12} className="animate-spin" /> : <RefreshCw size={12} />}
+                          <span>Retry</span>
+                        </button>
+                      )}
                       <p className="text-xs text-slate-500 flex items-center justify-end gap-1.5 font-medium">
                         <Clock size={12} className="text-slate-400" />
                         {format(new Date(email.sent_at), 'h:mm a')}
@@ -537,6 +633,17 @@ ${plainTextBody}`;
                   </DialogDescription>
                 </div>
               </div>
+
+              {selectedEmail.error_message && (
+                <div className="m-6 mb-0 p-4 bg-rose-50 border border-rose-200 rounded-2xl text-xs text-rose-800 flex items-start gap-3">
+                  <AlertCircle size={16} className="text-rose-500 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold">Error Reason: </span>
+                    <span className="font-mono text-[11px]">{selectedEmail.error_message}</span>
+                  </div>
+                </div>
+              )}
+
               <div className="p-6 overflow-y-auto flex-1 bg-white">
                 <div className="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
                   {/* Using dangerouslySetInnerHTML because we store the raw HTML of the email */}
@@ -555,6 +662,14 @@ ${plainTextBody}`;
                   <Trash2 size={16} /> Delete
                 </button>
                 <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => handleResendEmail(selectedEmail.id)}
+                    disabled={resendingId === selectedEmail.id}
+                    className="px-6 py-2 bg-sky-600 border border-sky-500 rounded-xl text-sm font-bold text-white hover:bg-sky-700 transition-colors shadow-sm flex items-center gap-2 disabled:opacity-50"
+                  >
+                    {resendingId === selectedEmail.id ? <Loader2 size={16} className="animate-spin" /> : <RefreshCw size={16} />}
+                    {selectedEmail.status === 'failed' ? 'Retry Delivery' : 'Resend Email'}
+                  </button>
                   <button
                     onClick={handleDownloadSingle}
                     className="px-6 py-2 bg-emerald-600 border border-emerald-500 rounded-xl text-sm font-bold text-white hover:bg-emerald-700 transition-colors shadow-sm flex items-center gap-2"
