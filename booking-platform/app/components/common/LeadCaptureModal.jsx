@@ -317,7 +317,7 @@ export default function LeadCaptureModal() {
                 left: '-30px',
                 width: '260px',
                 height: '220px',
-                background: 'radial-gradient(circle, rgba(255, 224, 50, 0.22) 0%, rgba(255, 120, 0, 0.08) 50%, transparent 75%)',
+                background: 'radial-gradient(circle, rgba(255, 140, 0, 0.28) 0%, rgba(255, 60, 0, 0.12) 50%, transparent 75%)',
                 pointerEvents: 'none',
                 zIndex: 0,
                 filter: 'blur(30px)'
@@ -330,7 +330,7 @@ export default function LeadCaptureModal() {
                 right: '-30px',
                 width: '240px',
                 height: '200px',
-                background: 'radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(59, 130, 246, 0.08) 50%, transparent 75%)',
+                background: 'radial-gradient(circle, rgba(255, 200, 50, 0.18) 0%, rgba(234, 88, 12, 0.08) 50%, transparent 75%)',
                 pointerEvents: 'none',
                 zIndex: 0,
                 filter: 'blur(30px)'
@@ -357,26 +357,27 @@ export default function LeadCaptureModal() {
               justifyContent: 'space-between',
               marginBottom: '10px',
               position: 'relative',
-              zIndex: 2
+              zIndex: 2,
+              gap: '8px'
             }}>
               <div style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
                 padding: '5px 12px',
-                background: 'linear-gradient(135deg, rgba(255, 224, 50, 0.16) 0%, rgba(255, 153, 0, 0.08) 100%)',
+                background: 'linear-gradient(135deg, rgba(255, 140, 0, 0.24) 0%, rgba(255, 60, 0, 0.14) 100%)',
                 backdropFilter: 'blur(16px)',
                 WebkitBackdropFilter: 'blur(16px)',
-                border: '1px solid rgba(255, 224, 50, 0.45)',
+                border: '1px solid rgba(255, 180, 50, 0.55)',
                 borderRadius: '100px',
                 fontSize: '11px',
                 fontWeight: 800,
                 color: '#FFE032',
                 letterSpacing: '0.04em',
-                boxShadow: '0 4px 16px rgba(255, 224, 50, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35)'
+                boxShadow: '0 4px 16px rgba(255, 140, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35)'
               }}>
-                <span style={{ filter: 'drop-shadow(0 0 6px rgba(255, 180, 0, 0.8))' }}>🔥</span>
-                <span>FIRST-TIME SPECIAL: 55%–65% OFF</span>
+                <span style={{ filter: 'drop-shadow(0 0 6px rgba(255, 180, 0, 0.9))' }}>🪔</span>
+                <span>DIWALI PRE-BOOKING: 55%–65% OFF</span>
               </div>
 
               <button
@@ -691,6 +692,81 @@ export default function LeadCaptureModal() {
             </div>
 
             {/* ══════════════════════════════════════════════════════════
+                DIWALI PRE-BOOKING FESTIVE OFFER CALLOUT
+                ══════════════════════════════════════════════════════════ */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(255, 140, 0, 0.22) 0%, rgba(220, 38, 38, 0.18) 50%, rgba(255, 224, 50, 0.12) 100%)',
+              border: '1px solid rgba(255, 195, 65, 0.45)',
+              borderRadius: '14px',
+              padding: '9px 12px',
+              marginBottom: '11px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              boxShadow: '0 6px 20px rgba(255, 120, 0, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.25)',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              <div style={{
+                position: 'absolute',
+                top: '-18px',
+                right: '-18px',
+                width: '75px',
+                height: '75px',
+                background: 'radial-gradient(circle, rgba(255, 224, 50, 0.3) 0%, transparent 70%)',
+                pointerEvents: 'none',
+                filter: 'blur(8px)'
+              }} />
+
+              <div style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '10px',
+                background: 'linear-gradient(135deg, #FF9900 0%, #E63946 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '18px',
+                flexShrink: 0,
+                boxShadow: '0 3px 12px rgba(255, 120, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4)'
+              }}>
+                🪔
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px', flexWrap: 'wrap' }}>
+                  <span style={{
+                    fontSize: '11.5px',
+                    fontWeight: 900,
+                    color: '#FFE032',
+                    letterSpacing: '0.03em',
+                    textTransform: 'uppercase'
+                  }}>
+                    Diwali Pre-Booking Special
+                  </span>
+                  <span style={{
+                    background: 'linear-gradient(90deg, #FFE032 0%, #FF9900 100%)',
+                    color: '#08080E',
+                    fontSize: '9px',
+                    fontWeight: 900,
+                    padding: '1px 6px',
+                    borderRadius: '4px',
+                    letterSpacing: '0.04em'
+                  }}>
+                    FESTIVE SLOTS
+                  </span>
+                </div>
+                <p style={{
+                  fontSize: '11px',
+                  color: 'rgba(255, 255, 255, 0.88)',
+                  margin: 0,
+                  lineHeight: 1.35
+                }}>
+                  Pre-book early: <strong style={{ color: '#FFE032' }}>55%–65% OFF</strong> + <strong style={{ color: '#FFFFFF' }}>Free Sound &amp; Mic Setup</strong> + <strong style={{ color: '#FFFFFF' }}>Zero Surge Fee</strong>!
+                </p>
+              </div>
+            </div>
+
+            {/* ══════════════════════════════════════════════════════════
                 MINIMAL FORM (EVENT SELECTOR + NAME + PHONE NUMBER)
                 ══════════════════════════════════════════════════════════ */}
             <MinimalBookingForm currentCard={current} onSelectEvent={handleSelectEvent} onClose={onClose} />
@@ -750,22 +826,22 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         else if (window.innerWidth > 768) deviceType = 'T'
       }
 
-      const generatedRef = `MAG-ART-${Date.now().toString().slice(-6)}`
+      const generatedRef = `MAG-DIWALI-${Date.now().toString().slice(-5)}`
       await bookingService.submitInstantRequest({
         name: trimmedName,
         phone: cleanPhone,
         date: '',
         location: geoData.detectedLocation || '',
         eventDetails: formData.eventDetails?.trim() || '',
-        message: formData.eventDetails?.trim() || '',
+        message: `[Diwali Pre-Booking Special: 55%-65% OFF + Free Sound Setup] ${formData.eventDetails?.trim() || ''}`,
         selectedArtist: currentCard?.title || '',
         artistType: currentCard?.category || '',
-        eventType: selectedEventType || currentCard?.category || 'Live Artist Booking',
+        eventType: selectedEventType || currentCard?.category || 'Diwali Live Artist Booking',
         type: 'artist_booking_request',
-        formType: 'welcome_popup',
-        formName: 'Welcome 10-Card Popup',
+        formType: 'welcome_popup_diwali',
+        formName: 'Diwali Pre-Booking Welcome Popup',
         deviceType: deviceType,
-        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#artist-request` : '',
+        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#diwali-offer` : '',
         referenceCode: generatedRef,
         latitude: geoData.latitude,
         longitude: geoData.longitude,
@@ -808,11 +884,26 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         }}>
           ✓
         </div>
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '5px',
+          padding: '4px 12px',
+          background: 'linear-gradient(135deg, rgba(255, 153, 0, 0.22) 0%, rgba(255, 60, 0, 0.15) 100%)',
+          border: '1px solid rgba(255, 180, 50, 0.5)',
+          borderRadius: '100px',
+          fontSize: '11px',
+          fontWeight: 800,
+          color: '#FFE032',
+          marginBottom: '8px'
+        }}>
+          🪔 DIWALI PRE-BOOKING LOCKED
+        </div>
         <h4 style={{ margin: '0 0 4px', color: '#FFFFFF', fontSize: '18px', fontWeight: 900 }}>
-          Artist Request Received!
+          Diwali Slot &amp; Offer Locked!
         </h4>
-        <p style={{ margin: '0 0 10px', color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>
-          Your artist request is locked for <strong>{currentCard.title}</strong> with <strong>Flat 55%–65% Discount</strong>.
+        <p style={{ margin: '0 0 10px', color: 'rgba(255,255,255,0.78)', fontSize: '12px', lineHeight: 1.4 }}>
+          Your festive booking for <strong>{currentCard.title}</strong> is locked with <strong>Flat 55%–65% Discount</strong> + <strong>Free Sound Setup</strong>.
         </p>
 
         <div style={{
@@ -831,7 +922,7 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
 
         <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
           <a
-            href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi Magnevents, I just requested a booking for ${currentCard.title} with Flat 55%–65% Discount (Ref: ${refCode}). Please share available artist profiles and confirm my slot!`)}`}
+            href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi Magnevents, I just claimed the Diwali Pre-Booking Offer (55%–65% OFF + Free Sound Setup) for ${currentCard.title} (Ref: ${refCode}). Please share available artist profiles and confirm my slot!`)}`}
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -997,7 +1088,7 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
             setFormData(prev => ({ ...prev, eventDetails: e.target.value }))
             if (errorMsg) setErrorMsg('')
           }}
-          placeholder="📝 Event Details (e.g. 25 Oct, House Party in Delhi, Bollywood & Sufi)"
+          placeholder="📝 Event Details (e.g. Diwali Party on 31 Oct, Delhi/NCR, Bollywood & Sufi)"
           style={{
             width: '100%',
             minHeight: '48px',
@@ -1031,6 +1122,43 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         />
       </div>
 
+      {/* Diwali Offer Perks Activated */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '7px 11px',
+        background: 'rgba(255, 224, 50, 0.08)',
+        border: '1px solid rgba(255, 224, 50, 0.25)',
+        borderRadius: '10px',
+        marginTop: '1px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+          <span style={{ fontSize: '13px' }}>✨</span>
+          <div>
+            <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#FFE032', lineHeight: 1.2 }}>
+              Diwali Pre-Booking Offer Applied
+            </div>
+            <div style={{ fontSize: '10px', color: 'rgba(255, 255, 255, 0.72)', lineHeight: 1.2 }}>
+              Free Pro Sound &amp; Mic Setup • 100% Artist Arrival Guarantee
+            </div>
+          </div>
+        </div>
+        <span style={{
+          fontSize: '9px',
+          fontWeight: 900,
+          background: 'rgba(16, 185, 129, 0.2)',
+          border: '1px solid #10B981',
+          color: '#34D399',
+          padding: '2px 7px',
+          borderRadius: '100px',
+          letterSpacing: '0.04em',
+          flexShrink: 0
+        }}>
+          ACTIVE ✓
+        </span>
+      </div>
+
       {errorMsg && (
         <div style={{ color: '#FF6B6B', fontSize: '11.5px', fontWeight: 600 }}>
           ⚠️ {errorMsg}
@@ -1047,7 +1175,7 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
           borderRadius: '13px',
           background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 50%, #FF9900 100%)',
           color: '#080A0E',
-          fontSize: '14px',
+          fontSize: '13.5px',
           fontWeight: 900,
           border: '1px solid rgba(255, 255, 255, 0.5)',
           display: 'flex',
@@ -1063,7 +1191,11 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
           whiteSpace: 'nowrap'
         }}
       >
-        <span>{isSubmitting ? 'Reserving Slot & Claiming 55%–65% OFF...' : `⚡ Claim 55%–65% OFF & Book Slot ➔`}</span>
+        <span>
+          {isSubmitting 
+            ? 'Locking Diwali Slot & Claiming 55%–65% OFF...' 
+            : '🪔 Pre-Book Diwali Offer & Claim 55%–65% OFF ➔'}
+        </span>
       </button>
     </form>
   )

@@ -216,7 +216,7 @@ export default function HeroSection() {
                 India&apos;s #1 Live Artist &amp; Singer Booking Platform
               </span>
               <span className="hp-sw-badge-dot" suppressHydrationWarning>•</span>
-              <span className="hp-sw-badge-highlight" suppressHydrationWarning>Flat 55%–65% OFF First Booking</span>
+              <span className="hp-sw-badge-highlight" suppressHydrationWarning>🪔 Diwali Pre-Booking: 55%–65% OFF</span>
             </motion.div>
 
             {/* 2. MAIN HEADLINE */}
@@ -348,9 +348,9 @@ export default function HeroSection() {
                 style={{ cursor: 'pointer' }}
                 aria-label="Book verified artist slot online"
               >
-                <span className="hp-sw-why-icon">⚡</span>
+                <span className="hp-sw-why-icon">🪔</span>
                 <div className="hp-sw-why-text">
-                  <strong>Flat 55%–65% OFF First Booking</strong>
+                  <strong>Diwali Pre-Booking: Flat 55%–65% OFF</strong>
                   <span>Instant slot confirmation with 100% money-back guarantee</span>
                 </div>
                 <button
@@ -469,9 +469,11 @@ export default function HeroSection() {
               aria-label="Book verified artists online"
             >
               <div className="hp-mob-promo-top-left">
-                <span className="hp-mob-promo-badge-tag">EXCLUSIVE OFFER</span>
+                <span className="hp-mob-promo-badge-tag" style={{ background: 'linear-gradient(135deg, #FF9900 0%, #E63946 100%)' }}>
+                  🪔 DIWALI OFFER
+                </span>
                 <span className="hp-mob-promo-top-text">
-                  🎉 Get <strong>55%–65% OFF</strong> on your 1st booking!
+                  Pre-Book Diwali &amp; Get <strong>55%–65% OFF</strong>!
                 </span>
               </div>
               <span className="hp-mob-promo-pill">CLAIM ➔</span>
@@ -670,10 +672,10 @@ export default function HeroSection() {
                                 aria-label={`Book verified artists for ${posterItem.title}`}
                               >
                                 <div className="hp-poster-feature-block">
-                                  <span className="hp-poster-feature-highlight">🎉 Flat 55%–65% OFF</span>
+                                  <span className="hp-poster-feature-highlight">🪔 Diwali Offer: Flat 55%–65% OFF</span>
                                 </div>
                                 <div className="hp-poster-feature-badge">
-                                  <span>Book Now ➔</span>
+                                  <span>Pre-Book ➔</span>
                                 </div>
                               </div>
                             </div>
@@ -772,7 +774,7 @@ export default function HeroSection() {
             >
               <div className="mob-btn-offer-content">
                 <div className="mob-btn-offer-text-group">
-                  <span className="mob-btn-offer-sub">⚡ FIRST BOOKING SPECIAL</span>
+                  <span className="mob-btn-offer-sub">🪔 DIWALI PRE-BOOKING SPECIAL</span>
                   <span className="mob-btn-offer-title">Book Verified Live Artists</span>
                 </div>
                 <div className="mob-btn-offer-pill">
