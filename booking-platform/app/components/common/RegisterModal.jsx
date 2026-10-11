@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -57,7 +57,7 @@ export default function RegisterModal() {
             className={`lux-modal-content register ${view === 'selection' ? 'selection-view' : ''}`}
             style={{ position: 'relative' }}
           >
-            <div className="modal-glow-bg" style={{ background: 'radial-gradient(ellipse at center, rgba(255, 224, 50, 0.06) 0%, transparent 70%)' }} />
+            <div className="modal-glow-bg" style={{ background: 'radial-gradient(ellipse at center, rgba(232, 185, 67,  0.06) 0%, transparent 70%)' }} />
             
             <button className="lux-modal-close" onClick={() => setIsOpen(false)} aria-label="Close modal">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -152,7 +152,7 @@ export default function RegisterModal() {
         }
 
         .glow-event {
-          background: radial-gradient(circle at center, rgba(255, 224, 50, 0.08) 0%, transparent 70%);
+          background: radial-gradient(circle at center, rgba(232, 185, 67,  0.08) 0%, transparent 70%);
         }
 
         .glow-artist {
@@ -199,7 +199,7 @@ export default function RegisterModal() {
         .btn-event {
           background: var(--brand-primary);
           color: var(--bg-main);
-          box-shadow: 0 4px 15px rgba(255, 224, 50, 0.15);
+          box-shadow: 0 4px 15px rgba(232, 185, 67,  0.15);
         }
 
         .btn-artist {
@@ -223,8 +223,8 @@ export default function RegisterModal() {
         }
 
         .registration-option-card.card-event:hover {
-          border-color: var(--brand-gold, #FFE032);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 224, 50, 0.12);
+          border-color: var(--brand-gold, #E8B943);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(232, 185, 67,  0.12);
         }
 
         .registration-option-card.card-artist:hover {
@@ -235,7 +235,7 @@ export default function RegisterModal() {
         .registration-option-card:hover .option-cta-btn.btn-event {
           background: var(--brand-primary-hover);
           transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(255, 224, 50, 0.3);
+          box-shadow: 0 8px 25px rgba(232, 185, 67,  0.3);
         }
 
         .registration-option-card:hover .option-cta-btn.btn-artist {

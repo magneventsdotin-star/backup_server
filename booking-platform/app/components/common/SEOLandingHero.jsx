@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useMemo, useRef } from 'react';
 import Image from 'next/image';
@@ -667,7 +667,7 @@ export default function SEOLandingHero({
                   setTimeout(() => { if (phoneInputRef.current) phoneInputRef.current.focus(); }, 400);
                 }}
                 className="seo-browse-all-link"
-                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#FFE032' }}
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#E8B943' }}
               >
                 <span>⚡ Check Live Availability</span>
                 <span>→</span>
@@ -1081,12 +1081,12 @@ export default function SEOLandingHero({
                   display: 'inline-block',
                   margin: '0 auto 12px',
                   padding: '4px 14px',
-                  background: 'rgba(255, 224, 50, 0.15)',
-                  border: '1px solid rgba(255, 224, 50, 0.4)',
+                  background: 'rgba(232, 185, 67,  0.15)',
+                  border: '1px solid rgba(232, 185, 67,  0.4)',
                   borderRadius: '100px',
                   fontSize: '13px',
                   fontWeight: 700,
-                  color: '#FFE032',
+                  color: '#E8B943',
                   letterSpacing: '0.05em'
                 }}>
                   BOOKING REF: {refCode}

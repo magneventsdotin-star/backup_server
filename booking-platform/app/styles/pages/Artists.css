@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Montserrat:wght@600;800&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Montserrat:wght@600;800&display=swap');
 
 .artists-page {
   min-height: 100vh;
@@ -172,9 +172,9 @@
 .artist-dual-actions { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 10px; }
 
 .btn-book-premium.yellow-btn {
-  width: 100%; height: 52px; background: #FFE032; color: #000; border: none; border-radius: 16px;
+  width: 100%; height: 52px; background: #E8B943; color: #000; border: none; border-radius: 16px;
   font-weight: 800; font-size: 14px; letter-spacing: 0.05em; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(255, 224, 50, 0.2);
+  cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(232, 185, 67,  0.2);
 }
 .btn-book-premium.yellow-btn:hover { transform: translateY(-3px); background: #fff; }
 
@@ -256,7 +256,7 @@
 }
 
 .proper-stats-row { display: flex; gap: 30px; }
-.p-stat strong { display: block; font-size: 24px; color: #FFE032; margin-bottom: 4px; }
+.p-stat strong { display: block; font-size: 24px; color: #E8B943; margin-bottom: 4px; }
 .p-stat span { font-size: 9px; color: rgba(255, 255, 255, 0.4); font-weight: 800; letter-spacing: 0.1em; }
 
 
@@ -271,18 +271,18 @@
 .proper-info-item { display: flex; flex-direction: column; gap: 8px; }
 .p-label { font-size: 9px; color: rgba(255, 255, 255, 0.4); font-weight: 800; text-transform: uppercase; }
 .p-value { font-size: 17px; color: #fff; font-weight: 600; }
-.p-value.highlight { color: #FFE032; font-size: 22px; font-weight: 900; }
+.p-value.highlight { color: #E8B943; font-size: 22px; font-weight: 900; }
 
 .proper-bio-text { font-size: 15px; color: rgba(255, 255, 255, 0.65); line-height: 1.7; }
 
 .proper-modal-footer { margin-top: auto; padding-top: 30px; }
 .proper-book-btn {
-  width: 100%; height: 64px; background: #FFE032; color: #000; border: none; border-radius: 100px;
+  width: 100%; height: 64px; background: #E8B943; color: #000; border: none; border-radius: 100px;
   font-weight: 900; font-size: 16px; letter-spacing: 0.1em; cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1);
-  box-shadow: 0 10px 30px rgba(255, 224, 50, 0.2);
+  box-shadow: 0 10px 30px rgba(232, 185, 67,  0.2);
 }
-.proper-book-btn:hover { transform: translateY(-4px); background: #fff; box-shadow: 0 20px 40px rgba(255, 224, 50, 0.3); }
+.proper-book-btn:hover { transform: translateY(-4px); background: #fff; box-shadow: 0 20px 40px rgba(232, 185, 67,  0.3); }
 
 @keyframes skeleton-pulse {
   0% { opacity: 0.5; }
@@ -432,9 +432,9 @@ body.modal-open .booking-bottom-nav-spacer {
 }
 
 .hp-feat-card-v2:hover {
-  border-color: rgba(255, 224, 50, 0.5);
+  border-color: rgba(232, 185, 67,  0.5);
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 224, 50, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(232, 185, 67,  0.15);
 }
 
 .hp-feat-img-wrap-v2 {
@@ -472,11 +472,11 @@ body.modal-open .booking-bottom-nav-spacer {
 
 .hp-feat-genre-v2 {
   font-size: 10px;
-  color: #FFE032;
-  background: rgba(255, 224, 50, 0.1);
+  color: #E8B943;
+  background: rgba(232, 185, 67,  0.1);
   padding: 4px 10px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 224, 50, 0.2);
+  border: 1px solid rgba(232, 185, 67,  0.2);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -561,8 +561,8 @@ body.modal-open .booking-bottom-nav-spacer {
 
 .modern-artist-card:hover {
   transform: translateY(-6px) scale(1.02);
-  border-color: rgba(255, 224, 50, 0.4);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 224, 50, 0.1);
+  border-color: rgba(232, 185, 67,  0.4);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 20px rgba(232, 185, 67,  0.1);
 }
 
 .modern-img-wrap {
@@ -623,13 +623,13 @@ body.modal-open .booking-bottom-nav-spacer {
 .modern-genre-badge {
   font-size: 9px;
   color: #1a1a1a;
-  background: #FFE032;
+  background: #E8B943;
   padding: 4px 8px;
   border-radius: 100px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  box-shadow: 0 4px 10px rgba(255, 224, 50, 0.2);
+  box-shadow: 0 4px 10px rgba(232, 185, 67,  0.2);
 }
 
 .modern-genre-badge.outline {

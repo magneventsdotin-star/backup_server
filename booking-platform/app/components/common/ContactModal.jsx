@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -105,14 +105,14 @@ export default function ContactModal() {
               {formType === 'register' ? 'Artist Registration' : formType === 'offer' ? (discountValue ? `Claim Upto ${discountValue}% OFF!` : 'Claim Special Offer!') : 'Book an Artist'}
             </h3>
             {initialArtist ? (
-              <div style={{ marginTop: '12px', padding: '10px 16px', background: 'rgba(255,224,50,0.1)', border: '1px solid rgba(255,224,50,0.2)', borderRadius: '8px', display: 'inline-block' }}>
-                <span style={{ color: '#FFE032', fontSize: '14px', fontWeight: '500' }}>
+              <div style={{ marginTop: '12px', padding: '10px 16px', background: 'rgba(232, 185, 67, 0.1)', border: '1px solid rgba(232, 185, 67, 0.2)', borderRadius: '8px', display: 'inline-block' }}>
+                <span style={{ color: '#E8B943', fontSize: '14px', fontWeight: '500' }}>
                   Booking Inquiry for: {typeof initialArtist === 'string' ? initialArtist : initialArtist?.name || 'Artist'}
                 </span>
               </div>
             ) : initialPlan ? (
-              <div style={{ marginTop: '12px', padding: '10px 16px', background: 'rgba(255,224,50,0.1)', border: '1px solid rgba(255,224,50,0.2)', borderRadius: '8px', display: 'inline-block', width: '100%', textAlign: 'left' }}>
-                <span style={{ color: '#FFE032', fontSize: '15px', fontWeight: '700', display: 'block', marginBottom: '4px' }}>
+              <div style={{ marginTop: '12px', padding: '10px 16px', background: 'rgba(232, 185, 67, 0.1)', border: '1px solid rgba(232, 185, 67, 0.2)', borderRadius: '8px', display: 'inline-block', width: '100%', textAlign: 'left' }}>
+                <span style={{ color: '#E8B943', fontSize: '15px', fontWeight: '700', display: 'block', marginBottom: '4px' }}>
                   Selected Package: {initialPlan.name} ({initialPlan.price})
                 </span>
                 <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px', display: 'block' }}>
@@ -120,8 +120,8 @@ export default function ContactModal() {
                 </span>
               </div>
             ) : initialService ? (
-              <div style={{ marginTop: '12px', padding: '10px 16px', background: 'rgba(255,224,50,0.1)', border: '1px solid rgba(255,224,50,0.2)', borderRadius: '8px', display: 'inline-block', width: '100%', textAlign: 'left' }}>
-                <span style={{ color: '#FFE032', fontSize: '15px', fontWeight: '700', display: 'block' }}>
+              <div style={{ marginTop: '12px', padding: '10px 16px', background: 'rgba(232, 185, 67, 0.1)', border: '1px solid rgba(232, 185, 67, 0.2)', borderRadius: '8px', display: 'inline-block', width: '100%', textAlign: 'left' }}>
+                <span style={{ color: '#E8B943', fontSize: '15px', fontWeight: '700', display: 'block' }}>
                   Selected Service: {initialService.title}
                 </span>
                 <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px', display: 'block', marginTop: '4px' }}>

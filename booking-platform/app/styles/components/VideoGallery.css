@@ -1,4 +1,4 @@
-.video-gallery-section {
+﻿.video-gallery-section {
   padding: 100px 0;
   margin-top: 60px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -82,7 +82,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #FFE032;
+  color: #E8B943;
   font-size: 14px;
   font-weight: 600;
   opacity: 0.7;

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -77,11 +77,11 @@ export default function SEOArtistsGrid({ category = 'All', city = 'All Cities', 
                   textAlign: 'center',
                   marginBottom: '10px',
                   padding: '18px 24px',
-                  background: 'rgba(255, 224, 50, 0.08)',
+                  background: 'rgba(232, 185, 67,  0.08)',
                   borderRadius: '16px',
-                  border: '1px solid rgba(255, 224, 50, 0.25)'
+                  border: '1px solid rgba(232, 185, 67,  0.25)'
                 }}>
-                  <p style={{ margin: 0, color: '#FFE032', fontWeight: '700', fontSize: '15px' }}>
+                  <p style={{ margin: 0, color: '#E8B943', fontWeight: '700', fontSize: '15px' }}>
                     ✈️ Top Verified {category !== 'All' ? (category.toLowerCase().includes('dj') ? 'DJs' : `${category}s`) : 'Performers'} Ready to Travel to {city}
                   </p>
                   <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', marginTop: '4px', display: 'block' }}>
@@ -107,7 +107,7 @@ export default function SEOArtistsGrid({ category = 'All', city = 'All Cities', 
                   <button
                     type="button"
                     onClick={() => handleBook(null)}
-                    style={{ background: '#FFE032', color: '#000', border: 'none', padding: '12px 28px', borderRadius: '12px', fontWeight: '800', cursor: 'pointer', fontSize: '14px' }}
+                    style={{ background: '#E8B943', color: '#000', border: 'none', padding: '12px 28px', borderRadius: '12px', fontWeight: '800', cursor: 'pointer', fontSize: '14px' }}
                   >
                     {category.toLowerCase().includes('dj') ? 'Request Custom DJ Package' : 'Request Custom Artist'}
                   </button>

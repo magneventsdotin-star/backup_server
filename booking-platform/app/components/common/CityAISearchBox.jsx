@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -79,7 +79,7 @@ export default function CityAISearchBox({ city = "Varanasi", defaultCategory = "
         }}>
           {[['1,500+', 'Verified Artists'], ['0%', 'Commission'], ['100%', 'Arrival Guarantee'], ['⚡', 'Instant Match']].map(([val, label]) => (
             <div key={label} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '16px', fontWeight: '900', color: '#FFE032', letterSpacing: '-0.02em' }}>{val}</div>
+              <div style={{ fontSize: '16px', fontWeight: '900', color: '#E8B943', letterSpacing: '-0.02em' }}>{val}</div>
               <div style={{ fontSize: '10.5px', color: 'rgba(255,255,255,0.45)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: '2px' }}>{label}</div>
             </div>
           ))}
@@ -119,7 +119,7 @@ export default function CityAISearchBox({ city = "Varanasi", defaultCategory = "
 
             {/* Filter Controls */}
             <div className="lux-ai-filters-row">
-              <div className="lux-ai-select" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: '10px', color: '#FFE032', fontWeight: '700', fontSize: '12.5px' }}>
+              <div className="lux-ai-select" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.06)', padding: '8px 14px', borderRadius: '10px', color: '#E8B943', fontWeight: '700', fontSize: '12.5px' }}>
                 📍 {city}
               </div>
 

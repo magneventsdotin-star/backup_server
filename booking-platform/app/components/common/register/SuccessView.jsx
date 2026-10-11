@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 
 export default function SuccessView({ view, setIsOpen }) {
@@ -8,8 +8,8 @@ export default function SuccessView({ view, setIsOpen }) {
       animate={{ opacity: 1 }}
       className="lux-modal-success"
     >
-      <div className="lux-success-ring" style={{ borderColor: view === 'artist' ? '#00d4ff' : '#FFE032' }}>
-         <div className="lux-success-check" style={{ color: view === 'artist' ? '#00d4ff' : '#FFE032' }}>✓</div>
+      <div className="lux-success-ring" style={{ borderColor: view === 'artist' ? '#00d4ff' : '#E8B943' }}>
+         <div className="lux-success-check" style={{ color: view === 'artist' ? '#00d4ff' : '#E8B943' }}>✓</div>
       </div>
       <h4>{view === 'artist' ? 'Application Received!' : 'Booking Requested!'}</h4>
       <p>

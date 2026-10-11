@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    PromotionalOfferPopup.css - Floating 60% OFF Booking Offer Widget
    ========================================================================== */
 
@@ -24,7 +24,7 @@
   background: rgba(18, 16, 22, 0.95);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 224, 50, 0.35);
+  border: 1px solid rgba(232, 185, 67,  0.35);
   border-radius: 18px;
   padding: 14px 18px;
   box-shadow: 
@@ -58,7 +58,7 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 224, 50, 0.35) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(232, 185, 67,  0.35) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -66,7 +66,7 @@
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #ff007b 0%, #FFE032 100%);
+  background: linear-gradient(135deg, #ff007b 0%, #E8B943 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,9 +90,9 @@
 }
 
 .lux-promo-tag {
-  background: rgba(255, 224, 50, 0.15);
-  border: 1px solid rgba(255, 224, 50, 0.4);
-  color: #FFE032;
+  background: rgba(232, 185, 67,  0.15);
+  border: 1px solid rgba(232, 185, 67,  0.4);
+  color: #E8B943;
   font-size: 10px;
   font-weight: 800;
   padding: 2px 7px;
@@ -126,7 +126,7 @@
   gap: 2px;
   font-family: monospace;
   font-weight: 800;
-  color: #FFE032;
+  color: #E8B943;
   background: rgba(0, 0, 0, 0.5);
   padding: 1px 6px;
   border-radius: 4px;
@@ -135,7 +135,7 @@
 
 /* Claim Button */
 .lux-promo-claim-btn {
-  background: linear-gradient(135deg, #FFE032 0%, #F5C518 100%);
+  background: linear-gradient(135deg, #E8B943 0%, #F5C518 100%);
   color: #0b0b0d;
   font-weight: 800;
   font-size: 12.5px;
@@ -145,7 +145,7 @@
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(255, 224, 50, 0.3);
+  box-shadow: 0 4px 15px rgba(232, 185, 67,  0.3);
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -153,7 +153,7 @@
 
 .lux-promo-claim-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(255, 224, 50, 0.5);
+  box-shadow: 0 6px 20px rgba(232, 185, 67,  0.5);
   background: #ffffff;
 }
 
@@ -180,10 +180,10 @@
   background: rgba(18, 16, 22, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 224, 50, 0.4);
+  border: 1px solid rgba(232, 185, 67,  0.4);
   border-radius: 999px;
   padding: 8px 16px 8px 10px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 224, 50, 0.2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(232, 185, 67,  0.2);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -193,8 +193,8 @@
 
 .lux-promo-minimized-pill:hover {
   transform: translateY(-2px);
-  border-color: #FFE032;
-  box-shadow: 0 10px 35px rgba(255, 224, 50, 0.35);
+  border-color: #E8B943;
+  box-shadow: 0 10px 35px rgba(232, 185, 67,  0.35);
 }
 
 .lux-promo-mini-icon {
@@ -204,5 +204,5 @@
 .lux-promo-mini-text {
   font-size: 12.5px;
   font-weight: 800;
-  color: #FFE032;
+  color: #E8B943;
 }

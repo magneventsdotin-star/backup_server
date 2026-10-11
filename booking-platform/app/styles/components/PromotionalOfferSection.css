@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    PromotionalOfferSection.css — Dedicated 60% OFF Event Booking Banner
    ========================================================================== */
 
@@ -22,7 +22,7 @@
 .lux-promo-section-card {
   position: relative;
   background: linear-gradient(135deg, rgba(26, 21, 38, 0.95) 0%, rgba(15, 13, 20, 0.98) 100%);
-  border: 1px solid rgba(255, 224, 50, 0.35);
+  border: 1px solid rgba(232, 185, 67,  0.35);
   border-radius: 28px;
   padding: 36px 40px;
   box-shadow: 
@@ -45,7 +45,7 @@
   right: -80px;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(255, 224, 50, 0.2) 0%, rgba(255, 46, 147, 0.1) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(232, 185, 67,  0.2) 0%, rgba(255, 46, 147, 0.1) 50%, transparent 70%);
   pointer-events: none;
   filter: blur(50px);
 }
@@ -80,9 +80,9 @@
 }
 
 .lux-promo-pill {
-  background: linear-gradient(135deg, rgba(255, 224, 50, 0.15) 0%, rgba(255, 46, 147, 0.15) 100%);
-  border: 1px solid rgba(255, 224, 50, 0.45);
-  color: #FFE032;
+  background: linear-gradient(135deg, rgba(232, 185, 67,  0.15) 0%, rgba(255, 46, 147, 0.15) 100%);
+  border: 1px solid rgba(232, 185, 67,  0.45);
+  color: #E8B943;
   font-size: 11.5px;
   font-weight: 800;
   padding: 4px 12px;
@@ -130,7 +130,7 @@
 }
 
 .lux-promo-headline-grad {
-  background: linear-gradient(135deg, #FFE032 0%, #FF8A00 50%, #FF2E93 100%);
+  background: linear-gradient(135deg, #E8B943 0%, #FF8A00 50%, #FF2E93 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -202,12 +202,12 @@
   font-family: monospace;
   font-weight: 900;
   font-size: 16px;
-  color: #FFE032;
+  color: #E8B943;
 }
 
 .lux-promo-digit-box {
-  background: rgba(255, 224, 50, 0.12);
-  border: 1px solid rgba(255, 224, 50, 0.3);
+  background: rgba(232, 185, 67,  0.12);
+  border: 1px solid rgba(232, 185, 67,  0.3);
   padding: 3px 7px;
   border-radius: 6px;
 }
@@ -221,7 +221,7 @@
 }
 
 .lux-promo-main-btn {
-  background: linear-gradient(135deg, #FFE032 0%, #F5C518 100%);
+  background: linear-gradient(135deg, #E8B943 0%, #F5C518 100%);
   color: #0b0b0d;
   font-weight: 800;
   font-size: 14.5px;
@@ -234,13 +234,13 @@
   align-items: center;
   gap: 8px;
   transition: all 0.2s ease;
-  box-shadow: 0 6px 20px rgba(255, 224, 50, 0.35);
+  box-shadow: 0 6px 20px rgba(232, 185, 67,  0.35);
 }
 
 .lux-promo-main-btn:hover {
   transform: translateY(-2px);
   background: #ffffff;
-  box-shadow: 0 8px 25px rgba(255, 224, 50, 0.55);
+  box-shadow: 0 8px 25px rgba(232, 185, 67,  0.55);
 }
 
 .lux-promo-wa-btn {

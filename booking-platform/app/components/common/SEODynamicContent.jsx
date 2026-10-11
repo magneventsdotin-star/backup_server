@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -38,7 +38,7 @@ export default function SEODynamicContent({ category, city, overviewHtml, servic
           padding: '40px',
           boxShadow: '0 20px 50px rgba(0,0,0,0.6)'
         }}>
-          <span style={{ color: '#FFE032', fontSize: '12px', fontWeight: '800', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '8px', display: 'block' }}>
+          <span style={{ color: '#E8B943', fontSize: '12px', fontWeight: '800', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '8px', display: 'block' }}>
             LOCAL INSIGHTS & GUIDE
           </span>
           <h2 style={{ 
@@ -59,7 +59,7 @@ export default function SEODynamicContent({ category, city, overviewHtml, servic
         {/* Services Section */}
         <section className="seo-services">
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <span style={{ color: '#FFE032', fontSize: '12px', fontWeight: '800', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+            <span style={{ color: '#E8B943', fontSize: '12px', fontWeight: '800', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
               EVENT TYPES & PACKAGES
             </span>
             <h2 style={{ 
@@ -84,8 +84,8 @@ export default function SEODynamicContent({ category, city, overviewHtml, servic
                   boxShadow: '0 12px 30px rgba(0,0,0,0.4)'
                 }}
               >
-                <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(255,224,50,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-                  <CheckCircle size={26} style={{ color: '#FFE032' }} />
+                <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(232, 185, 67, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
+                  <CheckCircle size={26} style={{ color: '#E8B943' }} />
                 </div>
                 <h3 style={{ fontSize: '1.35rem', marginBottom: '12px', color: '#fff', fontWeight: '700' }}>{srv.title}</h3>
                 <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: '1.6', fontSize: '0.98rem', margin: 0 }}>{srv.desc}</p>
@@ -96,8 +96,8 @@ export default function SEODynamicContent({ category, city, overviewHtml, servic
 
         {/* Mid-content Quick Booking Callout */}
         <div style={{
-          background: 'linear-gradient(135deg, rgba(255, 224, 50, 0.12) 0%, rgba(255, 140, 0, 0.05) 100%)',
-          border: '1px solid rgba(255, 224, 50, 0.3)',
+          background: 'linear-gradient(135deg, rgba(232, 185, 67,  0.12) 0%, rgba(255, 140, 0, 0.05) 100%)',
+          border: '1px solid rgba(232, 185, 67,  0.3)',
           borderRadius: '24px',
           padding: '36px 32px',
           display: 'flex',
@@ -120,7 +120,7 @@ export default function SEODynamicContent({ category, city, overviewHtml, servic
               type="button"
               onClick={handleOpenBookingModal}
               style={{
-                background: '#FFE032',
+                background: '#E8B943',
                 color: '#000',
                 fontWeight: '800',
                 padding: '14px 26px',
@@ -128,7 +128,7 @@ export default function SEODynamicContent({ category, city, overviewHtml, servic
                 border: 'none',
                 cursor: 'pointer',
                 fontSize: '14px',
-                boxShadow: '0 8px 20px rgba(255,224,50,0.3)'
+                boxShadow: '0 8px 20px rgba(232, 185, 67, 0.3)'
               }}
             >
               ✨ Check Availability
@@ -158,7 +158,7 @@ export default function SEODynamicContent({ category, city, overviewHtml, servic
         {/* FAQs Section */}
         <section className="seo-faqs" style={{ maxWidth: '880px', margin: '0 auto', width: '100%' }}>
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-            <span style={{ color: '#FFE032', fontSize: '12px', fontWeight: '800', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+            <span style={{ color: '#E8B943', fontSize: '12px', fontWeight: '800', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
               ANSWERS & INFORMATION
             </span>
             <h2 style={{ 
@@ -175,8 +175,8 @@ export default function SEODynamicContent({ category, city, overviewHtml, servic
               <div 
                 key={idx} 
                 style={{ 
-                  background: openFaq === idx ? 'rgba(255,224,50,0.06)' : 'rgba(255,255,255,0.03)', 
-                  border: openFaq === idx ? '1px solid rgba(255,224,50,0.35)' : '1px solid rgba(255,255,255,0.08)', 
+                  background: openFaq === idx ? 'rgba(232, 185, 67, 0.06)' : 'rgba(255,255,255,0.03)', 
+                  border: openFaq === idx ? '1px solid rgba(232, 185, 67, 0.35)' : '1px solid rgba(255,255,255,0.08)', 
                   borderRadius: '14px', 
                   overflow: 'hidden',
                   transition: 'all 0.25s ease'
@@ -192,7 +192,7 @@ export default function SEODynamicContent({ category, city, overviewHtml, servic
                     alignItems: 'center', 
                     padding: '20px 24px', 
                     background: 'transparent', 
-                    color: openFaq === idx ? '#FFE032' : '#fff', 
+                    color: openFaq === idx ? '#E8B943' : '#fff', 
                     fontSize: '1.08rem', 
                     fontWeight: '600', 
                     cursor: 'pointer', 
@@ -244,9 +244,9 @@ export default function SEODynamicContent({ category, city, overviewHtml, servic
                   transition: 'all 0.2s ease' 
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255,224,50,0.12)';
-                  e.currentTarget.style.borderColor = 'rgba(255,224,50,0.4)';
-                  e.currentTarget.style.color = '#FFE032';
+                  e.currentTarget.style.background = 'rgba(232, 185, 67, 0.12)';
+                  e.currentTarget.style.borderColor = 'rgba(232, 185, 67, 0.4)';
+                  e.currentTarget.style.color = '#E8B943';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = 'rgba(255,255,255,0.04)';

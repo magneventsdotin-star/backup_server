@@ -1,4 +1,4 @@
-.flow-unify-shell {
+﻿.flow-unify-shell {
   --bg-base: #1c1a1d;
   --bg-raised: #29272A;
   --bg-overlay: #29272A;
@@ -217,7 +217,7 @@
 
 .flow-unify-shell .bottom-nav [aria-label='AI Search'] {
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 8px 18px rgba(255, 224, 50, 0.22), 0 0 0 3px #0a0a0a !important;
+  box-shadow: 0 8px 18px rgba(232, 185, 67,  0.22), 0 0 0 3px #0a0a0a !important;
 }
 
 .flow-unify-shell .bottom-nav-spacer {
@@ -307,7 +307,7 @@
 
 @keyframes flowGlow {
   0%, 100% { filter: brightness(1); }
-  50%       { filter: brightness(1.15) drop-shadow(0 0 8px rgba(255, 224, 50, 0.5)); }
+  50%       { filter: brightness(1.15) drop-shadow(0 0 8px rgba(232, 185, 67,  0.5)); }
 }
 
 @keyframes flowUnifyPageIn {

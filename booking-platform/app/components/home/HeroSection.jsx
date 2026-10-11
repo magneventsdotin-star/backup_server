@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
@@ -460,9 +460,9 @@ export default function HeroSection() {
                               overflow: 'hidden',
                               scrollSnapAlign: 'center',
                               cursor: 'pointer',
-                              border: isActive ? '1.8px solid rgba(255, 224, 50, 0.75)' : '1px solid rgba(255, 255, 255, 0.14)',
+                              border: isActive ? '1.8px solid rgba(232, 185, 67,  0.75)' : '1px solid rgba(255, 255, 255, 0.14)',
                               boxShadow: isActive
-                                ? '0 16px 45px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 224, 50, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.25)'
+                                ? '0 16px 45px rgba(0, 0, 0, 0.95), 0 0 30px rgba(232, 185, 67,  0.22), inset 0 1px 1px rgba(255, 255, 255, 0.25)'
                                 : '0 8px 24px rgba(0, 0, 0, 0.6)',
                               transform: isActive ? 'scale(1)' : 'scale(0.93)',
                               opacity: isActive ? 1 : 0.65,

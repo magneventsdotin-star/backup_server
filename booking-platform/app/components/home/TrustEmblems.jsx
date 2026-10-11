@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from 'react';
 
@@ -164,7 +164,7 @@ export default function TrustEmblems() {
             </linearGradient>
             <linearGradient id="yellowRibbon" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#CA8A04" />
-              <stop offset="50%" stopColor="#EAB308" />
+              <stop offset="50%" stopColor="#E8B943" />
               <stop offset="100%" stopColor="#A16207" />
             </linearGradient>
           </defs>
@@ -291,7 +291,7 @@ export default function TrustEmblems() {
             </linearGradient>
             <linearGradient id="goldBorder2" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#FDE047" />
-              <stop offset="50%" stopColor="#EAB308" />
+              <stop offset="50%" stopColor="#E8B943" />
               <stop offset="100%" stopColor="#854D0E" />
             </linearGradient>
             <linearGradient id="goldRibbon2" x1="0%" y1="0%" x2="100%" y2="0%">

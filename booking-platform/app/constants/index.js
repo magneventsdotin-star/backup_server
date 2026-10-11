@@ -1,4 +1,4 @@
-export const HERO_STATS = [
+﻿export const HERO_STATS = [
   { value: 2500, suffix: '+', label: 'Events Celebrated' },
   { value: 1500, suffix: '+', label: 'Verified Artists' },
   { value: 24,   suffix: '/7', label: 'Human Support' },
@@ -215,7 +215,7 @@ export const HOW_TO_BOOK_STEPS = [
     title: "Share Your Event",
     desc: "Tell us about your occasion via form, call, or WhatsApp.",
     icon: "📝",
-    color: "#FFE032"
+    color: "#E8B943"
   },
   {
     title: "Get Handpicked Options",
@@ -227,7 +227,7 @@ export const HOW_TO_BOOK_STEPS = [
     title: "Confirm & Book",
     desc: "Secure your favorite artist with a simple booking process.",
     icon: "✅",
-    color: "#FFE032"
+    color: "#E8B943"
   },
   {
     title: "Relax & Enjoy",

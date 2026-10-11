@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -291,7 +291,7 @@ export default function LeadCaptureModal() {
               border: '1px solid rgba(255, 255, 255, 0.18)',
               borderRadius: '24px',
               padding: '18px 16px 20px',
-              boxShadow: '0 30px 90px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 224, 50, 0.14), inset 0 1px 1.5px rgba(255, 255, 255, 0.3)',
+              boxShadow: '0 30px 90px rgba(0, 0, 0, 0.9), 0 0 50px rgba(232, 185, 67,  0.14), inset 0 1px 1.5px rgba(255, 255, 255, 0.3)',
               position: 'relative',
               boxSizing: 'border-box'
             }}
@@ -359,7 +359,7 @@ export default function LeadCaptureModal() {
                 borderRadius: '100px',
                 fontSize: '11px',
                 fontWeight: 800,
-                color: '#FFE032',
+                color: '#E8B943',
                 letterSpacing: '0.04em',
                 boxShadow: '0 4px 16px rgba(255, 140, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35)'
               }}>
@@ -633,8 +633,8 @@ export default function LeadCaptureModal() {
                     width: '18px',
                     height: '6px',
                     borderRadius: '100px',
-                    background: 'linear-gradient(90deg, #FFE032 0%, #FF9900 100%)',
-                    boxShadow: '0 0 12px rgba(255, 224, 50, 0.8)',
+                    background: 'linear-gradient(90deg, #E8B943 0%, #FF9900 100%)',
+                    boxShadow: '0 0 12px rgba(232, 185, 67,  0.8)',
                     transform: `translateX(${cardIndex * 14}px)`,
                     transition: 'transform 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.15)',
                     pointerEvents: 'none',
@@ -682,7 +682,7 @@ export default function LeadCaptureModal() {
                 DIWALI PRE-BOOKING FESTIVE OFFER CALLOUT
                 ══════════════════════════════════════════════════════════ */}
             <div style={{
-              background: 'linear-gradient(135deg, rgba(255, 140, 0, 0.22) 0%, rgba(220, 38, 38, 0.18) 50%, rgba(255, 224, 50, 0.12) 100%)',
+              background: 'linear-gradient(135deg, rgba(255, 140, 0, 0.22) 0%, rgba(220, 38, 38, 0.18) 50%, rgba(232, 185, 67,  0.12) 100%)',
               border: '1px solid rgba(255, 195, 65, 0.45)',
               borderRadius: '14px',
               padding: '9px 12px',
@@ -700,7 +700,7 @@ export default function LeadCaptureModal() {
                 right: '-18px',
                 width: '75px',
                 height: '75px',
-                background: 'radial-gradient(circle, rgba(255, 224, 50, 0.3) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(232, 185, 67,  0.3) 0%, transparent 70%)',
                 pointerEvents: 'none',
                 filter: 'blur(8px)'
               }} />
@@ -1097,9 +1097,9 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
             transition: 'all 0.25s ease'
           }}
           onFocus={(e) => {
-            e.target.style.borderColor = '#FFE032'
+            e.target.style.borderColor = '#E8B943'
             e.target.style.background = 'rgba(255, 255, 255, 0.12)'
-            e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.3), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
+            e.target.style.boxShadow = '0 0 20px rgba(232, 185, 67,  0.3), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
           }}
           onBlur={(e) => {
             e.target.style.borderColor = 'rgba(255, 255, 255, 0.22)'

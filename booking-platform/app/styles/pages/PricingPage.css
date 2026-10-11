@@ -1,4 +1,4 @@
-
+﻿
 .pricing-pg {
   min-height: 100vh;
   background: transparent;
@@ -78,9 +78,9 @@
 }
 
 .pricing-card.is-popular {
-  border-color: rgba(255, 224, 50, 0.5);
-  background: rgba(255, 224, 50, 0.05);
-  box-shadow: 0 20px 50px rgba(255, 224, 50, 0.1);
+  border-color: rgba(232, 185, 67,  0.5);
+  background: rgba(232, 185, 67,  0.05);
+  box-shadow: 0 20px 50px rgba(232, 185, 67,  0.1);
 }
 
 .popular-badge {

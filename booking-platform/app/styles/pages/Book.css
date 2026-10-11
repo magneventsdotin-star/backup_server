@@ -1,4 +1,4 @@
-.book-page {
+﻿.book-page {
   padding-top: 140px;
   padding-bottom: 120px;
   background: #0a0a0a;
@@ -14,7 +14,7 @@
   right: -10%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(255, 224, 50, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(232, 185, 67,  0.08) 0%, transparent 70%);
   filter: blur(80px);
   z-index: 1;
   pointer-events: none;
@@ -50,12 +50,12 @@
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.25em;
-  color: #FFE032;
+  color: #E8B943;
   text-transform: uppercase;
   margin-bottom: 24px;
   padding: 8px 20px;
-  background: rgba(255, 224, 50, 0.08);
-  border: 1px solid rgba(255, 224, 50, 0.15);
+  background: rgba(232, 185, 67,  0.08);
+  border: 1px solid rgba(232, 185, 67,  0.15);
   border-radius: 99px;
 }
 
@@ -115,7 +115,7 @@
 .form-group label {
   font-size: 13px;
   font-weight: 700;
-  color: #FFE032;
+  color: #E8B943;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -136,9 +136,9 @@
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #FFE032;
+  border-color: #E8B943;
   background: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 0 15px rgba(255, 224, 50, 0.1);
+  box-shadow: 0 0 15px rgba(232, 185, 67,  0.1);
 }
 
 .form-group select option {
@@ -154,7 +154,7 @@
   width: 100%;
   padding: 22px;
   border-radius: 18px;
-  background: linear-gradient(90deg, #FFE032 0%, #EECE3B 100%);
+  background: linear-gradient(90deg, #E8B943 0%, #EECE3B 100%);
   color: #000;
   font-weight: 800;
   font-size: 18px;
@@ -167,7 +167,7 @@
 
 .booking-submit-btn:hover:not(:disabled) {
   transform: translateY(-4px);
-  box-shadow: 0 15px 40px rgba(255, 224, 50, 0.3);
+  box-shadow: 0 15px 40px rgba(232, 185, 67,  0.3);
 }
 
 .booking-submit-btn:disabled {
@@ -199,7 +199,7 @@
 .success-icon {
   width: 80px;
   height: 80px;
-  background: #FFE032;
+  background: #E8B943;
   color: #000;
   border-radius: 50%;
   display: flex;

@@ -1,11 +1,11 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    AISingerBookingCard.css — Fancy AI Singer Booking Widget
    ========================================================================== */
 
 .lux-fancy-ai-card {
   position: relative;
   background: linear-gradient(135deg, rgba(32, 22, 50, 0.92) 0%, rgba(16, 14, 22, 0.95) 100%);
-  border: 1px solid rgba(255, 224, 50, 0.35);
+  border: 1px solid rgba(232, 185, 67,  0.35);
   border-radius: 22px;
   padding: 24px;
   margin: 0;
@@ -27,7 +27,7 @@
   width: 180px;
   height: 180px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 224, 50, 0.25) 0%, rgba(255, 46, 147, 0.15) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(232, 185, 67,  0.25) 0%, rgba(255, 46, 147, 0.15) 50%, transparent 70%);
   pointer-events: none;
   filter: blur(35px);
 }
@@ -50,14 +50,14 @@
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(255, 224, 50, 0.2), rgba(255, 46, 147, 0.2));
-  border: 1px solid rgba(255, 224, 50, 0.4);
+  background: linear-gradient(135deg, rgba(232, 185, 67,  0.2), rgba(255, 46, 147, 0.2));
+  border: 1px solid rgba(232, 185, 67,  0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   flex-shrink: 0;
-  box-shadow: 0 4px 14px rgba(255, 224, 50, 0.2);
+  box-shadow: 0 4px 14px rgba(232, 185, 67,  0.2);
 }
 
 .lux-why-header-text {
@@ -106,9 +106,9 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(255, 224, 50, 0.15);
-  border: 1.5px solid #FFE032;
-  color: #FFE032;
+  background: rgba(232, 185, 67,  0.15);
+  border: 1.5px solid #E8B943;
+  color: #E8B943;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -187,21 +187,21 @@
   align-items: center;
   gap: 8px;
   background: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 224, 50, 0.3);
+  border: 1px solid rgba(232, 185, 67,  0.3);
   border-radius: 12px;
   padding: 4px 5px 4px 10px;
   transition: all 0.2s ease;
 }
 
 .lux-ai-minor-input-wrap:focus-within {
-  border-color: #FFE032;
-  box-shadow: 0 0 14px rgba(255, 224, 50, 0.25);
+  border-color: #E8B943;
+  box-shadow: 0 0 14px rgba(232, 185, 67,  0.25);
   background: rgba(0, 0, 0, 0.65);
 }
 
 .lux-ai-minor-icon {
   font-size: 13px;
-  color: #FFE032;
+  color: #E8B943;
 }
 
 .lux-ai-minor-input {
@@ -220,7 +220,7 @@
 }
 
 .lux-ai-minor-btn {
-  background: linear-gradient(135deg, #FFE032 0%, #F5C518 100%);
+  background: linear-gradient(135deg, #E8B943 0%, #F5C518 100%);
   color: #0b0b0d;
   font-weight: 800;
   font-size: 11px;
@@ -281,7 +281,7 @@
 .lux-fancy-ai-chat-link {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #FFE032;
+  color: #E8B943;
   font-size: 11px;
   font-weight: 700;
   padding: 4px 10px;
@@ -291,8 +291,8 @@
 }
 
 .lux-fancy-ai-chat-link:hover {
-  background: rgba(255, 224, 50, 0.15);
-  border-color: #FFE032;
+  background: rgba(232, 185, 67,  0.15);
+  border-color: #E8B943;
 }
 
 .lux-fancy-ai-title {
@@ -304,7 +304,7 @@
 }
 
 .lux-fancy-ai-grad {
-  background: linear-gradient(135deg, #FFE032 0%, #FF2E93 60%, #8B5CF6 100%);
+  background: linear-gradient(135deg, #E8B943 0%, #FF2E93 60%, #8B5CF6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -326,21 +326,21 @@
   align-items: center;
   gap: 10px;
   background: rgba(10, 9, 14, 0.85);
-  border: 1px solid rgba(255, 224, 50, 0.3);
+  border: 1px solid rgba(232, 185, 67,  0.3);
   border-radius: 14px;
   padding: 5px 6px 5px 14px;
   transition: all 0.25s ease;
 }
 
 .lux-fancy-ai-input-wrap:focus-within {
-  border-color: #FFE032;
-  box-shadow: 0 0 20px rgba(255, 224, 50, 0.35);
+  border-color: #E8B943;
+  box-shadow: 0 0 20px rgba(232, 185, 67,  0.35);
   background: rgba(15, 13, 20, 0.95);
 }
 
 .lux-fancy-ai-icon {
   font-size: 16px;
-  color: #FFE032;
+  color: #E8B943;
   flex-shrink: 0;
 }
 
@@ -361,7 +361,7 @@
 }
 
 .lux-fancy-ai-btn {
-  background: linear-gradient(135deg, #FFE032 0%, #F5C518 100%);
+  background: linear-gradient(135deg, #E8B943 0%, #F5C518 100%);
   color: #0b0b0d;
   font-weight: 800;
   font-size: 13px;
@@ -374,14 +374,14 @@
   align-items: center;
   gap: 6px;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(255, 224, 50, 0.3);
+  box-shadow: 0 4px 15px rgba(232, 185, 67,  0.3);
   flex-shrink: 0;
 }
 
 .lux-fancy-ai-btn:hover {
   transform: translateY(-1px);
   background: #ffffff;
-  box-shadow: 0 6px 20px rgba(255, 224, 50, 0.5);
+  box-shadow: 0 6px 20px rgba(232, 185, 67,  0.5);
 }
 
 /* Quick Chips */
@@ -418,9 +418,9 @@
 }
 
 .lux-fancy-ai-chip:hover {
-  background: rgba(255, 224, 50, 0.15);
-  border-color: #FFE032;
-  color: #FFE032;
+  background: rgba(232, 185, 67,  0.15);
+  border-color: #E8B943;
+  color: #E8B943;
   transform: translateY(-1px);
 }
 

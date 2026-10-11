@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -369,7 +369,7 @@ function InnerQuickBookingForm({ onClose }) {
           REF: {refCode}
         </div>
         <p style={{ margin: '0 0 18px', color: 'rgba(255,255,255,0.82)', fontSize: '13px', lineHeight: '1.5' }}>
-          Thank you, <strong style={{ color: '#FFE032' }}>{formData.name}</strong>! Our event coordinator will call you at <strong style={{ color: '#fff' }}>+91 {formData.phone}</strong> shortly with verified quotes for your event.
+          Thank you, <strong style={{ color: '#E8B943' }}>{formData.name}</strong>! Our event coordinator will call you at <strong style={{ color: '#fff' }}>+91 {formData.phone}</strong> shortly with verified quotes for your event.
         </p>
         <button 
           onClick={onClose}
@@ -402,10 +402,10 @@ function InnerQuickBookingForm({ onClose }) {
           width: '58px', 
           height: '58px', 
           borderRadius: '50%', 
-          background: 'linear-gradient(135deg, rgba(255, 224, 50, 0.2) 0%, rgba(34, 197, 94, 0.2) 100%)', 
-          border: '2px solid #FFE032',
-          boxShadow: '0 0 24px rgba(255, 224, 50, 0.25)',
-          color: '#FFE032', 
+          background: 'linear-gradient(135deg, rgba(232, 185, 67,  0.2) 0%, rgba(34, 197, 94, 0.2) 100%)', 
+          border: '2px solid #E8B943',
+          boxShadow: '0 0 24px rgba(232, 185, 67,  0.25)',
+          color: '#E8B943', 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
@@ -432,18 +432,18 @@ function InnerQuickBookingForm({ onClose }) {
           ⚡ Artist Slot Reserved Successfully
         </div>
         <p style={{ margin: '0 0 16px', color: 'rgba(255,255,255,0.85)', fontSize: '13px', lineHeight: '1.5' }}>
-          Thank you, <strong style={{ color: '#FFE032' }}>{formData.name}</strong>! Your artist slot is locked. Our senior event coordinator will call you at <strong style={{ color: '#fff' }}>+91 {formData.phone}</strong> shortly.
+          Thank you, <strong style={{ color: '#E8B943' }}>{formData.name}</strong>! Your artist slot is locked. Our senior event coordinator will call you at <strong style={{ color: '#fff' }}>+91 {formData.phone}</strong> shortly.
         </p>
         {(paymentDetails?.paymentId || refCode) && (
           <div style={{
-            background: 'rgba(255, 224, 50, 0.08)',
-            border: '1px solid rgba(255, 224, 50, 0.3)',
+            background: 'rgba(232, 185, 67,  0.08)',
+            border: '1px solid rgba(232, 185, 67,  0.3)',
             borderRadius: '100px',
             padding: '5px 16px',
             display: 'inline-block',
             marginBottom: '18px',
             fontSize: '12px',
-            color: '#FFE032',
+            color: '#E8B943',
             fontWeight: '800'
           }}>
             {paymentDetails?.paymentId ? `PAYMENT ID: ${paymentDetails.paymentId}` : `REF: ${refCode}`}

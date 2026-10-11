@@ -1,4 +1,4 @@
-.how-to-book-page {
+﻿.how-to-book-page {
   padding: 120px 0 80px;
   background: transparent;
   color: var(--text-main);
@@ -277,8 +277,8 @@
 
 .how-card-inner:hover {
   transform: translateY(-8px);
-  border-color: rgba(255, 224, 50, 0.3);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 224, 50, 0.05);
+  border-color: rgba(232, 185, 67,  0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(232, 185, 67,  0.05);
 }
 
 .how-card-top {
@@ -330,7 +330,7 @@
 }
 
 .how-card-inner:hover .how-big-number {
-  color: rgba(255, 224, 50, 0.1);
+  color: rgba(232, 185, 67,  0.1);
 }
 
 .how-card-bottom {
