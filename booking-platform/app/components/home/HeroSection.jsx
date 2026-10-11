@@ -237,9 +237,9 @@ export default function HeroSection() {
 
             {/* 2. MAIN HEADLINE (THREE LINES) */}
             <h1 className="hp-sw-h1">
-              <span className="hp-sw-h1-lead">Book Singer for</span>
+              <span className="hp-sw-h1-lead">Book Singer</span>
               <br className="hp-sw-br" />
-              <span className="hp-sw-h1-gold">House Party</span>
+              <span className="hp-sw-h1-gold">for House Party</span>
               <br className="hp-sw-br" />
               <span className="hp-sw-h1-gold">in Delhi &amp; NCR</span>
             </h1>
