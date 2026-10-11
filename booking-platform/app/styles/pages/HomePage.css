@@ -6843,38 +6843,39 @@
     font-weight: 600;
   }
 
-  /* 2. HEADLINE - ULTRA MODERN LUXURY VIEW */
+  /* 2. HEADLINE - FANCY LUXURY EDITORIAL VIEW */
   .hp-sw-h1 {
-    font-family: 'Plus Jakarta Sans', 'Outfit', var(--font-sans, 'Inter'), sans-serif !important;
-    font-size: clamp(44px, 4.6vw, 64px) !important;
-    line-height: 1.15 !important;
-    letter-spacing: -0.035em !important;
+    font-family: var(--font-display, 'Playfair Display', Georgia, serif) !important;
+    font-size: clamp(44px, 4.7vw, 66px) !important;
+    line-height: 1.14 !important;
+    letter-spacing: -0.02em !important;
     margin: 0 0 32px 0 !important;
     text-align: left !important;
     filter: none !important;
   }
 
   .hp-sw-h1-lead {
-    background: linear-gradient(180deg, #FFFFFF 30%, #E8E5DF 100%) !important;
+    background: linear-gradient(180deg, #FFFFFF 40%, #E2DDD6 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
-    font-weight: 900 !important;
+    font-weight: 800 !important;
     font-style: normal !important;
     display: inline-block !important;
-    margin-bottom: 3px !important;
-    letter-spacing: -0.03em !important;
+    margin-bottom: 2px !important;
+    letter-spacing: -0.02em !important;
   }
 
   .hp-sw-h1-gold {
-    background: linear-gradient(135deg, #FFF6D6 0%, #FFDF79 40%, #E8B943 75%, #D49E28 100%) !important;
+    font-family: var(--font-display, 'Playfair Display', Georgia, serif) !important;
+    background: linear-gradient(135deg, #FFF9D2 0%, #FFE066 32%, #E8B943 72%, #C49120 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     font-weight: 900 !important;
-    font-style: normal !important;
+    font-style: italic !important;
     display: inline-block !important;
-    padding-right: 4px;
-    letter-spacing: -0.035em !important;
-    filter: drop-shadow(0 4px 18px rgba(232, 185, 67, 0.22)) !important;
+    padding-right: 8px !important;
+    letter-spacing: -0.015em !important;
+    filter: drop-shadow(0 4px 22px rgba(232, 185, 67, 0.40)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9)) !important;
     text-shadow: none !important;
   }
 
