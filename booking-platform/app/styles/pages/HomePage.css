@@ -8959,6 +8959,19 @@
     gap: 8px !important;
     font-weight: 700 !important;
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 12px rgba(126, 48, 68, 0.15) !important;
+    width: 100% !important;
+    text-align: left !important;
+    cursor: pointer !important;
+    font-family: inherit !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: transform 0.18s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  button.mob-trust-card:hover,
+  button.mob-trust-card:active {
+    transform: scale(0.96) translateY(2px) !important;
+    border-color: rgba(232, 185, 67, 0.6) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7), 0 0 14px rgba(232, 185, 67, 0.3) !important;
   }
 
   .mob-check {

@@ -764,10 +764,54 @@ export default function HeroSection() {
           {/* Section 5: PROMOTIONAL TRUST & VALUE HIGHLIGHTS */}
           <div className="hp-mob-section">
             <div className="hp-mob-trust-grid">
-              <div className="mob-trust-card"><span className="mob-check">⚡</span> Instant Slot Confirmation</div>
-              <div className="mob-trust-card"><span className="mob-check">💎</span> Direct Artist Connect</div>
-              <div className="mob-trust-card"><span className="mob-check">✓</span> 1500+ Verified Artists</div>
-              <div className="mob-trust-card"><span className="mob-check">🛡️</span> 100% Arrival Guarantee</div>
+              <button
+                type="button"
+                className="mob-trust-card"
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
+                  }
+                }}
+                aria-label="Instant Slot Confirmation - Book Now"
+              >
+                <span className="mob-check">⚡</span> Instant Slot Confirmation
+              </button>
+              <button
+                type="button"
+                className="mob-trust-card"
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
+                  }
+                }}
+                aria-label="Direct Artist Connect - Book Now"
+              >
+                <span className="mob-check">💎</span> Direct Artist Connect
+              </button>
+              <button
+                type="button"
+                className="mob-trust-card"
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
+                  }
+                }}
+                aria-label="1500+ Verified Artists - Book Now"
+              >
+                <span className="mob-check">✓</span> 1500+ Verified Artists
+              </button>
+              <button
+                type="button"
+                className="mob-trust-card"
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
+                  }
+                }}
+                aria-label="100% Arrival Guarantee - Book Now"
+              >
+                <span className="mob-check">🛡️</span> 100% Arrival Guarantee
+              </button>
             </div>
           </div>
 
