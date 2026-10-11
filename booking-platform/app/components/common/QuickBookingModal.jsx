@@ -16,6 +16,8 @@ export default function QuickBookingModal() {
     const handleOpen = () => setIsOpen(true)
     window.addEventListener('open-quick-booking', handleOpen)
     window.addEventListener('open-token-booking', handleOpen)
+    window.addEventListener('open-instant-form', handleOpen)
+    window.addEventListener('open-instant-booking', handleOpen)
 
     const checkHash = () => {
       if (typeof window !== 'undefined') {
@@ -37,9 +39,20 @@ export default function QuickBookingModal() {
     checkHash()
     window.addEventListener('hashchange', checkHash)
 
+    // Auto-open instant form after 6 seconds
+    const autoOpenTimer = setTimeout(() => {
+      setIsOpen((prev) => {
+        if (!prev) return true
+        return prev
+      })
+    }, 6000)
+
     return () => {
+      clearTimeout(autoOpenTimer)
       window.removeEventListener('open-quick-booking', handleOpen)
       window.removeEventListener('open-token-booking', handleOpen)
+      window.removeEventListener('open-instant-form', handleOpen)
+      window.removeEventListener('open-instant-booking', handleOpen)
       window.removeEventListener('hashchange', checkHash)
     }
   }, [])
