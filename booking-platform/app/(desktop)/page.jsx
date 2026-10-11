@@ -9,9 +9,7 @@ import FaqSection from '@/app/components/home/FaqSection'
 import ContactSection from '@/app/components/home/ContactSection'
 import SeoCardsSection from '@/app/components/home/SeoCardsSection'
 import SeoKeywordFooter from '@/app/components/home/SeoKeywordFooter'
-import DesignComparisonBar from '@/app/components/common/DesignComparisonBar'
 import '@/app/styles/pages/HomePage.css'
-import '@/app/styles/pages/design-variants.css'
 
 export const metadata = {
   alternates: {
@@ -40,7 +38,6 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <DesignComparisonBar activeVariant="home" />
       <div className="hp">
         <HeroSection />
         <HeroVideosSection />
