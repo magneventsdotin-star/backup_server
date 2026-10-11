@@ -1,4 +1,4 @@
-﻿.lux-modal-root {
+.lux-modal-root {
   position: fixed;
   inset: 0;
   z-index: 100000 !important;
@@ -47,18 +47,22 @@
 
 #qb-name::placeholder,
 #qb-phone::placeholder,
-.qb-beige-modal-card input::placeholder {
-  color: rgba(126, 48, 68, 0.55) !important;
+#qb-event-details::placeholder,
+.qb-minimal-modal-card input::placeholder,
+.qb-minimal-modal-card textarea::placeholder {
+  color: rgba(255, 255, 255, 0.38) !important;
   opacity: 1 !important;
-  -webkit-text-fill-color: rgba(126, 48, 68, 0.55) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.38) !important;
 }
 
 #qb-name::-webkit-input-placeholder,
 #qb-phone::-webkit-input-placeholder,
-.qb-beige-modal-card input::-webkit-input-placeholder {
-  color: rgba(126, 48, 68, 0.55) !important;
+#qb-event-details::-webkit-input-placeholder,
+.qb-minimal-modal-card input::-webkit-input-placeholder,
+.qb-minimal-modal-card textarea::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.38) !important;
   opacity: 1 !important;
-  -webkit-text-fill-color: rgba(126, 48, 68, 0.55) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.38) !important;
 }
 
 #popup-lead-name::-webkit-input-placeholder,

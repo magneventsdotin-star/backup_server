@@ -8912,7 +8912,7 @@
     display: none !important;
   }
 
-  /* Rich luxury concert stage background matching desktop */
+  /* Rich luxury concert stage background matching desktop - Ultra bright stage radiance */
   .hp-mobile-hero {
     position: relative !important;
     overflow: hidden !important;
@@ -8922,25 +8922,67 @@
     background-image: 
       /* Subtle luxury cyber dot texture (Rose Stone) */
       radial-gradient(rgba(216, 196, 183, 0.08) 1px, transparent 1px),
+      /* Brilliant luminous stage spotlight centered directly on the video player */
+      radial-gradient(ellipse 95% 70% at 50% 36%, rgba(232, 185, 67, 0.38) 0%, rgba(126, 48, 68, 0.42) 48%, rgba(28, 26, 30, 0) 80%),
       /* Wine Red concert stage lighting aura */
-      radial-gradient(ellipse 75% 55% at 20% 25%, rgba(126, 48, 68, 0.58) 0%, rgba(28, 26, 30, 0) 70%),
-      /* Soft warm Marigold spotlight */
-      radial-gradient(ellipse 55% 45% at 85% 30%, rgba(232, 185, 67, 0.18) 0%, rgba(28, 26, 30, 0) 75%),
+      radial-gradient(ellipse 80% 60% at 20% 25%, rgba(126, 48, 68, 0.65) 0%, rgba(28, 26, 30, 0) 75%),
+      /* Warm Marigold spotlight */
+      radial-gradient(ellipse 65% 55% at 85% 30%, rgba(232, 185, 67, 0.32) 0%, rgba(28, 26, 30, 0) 75%),
       /* Coral ambient warmth */
-      radial-gradient(circle 320px at 50% 85%, rgba(228, 95, 96, 0.16) 0%, rgba(28, 26, 30, 0) 70%),
+      radial-gradient(circle 340px at 50% 85%, rgba(228, 95, 96, 0.22) 0%, rgba(28, 26, 30, 0) 70%),
       /* Deep soft charcoal base gradient */
       linear-gradient(180deg, #18161A 0%, #1C1A1E 45%, #29272A 100%) !important;
-    background-size: 24px 24px, 100% 100%, 100% 100%, 100% 100%, 100% 100% !important;
+    background-size: 24px 24px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100% !important;
   }
 
+  /* Ambient live backdrop - High brightness and glowing presence */
   .hp-mob-ambient-backdrop {
-    opacity: 0.32 !important;
+    opacity: 0.72 !important;
     mix-blend-mode: screen !important;
+    filter: brightness(1.35) contrast(1.1) saturate(1.25) !important;
   }
 
   .hp-mobile-content {
     position: relative !important;
     z-index: 4 !important;
+  }
+
+  /* Mobile Video Section Stage Glow */
+  .hp-mobile-hero .hp-posters-showcase {
+    position: relative !important;
+  }
+  .hp-mobile-hero .hp-posters-showcase::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 48% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 320px !important;
+    height: 400px !important;
+    background: radial-gradient(circle, rgba(232, 185, 67, 0.35) 0%, rgba(126, 48, 68, 0.28) 50%, transparent 75%) !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+    filter: blur(28px) !important;
+  }
+
+  /* Brightest Video & Poster Player */
+  .hp-mobile-hero .hp-poster-video-elem,
+  .hp-mobile-hero .hp-poster-img,
+  .hp-posters-showcase .hp-poster-video-elem,
+  .hp-posters-showcase .hp-poster-img {
+    filter: brightness(1.2) contrast(1.08) saturate(1.15) !important;
+  }
+
+  /* Lightened Vignette Overlay - crystal clear, no dark dimming on video */
+  .hp-mobile-hero .hp-poster-vignette,
+  .hp-posters-showcase .hp-poster-vignette {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.12) 0%,
+      rgba(0, 0, 0, 0) 20%,
+      rgba(0, 0, 0, 0) 65%,
+      rgba(6, 7, 12, 0.68) 95%
+    ) !important;
   }
 
   /* Mobile Trust Cards & Checkmarks Color Correction */
@@ -8980,11 +9022,17 @@
     font-weight: 800 !important;
   }
 
-  /* Mobile Poster Card Colors */
+  /* Mobile Poster Card Colors & Luminous Active Aura */
   .hp-poster-card-wrapper {
     border: 1.5px solid rgba(216, 196, 183, 0.35) !important;
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.92), 0 0 32px rgba(126, 48, 68, 0.42), 0 0 16px rgba(216, 196, 183, 0.2) !important;
     background: #1C1A1E !important;
+  }
+
+  .hp-poster-card-wrapper.is-active {
+    border: 2px solid #E8B943 !important;
+    box-shadow: 0 0 35px rgba(232, 185, 67, 0.6), 0 0 70px rgba(232, 185, 67, 0.3), 0 16px 45px rgba(0, 0, 0, 0.95) !important;
+    opacity: 1 !important;
   }
 
   .hp-poster-value-bar {

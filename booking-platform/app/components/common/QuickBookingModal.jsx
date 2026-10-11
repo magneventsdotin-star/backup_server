@@ -108,44 +108,29 @@ export default function QuickBookingModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 18 }}
             transition={{ type: 'spring', damping: 28, stiffness: 380 }}
-            className="lux-modal-content qb-beige-modal-card"
+            className="lux-modal-content qb-minimal-modal-card"
             style={{ 
-              maxWidth: '440px', 
+              maxWidth: '410px', 
               width: '100%',
               margin: 'auto',
               maxHeight: 'calc(100vh - 32px)',
               overflowY: 'auto',
               WebkitOverflowScrolling: 'touch',
-              background: '#D8C4B7',
-              border: '1.5px solid rgba(126, 48, 68, 0.25)',
-              borderRadius: '24px',
-              padding: '22px 20px 20px',
-              boxShadow: '0 30px 90px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
+              background: '#1F1D22',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              borderRadius: '20px',
+              padding: '22px 22px 20px',
+              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.65)',
               position: 'relative',
               boxSizing: 'border-box'
             }}
           >
-            {/* Ambient subtle glow in top center */}
-            <div 
-              style={{
-                position: 'absolute',
-                top: '-35px',
-                left: '50%',
-                transform: 'translateX(-50)',
-                width: '300px',
-                height: '130px',
-                background: 'radial-gradient(ellipse at center, rgba(126, 48, 68, 0.12) 0%, transparent 70%)',
-                pointerEvents: 'none',
-                zIndex: 0
-              }} 
-            />
-
-            {/* Top Bar: Close Button cleanly aligned on Right */}
+            {/* Top Bar: Minimal Close Button */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
-              marginBottom: '10px',
+              marginBottom: '6px',
               position: 'relative',
               zIndex: 2
             }}>
@@ -153,14 +138,14 @@ export default function QuickBookingModal() {
                 onClick={onClose}
                 aria-label="Close modal"
                 style={{
-                  width: '32px',
-                  height: '32px',
+                  width: '30px',
+                  height: '30px',
                   borderRadius: '50%',
-                  background: 'rgba(126, 48, 68, 0.1)',
-                  border: '1px solid rgba(126, 48, 68, 0.22)',
-                  color: '#7E3044',
-                  fontSize: '14px',
-                  fontWeight: 700,
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: 'none',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  fontSize: '13px',
+                  fontWeight: 600,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -169,12 +154,12 @@ export default function QuickBookingModal() {
                   flexShrink: 0
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(126, 48, 68, 0.2)';
-                  e.currentTarget.style.color = '#7E3044';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.16)';
+                  e.currentTarget.style.color = '#ffffff';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(126, 48, 68, 0.1)';
-                  e.currentTarget.style.color = '#7E3044';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
                 }}
               >
                 ✕
@@ -194,7 +179,7 @@ function InnerQuickBookingForm({ onClose }) {
   const [isFreeSubmitting, setIsFreeSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFreeSuccess, setIsFreeSuccess] = useState(false)
-  const [formData, setFormData] = useState({ name: '', phone: '', eventDetails: '' })
+  const [formData, setFormData] = useState({ name: '', phone: '' })
   const [errors, setErrors] = useState({})
   const [refCode, setRefCode] = useState('')
   const [paymentDetails, setPaymentDetails] = useState(null)
@@ -248,14 +233,13 @@ function InnerQuickBookingForm({ onClose }) {
       }
 
       const generatedRef = `MAG-QB-${Date.now().toString().slice(-6)}`
-      const eventInfo = (formData.eventDetails || '').trim()
 
       await bookingService.submitInstantRequest({
         name: formData.name.trim(),
         phone: formData.phone.trim(),
-        message: eventInfo,
-        tokenNote: eventInfo ? `Event: ${eventInfo}` : 'Claimed Flat 55%–65% First Booking Discount',
-        eventType: eventInfo || 'Live Artist Slot Booking (55%–65% OFF)',
+        message: '',
+        tokenNote: 'Claimed Flat 55%–65% First Booking Discount',
+        eventType: 'Live Artist Slot Booking (55%–65% OFF)',
         type: 'quick_booking',
         formName: 'Quick Booking Modal',
         deviceType: deviceType,
@@ -316,140 +300,66 @@ function InnerQuickBookingForm({ onClose }) {
     }
   }
 
-  // Success Screen: Free Inquiry
-  if (isFreeSuccess) {
+  // Success Screen (Unified Minimalist)
+  if (isSuccess || isFreeSuccess) {
     return (
-      <div style={{ textAlign: 'center', padding: '16px 6px 6px' }}>
+      <div style={{ textAlign: 'center', padding: '16px 8px 8px' }}>
         <div style={{ 
-          width: '58px', 
-          height: '58px', 
+          width: '52px', 
+          height: '52px', 
           borderRadius: '50%', 
-          background: 'rgba(56, 189, 248, 0.14)', 
-          border: '2px solid #38bdf8',
-          boxShadow: '0 0 24px rgba(56, 189, 248, 0.3)',
-          color: '#38bdf8', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          margin: '0 auto 14px', 
-          fontSize: '28px',
-          fontWeight: '900' 
-        }}>
-          ✓
-        </div>
-        <h4 style={{ margin: '0 0 6px', color: '#fff', fontSize: '21px', fontWeight: '900', letterSpacing: '-0.01em' }}>
-          Free Inquiry Received!
-        </h4>
-        <div style={{
-          display: 'inline-block',
-          background: 'rgba(56, 189, 248, 0.12)',
-          border: '1px solid rgba(56, 189, 248, 0.4)',
-          borderRadius: '100px',
-          padding: '4px 14px',
-          color: '#38bdf8',
-          fontSize: '12px',
-          fontWeight: '800',
-          marginBottom: '12px'
-        }}>
-          REF: {refCode}
-        </div>
-        <p style={{ margin: '0 0 18px', color: 'rgba(255,255,255,0.82)', fontSize: '13px', lineHeight: '1.5' }}>
-          Thank you, <strong style={{ color: '#E8B943' }}>{formData.name}</strong>! Our event coordinator will call you at <strong style={{ color: '#fff' }}>+91 {formData.phone}</strong> shortly with verified quotes for your event.
-        </p>
-        <button 
-          onClick={onClose}
-          style={{ 
-            width: '100%', 
-            padding: '12px', 
-            borderRadius: '12px', 
-            background: 'rgba(255, 255, 255, 0.1)', 
-            border: '1px solid rgba(255, 255, 255, 0.22)',
-            color: '#ffffff', 
-            fontWeight: '800', 
-            fontSize: '14px',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.18)'}
-          onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-        >
-          Close & Explore Artists
-        </button>
-      </div>
-    )
-  }
-
-  // Success Screen: Paid Slot Confirmed
-  if (isSuccess) {
-    return (
-      <div style={{ textAlign: 'center', padding: '16px 6px 6px' }}>
-        <div style={{ 
-          width: '58px', 
-          height: '58px', 
-          borderRadius: '50%', 
-          background: 'linear-gradient(135deg, rgba(232, 185, 67,  0.2) 0%, rgba(34, 197, 94, 0.2) 100%)', 
-          border: '2px solid #E8B943',
-          boxShadow: '0 0 24px rgba(232, 185, 67,  0.25)',
+          background: 'rgba(232, 185, 67, 0.12)', 
+          border: '1.5px solid #E8B943',
           color: '#E8B943', 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
-          margin: '0 auto 14px', 
-          fontSize: '28px',
+          margin: '0 auto 16px', 
+          fontSize: '24px',
           fontWeight: '900' 
         }}>
           ✓
         </div>
-        <h4 style={{ margin: '0 0 6px', color: '#fff', fontSize: '21px', fontWeight: '900', letterSpacing: '-0.01em' }}>
-          Slot Confirmed & Verified!
+        <h4 style={{ margin: '0 0 8px', color: '#FFFFFF', fontSize: '20px', fontWeight: '800', letterSpacing: '-0.02em' }}>
+          Slot Request Confirmed
         </h4>
-        <div style={{
-          display: 'inline-block',
-          background: 'rgba(34, 197, 94, 0.15)',
-          border: '1px solid rgba(34, 197, 94, 0.4)',
-          borderRadius: '100px',
-          padding: '4px 14px',
-          color: '#4ade80',
-          fontSize: '12px',
-          fontWeight: '800',
-          marginBottom: '12px'
-        }}>
-          ⚡ Artist Slot Reserved Successfully
-        </div>
-        <p style={{ margin: '0 0 16px', color: 'rgba(255,255,255,0.85)', fontSize: '13px', lineHeight: '1.5' }}>
-          Thank you, <strong style={{ color: '#E8B943' }}>{formData.name}</strong>! Your artist slot is locked. Our senior event coordinator will call you at <strong style={{ color: '#fff' }}>+91 {formData.phone}</strong> shortly.
+        <p style={{ margin: '0 0 16px', color: 'rgba(255, 255, 255, 0.72)', fontSize: '13.5px', lineHeight: '1.5' }}>
+          Thank you, <strong style={{ color: '#E8B943' }}>{formData.name}</strong>! Our event coordinator will call you at <strong style={{ color: '#FFFFFF' }}>+91 {formData.phone}</strong> shortly.
         </p>
-        {(paymentDetails?.paymentId || refCode) && (
+        {refCode && (
           <div style={{
-            background: 'rgba(232, 185, 67,  0.08)',
-            border: '1px solid rgba(232, 185, 67,  0.3)',
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
             borderRadius: '100px',
             padding: '5px 16px',
             display: 'inline-block',
-            marginBottom: '18px',
-            fontSize: '12px',
+            marginBottom: '20px',
+            fontSize: '11.5px',
             color: '#E8B943',
-            fontWeight: '800'
+            fontWeight: '700',
+            letterSpacing: '0.04em'
           }}>
-            {paymentDetails?.paymentId ? `PAYMENT ID: ${paymentDetails.paymentId}` : `REF: ${refCode}`}
+            REF: {refCode}
           </div>
         )}
         <button 
           onClick={onClose}
           style={{ 
             width: '100%', 
-            padding: '12px', 
+            padding: '13px', 
             borderRadius: '12px', 
-            background: 'var(--color-coral, #E45F60)', 
-            color: '#ffffff', 
+            background: '#E8B943', 
+            color: '#1C1A1E', 
             fontWeight: '800', 
             fontSize: '14.5px',
             border: 'none', 
             cursor: 'pointer',
-            boxShadow: '0 4px 16px rgba(228, 95, 96, 0.35)'
+            transition: 'all 0.2s ease'
           }}
+          onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.08)'}
+          onMouseLeave={(e) => e.currentTarget.style.filter = 'none'}
         >
-          Done & Explore Artists
+          Done &amp; Explore Artists
         </button>
       </div>
     )
@@ -460,31 +370,24 @@ function InnerQuickBookingForm({ onClose }) {
       {/* Modal Heading Section */}
       <div style={{ textAlign: 'center', marginBottom: '16px', position: 'relative', zIndex: 1 }}>
         <h3 style={{ 
-          fontSize: '22px', 
-          fontWeight: 900, 
-          color: '#7E3044', 
+          fontSize: '21px', 
+          fontWeight: 800, 
+          color: '#FFFFFF', 
           margin: '0 0 5px', 
           lineHeight: 1.25,
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
           letterSpacing: '-0.02em'
         }}>
-          Book Verified{' '}
-          <span style={{ 
-            color: '#7E3044',
-            display: 'inline-block',
-            fontWeight: 900
-          }}>
-            Live Artists
-          </span>
+          Book Verified Live Artists
         </h3>
         <p style={{ 
           fontSize: '12.5px', 
-          color: 'rgba(126, 48, 68, 0.85)', 
+          color: 'rgba(255, 255, 255, 0.65)', 
           margin: 0, 
           lineHeight: 1.45,
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }}>
-          Connect with 1500+ verified performers across India.
+          Direct artist pricing with 0% agency fees across Delhi &amp; NCR.
         </p>
       </div>
 
@@ -496,31 +399,31 @@ function InnerQuickBookingForm({ onClose }) {
             htmlFor="qb-name" 
             style={{ 
               fontSize: '11px', 
-              fontWeight: 800, 
-              color: '#7E3044', 
+              fontWeight: 750, 
+              color: 'rgba(255, 255, 255, 0.8)', 
               marginBottom: '5px', 
               display: 'flex', 
               alignItems: 'center', 
               gap: '4px',
-              letterSpacing: '0.02em',
+              letterSpacing: '0.04em',
               textTransform: 'uppercase'
             }}
           >
             <span>Full Name</span>
-            <span style={{ color: '#7E3044' }}>*</span>
+            <span style={{ color: '#E8B943' }}>*</span>
           </label>
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            background: '#FFFFFF',
+            background: 'rgba(255, 255, 255, 0.05)',
             border: errors.name
-              ? '1.5px solid #dc2626'
-              : (activeFocus === 'name' ? '1.5px solid #7E3044' : '1px solid rgba(126, 48, 68, 0.25)'),
+              ? '1.5px solid #ef4444'
+              : (activeFocus === 'name' ? '1.5px solid #E8B943' : '1px solid rgba(255, 255, 255, 0.12)'),
             borderRadius: '12px',
             overflow: 'hidden',
             boxShadow: errors.name
-              ? '0 0 0 3px rgba(220, 38, 38, 0.2)'
-              : (activeFocus === 'name' ? '0 0 0 3px rgba(126, 48, 68, 0.15)' : 'none'),
+              ? '0 0 0 3px rgba(239, 68, 68, 0.2)'
+              : (activeFocus === 'name' ? '0 0 0 3px rgba(232, 185, 67, 0.15)' : 'none'),
             transition: 'all 0.2s ease',
             boxSizing: 'border-box'
           }}>
@@ -530,9 +433,9 @@ function InnerQuickBookingForm({ onClose }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: errors.name ? '#dc2626' : (activeFocus === 'name' ? '#7E3044' : 'rgba(126, 48, 68, 0.65)'),
-              borderRight: '1px solid rgba(126, 48, 68, 0.18)',
-              background: 'rgba(126, 48, 68, 0.05)',
+              color: errors.name ? '#ef4444' : (activeFocus === 'name' ? '#E8B943' : 'rgba(255, 255, 255, 0.5)'),
+              borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+              background: 'rgba(255, 255, 255, 0.02)',
               flexShrink: 0
             }}>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -559,9 +462,9 @@ function InnerQuickBookingForm({ onClose }) {
                 padding: '0 14px',
                 background: 'transparent',
                 border: 'none',
-                color: '#7E3044',
+                color: '#FFFFFF',
                 fontSize: '14.5px',
-                fontWeight: 600,
+                fontWeight: 500,
                 fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
                 outline: 'none',
                 boxSizing: 'border-box'
@@ -569,7 +472,7 @@ function InnerQuickBookingForm({ onClose }) {
             />
           </div>
           {errors.name && (
-            <span style={{ color: '#dc2626', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 600 }}>
+            <span style={{ color: '#ef4444', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 600 }}>
               {errors.name}
             </span>
           )}
@@ -582,23 +485,23 @@ function InnerQuickBookingForm({ onClose }) {
               htmlFor="qb-phone" 
               style={{ 
                 fontSize: '11px', 
-                fontWeight: 800, 
-                color: '#7E3044', 
+                fontWeight: 750, 
+                color: 'rgba(255, 255, 255, 0.8)', 
                 display: 'flex', 
                 alignItems: 'center', 
                 gap: '4px',
-                letterSpacing: '0.02em',
+                letterSpacing: '0.04em',
                 textTransform: 'uppercase'
               }}
             >
               <span>Phone Number</span>
-              <span style={{ color: '#7E3044' }}>*</span>
+              <span style={{ color: '#E8B943' }}>*</span>
             </label>
             {rawDigits.length > 0 && (
               <span style={{ 
                 fontSize: '11px', 
-                fontWeight: 800, 
-                color: isPhoneValid ? '#15803d' : '#b45309' 
+                fontWeight: 700, 
+                color: isPhoneValid ? '#4ade80' : '#E8B943' 
               }}>
                 {isPhoneValid ? '✓ 10 Digits' : `${rawDigits.length}/10 digits`}
               </span>
@@ -607,15 +510,15 @@ function InnerQuickBookingForm({ onClose }) {
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            background: '#FFFFFF',
+            background: 'rgba(255, 255, 255, 0.05)',
             border: errors.phone
-              ? '1.5px solid #dc2626'
-              : (activeFocus === 'phone' ? '1.5px solid #7E3044' : '1px solid rgba(126, 48, 68, 0.25)'),
+              ? '1.5px solid #ef4444'
+              : (activeFocus === 'phone' ? '1.5px solid #E8B943' : '1px solid rgba(255, 255, 255, 0.12)'),
             borderRadius: '12px',
             overflow: 'hidden',
             boxShadow: errors.phone
-              ? '0 0 0 3px rgba(220, 38, 38, 0.2)'
-              : (activeFocus === 'phone' ? '0 0 0 3px rgba(126, 48, 68, 0.15)' : 'none'),
+              ? '0 0 0 3px rgba(239, 68, 68, 0.2)'
+              : (activeFocus === 'phone' ? '0 0 0 3px rgba(232, 185, 67, 0.15)' : 'none'),
             transition: 'all 0.2s ease',
             boxSizing: 'border-box'
           }}>
@@ -624,11 +527,11 @@ function InnerQuickBookingForm({ onClose }) {
               alignItems: 'center',
               gap: '6px',
               padding: '0 12px',
-              background: 'rgba(126, 48, 68, 0.08)',
-              borderRight: '1px solid rgba(126, 48, 68, 0.18)',
+              background: 'rgba(255, 255, 255, 0.02)',
+              borderRight: '1px solid rgba(255, 255, 255, 0.08)',
               height: '46px',
-              color: '#7E3044',
-              fontWeight: 800,
+              color: 'rgba(255, 255, 255, 0.85)',
+              fontWeight: 700,
               fontSize: '13.5px',
               userSelect: 'none',
               flexShrink: 0
@@ -659,9 +562,9 @@ function InnerQuickBookingForm({ onClose }) {
                 padding: '0 14px',
                 background: 'transparent',
                 border: 'none',
-                color: '#7E3044',
+                color: '#FFFFFF',
                 fontSize: '15px',
-                fontWeight: 600,
+                fontWeight: 500,
                 fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
                 outline: 'none',
                 boxSizing: 'border-box',
@@ -670,92 +573,21 @@ function InnerQuickBookingForm({ onClose }) {
             />
           </div>
           {errors.phone && (
-            <span style={{ color: '#dc2626', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 600 }}>
+            <span style={{ color: '#ef4444', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 600 }}>
               {errors.phone}
             </span>
           )}
         </div>
 
-        {/* 3. Event Details (Single Text Box) */}
-        <div>
-          <label 
-            htmlFor="qb-event-details" 
-            style={{ 
-              fontSize: '11px', 
-              fontWeight: 800, 
-              color: '#7E3044', 
-              marginBottom: '5px', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'space-between',
-              letterSpacing: '0.02em',
-              textTransform: 'uppercase'
-            }}
-          >
-            <span>Event Details</span>
-            <span style={{ fontSize: '10.5px', fontWeight: 600, color: 'rgba(126, 48, 68, 0.65)', textTransform: 'none' }}>
-              Optional
-            </span>
-          </label>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            background: '#FFFFFF',
-            border: activeFocus === 'eventDetails' ? '1.5px solid #7E3044' : '1px solid rgba(126, 48, 68, 0.25)',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            boxShadow: activeFocus === 'eventDetails' ? '0 0 0 3px rgba(126, 48, 68, 0.15)' : 'none',
-            transition: 'all 0.2s ease',
-            boxSizing: 'border-box'
-          }}>
-            <div style={{
-              width: '42px',
-              height: '46px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: activeFocus === 'eventDetails' ? '#7E3044' : 'rgba(126, 48, 68, 0.65)',
-              borderRight: '1px solid rgba(126, 48, 68, 0.18)',
-              background: 'rgba(126, 48, 68, 0.05)',
-              flexShrink: 0
-            }}>
-              <span style={{ fontSize: '15px' }}>📅</span>
-            </div>
-            <input 
-              id="qb-event-details" 
-              type="text" 
-              placeholder="e.g. House party on 25th Nov in Delhi" 
-              value={formData.eventDetails || ''} 
-              onChange={(e) => setFormData({ ...formData, eventDetails: e.target.value })} 
-              onFocus={() => setActiveFocus('eventDetails')}
-              onBlur={() => setActiveFocus(null)}
-              style={{
-                flex: 1,
-                width: '100%',
-                height: '46px',
-                padding: '0 14px',
-                background: 'transparent',
-                border: 'none',
-                color: '#7E3044',
-                fontSize: '14px',
-                fontWeight: 600,
-                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                outline: 'none',
-                boxSizing: 'border-box'
-              }}
-            />
-          </div>
-        </div>
-
         {/* Single Primary Action Button */}
-        <div style={{ marginTop: '4px' }}>
+        <div style={{ marginTop: '6px' }}>
           <button 
             type="submit" 
             disabled={isSubmitting}
             style={{ 
               width: '100%', 
-              background: '#7E3044', 
-              color: '#ffffff', 
+              background: '#E8B943', 
+              color: '#1C1A1E', 
               fontWeight: 800, 
               fontSize: '15px',
               fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
@@ -763,26 +595,21 @@ function InnerQuickBookingForm({ onClose }) {
               borderRadius: '12px', 
               border: 'none', 
               cursor: isSubmitting ? 'not-allowed' : 'pointer',
-              boxShadow: '0 6px 22px rgba(126, 48, 68, 0.4)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
               letterSpacing: '-0.01em',
-              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+              transition: 'all 0.2s ease',
               opacity: isSubmitting ? 0.75 : 1
             }}
             onMouseEnter={(e) => {
               if (!isSubmitting) {
-                e.currentTarget.style.transform = 'translateY(-1px)';
-                e.currentTarget.style.background = '#672535';
-                e.currentTarget.style.boxShadow = '0 12px 30px rgba(126, 48, 68, 0.55)';
+                e.currentTarget.style.filter = 'brightness(1.08)';
               }
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.background = '#7E3044';
-              e.currentTarget.style.boxShadow = '0 6px 22px rgba(126, 48, 68, 0.4)';
+              e.currentTarget.style.filter = 'none';
             }}
           >
             {isSubmitting ? (
