@@ -750,7 +750,7 @@ function InnerQuickBookingForm({ onClose }) {
           )}
         </div>
 
-        {/* 3. Event Details (Single Text Box - Optional) */}
+        {/* 3. Event Details */}
         <div>
           <label 
             htmlFor="qb-event-details" 
@@ -759,17 +759,12 @@ function InnerQuickBookingForm({ onClose }) {
               fontWeight: 800, 
               color: '#7E3044', 
               marginBottom: '5px', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'space-between',
+              display: 'block',
               letterSpacing: '0.02em',
               textTransform: 'uppercase'
             }}
           >
-            <span>Event Details</span>
-            <span style={{ fontSize: '10.5px', fontWeight: 600, color: 'rgba(126, 48, 68, 0.65)', textTransform: 'none' }}>
-              Optional
-            </span>
+            Event Details
           </label>
           <div style={{
             display: 'flex',
