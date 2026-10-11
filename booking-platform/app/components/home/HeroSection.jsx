@@ -273,7 +273,7 @@ export default function HeroSection() {
 
           {/* RIGHT: INTERACTIVE LIVE SOUNDCHECK PASS CARD (DESKTOP) */}
           <div className="hp-sw-artist-showcase-card">
-            <div className="hp-sw-card-img-wrap" style={{ height: '370px' }}>
+            <div className="hp-sw-card-img-wrap" style={{ height: '410px' }}>
               {HERO_SPOTLIGHT_SLIDES.map((slideSrc, sIdx) => (
                 <div
                   key={typeof slideSrc === 'string' ? slideSrc : sIdx}
