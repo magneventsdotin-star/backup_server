@@ -1,41 +1,48 @@
 .flow-unify-shell {
-  --bg-base: #0a0a0a;
-  --bg-raised: #0d0d0d;
-  --bg-overlay: #222222;
-  --bg-subtle: #2a2a2a;
-  --bg-inverse: #ffffff;
+  --bg-base: #1c1a1d;
+  --bg-raised: #29272A;
+  --bg-overlay: #29272A;
+  --bg-subtle: #242225;
+  --bg-inverse: #F5F0E9;
 
-  --border-faint: rgba(255, 255, 255, 0.06);
-  --border-subtle: rgba(255, 255, 255, 0.12);
-  --border-default: rgba(255, 224, 50, 0.2);
-  --border-strong: rgba(255, 224, 50, 0.4);
-  --border-focus: #FFE032;
+  --border-faint: rgba(216, 196, 183, 0.12);
+  --border-subtle: rgba(216, 196, 183, 0.18);
+  --border-default: rgba(216, 196, 183, 0.28);
+  --border-strong: rgba(232, 185, 67, 0.4);
+  --border-focus: #E8B943;
 
-  --text-primary: #ffffff;
-  --text-secondary: #bfaea1;
-  --text-tertiary: #8b7e74;
-  --text-inverse: #0a0a0a;
+  --text-primary: #F5F0E9;
+  --text-secondary: rgba(245, 240, 233, 0.72);
+  --text-tertiary: rgba(245, 240, 233, 0.48);
+  --text-inverse: #1c1a1d;
 
-  --brand-saffron: #FFE032;
-  --brand-saffron-dk: #EECE3B;
-  --brand-saffron-lt: #FFF462;
-  --brand-gold: #FFE032;
-  --brand-gold-lt: #FFF462;
+  --color-coral: #E45F60;
+  --color-marigold: #E8B943;
+  --color-charcoal: #29272A;
+  --color-ivory: #F5F0E9;
+  --color-wine: #7E3044;
+  --color-rose-stone: #D8C4B7;
 
-  --glow-sky: rgba(0, 212, 255, 0.2);
-  --glow-mixture: rgba(255, 77, 77, 0.2);
-  --glow-orange: rgba(255, 159, 77, 0.15);
+  --brand-primary: #E45F60;
+  --brand-coral: #E45F60;
+  --brand-saffron: #E8B943;
+  --brand-gold: #E8B943;
+  --brand-wine: #7E3044;
 
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: ui-serif, Georgia, 'Times New Roman', Times, serif;
-  --page-shell-max: 1240px;
+  --glow-coral: rgba(228, 95, 96, 0.2);
+  --glow-marigold: rgba(232, 185, 67, 0.18);
+  --glow-wine: rgba(126, 48, 68, 0.2);
+
+  --font-sans: var(--font-sans, 'Inter', system-ui, sans-serif);
+  --font-display: var(--font-display, 'Playfair Display', Georgia, serif);
+  --page-shell-max: 1360px;
   --page-shell-pad: 24px;
-  --nav-height: 70px;
+  --nav-height: 68px;
 
   position: relative;
   min-height: 100vh;
   color: var(--text-primary);
-  background: #0a0a0a;
+  background: #1c1a1d;
 }
 
 .flow-unify-atmos {
@@ -190,17 +197,16 @@
   color: #8a8072;
 }
 
+.flow-unify-shell .reveal-child,
 .flow-unify-shell .reveal-child.visible,
 .flow-unify-shell .visible .reveal-child {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
   filter: saturate(1.02);
 }
 
 .flow-unify-shell .reveal-child {
-  transition-duration: var(--motion-reveal-duration);
-  transition-timing-function: var(--motion-ease-standard);
-  transition-delay: var(--reveal-delay, 0ms);
+  transition: none !important;
 }
 
 .flow-unify-shell .bottom-nav {

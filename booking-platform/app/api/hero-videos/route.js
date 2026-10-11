@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
-
 export const dynamic = 'force-dynamic';
-
 export async function GET() {
   try {
     const s3Client = new S3Client({
@@ -22,6 +20,11 @@ export async function GET() {
     const data = await s3Client.send(command);
     const publicUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
 
+
+
+
+
+    
     if (!data.Contents) {
       return NextResponse.json([]);
     }

@@ -462,6 +462,7 @@
     overflow-x: auto !important;
     scroll-snap-type: x mandatory !important;
     -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-x pan-y !important;
     padding-bottom: 20px !important;
     gap: 16px !important;
   }

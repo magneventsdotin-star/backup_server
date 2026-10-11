@@ -218,26 +218,9 @@ export default function AIAssistantModal() {
 
   return (
     <>
-      {/* Floating trigger button (Bottom Right) */}
-      <button
-        type="button"
-        onClick={toggleOpen}
-        className={`lux-ai-trigger-btn ${isOpen ? 'is-active' : ''}`}
-        aria-label={isOpen ? "Close AI Search Bar" : "Open AI Search Bar"}
-        title="Open Magnevents AI Concierge"
-      >
-        <span className="lux-ai-trigger-icon">
-          {isOpen ? (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          ) : (
-            <AIIcon color="#ffffff" size={24} />
-          )}
-        </span>
-        <span className="label-text">AI Search</span>
-        <span className="lux-ai-pulse-dot" />
-      </button>
+      {/* Floating trigger button removed as requested */}
+
+      {/* AI Bar / Drawer in Bottom Right */}
 
       {/* AI Bar / Drawer in Bottom Right */}
       {isOpen && (

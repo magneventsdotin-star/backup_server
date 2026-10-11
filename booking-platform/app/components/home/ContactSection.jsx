@@ -61,8 +61,10 @@ export default function ContactSection() {
   return (
     <FadeSection className="hp-shell hp-block hp-contact" id="contact">
       <div className="hp-section-head">
-        <p className="hp-eyebrow">✉️ Quick Contact</p>
-        <h2>Get in Touch</h2>
+        <p className="hp-eyebrow" style={{ color: 'var(--color-marigold, #E8B943)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.82rem' }}>✉️ Quick Inquiries</p>
+        <h2 className="hp-display-title">
+          Get in <span>Touch</span>
+        </h2>
       </div>
       <div className="hp-contact-inner">
         <div className="hp-contact-info">

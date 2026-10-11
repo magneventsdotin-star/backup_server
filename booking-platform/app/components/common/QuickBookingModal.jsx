@@ -95,7 +95,7 @@ export default function QuickBookingModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 18 }}
             transition={{ type: 'spring', damping: 28, stiffness: 380 }}
-            className="lux-modal-content"
+            className="lux-modal-content qb-beige-modal-card"
             style={{ 
               maxWidth: '440px', 
               width: '100%',
@@ -103,25 +103,25 @@ export default function QuickBookingModal() {
               maxHeight: 'calc(100vh - 32px)',
               overflowY: 'auto',
               WebkitOverflowScrolling: 'touch',
-              background: 'linear-gradient(180deg, #151322 0%, #0d0b16 100%)',
-              border: '1px solid rgba(255, 255, 255, 0.14)',
-              borderRadius: '22px',
-              padding: '20px 18px 18px',
-              boxShadow: '0 30px 90px rgba(0, 0, 0, 0.92), 0 0 45px rgba(255, 224, 50, 0.1)',
+              background: '#D8C4B7',
+              border: '1.5px solid rgba(126, 48, 68, 0.25)',
+              borderRadius: '24px',
+              padding: '22px 20px 20px',
+              boxShadow: '0 30px 90px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
               position: 'relative',
               boxSizing: 'border-box'
             }}
           >
-            {/* Ambient luxury glow in top center */}
+            {/* Ambient subtle glow in top center */}
             <div 
               style={{
                 position: 'absolute',
                 top: '-35px',
                 left: '50%',
-                transform: 'translateX(-50%)',
+                transform: 'translateX(-50)',
                 width: '300px',
                 height: '130px',
-                background: 'radial-gradient(ellipse at center, rgba(255, 224, 50, 0.18) 0%, rgba(255, 107, 0, 0.08) 50%, transparent 70%)',
+                background: 'radial-gradient(ellipse at center, rgba(126, 48, 68, 0.12) 0%, transparent 70%)',
                 pointerEvents: 'none',
                 zIndex: 0
               }} 
@@ -140,13 +140,13 @@ export default function QuickBookingModal() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
-                padding: '4px 10px',
-                background: 'rgba(255, 224, 50, 0.1)',
-                border: '1px solid rgba(255, 224, 50, 0.3)',
+                padding: '4px 12px',
+                background: 'rgba(126, 48, 68, 0.12)',
+                border: '1px solid rgba(126, 48, 68, 0.3)',
                 borderRadius: '100px',
                 fontSize: '11px',
                 fontWeight: 800,
-                color: '#FFE032',
+                color: '#7E3044',
                 letterSpacing: '0.04em'
               }}>
                 <span>🎉</span>
@@ -160,10 +160,11 @@ export default function QuickBookingModal() {
                   width: '32px',
                   height: '32px',
                   borderRadius: '50%',
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  color: 'rgba(255, 255, 255, 0.85)',
+                  background: 'rgba(126, 48, 68, 0.1)',
+                  border: '1px solid rgba(126, 48, 68, 0.22)',
+                  color: '#7E3044',
                   fontSize: '14px',
+                  fontWeight: 700,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -172,12 +173,12 @@ export default function QuickBookingModal() {
                   flexShrink: 0
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.18)';
-                  e.currentTarget.style.color = '#ffffff';
+                  e.currentTarget.style.background = 'rgba(126, 48, 68, 0.2)';
+                  e.currentTarget.style.color = '#7E3044';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-                  e.currentTarget.style.color = 'rgba(255, 255, 255, 0.85)';
+                  e.currentTarget.style.background = 'rgba(126, 48, 68, 0.1)';
+                  e.currentTarget.style.color = '#7E3044';
                 }}
               >
                 ✕
@@ -215,20 +216,6 @@ function InnerQuickBookingForm({ onClose }) {
   const rawDigits = (formData.phone || '').replace(/[^0-9]/g, '')
   const isPhoneValid = rawDigits.length >= 10
 
-  const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-      if (typeof window !== 'undefined' && window.Razorpay) {
-        resolve(true)
-        return
-      }
-      const script = document.createElement('script')
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
-      script.onload = () => resolve(true)
-      script.onerror = () => resolve(false)
-      document.body.appendChild(script)
-    })
-  }
-
   const validate = () => {
     const newErrors = {}
     const nameErr = validateName(formData.name)
@@ -251,165 +238,42 @@ function InnerQuickBookingForm({ onClose }) {
     return Object.keys(newErrors).length === 0
   }
 
-  // Set to true once Razorpay merchant account review is approved
-  const ENABLE_RAZORPAY_CHECKOUT = false;
-
-  // 1. Primary ₹99 Slot Booking Handler
+  // Primary Slot Booking Handler (Direct submission without payment gateway)
   const handleSubmit = async (e) => {
     if (e && e.preventDefault) e.preventDefault()
     if (!validate()) return
 
     setIsSubmitting(true)
-
-    // Direct submit while Razorpay merchant account is under review
-    if (!ENABLE_RAZORPAY_CHECKOUT) {
-      try {
-        let deviceType = 'M'
-        if (typeof window !== 'undefined') {
-          if (window.innerWidth > 1024) deviceType = 'D'
-          else if (window.innerWidth > 768) deviceType = 'T'
-        }
-
-        const generatedRef = `MAG-QB-${Date.now().toString().slice(-6)}`
-        await bookingService.submitInstantRequest({
-          name: formData.name.trim(),
-          phone: formData.phone.trim(),
-          message: '',
-          tokenNote: 'Claimed Flat 55%–65% First Booking Discount',
-          eventType: 'Live Artist Slot Booking (55%–65% OFF)',
-          type: 'quick_booking',
-          formName: 'Quick Booking Modal',
-          deviceType: deviceType,
-          formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#quick-booking` : '',
-          referenceCode: generatedRef,
-          latitude: geoData.latitude,
-          longitude: geoData.longitude,
-          detectedLocation: geoData.detectedLocation
-        })
-
-        setRefCode(generatedRef)
-        setIsSuccess(true)
-      } catch (err) {
-        console.error('Quick booking submission error:', err)
-        setErrors({ phone: 'Could not submit booking. Please try again.' })
-      } finally {
-        setIsSubmitting(false)
-      }
-      return
-    }
-
     try {
-      // 1. Create Order on backend
-      const orderRes = await fetch('/api/razorpay/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          phone: formData.phone.trim()
-        })
+      let deviceType = 'M'
+      if (typeof window !== 'undefined') {
+        if (window.innerWidth > 1024) deviceType = 'D'
+        else if (window.innerWidth > 768) deviceType = 'T'
+      }
+
+      const generatedRef = `MAG-QB-${Date.now().toString().slice(-6)}`
+      await bookingService.submitInstantRequest({
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        message: '',
+        tokenNote: 'Claimed Flat 55%–65% First Booking Discount',
+        eventType: 'Live Artist Slot Booking (55%–65% OFF)',
+        type: 'quick_booking',
+        formName: 'Quick Booking Modal',
+        deviceType: deviceType,
+        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#quick-booking` : '',
+        referenceCode: generatedRef,
+        latitude: geoData.latitude,
+        longitude: geoData.longitude,
+        detectedLocation: geoData.detectedLocation
       })
 
-      const orderData = await orderRes.json()
-
-      if (!orderRes.ok || !orderData.orderId) {
-        throw new Error(orderData.error || 'Failed to initiate Razorpay payment.')
-      }
-
-      // 2. Load Razorpay checkout script
-      const isLoaded = await loadRazorpayScript()
-      if (!isLoaded) {
-        throw new Error('Could not load Razorpay payment gateway. Please check your internet connection.')
-      }
-
-      // 3. Open Razorpay Checkout modal
-      const options = {
-        key: orderData.keyId,
-        amount: orderData.amount,
-        currency: orderData.currency,
-        name: 'Magnevents',
-        description: 'Artist Slot Booking Confirmation',
-        order_id: orderData.orderId,
-        prefill: {
-          name: formData.name.trim(),
-          contact: formData.phone.trim()
-        },
-        theme: {
-          color: '#FFE032'
-        },
-        handler: async function (response) {
-          setIsSubmitting(true)
-          try {
-            // 4. Verify payment signature on backend
-            const verifyRes = await fetch('/api/razorpay/verify-payment', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                customer_name: formData.name.trim(),
-                customer_phone: formData.phone.trim()
-              })
-            })
-
-            const verifyData = await verifyRes.json()
-
-            // Record lead in background for CRM & WhatsApp notifications
-            try {
-              let deviceType = 'M'
-              if (typeof window !== 'undefined') {
-                if (window.innerWidth > 1024) deviceType = 'D'
-                else if (window.innerWidth > 768) deviceType = 'T'
-              }
-              await bookingService.submitInstantRequest({
-                name: formData.name.trim(),
-                phone: formData.phone.trim(),
-                message: '',
-                tokenNote: `Payment Verified. Razorpay Payment ID: ${response.razorpay_payment_id}, Order ID: ${response.razorpay_order_id}`,
-                eventType: 'Live Artist Slot Booking (Confirmed)',
-                type: 'quick_booking_paid',
-                formType: 'quick_booking',
-                formName: 'Quick Booking Modal',
-                deviceType: deviceType,
-                formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#quick-booking` : '',
-                latitude: geoData.latitude,
-                longitude: geoData.longitude,
-                detectedLocation: geoData.detectedLocation
-              })
-            } catch (leadErr) {
-              console.warn('Lead submit notification warning:', leadErr)
-            }
-
-            setPaymentDetails({
-              paymentId: response.razorpay_payment_id,
-              orderId: response.razorpay_order_id
-            })
-            setRefCode(verifyData?.referenceCode || response.razorpay_payment_id)
-            setIsSuccess(true)
-          } catch (vErr) {
-            console.error('Payment verification error:', vErr)
-            setIsSuccess(true)
-          } finally {
-            setIsSubmitting(false)
-          }
-        },
-        modal: {
-          ondismiss: function () {
-            setIsSubmitting(false)
-          }
-        }
-      }
-
-      const rzp = new window.Razorpay(options)
-      rzp.on('payment.failed', function (failRes) {
-        setIsSubmitting(false)
-        setErrors({ phone: failRes.error?.description || 'Payment was cancelled or unsuccessful. Please try again.' })
-      })
-      rzp.open()
-
+      setRefCode(generatedRef)
+      setIsSuccess(true)
     } catch (err) {
-      console.error('Razorpay initiation error:', err)
-      setErrors({ phone: err.message || 'Payment initiation failed. Please try again.' })
+      console.error('Quick booking submission error:', err)
+      setErrors({ phone: 'Could not submit booking. Please try again.' })
+    } finally {
       setIsSubmitting(false)
     }
   }
@@ -578,13 +442,13 @@ function InnerQuickBookingForm({ onClose }) {
             width: '100%', 
             padding: '12px', 
             borderRadius: '12px', 
-            background: 'linear-gradient(135deg, #FFE032 0%, #FFA800 100%)', 
-            color: '#05070A', 
-            fontWeight: '900', 
+            background: 'var(--color-coral, #E45F60)', 
+            color: '#ffffff', 
+            fontWeight: '800', 
             fontSize: '14.5px',
             border: 'none', 
             cursor: 'pointer',
-            boxShadow: '0 4px 16px rgba(255, 224, 50, 0.35)'
+            boxShadow: '0 4px 16px rgba(228, 95, 96, 0.35)'
           }}
         >
           Done & Explore Artists
@@ -600,7 +464,7 @@ function InnerQuickBookingForm({ onClose }) {
         <h3 style={{ 
           fontSize: '22px', 
           fontWeight: 900, 
-          color: '#ffffff', 
+          color: '#7E3044', 
           margin: '0 0 5px', 
           lineHeight: 1.25,
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
@@ -608,22 +472,21 @@ function InnerQuickBookingForm({ onClose }) {
         }}>
           Book Verified{' '}
           <span style={{ 
-            background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            display: 'inline-block'
+            color: '#7E3044',
+            display: 'inline-block',
+            fontWeight: 900
           }}>
             Live Artists
           </span>
         </h3>
         <p style={{ 
           fontSize: '12.5px', 
-          color: 'rgba(255, 255, 255, 0.72)', 
+          color: 'rgba(126, 48, 68, 0.85)', 
           margin: 0, 
           lineHeight: 1.45,
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }}>
-          Claim <strong style={{ color: '#FFE032' }}>Flat 55%–65% OFF</strong> on your booking. Connect with 1500+ verified performers across India.
+          Claim <strong style={{ color: '#7E3044' }}>Flat 55%–65% OFF</strong> on your booking. Connect with 1500+ verified performers across India.
         </p>
       </div>
 
@@ -636,7 +499,7 @@ function InnerQuickBookingForm({ onClose }) {
             style={{ 
               fontSize: '11px', 
               fontWeight: 800, 
-              color: 'rgba(255, 255, 255, 0.92)', 
+              color: '#7E3044', 
               marginBottom: '5px', 
               display: 'flex', 
               alignItems: 'center', 
@@ -646,20 +509,20 @@ function InnerQuickBookingForm({ onClose }) {
             }}
           >
             <span>Full Name</span>
-            <span style={{ color: '#FFE032' }}>*</span>
+            <span style={{ color: '#7E3044' }}>*</span>
           </label>
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: '#FFFFFF',
             border: errors.name
-              ? '1.5px solid #ef4444'
-              : (activeFocus === 'name' ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)'),
+              ? '1.5px solid #dc2626'
+              : (activeFocus === 'name' ? '1.5px solid #7E3044' : '1px solid rgba(126, 48, 68, 0.25)'),
             borderRadius: '12px',
             overflow: 'hidden',
             boxShadow: errors.name
-              ? '0 0 0 3px rgba(239, 68, 68, 0.25)'
-              : (activeFocus === 'name' ? '0 0 0 3px rgba(255, 224, 50, 0.15)' : 'none'),
+              ? '0 0 0 3px rgba(220, 38, 38, 0.2)'
+              : (activeFocus === 'name' ? '0 0 0 3px rgba(126, 48, 68, 0.15)' : 'none'),
             transition: 'all 0.2s ease',
             boxSizing: 'border-box'
           }}>
@@ -669,9 +532,9 @@ function InnerQuickBookingForm({ onClose }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: errors.name ? '#ef4444' : (activeFocus === 'name' ? '#FFE032' : 'rgba(255, 255, 255, 0.5)'),
-              borderRight: '1px solid rgba(255, 255, 255, 0.12)',
-              background: 'rgba(255, 255, 255, 0.02)',
+              color: errors.name ? '#dc2626' : (activeFocus === 'name' ? '#7E3044' : 'rgba(126, 48, 68, 0.65)'),
+              borderRight: '1px solid rgba(126, 48, 68, 0.18)',
+              background: 'rgba(126, 48, 68, 0.05)',
               flexShrink: 0
             }}>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -698,8 +561,9 @@ function InnerQuickBookingForm({ onClose }) {
                 padding: '0 14px',
                 background: 'transparent',
                 border: 'none',
-                color: '#ffffff',
+                color: '#7E3044',
                 fontSize: '14.5px',
+                fontWeight: 600,
                 fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
                 outline: 'none',
                 boxSizing: 'border-box'
@@ -707,7 +571,7 @@ function InnerQuickBookingForm({ onClose }) {
             />
           </div>
           {errors.name && (
-            <span style={{ color: '#ef4444', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 600 }}>
+            <span style={{ color: '#dc2626', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 600 }}>
               {errors.name}
             </span>
           )}
@@ -721,7 +585,7 @@ function InnerQuickBookingForm({ onClose }) {
               style={{ 
                 fontSize: '11px', 
                 fontWeight: 800, 
-                color: 'rgba(255, 255, 255, 0.92)', 
+                color: '#7E3044', 
                 display: 'flex', 
                 alignItems: 'center', 
                 gap: '4px',
@@ -730,13 +594,13 @@ function InnerQuickBookingForm({ onClose }) {
               }}
             >
               <span>Phone Number</span>
-              <span style={{ color: '#FFE032' }}>*</span>
+              <span style={{ color: '#7E3044' }}>*</span>
             </label>
             {rawDigits.length > 0 && (
               <span style={{ 
                 fontSize: '11px', 
                 fontWeight: 800, 
-                color: isPhoneValid ? '#22c55e' : '#f59e0b' 
+                color: isPhoneValid ? '#15803d' : '#b45309' 
               }}>
                 {isPhoneValid ? '✓ 10 Digits' : `${rawDigits.length}/10 digits`}
               </span>
@@ -745,15 +609,15 @@ function InnerQuickBookingForm({ onClose }) {
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: '#FFFFFF',
             border: errors.phone
-              ? '1.5px solid #ef4444'
-              : (activeFocus === 'phone' ? '1.5px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)'),
+              ? '1.5px solid #dc2626'
+              : (activeFocus === 'phone' ? '1.5px solid #7E3044' : '1px solid rgba(126, 48, 68, 0.25)'),
             borderRadius: '12px',
             overflow: 'hidden',
             boxShadow: errors.phone
-              ? '0 0 0 3px rgba(239, 68, 68, 0.25)'
-              : (activeFocus === 'phone' ? '0 0 0 3px rgba(255, 224, 50, 0.15)' : 'none'),
+              ? '0 0 0 3px rgba(220, 38, 38, 0.2)'
+              : (activeFocus === 'phone' ? '0 0 0 3px rgba(126, 48, 68, 0.15)' : 'none'),
             transition: 'all 0.2s ease',
             boxSizing: 'border-box'
           }}>
@@ -762,10 +626,10 @@ function InnerQuickBookingForm({ onClose }) {
               alignItems: 'center',
               gap: '6px',
               padding: '0 12px',
-              background: 'rgba(255, 224, 50, 0.08)',
-              borderRight: '1px solid rgba(255, 255, 255, 0.14)',
+              background: 'rgba(126, 48, 68, 0.08)',
+              borderRight: '1px solid rgba(126, 48, 68, 0.18)',
               height: '46px',
-              color: '#FFE032',
+              color: '#7E3044',
               fontWeight: 800,
               fontSize: '13.5px',
               userSelect: 'none',
@@ -797,8 +661,9 @@ function InnerQuickBookingForm({ onClose }) {
                 padding: '0 14px',
                 background: 'transparent',
                 border: 'none',
-                color: '#ffffff',
+                color: '#7E3044',
                 fontSize: '15px',
+                fontWeight: 600,
                 fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
                 outline: 'none',
                 boxSizing: 'border-box',
@@ -807,7 +672,7 @@ function InnerQuickBookingForm({ onClose }) {
             />
           </div>
           {errors.phone && (
-            <span style={{ color: '#ef4444', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 600 }}>
+            <span style={{ color: '#dc2626', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 600 }}>
               {errors.phone}
             </span>
           )}
@@ -820,16 +685,16 @@ function InnerQuickBookingForm({ onClose }) {
             disabled={isSubmitting}
             style={{ 
               width: '100%', 
-              background: 'linear-gradient(135deg, #FFE032 0%, #FFA800 100%)', 
-              color: '#0c0a14', 
-              fontWeight: 900, 
+              background: '#7E3044', 
+              color: '#ffffff', 
+              fontWeight: 800, 
               fontSize: '15px',
               fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
               padding: '14px 20px', 
               borderRadius: '12px', 
               border: 'none', 
               cursor: isSubmitting ? 'not-allowed' : 'pointer',
-              boxShadow: '0 8px 26px rgba(255, 224, 50, 0.38)',
+              boxShadow: '0 6px 22px rgba(126, 48, 68, 0.4)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -841,12 +706,14 @@ function InnerQuickBookingForm({ onClose }) {
             onMouseEnter={(e) => {
               if (!isSubmitting) {
                 e.currentTarget.style.transform = 'translateY(-1px)';
-                e.currentTarget.style.boxShadow = '0 12px 30px rgba(255, 224, 50, 0.5)';
+                e.currentTarget.style.background = '#672535';
+                e.currentTarget.style.boxShadow = '0 12px 30px rgba(126, 48, 68, 0.55)';
               }
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 8px 26px rgba(255, 224, 50, 0.38)';
+              e.currentTarget.style.background = '#7E3044';
+              e.currentTarget.style.boxShadow = '0 6px 22px rgba(126, 48, 68, 0.4)';
             }}
           >
             {isSubmitting ? (
@@ -867,7 +734,7 @@ function InnerQuickBookingForm({ onClose }) {
             textAlign: 'center',
             marginTop: '8px',
             fontSize: '11px',
-            color: 'rgba(255, 255, 255, 0.55)',
+            color: 'rgba(126, 48, 68, 0.75)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

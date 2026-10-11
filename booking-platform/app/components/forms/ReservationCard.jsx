@@ -20,13 +20,8 @@ export default function ReservationCard({ title, desc, actionLabel, onAction, is
   )
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: direction === 'left' ? -40 : 40 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      className="book-card"
-    >
+    <div className="book-card">
       {content}
-    </motion.div>
+    </div>
   )
 }

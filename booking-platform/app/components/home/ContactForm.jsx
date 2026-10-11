@@ -75,13 +75,9 @@ export default function ContactForm() {
   }
 
   return (
-    <motion.form
+    <form
       className="hp-contact-form"
       onSubmit={submit}
-      initial={{ opacity: 0, x: 24 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="hp-form-row">
         <div className="hp-form-field">
@@ -134,6 +130,6 @@ export default function ContactForm() {
           ? <span className="hp-spinner" />
           : <><span>Send Inquiry</span><span className="hp-btn-shine" aria-hidden="true" /></>}
       </motion.button>
-    </motion.form>
+    </form>
   )
 }

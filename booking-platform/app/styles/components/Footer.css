@@ -1,11 +1,11 @@
 .lux-footer {
-  background-color: #000000;
-  color: var(--text-main);
-  padding: var(--spacing-5) 0 var(--spacing-4);
+  background-color: #000000 !important;
+  color: #F5F0E9;
+  padding: 56px 0 32px;
   position: relative;
   overflow: hidden;
   font-family: var(--font-body);
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .lux-footer-container {
@@ -38,9 +38,9 @@
 .lux-footer-desc {
   line-height: 1.7;
   font-size: 0.95rem;
-  color: var(--text-muted);
+  color: rgba(245, 240, 233, 0.65);
   max-width: 340px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .lux-footer-socials {
@@ -53,9 +53,9 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
-  border: 1px solid var(--border-light);
-  background: var(--bg-main);
-  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #F5F0E9;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,15 +63,15 @@
 }
 
 .lux-footer-social-link:hover {
-  background: var(--brand-primary);
-  border-color: var(--brand-primary);
-  color: var(--bg-main);
+  background: var(--color-coral, #E45F60);
+  border-color: var(--color-coral, #E45F60);
+  color: #ffffff;
   transform: translateY(-4px);
-  box-shadow: var(--shadow-glow);
+  box-shadow: 0 6px 16px rgba(228, 95, 96, 0.35);
 }
 
 .lux-footer-col h4 {
-  color: var(--text-main);
+  color: #F5F0E9;
   font-size: 0.875rem;
   font-weight: 700;
   margin-bottom: var(--spacing-4);
@@ -90,7 +90,7 @@
 
 .lux-footer-link {
   text-decoration: none;
-  color: var(--text-muted);
+  color: rgba(245, 240, 233, 0.65);
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.2s ease;
@@ -98,13 +98,13 @@
 }
 
 .lux-footer-link:hover {
-  color: var(--brand-primary);
+  color: var(--color-marigold, #E8B943);
   transform: translateX(4px);
 }
 
 .lux-footer-bottom {
   padding-top: var(--spacing-5);
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -112,7 +112,7 @@
 
 .lux-footer-copyright {
   font-size: 0.875rem;
-  color: var(--text-muted);
+  color: rgba(245, 240, 233, 0.45);
   font-weight: 500;
 }
 
@@ -121,16 +121,17 @@
   gap: var(--spacing-4);
 }
 
-.lux-footer-legal a {
+.lux-footer-legal a,
+.lux-footer-legal span {
   text-decoration: none;
-  color: var(--text-muted);
+  color: rgba(245, 240, 233, 0.45);
   font-size: 0.875rem;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 .lux-footer-legal a:hover {
-  color: var(--brand-primary);
+  color: var(--color-marigold, #E8B943);
 }
 
 .lux-footer-chevron {

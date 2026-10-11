@@ -108,7 +108,7 @@ export default function Nav() {
                       className={`lux-nav-ai-btn ${pathname === '/ai-search' ? 'is-active' : ''}`}
                       aria-label="Open Full AI Search Page"
                     >
-                      <AIIcon color="#FFE032" size={16} />
+                      <AIIcon color="var(--color-marigold, #E8B943)" size={16} />
                       <span>AI Search</span>
                     </Link>
                   )}

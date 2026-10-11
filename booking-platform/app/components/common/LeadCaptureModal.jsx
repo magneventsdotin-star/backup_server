@@ -167,19 +167,6 @@ export default function LeadCaptureModal() {
       const search = window.location.search
       if (hash === '#offers' || hash === '#book-99' || hash === '#lead-capture' || search.includes('open=offers')) {
         setIsOpen(true)
-      } else {
-        const hasSeen = sessionStorage.getItem('magnevents_welcome_modal_seen')
-        if (!hasSeen) {
-          sessionStorage.setItem('magnevents_welcome_modal_seen', 'true')
-          const timer = setTimeout(() => {
-            setIsOpen(true)
-          }, 2200)
-          return () => {
-            clearTimeout(timer)
-            window.removeEventListener('open-lead-capture', handleOpen)
-            window.removeEventListener('open-quick-booking', handleOpen)
-          }
-        }
       }
     }
 
@@ -417,7 +404,7 @@ export default function LeadCaptureModal() {
                 lineHeight: 1.25,
                 letterSpacing: '-0.02em'
               }}>
-                Book Verified Live Artists <span style={{ color: '#FFE032' }}>Online</span>
+                Book Verified Live Artists <span style={{ color: '#E8B943' }}>Online</span>
               </h3>
               <p style={{
                 fontSize: '12px',
@@ -479,12 +466,12 @@ export default function LeadCaptureModal() {
                       overflow: 'hidden',
                       scrollSnapAlign: 'center',
                       cursor: 'pointer',
-                      border: isActive ? '1.8px solid #FFE032' : '1px solid rgba(255, 255, 255, 0.16)',
+                      border: isActive ? '1.8px solid #E8B943' : '1px solid rgba(255, 255, 255, 0.16)',
                       background: 'rgba(10, 8, 20, 0.95)',
                       backdropFilter: 'blur(20px)',
                       WebkitBackdropFilter: 'blur(20px)',
                       boxShadow: isActive
-                        ? '0 16px 40px rgba(0, 0, 0, 0.85), 0 0 24px rgba(255, 224, 50, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.4)'
+                        ? '0 16px 40px rgba(0, 0, 0, 0.85), 0 0 24px rgba(232, 185, 67, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4)'
                         : '0 8px 24px rgba(0, 0, 0, 0.6)',
                       opacity: isActive ? 1 : 0.65,
                       transform: isActive ? 'scale(1)' : 'scale(0.95)',
@@ -737,15 +724,15 @@ export default function LeadCaptureModal() {
                   <span style={{
                     fontSize: '11.5px',
                     fontWeight: 900,
-                    color: '#FFE032',
+                    color: '#E8B943',
                     letterSpacing: '0.03em',
                     textTransform: 'uppercase'
                   }}>
                     Diwali Pre-Booking Special
                   </span>
                   <span style={{
-                    background: 'linear-gradient(90deg, #FFE032 0%, #FF9900 100%)',
-                    color: '#08080E',
+                    background: 'linear-gradient(90deg, #E8B943 0%, #E45F60 100%)',
+                    color: '#ffffff',
                     fontSize: '9px',
                     fontWeight: 900,
                     padding: '1px 6px',
@@ -761,7 +748,7 @@ export default function LeadCaptureModal() {
                   margin: 0,
                   lineHeight: 1.35
                 }}>
-                  Pre-book early: <strong style={{ color: '#FFE032' }}>55%–65% OFF</strong> + <strong style={{ color: '#FFFFFF' }}>Free Sound &amp; Mic Setup</strong> + <strong style={{ color: '#FFFFFF' }}>Zero Surge Fee</strong>!
+                  Pre-book early: <strong style={{ color: '#E8B943' }}>55%–65% OFF</strong> + <strong style={{ color: '#FFFFFF' }}>Free Sound &amp; Mic Setup</strong> + <strong style={{ color: '#FFFFFF' }}>Zero Surge Fee</strong>!
                 </p>
               </div>
             </div>
@@ -894,7 +881,7 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
           borderRadius: '100px',
           fontSize: '11px',
           fontWeight: 800,
-          color: '#FFE032',
+          color: '#E8B943',
           marginBottom: '8px'
         }}>
           🪔 DIWALI PRE-BOOKING LOCKED
@@ -908,13 +895,13 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
 
         <div style={{
           display: 'inline-block',
-          background: 'rgba(255, 224, 50, 0.12)',
-          border: '1px dashed #FFE032',
+          background: 'rgba(232, 185, 67, 0.12)',
+          border: '1px dashed #E8B943',
           padding: '6px 14px',
           borderRadius: '8px',
           fontSize: '12px',
           fontWeight: 800,
-          color: '#FFE032',
+          color: '#E8B943',
           marginBottom: '14px'
         }}>
           REF: {refCode}
@@ -996,9 +983,9 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
             transition: 'all 0.25s ease'
           }}
           onFocus={(e) => {
-            e.target.style.borderColor = '#FFE032'
+            e.target.style.borderColor = '#E8B943'
             e.target.style.background = 'rgba(255, 255, 255, 0.12)'
-            e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.3), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
+            e.target.style.boxShadow = '0 0 20px rgba(232, 185, 67, 0.3), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
           }}
           onBlur={(e) => {
             e.target.style.borderColor = 'rgba(255, 255, 255, 0.22)'
@@ -1017,12 +1004,12 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
             top: '50%',
             transform: 'translateY(-50%)',
             fontSize: '12.5px',
-            color: '#FFE032',
+            color: '#E8B943',
             fontWeight: 800,
-            background: 'rgba(255, 224, 50, 0.14)',
+            background: 'rgba(232, 185, 67, 0.14)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
-            border: '1.2px solid rgba(255, 224, 50, 0.45)',
+            border: '1.2px solid rgba(232, 185, 67, 0.45)',
             borderRadius: '8px',
             padding: '3px 8px',
             display: 'inline-flex',
@@ -1064,9 +1051,9 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
               transition: 'all 0.25s ease'
             }}
             onFocus={(e) => {
-              e.target.style.borderColor = '#FFE032'
+              e.target.style.borderColor = '#E8B943'
               e.target.style.background = 'rgba(255, 255, 255, 0.12)'
-              e.target.style.boxShadow = '0 0 20px rgba(255, 224, 50, 0.3), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
+              e.target.style.boxShadow = '0 0 20px rgba(232, 185, 67, 0.3), inset 0 2px 6px rgba(0, 0, 0, 0.3)'
             }}
             onBlur={(e) => {
               e.target.style.borderColor = 'rgba(255, 255, 255, 0.22)'
@@ -1128,15 +1115,15 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '7px 11px',
-        background: 'rgba(255, 224, 50, 0.08)',
-        border: '1px solid rgba(255, 224, 50, 0.25)',
+        background: 'rgba(232, 185, 67, 0.1)',
+        border: '1px solid rgba(232, 185, 67, 0.3)',
         borderRadius: '10px',
         marginTop: '1px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
           <span style={{ fontSize: '13px' }}>✨</span>
           <div>
-            <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#FFE032', lineHeight: 1.2 }}>
+            <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#E8B943', lineHeight: 1.2 }}>
               Diwali Pre-Booking Offer Applied
             </div>
             <div style={{ fontSize: '10px', color: 'rgba(255, 255, 255, 0.72)', lineHeight: 1.2 }}>
@@ -1173,21 +1160,20 @@ function MinimalBookingForm({ currentCard, onSelectEvent, onClose }) {
           width: '100%',
           height: '50px',
           borderRadius: '13px',
-          background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 50%, #FF9900 100%)',
-          color: '#080A0E',
+          background: 'var(--color-coral, #E45F60)',
+          color: '#ffffff',
           fontSize: '13.5px',
-          fontWeight: 900,
-          border: '1px solid rgba(255, 255, 255, 0.5)',
+          fontWeight: 800,
+          border: 'none',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '8px',
           cursor: isSubmitting ? 'not-allowed' : 'pointer',
-          boxShadow: '0 8px 25px rgba(255, 224, 50, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.7)',
+          boxShadow: '0 8px 25px rgba(228, 95, 96, 0.45)',
           transition: 'all 0.25s ease',
           marginTop: '4px',
           letterSpacing: '0.01em',
-          textShadow: '0 1px 1px rgba(255, 255, 255, 0.3)',
           whiteSpace: 'nowrap'
         }}
       >

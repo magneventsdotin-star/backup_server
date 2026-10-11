@@ -1,7 +1,13 @@
 .hero-videos-section {
-  padding: 40px 0;
+  padding: 48px 0 68px 0;
   color: #fff;
   overflow: hidden;
+}
+
+@media (min-width: 769px) {
+  .hero-videos-section {
+    padding: 64px 0 92px 0;
+  }
 }
 
 .hero-videos-container {
@@ -39,12 +45,13 @@
 .hero-video-card {
   flex: 0 0 85%;
   scroll-snap-align: center;
-  background: #111;
-  border-radius: 12px;
+  background: var(--color-charcoal, #29272A);
+  border: 1px solid rgba(216, 196, 183, 0.18);
+  border-radius: 14px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   display: flex;
   flex-direction: column;
 }
@@ -57,7 +64,8 @@
 
 .hero-video-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(255, 224, 50, 0.1);
+  border-color: rgba(232, 185, 67, 0.45);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 20px rgba(228, 95, 96, 0.15);
 }
 
 .hero-video-wrapper {
@@ -106,11 +114,11 @@
 }
 
 .hero-video-info {
-  padding: 12px 16px;
-  background: #111;
+  padding: 14px 16px;
+  background: rgba(30, 28, 31, 0.95);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .hero-video-meta {
@@ -120,9 +128,9 @@
 }
 
 .hero-video-title {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--color-ivory, #F5F0E9);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -130,11 +138,11 @@
 }
 
 .hero-video-category {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--brand-primary, #FFE032);
+  letter-spacing: 0.8px;
+  color: var(--color-marigold, #E8B943);
 }
 
 .hero-video-actions {
@@ -146,35 +154,35 @@
 
 .hero-video-book-btn {
   flex: 1.15;
-  background: linear-gradient(135deg, #FFE032 0%, #FFB800 100%);
-  color: #000000;
-  border: none;
+  background: var(--color-coral, #E45F60);
+  color: #ffffff;
+  border: 1px solid transparent;
   border-radius: 8px;
-  padding: 8px 10px;
-  font-weight: 800;
+  padding: 8px 12px;
+  font-weight: 700;
   font-size: 0.82rem;
   letter-spacing: 0.2px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   transition: all 0.22s ease;
-  box-shadow: 0 4px 12px rgba(255, 224, 50, 0.25);
+  box-shadow: 0 4px 12px rgba(228, 95, 96, 0.3);
   white-space: nowrap;
 }
 
 .hero-video-book-btn:hover {
-  background: linear-gradient(135deg, #FFF066 0%, #FFC820 100%);
+  background: #d64f50;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255, 224, 50, 0.4);
+  box-shadow: 0 6px 16px rgba(228, 95, 96, 0.45);
 }
 
 .hero-video-quote-btn {
   flex: 0.85;
-  background: rgba(255, 224, 50, 0.08);
-  color: var(--brand-primary, #FFE032);
-  border: 1px solid rgba(255, 224, 50, 0.25);
+  background: rgba(216, 196, 183, 0.08);
+  color: var(--color-ivory, #F5F0E9);
+  border: 1px solid rgba(216, 196, 183, 0.25);
   border-radius: 8px;
   padding: 8px 10px;
   font-weight: 600;
@@ -188,9 +196,9 @@
 }
 
 .hero-video-quote-btn:hover {
-  background: rgba(255, 224, 50, 0.2);
-  border-color: rgba(255, 224, 50, 0.5);
-  color: #ffffff;
+  background: rgba(216, 196, 183, 0.16);
+  border-color: var(--color-coral, #E45F60);
+  color: var(--color-coral, #E45F60);
 }
 
 /* Modal */
@@ -269,9 +277,9 @@
 }
 
 .hero-video-modal-close:hover {
-  background: rgba(255, 224, 50, 0.9);
-  color: #000;
-  border-color: rgba(255, 224, 50, 1);
+  background: var(--color-coral, #E45F60);
+  color: #fff;
+  border-color: var(--color-coral, #E45F60);
   transform: scale(1.1);
 }
 
@@ -372,4 +380,30 @@
   .modal-quote-btn {
     width: 100%;
   }
+}
+
+.video-grid-heading {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif !important;
+  font-size: clamp(28px, 3.2vw, 38px) !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  text-shadow: none !important;
+  filter: none !important;
+  background: none !important;
+  letter-spacing: -0.015em !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.video-grid-heading span {
+  font-family: inherit !important;
+  font-style: normal !important;
+  font-weight: inherit !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  text-shadow: none !important;
+  filter: none !important;
+  background: none !important;
 }

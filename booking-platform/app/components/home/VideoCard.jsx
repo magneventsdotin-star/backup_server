@@ -59,13 +59,9 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
   };
 
   return (
-    <motion.div
+    <div
       ref={cardRef}
       className="hero-video-card"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "50px" }}
-      transition={{ duration: 0.4, delay: (index % 4) * 0.1 }}
       onClick={() => onVideoClick(video)}
       tabIndex={0}
       role="button"
@@ -196,7 +192,7 @@ const VideoCard = memo(function VideoCard({ video, index, onVideoClick }) {
           </button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 });
 

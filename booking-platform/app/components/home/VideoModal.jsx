@@ -118,7 +118,7 @@ export default function VideoModal({ isOpen, video, onClose }) {
                     }));
                   }} 
                   className="hp-btn hp-btn-primary modal-quote-btn"
-                  style={{ background: 'linear-gradient(135deg, #FFE032 0%, #FFB800 100%)', color: '#000', fontWeight: 800 }}
+                  style={{ background: 'var(--color-coral, #E45F60)', color: '#fff', fontWeight: 700, borderRadius: '10px', boxShadow: '0 4px 14px rgba(228, 95, 96, 0.35)' }}
                 >
                   <span>⚡ Book Artist</span>
                 </button>

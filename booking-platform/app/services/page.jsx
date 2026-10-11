@@ -206,14 +206,10 @@ export default function ServicesPage() {
           if (catVideos.length === 0) return null;
 
           return (
-            <motion.div 
+            <div 
               key={cat.id} 
               id={`cat-${cat.id}`} 
               className="v4-category-row"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
             >
               <div className="v4-row-header">
                 <h2 className="v4-row-title">🎤 {cat.title}</h2>
@@ -224,7 +220,7 @@ export default function ServicesPage() {
                   <VideoCard key={video.id} video={video} onSelect={setSelectedVideo} />
                 ))}
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </section>
@@ -233,28 +229,19 @@ export default function ServicesPage() {
           SECTION 4: ALL VIDEOS (MASONRY)
           ========================================= */}
       <section className="v4-all-videos-section">
-        <motion.div 
-          className="v4-row-header"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
+        <div className="v4-row-header">
           <h2 className="v4-row-title">📺 ALL VIDEOS</h2>
           <p className="v4-row-subtitle">Explore our full library of premium entertainment.</p>
-        </motion.div>
+        </div>
         
         <div className="v4-masonry-grid">
-          {videos.map((video, idx) => (
-            <motion.div 
+          {videos.map((video) => (
+            <div 
               key={video.id} 
               className="v4-masonry-item"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: (idx % 3) * 0.1 }}
             >
               <VideoCard video={video} onSelect={setSelectedVideo} />
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>

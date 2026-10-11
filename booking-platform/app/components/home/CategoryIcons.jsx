@@ -2,22 +2,30 @@ import React from 'react';
 
 const BaseIcon = ({ children }) => (
   <svg width="100%" height="100%" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block' }}>
-    {/* Rich Red Background Circle */}
-    <circle cx="70" cy="70" r="56" fill="#C82B1D" />
+    {/* Soft Charcoal Base with Rose Stone Ring */}
+    <circle cx="70" cy="70" r="56" fill="#29272A" />
+    <circle cx="70" cy="70" r="55" stroke="rgba(216, 196, 183, 0.25)" strokeWidth="1.5" />
     
-    {/* Subtle Inner Glow */}
-    <circle cx="70" cy="70" r="56" fill="url(#circle-glow)" opacity="0.6" />
+    {/* Subtle Wine Red & Coral Atmospheric Inner Glow */}
+    <circle cx="70" cy="70" r="54" fill="url(#circle-wine-glow)" opacity="0.85" />
     
     {/* SVG Defs for gradients */}
     <defs>
-      <radialGradient id="circle-glow" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
-        <stop offset="0%" stopColor="#ff5e4d" stopOpacity="0.8" />
-        <stop offset="100%" stopColor="#8a1a10" stopOpacity="0" />
+      <radialGradient id="circle-wine-glow" cx="50%" cy="40%" r="60%">
+        <stop offset="0%" stopColor="#7E3044" stopOpacity="0.7" />
+        <stop offset="60%" stopColor="#29272A" stopOpacity="0.85" />
+        <stop offset="100%" stopColor="#1C1A1D" stopOpacity="0.95" />
       </radialGradient>
       
       <linearGradient id="gold-accent" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FDE68A" />
-        <stop offset="100%" stopColor="#D97706" />
+        <stop offset="0%" stopColor="#FFF2D6" />
+        <stop offset="50%" stopColor="#E8B943" />
+        <stop offset="100%" stopColor="#D49E28" />
+      </linearGradient>
+
+      <linearGradient id="coral-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FFA4A5" />
+        <stop offset="100%" stopColor="#E45F60" />
       </linearGradient>
     </defs>
 

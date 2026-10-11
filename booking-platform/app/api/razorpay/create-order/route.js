@@ -17,7 +17,11 @@ export async function POST(req) {
 
     const authHeader = 'Basic ' + Buffer.from(`${keyId}:${keySecret}`).toString('base64');
 
-    // Amount in paise: ₹2 = 200 paise (Testing phase)
+  
+
+
+
+
     const orderPayload = {
       amount: 200,
       currency: 'INR',

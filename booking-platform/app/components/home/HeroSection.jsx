@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import VideoModal from './VideoModal'
+import TrustEmblems from './TrustEmblems'
 
 import { HERO_SPOTLIGHT_SLIDES } from '@/app/constants'
 import { EVENT_POSTERS } from '@/app/constants/eventPosters'
@@ -21,6 +22,9 @@ export default function HeroSection() {
   const [isVideoMuted, setIsVideoMuted] = useState(true)
   const [isVideoPlaying, setIsVideoPlaying] = useState(true)
   const activeVideoRef = useRef(null)
+  const mobileCarouselRef = useRef(null)
+  const isScrollingProgrammatically = useRef(false)
+  const scrollRafRef = useRef(null)
 
   const toggleMute = (e) => {
     e?.stopPropagation()
@@ -44,9 +48,17 @@ export default function HeroSection() {
     }
   }
 
-  const mobileCarouselRef = useRef(null)
-  const isScrollingProgrammatically = useRef(false)
-  const scrollRafRef = useRef(null)
+  // Initially show first 4 video cards; unlock all created cards after 14s (10-15s) or after cycling
+  const availablePosters = hasUnlockedCreatedCards ? EVENT_POSTERS : EVENT_POSTERS.slice(0, 4)
+  const safePosterIndex = posterIndex % availablePosters.length
+  const currentCard = availablePosters[safePosterIndex] || availablePosters[0]
+
+  const isUserInteracting = useRef(false)
+  const scrollTimeout = useRef(null)
+  const isMouseDown = useRef(false)
+  const dragStartX = useRef(0)
+  const dragScrollLeft = useRef(0)
+  const hasMovedDrag = useRef(false)
 
   const handleMobileScroll = () => {
     if (isScrollingProgrammatically.current || !mobileCarouselRef.current) return
@@ -79,41 +91,64 @@ export default function HeroSection() {
         setPosterIndex(closestIdx)
       }
     })
+
+    if (scrollTimeout.current) {
+      window.clearTimeout(scrollTimeout.current)
+    }
+    scrollTimeout.current = window.setTimeout(() => {
+      isUserInteracting.current = false
+      setIsPosterHovered(false)
+    }, 1200)
   }
 
   const scrollToPoster = (idx, smooth = true) => {
-    setPosterIndex(idx)
+    const targetIdx = (idx + availablePosters.length) % availablePosters.length
+    setPosterIndex(targetIdx)
     if (!mobileCarouselRef.current) return
     const track = mobileCarouselRef.current
     const cards = track.children
-    if (cards && cards[idx]) {
-      const card = cards[idx]
+    if (cards && cards[targetIdx]) {
+      const card = cards[targetIdx]
       const left = card.offsetLeft - (track.clientWidth - card.clientWidth) / 2
       isScrollingProgrammatically.current = true
       track.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' })
       setTimeout(() => {
         isScrollingProgrammatically.current = false
-      }, 450)
+      }, 500)
     }
   }
 
-  const [searchQuery, setSearchQuery] = useState('')
-
-  const handleSearchSubmit = (e) => {
-    e?.preventDefault()
-    if (searchQuery.trim()) {
-      router.push(`/ai-search?q=${encodeURIComponent(searchQuery.trim())}`)
-    } else {
-      window.dispatchEvent(new CustomEvent('open-quick-booking'))
-    }
+  // Mouse Drag-To-Scroll handlers (for desktop testing, trackpad, and touch emulators)
+  const handleMouseDown = (e) => {
+    if (!mobileCarouselRef.current) return
+    isMouseDown.current = true
+    hasMovedDrag.current = false
+    dragStartX.current = e.pageX - mobileCarouselRef.current.offsetLeft
+    dragScrollLeft.current = mobileCarouselRef.current.scrollLeft
+    isUserInteracting.current = true
+    setIsPosterHovered(true)
   }
 
-  const QUICK_TAGS = [
-    { label: 'Bollywood Hits 🎤', query: 'Bollywood singer for party' },
-    { label: 'Acoustic / Unplugged 🎸', query: 'Acoustic guitarist singer' },
-    { label: 'Sufi & Ghazal 🌙', query: 'Sufi singer in Delhi NCR' },
-    { label: 'Live Bands 🥁', query: 'Live band for wedding' },
-  ]
+  const handleMouseMove = (e) => {
+    if (!isMouseDown.current || !mobileCarouselRef.current) return
+    e.preventDefault()
+    const x = e.pageX - mobileCarouselRef.current.offsetLeft
+    const walk = (x - dragStartX.current) * 1.3
+    if (Math.abs(walk) > 4) {
+      hasMovedDrag.current = true
+    }
+    mobileCarouselRef.current.scrollLeft = dragScrollLeft.current - walk
+  }
+
+  const handleMouseUpOrLeave = () => {
+    if (!isMouseDown.current) return
+    isMouseDown.current = false
+    setTimeout(() => {
+      hasMovedDrag.current = false
+      isUserInteracting.current = false
+      setIsPosterHovered(false)
+    }, 400)
+  }
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -125,9 +160,6 @@ export default function HeroSection() {
     return () => window.clearInterval(id)
   }, [])
 
-  // Initially show first 4 video cards; unlock all created cards after 14s (10-15s) or after cycling
-  const availablePosters = hasUnlockedCreatedCards ? EVENT_POSTERS : EVENT_POSTERS.slice(0, 4)
-
   // Unlock created cards if user stays on website for 14 seconds (10-15s)
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -136,31 +168,19 @@ export default function HeroSection() {
     return () => window.clearTimeout(timer)
   }, [])
 
-  const safePosterIndex = posterIndex % availablePosters.length
-  const currentCard = availablePosters[safePosterIndex] || availablePosters[0]
-
-  // Auto-advance cards: 12 seconds for videos (10-15s), 6 seconds for created image cards
+  // Auto-advance cards smoothly when user is not interacting
   useEffect(() => {
-    if (isPosterHovered || !isVideoMuted || !isVideoPlaying) return
+    if (isPosterHovered || isUserInteracting.current || !isVideoMuted || !isVideoPlaying) return
     const duration = currentCard?.videoUrl ? 12000 : 6000
     const id = window.setTimeout(() => {
-      setPosterIndex(prev => {
-        const next = prev + 1
-        if (next >= 4 && !hasUnlockedCreatedCards) {
-          setHasUnlockedCreatedCards(true)
-        }
-        return next
-      })
+      const next = (posterIndex + 1) % availablePosters.length
+      if (next >= 4 && !hasUnlockedCreatedCards) {
+        setHasUnlockedCreatedCards(true)
+      }
+      scrollToPoster(next, true)
     }, duration)
     return () => window.clearTimeout(id)
   }, [isPosterHovered, isVideoMuted, isVideoPlaying, currentCard?.videoUrl, hasUnlockedCreatedCards, posterIndex, availablePosters.length])
-
-  // Auto-center horizontal scroll track when poster index changes from timer or external action
-  useEffect(() => {
-    if (mobileCarouselRef.current && !isPosterHovered && !isScrollingProgrammatically.current) {
-      scrollToPoster(safePosterIndex, true)
-    }
-  }, [safePosterIndex])
 
   return (
     <section className="hp-hero-wrapper" suppressHydrationWarning>
@@ -204,95 +224,34 @@ export default function HeroSection() {
           <div className="hp-sw-content">
 
             {/* 1. TOP TRUST BADGE */}
-            <motion.div
+            <div
               className="hp-sw-badge"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
               suppressHydrationWarning
             >
-              <span className="hp-sw-badge-trophy" suppressHydrationWarning>🏆</span>
               <span className="hp-sw-badge-text" suppressHydrationWarning>
-                India&apos;s #1 Live Artist &amp; Singer Booking Platform
+                India&apos;s Premium Live Artist Booking Platform
               </span>
               <span className="hp-sw-badge-dot" suppressHydrationWarning>•</span>
-              <span className="hp-sw-badge-highlight" suppressHydrationWarning>🪔 Diwali Pre-Booking: 55%–65% OFF</span>
-            </motion.div>
+              <span className="hp-sw-badge-highlight" suppressHydrationWarning>Direct Pricing • 0% Agency Fees</span>
+            </div>
 
-            {/* 2. MAIN HEADLINE */}
-            <motion.h1
-              className="hp-sw-h1"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span className="hp-sw-h1-lead">Book Singer for </span>
+            {/* 2. MAIN HEADLINE (THREE LINES) */}
+            <h1 className="hp-sw-h1">
+              <span className="hp-sw-h1-lead">Book Singer for</span>
               <br className="hp-sw-br" />
-              <span className="hp-sw-h1-gold">House Party in Delhi &amp; NCR</span>
-            </motion.h1>
-
-            {/* 3. SUBTITLE */}
-            <motion.p
-              className="hp-sw-sub"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.35 }}
-            >
-              Book from <strong>1,500+ verified singers &amp; bands</strong> for weddings, corporate events &amp; house parties. Instant transparent quotes with <strong>100% artist arrival guarantee</strong>.
-            </motion.p>
-
-            {/* 4. FAST AI SEARCH & MATCH INPUT BAR */}
-            <motion.form
-              onSubmit={handleSearchSubmit}
-              className="hp-sw-search-bar"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.45 }}
-            >
-              <span className="hp-sw-search-sparkle">✨</span>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="What artist do you need? e.g. Bollywood singer under ₹25k, Acoustic, Sufi..."
-                className="hp-sw-search-input"
-                aria-label="Search singer or live artist"
-              />
-              <button type="submit" className="hp-sw-search-btn">
-                <span>Match Artist</span>
-                <span className="hp-sw-btn-arrow">➔</span>
-              </button>
-            </motion.form>
-
-            {/* 5. QUICK SUGGESTION CHIPS */}
-            <motion.div
-              className="hp-sw-quick-tags"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.55 }}
-            >
-              <span className="hp-sw-tags-label">Trending:</span>
-              {QUICK_TAGS.map((tag) => (
-                <button
-                  key={tag.label}
-                  type="button"
-                  onClick={() => router.push(`/ai-search?q=${encodeURIComponent(tag.query)}`)}
-                  className="hp-sw-tag-chip"
-                >
-                  {tag.label}
-                </button>
-              ))}
-            </motion.div>
+              <span className="hp-sw-h1-gold">House Party</span>
+              <br className="hp-sw-br" />
+              <span className="hp-sw-h1-gold">in Delhi &amp; NCR</span>
+            </h1>
 
             {/* 6. PRIMARY ACTION BUTTONS */}
-            <motion.div
-              className="hp-sw-actions"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.65 }}
-            >
+            <div className="hp-sw-actions">
               <button
-                onClick={() => window.dispatchEvent(new CustomEvent('open-quick-booking'))}
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
+                  }
+                }}
                 className="hp-sw-btn-primary"
               >
                 <span>Book Verified Artists (Confirmed)</span>
@@ -308,106 +267,39 @@ export default function HeroSection() {
                 <span className="hp-sw-call-icon">📞</span>
                 <span>+91 80765 15257</span>
               </a>
-            </motion.div>
-
-            {/* 7. QUICK TRUST PROOF PILLS */}
-            <motion.div
-              className="hp-sw-trust-row"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-            >
-              <div className="hp-sw-trust-pill">★ 4.9 Google Rating</div>
-              <div className="hp-sw-trust-pill">👥 2,500+ Celebrated Events</div>
-              <div className="hp-sw-trust-pill">🛡️ 100% Verified Artists</div>
-            </motion.div>
+            </div>
 
           </div>
 
-          {/* RIGHT COLUMN: SLEEK "WHY CHOOSE MAGNEVENTS" FROSTED GLASS CARD */}
-          <motion.div
-            className="hp-sw-why-card"
-            initial={{ opacity: 0, x: 25 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="hp-sw-why-header">
-              <div className="hp-sw-why-badge-icon">🎤</div>
-              <div className="hp-sw-why-header-text">
-                <h3 className="hp-sw-why-title">Why Choose Magnevents?</h3>
-                <span className="hp-sw-why-subtitle">India&apos;s 1st AI Live Music Network</span>
-              </div>
-            </div>
-
-            <div className="hp-sw-why-list">
-              <div 
-                className="hp-sw-why-item hp-sw-why-item-promo"
-                onClick={() => window.dispatchEvent(new CustomEvent('open-quick-booking'))}
-                role="button"
-                tabIndex={0}
-                style={{ cursor: 'pointer' }}
-                aria-label="Book verified artist slot online"
-              >
-                <span className="hp-sw-why-icon">🪔</span>
-                <div className="hp-sw-why-text">
-                  <strong>Diwali Pre-Booking: Flat 55%–65% OFF</strong>
-                  <span>Instant slot confirmation with 100% money-back guarantee</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.dispatchEvent(new CustomEvent('open-quick-booking'));
+          {/* RIGHT: INTERACTIVE LIVE SOUNDCHECK PASS CARD (DESKTOP) */}
+          <div className="hp-sw-artist-showcase-card">
+            <div className="hp-sw-card-img-wrap" style={{ height: '370px' }}>
+              {HERO_SPOTLIGHT_SLIDES.map((slideSrc, sIdx) => (
+                <div
+                  key={typeof slideSrc === 'string' ? slideSrc : sIdx}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    opacity: heroSlide === sIdx ? 1 : 0,
+                    transition: 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                    zIndex: heroSlide === sIdx ? 1 : 0
                   }}
-                  className="hp-sw-why-cta-btn"
-                  aria-label="Book artist slot"
                 >
-                  <span>Book Now</span>
-                  <span className="hp-sw-why-arrow">➔</span>
-                </button>
-              </div>
-
-              <div className="hp-sw-why-item">
-                <span className="hp-sw-why-icon">🛡️</span>
-                <div className="hp-sw-why-text">
-                  <strong>100% Artist Arrival Guarantee</strong>
-                  <span>Backed by instant emergency replacement</span>
+                  <Image
+                    src={typeof slideSrc === 'object' ? slideSrc?.src : slideSrc}
+                    alt="Live artist performing at an event"
+                    fill
+                    priority={sIdx === 0}
+                    unoptimized
+                    sizes="(min-width: 1024px) 480px, 100vw"
+                    style={{ objectFit: 'cover' }}
+                  />
                 </div>
-              </div>
-
-              <div className="hp-sw-why-item">
-                <span className="hp-sw-why-icon">💎</span>
-                <div className="hp-sw-why-text">
-                  <strong>Direct Pricing (0% Markup)</strong>
-                  <span>Direct transparent rates with zero middlemen</span>
-                </div>
-              </div>
-
-              <div className="hp-sw-why-item">
-                <span className="hp-sw-why-icon">✨</span>
-                <div className="hp-sw-why-text">
-                  <strong>Smart AI Artist Match</strong>
-                  <span>Instant match by genre, city &amp; budget</span>
-                </div>
-              </div>
-
-              <div className="hp-sw-why-item">
-                <span className="hp-sw-why-icon">🎧</span>
-                <div className="hp-sw-why-text">
-                  <strong>Dedicated Event Manager</strong>
-                  <span>24/7 expert support &amp; sound coordination</span>
-                </div>
-              </div>
+              ))}
             </div>
+          </div>
 
-            <div className="hp-sw-why-footer">
-              <span className="hp-sw-why-tag">⭐ 4.9★ Rated</span>
-              <span className="hp-sw-why-dot">•</span>
-              <span className="hp-sw-why-tag">👥 2500+ Shows</span>
-              <span className="hp-sw-why-dot">•</span>
-              <span className="hp-sw-why-tag">Pan-India</span>
-            </div>
-          </motion.div>
+
 
         </div>
       </div>
@@ -455,28 +347,41 @@ export default function HeroSection() {
             Book Verified Artists for House Parties &amp; Events
           </h1>
 
-          {/* TOP PROMOTIONAL BANNER */}
-          <div className="hp-mob-section">
+
+          {/* PROMOTIONAL OFFER BANNER (UPPER PART OF VIDEOS) */}
+          <div className="hp-mob-section hp-mob-top-promo-wrap" style={{ padding: '0 16px', marginBottom: '8px' }}>
             <div 
               className="hp-mob-promo-top-banner"
               onClick={() => {
                 if (typeof window !== 'undefined') {
-                  window.dispatchEvent(new CustomEvent('open-quick-booking'));
+                  window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
                 }
               }}
               role="button"
               tabIndex={0}
-              aria-label="Book verified artists online"
+              aria-label="Pre-Book Diwali & Get 55%-65% OFF"
             >
               <div className="hp-mob-promo-top-left">
-                <span className="hp-mob-promo-badge-tag" style={{ background: 'linear-gradient(135deg, #FF9900 0%, #E63946 100%)' }}>
+                <span className="hp-mob-promo-badge-tag">
                   🪔 DIWALI OFFER
                 </span>
                 <span className="hp-mob-promo-top-text">
-                  Pre-Book Diwali &amp; Get <strong>55%–65% OFF</strong>!
+                  Get <strong>55%–65% OFF!</strong>
                 </span>
               </div>
-              <span className="hp-mob-promo-pill">CLAIM ➔</span>
+              <button 
+                type="button"
+                className="hp-mob-promo-pill"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
+                  }
+                }}
+                aria-label="Claim Diwali Offer"
+              >
+                CLAIM ➔
+              </button>
             </div>
           </div>
 
@@ -493,27 +398,41 @@ export default function HeroSection() {
                 const prevPoster = availablePosters[prevIndex];
 
                 return (
-                  <div className="hp-poster-carousel-wrapper">
+                  <div className="hp-poster-carousel-wrapper" style={{ position: 'relative' }}>
+
                     {/* True Native Horizontal Scroll Carousel Track */}
                     <div
                       ref={mobileCarouselRef}
                       onScroll={handleMobileScroll}
+                      onMouseDown={handleMouseDown}
+                      onMouseMove={handleMouseMove}
+                      onMouseUp={handleMouseUpOrLeave}
+                      onMouseLeave={handleMouseUpOrLeave}
                       className="hp-mob-carousel-scroll"
                       style={{
                         display: 'flex',
                         alignItems: 'stretch',
                         gap: '12px',
                         overflowX: 'auto',
+                        overflowY: 'hidden',
                         scrollSnapType: 'x mandatory',
                         WebkitOverflowScrolling: 'touch',
                         scrollbarWidth: 'none',
                         msOverflowStyle: 'none',
-                        padding: '8px calc((100vw - min(310px, 80vw)) / 2) 16px calc((100vw - min(310px, 80vw)) / 2)',
+                        padding: '8px calc((100vw - min(310px, 80vw)) / 2) 8px calc((100vw - min(310px, 80vw)) / 2)',
                         userSelect: 'none',
-                        scrollBehavior: 'smooth'
+                        touchAction: 'pan-x pan-y'
                       }}
-                      onTouchStart={() => setIsPosterHovered(true)}
-                      onTouchEnd={() => setTimeout(() => setIsPosterHovered(false), 2500)}
+                      onTouchStart={() => {
+                        isUserInteracting.current = true;
+                        setIsPosterHovered(true);
+                      }}
+                      onTouchEnd={() => {
+                        setTimeout(() => {
+                          isUserInteracting.current = false;
+                          setIsPosterHovered(false);
+                        }, 1500);
+                      }}
                     >
                       {availablePosters.map((posterItem, idx) => {
                         const isActive = safeIndex === idx;
@@ -521,12 +440,13 @@ export default function HeroSection() {
                           <div
                             key={posterItem.id || `mob-card-${idx}`}
                             onClick={(e) => {
+                              if (hasMovedDrag.current) return;
                               if (e.target.closest('button')) return;
                               if (!isActive) {
                                 scrollToPoster(idx);
                               } else {
                                 if (typeof window !== 'undefined') {
-                                  window.dispatchEvent(new CustomEvent('open-quick-booking'));
+                                  window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
                                 }
                               }
                             }}
@@ -664,7 +584,7 @@ export default function HeroSection() {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   if (typeof window !== 'undefined') {
-                                    window.dispatchEvent(new CustomEvent('open-quick-booking'));
+                                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
                                   }
                                 }}
                                 role="button"
@@ -672,10 +592,10 @@ export default function HeroSection() {
                                 aria-label={`Book verified artists for ${posterItem.title}`}
                               >
                                 <div className="hp-poster-feature-block">
-                                  <span className="hp-poster-feature-highlight">🪔 Diwali Offer: Flat 55%–65% OFF</span>
+                                  <span className="hp-poster-feature-highlight">★ 100% Artist Arrival Guarantee</span>
                                 </div>
                                 <div className="hp-poster-feature-badge">
-                                  <span>Pre-Book ➔</span>
+                                  <span>Book Now ➔</span>
                                 </div>
                               </div>
                             </div>
@@ -684,75 +604,141 @@ export default function HeroSection() {
                       })}
                     </div>
 
-                    {/* Sliding Fluid Dots Indicator - Zero layout shift, silky smooth glide */}
+                    {/* Sliding Fluid Dots Indicator with Integrated Scroll Arrows at Both Ends */}
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      marginTop: '16px',
-                      marginBottom: '8px',
+                      marginTop: '10px',
+                      marginBottom: '6px',
                       userSelect: 'none'
                     }}>
                       <div style={{
-                        position: 'relative',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        padding: '4px',
-                        background: 'rgba(255, 255, 255, 0.04)',
+                        gap: '8px',
+                        padding: '4px 10px',
+                        background: 'rgba(41, 39, 42, 0.88)',
+                        backdropFilter: 'blur(14px)',
+                        WebkitBackdropFilter: 'blur(14px)',
                         borderRadius: '100px',
-                        border: '1px solid rgba(255, 255, 255, 0.08)'
+                        border: '1px solid rgba(216, 196, 183, 0.3)',
+                        boxShadow: '0 6px 20px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(245, 240, 233, 0.1)'
                       }}>
-                        {/* Smooth Sliding Active Pill Indicator */}
-                        <div
-                          style={{
-                            position: 'absolute',
-                            top: '4px',
-                            left: '2px',
-                            width: '18px',
-                            height: '6px',
-                            borderRadius: '100px',
-                            background: 'linear-gradient(90deg, #FFE032 0%, #FF9900 100%)',
-                            boxShadow: '0 0 12px rgba(255, 224, 50, 0.8)',
-                            transform: `translateX(${safeIndex * 14}px)`,
-                            transition: 'transform 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.15)',
-                            pointerEvents: 'none',
-                            zIndex: 2
+                        {/* Left Scroll Arrow */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            scrollToPoster(safeIndex - 1);
                           }}
-                        />
+                          aria-label="Previous video"
+                          style={{
+                            width: '22px',
+                            height: '22px',
+                            borderRadius: '50%',
+                            background: 'rgba(255, 255, 255, 0.08)',
+                            border: '1px solid rgba(232, 185, 67, 0.4)',
+                            color: '#E8B943',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            padding: 0,
+                            fontSize: '15px',
+                            fontWeight: 800,
+                            lineHeight: 1,
+                            transition: 'all 0.2s ease',
+                            flexShrink: 0
+                          }}
+                        >
+                          ‹
+                        </button>
 
-                        {/* Fixed Background Dots */}
-                        {availablePosters.map((_, idx) => (
-                          <button
-                            key={idx}
-                            type="button"
-                            onClick={() => scrollToPoster(idx)}
-                            aria-label={`Go to slide ${idx + 1}`}
+                        {/* Dots Track with Sliding Active Pill */}
+                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                          {/* Sliding Active Pill */}
+                          <div
                             style={{
-                              width: '14px',
+                              position: 'absolute',
+                              top: '0px',
+                              left: '0px',
+                              width: '18px',
                               height: '6px',
-                              padding: 0,
-                              border: 'none',
-                              background: 'transparent',
-                              cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              position: 'relative',
-                              zIndex: 1
+                              borderRadius: '100px',
+                              background: 'linear-gradient(90deg, #E8B943 0%, #E45F60 100%)',
+                              boxShadow: '0 0 10px rgba(232, 185, 67, 0.7)',
+                              transform: `translateX(${safeIndex * 14}px)`,
+                              transition: 'transform 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.15)',
+                              pointerEvents: 'none',
+                              zIndex: 2
                             }}
-                          >
-                            <span
+                          />
+
+                          {/* Fixed Background Dots */}
+                          {availablePosters.map((_, pIdx) => (
+                            <button
+                              key={pIdx}
+                              type="button"
+                              onClick={() => scrollToPoster(pIdx)}
+                              aria-label={`Go to slide ${pIdx + 1}`}
                               style={{
-                                width: '5px',
-                                height: '5px',
-                                borderRadius: '50%',
-                                background: 'rgba(255, 255, 255, 0.28)',
-                                opacity: safeIndex === idx ? 0 : 1,
-                                transition: 'opacity 0.2s ease'
+                                width: '14px',
+                                height: '6px',
+                                padding: 0,
+                                border: 'none',
+                                background: 'transparent',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                position: 'relative',
+                                zIndex: 1
                               }}
-                            />
-                          </button>
-                        ))}
+                            >
+                              <span
+                                style={{
+                                  width: '5px',
+                                  height: '5px',
+                                  borderRadius: '50%',
+                                  background: 'rgba(255, 255, 255, 0.32)',
+                                  opacity: safeIndex === pIdx ? 0 : 1,
+                                  transition: 'opacity 0.2s ease'
+                                }}
+                              />
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Right Scroll Arrow */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            scrollToPoster(safeIndex + 1);
+                          }}
+                          aria-label="Next video"
+                          style={{
+                            width: '22px',
+                            height: '22px',
+                            borderRadius: '50%',
+                            background: 'rgba(255, 255, 255, 0.08)',
+                            border: '1px solid rgba(232, 185, 67, 0.4)',
+                            color: '#E8B943',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            padding: 0,
+                            fontSize: '15px',
+                            fontWeight: 800,
+                            lineHeight: 1,
+                            transition: 'all 0.2s ease',
+                            flexShrink: 0
+                          }}
+                        >
+                          ›
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -761,28 +747,8 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Section 4: CLEAR CALL-TO-ACTIONS */}
+          {/* Section 4: DIRECT ACTION BUTTONS (BELOW VIDEOS) */}
           <div className="hp-mob-section hp-mob-cta-section">
-            <button 
-              className="mob-btn-primary mob-btn-offer-pulse"
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  window.dispatchEvent(new CustomEvent('open-quick-booking'));
-                }
-              }}
-              aria-label="Book Verified Artists Online with Special Offer"
-            >
-              <div className="mob-btn-offer-content">
-                <div className="mob-btn-offer-text-group">
-                  <span className="mob-btn-offer-sub">🪔 DIWALI PRE-BOOKING SPECIAL</span>
-                  <span className="mob-btn-offer-title">Book Verified Live Artists</span>
-                </div>
-                <div className="mob-btn-offer-pill">
-                  <span>55%–65% OFF</span>
-                  <span>➔</span>
-                </div>
-              </div>
-            </button>
             <div className="hp-mob-dual-btn-row">
               <a 
                 href="tel:+918076515257" 
@@ -792,14 +758,6 @@ export default function HeroSection() {
                 <span className="hp-mob-phone-icon">📞</span>
                 <span className="hp-mob-phone-num">+91 80765 15257</span>
               </a>
-              <Link 
-                href="/artists" 
-                className="hp-mob-browse-btn"
-                aria-label="Browse 1600+ verified artists"
-              >
-                <span className="hp-mob-browse-text">Browse 1600+</span>
-                <span className="hp-mob-browse-arrow">➔</span>
-              </Link>
             </div>
           </div>
 

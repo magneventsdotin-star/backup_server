@@ -101,13 +101,9 @@ export default function VideoGallery() {
               {topic.videos.map((video, idx) => {
                 const ytId = getYoutubeId(video.video_url);
                 return (
-                  <motion.div
+                  <div
                     key={video.id + '-' + idx}
                     className="video-card"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.5, delay: (idx % 3) * 0.1 }}
                   >
                     <div className="video-wrapper">
                       {ytId ? (
@@ -135,7 +131,7 @@ export default function VideoGallery() {
                         <span>Play</span>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>

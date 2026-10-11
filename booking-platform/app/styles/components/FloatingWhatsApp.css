@@ -47,8 +47,8 @@
   bottom: calc(100% + 10px);
   left: 50%;
   right: auto;
-  background: rgba(10, 10, 10, 0.88);
-  border: 1px solid rgba(37, 211, 102, 0.35);
+  background: rgba(41, 39, 42, 0.95);
+  border: 1px solid rgba(216, 196, 183, 0.25);
   border-radius: 10px;
   padding: 6px 12px;
   display: flex;

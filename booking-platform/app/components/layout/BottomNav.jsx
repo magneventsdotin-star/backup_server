@@ -6,7 +6,7 @@ import { HomeIcon, ArtistsIcon, PhoneIcon, AIIcon, PricingIcon } from '@/app/com
 import '@/app/styles/components/BottomNav.css';
 
 function Tab({ path, icon, label, isActive, isHighlight = false, badgeText = null, badgeBg = null, onClick = null }) {
-  const iconColor = isActive ? '#FFE032' : isHighlight ? '#c084fc' : '#a8a8b8';
+  const iconColor = isActive ? '#E8B943' : isHighlight ? '#E8B943' : 'rgba(245, 240, 233, 0.65)';
 
   const handleClick = (e) => {
     if (onClick) onClick(e);
@@ -91,7 +91,7 @@ export default function BottomNav() {
           isActive={active('/ai-search')}
           isHighlight={true}
           badgeText="AI"
-          badgeBg="linear-gradient(135deg,#FF2E93,#8B5CF6)"
+          badgeBg="linear-gradient(135deg, #E45F60, #7E3044)"
         />
 
         {/* Pricing */}

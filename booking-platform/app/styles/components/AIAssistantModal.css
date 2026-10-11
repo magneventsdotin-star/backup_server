@@ -4,6 +4,7 @@
 
 /* ── 1. Floating Trigger Button (Bottom Right) ── */
 .lux-ai-trigger-btn {
+  display: none !important;
   position: fixed;
   bottom: 30px;
   right: 102px; /* WhatsApp is at right:30px (60px wide) + 12px gap */
@@ -12,15 +13,15 @@
   height: 60px;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 55%, #FFE032 100%);
+  background: linear-gradient(135deg, var(--color-wine, #7E3044) 0%, var(--color-coral, #E45F60) 60%, var(--color-marigold, #E8B943) 100%);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   box-shadow:
-    0 10px 30px rgba(139, 92, 246, 0.50),
-    0 0 20px rgba(236, 72, 153, 0.35),
+    0 10px 28px rgba(228, 95, 96, 0.45),
+    0 0 20px rgba(126, 48, 68, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.40);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   -webkit-tap-highlight-color: transparent;
@@ -33,7 +34,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: rgba(139, 92, 246, 0.45);
+  background: rgba(228, 95, 96, 0.45);
   animation: aiHaloPulse 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   pointer-events: none;
   z-index: -1;
@@ -48,12 +49,12 @@
 .lux-ai-trigger-btn:hover {
   transform: translateY(-4px) scale(1.05);
   box-shadow:
-    0 15px 35px rgba(139, 92, 246, 0.65),
-    0 0 28px rgba(255, 224, 50, 0.35);
+    0 15px 35px rgba(228, 95, 96, 0.6),
+    0 0 28px rgba(232, 185, 67, 0.35);
 }
 
 .lux-ai-trigger-btn.is-active {
-  background: linear-gradient(135deg, #EC4899 0%, #8B5CF6 100%);
+  background: linear-gradient(135deg, var(--color-coral, #E45F60) 0%, var(--color-wine, #7E3044) 100%);
   transform: rotate(90deg);
 }
 
@@ -152,12 +153,12 @@
   max-width: calc(100vw - 32px);
   height: 620px;
   max-height: calc(100vh - 48px);
-  background: linear-gradient(180deg, #13101e 0%, #0d0c14 100%);
-  border: 1px solid rgba(255, 224, 50, 0.35);
+  background: linear-gradient(180deg, #242226 0%, #1a181b 100%);
+  border: 1px solid rgba(216, 196, 183, 0.22);
   border-radius: 24px;
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.92),
-    0 0 45px rgba(139, 92, 246, 0.28),
+    0 0 35px rgba(228, 95, 96, 0.16),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
   display: flex;
   flex-direction: column;
@@ -200,8 +201,8 @@
 /* ── 4. Header ── */
 .lux-ai-chat-header {
   padding: 14px 18px;
-  background: linear-gradient(135deg, #1d182b 0%, #130f1e 100%);
-  border-bottom: 1px solid rgba(139, 92, 246, 0.20);
+  background: linear-gradient(135deg, #2a272c 0%, #1f1d21 100%);
+  border-bottom: 1px solid rgba(216, 196, 183, 0.18);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -217,7 +218,7 @@
   left: -20px;
   width: 140px;
   height: 90px;
-  background: radial-gradient(ellipse, rgba(139, 92, 246, 0.35) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(228, 95, 96, 0.25) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -233,12 +234,12 @@
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 55%, #FFE032 100%);
+  background: linear-gradient(135deg, var(--color-wine, #7E3044) 0%, var(--color-coral, #E45F60) 60%, var(--color-marigold, #E8B943) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow:
-    0 4px 16px rgba(139, 92, 246, 0.5),
+    0 4px 16px rgba(228, 95, 96, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   flex-shrink: 0;
 }
@@ -372,12 +373,12 @@
 }
 
 .lux-ai-msg-row.user .lux-ai-msg-bubble {
-  background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+  background: linear-gradient(135deg, var(--color-coral, #E45F60) 0%, var(--color-wine, #7E3044) 100%);
   color: #ffffff;
   border-radius: 16px 16px 4px 16px;
   font-weight: 600;
   box-shadow:
-    0 4px 16px rgba(139, 92, 246, 0.4),
+    0 4px 16px rgba(228, 95, 96, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
@@ -398,9 +399,9 @@
 }
 
 .lux-ai-vibe-chip {
-  background: rgba(139, 92, 246, 0.12);
-  border: 1px solid rgba(139, 92, 246, 0.30);
-  color: #d4aaff;
+  background: rgba(216, 196, 183, 0.08);
+  border: 1px solid rgba(216, 196, 183, 0.22);
+  color: var(--color-ivory, #F5F0E9);
   font-size: 11.5px;
   font-weight: 600;
   padding: 6px 12px;
@@ -411,11 +412,11 @@
 }
 
 .lux-ai-vibe-chip:hover {
-  background: rgba(139, 92, 246, 0.30);
-  border-color: #8B5CF6;
+  background: rgba(228, 95, 96, 0.18);
+  border-color: var(--color-coral, #E45F60);
   color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(228, 95, 96, 0.25);
 }
 
 /* ── 8. Action CTA Buttons ── */
@@ -427,9 +428,9 @@
 }
 
 .lux-ai-action-btn {
-  background: rgba(255, 224, 50, 0.12);
-  border: 1px solid rgba(255, 224, 50, 0.35);
-  color: #FFE032;
+  background: rgba(232, 185, 67, 0.12);
+  border: 1px solid rgba(232, 185, 67, 0.35);
+  color: var(--color-marigold, #E8B943);
   font-size: 12px;
   font-weight: 700;
   padding: 8px 14px;
@@ -444,10 +445,11 @@
 }
 
 .lux-ai-action-btn:hover {
-  background: #FFE032;
-  color: #0b0b0d;
+  background: var(--color-coral, #E45F60);
+  border-color: var(--color-coral, #E45F60);
+  color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255, 224, 50, 0.35);
+  box-shadow: 0 6px 16px rgba(228, 95, 96, 0.35);
 }
 
 .lux-ai-action-btn.wa {
@@ -477,9 +479,9 @@
   animation: typingBounce 1.4s infinite ease-in-out both;
 }
 
-.lux-ai-typing-dot:nth-child(1) { animation-delay: -0.32s; background: #8B5CF6; }
-.lux-ai-typing-dot:nth-child(2) { animation-delay: -0.16s; background: #EC4899; }
-.lux-ai-typing-dot:nth-child(3) { animation-delay:     0s; background: #FFE032; }
+.lux-ai-typing-dot:nth-child(1) { animation-delay: -0.32s; background: var(--color-coral, #E45F60); }
+.lux-ai-typing-dot:nth-child(2) { animation-delay: -0.16s; background: var(--color-marigold, #E8B943); }
+.lux-ai-typing-dot:nth-child(3) { animation-delay:     0s; background: var(--color-wine, #7E3044); }
 
 @keyframes typingBounce {
   0%, 80%, 100% { transform: scale(0.5); opacity: 0.5; }
@@ -490,24 +492,24 @@
 .lux-ai-chat-input-bar {
   padding: 12px 14px;
   background: rgba(255, 255, 255, 0.025);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(216, 196, 183, 0.14);
   flex-shrink: 0;
 }
 
 .lux-ai-input-container {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  background: rgba(41, 39, 42, 0.85);
+  border: 1.5px solid rgba(216, 196, 183, 0.22);
   border-radius: 14px;
   padding: 4px 6px 4px 12px;
   transition: all 0.25s ease;
 }
 
 .lux-ai-input-container:focus-within {
-  border-color: rgba(139, 92, 246, 0.65);
-  background: rgba(139, 92, 246, 0.08);
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15), 0 0 16px rgba(139, 92, 246, 0.2);
+  border-color: var(--color-coral, #E45F60);
+  background: rgba(41, 39, 42, 1);
+  box-shadow: 0 0 0 3px rgba(228, 95, 96, 0.15), 0 0 16px rgba(228, 95, 96, 0.2);
 }
 
 .lux-ai-sparkle-prefix {
@@ -521,7 +523,7 @@
   background: transparent;
   border: none;
   outline: none;
-  color: #ffffff;
+  color: var(--color-ivory, #F5F0E9);
   font-size: 13.5px;
   font-family: inherit;
   padding: 8px 4px;
@@ -529,12 +531,12 @@
 }
 
 .lux-ai-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(216, 196, 183, 0.4);
   font-size: 12.5px;
 }
 
 .lux-ai-send-btn {
-  background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+  background: var(--color-coral, #E45F60);
   color: #ffffff;
   width: 38px;
   height: 38px;
@@ -546,12 +548,13 @@
   justify-content: center;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
-  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 4px 14px rgba(228, 95, 96, 0.35);
 }
 
 .lux-ai-send-btn:hover:not(:disabled) {
+  background: #d64f50;
   transform: scale(1.08);
-  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+  box-shadow: 0 6px 20px rgba(228, 95, 96, 0.55);
 }
 
 .lux-ai-send-btn:disabled {

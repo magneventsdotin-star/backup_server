@@ -18,22 +18,22 @@
   left: 0;
   right: 0;
   z-index: 9997 !important;
-  height: 64px;
+  height: 66px;
   display: flex;
   align-items: center;
   padding: 0 var(--spacing-6, 24px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(30px) saturate(200%);
-  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border-bottom: 1px solid rgba(216, 196, 183, 0.16);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   transition: height 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.4s ease;
-  background: rgba(8, 7, 7, 0.85);
+  background: rgba(41, 39, 42, 0.92);
 }
 
 .lux-nav.is-scrolled {
-  height: 59px;
-  background: rgba(8, 7, 7, 0.96);
-  border-bottom-color: rgba(255, 224, 50, 0.2);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+  height: 60px;
+  background: rgba(41, 39, 42, 0.98);
+  border-bottom-color: rgba(232, 185, 67, 0.28);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65);
 }
 
 .lux-nav.nav-hidden {
@@ -225,46 +225,45 @@
 }
 
 .lux-nav-cta {
-  background: var(--brand-primary);
-  color: var(--bg-main);
-  padding: 10px 20px;
+  background: transparent;
+  color: var(--color-ivory, #F5F0E9);
+  padding: 9px 18px;
   border-radius: var(--radius-full);
-  font-weight: 700;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  transition: all 0.2s ease;
-  border: none;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(216, 196, 183, 0.35);
   white-space: nowrap;
   cursor: pointer;
 }
 
 .lux-nav-cta:hover {
-  transform: translateY(-2px);
-  background: var(--brand-primary-hover);
-  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+  background: rgba(216, 196, 183, 0.12);
+  border-color: var(--color-marigold, #E8B943);
+  color: #FFFFFF;
 }
 
 .lux-nav-register-btn {
-  background: linear-gradient(135deg, #E55353 0%, #D63031 100%) !important;
+  background: var(--color-coral, #E45F60) !important;
   color: #FFFFFF !important;
-  padding: 10px 20px !important;
+  padding: 9px 20px !important;
   border-radius: var(--radius-full, 99px) !important;
-  font-weight: 800 !important;
-  font-size: 0.8rem !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.04em !important;
-  transition: all 0.2s ease !important;
-  border: none !important;
+  font-weight: 700 !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.02em !important;
+  transition: all 0.25s ease !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
   white-space: nowrap !important;
   cursor: pointer !important;
-  box-shadow: 0 4px 15px rgba(229, 83, 83, 0.35) !important;
+  box-shadow: 0 4px 16px rgba(228, 95, 96, 0.35) !important;
 }
 
 .lux-nav-register-btn:hover {
   transform: translateY(-2px) !important;
-  background: linear-gradient(135deg, #FF6B6B 0%, #E55353 100%) !important;
-  box-shadow: 0 6px 20px rgba(229, 83, 83, 0.5) !important;
+  background: #cf4f50 !important;
+  box-shadow: 0 6px 22px rgba(228, 95, 96, 0.5) !important;
 }
 
 .lux-hamburger {
@@ -439,8 +438,8 @@
 
 .lux-mobile-close:hover,
 .lux-mobile-close:active {
-  color: #FFE032;
-  border-color: #FFE032;
+  color: var(--color-marigold, #E8B943);
+  border-color: var(--color-marigold, #E8B943);
   transform: rotate(90deg);
 }
 
@@ -460,7 +459,7 @@
   display: flex;
   align-items: center;
   padding: 14px 20px;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(245, 240, 233, 0.75);
   font-size: 0.9rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -473,10 +472,10 @@
 
 .lux-mobile-link:hover,
 .lux-mobile-link.is-active {
-  background: rgba(255, 224, 50, 0.06);
-  color: #FFE032;
+  background: rgba(232, 185, 67, 0.08);
+  color: var(--color-marigold, #E8B943);
   padding-left: 26px;
-  border-color: rgba(255, 224, 50, 0.15);
+  border-color: rgba(232, 185, 67, 0.2);
 }
 
 .lux-mobile-submenu {
@@ -595,17 +594,17 @@
 /* ================================================== */
 
 .lux-nav {
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  background: rgba(14, 14, 18, 0.6) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  background: rgba(41, 39, 42, 0.88) !important;
+  border-bottom: 1px solid rgba(216, 196, 183, 0.18) !important;
   transition: all 400ms ease-out !important;
 }
 
 .lux-nav.is-scrolled {
-  background: rgba(14, 14, 18, 0.85) !important;
-  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+  background: rgba(41, 39, 42, 0.97) !important;
+  border-bottom-color: rgba(232, 185, 67, 0.32) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
 }
 
 .lux-nav-link {
@@ -620,7 +619,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: #F4C542;
+  background: var(--color-marigold, #E8B943);
   transition: width 300ms ease-out;
 }
 
@@ -629,36 +628,37 @@
 }
 
 .lux-nav-link.is-active, .lux-nav-link.active {
-  color: #F4C542 !important;
+  color: var(--color-marigold, #E8B943) !important;
   text-shadow: none !important;
 }
 
 .lux-nav-cta .lux-btn-ghost {
-  border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid rgba(216, 196, 183, 0.35) !important;
   background: transparent !important;
-  color: #FFF !important;
+  color: var(--color-ivory, #F5F0E9) !important;
   padding: 10px 20px !important;
 }
 
 .lux-nav-cta .lux-btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.8) !important;
+  background: rgba(216, 196, 183, 0.12) !important;
+  border-color: var(--color-marigold, #E8B943) !important;
+  color: #FFF !important;
   box-shadow: none !important;
 }
 
 .lux-nav-cta .lux-btn-primary {
-  background: #F4C542 !important;
-  color: #0E0E12 !important;
+  background: var(--color-coral, #E45F60) !important;
+  color: #FFFFFF !important;
   font-weight: 700 !important;
   padding: 10px 24px !important;
-  box-shadow: 0 4px 15px rgba(244, 197, 66, 0.25) !important;
+  box-shadow: 0 4px 15px rgba(228, 95, 96, 0.35) !important;
   border: none !important;
 }
 
 .lux-nav-cta .lux-btn-primary:hover {
-  box-shadow: 0 6px 20px rgba(244, 197, 66, 0.4) !important;
+  box-shadow: 0 6px 20px rgba(228, 95, 96, 0.5) !important;
   transform: translateY(-2px) !important;
-  background: #FFD700 !important;
+  background: #cf4f50 !important;
 }
 
 .lux-nav.nav-hidden { transform: none !important; }
@@ -667,27 +667,27 @@
 .lux-nav-ai-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25) 0%, rgba(236, 72, 153, 0.25) 60%, rgba(255, 224, 50, 0.2) 100%);
-  border: 1px solid rgba(255, 224, 50, 0.5);
-  color: #FFE032;
+  gap: 7px;
+  background: rgba(126, 48, 68, 0.35);
+  border: 1px solid rgba(232, 185, 67, 0.45);
+  color: var(--color-marigold, #E8B943);
   font-size: 12.5px;
-  font-weight: 800;
+  font-weight: 700;
   padding: 6px 14px;
   border-radius: 999px;
   text-decoration: none;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 12px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
   white-space: nowrap;
   cursor: pointer;
 }
 
 .lux-nav-ai-btn:hover {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.45) 0%, rgba(236, 72, 153, 0.4) 60%, rgba(255, 224, 50, 0.35) 100%);
-  border-color: #FFE032;
+  background: rgba(126, 48, 68, 0.6);
+  border-color: var(--color-marigold, #E8B943);
   color: #FFFFFF;
-  box-shadow: 0 4px 18px rgba(139, 92, 246, 0.45), 0 0 14px rgba(255, 224, 50, 0.35);
+  box-shadow: 0 4px 16px rgba(232, 185, 67, 0.25);
   transform: translateY(-2px);
 }
 

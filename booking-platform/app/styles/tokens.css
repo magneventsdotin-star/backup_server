@@ -1,46 +1,65 @@
 
 
 :root {
+  /* Official Magnevents Brand Colour Palette */
+  --color-coral: #E45F60;
+  --color-marigold: #E8B943;
+  --color-charcoal: #29272A;
+  --color-ivory: #F5F0E9;
+  --color-wine: #7E3044;
+  --color-rose-stone: #D8C4B7;
 
-  --bg-base:     #050505;
-  --bg-card:     rgba(255, 255, 255, 0.05);
-  --bg-raised:   rgba(255, 255, 255, 0.08);
-  --bg-overlay:  rgba(0, 0, 0, 0.85);
+  /* Surfaces & Backgrounds */
+  --bg-base: #1c1a1d;
+  --bg-charcoal: var(--color-charcoal);
+  --bg-card: rgba(41, 39, 42, 0.78);
+  --bg-raised: rgba(41, 39, 42, 0.94);
+  --bg-overlay: rgba(28, 26, 29, 0.88);
 
+  /* Brand Colors & Aliases */
+  --brand-primary: var(--color-coral);
+  --brand-coral: var(--color-coral);
+  --brand-ruby: var(--color-coral);
+  --brand-marigold: var(--color-marigold);
+  --brand-gold: var(--color-marigold);
+  --brand-saffron: var(--color-marigold);
+  --brand-wine: var(--color-wine);
+  --brand-rose-stone: var(--color-rose-stone);
 
-  --brand-ruby:     #D65050;
-  --brand-sky:      #00d4ff;
-  --brand-gold:     #FFE032;
-  --brand-choc:     #8b4513;
+  /* Glows */
+  --glow-coral: rgba(228, 95, 96, 0.22);
+  --glow-marigold: rgba(232, 185, 67, 0.18);
+  --glow-wine: rgba(126, 48, 68, 0.22);
+  --glow-red: var(--glow-coral);
+  --glow-blue: var(--glow-coral);
+  --glow-gold: var(--glow-marigold);
+  --glow-warm: rgba(126, 48, 68, 0.15);
 
+  /* Borders */
+  --border-subtle: rgba(216, 196, 183, 0.18);
+  --border-rose: rgba(216, 196, 183, 0.3);
+  --border-glow: rgba(232, 185, 67, 0.35);
+  --border-accent: rgba(228, 95, 96, 0.35);
 
-  --glow-red:       rgba(214, 80, 80, 0.15);
-  --glow-blue:      rgba(0, 210, 255, 0.12);
-  --glow-warm:      rgba(139, 69, 19, 0.1);
-  --glow-gold:      rgba(255, 224, 50, 0.1);
+  /* Typography */
+  --text-heading: var(--color-ivory);
+  --text-main: var(--color-ivory);
+  --text-muted: rgba(245, 240, 233, 0.68);
+  --text-faint: rgba(245, 240, 233, 0.42);
 
+  /* Shadows */
+  --shadow-premium: 0 24px 50px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 25px var(--glow-coral);
 
-  --border-subtle:  rgba(255, 255, 255, 0.06);
-  --border-glow:    rgba(255, 255, 255, 0.1);
-  --border-accent:  rgba(214, 80, 80, 0.2);
+  /* Radius & Easing */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
 
-
-  --text-main:      #ffffff;
-  --text-muted:     rgba(255, 255, 255, 0.6);
-  --text-faint:     rgba(255, 255, 255, 0.3);
-
-
-  --shadow-premium: 0 30px 60px rgba(0, 0, 0, 0.6);
-  --shadow-glow:    0 0 20px var(--glow-red);
-
-
-  --radius-lg:      24px;
-  --radius-xl:      32px;
-  --radius-full:    999px;
-
-
-  --ease-premium:   cubic-bezier(0.23, 1, 0.32, 1);
-  --trans-normal:   0.4s var(--ease-premium);
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --trans-normal: 0.35s var(--ease-premium);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -181,28 +200,30 @@ input:focus, select:focus, textarea:focus {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #000;
-  color: var(--brand-gold);
-  border: none;
+  background: var(--color-charcoal, #29272A);
+  color: var(--color-marigold, #E8B943);
+  border: 1px solid rgba(216, 196, 183, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 10;
   padding: 0;
   flex-shrink: 0;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
 }
 
 .lux-arrow-btn:hover {
-  transform: scale(1.1);
-  background: var(--brand-gold);
-  color: #000;
+  transform: scale(1.08);
+  background: var(--color-coral, #E45F60);
+  border-color: var(--color-coral, #E45F60);
+  color: #FFFFFF;
+  box-shadow: 0 8px 24px rgba(228, 95, 96, 0.45);
 }
 
 .lux-arrow-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
 }
 
 .lux-arrow-btn svg {

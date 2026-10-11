@@ -16,13 +16,9 @@ export default function GalleryPage() {
         </header>
 
         <div className="gallery-masonry">
-          {GALLERY_ITEMS.map((item, idx) => (
-            <motion.div
+          {GALLERY_ITEMS.map((item) => (
+            <div
               key={item.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
               className={`gallery-item ${item.size}`}
             >
               <div className="gallery-media" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -33,7 +29,7 @@ export default function GalleryPage() {
                   <h3>{item.title}</h3>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

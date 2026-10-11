@@ -61,17 +61,14 @@ export default function HeroVideosSection() {
 
   return (
     <section className="hero-videos-section" aria-label="Trending Videos">
-      <motion.div 
+      <div 
         className="hp-section-head text-center" 
         style={{ marginBottom: '24px', textAlign: 'center' }}
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
       >
-        <h2 className="video-grid-heading" style={{ fontSize: '2rem', fontWeight: 800 }}>
-          Trending <span style={{ color: 'var(--brand-primary, #FFE032)' }}>Now</span>
+        <h2 className="video-grid-heading hp-display-title">
+          Trending Now
         </h2>
-      </motion.div>
+      </div>
 
       {loading ? (
         <div className="hero-videos-skeleton-grid">

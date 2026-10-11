@@ -196,8 +196,10 @@ function FeaturedArtistsSection() {
   return (
     <section className="hp-shell hp-block hp-featured-section">
       <div className="hp-feat-head-v2">
-        <div className="hp-section-head">
-          <h2>Featured Artists</h2>
+        <div className="hp-section-head" style={{ marginBottom: 0, alignItems: 'flex-start' }}>
+          <h2 className="hp-display-title" style={{ textAlign: 'left', margin: 0 }}>
+            Featured <span>Artists</span>
+          </h2>
         </div>
 
         <div className="hp-feat-actions-row">
@@ -314,7 +316,6 @@ function FeaturedArtistsSection() {
                           </span>
                         </div>
                       </div>
-
                     </div>
                   </div>
                 </Link>

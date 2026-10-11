@@ -151,6 +151,7 @@ export default function ArtistProfilePage({ params }) {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [copiedType, setCopiedType] = useState(null);
 
   const rawId = params?.id || (typeof React.use === 'function' && params ? React.use(params)?.id : params?.id) || '';
   const decodedId = decodeURIComponent(rawId);
@@ -439,26 +440,197 @@ export default function ArtistProfilePage({ params }) {
         )}
 
 
-        <section className="share-section" style={{ marginTop: '60px', padding: '40px', background: 'linear-gradient(135deg, rgba(231,40,106,0.1), rgba(15,17,23,0.8))', borderRadius: '24px', border: '1px solid rgba(231,40,106,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-          <h2 className="section-title" style={{ marginBottom: '16px', justifyContent: 'center' }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-            Share Profile
-          </h2>
-          <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '24px', maxWidth: '400px' }}>
-            Love this artist? Share their profile with friends and event organizers!
-          </p>
-          <button 
-            className="btn-primary-elegant"
-            onClick={(e) => {
-              navigator.clipboard.writeText(window.location.href);
-              const originalText = e.target.innerHTML;
-              e.target.innerHTML = 'Link Copied!';
-              setTimeout(() => { e.target.innerHTML = originalText; }, 2000);
-            }}
-          >
-            Copy Profile Link
-          </button>
-        </section>
+        {/* SHARE ARTIST ON WHATSAPP & CLIENT PITCH */}
+        {(() => {
+          const generateWhatsAppShareText = () => {
+            const profileUrl = typeof window !== 'undefined' ? window.location.href : `https://magnevents.in/artist/${artist.slug || artist.id}`;
+            const firstVideo = videos && videos.length > 0 ? videos[0] : null;
+            let videoLinkText = '';
+            if (firstVideo?.video_url) {
+              videoLinkText = `\n🎥 *Live Performance Video:*\n${firstVideo.video_url}\n`;
+            }
+
+            const priceText = artist.exclusive_price 
+              ? `₹${artist.exclusive_price.toLocaleString()}` 
+              : (artist.price_min ? `₹${artist.price_min.toLocaleString()}` : 'Custom Quote on Request');
+
+            const ratingText = artist.rating ? `⭐ ${artist.rating.toFixed(1)}/5` : '⭐ Top Rated';
+            const showsText = artist.successful_bookings ? ` (${artist.successful_bookings}+ Shows)` : '';
+            const cityText = artist.city || 'Pan-India';
+            const categoryText = artist.category || 'Live Singer & Performer';
+
+            return `✨ *VERIFIED ARTIST PROFILE • MAGNEVENTS* ✨\n\n` +
+              `🎤 *Artist:* ${name}\n` +
+              `🎭 *Category:* ${categoryText}\n` +
+              `📍 *Location:* ${cityText}\n` +
+              `🌟 *Rating:* ${ratingText}${showsText}\n` +
+              `💰 *Starting Rate:* ${priceText}\n` +
+              (artist.performing_language ? `🗣️ *Languages:* ${artist.performing_language}\n` : '') +
+              videoLinkText +
+              `\n🔗 *Full Profile & Booking:* ${profileUrl}\n\n` +
+              `🛡️ *100% Artist Arrival Guarantee by Magnevents*`;
+          };
+
+          const handleCopyWhatsAppPitch = () => {
+            const text = generateWhatsAppShareText();
+            navigator.clipboard.writeText(text);
+            setCopiedType('pitch');
+            setTimeout(() => setCopiedType(null), 2500);
+          };
+
+          const handleCopyLinkOnly = () => {
+            navigator.clipboard.writeText(window.location.href);
+            setCopiedType('url');
+            setTimeout(() => setCopiedType(null), 2500);
+          };
+
+          const handleShareOnWhatsApp = () => {
+            const text = generateWhatsAppShareText();
+            const wpUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+            window.open(wpUrl, '_blank', 'noopener,noreferrer');
+          };
+
+          return (
+            <section className="share-section" style={{
+              marginTop: '60px',
+              padding: '36px 24px',
+              background: 'linear-gradient(135deg, rgba(228, 95, 96, 0.12) 0%, rgba(41, 39, 42, 0.95) 50%, rgba(126, 48, 68, 0.18) 100%)',
+              borderRadius: '24px',
+              border: '1.5px solid rgba(232, 185, 67, 0.35)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)'
+            }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(232, 185, 67, 0.15)',
+                border: '1px solid rgba(232, 185, 67, 0.4)',
+                padding: '5px 14px',
+                borderRadius: '100px',
+                color: '#E8B943',
+                fontSize: '12px',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                marginBottom: '12px'
+              }}>
+                💬 WhatsApp Ready Pitch Card
+              </div>
+
+              <h2 className="section-title" style={{ marginBottom: '10px', justifyContent: 'center' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                Share Artist with Client / Friends
+              </h2>
+
+              <p style={{ color: 'rgba(245, 240, 233, 0.75)', marginBottom: '22px', maxWidth: '520px', fontSize: '14.5px', lineHeight: 1.5 }}>
+                1-click copy a beautifully formatted WhatsApp pitch with {name}&apos;s verified rates, performance video, and profile link.
+              </p>
+
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '12px',
+                flexWrap: 'wrap',
+                width: '100%',
+                maxWidth: '650px'
+              }}>
+                <button 
+                  type="button"
+                  className="btn-primary-elegant"
+                  onClick={handleCopyWhatsAppPitch}
+                  style={{
+                    background: copiedType === 'pitch' ? '#25D366' : '#E8B943',
+                    color: '#1C191B',
+                    fontWeight: 800,
+                    border: 'none',
+                    padding: '13px 24px',
+                    borderRadius: '12px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 6px 20px rgba(232, 185, 67, 0.35)',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <span>{copiedType === 'pitch' ? '✓ Copied Details & Video for WhatsApp!' : '📋 Copy All Details & Video for WhatsApp'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleShareOnWhatsApp}
+                  style={{
+                    background: '#25D366',
+                    color: '#FFFFFF',
+                    fontWeight: 700,
+                    border: 'none',
+                    padding: '13px 20px',
+                    borderRadius: '12px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 6px 20px rgba(37, 211, 102, 0.35)',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <span>💬 Open WhatsApp</span>
+                </button>
+
+                <button 
+                  type="button"
+                  onClick={handleCopyLinkOnly}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    color: 'rgba(245, 240, 233, 0.9)',
+                    fontWeight: 600,
+                    border: '1px solid rgba(216, 196, 183, 0.3)',
+                    padding: '13px 18px',
+                    borderRadius: '12px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <span>{copiedType === 'url' ? '✓ Link Copied!' : '🔗 Copy Link Only'}</span>
+                </button>
+              </div>
+
+              {/* Preview Box */}
+              <div style={{
+                marginTop: '22px',
+                padding: '14px 18px',
+                background: 'rgba(15, 17, 23, 0.75)',
+                border: '1px dashed rgba(216, 196, 183, 0.25)',
+                borderRadius: '14px',
+                maxWidth: '520px',
+                width: '100%',
+                textAlign: 'left',
+                fontSize: '12.5px',
+                color: 'rgba(245, 240, 233, 0.75)',
+                lineHeight: 1.55
+              }}>
+                <div style={{ fontWeight: 700, color: '#E8B943', marginBottom: '4px' }}>
+                  📱 Formatted WhatsApp Chat Preview:
+                </div>
+                <div>• 🎤 Artist: <strong>{name}</strong></div>
+                <div>• 🎭 Category: <strong>{categories || 'Live Performer'}</strong></div>
+                <div>• 💰 Starting Rate: <strong>{artist.exclusive_price ? `₹${artist.exclusive_price.toLocaleString()}` : (artist.price_min ? `₹${artist.price_min.toLocaleString()}` : 'Custom Quote')}</strong></div>
+                {videos && videos.length > 0 && videos[0]?.video_url && (
+                  <div>• 🎥 Performance Video: <strong style={{ color: '#E8B943' }}>{videos[0].video_url}</strong></div>
+                )}
+                <div>• 🛡️ 100% Artist Arrival Guarantee by Magnevents</div>
+              </div>
+            </section>
+          );
+        })()}
       </div>
 
       {selectedImage && typeof document !== 'undefined' && createPortal(

@@ -2,8 +2,9 @@ import '@/app/styles/tokens.css';
 import '@/app/styles/flow-unify.css';
 import '@/app/index.css';
 
-import { Inter } from 'next/font/google';
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+import { Inter, Playfair_Display } from 'next/font/google';
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
+const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
 
 import dynamic from 'next/dynamic'
 import Script from 'next/script'
@@ -17,7 +18,6 @@ const FloatingWhatsApp = dynamic(() => import('@/app/components/common/FloatingW
 const AIAssistantModal = dynamic(() => import('@/app/components/common/AIAssistantModal'), { ssr: false })
 const PWAInstallPrompt = dynamic(() => import('@/app/components/common/PWAInstallPrompt'), { ssr: false })
 const Tracker = dynamic(() => import('@/app/components/common/Tracker'), { ssr: false })
-const LeadCaptureModal = dynamic(() => import('@/app/components/common/LeadCaptureModal'), { ssr: false })
 export const viewport = {
   themeColor: '#0a0a0a',
   width: 'device-width',
@@ -259,7 +259,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className="antialiased" suppressHydrationWarning>
+      <body className={`${inter.variable} ${playfair.variable} antialiased`} suppressHydrationWarning>
         <noscript>
           <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRH84LZ5" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe>
         </noscript>
@@ -272,7 +272,6 @@ export default function RootLayout({ children }) {
           <QuickBookingModal />
           <FloatingWhatsApp />
           <AIAssistantModal />
-          <LeadCaptureModal />
           <PWAInstallPrompt />
           <Tracker />
         </Providers>

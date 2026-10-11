@@ -91,7 +91,9 @@ function TopPerformerSection() {
   return (
     <FadeSection className="hp-shell hp-block">
       <div className="hp-section-head">
-        <h2 className="hp-top-performer-title">Top performer picked this month</h2>
+        <h2 className="hp-top-performer-title hp-display-title">
+          Top Performer <span>of the Month</span>
+        </h2>
       </div>
       <div className="hp-aom-card">
         {loading ? (
@@ -163,33 +165,23 @@ function TopPerformerSection() {
                 )}
               </div>
 
-              <div style={{ display: 'flex', gap: '15px' }}>
+              <div style={{ display: 'flex', gap: '14px', marginTop: '4px' }}>
                 <button
                   onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal', {
                     detail: { type: 'booking', artist: artist }
                   }))}
                   className="hp-btn hp-aom-btn"
-                  style={{ flex: 1, whiteSpace: 'nowrap', padding: '12px 10px' }}
+                  style={{ flex: 1, whiteSpace: 'nowrap', padding: '12px 14px' }}
                 >
                   Book Now
                 </button>
                 <Link href={`/artist/${encodeURIComponent((artist.alias || artist.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''))}`} target="_blank" rel="noopener noreferrer" style={{ flex: 1, textDecoration: 'none', display: 'flex' }}>
                   <button
-                    className="hp-btn"
+                    className="hp-btn hp-aom-profile-btn"
                     style={{ 
                       flex: 1, 
-                      background: '#fff', 
-                      border: 'none', 
-                      color: '#000',
-                      fontWeight: '600',
                       whiteSpace: 'nowrap',
-                      padding: '12px 10px'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.background = '#e0e0e0';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.background = '#fff';
+                      padding: '12px 14px'
                     }}
                   >
                     View Profile

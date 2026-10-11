@@ -31,14 +31,10 @@ export default function WhyChoosePage() {
           ))}
         </div>
 
-        <motion.section
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          className="why-cta-section"
-        >
+        <section className="why-cta-section">
           <h2>Ready to find your perfect artist?</h2>
           <button className="matrix-btn">Explore Categories</button>
-        </motion.section>
+        </section>
       </div>
     </main>
   )

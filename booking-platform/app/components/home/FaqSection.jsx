@@ -34,7 +34,7 @@ export default function FaqSection({
       />
       <FadeSection className="hp-shell hp-block hp-faqs">
       <div className="hp-section-head">
-        <h2 className={titleGradient ? 'text-gradient' : ''}>{title}</h2>
+        <h2 className="hp-display-title">Frequently Asked Questions</h2>
       </div>
       <div className="hp-faq-list">
         {FAQS.map((item, index) => {

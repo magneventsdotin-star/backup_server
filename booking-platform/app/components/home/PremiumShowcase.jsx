@@ -10,34 +10,19 @@ export default function PremiumShowcase() {
     <section className="premium-section">
       <div className="premium-container">
         <div className="premium-header">
-          <motion.span
-            className="premium-eyebrow"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          <span className="premium-eyebrow">
             EXCEPTIONAL SERVICE
-          </motion.span>
-          <motion.h2
-            className="premium-title"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
+          </span>
+          <h2 className="premium-title">
             Discover the <span className="text-glow">Magnevents</span> Edge
-          </motion.h2>
+          </h2>
         </div>
 
         <div className="premium-grid">
-          {PREMIUM_CARDS.map((card, idx) => (
-            <motion.div
+          {PREMIUM_CARDS.map((card) => (
+            <div
               key={card.id}
               className="premium-card-wrap"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
             >
               <Link
                 href={card.path}
@@ -66,7 +51,7 @@ export default function PremiumShowcase() {
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

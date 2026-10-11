@@ -45,33 +45,16 @@ function HowToBookSection() {
 
       <div className="hp-how-section">
         <div className="how-header-modern">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="how-badge"
-          >
-            <span className="how-badge-icon">?</span>
-            <span className="how-badge-text">Simple Process</span>
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="how-title"
-          >
+          <div className="how-badge">
+            <span className="how-badge-icon">✨</span>
+            <span className="how-badge-text">Simple 4-Step Process</span>
+          </div>
+          <h2 className="how-title hp-display-title">
             How to book a <span>musician?</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="how-subtitle"
-          >
+          </h2>
+          <p className="how-subtitle">
             Your seamless journey to incredible live entertainment.
-          </motion.p>
+          </p>
         </div>
 
         <div 
@@ -80,17 +63,13 @@ function HowToBookSection() {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onTouchStart={() => setIsHovered(true)}
-          onTouchEnd={() => setIsHovered(false)}
+          onTouchEnd={() => setTimeout(() => setIsHovered(false), 2000)}
         >
           <div className="how-connecting-line" />
 
           {HOW_TO_BOOK_STEPS.map((step, idx) => (
-            <motion.div
+            <div
               key={idx}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: idx * 0.15 }}
               className="how-card-modern"
             >
               <div className="how-card-inner">
@@ -112,7 +91,7 @@ function HowToBookSection() {
 
                 <div className="how-card-hover-glow" style={{ '--hover-color': step.color }} />
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

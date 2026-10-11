@@ -3,7 +3,6 @@ import { createClient } from '@supabase/supabase-js';
 import nodemailer from 'nodemailer';
 import { buildEmailTemplate, row, buildSection, parseDevice } from '@/app/services/api/contact.service.js';
 import { sendAdminWhatsAppNotification } from '@/app/services/api/whatsapp.service.js';
-
 export const dynamic = 'force-dynamic';
 
 function getSupabaseAdmin() {
@@ -25,7 +24,6 @@ export async function POST(req) {
       }, { status: 200 });
     }
 
-    // 2. Server-side validation
     const rawName = (data.name || '').trim();
     const rawPhone = (data.phone || '').trim();
     const cleanPhone = rawPhone.replace(/[^0-9]/g, '');

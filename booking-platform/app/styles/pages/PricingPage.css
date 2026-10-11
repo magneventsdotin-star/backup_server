@@ -40,9 +40,7 @@
 }
 
 .pricing-title .accent-text {
-  background: linear-gradient(90deg, #FFE032, #EECE3B);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-marigold, #E8B943);
   font-style: normal;
 }
 
@@ -90,8 +88,8 @@
   top: 0;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: linear-gradient(90deg, #FFE032, #EECE3B);
-  color: #000;
+  background: var(--color-coral, #E45F60);
+  color: #fff;
   padding: 6px 16px;
   border-radius: 99px;
   font-size: 11px;
@@ -149,7 +147,7 @@
 }
 
 .check-icon {
-  color: #FFE032;
+  color: var(--color-marigold, #E8B943);
   font-weight: 700;
 }
 

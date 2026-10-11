@@ -21,12 +21,12 @@
   position: relative;
   width: min(640px, 100%);
   margin: auto;
-  background: rgba(12, 14, 18, 0.95);
+  background: radial-gradient(ellipse 100% 70% at 50% -10%, rgba(126, 48, 68, 0.42) 0%, rgba(41, 39, 42, 0.98) 65%, #29272A 100%);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.9), inset 0 1px 1px rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(216, 196, 183, 0.24);
+  border-radius: 24px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.9), 0 0 35px rgba(126, 48, 68, 0.22), inset 0 1px 1px rgba(216, 196, 183, 0.18);
   padding: 48px;
   isolation: isolate;
   overflow-x: hidden !important;
@@ -43,6 +43,22 @@
   opacity: 1 !important;
   letter-spacing: 0.01em !important;
   -webkit-text-fill-color: rgba(255, 255, 255, 0.72) !important;
+}
+
+#qb-name::placeholder,
+#qb-phone::placeholder,
+.qb-beige-modal-card input::placeholder {
+  color: rgba(126, 48, 68, 0.55) !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: rgba(126, 48, 68, 0.55) !important;
+}
+
+#qb-name::-webkit-input-placeholder,
+#qb-phone::-webkit-input-placeholder,
+.qb-beige-modal-card input::-webkit-input-placeholder {
+  color: rgba(126, 48, 68, 0.55) !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: rgba(126, 48, 68, 0.55) !important;
 }
 
 #popup-lead-name::-webkit-input-placeholder,
@@ -73,8 +89,8 @@
   left: 50%;
   transform: translateX(-50%);
   width: 150%;
-  height: 50%;
-  background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.15) 0%, transparent 70%);
+  height: 60%;
+  background: radial-gradient(ellipse at 50% 30%, rgba(126, 48, 68, 0.48) 0%, rgba(216, 196, 183, 0.1) 45%, transparent 70%);
   pointer-events: none;
   z-index: -1;
 }
@@ -158,9 +174,9 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
+  background: rgba(41, 39, 42, 0.85);
+  border: 1px solid rgba(216, 196, 183, 0.22);
+  color: #D8C4B7;
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 10px;
@@ -172,23 +188,24 @@
 }
 
 .lux-modal-close:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(126, 48, 68, 0.45);
   color: #fff;
   transform: rotate(90deg) scale(1.05);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(216, 196, 183, 0.45);
 }
 
 .header-badge {
-  color: #00d4ff;
+  color: var(--color-marigold, #E8B943);
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.12em;
   margin-bottom: 12px;
   text-transform: uppercase;
-  background: rgba(0, 212, 255, 0.1);
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: 1px solid rgba(0, 212, 255, 0.2);
+  background: rgba(126, 48, 68, 0.38);
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(216, 196, 183, 0.32);
+  box-shadow: 0 4px 14px rgba(126, 48, 68, 0.25);
   display: inline-block;
 }
 
@@ -232,9 +249,9 @@
 }
 
 .lead-discount {
-  color: #00d4ff;
+  color: #E8B943;
   font-weight: 700;
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+  text-shadow: 0 0 10px rgba(232, 185, 67, 0.4);
 }
 
 .form-type-switcher {
@@ -303,21 +320,21 @@
 }
 
 .lux-form-group label {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
-  color: #8a919e;
+  color: #D8C4B7;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
 }
 
 .lux-form-group input,
 .lux-form-group select,
 .lux-form-group textarea {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(28, 26, 29, 0.85);
+  border: 1px solid rgba(216, 196, 183, 0.2);
   border-radius: 12px;
   padding: 16px 20px;
-  color: #ffffff;
+  color: #F5F0E9;
   font-size: 15px;
   font-weight: 500;
   outline: none;
@@ -327,15 +344,15 @@
 
 .lux-form-group input::placeholder,
 .lux-form-group textarea::placeholder {
-  color: rgba(255,255,255,0.25);
+  color: rgba(216, 196, 183, 0.45);
 }
 
 .lux-form-group input:focus,
 .lux-form-group select:focus,
 .lux-form-group textarea:focus {
-  border-color: #00d4ff;
-  background: rgba(0, 212, 255, 0.05);
-  box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.15), inset 0 2px 4px rgba(0,0,0,0.1);
+  border-color: #E8B943;
+  background: rgba(41, 39, 42, 0.98);
+  box-shadow: 0 0 0 3px rgba(126, 48, 68, 0.35), 0 0 16px rgba(232, 185, 67, 0.15);
 }
 
 .lux-form-group.full-width {
@@ -350,29 +367,29 @@
 }
 
 .artist-chip {
-  padding: 12px 24px;
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #c9cdd4;
-  font-size: 14px;
-  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 100px;
+  background: rgba(41, 39, 42, 0.75);
+  border: 1px solid rgba(216, 196, 183, 0.22);
+  color: #D8C4B7;
+  font-size: 13.5px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 
 .artist-chip:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #fff;
+  background: rgba(126, 48, 68, 0.35);
+  border-color: rgba(216, 196, 183, 0.45);
+  color: #FFFFFF;
   transform: translateY(-2px);
 }
 
 .artist-chip.active {
-  background: linear-gradient(135deg, #6b00ff, #00d4ff);
-  border-color: transparent;
+  background: linear-gradient(135deg, #7E3044 0%, #a03c56 100%);
+  border-color: #E8B943;
   color: #ffffff;
-  box-shadow: 0 8px 20px rgba(107, 0, 255, 0.4);
+  box-shadow: 0 8px 20px rgba(126, 48, 68, 0.5);
 }
 
 .lux-form-group select {
@@ -404,7 +421,7 @@
 }
 
 .lux-modal-content.register .header-badge {
-  color: #00d4ff;
+  color: #E8B943;
 }
 
 .lux-modal-footer {
@@ -418,50 +435,50 @@
 }
 
 .btn-submit-premium {
-    position: relative;
-    width: 100%;
-    background: linear-gradient(135deg, #ffe032 0%, #e6c200 100%);
-    border: 1px solid #ffcc00;
-    padding: 16px 20px;
-    border-radius: 14px;
-    cursor: pointer;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 12px 35px rgba(255, 224, 50, 0.25), inset 0 2px 0 rgba(255, 255, 255, 0.4);
-    font-size: 16px;
-    font-weight: 800;
-    line-height: 1.3;
-    min-height: 52px;
-    height: auto !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  width: 100%;
+  background: linear-gradient(180deg, #FFDD00 0%, #FFC800 100%) !important;
+  border: 1px solid rgba(255, 230, 0, 0.6) !important;
+  padding: 16px 20px !important;
+  border-radius: 14px !important;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 0 24px rgba(255, 214, 0, 0.45), 0 4px 15px rgba(0, 0, 0, 0.35) !important;
+  font-size: 15.5px !important;
+  font-weight: 900 !important;
+  line-height: 1.3 !important;
+  min-height: 52px !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .btn-submit-premium .btn-text {
   position: relative;
   z-index: 2;
-  color: #05070a;
-  font-weight: 800;
-  font-size: 15px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-align: center;
-  line-height: 1.3;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  font-size: 15px !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  text-align: center !important;
+  line-height: 1.3 !important;
 }
 
 .btn-glow {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
   transform: translateX(-100%);
   transition: transform 0.6s ease;
 }
 
 .btn-submit-premium:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(255, 224, 50, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.5);
-  background: linear-gradient(135deg, #fff078 0%, #ffe032 100%);
+  transform: translateY(-2px) !important;
+  box-shadow: 0 0 35px rgba(255, 214, 0, 0.65), 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+  background: linear-gradient(180deg, #FFE433 0%, #FFD000 100%) !important;
 }
 
 .btn-submit-premium:hover .btn-glow {
@@ -469,7 +486,7 @@
 }
 
 .btn-submit-premium:active {
-  transform: scale(0.98);
+  transform: scale(0.98) !important;
 }
 
 .lux-modal-success {
@@ -524,7 +541,7 @@
     width: 100% !important;
     box-sizing: border-box !important;
   }
-  .lux-modal-content {
+  .lux-modal-content:not(.qb-beige-modal-card) {
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
@@ -532,14 +549,29 @@
     max-height: none !important;
     overflow: visible !important;
     border-radius: 20px !important;
-    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    border: 1.5px solid rgba(216, 196, 183, 0.22) !important;
     padding: 18px 12px 18px 12px !important;
     margin: auto 0 !important;
     box-sizing: border-box !important;
     touch-action: pan-y !important;
-    background: rgba(12, 14, 18, 0.98) !important;
+    background: radial-gradient(ellipse 100% 70% at 50% -10%, rgba(126, 48, 68, 0.35) 0%, rgba(41, 39, 42, 0.98) 65%, #29272A 100%) !important;
     display: flex !important;
     flex-direction: column !important;
+  }
+  .lux-modal-content.qb-beige-modal-card,
+  .qb-beige-modal-card {
+    background: #D8C4B7 !important;
+    border: 1.5px solid rgba(126, 48, 68, 0.28) !important;
+    border-radius: 22px !important;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    color: #7E3044 !important;
+    padding: 20px 16px 18px !important;
+    width: 100% !important;
+    max-width: 440px !important;
+    margin: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
   }
   .lux-modal-content,
   .lux-modal-header h3,
@@ -732,12 +764,13 @@
   .btn-submit-premium {
     min-height: 50px !important;
     height: auto !important;
-    padding: 12px 16px !important;
+    padding: 14px 16px !important;
     border-radius: 14px !important;
-    background: linear-gradient(135deg, #FFE032 0%, #E5A900 100%) !important;
-    color: #05070A !important;
+    background: linear-gradient(180deg, #FFDD00 0%, #FFC800 100%) !important;
+    border: 1px solid rgba(255, 230, 0, 0.6) !important;
+    color: #000000 !important;
     font-weight: 900 !important;
-    box-shadow: 0 10px 30px rgba(255, 224, 50, 0.45) !important;
+    box-shadow: 0 0 24px rgba(255, 214, 0, 0.5), 0 4px 14px rgba(0, 0, 0, 0.35) !important;
     margin-top: 6px !important;
     display: flex !important;
     align-items: center !important;
@@ -746,9 +779,11 @@
   .btn-submit-premium .btn-text {
     font-size: 14px !important;
     font-weight: 900 !important;
-    letter-spacing: 0.02em !important;
+    color: #000000 !important;
+    letter-spacing: 0.05em !important;
     line-height: 1.3 !important;
     text-align: center !important;
+    text-transform: uppercase !important;
     white-space: nowrap !important;
   }
   .lux-modal-close {
@@ -759,48 +794,48 @@
 }
 
 .btn-whatsapp-premium {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  background: rgba(37, 211, 102, 0.08) !important;
-  border: 1px solid rgba(37, 211, 102, 0.3) !important;
-  padding: 16px !important;
-  border-radius: 16px !important;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  outline: none;
-  box-sizing: border-box;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  background: linear-gradient(180deg, #133320 0%, #0C2416 100%) !important;
+  border: 1.5px solid #1E5C35 !important;
+  padding: 14px 18px !important;
+  border-radius: 14px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  box-shadow: 0 0 20px rgba(37, 211, 102, 0.18), 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  outline: none !important;
+  box-sizing: border-box !important;
 }
 
 .btn-whatsapp-premium .whatsapp-icon {
   color: #25D366 !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: transform 0.25s ease !important;
 }
 
 .btn-whatsapp-premium .btn-text {
   color: #25D366 !important;
-  font-weight: 800 !important;
+  font-weight: 900 !important;
   font-size: 14px !important;
-  letter-spacing: 0.08em !important;
+  letter-spacing: 0.06em !important;
   text-transform: uppercase !important;
 }
 
-.btn-whatsapp-premium:hover,
-.btn-whatsapp-premium:active {
-  background: rgba(37, 211, 102, 0.15) !important;
+.btn-whatsapp-premium:hover {
+  background: linear-gradient(180deg, #18422A 0%, #102E1D 100%) !important;
   border-color: #25D366 !important;
-  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.2) !important;
+  box-shadow: 0 0 30px rgba(37, 211, 102, 0.32), 0 6px 18px rgba(0, 0, 0, 0.4) !important;
   transform: translateY(-2px) !important;
 }
 
 .btn-whatsapp-premium:hover .whatsapp-icon {
-  transform: scale(1.15) rotate(-8deg) !important;
+  transform: scale(1.15) rotate(-6deg) !important;
 }
 
 .btn-whatsapp-premium:active {

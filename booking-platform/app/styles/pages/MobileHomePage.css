@@ -23,7 +23,7 @@
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--hp-brand, #FFE032);
+  color: var(--hp-brand, #E8B943);
   font-weight: 700;
 }
 
@@ -98,8 +98,8 @@
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
-  background: var(--hp-brand, #FFE032);
-  color: #000;
+  background: var(--color-coral, #E45F60);
+  color: #fff;
   border: none;
 }
 
