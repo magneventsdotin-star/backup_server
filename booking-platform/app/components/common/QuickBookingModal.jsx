@@ -244,7 +244,8 @@ function InnerQuickBookingForm({ onClose }) {
         else if (window.innerWidth > 768) deviceType = 'T'
       }
 
-      const generatedRef = `MAG-QB-${Date.now().toString().slice(-6)}`
+      const randomSixDigit = Math.floor(100000 + Math.random() * 900000)
+      const generatedRef = `MGN-${randomSixDigit}`
       const eventInfo = (formData.eventDetails || '').trim()
 
       await bookingService.submitInstantRequest({
@@ -273,31 +274,43 @@ function InnerQuickBookingForm({ onClose }) {
     }
   }
 
-  // High-Contrast, Luxury Thank You Screen matching the Card Palette
+  // Copy booking ID helper
+  const [copied, setCopied] = useState(false)
+  const handleCopyId = () => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard && refCode) {
+      navigator.clipboard.writeText(refCode)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
+  // High-Contrast, Luxury Thank You Screen matching the Card Palette with Authentic Booking Pass
   if (isSuccess) {
     return (
-      <div style={{ textAlign: 'center', padding: '10px 4px 6px' }}>
+      <div style={{ textAlign: 'center', padding: '6px 2px 2px' }}>
+        {/* Celebration Checkmark */}
         <div style={{ 
-          width: '60px', 
-          height: '60px', 
+          width: '56px', 
+          height: '56px', 
           borderRadius: '50%', 
           background: 'rgba(126, 48, 68, 0.12)', 
           border: '2px solid #7E3044',
-          boxShadow: '0 8px 24px rgba(126, 48, 68, 0.2)',
+          boxShadow: '0 8px 24px rgba(126, 48, 68, 0.18)',
           color: '#7E3044', 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
-          margin: '0 auto 16px', 
-          fontSize: '28px',
+          margin: '0 auto 14px', 
+          fontSize: '26px',
           fontWeight: '900' 
         }}>
           ✓
         </div>
+
         <h4 style={{ 
-          margin: '0 0 8px', 
+          margin: '0 0 6px', 
           color: '#7E3044', 
-          fontSize: '22px', 
+          fontSize: '21px', 
           fontWeight: 900, 
           letterSpacing: '-0.02em',
           lineHeight: 1.25,
@@ -305,74 +318,213 @@ function InnerQuickBookingForm({ onClose }) {
         }}>
           Slot Reserved Successfully!
         </h4>
+
         <div style={{
           display: 'inline-flex',
           alignItems: 'center',
           gap: '6px',
-          background: 'rgba(126, 48, 68, 0.1)',
-          border: '1px solid rgba(126, 48, 68, 0.25)',
+          background: 'rgba(126, 48, 68, 0.08)',
+          border: '1px solid rgba(126, 48, 68, 0.22)',
           borderRadius: '100px',
-          padding: '5px 16px',
+          padding: '4px 14px',
           color: '#7E3044',
-          fontSize: '12px',
+          fontSize: '11.5px',
           fontWeight: '800',
-          marginBottom: '14px'
+          marginBottom: '12px'
         }}>
           <span>⚡</span>
           <span>Flat 55%–65% OFF Discount Locked</span>
         </div>
+
         <p style={{ 
           margin: '0 0 16px', 
           color: '#1C1A1E', 
-          fontSize: '13.5px', 
-          lineHeight: '1.55',
+          fontSize: '13px', 
+          lineHeight: '1.5',
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }}>
           Thank you, <strong style={{ color: '#7E3044' }}>{formData.name}</strong>! Your inquiry &amp; special discount have been secured. Our senior event coordinator will call you at <strong style={{ color: '#7E3044' }}>+91 {formData.phone}</strong> shortly with verified quotes for your event.
         </p>
+
+        {/* AUTHENTIC ORIGINAL-LOOKING BOOKING PASS CARD */}
         {refCode && (
           <div style={{
             background: '#FFFFFF',
-            border: '1px solid rgba(126, 48, 68, 0.22)',
-            borderRadius: '12px',
-            padding: '7px 16px',
-            display: 'inline-block',
-            marginBottom: '18px',
-            fontSize: '12.5px',
-            color: '#7E3044',
-            fontWeight: '800',
-            letterSpacing: '0.03em'
+            border: '1.5px solid rgba(126, 48, 68, 0.2)',
+            borderRadius: '16px',
+            padding: '14px 16px',
+            marginBottom: '16px',
+            boxShadow: '0 8px 24px rgba(126, 48, 68, 0.08)',
+            textAlign: 'left',
+            position: 'relative'
           }}>
-            BOOKING ID: {refCode}
+            {/* Pass Top Bar */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '10px'
+            }}>
+              <span style={{
+                fontSize: '10px',
+                fontWeight: 800,
+                color: 'rgba(126, 48, 68, 0.75)',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase'
+              }}>
+                🛡️ Verified Booking Pass
+              </span>
+              <span style={{
+                fontSize: '10.5px',
+                fontWeight: 800,
+                color: '#16a34a',
+                background: 'rgba(22, 163, 74, 0.1)',
+                border: '1px solid rgba(22, 163, 74, 0.25)',
+                padding: '2px 8px',
+                borderRadius: '100px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}>
+                <span style={{ fontSize: '8px' }}>●</span> Confirmed
+              </span>
+            </div>
+
+            {/* Dotted Perforated Divider */}
+            <div style={{
+              borderTop: '1px dashed rgba(126, 48, 68, 0.2)',
+              margin: '0 -16px 12px',
+              position: 'relative'
+            }} />
+
+            {/* Booking ID & Copy Button */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              background: 'rgba(126, 48, 68, 0.05)',
+              border: '1px solid rgba(126, 48, 68, 0.15)',
+              borderRadius: '10px',
+              padding: '8px 12px'
+            }}>
+              <div>
+                <div style={{
+                  fontSize: '9.5px',
+                  fontWeight: 800,
+                  color: 'rgba(126, 48, 68, 0.65)',
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  marginBottom: '2px'
+                }}>
+                  Booking ID
+                </div>
+                <div style={{
+                  fontFamily: "'SF Mono', Monaco, Consolas, 'Liberation Mono', monospace",
+                  fontSize: '17px',
+                  fontWeight: 900,
+                  color: '#7E3044',
+                  letterSpacing: '0.06em'
+                }}>
+                  {refCode}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleCopyId}
+                style={{
+                  background: copied ? '#16a34a' : '#7E3044',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '6px 12px',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  transition: 'all 0.2s ease',
+                  fontFamily: "'Inter', sans-serif"
+                }}
+              >
+                {copied ? '✓ Copied' : '📋 Copy ID'}
+              </button>
+            </div>
+
+            {/* Bottom Benefit Footer */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginTop: '10px',
+              fontSize: '11px',
+              color: 'rgba(126, 48, 68, 0.8)',
+              fontWeight: 600
+            }}>
+              <span>🏷️ 55%–65% Discount Applied</span>
+              <span style={{ color: '#16a34a', fontWeight: 700 }}>✓ Verified</span>
+            </div>
           </div>
         )}
-        <button 
-          onClick={onClose}
-          style={{ 
-            width: '100%', 
-            padding: '14px 20px', 
-            borderRadius: '12px', 
-            background: '#7E3044', 
-            color: '#ffffff', 
-            fontWeight: 800, 
-            fontSize: '15px',
-            border: 'none', 
-            cursor: 'pointer',
-            boxShadow: '0 6px 22px rgba(126, 48, 68, 0.4)',
-            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#672535'
-            e.currentTarget.style.transform = 'translateY(-1px)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = '#7E3044'
-            e.currentTarget.style.transform = 'translateY(0)'
-          }}
-        >
-          Done &amp; Explore Artists
-        </button>
+
+        {/* WhatsApp Direct Connect & Done Buttons */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <a
+            href={`https://wa.me/918076515257?text=${encodeURIComponent(`Hi Magnevents, I just booked my artist slot with Booking ID: ${refCode}. Please connect me with the event coordinator and share artist quotes!`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              width: '100%',
+              padding: '12px 18px',
+              borderRadius: '12px',
+              background: '#25D366',
+              color: '#ffffff',
+              fontWeight: 800,
+              fontSize: '14px',
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 4px 16px rgba(37, 211, 102, 0.35)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              textDecoration: 'none',
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+            }}
+          >
+            <span>💬</span>
+            <span>Connect on WhatsApp with ID</span>
+          </a>
+
+          <button 
+            onClick={onClose}
+            style={{ 
+              width: '100%', 
+              padding: '12px 18px', 
+              borderRadius: '12px', 
+              background: '#7E3044', 
+              color: '#ffffff', 
+              fontWeight: 800, 
+              fontSize: '14px',
+              border: 'none', 
+              cursor: 'pointer',
+              boxShadow: '0 6px 20px rgba(126, 48, 68, 0.35)',
+              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#672535'
+              e.currentTarget.style.transform = 'translateY(-1px)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#7E3044'
+              e.currentTarget.style.transform = 'translateY(0)'
+            }}
+          >
+            Done &amp; Explore Artists
+          </button>
+        </div>
       </div>
     )
   }
