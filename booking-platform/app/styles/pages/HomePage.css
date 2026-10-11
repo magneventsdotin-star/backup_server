@@ -5327,6 +5327,7 @@
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
+    align-items: stretch !important;
     overflow-x: auto !important;
     scroll-snap-type: x mandatory !important;
     -webkit-overflow-scrolling: touch !important;
@@ -5347,9 +5348,28 @@
     border-radius: 4px !important;
   }
   .hp-why-grid.is-mobile-scroll .hp-why-card {
+    flex: 0 0 85% !important;
+    width: 85% !important;
     min-width: 85% !important;
+    max-width: 85% !important;
+    min-height: 270px !important;
+    height: auto !important;
     scroll-snap-align: center !important;
     flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    justify-content: flex-start !important;
+    box-sizing: border-box !important;
+    padding: 26px 20px 24px 20px !important;
+  }
+  .hp-why-grid.is-mobile-scroll .hp-why-card p {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    text-align: center !important;
   }
 }
 
@@ -5519,32 +5539,13 @@
 }
 
 @media (max-width: 768px) {
-  .hp-why-grid.is-mobile-scroll {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding-bottom: 20px !important;
-    gap: 16px !important;
-  }
-  .hp-why-grid.is-mobile-scroll::-webkit-scrollbar {
-    display: block !important;
-    height: 4px !important;
-  }
-  .hp-why-grid.is-mobile-scroll::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border-radius: 4px !important;
-  }
-  .hp-why-grid.is-mobile-scroll::-webkit-scrollbar-thumb {
-    background: rgba(255, 215, 0, 0.6) !important;
-    border-radius: 4px !important;
-  }
   .hp-why-grid.is-mobile-scroll .hp-why-card {
+    flex: 0 0 85% !important;
+    width: 85% !important;
     min-width: 85% !important;
-    scroll-snap-align: center !important;
-    flex-shrink: 0 !important;
+    max-width: 85% !important;
+    min-height: 270px !important;
+    height: auto !important;
   }
 }
 
