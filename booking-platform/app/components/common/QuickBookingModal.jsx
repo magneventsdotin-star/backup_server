@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -140,32 +140,15 @@ export default function QuickBookingModal() {
               }} 
             />
 
-            {/* Top Bar: Offer Badge on Left, Close Button cleanly separated on Right */}
+            {/* Top Bar: Close Button cleanly aligned on Right */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: '12px',
+              justifyContent: 'flex-end',
+              marginBottom: '10px',
               position: 'relative',
               zIndex: 2
             }}>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '4px 12px',
-                background: 'rgba(126, 48, 68, 0.12)',
-                border: '1px solid rgba(126, 48, 68, 0.3)',
-                borderRadius: '100px',
-                fontSize: '11px',
-                fontWeight: 800,
-                color: '#7E3044',
-                letterSpacing: '0.04em'
-              }}>
-                <span>🎉</span>
-                <span>FLAT 55%–65% OFF</span>
-              </div>
-
               <button
                 onClick={onClose}
                 aria-label="Close modal"
@@ -211,7 +194,7 @@ function InnerQuickBookingForm({ onClose }) {
   const [isFreeSubmitting, setIsFreeSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFreeSuccess, setIsFreeSuccess] = useState(false)
-  const [formData, setFormData] = useState({ name: '', phone: '' })
+  const [formData, setFormData] = useState({ name: '', phone: '', eventDetails: '' })
   const [errors, setErrors] = useState({})
   const [refCode, setRefCode] = useState('')
   const [paymentDetails, setPaymentDetails] = useState(null)
@@ -265,12 +248,14 @@ function InnerQuickBookingForm({ onClose }) {
       }
 
       const generatedRef = `MAG-QB-${Date.now().toString().slice(-6)}`
+      const eventInfo = (formData.eventDetails || '').trim()
+
       await bookingService.submitInstantRequest({
         name: formData.name.trim(),
         phone: formData.phone.trim(),
-        message: '',
-        tokenNote: 'Claimed Flat 55%–65% First Booking Discount',
-        eventType: 'Live Artist Slot Booking (55%–65% OFF)',
+        message: eventInfo,
+        tokenNote: eventInfo ? `Event: ${eventInfo}` : 'Claimed Flat 55%–65% First Booking Discount',
+        eventType: eventInfo || 'Live Artist Slot Booking (55%–65% OFF)',
         type: 'quick_booking',
         formName: 'Quick Booking Modal',
         deviceType: deviceType,
@@ -499,7 +484,7 @@ function InnerQuickBookingForm({ onClose }) {
           lineHeight: 1.45,
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }}>
-          Claim <strong style={{ color: '#7E3044' }}>Flat 55%–65% OFF</strong> on your booking. Connect with 1500+ verified performers across India.
+          Connect with 1500+ verified performers across India.
         </p>
       </div>
 
@@ -691,6 +676,77 @@ function InnerQuickBookingForm({ onClose }) {
           )}
         </div>
 
+        {/* 3. Event Details (Single Text Box) */}
+        <div>
+          <label 
+            htmlFor="qb-event-details" 
+            style={{ 
+              fontSize: '11px', 
+              fontWeight: 800, 
+              color: '#7E3044', 
+              marginBottom: '5px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              letterSpacing: '0.02em',
+              textTransform: 'uppercase'
+            }}
+          >
+            <span>Event Details</span>
+            <span style={{ fontSize: '10.5px', fontWeight: 600, color: 'rgba(126, 48, 68, 0.65)', textTransform: 'none' }}>
+              Optional
+            </span>
+          </label>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            background: '#FFFFFF',
+            border: activeFocus === 'eventDetails' ? '1.5px solid #7E3044' : '1px solid rgba(126, 48, 68, 0.25)',
+            borderRadius: '12px',
+            overflow: 'hidden',
+            boxShadow: activeFocus === 'eventDetails' ? '0 0 0 3px rgba(126, 48, 68, 0.15)' : 'none',
+            transition: 'all 0.2s ease',
+            boxSizing: 'border-box'
+          }}>
+            <div style={{
+              width: '42px',
+              height: '46px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: activeFocus === 'eventDetails' ? '#7E3044' : 'rgba(126, 48, 68, 0.65)',
+              borderRight: '1px solid rgba(126, 48, 68, 0.18)',
+              background: 'rgba(126, 48, 68, 0.05)',
+              flexShrink: 0
+            }}>
+              <span style={{ fontSize: '15px' }}>📅</span>
+            </div>
+            <input 
+              id="qb-event-details" 
+              type="text" 
+              placeholder="e.g. House party on 25th Nov in Delhi" 
+              value={formData.eventDetails || ''} 
+              onChange={(e) => setFormData({ ...formData, eventDetails: e.target.value })} 
+              onFocus={() => setActiveFocus('eventDetails')}
+              onBlur={() => setActiveFocus(null)}
+              style={{
+                flex: 1,
+                width: '100%',
+                height: '46px',
+                padding: '0 14px',
+                background: 'transparent',
+                border: 'none',
+                color: '#7E3044',
+                fontSize: '14px',
+                fontWeight: 600,
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                outline: 'none',
+                boxSizing: 'border-box'
+              }}
+            />
+          </div>
+        </div>
+
         {/* Single Primary Action Button */}
         <div style={{ marginTop: '4px' }}>
           <button 
@@ -731,31 +787,12 @@ function InnerQuickBookingForm({ onClose }) {
           >
             {isSubmitting ? (
               <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span className="ai-spinner-dot" /> Claiming 55%–65% OFF &amp; Reserving...
+                <span className="ai-spinner-dot" /> Reserving Slot &amp; Applying Discount...
               </span>
             ) : (
-              <>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                </svg>
-                <span>⚡ Claim 55%–65% OFF &amp; Book Slot ➔</span>
-              </>
+              <span>Book Slot &amp; Get 55%–65% OFF ➔</span>
             )}
           </button>
-
-          <div style={{
-            textAlign: 'center',
-            marginTop: '8px',
-            fontSize: '11px',
-            color: 'rgba(126, 48, 68, 0.75)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '6px'
-          }}>
-            <span>🎉</span>
-            <span>Flat 55%–65% Discount Applied • 100% Verified Artists</span>
-          </div>
         </div>
       </form>
     </>
