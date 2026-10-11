@@ -10,7 +10,7 @@
 
 @media (max-width: 768px) {
   .unified-header-container {
-    position: absolute !important;
+    position: relative !important;
   }
 }
 .lux-nav {
