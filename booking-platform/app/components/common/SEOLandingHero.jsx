@@ -454,11 +454,7 @@ export default function SEOLandingHero({
             <div className="seo-hero-split-right">
               <div ref={formRef} className="hero-tok99-card" id="hero-book-99">
                 <div className="hero-tok99-glow" aria-hidden="true" />
-                <div className="hero-tok99-top-row">
-                  <span className="hero-tok99-badge">
-                    <span className="hero-tok99-pulse" />
-                    <span>⚡ Exclusive to this page</span>
-                  </span>
+                <div className="hero-tok99-top-row" style={{ justifyContent: 'flex-end' }}>
                   <div className="hero-tok99-price-box">
                     <span className="hero-tok99-old-price">₹2,000</span>
                     <span className="hero-tok99-now-price">₹99 ONLY</span>
@@ -586,14 +582,6 @@ export default function SEOLandingHero({
                     >
                       <span>💬 Or Pay ₹99 &amp; Book on WhatsApp</span>
                     </a>
-
-                    <div className="hero-tok99-trust">
-                      <span>🛡️ 100% Arrival</span>
-                      <span>•</span>
-                      <span>💎 0% Markup</span>
-                      <span>•</span>
-                      <span>🔒 256-Bit Secure</span>
-                    </div>
                   </form>
                 ) : (
                   <div className="hero-tok99-confirmed-box">
