@@ -39,31 +39,37 @@ export default function QuickBookingModal() {
     checkHash()
     window.addEventListener('hashchange', checkHash)
 
-    // Auto-open instant form after 6 seconds only if not on a dedicated location/artist landing page
-    const isLocationPage = typeof window !== 'undefined' && (
-      window.location.pathname.includes('-in-') ||
-      window.location.pathname.startsWith('/city/') ||
-      window.location.pathname.includes('singer') ||
-      window.location.pathname.includes('band') ||
-      window.location.pathname.includes('dj') ||
-      window.location.pathname.includes('comedian') ||
-      window.location.pathname.includes('artist')
-    );
-    let autoOpenTimer;
-    if (!isLocationPage) {
+    // Check first-visit / submission status across routes
+    let hasSubmitted = false
+    let alreadyShownInTab = false
+    if (typeof window !== 'undefined') {
+      try {
+        hasSubmitted = localStorage.getItem('mgn_popup_form_submitted') === 'true'
+        alreadyShownInTab = sessionStorage.getItem('mgn_popup_form_tab_shown') === 'true'
+      } catch (e) {}
+    }
+
+    // Auto-open mandatory form after 6 seconds on ANY page/route if not already submitted
+    let autoOpenTimer
+    if (!hasSubmitted && !alreadyShownInTab) {
       autoOpenTimer = setTimeout(() => {
-        setIsOpen((prev) => (!prev ? true : prev));
-      }, 6000);
+        setIsOpen(true)
+        if (typeof window !== 'undefined') {
+          try {
+            sessionStorage.setItem('mgn_popup_form_tab_shown', 'true')
+          } catch (e) {}
+        }
+      }, 6000)
     }
 
     return () => {
-      if (autoOpenTimer) clearTimeout(autoOpenTimer);
-      window.removeEventListener('open-quick-booking', handleOpen);
-      window.removeEventListener('open-token-booking', handleOpen);
-      window.removeEventListener('open-instant-form', handleOpen);
-      window.removeEventListener('open-instant-booking', handleOpen);
-      window.removeEventListener('hashchange', checkHash);
-    };
+      if (autoOpenTimer) clearTimeout(autoOpenTimer)
+      window.removeEventListener('open-quick-booking', handleOpen)
+      window.removeEventListener('open-token-booking', handleOpen)
+      window.removeEventListener('open-instant-form', handleOpen)
+      window.removeEventListener('open-instant-booking', handleOpen)
+      window.removeEventListener('hashchange', checkHash)
+    }
   }, [])
 
   useEffect(() => {
@@ -85,7 +91,14 @@ export default function QuickBookingModal() {
     }
   }, [isOpen])
 
-  const onClose = () => setIsOpen(false)
+  const onClose = () => {
+    setIsOpen(false)
+    if (typeof window !== 'undefined') {
+      try {
+        sessionStorage.setItem('mgn_popup_form_tab_shown', 'true')
+      } catch (e) {}
+    }
+  }
 
   return (
     <AnimatePresence>
@@ -290,6 +303,13 @@ function InnerQuickBookingForm({ onClose }) {
         longitude: geoData.longitude,
         detectedLocation: geoData.detectedLocation
       })
+
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('mgn_popup_form_submitted', 'true')
+          sessionStorage.setItem('mgn_popup_form_tab_shown', 'true')
+        } catch (e) {}
+      }
 
       setRefCode(generatedRef)
       setIsSuccess(true)
