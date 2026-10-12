@@ -394,20 +394,6 @@ export default function SEOLandingHero({
           </div>
         </div>
 
-        {/* Location & Trust Badges */}
-        <div className="seo-trust-strip">
-          <span className="seo-pill-badge highlight">
-            <span className="seo-pill-pulse" />
-            Verified Performers · {city}
-          </span>
-          <span className="seo-pill-badge verified">
-            ✓ 100% Artist Arrival Guarantee
-          </span>
-          <span className="seo-pill-badge">
-            ⚡ Direct Pricing · 0% Agency Markup
-          </span>
-        </div>
-
         {/* Hero Header & Title / Split Layout with Right-Side ₹99 Form */}
         {isSpecialTokenPage ? (
           <div className="seo-hero-split-wrap">
@@ -419,14 +405,6 @@ export default function SEOLandingHero({
               <p className="seo-hero-subtitle seo-hero-subtitle-left">
                 {heroSubtitle || `Book verified performers directly for your next grand event.`}
               </p>
-
-              {/* Social Proof & Urgency Bar */}
-              <div className="seo-live-social-proof seo-live-proof-left" style={{ margin: '4px 0 14px' }}>
-                <span className="seo-live-dot" />
-                <span className="seo-live-text">
-                  🔥 <strong>4 Event Hosts</strong> in {city} requested quotes this week · Avg reply <strong>6 mins</strong>
-                </span>
-              </div>
 
               <div className="seo-query-pills seo-query-pills-left" role="tablist" aria-label="Event category options">
                 {eventTypes.map((type) => {
@@ -451,38 +429,6 @@ export default function SEOLandingHero({
                     </button>
                   );
                 })}
-              </div>
-
-              {/* Value Highlights Cards with Official Brand Palette */}
-              <div className="hero-split-perks-grid">
-                <div className="hero-split-perk-item">
-                  <div className="hero-split-perk-icon">🛡️</div>
-                  <div className="hero-split-perk-text">
-                    <strong>100% Artist Arrival Guarantee</strong>
-                    <span>Verified performers with backed emergency backup security.</span>
-                  </div>
-                </div>
-                <div className="hero-split-perk-item">
-                  <div className="hero-split-perk-icon">💎</div>
-                  <div className="hero-split-perk-text">
-                    <strong>₹99 Token Advance</strong>
-                    <span>Lock your date today — 100% adjustable against artist fee.</span>
-                  </div>
-                </div>
-                <div className="hero-split-perk-item">
-                  <div className="hero-split-perk-icon">⚡</div>
-                  <div className="hero-split-perk-text">
-                    <strong>Direct Price · 0% Agency Markup</strong>
-                    <span>No middlemen fee. Pay transparent rates directly.</span>
-                  </div>
-                </div>
-                <div className="hero-split-perk-item">
-                  <div className="hero-split-perk-icon">🎧</div>
-                  <div className="hero-split-perk-text">
-                    <strong>Audio &amp; Stage Rider Assistance</strong>
-                    <span>Free coordination with our in-house artist sound managers.</span>
-                  </div>
-                </div>
               </div>
 
               {/* Micro Social Proof Bar */}
