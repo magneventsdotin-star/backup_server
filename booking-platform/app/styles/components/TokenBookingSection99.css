@@ -1,0 +1,636 @@
+/* ==========================================================================
+   EXCLUSIVE ₹99 TOKEN BOOKING SECTION STYLES
+   Ultra-Luxury Gold & Dark Aesthetic for Magnevents Landing Pages
+   ========================================================================== */
+
+.tok99-section-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 1240px;
+  margin: 40px auto 70px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.tok99-card {
+  position: relative;
+  background: radial-gradient(120% 120% at 50% 0%, #17151a 0%, #0d0c0e 70%, #070708 100%);
+  border: 1.5px solid rgba(232, 185, 67, 0.35);
+  border-radius: 28px;
+  padding: 48px 40px;
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.8),
+    0 0 45px rgba(232, 185, 67, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Ambient Ambient Glows */
+.tok99-glow-bg {
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 280px;
+  background: radial-gradient(ellipse at center, rgba(232, 185, 67, 0.18) 0%, rgba(220, 122, 18, 0.08) 50%, transparent 75%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tok99-glow-corner {
+  position: absolute;
+  bottom: -80px;
+  right: -80px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(126, 48, 68, 0.25) 0%, transparent 70%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header Area */
+.tok99-header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto 36px auto;
+}
+
+.tok99-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.tok99-exclusive-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: linear-gradient(135deg, rgba(232, 185, 67, 0.16) 0%, rgba(126, 48, 68, 0.22) 100%);
+  border: 1px solid rgba(232, 185, 67, 0.45);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #F8D36A;
+  box-shadow: 0 4px 16px rgba(232, 185, 67, 0.15);
+}
+
+.tok99-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #22c55e;
+  animation: tok99-pulse 2s infinite ease-in-out;
+}
+
+@keyframes tok99-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.6; }
+}
+
+.tok99-limited-pill {
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #e5e5e5;
+  letter-spacing: 0.02em;
+}
+
+.tok99-title {
+  font-family: var(--font-display, "'Outfit', 'Inter', sans-serif");
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px 0;
+  color: #ffffff;
+}
+
+.tok99-title-gold {
+  background: linear-gradient(135deg, #FFF8E7 0%, #F5C85A 50%, #C89427 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  text-shadow: 0 2px 20px rgba(232, 185, 67, 0.25);
+}
+
+.tok99-subtitle {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+  font-weight: 400;
+}
+
+.tok99-subtitle strong {
+  color: #F8D36A;
+  font-weight: 700;
+}
+
+/* Two-Column Grid */
+.tok99-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 36px;
+  align-items: start;
+}
+
+/* Left Column: Form Card */
+.tok99-form-card {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(232, 185, 67, 0.2);
+  border-radius: 22px;
+  padding: 30px 28px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+}
+
+.tok99-form-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tok99-form-card-title h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tok99-price-tag {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.tok99-price-old {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: line-through;
+  font-weight: 600;
+}
+
+.tok99-price-now {
+  font-size: 24px;
+  font-weight: 900;
+  color: #F8D36A;
+  letter-spacing: -0.02em;
+}
+
+.tok99-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tok99-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.tok99-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.tok99-field-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tok99-field-req {
+  color: #F8D36A;
+}
+
+.tok99-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(18, 17, 22, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+.tok99-input-wrap:focus-within {
+  border-color: #E8B943;
+  box-shadow: 0 0 0 3px rgba(232, 185, 67, 0.15);
+  background: rgba(26, 24, 32, 0.95);
+}
+
+.tok99-input-wrap.has-error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.tok99-input-prefix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 12px;
+  height: 46px;
+  background: rgba(255, 255, 255, 0.04);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13.5px;
+  font-weight: 700;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.tok99-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.tok99-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.tok99-select {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.tok99-select option {
+  background: #17151a;
+  color: #ffffff;
+}
+
+.tok99-err-msg {
+  font-size: 11px;
+  color: #ef4444;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Slot Savings Banner */
+.tok99-savings-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(232, 185, 67, 0.1) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-top: 4px;
+}
+
+.tok99-savings-text {
+  font-size: 12.5px;
+  color: #d1fae5;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tok99-savings-badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #22c55e;
+  color: #052e16;
+  text-transform: uppercase;
+}
+
+/* Action Buttons */
+.tok99-actions-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.tok99-btn-pay {
+  position: relative;
+  width: 100%;
+  padding: 15px 22px;
+  background: linear-gradient(135deg, #F8D36A 0%, #DDA432 50%, #B88219 100%);
+  color: #12100e;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 900;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 25px rgba(221, 164, 50, 0.35);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.tok99-btn-pay:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(221, 164, 50, 0.5);
+  background: linear-gradient(135deg, #FFF0B8 0%, #E8B943 50%, #C89427 100%);
+}
+
+.tok99-btn-pay:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.tok99-btn-whatsapp {
+  width: 100%;
+  padding: 13px 20px;
+  background: rgba(37, 211, 102, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  color: #4ade80;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tok99-btn-whatsapp:hover {
+  background: rgba(37, 211, 102, 0.2);
+  color: #ffffff;
+  border-color: #25D366;
+}
+
+.tok99-trust-note {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+/* Right Column: Perks & Guarantees */
+.tok99-perks-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.tok99-perk-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: all 0.25s ease;
+}
+
+.tok99-perk-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(232, 185, 67, 0.3);
+  transform: translateX(4px);
+}
+
+.tok99-perk-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(232, 185, 67, 0.15) 0%, rgba(126, 48, 68, 0.15) 100%);
+  border: 1px solid rgba(232, 185, 67, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.tok99-perk-content {
+  flex: 1;
+  text-align: left;
+}
+
+.tok99-perk-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.01em;
+}
+
+.tok99-perk-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+/* Bottom Notice Card */
+.tok99-notice-box {
+  background: rgba(232, 185, 67, 0.06);
+  border: 1px dashed rgba(232, 185, 67, 0.35);
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tok99-notice-text {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.tok99-notice-text strong {
+  color: #F8D36A;
+}
+
+/* Success / Pass State */
+.tok99-pass-card {
+  background: linear-gradient(135deg, #18151c 0%, #100f13 100%);
+  border: 1.5px solid rgba(232, 185, 67, 0.4);
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+}
+
+.tok99-pass-check {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.15);
+  border: 2px solid #22c55e;
+  color: #22c55e;
+  font-size: 28px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px auto;
+  box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
+}
+
+.tok99-pass-title {
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+}
+
+.tok99-pass-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(232, 185, 67, 0.12);
+  border: 1px solid rgba(232, 185, 67, 0.3);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #F8D36A;
+  margin-bottom: 16px;
+}
+
+.tok99-pass-details {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.tok99-pass-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 13px;
+}
+
+.tok99-pass-row:last-child {
+  border-bottom: none;
+}
+
+.tok99-pass-label {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.tok99-pass-val {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.tok99-pass-id-val {
+  font-family: monospace;
+  font-size: 16px;
+  color: #F8D36A;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 960px) {
+  .tok99-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .tok99-card {
+    padding: 34px 22px;
+  }
+
+  .tok99-title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .tok99-row-2col {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .tok99-card {
+    padding: 26px 16px;
+    border-radius: 20px;
+  }
+
+  .tok99-form-card {
+    padding: 20px 16px;
+  }
+
+  .tok99-title {
+    font-size: 24px;
+  }
+
+  .tok99-subtitle {
+    font-size: 13.5px;
+  }
+
+  .tok99-btn-pay {
+    font-size: 15px;
+    padding: 14px 18px;
+  }
+}

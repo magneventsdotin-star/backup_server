@@ -133,6 +133,7 @@ export default async function LocationServicePage({ params }) {
 
   return (
     <SEOLandingPage 
+      locationSlug={location_slug}
       heroTitle={`Top ${formattedTitle}`}
       heroSubtitle={`Book verified performers directly for your next grand event.`}
       schema={schema}

@@ -6,10 +6,12 @@ import SEODynamicContent from '@/app/components/common/SEODynamicContent';
 import SEOLandingHero from '@/app/components/common/SEOLandingHero';
 import VideoGridSection from '@/app/components/home/VideoGridSection';
 import PromotionalOfferSection from '@/app/components/home/PromotionalOfferSection';
+import TokenBookingSection99 from '@/app/components/common/TokenBookingSection99';
 import ContactSection from '@/app/components/home/ContactSection';
 import '@/app/styles/pages/HomePage.css';
 
 export default function SEOLandingPage({ 
+  locationSlug,
   heroTitle, 
   heroSubtitle, 
   schema, 
@@ -22,6 +24,9 @@ export default function SEOLandingPage({
   faqs,
   relatedLinks
 }) {
+  const slugNormalized = (locationSlug || '').toLowerCase().trim().replace(/\/$/, '');
+  const isAmrohaSangeet = slugNormalized === 'sangeet-singer-in-amroha';
+
   return (
     <>
       <script
@@ -38,6 +43,15 @@ export default function SEOLandingPage({
           subCategory={subCategory}
           topArtists={topArtists}
         />
+
+        {/* Exclusive ₹99 Token Booking Section for this page only */}
+        {isAmrohaSangeet && (
+          <TokenBookingSection99
+            city={city || "Amroha"}
+            category={category || "Sangeet Singer"}
+            locationSlug={slugNormalized || "sangeet-singer-in-amroha"}
+          />
+        )}
 
         <PromotionalOfferSection />
 
