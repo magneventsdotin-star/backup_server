@@ -24,7 +24,8 @@ export default function SEOLandingPage({
   faqs,
   relatedLinks
 }) {
-  const slugNormalized = (locationSlug || '').toLowerCase().trim().replace(/\/$/, '');
+  const rawSlug = locationSlug || '';
+  const slugNormalized = decodeURIComponent(rawSlug).toLowerCase().trim().replace(/\s+/g, '-').replace(/\/$/, '');
   const isAmrohaSangeet = slugNormalized === 'sangeet-singer-in-amroha';
 
   return (

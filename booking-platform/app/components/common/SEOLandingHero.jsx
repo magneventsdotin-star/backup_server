@@ -521,6 +521,7 @@ export default function SEOLandingHero({
                             onChange={(e) => setEventDate(e.target.value)}
                             className="hero-tok99-input"
                             style={{ colorScheme: 'dark' }}
+                            suppressHydrationWarning
                           />
                         </div>
                       </div>
@@ -762,6 +763,7 @@ export default function SEOLandingHero({
                     onChange={(e) => setEventDate(e.target.value)}
                     className="seo-mob-date-control"
                     aria-label="Select event date"
+                    suppressHydrationWarning
                   />
                 </div>
               </div>
