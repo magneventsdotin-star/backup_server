@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    SEOLandingHero.css - High-Converting Luxury Event Landing Page System
    ========================================================================== */
 
@@ -2223,6 +2223,421 @@
     margin: 0 0 12px;
   }
 }
+
+/* ==========================================================================
+   EXCLUSIVE SPLIT HERO LAYOUT & RIGHT-SIDE ₹99 BOOKING FORM CARD
+   ========================================================================== */
+.seo-hero-split-wrap {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 36px;
+  align-items: start;
+  margin-top: 6px;
+  position: relative;
+  z-index: 2;
+}
+
+.seo-hero-split-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.seo-trust-strip-left {
+  justify-content: flex-start;
+  margin-bottom: 12px;
+}
+
+.seo-hero-title-left {
+  text-align: left;
+  margin: 0 0 14px 0;
+  font-size: clamp(2.3rem, 4.4vw, 4rem);
+  line-height: 1.15;
+}
+
+.seo-hero-subtitle-left {
+  text-align: left;
+  margin: 0 0 18px 0;
+  max-width: 620px;
+}
+
+.seo-live-proof-left {
+  margin: 0 0 20px 0;
+  justify-content: flex-start;
+}
+
+.seo-query-pills-left {
+  justify-content: flex-start;
+}
+
+/* Right-Side ₹99 Booking Card */
+.seo-hero-split-right {
+  position: relative;
+  width: 100%;
+}
+
+.hero-tok99-card {
+  position: relative;
+  background: radial-gradient(130% 130% at 50% 0%, #1c1822 0%, #100e14 70%, #08080a 100%);
+  border: 1.5px solid rgba(232, 185, 67, 0.45);
+  border-radius: 24px;
+  padding: 26px 24px 22px;
+  box-shadow: 
+    0 25px 70px rgba(0, 0, 0, 0.8),
+    0 0 35px rgba(232, 185, 67, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.hero-tok99-glow {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(232, 185, 67, 0.2) 0%, transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-tok99-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-tok99-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: linear-gradient(135deg, rgba(232, 185, 67, 0.18) 0%, rgba(126, 48, 68, 0.22) 100%);
+  border: 1px solid rgba(232, 185, 67, 0.4);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #F8D36A;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hero-tok99-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+.hero-tok99-price-box {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.hero-tok99-old-price {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: line-through;
+  font-weight: 600;
+}
+
+.hero-tok99-now-price {
+  font-size: 22px;
+  font-weight: 900;
+  color: #F8D36A;
+  letter-spacing: -0.02em;
+}
+
+.hero-tok99-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-tok99-subtitle {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.45;
+  margin: 0 0 16px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-tok99-subtitle strong {
+  color: #F8D36A;
+}
+
+.hero-tok99-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-tok99-input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.hero-tok99-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+}
+
+.hero-tok99-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.82);
+  letter-spacing: 0.02em;
+}
+
+.hero-tok99-input-box {
+  display: flex;
+  align-items: center;
+  background: rgba(18, 17, 24, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.hero-tok99-input-box:focus-within {
+  border-color: #E8B943;
+  box-shadow: 0 0 0 3px rgba(232, 185, 67, 0.15);
+}
+
+.hero-tok99-input-box.error {
+  border-color: #ef4444;
+}
+
+.hero-tok99-prefix {
+  padding: 0 10px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  user-select: none;
+}
+
+.hero-tok99-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.hero-tok99-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.hero-tok99-select {
+  width: 100%;
+  height: 40px;
+  padding: 0 10px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.hero-tok99-select option {
+  background: #181620;
+  color: #ffffff;
+}
+
+.hero-tok99-submit-btn {
+  width: 100%;
+  padding: 13px 18px;
+  background: linear-gradient(135deg, #F8D36A 0%, #DDA432 50%, #B88219 100%);
+  color: #12100e;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(221, 164, 50, 0.35);
+  transition: all 0.2s ease;
+  margin-top: 4px;
+}
+
+.hero-tok99-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(221, 164, 50, 0.5);
+  background: linear-gradient(135deg, #FFF0B8 0%, #E8B943 50%, #C89427 100%);
+}
+
+.hero-tok99-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.hero-tok99-wa-btn {
+  width: 100%;
+  padding: 11px 16px;
+  background: rgba(37, 211, 102, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  color: #4ade80;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  font-family: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hero-tok99-wa-btn:hover {
+  background: rgba(37, 211, 102, 0.2);
+  color: #ffffff;
+}
+
+.hero-tok99-trust {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.02em;
+  padding-top: 4px;
+}
+
+/* Confirmed Pass state inside Hero Card */
+.hero-tok99-confirmed-box {
+  text-align: center;
+  padding: 6px 0;
+}
+
+.hero-tok99-conf-check {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.15);
+  border: 2px solid #22c55e;
+  color: #22c55e;
+  font-size: 24px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+}
+
+.hero-tok99-conf-title {
+  font-size: 19px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 4px;
+}
+
+.hero-tok99-conf-pill {
+  display: inline-block;
+  background: rgba(232, 185, 67, 0.15);
+  border: 1px solid rgba(232, 185, 67, 0.35);
+  color: #F8D36A;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.hero-tok99-conf-data {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px 14px;
+  text-align: left;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+}
+
+.hero-tok99-conf-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.hero-tok99-conf-row strong {
+  color: #ffffff;
+}
+
+@media (max-width: 991px) {
+  .seo-hero-split-wrap {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .seo-hero-split-left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .seo-trust-strip-left,
+  .seo-live-proof-left,
+  .seo-query-pills-left {
+    justify-content: center;
+  }
+
+  .seo-hero-title-left,
+  .seo-hero-subtitle-left {
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-tok99-input-row {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-tok99-card {
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
+}
+
 
 
 

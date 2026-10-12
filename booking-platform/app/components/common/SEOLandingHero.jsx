@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useMemo, useRef } from 'react';
 import Image from 'next/image';
@@ -26,11 +26,14 @@ export default function SEOLandingHero({
   category = "Artist",
   city = "Bhubaneswar",
   subCategory = "",
-  topArtists = []
+  topArtists = [],
+  isSpecialTokenPage = false,
+  locationSlug = ""
 }) {
   const formRef = useRef(null);
   const phoneInputRef = useRef(null);
   const mobPhoneInputRef = useRef(null);
+  const [tokenCopied, setTokenCopied] = useState(false);
 
   const isDJ = (category || '').toLowerCase().includes('dj');
   const isBand = (category || '').toLowerCase().includes('band');
@@ -243,6 +246,46 @@ export default function SEOLandingHero({
     setIsSubmitting(false);
   };
 
+  const handleToken99Submit = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    setPhoneError("");
+
+    const cleanPhone = (phone || '').replace(/\D/g, '').slice(0, 10);
+    if (!cleanPhone || cleanPhone.length < 10) {
+      setPhoneError("Please enter a valid 10-digit mobile number");
+      return;
+    }
+
+    setIsSubmitting(true);
+    const randomRef = `MGN-99-${Math.floor(100000 + Math.random() * 900000)}`;
+
+    try {
+      const res = bookingService.submitInstantRequest({
+        name: name.trim() || 'Event Host',
+        phone: cleanPhone,
+        eventType: selectedEventType,
+        date: eventDate,
+        budget: '₹99 Token Advance',
+        tokenNote: `[₹99 ARTIST SLOT RESERVED] Sangeet Singer in ${city}`,
+        message: `PAID ₹99 TOKEN BOOKING REQUEST for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}.`,
+        type: 'quick_booking',
+        formName: `Hero ₹99 Sangeet Booking - ${city}`,
+        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#book-99` : '',
+        referenceCode: randomRef,
+        category: category,
+        city: city
+      });
+
+      setRefCode(res?.referenceCode || randomRef);
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error('Error submitting ₹99 token booking:', err);
+      setPhoneError("Could not submit booking. Please try WhatsApp.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   // Select an artist and focus phone input
   const handleSelectArtist = (artist) => {
     setSelectedArtist(artist);
@@ -343,67 +386,329 @@ export default function SEOLandingHero({
         </div>
 
         {/* Location & Trust Badges */}
-        <div className="seo-trust-strip">
-          <span className="seo-pill-badge highlight">
-            <span className="seo-pill-pulse" />
-            Verified Performers · {city}
-          </span>
-          <span className="seo-pill-badge verified">
-            ✓ 100% Artist Arrival Guarantee
-          </span>
-          <span className="seo-pill-badge">
-            ⚡ Direct Pricing · 0% Agency Markup
-          </span>
-        </div>
-
-        {/* Hero Header & Title */}
-        <div className="seo-hero-header">
-          <h1 className="seo-hero-title">
-            <span className="seo-hero-gradient-text">{heroTitle}</span>
-          </h1>
-          <p className="seo-hero-subtitle">
-            {heroSubtitle || `Book verified, celebrated ${category}s directly for weddings, private mehfils, corporate galas & celebrations in ${city}. Over 5,000+ live events successfully executed across India.`}
-          </p>
-
-          {/* Social Proof & Urgency Bar */}
-          <div className="seo-live-social-proof">
-            <span className="seo-live-dot" />
-            <span className="seo-live-text">
-              🔥 <strong>4 Event Hosts</strong> in {city} requested quotes this week · Avg reply <strong>6 mins</strong>
+        {!isSpecialTokenPage && (
+          <div className="seo-trust-strip">
+            <span className="seo-pill-badge highlight">
+              <span className="seo-pill-pulse" />
+              Verified Performers · {city}
+            </span>
+            <span className="seo-pill-badge verified">
+              ✓ 100% Artist Arrival Guarantee
+            </span>
+            <span className="seo-pill-badge">
+              ⚡ Direct Pricing · 0% Agency Markup
             </span>
           </div>
+        )}
 
-          {/* Quick Query Pills */}
-          <div className="seo-query-pills" role="tablist" aria-label="Event category options">
-            {eventTypes.map((type) => {
-              let icon = '🎵';
-              if (type.includes('Wedding') || type.includes('Sangeet')) icon = '💍';
-              else if (type.includes('Club') || type.includes('EDM') || type.includes('After-Party')) icon = '🎧';
-              else if (type.includes('House') || type.includes('Pool') || type.includes('Party')) icon = '🎉';
-              else if (type.includes('Ghazal') || type.includes('Mehfil')) icon = '🍷';
-              else if (type.includes('Corporate') || type.includes('Gala')) icon = '🏢';
-              else if (type.includes('Fest') || type.includes('Concert')) icon = '⚡';
-              else if (type.includes('Comedy') || type.includes('Standup')) icon = '🎙️';
+        {/* Hero Header & Title / Split Layout with Right-Side ₹99 Form */}
+        {isSpecialTokenPage ? (
+          <div className="seo-hero-split-wrap">
+            {/* Left Column: Trust Badges, Heading, Subtitle & Event Category Pills */}
+            <div className="seo-hero-split-left">
+              <div className="seo-trust-strip seo-trust-strip-left">
+                <span className="seo-pill-badge highlight">
+                  <span className="seo-pill-pulse" />
+                  Verified Performers · {city}
+                </span>
+                <span className="seo-pill-badge verified">
+                  ✓ 100% Artist Arrival Guarantee
+                </span>
+                <span className="seo-pill-badge">
+                  ⚡ Direct Pricing · 0% Markup
+                </span>
+              </div>
 
-              return (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => setSelectedEventType(type)}
-                  className={`seo-query-chip ${selectedEventType === type ? 'active' : ''}`}
-                >
-                  <span>{icon}</span>
-                  <span>{type}</span>
-                </button>
-              );
-            })}
+              <h1 className="seo-hero-title seo-hero-title-left">
+                <span className="seo-hero-gradient-text">{heroTitle}</span>
+              </h1>
+              <p className="seo-hero-subtitle seo-hero-subtitle-left">
+                {heroSubtitle || `Book verified performers directly for your next grand event.`}
+              </p>
+
+              <div className="seo-live-social-proof seo-live-proof-left">
+                <span className="seo-live-dot" />
+                <span className="seo-live-text">
+                  🔥 <strong>4 Event Hosts</strong> in {city} requested quotes this week · Avg reply <strong>6 mins</strong>
+                </span>
+              </div>
+
+              <div className="seo-query-pills seo-query-pills-left" role="tablist" aria-label="Event category options">
+                {eventTypes.map((type) => {
+                  let icon = '🎵';
+                  if (type.includes('Wedding') || type.includes('Sangeet')) icon = '💍';
+                  else if (type.includes('Club') || type.includes('EDM') || type.includes('After-Party')) icon = '🎧';
+                  else if (type.includes('House') || type.includes('Pool') || type.includes('Party')) icon = '🎉';
+                  else if (type.includes('Ghazal') || type.includes('Mehfil')) icon = '🍷';
+                  else if (type.includes('Corporate') || type.includes('Gala')) icon = '🏢';
+                  else if (type.includes('Fest') || type.includes('Concert')) icon = '⚡';
+                  else if (type.includes('Comedy') || type.includes('Standup')) icon = '🎙️';
+
+                  return (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => setSelectedEventType(type)}
+                      className={`seo-query-chip ${selectedEventType === type ? 'active' : ''}`}
+                    >
+                      <span>{icon}</span>
+                      <span>{type}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Right Column: High-Converting ₹99 Booking Form Card */}
+            <div className="seo-hero-split-right">
+              <div className="hero-tok99-card" id="hero-book-99">
+                <div className="hero-tok99-glow" aria-hidden="true" />
+                <div className="hero-tok99-top-row">
+                  <span className="hero-tok99-badge">
+                    <span className="hero-tok99-pulse" />
+                    <span>⚡ Exclusive to this page</span>
+                  </span>
+                  <div className="hero-tok99-price-box">
+                    <span className="hero-tok99-old-price">₹2,000</span>
+                    <span className="hero-tok99-now-price">₹99 ONLY</span>
+                  </div>
+                </div>
+
+                {!isSubmitted ? (
+                  <form onSubmit={handleToken99Submit} className="hero-tok99-form">
+                    <div>
+                      <h3 className="hero-tok99-title">Pay ₹99 &amp; Book Your Event</h3>
+                      <p className="hero-tok99-subtitle">
+                        Lock verified <strong>{category} in {city}</strong> for your date. The ₹99 token is <strong>100% adjusted</strong> into your final fee!
+                      </p>
+                    </div>
+
+                    <div className="hero-tok99-input-row">
+                      <div className="hero-tok99-field">
+                        <label htmlFor="h-tok-name" className="hero-tok99-label">Your Full Name *</label>
+                        <div className="hero-tok99-input-box">
+                          <input
+                            id="h-tok-name"
+                            type="text"
+                            required
+                            placeholder="e.g. Rahul Sharma"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="hero-tok99-input"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="hero-tok99-field">
+                        <label htmlFor="h-tok-phone" className="hero-tok99-label">Phone / WhatsApp *</label>
+                        <div className={`hero-tok99-input-box ${phoneError ? 'error' : ''}`}>
+                          <span className="hero-tok99-prefix">🇮🇳 +91</span>
+                          <input
+                            id="h-tok-phone"
+                            type="tel"
+                            inputMode="numeric"
+                            maxLength={10}
+                            required
+                            placeholder="9876543210"
+                            value={phone}
+                            onChange={(e) => {
+                              const d = e.target.value.replace(/\D/g, '').slice(0, 10);
+                              setPhone(d);
+                              if (phoneError) setPhoneError('');
+                            }}
+                            className="hero-tok99-input"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {phoneError && (
+                      <span style={{ color: '#ef4444', fontSize: '11px', fontWeight: 700 }}>
+                        {phoneError}
+                      </span>
+                    )}
+
+                    <div className="hero-tok99-input-row">
+                      <div className="hero-tok99-field">
+                        <label htmlFor="h-tok-date" className="hero-tok99-label">Event Date *</label>
+                        <div className="hero-tok99-input-box">
+                          <input
+                            id="h-tok-date"
+                            type="date"
+                            required
+                            min={getMinDate()}
+                            value={eventDate}
+                            onChange={(e) => setEventDate(e.target.value)}
+                            className="hero-tok99-input"
+                            style={{ colorScheme: 'dark' }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="hero-tok99-field">
+                        <label htmlFor="h-tok-type" className="hero-tok99-label">Event Type</label>
+                        <div className="hero-tok99-input-box">
+                          <select
+                            id="h-tok-type"
+                            value={selectedEventType}
+                            onChange={(e) => setSelectedEventType(e.target.value)}
+                            className="hero-tok99-select"
+                          >
+                            {eventTypes.map(t => (
+                              <option key={t} value={t}>{t}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="hero-tok99-submit-btn"
+                    >
+                      {isSubmitting ? (
+                        <span>Reserving Slot...</span>
+                      ) : (
+                        <span>🔒 Pay ₹99 &amp; Lock Performer Slot ➔</span>
+                      )}
+                    </button>
+
+                    <a
+                      href={`https://wa.me/918076515257?text=${encodeURIComponent(
+                        `Hi Magnevents! I want to pay ₹99 & book a ${category} in ${city}. Name: ${name || 'Host'}, Date: ${eventDate}, Event: ${selectedEventType}. Please lock my slot!`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hero-tok99-wa-btn"
+                    >
+                      <span>💬 Or Pay ₹99 &amp; Book on WhatsApp</span>
+                    </a>
+
+                    <div className="hero-tok99-trust">
+                      <span>🛡️ 100% Arrival</span>
+                      <span>•</span>
+                      <span>💎 0% Markup</span>
+                      <span>•</span>
+                      <span>🔒 256-Bit Secure</span>
+                    </div>
+                  </form>
+                ) : (
+                  <div className="hero-tok99-confirmed-box">
+                    <div className="hero-tok99-conf-check">✓</div>
+                    <h4 className="hero-tok99-conf-title">Slot Reserved for ₹99!</h4>
+                    <span className="hero-tok99-conf-pill">Booking ID: {refCode}</span>
+
+                    <div className="hero-tok99-conf-data">
+                      <div className="hero-tok99-conf-row">
+                        <span>Performer:</span>
+                        <strong>{category} in {city}</strong>
+                      </div>
+                      <div className="hero-tok99-conf-row">
+                        <span>Host:</span>
+                        <strong>{name || 'Event Host'} (+91 {phone})</strong>
+                      </div>
+                      <div className="hero-tok99-conf-row">
+                        <span>Date:</span>
+                        <strong>{eventDate}</strong>
+                      </div>
+                      <div className="hero-tok99-conf-row">
+                        <span>Token Amount:</span>
+                        <strong style={{ color: '#22c55e' }}>₹99 Locked (Adjustable)</strong>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (typeof navigator !== 'undefined' && navigator.clipboard && refCode) {
+                            navigator.clipboard.writeText(refCode);
+                            setTokenCopied(true);
+                            setTimeout(() => setTokenCopied(false), 2000);
+                          }
+                        }}
+                        style={{
+                          padding: '9px 14px',
+                          background: tokenCopied ? '#15803d' : 'rgba(232, 185, 67, 0.15)',
+                          border: '1px solid rgba(232, 185, 67, 0.35)',
+                          color: tokenCopied ? '#fff' : '#F8D36A',
+                          borderRadius: '10px',
+                          fontWeight: 800,
+                          cursor: 'pointer',
+                          fontSize: '12px'
+                        }}
+                      >
+                        {tokenCopied ? '✓ Copied Booking ID' : '📋 Copy Booking ID'}
+                      </button>
+
+                      <a
+                        href={`https://wa.me/918076515257?text=${encodeURIComponent(
+                          `Hi Magnevents, I booked a ${category} in ${city} with ₹99 token (Pass ID: ${refCode}). Name: ${name}, Date: ${eventDate}. Please connect me with the artist coordinator!`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hero-tok99-submit-btn"
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <span>Open WhatsApp with Pass ➔</span>
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="seo-hero-header">
+            <h1 className="seo-hero-title">
+              <span className="seo-hero-gradient-text">{heroTitle}</span>
+            </h1>
+            <p className="seo-hero-subtitle">
+              {heroSubtitle || `Book verified, celebrated ${category}s directly for weddings, private mehfils, corporate galas & celebrations in ${city}. Over 5,000+ live events successfully executed across India.`}
+            </p>
+
+            {/* Social Proof & Urgency Bar */}
+            <div className="seo-live-social-proof">
+              <span className="seo-live-dot" />
+              <span className="seo-live-text">
+                🔥 <strong>4 Event Hosts</strong> in {city} requested quotes this week · Avg reply <strong>6 mins</strong>
+              </span>
+            </div>
+
+            {/* Quick Query Pills */}
+            <div className="seo-query-pills" role="tablist" aria-label="Event category options">
+              {eventTypes.map((type) => {
+                let icon = '🎵';
+                if (type.includes('Wedding') || type.includes('Sangeet')) icon = '💍';
+                else if (type.includes('Club') || type.includes('EDM') || type.includes('After-Party')) icon = '🎧';
+                else if (type.includes('House') || type.includes('Pool') || type.includes('Party')) icon = '🎉';
+                else if (type.includes('Ghazal') || type.includes('Mehfil')) icon = '🍷';
+                else if (type.includes('Corporate') || type.includes('Gala')) icon = '🏢';
+                else if (type.includes('Fest') || type.includes('Concert')) icon = '⚡';
+                else if (type.includes('Comedy') || type.includes('Standup')) icon = '🎙️';
+
+                return (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => setSelectedEventType(type)}
+                    className={`seo-query-chip ${selectedEventType === type ? 'active' : ''}`}
+                  >
+                    <span>{icon}</span>
+                    <span>{type}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* ==========================================================================
            1.5 MOBILE-ONLY INSTANT HERO LEAD FORM (Direct One-Tap Contact on Mobile)
            ========================================================================== */}
-        <div className="seo-mob-hero-form-card">
+        {!isSpecialTokenPage && (
+          <div className="seo-mob-hero-form-card">
           {!isSubmitted ? (
             <form onSubmit={handleInlineSubmit} className="seo-mob-form-inner">
               <div className="seo-mob-form-header">
@@ -538,6 +843,7 @@ export default function SEOLandingHero({
             </div>
           )}
         </div>
+        )}
 
         {/* ==========================================================================
            2. Top 5 Verified Artists Showcase Section OR Specialized DJ/Category Showcase

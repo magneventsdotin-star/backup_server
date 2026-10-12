@@ -42,16 +42,9 @@ export default function SEOLandingPage({
           city={city}
           subCategory={subCategory}
           topArtists={topArtists}
+          isSpecialTokenPage={isAmrohaSangeet}
+          locationSlug={slugNormalized}
         />
-
-        {/* Exclusive ₹99 Token Booking Section for this page only */}
-        {isAmrohaSangeet && (
-          <TokenBookingSection99
-            city={city || "Amroha"}
-            category={category || "Sangeet Singer"}
-            locationSlug={slugNormalized || "sangeet-singer-in-amroha"}
-          />
-        )}
 
         <PromotionalOfferSection />
 
