@@ -437,6 +437,56 @@ export default function SEOLandingHero({
                   );
                 })}
               </div>
+
+              {/* Value Highlights Grid to utilize and balance the hero space */}
+              <div className="hero-split-perks-grid">
+                <div className="hero-split-perk-item">
+                  <div className="hero-split-perk-icon">🛡️</div>
+                  <div className="hero-split-perk-text">
+                    <strong>100% Artist Arrival Guarantee</strong>
+                    <span>Verified performers with backed backup replacement security.</span>
+                  </div>
+                </div>
+                <div className="hero-split-perk-item">
+                  <div className="hero-split-perk-icon">💎</div>
+                  <div className="hero-split-perk-text">
+                    <strong>₹99 Token Advance</strong>
+                    <span>Lock your date today — 100% adjustable against artist fee.</span>
+                  </div>
+                </div>
+                <div className="hero-split-perk-item">
+                  <div className="hero-split-perk-icon">⚡</div>
+                  <div className="hero-split-perk-text">
+                    <strong>Direct Price · 0% Agency Markup</strong>
+                    <span>No middlemen fee. Pay transparent rates directly.</span>
+                  </div>
+                </div>
+                <div className="hero-split-perk-item">
+                  <div className="hero-split-perk-icon">🎧</div>
+                  <div className="hero-split-perk-text">
+                    <strong>Audio &amp; Stage Rider Assistance</strong>
+                    <span>Free coordination with our in-house artist sound managers.</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Micro Social Proof Bar */}
+              <div className="hero-split-live-stats">
+                <div className="hero-split-stat">
+                  <strong>5,000+</strong>
+                  <span>Shows Executed</span>
+                </div>
+                <div className="hero-split-stat-div" />
+                <div className="hero-split-stat">
+                  <strong>4.9 ★</strong>
+                  <span>Average Rating</span>
+                </div>
+                <div className="hero-split-stat-div" />
+                <div className="hero-split-stat">
+                  <strong>10 Mins</strong>
+                  <span>Fast Response</span>
+                </div>
+              </div>
             </div>
 
             {/* Right Column: High-Converting ₹99 Booking Form Card */}

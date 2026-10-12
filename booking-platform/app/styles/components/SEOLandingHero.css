@@ -2251,15 +2251,20 @@
 
 .seo-hero-title-left {
   text-align: left;
-  margin: 0 0 14px 0;
-  font-size: clamp(2.3rem, 4.4vw, 4rem);
-  line-height: 1.15;
+  margin: 0 0 16px 0;
+  font-size: clamp(2.5rem, 4.6vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
 }
 
 .seo-hero-subtitle-left {
   text-align: left;
-  margin: 0 0 18px 0;
-  max-width: 620px;
+  margin: 0 0 20px 0;
+  max-width: 650px;
+  font-size: 17px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .seo-live-proof-left {
@@ -2269,6 +2274,103 @@
 
 .seo-query-pills-left {
   justify-content: flex-start;
+  margin-bottom: 24px;
+}
+
+/* Left Column Space Utilization: Perks Grid */
+.hero-split-perks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 22px;
+}
+
+.hero-split-perk-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  transition: all 0.25s ease;
+}
+
+.hero-split-perk-item:hover {
+  background: rgba(232, 185, 67, 0.06);
+  border-color: rgba(232, 185, 67, 0.25);
+  transform: translateY(-2px);
+}
+
+.hero-split-perk-icon {
+  font-size: 20px;
+  line-height: 1;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(232, 185, 67, 0.12);
+  border: 1px solid rgba(232, 185, 67, 0.22);
+  flex-shrink: 0;
+}
+
+.hero-split-perk-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+}
+
+.hero-split-perk-text strong {
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.hero-split-perk-text span {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.35;
+}
+
+/* Micro Stats Bar */
+.hero-split-live-stats {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(232, 185, 67, 0.08) 0%, rgba(126, 48, 68, 0.12) 100%);
+  border: 1px solid rgba(232, 185, 67, 0.25);
+  border-radius: 14px;
+  width: fit-content;
+}
+
+.hero-split-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.hero-split-stat strong {
+  font-size: 15px;
+  font-weight: 900;
+  color: #F8D36A;
+  line-height: 1.2;
+}
+
+.hero-split-stat span {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.02em;
+}
+
+.hero-split-stat-div {
+  width: 1px;
+  height: 26px;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* Right-Side ₹99 Booking Card */
@@ -2625,6 +2727,15 @@
   .seo-hero-subtitle-left {
     text-align: center;
   }
+
+  .hero-split-perks-grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+
+  .hero-split-live-stats {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 600px) {
@@ -2635,6 +2746,17 @@
   .hero-tok99-card {
     padding: 20px 16px;
     border-radius: 20px;
+  }
+
+  .hero-split-perk-item {
+    padding: 10px 12px;
+  }
+
+  .hero-split-live-stats {
+    width: 100%;
+    justify-content: space-around;
+    padding: 10px 14px;
+    gap: 10px;
   }
 }
 
