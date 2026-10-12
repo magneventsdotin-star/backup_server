@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import FadeSection from '@/app/components/common/FadeSection'
 import { TESTIMONIALS } from '@/app/constants'
@@ -26,6 +26,10 @@ const EXTENDED_TESTIMONIALS = [
 export default function TestimonialsSection() {
   const [index, setIndex] = useState(0)
   const [itemsPerPage, setItemsPerPage] = useState(3)
+  const touchStartX = useRef(0)
+  const touchStartY = useRef(0)
+  const isSwiping = useRef(false)
+  const mouseStartX = useRef(null)
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,8 +46,44 @@ export default function TestimonialsSection() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const next = () => setIndex((prev) => (prev + 1) % (EXTENDED_TESTIMONIALS.length - itemsPerPage + 1))
-  const prev = () => setIndex((prev) => (prev - 1 + (EXTENDED_TESTIMONIALS.length - itemsPerPage + 1)) % (EXTENDED_TESTIMONIALS.length - itemsPerPage + 1))
+  const totalSlides = Math.max(1, EXTENDED_TESTIMONIALS.length - itemsPerPage + 1)
+  const next = () => setIndex((prev) => (prev + 1) % totalSlides)
+  const prev = () => setIndex((prev) => (prev - 1 + totalSlides) % totalSlides)
+
+  const handleTouchStart = (e) => {
+    if (!e.touches || !e.touches[0]) return
+    touchStartX.current = e.touches[0].clientX
+    touchStartY.current = e.touches[0].clientY
+    isSwiping.current = true
+  }
+
+  const handleTouchEnd = (e) => {
+    if (!isSwiping.current || !e.changedTouches || !e.changedTouches[0]) return
+    isSwiping.current = false
+    const endX = e.changedTouches[0].clientX
+    const endY = e.changedTouches[0].clientY
+    const diffX = touchStartX.current - endX
+    const diffY = touchStartY.current - endY
+
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
+      if (diffX > 0) next()
+      else prev()
+    }
+  }
+
+  const handleMouseDown = (e) => {
+    mouseStartX.current = e.clientX
+  }
+
+  const handleMouseUp = (e) => {
+    if (mouseStartX.current === null) return
+    const diffX = mouseStartX.current - e.clientX
+    if (Math.abs(diffX) > 35) {
+      if (diffX > 0) next()
+      else prev()
+    }
+    mouseStartX.current = null
+  }
 
   return (
     <FadeSection className="hp-shell hp-block hp-testimonials-section">
@@ -143,11 +183,24 @@ export default function TestimonialsSection() {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
 
-        <div className="hp-reviews-slider-viewport">
+        <div 
+          className="hp-reviews-slider-viewport"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={() => { mouseStartX.current = null }}
+          style={{ touchAction: 'pan-y', cursor: 'grab' }}
+        >
           <motion.div
             className="hp-reviews-slider-track"
             animate={{ x: `-${index * (100 / itemsPerPage)}%` }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            onPanEnd={(e, info) => {
+              if (info.offset.x < -35) next()
+              else if (info.offset.x > 35) prev()
+            }}
+            style={{ touchAction: 'pan-y' }}
           >
             {EXTENDED_TESTIMONIALS.map((item, i) => (
               <div key={i} className="hp-review-slide">
@@ -195,6 +248,36 @@ export default function TestimonialsSection() {
         <button className="lux-arrow-v2 is-right" onClick={next} aria-label="Next">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
+      </div>
+
+      {/* Pagination Dots for visual swipe feedback */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px',
+        marginTop: '22px',
+        userSelect: 'none'
+      }}>
+        {Array.from({ length: totalSlides }).map((_, dotIdx) => (
+          <button
+            key={dotIdx}
+            type="button"
+            onClick={() => setIndex(dotIdx)}
+            aria-label={`Go to review ${dotIdx + 1}`}
+            style={{
+              width: index === dotIdx ? '22px' : '7px',
+              height: '7px',
+              borderRadius: '100px',
+              background: index === dotIdx ? '#E8B943' : 'rgba(255, 255, 255, 0.25)',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+              boxShadow: index === dotIdx ? '0 0 10px rgba(232, 185, 67, 0.5)' : 'none'
+            }}
+          />
+        ))}
       </div>
 
     </FadeSection>

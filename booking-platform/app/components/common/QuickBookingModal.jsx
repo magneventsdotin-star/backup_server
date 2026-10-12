@@ -140,15 +140,33 @@ export default function QuickBookingModal() {
               }} 
             />
 
-            {/* Top Bar: Close Button cleanly aligned on Right */}
+            {/* Top Bar: Diwali Offer Badge on Left & Close Button on Right */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'flex-end',
-              marginBottom: '10px',
+              justifyContent: 'space-between',
+              marginBottom: '12px',
               position: 'relative',
               zIndex: 2
             }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '5px 12px',
+                background: 'linear-gradient(135deg, rgba(126, 48, 68, 0.12) 0%, rgba(217, 119, 6, 0.16) 100%)',
+                border: '1px solid rgba(126, 48, 68, 0.28)',
+                borderRadius: '100px',
+                fontSize: '11px',
+                fontWeight: 800,
+                color: '#7E3044',
+                letterSpacing: '0.03em',
+                boxShadow: '0 2px 8px rgba(126, 48, 68, 0.08)'
+              }}>
+                <span style={{ fontSize: '13px', filter: 'drop-shadow(0 1px 2px rgba(217, 119, 6, 0.35))' }}>🪔</span>
+                <span>DIWALI OFFER: 55%–65% OFF</span>
+              </div>
+
               <button
                 onClick={onClose}
                 aria-label="Close modal"
@@ -252,8 +270,8 @@ function InnerQuickBookingForm({ onClose }) {
         name: formData.name.trim(),
         phone: formData.phone.trim(),
         message: eventInfo,
-        tokenNote: eventInfo ? `Event: ${eventInfo}` : 'Claimed Flat 55%–65% First Booking Discount',
-        eventType: eventInfo || 'Live Artist Slot Booking (55%–65% OFF)',
+        tokenNote: eventInfo ? `Event: ${eventInfo}` : 'Claimed Flat 55%–65% Diwali Special Discount',
+        eventType: eventInfo || 'Diwali Live Artist Slot Booking (55%–65% OFF)',
         type: 'quick_booking',
         formName: 'Quick Booking Modal',
         deviceType: deviceType,
@@ -332,8 +350,8 @@ function InnerQuickBookingForm({ onClose }) {
           fontWeight: '800',
           marginBottom: '12px'
         }}>
-          <span>⚡</span>
-          <span>Flat 55%–65% OFF Discount Locked</span>
+          <span>🪔</span>
+          <span>Diwali Offer Flat 55%–65% OFF Locked</span>
         </div>
 
         <p style={{ 

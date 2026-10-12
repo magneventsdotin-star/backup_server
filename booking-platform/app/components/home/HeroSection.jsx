@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
@@ -109,9 +109,10 @@ export default function HeroSection() {
     const cards = track.children
     if (cards && cards[targetIdx]) {
       const card = cards[targetIdx]
-      const left = card.offsetLeft - (track.clientWidth - card.clientWidth) / 2
+      const cardCenter = card.offsetLeft + card.clientWidth / 2
+      const targetLeft = Math.max(0, cardCenter - track.clientWidth / 2)
       isScrollingProgrammatically.current = true
-      track.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' })
+      track.scrollTo({ left: targetLeft, behavior: smooth ? 'smooth' : 'auto' })
       setTimeout(() => {
         isScrollingProgrammatically.current = false
       }, 500)
@@ -149,6 +150,25 @@ export default function HeroSection() {
       setIsPosterHovered(false)
     }, 400)
   }
+
+  useEffect(() => {
+    // Initial centering of active card on mount
+    if (typeof window !== 'undefined') {
+      const timer = window.setTimeout(() => {
+        if (mobileCarouselRef.current) {
+          const track = mobileCarouselRef.current
+          const cards = track.children
+          if (cards && cards[safePosterIndex]) {
+            const card = cards[safePosterIndex]
+            const cardCenter = card.offsetLeft + card.clientWidth / 2
+            const targetLeft = Math.max(0, cardCenter - track.clientWidth / 2)
+            track.scrollLeft = targetLeft
+          }
+        }
+      }, 60)
+      return () => window.clearTimeout(timer)
+    }
+  }, [])
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -348,42 +368,7 @@ export default function HeroSection() {
           </h1>
 
 
-          {/* PROMOTIONAL OFFER BANNER (UPPER PART OF VIDEOS) */}
-          <div className="hp-mob-section hp-mob-top-promo-wrap" style={{ padding: '0 16px', marginBottom: '8px' }}>
-            <div 
-              className="hp-mob-promo-top-banner"
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
-                }
-              }}
-              role="button"
-              tabIndex={0}
-              aria-label="Pre-Book Diwali & Get 55%-65% OFF"
-            >
-              <div className="hp-mob-promo-top-left">
-                <span className="hp-mob-promo-badge-tag">
-                  🪔 DIWALI OFFER
-                </span>
-                <span className="hp-mob-promo-top-text">
-                  Get <strong>55%–65% OFF!</strong>
-                </span>
-              </div>
-              <button 
-                type="button"
-                className="hp-mob-promo-pill"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (typeof window !== 'undefined') {
-                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
-                  }
-                }}
-                aria-label="Claim Diwali Offer"
-              >
-                CLAIM ➔
-              </button>
-            </div>
-          </div>
+
 
           {/* 10 LUXURY EVENT SHOWCASE CARDS (MAIN MOBILE CENTERPIECE) */}
           <div className="hp-mob-section">
@@ -398,7 +383,7 @@ export default function HeroSection() {
                 const prevPoster = availablePosters[prevIndex];
 
                 return (
-                  <div className="hp-poster-carousel-wrapper" style={{ position: 'relative' }}>
+                  <div className="hp-poster-carousel-wrapper" style={{ position: 'relative', width: '100%' }}>
 
                     {/* True Native Horizontal Scroll Carousel Track */}
                     <div
@@ -419,7 +404,7 @@ export default function HeroSection() {
                         WebkitOverflowScrolling: 'touch',
                         scrollbarWidth: 'none',
                         msOverflowStyle: 'none',
-                        padding: '8px calc((100vw - min(310px, 80vw)) / 2) 8px calc((100vw - min(310px, 80vw)) / 2)',
+                        padding: '10px calc((100% - clamp(265px, 72vw, 305px)) / 2) 16px',
                         userSelect: 'none',
                         touchAction: 'pan-x pan-y'
                       }}
@@ -452,22 +437,22 @@ export default function HeroSection() {
                             }}
                             className={`hp-poster-card-wrapper ${isActive ? 'is-active' : ''}`}
                             style={{
-                              flex: '0 0 min(310px, 80vw)',
-                              width: 'min(310px, 80vw)',
-                              height: 'clamp(370px, 51dvh, 430px)',
+                              flex: '0 0 clamp(265px, 72vw, 305px)',
+                              width: 'clamp(265px, 72vw, 305px)',
+                              height: 'clamp(390px, 52dvh, 460px)',
                               position: 'relative',
                               borderRadius: '22px',
                               overflow: 'hidden',
                               scrollSnapAlign: 'center',
                               cursor: 'pointer',
-                              border: isActive ? '1.8px solid rgba(232, 185, 67,  0.75)' : '1px solid rgba(255, 255, 255, 0.14)',
+                              border: isActive ? '2px solid rgba(232, 185, 67, 0.9)' : '1px solid rgba(216, 196, 183, 0.28)',
                               boxShadow: isActive
-                                ? '0 16px 45px rgba(0, 0, 0, 0.95), 0 0 30px rgba(232, 185, 67,  0.22), inset 0 1px 1px rgba(255, 255, 255, 0.25)'
-                                : '0 8px 24px rgba(0, 0, 0, 0.6)',
-                              transform: isActive ? 'scale(1)' : 'scale(0.93)',
-                              opacity: isActive ? 1 : 0.65,
-                              transition: 'transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease',
-                              background: '#000',
+                                ? '0 18px 50px rgba(0, 0, 0, 0.95), 0 0 35px rgba(232, 185, 67, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25)'
+                                : '0 8px 24px rgba(0, 0, 0, 0.65)',
+                              transform: isActive ? 'scale(1)' : 'scale(0.92)',
+                              opacity: isActive ? 1 : 0.68,
+                              transition: 'transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease',
+                              background: '#121014',
                               flexShrink: 0
                             }}
                           >
@@ -578,25 +563,9 @@ export default function HeroSection() {
                                 <h4 className="hp-poster-card-title">{posterItem.title}</h4>
                               </div>
 
-                              {/* Booking Action Bar */}
-                              <div 
-                                className="hp-poster-value-bar"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (typeof window !== 'undefined') {
-                                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
-                                  }
-                                }}
-                                role="button"
-                                tabIndex={0}
-                                aria-label={`Book verified artists for ${posterItem.title}`}
-                              >
-                                <div className="hp-poster-feature-block">
-                                  <span className="hp-poster-feature-highlight">★ 100% Artist Arrival Guarantee</span>
-                                </div>
-                                <div className="hp-poster-feature-badge">
-                                  <span>Book Now ➔</span>
-                                </div>
+                              {/* Arrival Guarantee Tag */}
+                              <div className="hp-poster-feature-tag">
+                                <span className="hp-poster-feature-highlight">★ 100% Arrival Guarantee</span>
                               </div>
                             </div>
                           </div>
@@ -609,8 +578,8 @@ export default function HeroSection() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      marginTop: '10px',
-                      marginBottom: '6px',
+                      marginTop: '16px',
+                      marginBottom: '14px',
                       userSelect: 'none'
                     }}>
                       <div style={{
@@ -618,12 +587,12 @@ export default function HeroSection() {
                         alignItems: 'center',
                         gap: '8px',
                         padding: '4px 10px',
-                        background: 'rgba(41, 39, 42, 0.88)',
+                        background: 'rgba(18, 16, 22, 0.92)',
                         backdropFilter: 'blur(14px)',
                         WebkitBackdropFilter: 'blur(14px)',
                         borderRadius: '100px',
-                        border: '1px solid rgba(216, 196, 183, 0.3)',
-                        boxShadow: '0 6px 20px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(245, 240, 233, 0.1)'
+                        border: '1px solid rgba(232, 185, 67, 0.28)',
+                        boxShadow: '0 6px 20px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.08)'
                       }}>
                         {/* Left Scroll Arrow */}
                         <button
@@ -749,6 +718,29 @@ export default function HeroSection() {
 
           {/* Section 4: DIRECT ACTION BUTTONS (BELOW VIDEOS) */}
           <div className="hp-mob-section hp-mob-cta-section">
+            {/* Primary High-Converting "Book Verified Artists" CTA */}
+            <button
+              type="button"
+              className="mob-btn-primary mob-btn-offer-pulse"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
+                }
+              }}
+              aria-label="Book Verified Artists - Claim Diwali Offer 55%-65% OFF"
+            >
+              <div className="mob-btn-offer-content">
+                <div className="mob-btn-offer-text-group">
+                  <span className="mob-btn-offer-sub">🪔 DIWALI OFFER • 55%–65% OFF</span>
+                  <span className="mob-btn-offer-title">Book Verified Artists</span>
+                </div>
+                <div className="mob-btn-offer-pill">
+                  <span>BOOK NOW</span>
+                  <span className="mob-btn-arrow">➔</span>
+                </div>
+              </div>
+            </button>
+
             <div className="hp-mob-dual-btn-row">
               <a 
                 href="tel:+918076515257" 
@@ -756,7 +748,7 @@ export default function HeroSection() {
                 aria-label="Call +91 80765 15257 for instant artist booking"
               >
                 <span className="hp-mob-phone-icon">📞</span>
-                <span className="hp-mob-phone-num">+91 80765 15257</span>
+                <span className="hp-mob-phone-num">Call Coordinator: +91 80765 15257</span>
               </a>
             </div>
           </div>
