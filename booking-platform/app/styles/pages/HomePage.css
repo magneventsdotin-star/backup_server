@@ -6377,9 +6377,9 @@
 }
 
 .mob-btn-offer-pulse {
-  background: linear-gradient(135deg, #E8B943 0%, #FFB703 52%, #FF9A1F 92%, #7E3044 100%) !important;
-  border: 1px solid rgba(126, 48, 68, 0.25) !important;
-  box-shadow: 0 10px 30px rgba(232, 185, 67,  0.4), 0 4px 18px rgba(126, 48, 68, 0.22), inset 0 2px 2px rgba(255, 255, 255, 0.75) !important;
+  background: linear-gradient(135deg, #7E3044 0%, #632233 100%) !important;
+  border: 1.5px solid rgba(232, 185, 67, 0.65) !important;
+  box-shadow: 0 10px 30px rgba(126, 48, 68, 0.45), 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
   animation: pulseOfferBtn 3s infinite ease-in-out !important;
   height: 64px !important;
   border-radius: 18px !important;
@@ -6393,11 +6393,11 @@
 
 @keyframes pulseOfferBtn {
   0%, 100% {
-    box-shadow: 0 10px 30px rgba(232, 185, 67,  0.4), 0 4px 18px rgba(126, 48, 68, 0.2), inset 0 2px 2px rgba(255, 255, 255, 0.75);
+    box-shadow: 0 10px 30px rgba(126, 48, 68, 0.45), 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25);
     transform: scale(1);
   }
   50% {
-    box-shadow: 0 12px 36px rgba(232, 185, 67,  0.55), 0 6px 24px rgba(126, 48, 68, 0.3), inset 0 2px 2px rgba(255, 255, 255, 0.9);
+    box-shadow: 0 14px 38px rgba(126, 48, 68, 0.65), 0 6px 24px rgba(232, 185, 67, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4);
     transform: scale(1.015);
   }
 }
@@ -6422,7 +6422,7 @@
 .mob-btn-offer-sub {
   font-size: 11px;
   font-weight: 800;
-  color: #7E3044;
+  color: #FFDE6A;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -6430,14 +6430,14 @@
 .mob-btn-offer-title {
   font-size: 18px;
   font-weight: 900;
-  color: #080A0E;
+  color: #FFFDF8;
   letter-spacing: -0.02em;
   white-space: nowrap;
 }
 
 .mob-btn-offer-pill {
-  background: #080A0E;
-  color: #E8B943;
+  background: linear-gradient(135deg, #FFFDF8 0%, #FFE28A 35%, #E8B943 100%);
+  color: #1C1A1E;
   font-size: 13px;
   font-weight: 900;
   padding: 8px 14px;
@@ -6447,8 +6447,8 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(232, 185, 67,  0.4);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4), 0 0 14px rgba(232, 185, 67, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.7);
   flex-shrink: 0;
 }
 
@@ -8631,23 +8631,23 @@
     height: 64px !important;
     border-radius: 18px !important;
     padding: 0 16px !important;
-    background: linear-gradient(135deg, #E8B943 0%, #FFB703 52%, #FF9A1F 92%, #7E3044 100%) !important;
-    border: 1px solid rgba(126, 48, 68, 0.25) !important;
-    box-shadow: 0 10px 32px rgba(232, 185, 67, 0.42), 0 4px 18px rgba(126, 48, 68, 0.22), inset 0 2px 2px rgba(255, 255, 255, 0.8) !important;
+    background: linear-gradient(135deg, #7E3044 0%, #632233 100%) !important;
+    border: 1.5px solid rgba(232, 185, 67, 0.65) !important;
+    box-shadow: 0 10px 32px rgba(126, 48, 68, 0.45), 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
   }
 
   .mob-btn-offer-title {
     font-size: 18px !important;
     font-weight: 900 !important;
     letter-spacing: -0.02em !important;
-    color: #080A0E !important;
+    color: #FFFDF8 !important;
   }
 
   .mob-btn-offer-sub {
     font-size: 11px !important;
     letter-spacing: 0.06em !important;
     font-weight: 800 !important;
-    color: #7E3044 !important;
+    color: #FFDE6A !important;
   }
 
   .mob-btn-offer-pill {
@@ -8656,10 +8656,10 @@
     font-weight: 900 !important;
     border-radius: 100px !important;
     gap: 6px !important;
-    background: #29272A !important;
-    color: #E8B943 !important;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(245, 240, 233, 0.25) !important;
-    border: 1px solid rgba(232, 185, 67, 0.4) !important;
+    background: linear-gradient(135deg, #FFFDF8 0%, #FFE28A 35%, #E8B943 100%) !important;
+    color: #1C1A1E !important;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4), 0 0 14px rgba(232, 185, 67, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.7) !important;
   }
 
   .hp-mob-phone-btn {
