@@ -267,12 +267,14 @@ export default function SEOLandingHero({
         eventType: selectedEventType,
         date: eventDate,
         budget: '₹99 Token Advance',
-        tokenNote: `[₹99 ARTIST SLOT RESERVED] Sangeet Singer in ${city}`,
-        message: `PAID ₹99 TOKEN BOOKING REQUEST for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}.`,
+        tokenNote: `[₹99 ARTIST SLOT RESERVED] ${category} in ${city}${selectedArtist ? ` (Artist: ${selectedArtist.name})` : ''}`,
+        message: `PAID ₹99 TOKEN BOOKING REQUEST for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}.${selectedArtist ? ` Target Performer: ${selectedArtist.name}` : ''}`,
         type: 'quick_booking',
-        formName: `Hero ₹99 Sangeet Booking - ${city}`,
+        formName: `Hero ₹99 Booking - ${category} in ${city}`,
         formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#book-99` : '',
         referenceCode: randomRef,
+        selectedArtist: selectedArtist ? selectedArtist.name : null,
+        service: `${category} in ${city}`,
         category: category,
         city: city
       });
@@ -393,20 +395,18 @@ export default function SEOLandingHero({
         </div>
 
         {/* Location & Trust Badges */}
-        {!isSpecialTokenPage && (
-          <div className="seo-trust-strip">
-            <span className="seo-pill-badge highlight">
-              <span className="seo-pill-pulse" />
-              Verified Performers · {city}
-            </span>
-            <span className="seo-pill-badge verified">
-              ✓ 100% Artist Arrival Guarantee
-            </span>
-            <span className="seo-pill-badge">
-              ⚡ Direct Pricing · 0% Agency Markup
-            </span>
-          </div>
-        )}
+        <div className="seo-trust-strip">
+          <span className="seo-pill-badge highlight">
+            <span className="seo-pill-pulse" />
+            Verified Performers · {city}
+          </span>
+          <span className="seo-pill-badge verified">
+            ✓ 100% Artist Arrival Guarantee
+          </span>
+          <span className="seo-pill-badge">
+            ⚡ Direct Pricing · 0% Agency Markup
+          </span>
+        </div>
 
         {/* Hero Header & Title / Split Layout with Right-Side ₹99 Form */}
         {isSpecialTokenPage ? (
@@ -419,6 +419,14 @@ export default function SEOLandingHero({
               <p className="seo-hero-subtitle seo-hero-subtitle-left">
                 {heroSubtitle || `Book verified performers directly for your next grand event.`}
               </p>
+
+              {/* Social Proof & Urgency Bar */}
+              <div className="seo-live-social-proof seo-live-proof-left" style={{ margin: '4px 0 14px' }}>
+                <span className="seo-live-dot" />
+                <span className="seo-live-text">
+                  🔥 <strong>4 Event Hosts</strong> in {city} requested quotes this week · Avg reply <strong>6 mins</strong>
+                </span>
+              </div>
 
               <div className="seo-query-pills seo-query-pills-left" role="tablist" aria-label="Event category options">
                 {eventTypes.map((type) => {
@@ -498,7 +506,7 @@ export default function SEOLandingHero({
 
             {/* Right Column: High-Converting ₹99 Booking Form Card */}
             <div className="seo-hero-split-right">
-              <div className="hero-tok99-card" id="hero-book-99">
+              <div ref={formRef} className="hero-tok99-card" id="hero-book-99">
                 <div className="hero-tok99-glow" aria-hidden="true" />
                 <div className="hero-tok99-top-row">
                   <span className="hero-tok99-badge">
@@ -514,11 +522,20 @@ export default function SEOLandingHero({
                 {!isSubmitted ? (
                   <form onSubmit={handleToken99Submit} className="hero-tok99-form">
                     <div>
-                      <h3 className="hero-tok99-title">Pay ₹99 &amp; Book Your Event</h3>
+                      <h3 className="hero-tok99-title">
+                        Pay ₹99 &amp; Book {category} in {city}
+                      </h3>
                       <p className="hero-tok99-subtitle">
-                        Lock verified <strong>{category} in {city}</strong> for your date. The ₹99 token is <strong>100% adjusted</strong> into your final fee!
+                        Lock top-rated <strong>{category} in {city}</strong> for your date. The ₹99 token is <strong>100% adjusted</strong> into your final fee!
                       </p>
                     </div>
+
+                    {selectedArtist && (
+                      <div className="seo-mob-selected-artist" style={{ marginBottom: '12px' }}>
+                        <span>🎯 Selected Performer: <strong>{selectedArtist.name}</strong> (~₹{selectedArtist.price_min ? selectedArtist.price_min.toLocaleString('en-IN') : '10,000'})</span>
+                        <button type="button" onClick={() => setSelectedArtist(null)} aria-label="Clear artist selection">✕</button>
+                      </div>
+                    )}
 
                     <div className="hero-tok99-input-row">
                       <div className="hero-tok99-field">
@@ -541,6 +558,7 @@ export default function SEOLandingHero({
                         <div className={`hero-tok99-input-box ${phoneError ? 'error' : ''}`}>
                           <span className="hero-tok99-prefix">🇮🇳 +91</span>
                           <input
+                            ref={phoneInputRef}
                             id="h-tok-phone"
                             type="tel"
                             inputMode="numeric"
@@ -608,7 +626,7 @@ export default function SEOLandingHero({
                       {isSubmitting ? (
                         <span>Reserving Slot...</span>
                       ) : (
-                        <span>🔒 Pay ₹99 &amp; Lock Performer Slot ➔</span>
+                        <span>🔒 Pay ₹99 &amp; Lock {category} Slot ➔</span>
                       )}
                     </button>
 

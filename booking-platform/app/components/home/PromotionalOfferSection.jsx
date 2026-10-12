@@ -3,11 +3,24 @@
 import React, { useState, useEffect } from 'react';
 import '@/app/styles/components/PromotionalOfferSection.css';
 
-export default function PromotionalOfferSection({ className = "" }) {
-  const [headline, setHeadline] = useState("Get Up to 60% OFF on Your First Event Booking!");
+export default function PromotionalOfferSection({ 
+  className = "",
+  category = "",
+  city = ""
+}) {
+  const isContextual = Boolean(category && city);
+  const defaultHeadline = isContextual 
+    ? `Book Verified ${category} in ${city} with ₹99 Token Advance!`
+    : "Get Up to 60% OFF on Your First Event Booking!";
+
+  const [headline, setHeadline] = useState(defaultHeadline);
   const [timeLeft, setTimeLeft] = useState({ hours: 1, minutes: 19, seconds: 15 });
 
   useEffect(() => {
+    if (isContextual) {
+      setHeadline(`Book Verified ${category} in ${city} for ₹99 Token Advance!`);
+      return;
+    }
     fetch('/api/settings/top-ad', { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
@@ -16,7 +29,7 @@ export default function PromotionalOfferSection({ className = "" }) {
         }
       })
       .catch(() => {});
-  }, []);
+  }, [isContextual, category, city]);
 
   // Midnight countdown
   useEffect(() => {
@@ -61,10 +74,10 @@ export default function PromotionalOfferSection({ className = "" }) {
           <div className="lux-promo-badge-row">
             <span className="lux-promo-pill">
               <span className="lux-promo-live-dot" />
-              <span>Limited Time Offer</span>
+              <span>{isContextual ? `Exclusive ${city} Offer` : "Limited Time Offer"}</span>
             </span>
             <span className="lux-promo-code-pill">
-              Code: FIRSTEVENT60
+              {isContextual ? "Token: ₹99 ONLY" : "Code: FIRSTEVENT60"}
             </span>
           </div>
 
@@ -73,7 +86,10 @@ export default function PromotionalOfferSection({ className = "" }) {
           </h2>
 
           <p className="lux-promo-desc">
-            Book verified live singers, bands, or DJs across India with 0% middleman fees and our legally binding 100% Artist Arrival Guarantee.
+            {isContextual 
+              ? `Book verified ${category} in ${city} for your date with only ₹99 token advance. 100% Artist Arrival Guarantee with zero middleman charges — token is fully adjusted into your artist fee!`
+              : "Book verified live singers, bands, or DJs across India with 0% middleman fees and our legally binding 100% Artist Arrival Guarantee."
+            }
           </p>
 
           <div className="lux-promo-perks-row">
@@ -84,7 +100,7 @@ export default function PromotionalOfferSection({ className = "" }) {
               <span className="icon">💎</span> 0% Agency Markup
             </span>
             <span className="lux-promo-perk">
-              <span className="icon">🎙️</span> Full Sound Rider Setup
+              <span className="icon">🎟️</span> ₹99 Adjustable Token
             </span>
           </div>
         </div>
@@ -103,16 +119,31 @@ export default function PromotionalOfferSection({ className = "" }) {
           </div>
 
           <div className="lux-promo-actions-group">
-            <button
-              type="button"
-              onClick={handleClaimOffer}
-              className="lux-promo-main-btn"
-            >
-              <span>Claim 60% OFF Now</span>
-              <span>→</span>
-            </button>
+            {isContextual ? (
+              <a
+                href="#hero-book-99"
+                className="lux-promo-main-btn"
+                style={{ textDecoration: 'none' }}
+              >
+                <span>Pay ₹99 &amp; Book {category}</span>
+                <span>→</span>
+              </a>
+            ) : (
+              <button
+                type="button"
+                onClick={handleClaimOffer}
+                className="lux-promo-main-btn"
+              >
+                <span>Claim 60% OFF Now</span>
+                <span>→</span>
+              </button>
+            )}
             <a
-              href="https://wa.me/918076515257?text=Hi%20Magnevents!%20I%20want%20to%20claim%20the%2060%25%20OFF%20first%20booking%20discount%20for%20my%20event."
+              href={`https://wa.me/918076515257?text=${encodeURIComponent(
+                isContextual
+                  ? `Hi Magnevents! I want to pay ₹99 token and book a verified ${category} in ${city} for my upcoming event.`
+                  : "Hi Magnevents! I want to claim the 60% OFF first booking discount for my event."
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="lux-promo-wa-btn"

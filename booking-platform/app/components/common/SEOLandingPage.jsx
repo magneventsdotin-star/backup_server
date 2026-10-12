@@ -42,11 +42,14 @@ export default function SEOLandingPage({
           city={city}
           subCategory={subCategory}
           topArtists={topArtists}
-          isSpecialTokenPage={false}
+          isSpecialTokenPage={true}
           locationSlug={slugNormalized}
         />
 
-        <PromotionalOfferSection />
+        <PromotionalOfferSection 
+          category={category}
+          city={city}
+        />
 
         {overviewHtml && services && faqs && relatedLinks ? (
           <SEODynamicContent 
