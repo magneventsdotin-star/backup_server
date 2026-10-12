@@ -635,12 +635,12 @@ function InnerQuickBookingForm({ onClose }) {
             alignItems: 'center',
             background: '#FFFFFF',
             border: errors.name
-              ? '1.5px solid #dc2626'
+              ? '1.5px solid #7E3044'
               : (activeFocus === 'name' ? '1.5px solid #7E3044' : '1px solid rgba(126, 48, 68, 0.25)'),
             borderRadius: '12px',
             overflow: 'hidden',
             boxShadow: errors.name
-              ? '0 0 0 3px rgba(220, 38, 38, 0.2)'
+              ? '0 0 0 3px rgba(126, 48, 68, 0.2)'
               : (activeFocus === 'name' ? '0 0 0 3px rgba(126, 48, 68, 0.15)' : 'none'),
             transition: 'all 0.2s ease',
             boxSizing: 'border-box'
@@ -651,7 +651,7 @@ function InnerQuickBookingForm({ onClose }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: errors.name ? '#dc2626' : (activeFocus === 'name' ? '#7E3044' : 'rgba(126, 48, 68, 0.65)'),
+              color: errors.name ? '#7E3044' : (activeFocus === 'name' ? '#7E3044' : 'rgba(126, 48, 68, 0.65)'),
               borderRight: '1px solid rgba(126, 48, 68, 0.18)',
               background: 'rgba(126, 48, 68, 0.05)',
               flexShrink: 0
@@ -690,7 +690,7 @@ function InnerQuickBookingForm({ onClose }) {
             />
           </div>
           {errors.name && (
-            <span style={{ color: '#dc2626', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 600 }}>
+            <span style={{ color: '#7E3044', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 700 }}>
               {errors.name}
             </span>
           )}
@@ -719,7 +719,7 @@ function InnerQuickBookingForm({ onClose }) {
               <span style={{ 
                 fontSize: '11px', 
                 fontWeight: 800, 
-                color: isPhoneValid ? '#15803d' : '#b45309' 
+                color: isPhoneValid ? '#7E3044' : '#b45309' 
               }}>
                 {isPhoneValid ? '✓ 10 Digits' : `${rawDigits.length}/10 digits`}
               </span>
@@ -730,12 +730,12 @@ function InnerQuickBookingForm({ onClose }) {
             alignItems: 'center',
             background: '#FFFFFF',
             border: errors.phone
-              ? '1.5px solid #dc2626'
+              ? '1.5px solid #7E3044'
               : (activeFocus === 'phone' ? '1.5px solid #7E3044' : '1px solid rgba(126, 48, 68, 0.25)'),
             borderRadius: '12px',
             overflow: 'hidden',
             boxShadow: errors.phone
-              ? '0 0 0 3px rgba(220, 38, 38, 0.2)'
+              ? '0 0 0 3px rgba(126, 48, 68, 0.2)'
               : (activeFocus === 'phone' ? '0 0 0 3px rgba(126, 48, 68, 0.15)' : 'none'),
             transition: 'all 0.2s ease',
             boxSizing: 'border-box'
@@ -791,7 +791,7 @@ function InnerQuickBookingForm({ onClose }) {
             />
           </div>
           {errors.phone && (
-            <span style={{ color: '#dc2626', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 600 }}>
+            <span style={{ color: '#7E3044', fontSize: '11px', marginTop: '3px', display: 'block', fontWeight: 700 }}>
               {errors.phone}
             </span>
           )}

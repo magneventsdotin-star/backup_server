@@ -2423,13 +2423,13 @@
 .hero-tok99-card {
   position: relative;
   background: radial-gradient(130% 130% at 50% 0%, #29272A 0%, #1a181c 65%, #121014 100%);
-  border: 1.5px solid rgba(232, 185, 67, 0.45);
+  border: 1.5px solid rgba(126, 48, 68, 0.65);
   border-radius: 24px;
   padding: 26px 24px 22px;
   box-shadow: 
     0 25px 70px rgba(0, 0, 0, 0.85),
-    0 0 35px rgba(126, 48, 68, 0.22),
-    0 0 20px rgba(232, 185, 67, 0.15),
+    0 0 35px rgba(126, 48, 68, 0.35),
+    0 0 20px rgba(126, 48, 68, 0.2),
     inset 0 1px 0 rgba(245, 240, 233, 0.18);
   box-sizing: border-box;
   overflow: hidden;
@@ -2441,7 +2441,7 @@
   right: -60px;
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, rgba(228, 95, 96, 0.25) 0%, rgba(232, 185, 67, 0.15) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(126, 48, 68, 0.45) 0%, rgba(126, 48, 68, 0.2) 50%, transparent 70%);
   filter: blur(30px);
   pointer-events: none;
   z-index: 0;
@@ -2462,8 +2462,8 @@
   align-items: center;
   gap: 6px;
   padding: 4px 12px;
-  background: linear-gradient(135deg, rgba(228, 95, 96, 0.2) 0%, rgba(126, 48, 68, 0.35) 100%);
-  border: 1px solid rgba(228, 95, 96, 0.45);
+  background: linear-gradient(135deg, rgba(126, 48, 68, 0.35) 0%, rgba(126, 48, 68, 0.6) 100%);
+  border: 1px solid rgba(126, 48, 68, 0.7);
   border-radius: 999px;
   font-size: 11px;
   font-weight: 800;
@@ -2563,12 +2563,12 @@
 }
 
 .hero-tok99-input-box:focus-within {
-  border-color: #E8B943;
-  box-shadow: 0 0 0 3px rgba(232, 185, 67, 0.2);
+  border-color: #7E3044;
+  box-shadow: 0 0 0 3px rgba(126, 48, 68, 0.3);
 }
 
 .hero-tok99-input-box.error {
-  border-color: #E45F60;
+  border-color: #7E3044;
 }
 
 .hero-tok99-prefix {
@@ -2576,7 +2576,7 @@
   height: 40px;
   display: flex;
   align-items: center;
-  background: rgba(126, 48, 68, 0.25);
+  background: rgba(126, 48, 68, 0.45);
   border-right: 1px solid rgba(216, 196, 183, 0.15);
   font-size: 12px;
   font-weight: 700;
@@ -2625,8 +2625,8 @@
 .hero-tok99-submit-btn {
   width: 100%;
   padding: 13px 18px;
-  background: linear-gradient(135deg, #E8B943 0%, #D8A52F 60%, #C48E20 100%);
-  color: #29272A;
+  background: linear-gradient(135deg, #7E3044 0%, #682536 60%, #521c29 100%);
+  color: #ffffff;
   border: none;
   border-radius: 12px;
   font-size: 15px;
@@ -2637,15 +2637,15 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 6px 20px rgba(232, 185, 67, 0.35);
+  box-shadow: 0 6px 20px rgba(126, 48, 68, 0.45);
   transition: all 0.2s ease;
   margin-top: 4px;
 }
 
 .hero-tok99-submit-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 10px 26px rgba(232, 185, 67, 0.5);
-  background: linear-gradient(135deg, #FFF0B8 0%, #E8B943 50%, #C89427 100%);
+  box-shadow: 0 10px 26px rgba(126, 48, 68, 0.6);
+  background: linear-gradient(135deg, #963b52 0%, #7E3044 50%, #682536 100%);
 }
 
 .hero-tok99-submit-btn:disabled {
