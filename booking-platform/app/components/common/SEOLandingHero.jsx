@@ -404,34 +404,14 @@ export default function SEOLandingHero({
         {/* Hero Header & Title / Split Layout with Right-Side ₹99 Form */}
         {isSpecialTokenPage ? (
           <div className="seo-hero-split-wrap">
-            {/* Left Column: Trust Badges, Heading, Subtitle & Event Category Pills */}
+            {/* Left Column: Heading, Subtitle & Event Category Pills */}
             <div className="seo-hero-split-left">
-              <div className="seo-trust-strip seo-trust-strip-left">
-                <span className="seo-pill-badge highlight">
-                  <span className="seo-pill-pulse" />
-                  Verified Performers · {city}
-                </span>
-                <span className="seo-pill-badge verified">
-                  ✓ 100% Artist Arrival Guarantee
-                </span>
-                <span className="seo-pill-badge">
-                  ⚡ Direct Pricing · 0% Markup
-                </span>
-              </div>
-
               <h1 className="seo-hero-title seo-hero-title-left">
                 <span className="seo-hero-gradient-text">{heroTitle}</span>
               </h1>
               <p className="seo-hero-subtitle seo-hero-subtitle-left">
                 {heroSubtitle || `Book verified performers directly for your next grand event.`}
               </p>
-
-              <div className="seo-live-social-proof seo-live-proof-left">
-                <span className="seo-live-dot" />
-                <span className="seo-live-text">
-                  🔥 <strong>4 Event Hosts</strong> in {city} requested quotes this week · Avg reply <strong>6 mins</strong>
-                </span>
-              </div>
 
               <div className="seo-query-pills seo-query-pills-left" role="tablist" aria-label="Event category options">
                 {eventTypes.map((type) => {
