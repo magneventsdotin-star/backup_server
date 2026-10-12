@@ -8,7 +8,8 @@ export const revalidate = 86400; // Cache at Edge CDN for 24 hours - instant 5ms
 export async function generateMetadata({ params }) {
   // Await params in Next.js 15 before using properties
   const awaitedParams = await params;
-  const { location_slug } = awaitedParams;
+  const rawSlug = decodeURIComponent(awaitedParams.location_slug || '').trim();
+  const location_slug = rawSlug.toLowerCase().replace(/[\s_]+/g, '-').replace(/\/+$/, '');
   
   const formattedTitle = location_slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
@@ -23,10 +24,11 @@ export async function generateMetadata({ params }) {
 
 export default async function LocationServicePage({ params }) {
   const awaitedParams = await params;
-  const { location_slug } = awaitedParams;
+  const rawSlug = decodeURIComponent(awaitedParams.location_slug || '').trim();
+  const location_slug = rawSlug.toLowerCase().replace(/[\s_]+/g, '-').replace(/\/+$/, '');
   
   const validKeywords = ['singer', 'band', 'dj', 'comedian', 'anchor', 'dancer', 'magician', 'guitarist', 'music', 'artist', 'ghazal', 'gazal', 'sufi', 'gig'];
-  const isValidKeyword = validKeywords.some(kw => location_slug.toLowerCase().includes(kw));
+  const isValidKeyword = validKeywords.some(kw => location_slug.includes(kw));
 
   const majorCities = [
     'delhi', 'new-delhi', 'noida', 'gurgaon', 'gurugram', 'faridabad', 'ghaziabad',
@@ -38,8 +40,13 @@ export default async function LocationServicePage({ params }) {
     'jodhpur', 'madurai', 'raipur', 'kota', 'guwahati', 'chandigarh', 'thiruvananthapuram', 'kochi'
   ];
 
-  if (majorCities.includes(location_slug.toLowerCase())) {
-    redirect(`/city/${location_slug.toLowerCase()}`);
+  if (majorCities.includes(location_slug)) {
+    redirect(`/city/${location_slug}`);
+  }
+
+  // If the raw URL slug contained spaces or non-canonical characters, redirect to the normalized URL
+  if (awaitedParams.location_slug !== location_slug) {
+    redirect(`/${location_slug}`);
   }
 
   if (!isValidKeyword) {
@@ -48,19 +55,24 @@ export default async function LocationServicePage({ params }) {
 
   const formattedTitle = location_slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
-  let parsedCategory = 'All';
+  let parsedCategory = 'Singer';
   let parsedSubCategory = '';
   let parsedCity = 'All Cities';
-  const slugLower = location_slug.toLowerCase();
+  const slugLower = location_slug;
   
   if (slugLower.includes('band')) parsedCategory = 'Live band';
-  else if (slugLower.includes('musician') || slugLower.includes('music')) parsedCategory = 'Musician';
+  else if (slugLower.includes('musician') || slugLower.includes('music') || slugLower.includes('guitarist')) parsedCategory = 'Musician';
   else if (slugLower.includes('dj')) parsedCategory = 'Dj';
   else if (slugLower.includes('comedian')) parsedCategory = 'Comedian';
+  else if (slugLower.includes('magician')) parsedCategory = 'Magician';
+  else if (slugLower.includes('dancer')) parsedCategory = 'Dancer';
+  else if (slugLower.includes('anchor')) parsedCategory = 'Anchor';
   else if (slugLower.includes('singer') || slugLower.includes('artist') || slugLower.includes('ghazal') || slugLower.includes('gazal') || slugLower.includes('sufi') || slugLower.includes('gig')) parsedCategory = 'Singer';
 
   if (slugLower.includes('ghazal') || slugLower.includes('gazal')) parsedSubCategory = 'Gazals';
   else if (slugLower.includes('sufi')) parsedSubCategory = 'Sufi';
+  else if (slugLower.includes('sangeet')) parsedSubCategory = 'Sangeet';
+  else if (slugLower.includes('wedding')) parsedSubCategory = 'Wedding';
   else if (slugLower.includes('retro')) parsedSubCategory = 'Retro';
   else if (slugLower.includes('punjabi')) parsedSubCategory = 'Punjabi';
   else if (slugLower.includes('bollywood')) parsedSubCategory = 'Bollywood';
@@ -69,8 +81,12 @@ export default async function LocationServicePage({ params }) {
 
   const parts = slugLower.split('-in-');
   if (parts.length > 1) {
-    const cityStr = parts[1].replace(/-/g, ' ');
-    parsedCity = cityStr.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    const cityStr = parts[1].replace(/-/g, ' ').trim();
+    if (cityStr.toLowerCase() === 'delhi ncr') {
+      parsedCity = 'Delhi NCR';
+    } else {
+      parsedCity = cityStr.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
   }
 
   // Fetch top 5 curated artists from the database for this category & city

@@ -25,8 +25,7 @@ export default function SEOLandingPage({
   relatedLinks
 }) {
   const rawSlug = locationSlug || '';
-  const slugNormalized = decodeURIComponent(rawSlug).toLowerCase().trim().replace(/\s+/g, '-').replace(/\/$/, '');
-  const isAmrohaSangeet = slugNormalized === 'sangeet-singer-in-amroha';
+  const slugNormalized = decodeURIComponent(rawSlug).toLowerCase().trim().replace(/[\s_]+/g, '-').replace(/\/+$/, '');
 
   return (
     <>
@@ -43,7 +42,7 @@ export default function SEOLandingPage({
           city={city}
           subCategory={subCategory}
           topArtists={topArtists}
-          isSpecialTokenPage={isAmrohaSangeet}
+          isSpecialTokenPage={false}
           locationSlug={slugNormalized}
         />
 

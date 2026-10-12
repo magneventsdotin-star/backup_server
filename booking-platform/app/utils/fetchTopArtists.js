@@ -52,6 +52,23 @@ export async function getTopArtistsForSEO({ category = 'All', subCategory = '', 
       };
     };
 
+    // Helper to get normalized category search term for database queries
+    const getCatFilterTerm = (cat) => {
+      if (!cat || cat === 'All') return null;
+      const c = cat.toLowerCase();
+      if (c.includes('band')) return 'band';
+      if (c.includes('dj')) return 'dj';
+      if (c.includes('comedian')) return 'comedian';
+      if (c.includes('magician')) return 'magician';
+      if (c.includes('dancer')) return 'dancer';
+      if (c.includes('anchor')) return 'anchor';
+      if (c.includes('musician') || c.includes('music') || c.includes('guitarist')) return 'music';
+      if (c.includes('singer') || c.includes('artist') || c.includes('ghazal') || c.includes('sufi')) return 'singer';
+      return cat.replace(/s$/i, '').toLowerCase();
+    };
+
+    const filterTerm = getCatFilterTerm(category);
+
     // 1. Try local city + category / subCategory
     if (city && city !== 'All Cities') {
       let q = supabase
@@ -60,9 +77,8 @@ export async function getTopArtistsForSEO({ category = 'All', subCategory = '', 
         .eq('is_live', true)
         .ilike('city', `%${city}%`);
 
-      if (category && category !== 'All') {
-        const filterCat = category.replace(/s$/i, '');
-        q = q.or(`category.ilike.%${filterCat}%,sub_category.ilike.%${filterCat}%`);
+      if (filterTerm) {
+        q = q.or(`category.ilike.%${filterTerm}%,sub_category.ilike.%${filterTerm}%,name.ilike.%${filterTerm}%,alias.ilike.%${filterTerm}%`);
       }
 
       const { data } = await q.order('rating', { ascending: false }).limit(limit);
@@ -71,7 +87,7 @@ export async function getTopArtistsForSEO({ category = 'All', subCategory = '', 
       }
     }
 
-    // 2. If fewer than limit, try subCategory nationwide (e.g. Gazals, Sufi)
+    // 2. If fewer than limit, try subCategory nationwide (e.g. Gazals, Sufi, Sangeet)
     if (artists.length < limit && subCategory) {
       const existingIds = artists.map(a => a.id);
       let q = supabase
@@ -91,19 +107,14 @@ export async function getTopArtistsForSEO({ category = 'All', subCategory = '', 
     }
 
     // 3. If still fewer than limit, try category nationwide
-    if (artists.length < limit && category && category !== 'All') {
+    if (artists.length < limit && filterTerm) {
       const existingIds = artists.map(a => a.id);
-      const filterCat = category.replace(/s$/i, '');
       let q = supabase
         .from('artists')
         .select('id, artist_no, name, alias, category, sub_category, city, state, rating, successful_bookings, price_min, price_max, bio, artist_images(image_url)')
         .eq('is_live', true);
 
-      if (category.toLowerCase() === 'dj') {
-        q = q.or('category.ilike.%dj%,sub_category.ilike.%dj%,name.ilike.%dj%,alias.ilike.%dj%');
-      } else {
-        q = q.or(`category.ilike.%${filterCat}%,sub_category.ilike.%${filterCat}%`);
-      }
+      q = q.or(`category.ilike.%${filterTerm}%,sub_category.ilike.%${filterTerm}%,name.ilike.%${filterTerm}%,alias.ilike.%${filterTerm}%`);
 
       if (existingIds.length > 0) {
         q = q.not('id', 'in', `(${existingIds.join(',')})`);

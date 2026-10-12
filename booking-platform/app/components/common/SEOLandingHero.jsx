@@ -31,6 +31,7 @@ export default function SEOLandingHero({
   locationSlug = ""
 }) {
   const formRef = useRef(null);
+  const mobFormRef = useRef(null);
   const phoneInputRef = useRef(null);
   const mobPhoneInputRef = useRef(null);
   const [tokenCopied, setTokenCopied] = useState(false);
@@ -289,12 +290,18 @@ export default function SEOLandingHero({
   // Select an artist and focus phone input
   const handleSelectArtist = (artist) => {
     setSelectedArtist(artist);
-    if (formRef.current) {
+    const isMob = typeof window !== 'undefined' && window.innerWidth <= 768;
+    if (isMob && mobFormRef.current) {
+      mobFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        if (mobPhoneInputRef.current) mobPhoneInputRef.current.focus();
+      }, 400);
+    } else if (formRef.current) {
       formRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        if (phoneInputRef.current) phoneInputRef.current.focus();
+      }, 400);
     }
-    setTimeout(() => {
-      if (phoneInputRef.current) phoneInputRef.current.focus();
-    }, 400);
   };
 
   // Select a tier and open 1-step quick phone modal
@@ -740,7 +747,7 @@ export default function SEOLandingHero({
            1.5 MOBILE-ONLY INSTANT HERO LEAD FORM (Direct One-Tap Contact on Mobile)
            ========================================================================== */}
         {!isSpecialTokenPage && (
-          <div className="seo-mob-hero-form-card">
+          <div ref={mobFormRef} className="seo-mob-hero-form-card">
           {!isSubmitted ? (
             <form onSubmit={handleInlineSubmit} className="seo-mob-form-inner">
               <div className="seo-mob-form-header">
@@ -758,8 +765,8 @@ export default function SEOLandingHero({
 
               {selectedArtist && (
                 <div className="seo-mob-selected-artist">
-                  <span>🎯 Selected: <strong>{selectedArtist.name}</strong></span>
-                  <button type="button" onClick={() => setSelectedArtist(null)}>✕</button>
+                  <span>🎯 Selected: <strong>{selectedArtist.name}</strong> (~₹{selectedArtist.price_min ? selectedArtist.price_min.toLocaleString('en-IN') : '10,000'})</span>
+                  <button type="button" onClick={() => setSelectedArtist(null)} aria-label="Clear artist selection">✕</button>
                 </div>
               )}
 
@@ -1547,10 +1554,18 @@ export default function SEOLandingHero({
         <button
           type="button"
           onClick={() => {
-            if (formRef.current) {
+            const isMob = typeof window !== 'undefined' && window.innerWidth <= 768;
+            if (isMob && mobFormRef.current) {
+              mobFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              setTimeout(() => {
+                if (mobPhoneInputRef.current) mobPhoneInputRef.current.focus();
+              }, 400);
+            } else if (formRef.current) {
               formRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              setTimeout(() => {
+                if (phoneInputRef.current) phoneInputRef.current.focus();
+              }, 400);
             }
-            if (phoneInputRef.current) phoneInputRef.current.focus();
           }}
           className="seo-sticky-btn-quote"
         >

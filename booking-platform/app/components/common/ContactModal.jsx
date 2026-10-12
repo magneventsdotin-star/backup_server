@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -122,11 +122,13 @@ export default function ContactModal() {
             ) : initialService ? (
               <div style={{ marginTop: '12px', padding: '10px 16px', background: 'rgba(232, 185, 67, 0.1)', border: '1px solid rgba(232, 185, 67, 0.2)', borderRadius: '8px', display: 'inline-block', width: '100%', textAlign: 'left' }}>
                 <span style={{ color: '#E8B943', fontSize: '15px', fontWeight: '700', display: 'block' }}>
-                  Selected Service: {initialService.title}
+                  Selected Service: {typeof initialService === 'string' ? initialService : initialService?.title || 'Event Service'}
                 </span>
-                <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px', display: 'block', marginTop: '4px' }}>
-                  {initialService.desc}
-                </span>
+                {typeof initialService === 'object' && initialService?.desc && (
+                  <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px', display: 'block', marginTop: '4px' }}>
+                    {initialService.desc}
+                  </span>
+                )}
               </div>
             ) : (
               <p>
