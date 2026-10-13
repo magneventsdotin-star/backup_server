@@ -212,3 +212,114 @@
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   FOOTER SEO KEYWORDS - 1-LINE COLLAPSIBLE ON MOBILE
+   ========================================================================== */
+.lux-footer-seo {
+  margin-top: 36px;
+  padding: 24px 0 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  width: 100%;
+}
+
+.lux-footer-seo-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+.lux-footer-seo-link {
+  color: rgba(255, 255, 255, 0.24);
+  font-size: 11px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  line-height: 1.6;
+}
+
+.lux-footer-seo-link:hover {
+  color: var(--color-marigold, #E8B943);
+}
+
+.lux-footer-seo-toggle {
+  display: none;
+}
+
+/* Strict mobile 1-line minimization */
+@media (max-width: 768px) {
+  .lux-footer-seo {
+    margin-top: 20px;
+    padding: 14px 0 10px;
+  }
+
+  .lux-footer-seo.is-collapsed .lux-footer-seo-links {
+    max-height: 20px !important;
+    height: 20px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
+    display: flex !important;
+    justify-content: center !important;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%) !important;
+  }
+
+  .lux-footer-seo.is-expanded .lux-footer-seo-links {
+    max-height: 1000px !important;
+    height: auto !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    flex-wrap: wrap !important;
+    display: flex !important;
+    padding-bottom: 8px;
+  }
+
+  .lux-footer-seo-link {
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  .lux-footer-seo-toggle {
+    margin-top: 10px;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    background: rgba(41, 39, 42, 0.7);
+    border: 1px solid rgba(216, 196, 183, 0.24);
+    border-radius: 999px;
+    padding: 4px 14px;
+    color: rgba(245, 240, 233, 0.8);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    user-select: none;
+  }
+
+  .lux-footer-seo-toggle:hover {
+    background: rgba(41, 39, 42, 0.95);
+    border-color: rgba(232, 185, 67, 0.5);
+    color: var(--color-marigold, #E8B943);
+  }
+
+  .lux-footer-seo-arrow {
+    color: var(--color-marigold, #E8B943);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .lux-footer-seo-arrow.is-rotated {
+    transform: rotate(180deg);
+  }
+}
+

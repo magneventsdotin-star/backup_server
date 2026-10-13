@@ -1,0 +1,145 @@
+/* ==========================================================================
+   SEO KEYWORD FOOTER - MAGNEVENTS
+   Compact, collapsible SEO search queries with subtle styling
+   ========================================================================== */
+
+.seo-keyword-footer {
+  background-color: #070606;
+  padding: 14px 20px 18px;
+  border-top: 1px solid rgba(216, 196, 183, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.seo-keyword-container {
+  max-width: 1360px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 10px;
+  line-height: 1.6;
+  text-align: center;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+.seo-keyword-container.is-collapsed {
+  flex-wrap: nowrap !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  max-height: 24px !important;
+  height: 24px !important;
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+
+.seo-keyword-container.is-expanded {
+  flex-wrap: wrap !important;
+  max-height: 1200px !important;
+  height: auto !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  padding-bottom: 12px;
+}
+
+.seo-keyword {
+  color: rgba(245, 240, 233, 0.38);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.seo-keyword:hover {
+  color: var(--color-marigold, #E8B943);
+  text-decoration: underline;
+}
+
+.seo-separator {
+  color: rgba(216, 196, 183, 0.15);
+  font-size: 10px;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.seo-toggle-btn {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(41, 39, 42, 0.65);
+  border: 1px solid rgba(216, 196, 183, 0.22);
+  border-radius: 999px;
+  padding: 5px 14px;
+  color: rgba(245, 240, 233, 0.75);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.seo-toggle-btn:hover {
+  background: rgba(41, 39, 42, 0.95);
+  border-color: rgba(232, 185, 67, 0.5);
+  color: var(--color-marigold, #E8B943);
+  box-shadow: 0 0 12px rgba(232, 185, 67, 0.18);
+}
+
+.seo-toggle-icon {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: rgba(232, 185, 67, 0.85);
+}
+
+.seo-toggle-icon.is-rotated {
+  transform: rotate(180deg);
+}
+
+/* Strict mobile minimization */
+@media (max-width: 768px) {
+  .seo-keyword-footer {
+    padding: 8px 12px 14px;
+  }
+
+  .seo-keyword-container {
+    gap: 4px 8px;
+  }
+
+  .seo-keyword-container.is-collapsed {
+    max-height: 20px !important;
+    height: 20px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
+    display: flex !important;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%) !important;
+  }
+
+  .seo-keyword-container.is-expanded {
+    max-height: 1200px !important;
+    white-space: normal !important;
+    flex-wrap: wrap !important;
+    overflow: visible !important;
+    padding-bottom: 8px;
+  }
+
+  .seo-keyword {
+    font-size: 10px;
+  }
+
+  .seo-toggle-btn {
+    margin-top: 6px;
+    padding: 4px 12px;
+    font-size: 10.5px;
+  }
+}

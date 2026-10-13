@@ -1,0 +1,93 @@
+/* ==========================================================================
+   SIMPLE & SUBTLE SECTION DIVIDER - MAGNEVENTS
+   Ultra-thin 1px muted border line marking finished section & new section start
+   No bright glow, no diamond/gem node, clean & minimal
+   ========================================================================== */
+
+.hp-section-divider {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: min(1360px, 94%);
+  margin: 16px auto;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+.hp-section-divider-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(216, 196, 183, 0.10) 15%,
+    rgba(216, 196, 183, 0.20) 50%,
+    rgba(216, 196, 183, 0.10) 85%,
+    transparent 100%
+  );
+  box-shadow: none !important;
+}
+
+/* Remove bright center diamond node, glow halo, and gem completely */
+.hp-section-divider-node,
+.hp-section-divider-halo,
+.hp-section-divider-gem {
+  display: none !important;
+}
+
+/* Fallback for empty <div className="hp-section-divider" /> without child elements */
+.hp-section-divider:empty {
+  min-height: 1px;
+  height: 1px;
+}
+
+.hp-section-divider:empty::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(216, 196, 183, 0.10) 15%,
+    rgba(216, 196, 183, 0.20) 50%,
+    rgba(216, 196, 183, 0.10) 85%,
+    transparent 100%
+  );
+  box-shadow: none !important;
+}
+
+.hp-section-divider:empty::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Mobile-only divider visibility utility */
+@media (min-width: 769px) {
+  .hp-section-divider--mobile-only {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hp-section-divider {
+    max-width: 92%;
+    margin: 6px auto !important;
+    padding: 0 !important;
+  }
+
+  .hp-section-divider-node,
+  .hp-section-divider-halo,
+  .hp-section-divider-gem,
+  .hp-section-divider:empty::after {
+    display: none !important;
+  }
+}
+

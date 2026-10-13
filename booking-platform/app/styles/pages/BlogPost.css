@@ -1,4 +1,4 @@
-﻿
+
 
 .blog-page-wrapper, .blog-detail-layout {
   background: #000;
@@ -536,3 +536,19 @@
     color: rgba(255, 255, 255, 0.85);
   }
 }
+
+/* Visibility Utilities for SEO Cards Section in Blog */
+@media (min-width: 769px) {
+  .seo-cards-mobile-only,
+  .seo-cards-section.seo-cards-mobile-only {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .seo-cards-desktop-only,
+  .seo-cards-section.seo-cards-desktop-only {
+    display: none !important;
+  }
+}
+

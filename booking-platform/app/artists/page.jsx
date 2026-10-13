@@ -131,42 +131,27 @@ export default function ArtistsPage() {
           {loading ? (
             <>
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="modern-artist-card artist-card-skeleton" style={{ 
-                  background: '#0a0a0a', 
-                  border: '1px solid rgba(255,255,255,0.05)',
-                  position: 'relative',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-end',
-                  padding: '24px 20px 20px'
-                }}>
-                   {/* Background Shimmer */}
+                <div key={i} className="modern-artist-card artist-card-skeleton">
                    <div className="skeleton-pulse" style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.03)' }}></div>
+                   <div className="modern-overlay-gradient"></div>
                    
-                   {/* Overlay Gradient mimicking the real card */}
-                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%)', pointerEvents: 'none' }}></div>
-                   
-                   {/* Content */}
-                   <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                     {/* Name */}
-                     <div className="skeleton-pulse" style={{ height: '28px', width: '60%', background: 'rgba(255,255,255,0.1)', borderRadius: '6px' }}></div>
+                   <div className="modern-info-overlay">
+                     <div className="skeleton-pulse" style={{ height: '20px', width: '65%', background: 'rgba(255,255,255,0.12)', borderRadius: '6px', marginBottom: '6px' }}></div>
                      
-                     {/* Genres */}
-                     <div style={{ display: 'flex', gap: '6px' }}>
+                     <div className="modern-badges-container">
                        <div className="skeleton-pulse" style={{ height: '14px', width: '50px', background: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}></div>
                        <div className="skeleton-pulse" style={{ height: '14px', width: '60px', background: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}></div>
                      </div>
                      
-                     {/* Location */}
-                     <div className="skeleton-pulse" style={{ height: '14px', width: '40%', background: 'rgba(255,255,255,0.08)', borderRadius: '4px', marginBottom: '8px' }}></div>
+                     <div className="modern-location-row">
+                       <div className="skeleton-pulse" style={{ height: '13px', width: '45%', background: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}></div>
+                     </div>
                      
-                     {/* Bottom Row */}
-                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                          <div className="skeleton-pulse" style={{ height: '14px', width: '70px', background: 'rgba(255,255,255,0.1)', borderRadius: '4px' }}></div>
-                          <div className="skeleton-pulse" style={{ height: '12px', width: '90px', background: 'rgba(255,255,255,0.1)', borderRadius: '4px' }}></div>
+                     <div className="modern-footer-row">
+                        <div className="modern-rating-box">
+                          <div className="skeleton-pulse" style={{ height: '14px', width: '55px', background: 'rgba(255,255,255,0.1)', borderRadius: '4px' }}></div>
                         </div>
-                        <div className="skeleton-pulse" style={{ height: '24px', width: '80px', background: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}></div>
+                        <div className="modern-booking-badge skeleton-pulse" style={{ width: '80px', height: '20px' }}></div>
                      </div>
                    </div>
                 </div>

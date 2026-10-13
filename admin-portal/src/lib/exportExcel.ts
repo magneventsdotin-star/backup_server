@@ -38,14 +38,14 @@ export const exportToExcel = async (
   });
 
   worksheet.columns.forEach((column) => {
-    let maxLength = 0;
-    column.eachCell!({ includeEmpty: true }, (cell) => {
-      const columnLength = cell.value ? cell.value.toString().length : 10;
-      if (columnLength > maxLength) {
-        maxLength = columnLength;
-      }
-    });
-    column.width = Math.min(maxLength < 15 ? 15 : maxLength + 2, 80);
+    let maxLength = column.header ? column.header.toString().length : 12;
+    const sampleLimit = Math.min(worksheet.rowCount, 60);
+    for (let r = 2; r <= sampleLimit; r++) {
+      const cell = worksheet.getRow(r).getCell(column.key as string);
+      const cellLen = cell.value ? cell.value.toString().length : 0;
+      if (cellLen > maxLength) maxLength = cellLen;
+    }
+    column.width = Math.min(maxLength < 14 ? 14 : maxLength + 2, 60);
   });
   const buffer = await workbook.xlsx.writeBuffer();
   const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });

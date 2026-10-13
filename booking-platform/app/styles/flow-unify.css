@@ -1,4 +1,7 @@
-﻿.flow-unify-shell {
+@import './components/SectionDivider.css';
+@import './components/SeoKeywordFooter.css';
+
+.flow-unify-shell {
   --bg-base: #1c1a1d;
   --bg-raised: #29272A;
   --bg-overlay: #29272A;
@@ -58,6 +61,16 @@
   position: relative;
   isolation: isolate;
   /* animation: flowUnifyPageIn var(--motion-enter-duration) var(--motion-ease-standard) both; */
+}
+
+.flow-unify-shell .page-enter.has-nav-offset {
+  padding-top: var(--nav-height, 68px);
+}
+
+@media (max-width: 768px) {
+  .flow-unify-shell .page-enter.has-nav-offset {
+    padding-top: 0 !important;
+  }
 }
 
 /* 

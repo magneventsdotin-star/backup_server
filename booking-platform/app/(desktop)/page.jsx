@@ -3,12 +3,12 @@ import HeroVideosSection from '@/app/components/home/HeroVideosSection'
 import TopPerformerSection from '@/app/components/home/TopPerformerSection'
 import FeaturedArtistsSection from '@/app/components/home/FeaturedArtistsSection'
 import WhyChooseSection from '@/app/components/home/WhyChooseSection'
-import TestimonialsSection from '@/app/components/home/TestimonialsSection'
 import HowToBookSection from '@/app/components/home/HowToBookSection'
+import TestimonialsSection from '@/app/components/home/TestimonialsSection'
 import FaqSection from '@/app/components/home/FaqSection'
 import ContactSection from '@/app/components/home/ContactSection'
 import SeoCardsSection from '@/app/components/home/SeoCardsSection'
-import SeoKeywordFooter from '@/app/components/home/SeoKeywordFooter'
+import SectionDivider from '@/app/components/common/SectionDivider'
 import '@/app/styles/pages/HomePage.css'
 
 export const metadata = {
@@ -40,17 +40,23 @@ export default function HomePage() {
       />
       <div className="hp">
         <HeroSection />
+        <SectionDivider className="hp-section-divider--mobile-only" />
         <HeroVideosSection />
+        <SectionDivider className="hp-section-divider--mobile-only" />
         <TopPerformerSection />
+        <SectionDivider className="hp-section-divider--mobile-only" />
         <FeaturedArtistsSection />
+        <SectionDivider className="hp-section-divider--mobile-only" />
         <WhyChooseSection />
         <HowToBookSection />
         <TestimonialsSection />
+        <SectionDivider className="hp-section-divider--mobile-only" />
         <FaqSection />
+        <SectionDivider className="hp-section-divider--mobile-only" />
         <ContactSection />
-        <SeoCardsSection />
-        <SeoKeywordFooter />
+        <SeoCardsSection className="seo-cards-desktop-only" />
       </div>
+
     </>
   )
 }

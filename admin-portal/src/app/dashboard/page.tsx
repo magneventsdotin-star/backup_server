@@ -253,7 +253,7 @@ export default function DashboardOverview() {
           .from('analytics')
           .select('created_at, details, ip_address, city')
           .order('created_at', { ascending: false })
-          .limit(150);
+          .limit(1000);
 
         if (analyticsRows && analyticsRows.length > 0) {
           const dayMap: Record<string, { hits: number; uniqueIps: Set<string>; cities: Record<string, number> }> = {};

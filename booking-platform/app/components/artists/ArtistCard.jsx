@@ -84,32 +84,32 @@ const ArtistCard = forwardRef(({ artist, onBook }, ref) => {
           />
           <div className="modern-overlay-gradient"></div>
         </div>
-        <div className="modern-info-overlay" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%)', padding: '24px 20px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', borderBottomLeftRadius: '24px', borderBottomRightRadius: '24px' }}>
-          <h3 className="modern-artist-name" style={{ fontSize: '24px', fontWeight: '900', margin: '0 0 6px 0', color: '#ffffff', letterSpacing: '-0.02em', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{artist.name}</h3>
+        <div className="modern-info-overlay">
+          <h3 className="modern-artist-name">{artist.name}</h3>
 
-          <div className="modern-badges-container" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', overflow: 'hidden', alignItems: 'center', marginBottom: '16px' }}>
+          <div className="modern-badges-container">
             {allTags.slice(0, 3).map((tag, idx) => (
-              <span key={`tag-${idx}`} style={{ background: 'rgba(255,255,255,0.15)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)', padding: '2px 8px', borderRadius: '8px', fontSize: '9px', fontWeight: '800', letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{tag}</span>
+              <span key={`tag-${idx}`} className="modern-tag-pill">{tag}</span>
             ))}
-            {allTags.length > 3 && <span style={{ background: 'rgba(255,255,255,0.15)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)', padding: '1px 6px', borderRadius: '8px', fontSize: '9px', fontWeight: '800', whiteSpace: 'nowrap' }}>+{allTags.length - 3}</span>}
+            {allTags.length > 3 && <span className="modern-tag-pill">+{allTags.length - 3}</span>}
           </div>
           
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style={{ width: '14px', height: '14px', color: '#cbd5e1' }}>
+          <div className="modern-location-row">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="modern-location-icon">
               <path fillRule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clipRule="evenodd" />
             </svg>
-            <span style={{ color: '#cbd5e1', fontSize: '13px', fontWeight: '500' }}>{location}</span>
+            <span className="modern-location-text">{location}</span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px' }}>
-            <div className="flex flex-col gap-1 items-start">
+          <div className="modern-footer-row">
+            <div className="modern-rating-box">
               <Stars count={Math.round(Number(rating))} />
-              <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '14px', marginTop: '2px' }}>{rating}</span>
+              <span className="modern-rating-val">{rating}</span>
             </div>
             {mounted && bookings > 0 && (
               <div className="modern-booking-badge">
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '12px', height: '12px', flexShrink: 0, background: 'rgba(16, 185, 129, 0.25)', borderRadius: '50%' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style={{ width: '8px', height: '8px', color: '#34d399' }}>
+                <div className="modern-booking-icon-wrap">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>

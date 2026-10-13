@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { AppShellWrapper } from '@/app/layouts/AppShellWrapper'
 import PricingCard from '@/app/components/pricing/PricingCard'
 import FaqSection from '@/app/components/home/FaqSection'
+import SectionDivider from '@/app/components/common/SectionDivider'
 import { PRICING_PLANS } from '@/app/constants'
 import { supabase } from '@database/connection/supabase'
 import '@/app/styles/pages/PricingPage.css'
@@ -100,6 +101,8 @@ export default function PricingPage() {
             ))
           )}
         </div>
+
+        <SectionDivider style={{ margin: '48px auto' }} />
 
         <FaqSection
           eyebrow="💡 Common Questions"

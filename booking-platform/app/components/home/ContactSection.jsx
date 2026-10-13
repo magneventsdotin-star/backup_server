@@ -69,7 +69,8 @@ export default function ContactSection() {
       <div className="hp-contact-inner">
         <div className="hp-contact-info">
 
-          <div className="hp-contact-channels">
+          {/* Desktop Channels: Original 3 distinct cards */}
+          <div className="hp-contact-channels hp-contact-channels--desktop">
             <a href="tel:+918076515257" className="hp-channel-card">
               <span className="hp-channel-icon">📱</span>
               <div>
@@ -89,6 +90,47 @@ export default function ContactSection() {
               <div>
                 <strong>Connect on WhatsApp</strong>
                 <span>WhatsApp</span>
+              </div>
+            </a>
+          </div>
+
+          {/* Mobile Channels: Unified under phone card */}
+          <div className="hp-contact-channels hp-contact-channels--mobile">
+            <div className="hp-channel-card hp-channel-card--phone">
+              <a href="tel:+918076515257" className="hp-channel-icon-link" aria-label="Call +91 8076515257" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <span className="hp-channel-icon">📱</span>
+              </a>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <a href="tel:+918076515257" style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                  <strong>Phone</strong>
+                  <span style={{ display: 'block', color: 'rgba(216, 196, 183, 0.7)', fontSize: '13px' }}>
+                    +91 8076515257
+                  </span>
+                </a>
+                <a
+                  href="https://wa.me/918076515257"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    fontSize: '11px',
+                    color: '#25D366',
+                    marginTop: '3px',
+                    fontWeight: 600,
+                    textDecoration: 'none'
+                  }}
+                >
+                  💬 WhatsApp is on the same number
+                </a>
+              </div>
+            </div>
+            <a href="mailto:magneventsdotin@gmail.com" className="hp-channel-card">
+              <span className="hp-channel-icon">✉️</span>
+              <div>
+                <strong>Email</strong>
+                <span>magneventsdotin@gmail.com</span>
               </div>
             </a>
           </div>

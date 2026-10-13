@@ -2422,27 +2422,39 @@
 
 .hero-tok99-card {
   position: relative;
-  background: radial-gradient(130% 130% at 50% 0%, #29272A 0%, #1a181c 65%, #121014 100%);
-  border: 1.5px solid rgba(126, 48, 68, 0.65);
+  background: radial-gradient(130% 130% at 50% 0%, #29272A 0%, #1c1a1d 65%, #131215 100%);
+  border: 1.5px solid rgba(232, 185, 67, 0.35);
   border-radius: 24px;
   padding: 26px 24px 22px;
   box-shadow: 
     0 25px 70px rgba(0, 0, 0, 0.85),
-    0 0 35px rgba(126, 48, 68, 0.35),
+    0 0 35px rgba(232, 185, 67, 0.12),
     0 0 20px rgba(126, 48, 68, 0.2),
     inset 0 1px 0 rgba(245, 240, 233, 0.18);
   box-sizing: border-box;
   overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-tok99-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232, 185, 67, 0.8), rgba(228, 95, 96, 0.6), transparent);
+  pointer-events: none;
 }
 
 .hero-tok99-glow {
   position: absolute;
   top: -60px;
   right: -60px;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(126, 48, 68, 0.45) 0%, rgba(126, 48, 68, 0.2) 50%, transparent 70%);
-  filter: blur(30px);
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(232, 185, 67, 0.25) 0%, rgba(126, 48, 68, 0.18) 50%, transparent 70%);
+  filter: blur(40px);
   pointer-events: none;
   z-index: 0;
 }
@@ -2462,27 +2474,29 @@
   align-items: center;
   gap: 6px;
   padding: 4px 12px;
-  background: linear-gradient(135deg, rgba(126, 48, 68, 0.35) 0%, rgba(126, 48, 68, 0.6) 100%);
-  border: 1px solid rgba(126, 48, 68, 0.7);
+  background: linear-gradient(135deg, rgba(232, 185, 67, 0.15) 0%, rgba(126, 48, 68, 0.35) 100%);
+  border: 1px solid rgba(232, 185, 67, 0.45);
   border-radius: 999px;
   font-size: 11px;
   font-weight: 800;
-  color: #F5F0E9;
+  color: #E8B943;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .hero-tok99-pulse {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #E45F60;
-  box-shadow: 0 0 8px #E45F60;
+  background: #E8B943;
+  box-shadow: 0 0 8px #E8B943;
+  animation: pulse-ring 1.8s infinite;
 }
 
 .hero-tok99-price-box {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 6px;
 }
 
@@ -2497,8 +2511,19 @@
 .hero-tok99-now-price {
   font-size: 22px;
   font-weight: 900;
-  color: #E8B943;
+  color: #F5F0E9;
   letter-spacing: -0.02em;
+}
+
+.hero-tok99-save-pill {
+  font-size: 10px;
+  font-weight: 800;
+  background: #E45F60;
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 8px rgba(228, 95, 96, 0.35);
 }
 
 .hero-tok99-title {
@@ -2550,43 +2575,54 @@
   font-weight: 700;
   color: #D8C4B7;
   letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hero-tok99-label-icon {
+  font-size: 12px;
+  opacity: 0.9;
 }
 
 .hero-tok99-input-box {
   display: flex;
   align-items: center;
-  background: #29272A;
-  border: 1px solid rgba(216, 196, 183, 0.2);
-  border-radius: 10px;
+  background: rgba(41, 39, 42, 0.7);
+  border: 1px solid rgba(216, 196, 183, 0.22);
+  border-radius: 11px;
   overflow: hidden;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
 }
 
 .hero-tok99-input-box:focus-within {
-  border-color: #7E3044;
-  box-shadow: 0 0 0 3px rgba(126, 48, 68, 0.3);
+  border-color: #E8B943;
+  background: rgba(41, 39, 42, 0.95);
+  box-shadow: 0 0 0 3px rgba(232, 185, 67, 0.25);
 }
 
 .hero-tok99-input-box.error {
-  border-color: #7E3044;
+  border-color: #E45F60;
+  box-shadow: 0 0 0 3px rgba(228, 95, 96, 0.25);
 }
 
 .hero-tok99-prefix {
   padding: 0 10px;
-  height: 40px;
+  height: 42px;
   display: flex;
   align-items: center;
-  background: rgba(126, 48, 68, 0.45);
-  border-right: 1px solid rgba(216, 196, 183, 0.15);
+  background: rgba(232, 185, 67, 0.12);
+  border-right: 1px solid rgba(216, 196, 183, 0.18);
   font-size: 12px;
-  font-weight: 700;
-  color: #F5F0E9;
+  font-weight: 800;
+  color: #E8B943;
   user-select: none;
 }
 
 .hero-tok99-input {
   width: 100%;
-  height: 40px;
+  height: 42px;
   padding: 0 12px;
   background: transparent;
   border: none;
@@ -2604,7 +2640,7 @@
 
 .hero-tok99-select {
   width: 100%;
-  height: 40px;
+  height: 42px;
   padding: 0 10px;
   background: transparent;
   border: none;
@@ -2625,27 +2661,52 @@
 .hero-tok99-submit-btn {
   width: 100%;
   padding: 13px 18px;
-  background: linear-gradient(135deg, #7E3044 0%, #682536 60%, #521c29 100%);
+  background: linear-gradient(135deg, #E45F60 0%, #d84b4c 60%, #c43839 100%);
   color: #ffffff;
   border: none;
-  border-radius: 12px;
+  border-radius: 13px;
   font-size: 15px;
-  font-weight: 900;
+  font-weight: 800;
   font-family: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 6px 20px rgba(126, 48, 68, 0.45);
-  transition: all 0.2s ease;
+  box-shadow: 0 8px 24px rgba(228, 95, 96, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
   margin-top: 4px;
+}
+
+.hero-tok99-submit-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: skewX(-20deg);
+  transition: none;
+  animation: heroButtonShine 4s infinite ease-in-out;
+}
+
+@keyframes heroButtonShine {
+  0%, 70% { left: -100%; }
+  100% { left: 180%; }
 }
 
 .hero-tok99-submit-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 10px 26px rgba(126, 48, 68, 0.6);
-  background: linear-gradient(135deg, #963b52 0%, #7E3044 50%, #682536 100%);
+  background: linear-gradient(135deg, #f06a6b 0%, #E45F60 60%, #d84b4c 100%);
+  box-shadow: 0 12px 28px rgba(228, 95, 96, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.hero-tok99-submit-btn:active:not(:disabled) {
+  transform: scale(0.98);
+  filter: brightness(0.95);
 }
 
 .hero-tok99-submit-btn:disabled {
@@ -2657,7 +2718,7 @@
   width: 100%;
   padding: 11px 16px;
   background: rgba(37, 211, 102, 0.12);
-  border: 1px solid rgba(37, 211, 102, 0.3);
+  border: 1px solid rgba(37, 211, 102, 0.35);
   color: #4ade80;
   border-radius: 12px;
   font-size: 13px;
@@ -2667,50 +2728,57 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.12);
 }
 
 .hero-tok99-wa-btn:hover {
-  background: rgba(37, 211, 102, 0.2);
+  background: rgba(37, 211, 102, 0.22);
   color: #ffffff;
+  border-color: rgba(37, 211, 102, 0.55);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.25);
 }
 
 .hero-tok99-trust {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  font-size: 10.5px;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.5);
-  letter-spacing: 0.02em;
+  color: #D8C4B7;
+  opacity: 0.85;
+  letter-spacing: 0.01em;
   padding-top: 4px;
 }
 
 /* Confirmed Pass state inside Hero Card */
 .hero-tok99-confirmed-box {
   text-align: center;
-  padding: 6px 0;
+  padding: 8px 0;
 }
 
 .hero-tok99-conf-check {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: rgba(34, 197, 94, 0.15);
   border: 2px solid #22c55e;
   color: #22c55e;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 10px;
+  margin: 0 auto 12px;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
 }
 
 .hero-tok99-conf-title {
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 900;
   color: #ffffff;
   margin: 0 0 4px;
@@ -2721,27 +2789,30 @@
   background: rgba(232, 185, 67, 0.15);
   border: 1px solid rgba(232, 185, 67, 0.35);
   color: #F8D36A;
-  padding: 3px 12px;
+  padding: 4px 14px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 800;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .hero-tok99-conf-data {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 12px 14px;
+  border-radius: 14px;
+  padding: 14px 16px;
   text-align: left;
-  margin-bottom: 14px;
-  font-size: 12.5px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .hero-tok99-conf-row {
   display: flex;
   justify-content: space-between;
-  padding: 4px 0;
+  align-items: center;
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -2752,7 +2823,7 @@
 @media (max-width: 991px) {
   .seo-hero-split-wrap {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 24px;
     margin-top: 0;
   }
 
@@ -2792,65 +2863,118 @@
   }
 }
 
+/* ==========================================================================
+   MOBILE VIEW REDESIGN (<= 768px): ULTRA-LUXURY, POLISHED & THUMB-FRIENDLY
+   ========================================================================== */
 @media (max-width: 768px) {
   .seo-hero-root {
-    padding: 10px 12px 36px !important;
+    padding: 14px 14px 50px !important;
+    background: 
+      radial-gradient(ellipse 90% 50% at 50% -5%, rgba(232, 185, 67, 0.16) 0%, transparent 65%),
+      radial-gradient(circle at 80% 25%, rgba(126, 48, 68, 0.15) 0%, transparent 55%),
+      radial-gradient(circle at 20% 55%, rgba(228, 95, 96, 0.1) 0%, transparent 55%),
+      #141316 !important;
   }
 
   .seo-hero-container {
-    gap: 12px !important;
+    gap: 14px !important;
     padding: 0 !important;
   }
 
+  /* 1. Refined Trust Badge */
   .seo-5k-badge-wrap {
     margin-bottom: 2px !important;
     width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
   }
 
   .seo-5k-events-badge {
-    padding: 3px 8px !important;
-    gap: 8px !important;
+    padding: 5px 14px 5px 8px !important;
+    gap: 10px !important;
     max-width: 100% !important;
+    background: linear-gradient(135deg, rgba(41, 39, 42, 0.75) 0%, rgba(20, 18, 22, 0.9) 100%) !important;
+    border: 1px solid rgba(232, 185, 67, 0.35) !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 14px rgba(232, 185, 67, 0.12) !important;
+  }
+
+  .seo-avatar-stack {
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .seo-stack-avatar {
+    width: 30px !important;
+    height: 30px !important;
+    margin-left: -9px !important;
+    border: 2px solid #E8B943 !important;
+  }
+
+  .seo-avatar-count {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 10.5px !important;
+    margin-left: -9px !important;
+    border-width: 2px !important;
+  }
+
+  .seo-5k-text {
+    line-height: 1.25 !important;
   }
 
   .seo-5k-text strong {
-    font-size: 11px !important;
+    font-size: 12px !important;
+    color: #F5F0E9 !important;
+    font-weight: 800 !important;
     white-space: normal !important;
   }
 
   .seo-5k-text span {
-    font-size: 9px !important;
+    font-size: 10px !important;
+    color: #E8B943 !important;
+    font-weight: 600 !important;
   }
 
   .seo-hero-split-wrap {
-    gap: 14px;
-    width: 100%;
+    gap: 16px !important;
+    width: 100% !important;
   }
 
   .seo-hero-split-left {
-    width: 100%;
+    width: 100% !important;
+    align-items: center !important;
+    text-align: center !important;
   }
 
+  /* 2. Editorial Luxury Hero Title */
   .seo-hero-title-left {
     display: block !important;
-    font-size: clamp(20px, 6vw, 24px) !important;
-    line-height: 1.22 !important;
-    letter-spacing: -0.02em !important;
-    margin: 2px 0 6px 0 !important;
+    font-family: var(--font-display, "Playfair Display", serif) !important;
+    font-size: clamp(25px, 7.2vw, 32px) !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.015em !important;
+    margin: 4px 0 8px 0 !important;
     width: 100% !important;
     word-break: break-word !important;
     overflow-wrap: break-word !important;
     white-space: normal !important;
     text-align: center !important;
+    background: linear-gradient(135deg, #ffffff 15%, #F5F0E9 55%, #E8B943 85%, #FFA500 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: 0 0 30px rgba(232, 185, 67, 0.2) !important;
   }
 
   .seo-hero-subtitle-left {
-    font-size: 12px !important;
-    line-height: 1.38 !important;
-    margin-bottom: 10px !important;
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+    color: rgba(245, 240, 233, 0.78) !important;
+    margin: 0 auto 12px !important;
+    max-width: 380px !important;
     text-align: center !important;
   }
 
+  /* 3. Smooth Horizontally-Scrollable Event Filter Pills */
   .seo-query-pills-left {
     display: flex !important;
     flex-wrap: nowrap !important;
@@ -2858,59 +2982,152 @@
     -webkit-overflow-scrolling: touch !important;
     scrollbar-width: none !important;
     justify-content: flex-start !important;
-    width: 100% !important;
-    padding: 4px 2px 8px !important;
-    margin-bottom: 14px !important;
+    width: calc(100% + 28px) !important;
+    padding: 4px 14px 10px !important;
+    margin: 0 -14px 8px !important;
     gap: 8px !important;
+    scroll-padding: 14px !important;
   }
 
   .seo-query-pills-left::-webkit-scrollbar {
-    display: none;
+    display: none !important;
   }
 
   .seo-query-pills-left .seo-query-chip {
     flex-shrink: 0 !important;
-    padding: 7px 13px !important;
+    padding: 7px 14px !important;
     font-size: 12px !important;
     border-radius: 999px !important;
+    background: rgba(41, 39, 42, 0.8) !important;
+    border: 1px solid rgba(216, 196, 183, 0.22) !important;
+    color: #D8C4B7 !important;
+    backdrop-filter: blur(8px) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
   }
 
-  /* Form Card: Mobile luxury styling */
+  .seo-query-pills-left .seo-query-chip.active {
+    background: linear-gradient(135deg, #E8B943 0%, #D8A52F 100%) !important;
+    border-color: #E8B943 !important;
+    color: #29272A !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 16px rgba(232, 185, 67, 0.35) !important;
+  }
+
+  /* 4. Streamlined Micro Social-Proof Capsule (eliminates bulky box) */
+  .hero-split-live-stats {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-evenly !important;
+    width: 100% !important;
+    max-width: 380px !important;
+    margin: 0 auto 12px !important;
+    padding: 7px 14px !important;
+    border-radius: 999px !important;
+    background: rgba(41, 39, 42, 0.6) !important;
+    border: 1px solid rgba(232, 185, 67, 0.25) !important;
+    backdrop-filter: blur(12px) !important;
+    gap: 10px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .hero-split-stat {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1px !important;
+    text-align: center !important;
+  }
+
+  .hero-split-stat strong {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #E8B943 !important;
+    line-height: 1.1 !important;
+  }
+
+  .hero-split-stat span {
+    font-size: 9.5px !important;
+    font-weight: 600 !important;
+    color: #D8C4B7 !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  .hero-split-stat-div {
+    width: 1px !important;
+    height: 18px !important;
+    background: rgba(216, 196, 183, 0.22) !important;
+  }
+
+  /* 5. Masterpiece VIP ₹99 Booking Card */
   .hero-tok99-card {
-    padding: 18px 14px !important;
-    border-radius: 20px !important;
-    border-width: 1px !important;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), 0 0 20px rgba(232, 185, 67, 0.12) !important;
+    padding: 20px 16px 18px !important;
+    border-radius: 22px !important;
+    border: 1.5px solid rgba(232, 185, 67, 0.35) !important;
+    background: radial-gradient(130% 120% at 50% 0%, #29272A 0%, #1e1c20 60%, #141316 100%) !important;
+    box-shadow: 
+      0 20px 50px rgba(0, 0, 0, 0.85),
+      0 0 25px rgba(232, 185, 67, 0.12),
+      inset 0 1px 0 rgba(245, 240, 233, 0.16) !important;
   }
 
   .hero-tok99-top-row {
-    margin-bottom: 10px !important;
+    margin-bottom: 12px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
   }
 
   .hero-tok99-badge {
     font-size: 10px !important;
-    padding: 3px 9px !important;
+    padding: 4px 10px !important;
+    font-weight: 800 !important;
+    background: rgba(232, 185, 67, 0.14) !important;
+    border: 1px solid rgba(232, 185, 67, 0.45) !important;
+    color: #E8B943 !important;
+    border-radius: 999px !important;
   }
 
   .hero-tok99-now-price {
-    font-size: 18px !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #F5F0E9 !important;
   }
 
   .hero-tok99-old-price {
     font-size: 11px !important;
+    color: #D8C4B7 !important;
+    opacity: 0.6 !important;
+  }
+
+  .hero-tok99-save-pill {
+    font-size: 9px !important;
+    padding: 2px 6px !important;
+    background: #E45F60 !important;
+    color: #ffffff !important;
   }
 
   .hero-tok99-title {
-    font-size: 18px !important;
+    font-size: 18.5px !important;
+    font-weight: 800 !important;
+    color: #F5F0E9 !important;
     margin-bottom: 4px !important;
+    letter-spacing: -0.01em !important;
   }
 
   .hero-tok99-subtitle {
-    font-size: 11.5px !important;
-    margin-bottom: 12px !important;
-    line-height: 1.38 !important;
+    font-size: 12px !important;
+    margin-bottom: 14px !important;
+    line-height: 1.42 !important;
+    color: #D8C4B7 !important;
   }
 
+  .hero-tok99-subtitle strong {
+    color: #E8B943 !important;
+    font-weight: 700 !important;
+  }
+
+  /* Form Fields Grid on Mobile */
   .hero-tok99-form {
     gap: 10px !important;
   }
@@ -2920,51 +3137,103 @@
     gap: 10px !important;
   }
 
+  /* Smart 2-Column Pairing for Date and Event Type: Saves ~55px of vertical screen */
+  .hero-tok99-input-row.hero-tok99-date-type-row {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+
   .hero-tok99-field {
     gap: 4px !important;
   }
 
   .hero-tok99-label {
-    font-size: 10.5px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #D8C4B7 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
+
+  .hero-tok99-label-icon {
+    font-size: 12px !important;
   }
 
   .hero-tok99-input-box {
-    height: 42px !important;
+    height: 44px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(216, 196, 183, 0.22) !important;
+    border-radius: 11px !important;
+    backdrop-filter: blur(8px) !important;
+  }
+
+  .hero-tok99-input-box:focus-within {
+    border-color: #E8B943 !important;
+    box-shadow: 0 0 0 3px rgba(232, 185, 67, 0.25) !important;
+    background: rgba(41, 39, 42, 0.95) !important;
   }
 
   .hero-tok99-input {
-    height: 42px !important;
+    height: 44px !important;
     font-size: 13.5px !important;
-    padding: 0 10px !important;
+    padding: 0 12px !important;
+    color: #F5F0E9 !important;
   }
 
   .hero-tok99-select {
-    height: 42px !important;
+    height: 44px !important;
     font-size: 12.5px !important;
+    padding: 0 8px !important;
+    color: #F5F0E9 !important;
   }
 
   .hero-tok99-prefix {
-    height: 42px !important;
-    padding: 0 9px !important;
-    font-size: 11.5px !important;
+    height: 44px !important;
+    padding: 0 10px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    background: rgba(232, 185, 67, 0.12) !important;
+    border-right: 1px solid rgba(216, 196, 183, 0.18) !important;
+    color: #E8B943 !important;
   }
 
+  /* Primary CTA in Radiant Coral (#E45F60) */
   .hero-tok99-submit-btn {
-    padding: 12px 14px !important;
-    font-size: 14px !important;
+    padding: 13px 18px !important;
+    font-size: 14.5px !important;
+    font-weight: 800 !important;
     border-radius: 12px !important;
-    margin-top: 2px !important;
+    background: linear-gradient(135deg, #E45F60 0%, #d84b4c 60%, #c43839 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 24px rgba(228, 95, 96, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+    margin-top: 3px !important;
+  }
+
+  .hero-tok99-submit-btn:active {
+    transform: scale(0.98) !important;
   }
 
   .hero-tok99-wa-btn {
-    padding: 10px 14px !important;
-    font-size: 12.5px !important;
+    padding: 11px 16px !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
     border-radius: 12px !important;
+    background: rgba(37, 211, 102, 0.1) !important;
+    border: 1px solid rgba(37, 211, 102, 0.35) !important;
+    color: #4ade80 !important;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.12) !important;
   }
 
   .hero-tok99-trust {
-    font-size: 10px !important;
-    padding-top: 2px !important;
+    font-size: 10.5px !important;
+    color: #D8C4B7 !important;
+    opacity: 0.85 !important;
+    padding-top: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
   }
 
   /* Perks below the form */
@@ -2995,39 +3264,19 @@
   .hero-split-perk-text span {
     font-size: 10.5px !important;
   }
-
-  .hero-split-live-stats {
-    width: 100% !important;
-    justify-content: space-around !important;
-    padding: 10px 12px !important;
-    border-radius: 12px !important;
-    gap: 8px !important;
-  }
-
-  .hero-split-stat strong {
-    font-size: 13.5px !important;
-  }
-
-  .hero-split-stat span {
-    font-size: 10px !important;
-  }
-
-  .hero-split-stat-div {
-    height: 20px !important;
-  }
 }
 
 @media (max-width: 480px) {
   .seo-hero-title-left {
-    font-size: 24px !important;
+    font-size: 26px !important;
   }
 
   .hero-tok99-title {
-    font-size: 17px !important;
+    font-size: 17.5px !important;
   }
 
   .hero-tok99-submit-btn {
-    font-size: 13.5px !important;
+    font-size: 14px !important;
   }
 }
 

@@ -1,14 +1,18 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-
 import { footerSeoKeywords as keywords } from '@/app/constants/seoKeywords';
 
 export default function SeoKeywordFooter() {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
-    <div className="seo-keyword-footer">
-      <div className="seo-keyword-container">
+    <footer className="seo-keyword-footer" aria-label="Popular Search Queries">
+      <div 
+        className={`seo-keyword-container ${isExpanded ? 'is-expanded' : 'is-collapsed'}`}
+        id="seo-keyword-list"
+      >
         {keywords.map((keyword, index) => (
           <React.Fragment key={index}>
             <Link href={`/${keyword.replace(/ /g, '-')}`} className="seo-keyword">
@@ -18,52 +22,33 @@ export default function SeoKeywordFooter() {
           </React.Fragment>
         ))}
       </div>
-      <style jsx>{`
-        .seo-keyword-footer {
-          background-color: #050505;
-          padding: 30px 20px;
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
-          display: flex;
-          justify-content: center;
-        }
-        .seo-keyword-container {
-          max-width: 1400px;
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          align-items: center;
-          gap: 8px 12px;
-          line-height: 1.8;
-          text-align: center;
-        }
-        .seo-keyword {
-          color: rgba(255, 255, 255, 0.3);
-          font-size: 11px;
-          font-weight: 500;
-          letter-spacing: 0.5px;
-          transition: color 0.3s ease;
-          cursor: default;
-        }
-        .seo-keyword:hover {
-          color: rgba(255, 255, 255, 0.7);
-        }
-        .seo-separator {
-          color: rgba(255, 255, 255, 0.1);
-          font-size: 10px;
-          user-select: none;
-        }
-        @media (max-width: 768px) {
-          .seo-keyword-footer {
-            padding: 20px 15px;
-          }
-          .seo-keyword-container {
-            gap: 6px 8px;
-          }
-          .seo-keyword {
-            font-size: 10px;
-          }
-        }
-      `}</style>
-    </div>
+
+      <button
+        type="button"
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="seo-toggle-btn"
+        aria-expanded={isExpanded}
+        aria-controls="seo-keyword-list"
+        aria-label={isExpanded ? "Collapse popular searches" : "Expand all popular searches"}
+      >
+        <span className="seo-toggle-text">
+          {isExpanded ? "Show Less" : "Popular Searches"}
+        </span>
+        <svg
+          className={`seo-toggle-icon ${isExpanded ? 'is-rotated' : ''}`}
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+    </footer>
   );
 }
+

@@ -15,6 +15,19 @@ export default function Footer() {
     resources: false,
   });
 
+  const [isSeoExpanded, setIsSeoExpanded] = useState(false);
+
+  const FOOTER_SEO_KEYWORDS = [
+    'live singers in delhi', 'live singer for house party', 'book singer for house party',
+    'singer for house party', 'guitarist near me', 'book live singer', 'sufi singers in delhi',
+    'guitarist for house party', 'live bands for wedding in delhi', 'singer in delhi',
+    'guitarist at home', 'live singer for house party near me', 'live singer near me',
+    'live bands in delhi', 'singer for birthday party', 'live singer',
+    'guitarist for birthday party in delhi', 'live music at home', 'live music singers near me',
+    'singer for home party', 'live band for wedding', 'singer near me', 'singers for wedding',
+    'singer at home', 'singer for house party in gurgaon', 'local singers near me'
+  ];
+
   const toggleSection = (section) => {
     setOpenSections(prev => ({
       ...prev,
@@ -102,22 +115,43 @@ export default function Footer() {
 
         </div>
 
-        <div className="lux-footer-seo" style={{ marginTop: '40px', padding: '30px 0', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexWrap: 'wrap', gap: '8px 12px', justifyContent: 'center', textAlign: 'center' }}>
-          {[
-            'live singers in delhi', 'live singer for house party', 'book singer for house party',
-            'singer for house party', 'guitarist near me', 'book live singer', 'sufi singers in delhi',
-            'guitarist for house party', 'live bands for wedding in delhi', 'singer in delhi',
-            'guitarist at home', 'live singer for house party near me', 'live singer near me',
-            'live bands in delhi', 'singer for birthday party', 'live singer',
-            'guitarist for birthday party in delhi', 'live music at home', 'live music singers near me',
-            'singer for home party', 'live band for wedding', 'singer near me', 'singers for wedding',
-            'singer at home', 'singer for house party in gurgaon', 'local singers near me'
-          ].map((kw, i) => (
-            <Link key={i} href="/artists" style={{ color: 'rgba(255,255,255,0.2)', fontSize: '10px', textDecoration: 'none', transition: 'color 0.2s ease' }} onMouseEnter={(e) => e.target.style.color = 'rgba(255,255,255,0.5)'} onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.2)'}>
-              {kw}{i !== 25 ? ' |' : ''}
-            </Link>
-          ))}
+        <div className={`lux-footer-seo ${isSeoExpanded ? 'is-expanded' : 'is-collapsed'}`}>
+          <div className="lux-footer-seo-links">
+            {FOOTER_SEO_KEYWORDS.map((kw, i) => (
+              <Link
+                key={i}
+                href="/artists"
+                className="lux-footer-seo-link"
+              >
+                {kw}{i !== FOOTER_SEO_KEYWORDS.length - 1 ? ' |' : ''}
+              </Link>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsSeoExpanded(!isSeoExpanded)}
+            className="lux-footer-seo-toggle"
+            aria-expanded={isSeoExpanded}
+            aria-label={isSeoExpanded ? "Collapse popular searches" : "Expand all popular searches"}
+          >
+            <span>{isSeoExpanded ? "Show Less" : "Popular Searches"}</span>
+            <svg
+              className={`lux-footer-seo-arrow ${isSeoExpanded ? 'is-rotated' : ''}`}
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
         </div>
+
 
         <div className="lux-footer-bottom">
           <div className="lux-footer-copyright">

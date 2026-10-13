@@ -8,6 +8,7 @@ import VideoGridSection from '@/app/components/home/VideoGridSection';
 import PromotionalOfferSection from '@/app/components/home/PromotionalOfferSection';
 import TokenBookingSection99 from '@/app/components/common/TokenBookingSection99';
 import ContactSection from '@/app/components/home/ContactSection';
+import SectionDivider from '@/app/components/common/SectionDivider';
 import '@/app/styles/pages/HomePage.css';
 
 export default function SEOLandingPage({ 
@@ -46,26 +47,35 @@ export default function SEOLandingPage({
           locationSlug={slugNormalized}
         />
 
+        <SectionDivider />
+
         <PromotionalOfferSection 
           category={category}
           city={city}
         />
 
+        <SectionDivider />
+
         {overviewHtml && services && faqs && relatedLinks ? (
-          <SEODynamicContent 
-            category={category}
-            city={city}
-            overviewHtml={overviewHtml}
-            services={services}
-            faqs={faqs}
-            relatedLinks={relatedLinks}
-          />
+          <>
+            <SEODynamicContent 
+              category={category}
+              city={city}
+              overviewHtml={overviewHtml}
+              services={services}
+              faqs={faqs}
+              relatedLinks={relatedLinks}
+            />
+            <SectionDivider />
+          </>
         ) : null}
 
         <VideoGridSection />
+        <SectionDivider />
         <CategoriesSection />
+        <SectionDivider />
         <SEOArtistsGrid category={category} city={city} fallbackArtists={topArtists} />
-
+        <SectionDivider />
         <ContactSection />
       </div>
     </>

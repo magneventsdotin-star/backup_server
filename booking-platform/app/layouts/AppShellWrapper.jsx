@@ -22,14 +22,12 @@ export function AppShellWrapper({ children }) {
   // Use pathname-based logic only after mount to avoid hydration mismatch
   const hideChrome = mounted && HIDE_CHROME_ON.some(p => pathname.startsWith(p));
 
-  const routeTransitionClass = mounted && ['/artists', '/services', '/gallery', '/events', '/pricing', '/book', '/blog-post', '/contact', '/search', '/markets']
+  const routeTransitionClass = ['/artists', '/services', '/gallery', '/events', '/pricing', '/book', '/blog-post', '/contact', '/search', '/markets']
     .includes(pathname)
     ? 'route-showcase'
     : 'route-default';
 
-  const topPadding = mounted && !hideChrome && pathname !== '/' && pathname !== '/how-to-book'
-    ? '72px'
-    : '0px';
+  const hasNavOffset = !hideChrome && pathname !== '/' && pathname !== '/how-to-book';
 
   return (
     <div className="flow-unify-shell">
@@ -42,7 +40,11 @@ export function AppShellWrapper({ children }) {
         </div>
       )}
 
-      <div className={`page-enter ${routeTransitionClass}`} style={{ minHeight: '100vh', paddingTop: topPadding }} suppressHydrationWarning>
+      <div 
+        className={`page-enter ${routeTransitionClass} ${hasNavOffset ? 'has-nav-offset' : ''}`} 
+        style={{ minHeight: '100vh' }} 
+        suppressHydrationWarning
+      >
         <div className="flow-unify-page-wrap">
           {children}
         </div>

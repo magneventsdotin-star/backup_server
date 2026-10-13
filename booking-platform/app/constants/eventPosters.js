@@ -1,5 +1,22 @@
 export const EVENT_POSTERS = [
   {
+    id: 'birthday-party',
+    category: 'Birthday Celebrations',
+    tab: '🎂 Birthday Bash',
+    tag: '🎉 BIRTHDAY SPECIAL',
+    title: 'Birthday House Party Singer',
+    subtitle: 'High-Energy Bollywood Medleys, Retro Classics & Singalongs with Portable Sound',
+    poster: '/videos/birthday_party_singer_thumb.jpg',
+    gifUrl: '/videos/birthday_party_preview.gif',
+    videoUrl: '/videos/birthday_party_singer.mp4',
+    videoTitle: 'Birthday Celebration Live Performance',
+    regularPrice: '₹15,000',
+    offerPrice: '₹6,499',
+    discount: 'Flat 57% OFF',
+    slots: '5 Slots Left Today',
+    rating: '4.98★ (2,100+ Birthdays)'
+  },
+  {
     id: 'house-party',
     category: 'House Party & Acoustic',
     tab: '🎤 House Party',
@@ -32,23 +49,6 @@ export const EVENT_POSTERS = [
     discount: 'Flat 58% OFF',
     slots: '4 Slots Left for Weekend',
     rating: '4.94★ (680+ Rooftops)'
-  },
-  {
-    id: 'birthday-party',
-    category: 'Birthday Celebrations',
-    tab: '🎂 Birthday Bash',
-    tag: '🎉 BIRTHDAY SPECIAL',
-    title: 'Birthday House Party Singer',
-    subtitle: 'High-Energy Bollywood Medleys, Retro Classics & Singalongs with Portable Sound',
-    poster: '/videos/birthday_party_singer_thumb.jpg',
-    gifUrl: '/videos/birthday_party_preview.gif',
-    videoUrl: '/videos/birthday_party_singer.mp4',
-    videoTitle: 'Birthday Celebration Live Performance',
-    regularPrice: '₹15,000',
-    offerPrice: '₹6,499',
-    discount: 'Flat 57% OFF',
-    slots: '5 Slots Left Today',
-    rating: '4.98★ (2,100+ Birthdays)'
   },
   {
     id: 'farmhouse-cocktail',

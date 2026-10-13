@@ -5,6 +5,11 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { supabase } from '@database/connection/supabase'
 import { defaultBlogs } from './data'
+import HowToBookSection from '@/app/components/home/HowToBookSection'
+import TestimonialsSection from '@/app/components/home/TestimonialsSection'
+import SeoCardsSection from '@/app/components/home/SeoCardsSection'
+import SeoKeywordFooter from '@/app/components/home/SeoKeywordFooter'
+import SectionDivider from '@/app/components/common/SectionDivider'
 import '@/app/styles/pages/BlogPost.css'
 
 export default function BlogPostPage() {
@@ -192,6 +197,13 @@ export default function BlogPostPage() {
           </div>
         </section>
 
+        <SectionDivider style={{ margin: '40px auto 20px' }} />
+
+        <HowToBookSection />
+
+        <SectionDivider style={{ margin: '36px auto 20px' }} />
+
+        <TestimonialsSection />
 
         <section className="blog-cta-banner">
           <div className="cta-inner">
@@ -211,7 +223,15 @@ export default function BlogPostPage() {
           </div>
         </section>
 
+        <SectionDivider style={{ margin: '36px auto 20px' }} />
+
+        <div className="seo-cards-mobile-only">
+          <SeoCardsSection className="seo-cards-mobile-only" />
+          <SectionDivider className="hp-section-divider--mobile-only" style={{ margin: '18px auto 24px' }} />
+        </div>
+
       </div>
+
     </main>
   )
 }

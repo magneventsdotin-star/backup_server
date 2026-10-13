@@ -125,6 +125,7 @@ interface DailyStats {
 
 export default function AnalyticsPage() {
   const [records, setRecords] = useState<AnalyticsRecord[]>([]);
+  const [totalDbCount, setTotalDbCount] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -137,20 +138,45 @@ export default function AnalyticsPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
   const [exportingExcel, setExportingExcel] = useState(false);
+  const [exportStatusText, setExportStatusText] = useState<string>('Exporting...');
   const { toast } = useToast();
 
   const fetchRecords = async (showToast = false) => {
     try {
-      const { data, error } = await supabase
-        .from('analytics')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(300);
+      // PostgREST limits single requests to 1000 items. Fetch chunks in parallel to get complete multi-week history.
+      const chunkRanges: [number, number][] = [
+        [0, 999],
+        [1000, 1999],
+        [2000, 2999],
+        [3000, 3999],
+        [4000, 4999]
+      ];
 
-      if (error) throw error;
-      setRecords(data || []);
+      const [countRes, ...chunkResults] = await Promise.all([
+        supabase.from('analytics').select('*', { count: 'exact', head: true }),
+        ...chunkRanges.map(([from, to]) =>
+          supabase
+            .from('analytics')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .range(from, to)
+        )
+      ]);
+
+      if (countRes.count !== null && countRes.count !== undefined) {
+        setTotalDbCount(countRes.count);
+      }
+
+      const firstError = chunkResults.find((r) => r.error)?.error;
+      if (firstError) throw firstError;
+
+      const combinedRecords = chunkResults.flatMap((r) => r.data || []);
+      setRecords(combinedRecords);
       if (showToast) {
-        toast({ title: 'Refreshed', description: `Loaded ${data?.length || 0} recent visitor events.` });
+        toast({ 
+          title: 'Refreshed Analytics', 
+          description: `Loaded ${combinedRecords.length} visitor logs across past days (${countRes.count || combinedRecords.length} total in database).` 
+        });
       }
     } catch (err: any) {
       console.error('Error fetching analytics:', err);
@@ -246,7 +272,7 @@ export default function AnalyticsPage() {
     }
 
     const createdAtDate = new Date(record.created_at);
-    const dateKey = !isNaN(createdAtDate.getTime()) ? createdAtDate.toISOString().split('T')[0] : '';
+    const dateKey = !isNaN(createdAtDate.getTime()) ? format(createdAtDate, 'yyyy-MM-dd') : '';
 
     return {
       ip,
@@ -451,59 +477,125 @@ export default function AnalyticsPage() {
     };
   }, [records, dailyStatsList]);
 
-  // Export Detailed Visitor Logs to Excel (.xlsx)
-  const handleExportVisitorLogsExcel = async () => {
-    if (filteredRecords.length === 0) {
+  // Helper to map record into a clean, rich Excel row
+  const formatRecordForExcel = (r: AnalyticsRecord) => {
+    const d = getRecordData(r);
+    return {
+      'Date & Time': format(new Date(r.created_at), 'yyyy-MM-dd HH:mm:ss'),
+      'IP Address': d.ip,
+      'City': d.city,
+      'Region / State': d.region,
+      'Country': d.country,
+      'ISP / Carrier': d.isp,
+      'Traffic Type': d.isAd ? 'Paid Ad' : d.channelCategory === 'organic' ? 'Organic Search' : d.channelCategory === 'social' ? 'Social Media' : 'Direct Visit',
+      'Ad Platform': d.adPlatform || '—',
+      'Campaign Name': d.campaignName || '—',
+      'Campaign ID': d.campaignId || '—',
+      'Ad Click ID': d.adClickId || '—',
+      'Search Keyword': d.keyword || '—',
+      'Visited Page': r.path || '/',
+      'Device Type': d.deviceType,
+      'Device Model': d.deviceLabel,
+      'Browser': d.browser,
+      'Operating System': d.os,
+      'Screen Resolution': d.screen || '—',
+      'Language': d.language || '—',
+      'Referrer Source': d.trafficSource,
+      'Full Referrer URL': d.channelCategory !== 'direct' ? (r.referrer || d.trafficSource) : 'Direct'
+    };
+  };
+
+  // 1. Export All Loaded Visitor Logs (All Days & Requests)
+  const handleExportAllVisitorLogsExcel = async () => {
+    if (records.length === 0) {
       toast({ variant: 'destructive', title: 'No Data', description: 'No visitor logs to export.' });
       return;
     }
     setExportingExcel(true);
+    setExportStatusText('Generating Excel...');
     try {
-      const excelRows = filteredRecords.map((r) => {
-        const d = getRecordData(r);
-        return {
-          'Date & Time': format(new Date(r.created_at), 'yyyy-MM-dd HH:mm:ss'),
-          'IP Address': d.ip,
-          'City': d.city,
-          'Region / State': d.region,
-          'Country': d.country,
-          'ISP / Carrier': d.isp,
-          'Traffic Type': d.isAd ? 'Paid Ad' : d.channelCategory === 'organic' ? 'Organic Search' : d.channelCategory === 'social' ? 'Social Media' : 'Direct Visit',
-          'Ad Platform': d.adPlatform || '—',
-          'Campaign Name': d.campaignName || '—',
-          'Campaign ID': d.campaignId || '—',
-          'Ad Click ID': d.adClickId || '—',
-          'Search Keyword': d.keyword || '—',
-          'Visited Page': r.path || '/',
-          'Device Type': d.deviceType,
-          'Device Model': d.deviceLabel,
-          'Browser': d.browser,
-          'Operating System': d.os,
-          'Screen Resolution': d.screen || '—',
-          'Language': d.language || '—',
-          'Referrer Source': d.trafficSource,
-          'Full Referrer URL': d.channelCategory !== 'direct' ? (r.referrer || d.trafficSource) : 'Direct'
-        };
-      });
-
+      const excelRows = records.map(formatRecordForExcel);
       const dateStr = format(new Date(), 'yyyy-MM-dd');
-      await exportToExcel(excelRows, `Magnevents_Visitor_Logs_${dateStr}`, 'Visitor Logs');
-      toast({ title: 'Excel Export Successful', description: `Exported ${excelRows.length} visitor records to Excel (.xlsx).` });
+      await exportToExcel(excelRows, `Magnevents_All_Visitor_Logs_${dateStr}`, 'All Visitor Logs');
+      toast({ title: 'Excel Export Successful', description: `Exported all ${excelRows.length} visitor logs across all days to Excel (.xlsx).` });
     } catch (err: any) {
       console.error('Excel Export Error:', err);
       toast({ variant: 'destructive', title: 'Export Failed', description: err.message || 'Failed to generate Excel file' });
     } finally {
       setExportingExcel(false);
+      setExportStatusText('Exporting...');
     }
   };
 
-  // Export Day-Wise Summary to Excel (.xlsx)
+  // 2. Export Filtered View Logs to Excel (Matches active filter / selected day)
+  const handleExportFilteredLogsExcel = async () => {
+    if (filteredRecords.length === 0) {
+      toast({ variant: 'destructive', title: 'No Data', description: 'No visitor logs match current filter.' });
+      return;
+    }
+    setExportingExcel(true);
+    setExportStatusText('Exporting View...');
+    try {
+      const excelRows = filteredRecords.map(formatRecordForExcel);
+      const dateStr = format(new Date(), 'yyyy-MM-dd');
+      const suffix = selectedDate ? `_${selectedDate}` : '_Filtered';
+      await exportToExcel(excelRows, `Magnevents_Visitor_Logs${suffix}_${dateStr}`, 'Visitor Logs');
+      toast({ title: 'Excel Export Successful', description: `Exported ${excelRows.length} filtered visitor records to Excel (.xlsx).` });
+    } catch (err: any) {
+      console.error('Excel Export Error:', err);
+      toast({ variant: 'destructive', title: 'Export Failed', description: err.message || 'Failed to generate Excel file' });
+    } finally {
+      setExportingExcel(false);
+      setExportStatusText('Exporting...');
+    }
+  };
+
+  // 3. Export Complete Database History (All Historical Records)
+  const handleExportFullDatabaseExcel = async () => {
+    setExportingExcel(true);
+    setExportStatusText('Fetching DB...');
+    toast({ title: 'Downloading All Records', description: 'Fetching complete visitor history from database...' });
+    try {
+      const { count } = await supabase.from('analytics').select('*', { count: 'exact', head: true });
+      const total = count || records.length;
+      const chunkSize = 1000;
+      const numChunks = Math.min(Math.ceil(total / chunkSize), 25);
+      
+      const chunkPromises = [];
+      for (let i = 0; i < numChunks; i++) {
+        chunkPromises.push(
+          supabase
+            .from('analytics')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .range(i * chunkSize, (i + 1) * chunkSize - 1)
+        );
+      }
+      const results = await Promise.all(chunkPromises);
+      const allDbRecords = results.flatMap((r) => r.data || []);
+      
+      setExportStatusText('Building Excel...');
+      const excelRows = allDbRecords.map(formatRecordForExcel);
+      const dateStr = format(new Date(), 'yyyy-MM-dd');
+      await exportToExcel(excelRows, `Magnevents_Complete_Database_Requests_${dateStr}`, 'All Requests');
+      toast({ title: 'Complete Export Done', description: `Successfully exported ${excelRows.length} total visitor requests to Excel (.xlsx).` });
+    } catch (err: any) {
+      console.error('Full Database Export Error:', err);
+      toast({ variant: 'destructive', title: 'Export Failed', description: err.message || 'Failed to export full database.' });
+    } finally {
+      setExportingExcel(false);
+      setExportStatusText('Exporting...');
+    }
+  };
+
+  // 4. Export Day-Wise Summary to Excel (.xlsx)
   const handleExportDailySummaryExcel = async () => {
     if (dailyStatsList.length === 0) {
       toast({ variant: 'destructive', title: 'No Data', description: 'No daily records to export.' });
       return;
     }
     setExportingExcel(true);
+    setExportStatusText('Exporting Days...');
     try {
       const excelRows = dailyStatsList.map((d) => ({
         'Date': d.formattedDate,
@@ -528,6 +620,7 @@ export default function AnalyticsPage() {
       toast({ variant: 'destructive', title: 'Export Failed', description: err.message || 'Failed to generate Excel file' });
     } finally {
       setExportingExcel(false);
+      setExportStatusText('Exporting...');
     }
   };
 
@@ -590,13 +683,13 @@ export default function AnalyticsPage() {
               title="Download Data as Excel (.xlsx)"
             >
               <Download className={`h-3.5 w-3.5 ${exportingExcel ? 'animate-bounce' : ''}`} />
-              <span>{exportingExcel ? 'Exporting...' : 'Export Excel'}</span>
+              <span>{exportingExcel ? exportStatusText : 'Export Excel'}</span>
               <ChevronDown className="h-3 w-3 text-emerald-200" />
             </button>
 
             {exportMenuOpen && (
               <div 
-                className="absolute right-0 mt-1.5 w-60 bg-white rounded-xl shadow-xl border border-slate-200 z-50 py-1.5 animate-in fade-in slide-in-from-top-1"
+                className="absolute right-0 mt-1.5 w-72 bg-white rounded-xl shadow-xl border border-slate-200 z-50 py-1.5 animate-in fade-in slide-in-from-top-1"
                 onMouseLeave={() => setExportMenuOpen(false)}
               >
                 <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 flex items-center justify-between">
@@ -604,22 +697,52 @@ export default function AnalyticsPage() {
                   <span className="text-[9px] bg-emerald-50 text-emerald-700 px-1 rounded font-bold">.XLSX</span>
                 </div>
 
+                {/* Option 1: All Loaded Visitor Logs */}
                 <button
-                  onClick={() => { setExportMenuOpen(false); handleExportVisitorLogsExcel(); }}
+                  onClick={() => { setExportMenuOpen(false); handleExportAllVisitorLogsExcel(); }}
                   className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-800 flex items-center gap-2.5 transition"
                 >
-                  <span className="p-1 rounded bg-emerald-100 text-emerald-700 font-mono text-[10px] font-bold">XLSX</span>
+                  <span className="p-1 rounded bg-emerald-100 text-emerald-700 font-mono text-[10px] font-bold">ALL</span>
                   <div>
-                    <div className="font-bold">Visitor Logs Excel</div>
-                    <div className="text-[10px] text-slate-400 font-normal">All {filteredRecords.length} visitor hits, IPs & ads</div>
+                    <div className="font-bold">All Visitor Logs ({records.length} hits)</div>
+                    <div className="text-[10px] text-slate-400 font-normal">All past days, IPs, ad tags & channels</div>
                   </div>
                 </button>
 
+                {/* Option 2: Filtered View */}
+                <button
+                  onClick={() => { setExportMenuOpen(false); handleExportFilteredLogsExcel(); }}
+                  className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-800 flex items-center gap-2.5 transition"
+                >
+                  <span className="p-1 rounded bg-amber-100 text-amber-700 font-mono text-[10px] font-bold">VIEW</span>
+                  <div>
+                    <div className="font-bold">Filtered View Logs ({filteredRecords.length})</div>
+                    <div className="text-[10px] text-slate-400 font-normal">
+                      {selectedDate ? `Date: ${selectedDate}` : 'Active search / filter view'}
+                    </div>
+                  </div>
+                </button>
+
+                {/* Option 3: Full Database History */}
+                <button
+                  onClick={() => { setExportMenuOpen(false); handleExportFullDatabaseExcel(); }}
+                  className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-blue-50 hover:text-blue-800 flex items-center gap-2.5 transition"
+                >
+                  <span className="p-1 rounded bg-blue-100 text-blue-700 font-mono text-[10px] font-bold">ALL DB</span>
+                  <div>
+                    <div className="font-bold">Whole History Export {totalDbCount ? `(${totalDbCount})` : ''}</div>
+                    <div className="text-[10px] text-slate-400 font-normal">Every single visitor request in database</div>
+                  </div>
+                </button>
+
+                <div className="border-t border-slate-100 my-1" />
+
+                {/* Option 4: Day-Wise Summary */}
                 <button
                   onClick={() => { setExportMenuOpen(false); handleExportDailySummaryExcel(); }}
                   className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-800 flex items-center gap-2.5 transition"
                 >
-                  <span className="p-1 rounded bg-emerald-100 text-emerald-700 font-mono text-[10px] font-bold">XLSX</span>
+                  <span className="p-1 rounded bg-emerald-100 text-emerald-700 font-mono text-[10px] font-bold">DAYS</span>
                   <div>
                     <div className="font-bold">Day-Wise Summary Excel</div>
                     <div className="text-[10px] text-slate-400 font-normal">Daily totals, hits & ad performance</div>
@@ -638,6 +761,12 @@ export default function AnalyticsPage() {
               </div>
             )}
           </div>
+
+          {totalDbCount && (
+            <span className="text-[11px] font-medium text-slate-500 bg-slate-100 px-2.5 py-1.5 rounded-lg border border-slate-200 hidden sm:inline-flex items-center gap-1">
+              <span>{records.length} logs ({totalDbCount} total in DB)</span>
+            </span>
+          )}
 
           <button
             onClick={() => fetchRecords(true)}
@@ -820,7 +949,7 @@ export default function AnalyticsPage() {
                   Latest extracted logs with Ad / Direct attribution
                 </span>
                 <button
-                  onClick={handleExportVisitorLogsExcel}
+                  onClick={handleExportFilteredLogsExcel}
                   disabled={exportingExcel || filteredRecords.length === 0}
                   className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-lg transition disabled:opacity-50"
                   title="Export this visitor table to Excel"

@@ -63,7 +63,7 @@ export default function HeroVideosSection() {
     <section className="hero-videos-section" aria-label="Trending Videos">
       <div 
         className="hp-section-head text-center" 
-        style={{ marginBottom: '24px', textAlign: 'center' }}
+        style={{ textAlign: 'center' }}
       >
         <h2 className="video-grid-heading hp-display-title">
           Trending Now

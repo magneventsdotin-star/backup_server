@@ -119,11 +119,43 @@
   opacity: 1;
   transform: translateX(0);
 }
+.seo-cards-title-mobile {
+  display: none;
+}
+
+.seo-cards-title-desktop {
+  display: inline;
+}
+
+/* Visibility Utilities */
 @media (max-width: 768px) {
-  .seo-cards-section { padding: 60px 16px; }
+  .seo-cards-section { padding: 40px 16px; }
   .seo-card { width: 280px; padding: 20px; }
   .seo-card-content h3 { font-size: 15px; }
   .seo-cards-flex {
     grid-template-rows: repeat(6, auto);
   }
+
+  .seo-cards-title-desktop {
+    display: none !important;
+  }
+
+  .seo-cards-title-mobile {
+    display: inline !important;
+  }
+
+  /* Hidden on mobile home page */
+  .seo-cards-desktop-only,
+  .seo-cards-section.seo-cards-desktop-only {
+    display: none !important;
+  }
 }
+
+@media (min-width: 769px) {
+  /* Hidden on desktop blog pages */
+  .seo-cards-mobile-only,
+  .seo-cards-section.seo-cards-mobile-only {
+    display: none !important;
+  }
+}
+

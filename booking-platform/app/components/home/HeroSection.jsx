@@ -404,7 +404,7 @@ export default function HeroSection() {
                         WebkitOverflowScrolling: 'touch',
                         scrollbarWidth: 'none',
                         msOverflowStyle: 'none',
-                        padding: '10px calc((100% - clamp(265px, 72vw, 305px)) / 2) 16px',
+                        padding: '10px calc((100% - clamp(285px, 78vw, 335px)) / 2) 16px',
                         userSelect: 'none',
                         touchAction: 'pan-x pan-y'
                       }}
@@ -437,17 +437,17 @@ export default function HeroSection() {
                             }}
                             className={`hp-poster-card-wrapper ${isActive ? 'is-active' : ''}`}
                             style={{
-                              flex: '0 0 clamp(265px, 72vw, 305px)',
-                              width: 'clamp(265px, 72vw, 305px)',
-                              height: 'clamp(390px, 52dvh, 460px)',
+                              flex: '0 0 clamp(285px, 78vw, 335px)',
+                              width: 'clamp(285px, 78vw, 335px)',
+                              height: 'clamp(410px, 55dvh, 480px)',
                               position: 'relative',
                               borderRadius: '22px',
                               overflow: 'hidden',
                               scrollSnapAlign: 'center',
                               cursor: 'pointer',
-                              border: isActive ? '2px solid rgba(232, 185, 67, 0.9)' : '1px solid rgba(216, 196, 183, 0.28)',
+                              border: isActive ? '1.5px solid rgba(232, 185, 67, 0.42)' : '1px solid rgba(216, 196, 183, 0.18)',
                               boxShadow: isActive
-                                ? '0 18px 50px rgba(0, 0, 0, 0.95), 0 0 35px rgba(232, 185, 67, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25)'
+                                ? '0 16px 45px rgba(0, 0, 0, 0.9), 0 0 20px rgba(232, 185, 67, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.15)'
                                 : '0 8px 24px rgba(0, 0, 0, 0.65)',
                               transform: isActive ? 'scale(1)' : 'scale(0.92)',
                               opacity: isActive ? 1 : 0.68,
@@ -561,11 +561,6 @@ export default function HeroSection() {
                             <div className="hp-poster-bottom">
                               <div className="hp-poster-title-row">
                                 <h4 className="hp-poster-card-title">{posterItem.title}</h4>
-                              </div>
-
-                              {/* Arrival Guarantee Tag */}
-                              <div className="hp-poster-feature-tag">
-                                <span className="hp-poster-feature-highlight">★ 100% Arrival Guarantee</span>
                               </div>
                             </div>
                           </div>
@@ -753,57 +748,54 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Section 5: PROMOTIONAL TRUST & VALUE HIGHLIGHTS */}
+          {/* Section 5: MERGED ULTRA-LUXURY ASSURANCE & TRUST SHOWCASE */}
           <div className="hp-mob-section">
-            <div className="hp-mob-trust-grid">
-              <button
-                type="button"
-                className="mob-trust-card"
-                onClick={() => {
-                  if (typeof window !== 'undefined') {
-                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
-                  }
-                }}
-                aria-label="Instant Slot Confirmation - Book Now"
-              >
-                <span className="mob-check">⚡</span> Instant Slot Confirmation
-              </button>
-              <button
-                type="button"
-                className="mob-trust-card"
-                onClick={() => {
-                  if (typeof window !== 'undefined') {
-                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
-                  }
-                }}
-                aria-label="Direct Artist Connect - Book Now"
-              >
-                <span className="mob-check">💎</span> Direct Artist Connect
-              </button>
-              <button
-                type="button"
-                className="mob-trust-card"
-                onClick={() => {
-                  if (typeof window !== 'undefined') {
-                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
-                  }
-                }}
-                aria-label="1500+ Verified Artists - Book Now"
-              >
-                <span className="mob-check">✓</span> 1500+ Verified Artists
-              </button>
-              <button
-                type="button"
-                className="mob-trust-card"
-                onClick={() => {
-                  if (typeof window !== 'undefined') {
-                    window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
-                  }
-                }}
-                aria-label="100% Arrival Guarantee - Book Now"
-              >
-                <span className="mob-check">🛡️</span> 100% Arrival Guarantee
-              </button>
+            <div 
+              className="hp-mob-trust-merged-card"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('open-contact-modal', { detail: { type: 'booking' } }));
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label="Magnevents Verified Assurance - Tap to Book Artists"
+            >
+              {/* Top Accent Ribbon */}
+              <div className="hp-mob-trust-header">
+                <span className="hp-mob-trust-tag">
+                  <span className="hp-mob-trust-pulse" />
+                  THE MAGNEVENTS ASSURANCE
+                </span>
+                <span className="hp-mob-trust-subtag">Direct Pricing · 0% Agency Fee</span>
+              </div>
+
+              {/* Feature Grid inside Merged Card */}
+              <div className="hp-mob-trust-grid-merged">
+                <div className="hp-mob-trust-item">
+                  <span className="hp-mob-trust-icon hp-icon-bolt">⚡</span>
+                  <div className="hp-mob-trust-text">
+                    <strong>Instant Slot Lock</strong>
+                    <span>Confirmed in 2 mins</span>
+                  </div>
+                </div>
+
+                <div className="hp-mob-trust-item">
+                  <span className="hp-mob-trust-icon hp-icon-gem">💎</span>
+                  <div className="hp-mob-trust-text">
+                    <strong>Direct Artist Connect</strong>
+                    <span>Zero middleman markup</span>
+                  </div>
+                </div>
+
+                <div className="hp-mob-trust-item hp-mob-trust-item-wide">
+                  <span className="hp-mob-trust-icon hp-icon-star">★</span>
+                  <div className="hp-mob-trust-text">
+                    <strong>1,500+ Verified Artists</strong>
+                    <span>Auditioned top performers across India</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

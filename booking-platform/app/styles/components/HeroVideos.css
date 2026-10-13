@@ -1,12 +1,21 @@
 .hero-videos-section {
-  padding: 48px 0 68px 0;
+  padding: 40px 0 24px 0;
   color: #fff;
   overflow: hidden;
 }
 
+@media (max-width: 768px) {
+  .hero-videos-section {
+    padding: 4px 0 20px 0 !important;
+  }
+  .hero-videos-section .hp-section-head {
+    margin-bottom: 12px !important;
+  }
+}
+
 @media (min-width: 769px) {
   .hero-videos-section {
-    padding: 64px 0 92px 0;
+    padding: 60px 0 44px 0;
   }
 }
 

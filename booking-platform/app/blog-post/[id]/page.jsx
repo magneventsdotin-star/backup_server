@@ -6,6 +6,11 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { supabase } from '@database/connection/supabase'
 import { defaultBlogs } from '../data'
+import HowToBookSection from '@/app/components/home/HowToBookSection'
+import TestimonialsSection from '@/app/components/home/TestimonialsSection'
+import SeoCardsSection from '@/app/components/home/SeoCardsSection'
+import SeoKeywordFooter from '@/app/components/home/SeoKeywordFooter'
+import SectionDivider from '@/app/components/common/SectionDivider'
 import '@/app/styles/pages/BlogPost.css'
 
 export default function BlogDetailPage() {
@@ -221,6 +226,19 @@ export default function BlogDetailPage() {
 
         </div>
       </section>
+
+      <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
+        <SectionDivider style={{ margin: '48px auto 24px' }} />
+        <HowToBookSection />
+        <SectionDivider style={{ margin: '36px auto 20px' }} />
+        <TestimonialsSection />
+        <div className="seo-cards-mobile-only">
+          <SectionDivider className="hp-section-divider--mobile-only" style={{ margin: '36px auto 20px' }} />
+          <SeoCardsSection className="seo-cards-mobile-only" />
+        </div>
+        <SectionDivider style={{ margin: '24px auto' }} />
+      </div>
+
 
     </main>
   );

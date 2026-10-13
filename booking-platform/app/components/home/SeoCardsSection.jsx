@@ -1490,12 +1490,15 @@ export const seoCards = [
   }
 ];
 
-export default function SeoCardsSection() {
+export default function SeoCardsSection({ className = '' }) {
   return (
-    <section className="seo-cards-section">
+    <section className={`seo-cards-section ${className}`.trim()}>
       <div className="seo-cards-container">
         <div className="seo-cards-header">
-          <h2>Find the Best Singers Across India</h2>
+          <h2>
+            <span className="seo-cards-title-desktop">Find the Best Singers Across India</span>
+            <span className="seo-cards-title-mobile">Across India</span>
+          </h2>
           <p>Book top-rated live musicians for your weddings, house parties, and corporate events in any city.</p>
         </div>
         
