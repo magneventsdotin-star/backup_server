@@ -10,7 +10,7 @@ export default function PromotionalOfferSection({
 }) {
   const isContextual = Boolean(category && city);
   const defaultHeadline = isContextual 
-    ? `Book Verified ${category} in ${city} with ₹99 Token Advance!`
+    ? `Book Verified ${category} in ${city} from ₹6,9xx*!`
     : "Get Up to 60% OFF on Your First Event Booking!";
 
   const [headline, setHeadline] = useState(defaultHeadline);
@@ -18,7 +18,7 @@ export default function PromotionalOfferSection({
 
   useEffect(() => {
     if (isContextual) {
-      setHeadline(`Book Verified ${category} in ${city} for ₹99 Token Advance!`);
+      setHeadline(`Book Verified ${category} in ${city} from ₹6,9xx*!`);
       return;
     }
     fetch('/api/settings/top-ad', { cache: 'no-store' })
@@ -77,7 +77,7 @@ export default function PromotionalOfferSection({
               <span>{isContextual ? `Exclusive ${city} Offer` : "Limited Time Offer"}</span>
             </span>
             <span className="lux-promo-code-pill">
-              {isContextual ? "Token: ₹99 ONLY" : "Code: FIRSTEVENT60"}
+              {isContextual ? "Starting: ₹6,9xx*" : "Code: FIRSTEVENT60"}
             </span>
           </div>
 
@@ -87,7 +87,7 @@ export default function PromotionalOfferSection({
 
           <p className="lux-promo-desc">
             {isContextual 
-              ? `Book verified ${category} in ${city} for your date with only ₹99 token advance. 100% Artist Arrival Guarantee with zero middleman charges — token is fully adjusted into your artist fee!`
+              ? `Book verified ${category} in ${city} for your date starting from ₹6,9xx. 100% Artist Arrival Guarantee with zero middleman charges — direct pricing!`
               : "Book verified live singers, bands, or DJs across India with 0% middleman fees and our legally binding 100% Artist Arrival Guarantee."
             }
           </p>
@@ -100,7 +100,7 @@ export default function PromotionalOfferSection({
               <span className="icon">💎</span> 0% Agency Markup
             </span>
             <span className="lux-promo-perk">
-              <span className="icon">🎟️</span> ₹99 Adjustable Token
+              <span className="icon">🎟️</span> Starting from ₹6,9xx*
             </span>
           </div>
         </div>
@@ -125,7 +125,7 @@ export default function PromotionalOfferSection({
                 className="lux-promo-main-btn"
                 style={{ textDecoration: 'none' }}
               >
-                <span>Pay ₹99 &amp; Book {category}</span>
+                <span>Book {category} from ₹6,9xx</span>
                 <span>→</span>
               </a>
             ) : (
@@ -141,7 +141,7 @@ export default function PromotionalOfferSection({
             <a
               href={`https://wa.me/918076515257?text=${encodeURIComponent(
                 isContextual
-                  ? `Hi Magnevents! I want to pay ₹99 token and book a verified ${category} in ${city} for my upcoming event.`
+                  ? `Hi Magnevents! I want to book a verified ${category} in ${city} starting from ₹6,9xx for my upcoming event.`
                   : "Hi Magnevents! I want to claim the 60% OFF first booking discount for my event."
               )}`}
               target="_blank"

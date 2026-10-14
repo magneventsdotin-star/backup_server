@@ -258,7 +258,7 @@ export default function SEOLandingHero({
     }
 
     setIsSubmitting(true);
-    const randomRef = `MGN-99-${Math.floor(100000 + Math.random() * 900000)}`;
+    const randomRef = `MGN-69-${Math.floor(100000 + Math.random() * 900000)}`;
 
     try {
       const res = bookingService.submitInstantRequest({
@@ -266,12 +266,12 @@ export default function SEOLandingHero({
         phone: cleanPhone,
         eventType: selectedEventType,
         date: eventDate,
-        budget: '₹99 Token Advance',
-        tokenNote: `[₹99 ARTIST SLOT RESERVED] ${category} in ${city}${selectedArtist ? ` (Artist: ${selectedArtist.name})` : ''}`,
-        message: `PAID ₹99 TOKEN BOOKING REQUEST for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}.${selectedArtist ? ` Target Performer: ${selectedArtist.name}` : ''}`,
+        budget: 'From ₹6,9xx',
+        tokenNote: `[₹6,9XX ARTIST SLOT RESERVED] ${category} in ${city}${selectedArtist ? ` (Artist: ${selectedArtist.name})` : ''}`,
+        message: `BOOKING REQUEST from ₹6,9xx for ${category} in ${city}. Event: ${selectedEventType} on ${eventDate}.${selectedArtist ? ` Target Performer: ${selectedArtist.name}` : ''}`,
         type: 'quick_booking',
-        formName: `Hero ₹99 Booking - ${category} in ${city}`,
-        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#book-99` : '',
+        formName: `Hero ₹6,9xx Booking - ${category} in ${city}`,
+        formLink: typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}#book-slot` : '',
         referenceCode: randomRef,
         selectedArtist: selectedArtist ? selectedArtist.name : null,
         service: `${category} in ${city}`,
@@ -282,8 +282,8 @@ export default function SEOLandingHero({
       setRefCode(res?.referenceCode || randomRef);
       setIsSubmitted(true);
     } catch (err) {
-      console.error('Error submitting ₹99 token booking:', err);
-      setPhoneError("Could not submit booking. Please try WhatsApp.");
+      console.error('Error submitting ₹6,9xx booking request:', err);
+      setPhoneError("Could not submit booking. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -388,8 +388,10 @@ export default function SEOLandingHero({
               <span className="seo-avatar-count">+5k</span>
             </div>
             <div className="seo-5k-text">
-              <strong>We Have Done 5,000+ Events Across India</strong>
-              <span>⭐ 4.9/5 Rating (5,000+ Live Bookings) · Verified Performers</span>
+              <strong className="seo-5k-title-desk">We Have Done 5,000+ Events Across India</strong>
+              <strong className="seo-5k-title-mob">5,000+ Events Across India</strong>
+              <span className="seo-5k-sub-desk">⭐ 4.9/5 Rating (5,000+ Live Bookings) · Verified Performers</span>
+              <span className="seo-5k-sub-mob">⭐ 4.9 Rating · Verified Performers</span>
             </div>
           </div>
         </div>
@@ -450,50 +452,42 @@ export default function SEOLandingHero({
               </div>
             </div>
 
-            {/* Right Column: High-Converting ₹99 Booking Form Card */}
+            {/* Right Column: High-Converting ₹6,9xx Booking Form Card */}
             <div className="seo-hero-split-right">
               <div ref={formRef} className="hero-tok99-card" id="hero-book-99">
                 <div className="hero-tok99-glow" aria-hidden="true" />
                 <div className="hero-tok99-top-row">
-                  <div className="hero-tok99-badge">
-                    <span className="hero-tok99-pulse" />
-                    <span>VIP ADVANCE SLOT</span>
-                  </div>
                   <div className="hero-tok99-price-box">
-                    <span className="hero-tok99-old-price">₹2,000</span>
-                    <span className="hero-tok99-now-price">₹99 ONLY</span>
-                    <span className="hero-tok99-save-pill">95% OFF</span>
+                    <span className="hero-tok99-old-price">From</span>
+                    <span className="hero-tok99-now-price">₹6,9xx*</span>
+                    <span className="hero-tok99-save-pill">BEST VALUE</span>
                   </div>
                 </div>
 
                 {!isSubmitted ? (
                   <form onSubmit={handleToken99Submit} className="hero-tok99-form">
-                    <div>
+                    <div className="hero-tok99-header-text">
                       <h3 className="hero-tok99-title">
-                        Pay ₹99 &amp; Book {category} in {city}
+                        Book {category} in {city} from ₹6,9xx
                       </h3>
-                      <p className="hero-tok99-subtitle">
-                        Lock top-rated <strong>{category} in {city}</strong> for your date. The ₹99 token is <strong>100% adjusted</strong> into your final fee!
-                      </p>
                     </div>
 
                     {selectedArtist && (
-                      <div className="seo-mob-selected-artist" style={{ marginBottom: '12px' }}>
-                        <span>🎯 Selected Performer: <strong>{selectedArtist.name}</strong> (~₹{selectedArtist.price_min ? selectedArtist.price_min.toLocaleString('en-IN') : '10,000'})</span>
+                      <div className="seo-mob-selected-artist" style={{ marginBottom: '10px' }}>
+                        <span>🎯 Selected: <strong>{selectedArtist.name}</strong> (~₹{selectedArtist.price_min ? selectedArtist.price_min.toLocaleString('en-IN') : '10,000'})</span>
                         <button type="button" onClick={() => setSelectedArtist(null)} aria-label="Clear artist selection">✕</button>
                       </div>
                     )}
 
                     <div className="hero-tok99-input-row">
-                      <div className="hero-tok99-field">
+                      <div className="hero-tok99-field hero-tok99-field-name">
                         <label htmlFor="h-tok-name" className="hero-tok99-label">
-                          <span className="hero-tok99-label-icon">👤</span> Your Full Name *
+                          <span className="hero-tok99-label-icon">👤</span> Your Full Name
                         </label>
                         <div className="hero-tok99-input-box">
                           <input
                             id="h-tok-name"
                             type="text"
-                            required
                             placeholder="e.g. Rahul Sharma"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -502,7 +496,7 @@ export default function SEOLandingHero({
                         </div>
                       </div>
 
-                      <div className="hero-tok99-field">
+                      <div className="hero-tok99-field hero-tok99-phone-field">
                         <label htmlFor="h-tok-phone" className="hero-tok99-label">
                           <span className="hero-tok99-label-icon">📱</span> Phone / WhatsApp *
                         </label>
@@ -513,9 +507,11 @@ export default function SEOLandingHero({
                             id="h-tok-phone"
                             type="tel"
                             inputMode="numeric"
+                            pattern="[0-9]*"
                             maxLength={10}
                             required
-                            placeholder="9876543210"
+                            placeholder="Enter 10-digit WhatsApp number"
+                            aria-label="WhatsApp or mobile number"
                             value={phone}
                             onChange={(e) => {
                               const d = e.target.value.replace(/\D/g, '').slice(0, 10);
@@ -528,6 +524,7 @@ export default function SEOLandingHero({
                       </div>
                     </div>
 
+
                     {phoneError && (
                       <span style={{ color: '#ef4444', fontSize: '11px', fontWeight: 700 }}>
                         {phoneError}
@@ -535,7 +532,26 @@ export default function SEOLandingHero({
                     )}
 
                     <div className="hero-tok99-input-row hero-tok99-date-type-row">
-                      <div className="hero-tok99-field">
+                      <div className="hero-tok99-field hero-tok99-type-field">
+                        <label htmlFor="h-tok-type" className="hero-tok99-label">
+                          <span className="hero-tok99-label-icon">🎭</span> Event Type
+                        </label>
+                        <div className="hero-tok99-input-box">
+                          <select
+                            id="h-tok-type"
+                            value={selectedEventType}
+                            onChange={(e) => setSelectedEventType(e.target.value)}
+                            className="hero-tok99-select"
+                            aria-label="Select event type"
+                          >
+                            {eventTypes.map(t => (
+                              <option key={t} value={t}>{t}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="hero-tok99-field hero-tok99-date-field">
                         <label htmlFor="h-tok-date" className="hero-tok99-label">
                           <span className="hero-tok99-label-icon">📅</span> Event Date *
                         </label>
@@ -549,26 +565,9 @@ export default function SEOLandingHero({
                             onChange={(e) => setEventDate(e.target.value)}
                             className="hero-tok99-input"
                             style={{ colorScheme: 'dark' }}
+                            aria-label="Select event date"
                             suppressHydrationWarning
                           />
-                        </div>
-                      </div>
-
-                      <div className="hero-tok99-field">
-                        <label htmlFor="h-tok-type" className="hero-tok99-label">
-                          <span className="hero-tok99-label-icon">🎭</span> Event Type
-                        </label>
-                        <div className="hero-tok99-input-box">
-                          <select
-                            id="h-tok-type"
-                            value={selectedEventType}
-                            onChange={(e) => setSelectedEventType(e.target.value)}
-                            className="hero-tok99-select"
-                          >
-                            {eventTypes.map(t => (
-                              <option key={t} value={t}>{t}</option>
-                            ))}
-                          </select>
                         </div>
                       </div>
                     </div>
@@ -581,36 +580,14 @@ export default function SEOLandingHero({
                       {isSubmitting ? (
                         <span>Reserving Slot...</span>
                       ) : (
-                        <span>🔒 Pay ₹99 &amp; Lock {category} Slot ➔</span>
+                        <span>🔒 Lock {category} from ₹6,9xx ➔</span>
                       )}
                     </button>
-
-                    <a
-                      href={`https://wa.me/918076515257?text=${encodeURIComponent(
-                        `Hi Magnevents! I want to pay ₹99 & book a ${category} in ${city}. Name: ${name || 'Host'}, Date: ${eventDate}, Event: ${selectedEventType}. Please lock my slot!`
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hero-tok99-wa-btn"
-                    >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.458L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.725 1.451 5.437 0 9.857-4.403 9.86-9.809.001-2.618-1.01-5.08-2.858-6.93C16.528 2.015 14.07 1.006 11.453 1.006c-5.434 0-9.852 4.403-9.855 9.81-.001 2.062.54 4.079 1.566 5.86l-.99 3.613 3.712-.977zm11.304-6.816c-.302-.15-1.788-.882-2.066-.983-.277-.101-.478-.15-.678.15-.2.3-.775.983-.95 1.185-.175.201-.35.227-.652.076-.302-.15-1.274-.469-2.427-1.498-.897-.8-1.502-1.788-1.678-2.09-.175-.302-.019-.465.132-.615.136-.135.302-.35.454-.526.15-.176.2-.302.302-.503.101-.2.05-.376-.026-.526-.075-.15-.678-1.636-.93-2.243-.244-.59-.493-.51-.678-.518-.176-.008-.377-.01-.578-.01-.2 0-.527.075-.803.376-.277.301-1.055 1.031-1.055 2.516 0 1.485 1.079 2.921 1.229 3.122.15.2 2.125 3.245 5.148 4.549.719.311 1.28.497 1.717.637.722.23 1.38.197 1.901.12.58-.087 1.788-.73 2.04-1.435.252-.703.252-1.306.176-1.435-.076-.13-.277-.201-.578-.352z"/>
-                      </svg>
-                      <span>💬 Or Book on WhatsApp Directly</span>
-                    </a>
-
-                    <div className="hero-tok99-trust">
-                      <span>🔒 100% Refundable Guarantee</span>
-                      <span>•</span>
-                      <span>⚡ Instant Confirmation</span>
-                      <span>•</span>
-                      <span>🛡️ Zero Markup</span>
-                    </div>
                   </form>
                 ) : (
                   <div className="hero-tok99-confirmed-box">
                     <div className="hero-tok99-conf-check">✓</div>
-                    <h4 className="hero-tok99-conf-title">Slot Reserved for ₹99!</h4>
+                    <h4 className="hero-tok99-conf-title">Slot Reserved from ₹6,9xx!</h4>
                     <span className="hero-tok99-conf-pill">Booking ID: {refCode}</span>
 
                     <div className="hero-tok99-conf-data">
@@ -627,8 +604,8 @@ export default function SEOLandingHero({
                         <strong>{eventDate}</strong>
                       </div>
                       <div className="hero-tok99-conf-row">
-                        <span>Token Amount:</span>
-                        <strong style={{ color: '#22c55e' }}>₹99 Locked (Adjustable)</strong>
+                        <span>Starting Rate:</span>
+                        <strong style={{ color: '#22c55e' }}>From ₹6,9xx (Adjustable)</strong>
                       </div>
                     </div>
 
@@ -658,7 +635,7 @@ export default function SEOLandingHero({
 
                       <a
                         href={`https://wa.me/918076515257?text=${encodeURIComponent(
-                          `Hi Magnevents, I booked a ${category} in ${city} with ₹99 token (Pass ID: ${refCode}). Name: ${name}, Date: ${eventDate}. Please connect me with the artist coordinator!`
+                          `Hi Magnevents, I requested a ${category} in ${city} (Pass ID: ${refCode}) starting from ₹6,9xx. Name: ${name || 'Host'}, Date: ${eventDate}. Please connect me with the artist coordinator!`
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -1444,7 +1421,7 @@ export default function SEOLandingHero({
         {/* ==========================================================================
            4. Interactive 3-Tier Price Guide (Answers "How much does it cost?")
            ========================================================================== */}
-        <div className="seo-pricing-guide-section">
+        <div id="pricing" className="seo-pricing-guide-section">
           <div className="seo-section-head-v2" style={{ textAlign: 'center', justifyContent: 'center' }}>
             <div>
               <span className="badge">TRANSPARENT PRICING</span>
@@ -1523,39 +1500,7 @@ export default function SEOLandingHero({
 
       </div>
 
-      {/* ==========================================================================
-         6. Mobile Sticky Action Bar
-         ========================================================================== */}
-      <div className="seo-mobile-sticky-bar">
-        <button
-          type="button"
-          onClick={() => {
-            const isMob = typeof window !== 'undefined' && window.innerWidth <= 768;
-            if (isMob && mobFormRef.current) {
-              mobFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              setTimeout(() => {
-                if (mobPhoneInputRef.current) mobPhoneInputRef.current.focus();
-              }, 400);
-            } else if (formRef.current) {
-              formRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              setTimeout(() => {
-                if (phoneInputRef.current) phoneInputRef.current.focus();
-              }, 400);
-            }
-          }}
-          className="seo-sticky-btn-quote"
-        >
-          <span>⚡ Get Instant Free Quote</span>
-        </button>
 
-        <button
-          type="button"
-          onClick={handleWhatsAppQuote}
-          className="seo-sticky-btn-wa"
-        >
-          <span>💬 WhatsApp Rates</span>
-        </button>
-      </div>
 
       {/* ==========================================================================
          7. Quick Tier Availability Modal (1-Step Phone Only Form)
