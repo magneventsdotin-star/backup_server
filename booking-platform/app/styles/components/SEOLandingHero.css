@@ -7,11 +7,23 @@
   width: 100%;
   min-height: 90vh;
   padding: 24px 20px 60px;
-  background: 
-    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(232, 185, 67,  0.12) 0%, transparent 60%),
-    radial-gradient(circle at 80% 20%, rgba(255, 140, 0, 0.06) 0%, transparent 50%),
-    radial-gradient(circle at 20% 40%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-    #080808;
+  background-color: #141216;
+  background-image: 
+    /* Subtle luxury cyber dot matrix grid in Rose Stone tint (#D8C4B7) */
+    radial-gradient(rgba(216, 196, 183, 0.12) 1.2px, transparent 1.2px),
+    /* Top-Right Velvet Wine Glow (#7E3044) */
+    radial-gradient(circle at 82% 16%, rgba(126, 48, 68, 0.22) 0%, transparent 60%),
+    /* Wine Red concert stage lighting behind headline */
+    radial-gradient(ellipse 65% 55% at 20% 32%, rgba(126, 48, 68, 0.50) 0%, transparent 70%),
+    /* Center stage golden marigold radiance */
+    radial-gradient(ellipse 70% 48% at 50% 36%, rgba(232, 185, 67, 0.10) 0%, transparent 68%),
+    /* Top-Left Soft Rose Stone Warmth (#D8C4B7) */
+    radial-gradient(circle at 18% 28%, rgba(216, 196, 183, 0.12) 0%, transparent 55%),
+    /* Lower Ambient Wine Depth */
+    radial-gradient(circle at 50% 82%, rgba(126, 48, 68, 0.08) 0%, transparent 65%),
+    /* Seamless deep Soft Charcoal base gradient */
+    linear-gradient(180deg, #161318 0%, #1A171D 35%, #151317 70%, #110F13 100%);
+  background-size: 22px 22px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
   color: #fff;
   overflow: hidden;
   isolation: isolate;
@@ -20,13 +32,16 @@
 /* Ambient glow & backdrop elements */
 .seo-hero-backdrop-glow {
   position: absolute;
-  top: -100px;
+  top: -60px;
   left: 50%;
   transform: translateX(-50%);
   width: min(1200px, 100vw);
-  height: 500px;
-  background: radial-gradient(circle, rgba(232, 185, 67,  0.15) 0%, rgba(255, 170, 0, 0.05) 45%, transparent 70%);
-  filter: blur(80px);
+  height: 560px;
+  background: 
+    radial-gradient(ellipse 60% 50% at 25% 35%, rgba(126, 48, 68, 0.35) 0%, transparent 70%),
+    radial-gradient(circle at 75% 30%, rgba(126, 48, 68, 0.18) 0%, transparent 65%),
+    radial-gradient(circle at 50% 20%, rgba(232, 185, 67, 0.06) 0%, transparent 60%);
+  filter: blur(60px);
   pointer-events: none;
   z-index: 0;
 }
@@ -2835,11 +2850,19 @@
 @media (max-width: 768px) {
   .seo-hero-root {
     padding: 14px 14px 50px !important;
-    background: 
-      radial-gradient(ellipse 90% 50% at 50% -5%, rgba(232, 185, 67, 0.16) 0%, transparent 65%),
-      radial-gradient(circle at 80% 25%, rgba(126, 48, 68, 0.15) 0%, transparent 55%),
-      radial-gradient(circle at 20% 55%, rgba(228, 95, 96, 0.1) 0%, transparent 55%),
-      #141316 !important;
+    background-color: #141216 !important;
+    background-image: 
+      /* Subtle luxury cyber dot matrix grid in Rose Stone tint */
+      radial-gradient(rgba(216, 196, 183, 0.12) 1.2px, transparent 1.2px),
+      /* Wine Red concert stage lighting */
+      radial-gradient(ellipse 70% 50% at 25% 25%, rgba(126, 48, 68, 0.40) 0%, transparent 65%),
+      /* Top-right velvet wine glow */
+      radial-gradient(circle at 80% 25%, rgba(126, 48, 68, 0.18) 0%, transparent 55%),
+      /* Center golden marigold radiance */
+      radial-gradient(ellipse 70% 48% at 50% 36%, rgba(232, 185, 67, 0.08) 0%, transparent 68%),
+      /* Soft charcoal base */
+      linear-gradient(180deg, #161318 0%, #1A171D 40%, #110F13 100%) !important;
+    background-size: 22px 22px, 100% 100%, 100% 100%, 100% 100%, 100% 100% !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
