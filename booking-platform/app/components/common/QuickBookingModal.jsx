@@ -357,9 +357,9 @@ function InnerQuickBookingForm({ onClose }) {
         </div>
 
         <h4 style={{ 
-          margin: '0 0 6px', 
+          margin: '0 0 8px', 
           color: '#7E3044', 
-          fontSize: '21px', 
+          fontSize: '22px', 
           fontWeight: 900, 
           letterSpacing: '-0.02em',
           lineHeight: 1.25,
@@ -368,152 +368,73 @@ function InnerQuickBookingForm({ onClose }) {
           Slot Reserved Successfully!
         </h4>
 
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '6px',
-          background: 'rgba(126, 48, 68, 0.08)',
-          border: '1px solid rgba(126, 48, 68, 0.22)',
-          borderRadius: '100px',
-          padding: '4px 14px',
-          color: '#7E3044',
-          fontSize: '11.5px',
-          fontWeight: '800',
-          marginBottom: '12px'
-        }}>
-          <span>🪔</span>
-          <span>Diwali Offer Flat 55%–65% OFF Locked</span>
-        </div>
-
         <p style={{ 
           margin: '0 0 16px', 
-          color: '#1C1A1E', 
-          fontSize: '13px', 
+          color: 'rgba(28, 26, 30, 0.85)', 
+          fontSize: '13.5px', 
           lineHeight: '1.5',
           fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }}>
-          Thank you, <strong style={{ color: '#7E3044' }}>{formData.name}</strong>! Your inquiry &amp; special discount have been secured. Our senior event coordinator will call you at <strong style={{ color: '#7E3044' }}>+91 {formData.phone}</strong> shortly with verified quotes for your event.
+          Our event coordinator will call you shortly with verified artist quotes &amp; discounted pricing.
         </p>
 
-        {/* AUTHENTIC ORIGINAL-LOOKING BOOKING PASS CARD */}
+        {/* Clean, Focused Booking ID Card */}
         {refCode && (
           <div style={{
             background: '#FFFFFF',
-            border: '1.5px solid rgba(126, 48, 68, 0.2)',
-            borderRadius: '16px',
-            padding: '14px 16px',
+            border: '1.5px solid rgba(126, 48, 68, 0.22)',
+            borderRadius: '14px',
+            padding: '12px 14px',
             marginBottom: '16px',
-            boxShadow: '0 8px 24px rgba(126, 48, 68, 0.08)',
-            textAlign: 'left',
-            position: 'relative'
+            boxShadow: '0 4px 16px rgba(126, 48, 68, 0.08)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            textAlign: 'left'
           }}>
-            {/* Pass Top Bar */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: '10px'
-            }}>
-              <span style={{
+            <div>
+              <div style={{
                 fontSize: '10px',
                 fontWeight: 800,
-                color: 'rgba(126, 48, 68, 0.75)',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase'
+                color: 'rgba(126, 48, 68, 0.65)',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                marginBottom: '2px'
               }}>
-                🛡️ Verified Booking Pass
-              </span>
-              <span style={{
-                fontSize: '10.5px',
-                fontWeight: 800,
-                color: '#16a34a',
-                background: 'rgba(22, 163, 74, 0.1)',
-                border: '1px solid rgba(22, 163, 74, 0.25)',
-                padding: '2px 8px',
-                borderRadius: '100px',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px'
-              }}>
-                <span style={{ fontSize: '8px' }}>●</span> Confirmed
-              </span>
-            </div>
-
-            {/* Dotted Perforated Divider */}
-            <div style={{
-              borderTop: '1px dashed rgba(126, 48, 68, 0.2)',
-              margin: '0 -16px 12px',
-              position: 'relative'
-            }} />
-
-            {/* Booking ID & Copy Button */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              background: 'rgba(126, 48, 68, 0.05)',
-              border: '1px solid rgba(126, 48, 68, 0.15)',
-              borderRadius: '10px',
-              padding: '8px 12px'
-            }}>
-              <div>
-                <div style={{
-                  fontSize: '9.5px',
-                  fontWeight: 800,
-                  color: 'rgba(126, 48, 68, 0.65)',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  marginBottom: '2px'
-                }}>
-                  Booking ID
-                </div>
-                <div style={{
-                  fontFamily: "'SF Mono', Monaco, Consolas, 'Liberation Mono', monospace",
-                  fontSize: '17px',
-                  fontWeight: 900,
-                  color: '#7E3044',
-                  letterSpacing: '0.06em'
-                }}>
-                  {refCode}
-                </div>
+                Booking ID
               </div>
-
-              <button
-                type="button"
-                onClick={handleCopyId}
-                style={{
-                  background: copied ? '#16a34a' : '#7E3044',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '6px 12px',
-                  fontSize: '11px',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  transition: 'all 0.2s ease',
-                  fontFamily: "'Inter', sans-serif"
-                }}
-              >
-                {copied ? '✓ Copied' : '📋 Copy ID'}
-              </button>
+              <div style={{
+                fontFamily: "'SF Mono', Monaco, Consolas, 'Liberation Mono', monospace",
+                fontSize: '18px',
+                fontWeight: 900,
+                color: '#7E3044',
+                letterSpacing: '0.06em'
+              }}>
+                {refCode}
+              </div>
             </div>
 
-            {/* Bottom Benefit Footer */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginTop: '10px',
-              fontSize: '11px',
-              color: 'rgba(126, 48, 68, 0.8)',
-              fontWeight: 600
-            }}>
-              <span>🏷️ 55%–65% Discount Applied</span>
-              <span style={{ color: '#16a34a', fontWeight: 700 }}>✓ Verified</span>
-            </div>
+            <button
+              type="button"
+              onClick={handleCopyId}
+              style={{
+                background: copied ? '#16a34a' : '#7E3044',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '7px 14px',
+                fontSize: '12px',
+                fontWeight: 800,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                transition: 'all 0.2s ease',
+                fontFamily: "'Inter', sans-serif"
+              }}
+            >
+              {copied ? '✓ Copied' : '📋 Copy ID'}
+            </button>
           </div>
         )}
 
