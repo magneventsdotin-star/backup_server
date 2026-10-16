@@ -132,6 +132,7 @@ export default function AnalyticsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [deviceFilter, setDeviceFilter] = useState('all');
   const [channelFilter, setChannelFilter] = useState('all'); // all, ad, organic, direct, social
+  const [uniqueIpOnly, setUniqueIpOnly] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [dateRangeDays, setDateRangeDays] = useState<number>(14);
   const [activeTab, setActiveTab] = useState<'daily' | 'stream'>('stream');
@@ -428,9 +429,22 @@ export default function AnalyticsPage() {
     return Math.max(...chartDays.map((d) => d.totalHits), 1);
   }, [chartDays]);
 
+  // Visit count per IP to display repeat visit indicators
+  const ipHitCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    records.forEach((r) => {
+      const data = getRecordData(r);
+      const ip = data.ip;
+      if (ip && ip !== 'N/A') {
+        counts[ip] = (counts[ip] || 0) + 1;
+      }
+    });
+    return counts;
+  }, [records]);
+
   // 2. Filtered records for the visitor log stream
   const filteredRecords = useMemo(() => {
-    return records.filter((r) => {
+    const list = records.filter((r) => {
       const data = getRecordData(r);
       const q = searchQuery.toLowerCase().trim();
 
@@ -472,7 +486,20 @@ export default function AnalyticsPage() {
         r.path.toLowerCase().includes(q)
       );
     });
-  }, [records, searchQuery, deviceFilter, channelFilter, selectedDate]);
+
+    // Unique IPs filter: keep only the latest visit for each unique IP
+    if (uniqueIpOnly) {
+      const seenIps = new Set<string>();
+      return list.filter((r) => {
+        const ipKey = r.ip_address || r.details?.ip || r.ip_hash || r.id;
+        if (seenIps.has(ipKey)) return false;
+        seenIps.add(ipKey);
+        return true;
+      });
+    }
+
+    return list;
+  }, [records, searchQuery, deviceFilter, channelFilter, selectedDate, uniqueIpOnly]);
 
   // Pagination for Visitor Hits (default: 50 items per page)
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -481,7 +508,7 @@ export default function AnalyticsPage() {
   // Automatically reset to page 1 when search query, filter options, or items per page change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, deviceFilter, channelFilter, selectedDate, itemsPerPage]);
+  }, [searchQuery, deviceFilter, channelFilter, selectedDate, uniqueIpOnly, itemsPerPage]);
 
   const totalPages = Math.max(1, Math.ceil(filteredRecords.length / (itemsPerPage || 50)));
   const safeCurrentPage = Math.min(Math.max(1, currentPage), totalPages);
@@ -972,6 +999,21 @@ export default function AnalyticsPage() {
                 <option value="bot">🤖 Bots Only</option>
               </select>
 
+              {/* Unique IPs Filter Dropdown */}
+              <select
+                value={uniqueIpOnly ? 'unique' : 'all'}
+                onChange={(e) => setUniqueIpOnly(e.target.value === 'unique')}
+                className={`text-xs font-bold rounded-lg px-3 py-2 transition focus:outline-none focus:ring-2 shadow-xs cursor-pointer ${
+                  uniqueIpOnly
+                    ? 'bg-emerald-600 text-white border border-emerald-600 focus:ring-emerald-400'
+                    : 'bg-emerald-50 hover:bg-emerald-100/70 border border-emerald-200 text-emerald-900 focus:ring-emerald-400'
+                }`}
+                title="Filter by Unique IPs or show all hits"
+              >
+                <option value="all" className="bg-white text-slate-800">👥 All Visitor Hits</option>
+                <option value="unique" className="bg-white text-slate-800">✨ Unique IPs Only</option>
+              </select>
+
               {/* Day Selector */}
               <select
                 value={selectedDate || ''}
@@ -995,6 +1037,18 @@ export default function AnalyticsPage() {
                 <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                   Visitor Hits ({filteredRecords.length})
                 </span>
+                {uniqueIpOnly && (
+                  <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                    <span>✨ Unique IPs Only</span>
+                    <button 
+                      onClick={() => setUniqueIpOnly(false)} 
+                      className="hover:text-emerald-950 font-black ml-0.5 text-xs"
+                      title="Show all visitor hits"
+                    >
+                      ×
+                    </button>
+                  </span>
+                )}
                 {filteredRecords.length > 0 && (
                   <span className="text-xs text-slate-500 bg-white border border-slate-200 px-2.5 py-0.5 rounded-full font-medium shadow-xs">
                     Page <strong className="text-slate-800">{safeCurrentPage}</strong> of <strong className="text-slate-800">{totalPages}</strong> ({startIndex + 1}–{endIndex})
@@ -1088,6 +1142,16 @@ export default function AnalyticsPage() {
                                 {copiedIp === data.ip ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
                               </button>
                             </span>
+
+                            {/* Repeat Visits Count */}
+                            {ipHitCounts[data.ip] > 1 && (
+                              <span 
+                                className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 text-xs font-bold rounded-md"
+                                title={`This IP has visited ${ipHitCounts[data.ip]} times`}
+                              >
+                                {ipHitCounts[data.ip]} visits
+                              </span>
+                            )}
 
                             {/* Locality Badge */}
                             <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-rose-50 text-rose-700 border border-rose-200 text-xs font-medium rounded-md">
