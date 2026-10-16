@@ -171,6 +171,18 @@ export default function AnalyticsPage() {
   const [ipItemsPerPage, setIpItemsPerPage] = useState<number>(25);
   const { toast } = useToast();
 
+  const isLocalRecord = (r: AnalyticsRecord) => {
+    const ip = r.ip_address || r.details?.ip || '';
+    const city = r.city || r.details?.locality?.city || '';
+    return (
+      ip === '::1' ||
+      ip === '127.0.0.1' ||
+      ip === 'localhost' ||
+      ip.startsWith('::ffff:127.0.0.1') ||
+      city === 'Local Development'
+    );
+  };
+
   const fetchRecords = async (showToast = false) => {
     try {
       // 1. Fast initial fetch: Get exact DB count and the first batch of 1000 records in 1 parallel roundtrip
@@ -188,7 +200,7 @@ export default function AnalyticsPage() {
       const totalCount = countRes.count ?? (firstChunkRes.data?.length || 0);
       setTotalDbCount(totalCount);
 
-      const firstChunk = firstChunkRes.data || [];
+      const firstChunk = (firstChunkRes.data || []).filter((r: AnalyticsRecord) => !isLocalRecord(r));
       setRecords(firstChunk);
       setLoading(false);
 
@@ -221,7 +233,7 @@ export default function AnalyticsPage() {
             if (moreRecords.length > 0) {
               setRecords((prev) => {
                 const existingIds = new Set(prev.map((r) => r.id));
-                const newItems = moreRecords.filter((r) => !existingIds.has(r.id));
+                const newItems = moreRecords.filter((r) => !existingIds.has(r.id) && !isLocalRecord(r));
                 return [...prev, ...newItems];
               });
             }
@@ -359,6 +371,7 @@ export default function AnalyticsPage() {
     const groups: Record<string, AnalyticsRecord[]> = {};
 
     records.forEach((r) => {
+      if (isLocalRecord(r)) return;
       const { dateKey } = getRecordData(r);
       if (!dateKey) return;
       if (!groups[dateKey]) groups[dateKey] = [];
@@ -461,6 +474,7 @@ export default function AnalyticsPage() {
   const ipHitCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     records.forEach((r) => {
+      if (isLocalRecord(r)) return;
       const data = getRecordData(r);
       const ip = data.ip;
       if (ip && ip !== 'N/A') {
@@ -474,6 +488,7 @@ export default function AnalyticsPage() {
   const activeIpHitCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     records.forEach((r) => {
+      if (isLocalRecord(r)) return;
       const data = getRecordData(r);
       if (selectedDate && data.dateKey !== selectedDate) return;
       if (deviceFilter !== 'all') {
@@ -499,6 +514,7 @@ export default function AnalyticsPage() {
   // 2. Filtered and sorted records for the visitor log stream
   const filteredRecords = useMemo(() => {
     const list = records.filter((r) => {
+      if (isLocalRecord(r)) return false;
       const data = getRecordData(r);
       const q = searchQuery.toLowerCase().trim();
 
@@ -591,6 +607,7 @@ export default function AnalyticsPage() {
     const groups: Record<string, AnalyticsRecord[]> = {};
 
     records.forEach((r) => {
+      if (isLocalRecord(r)) return;
       const data = getRecordData(r);
       if (selectedDate && data.dateKey !== selectedDate) return;
       if (deviceFilter !== 'all') {

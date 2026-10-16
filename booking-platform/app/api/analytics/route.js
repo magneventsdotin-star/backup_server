@@ -50,6 +50,20 @@ export async function POST(req) {
     // 1. Extract Real Client IP
     const clientIp = extractClientIp(req, data.clientIp);
 
+    // Skip recording local development visits
+    if (
+      clientIp === '::1' ||
+      clientIp === '127.0.0.1' ||
+      clientIp === 'localhost' ||
+      clientIp.startsWith('::ffff:127.0.0.1')
+    ) {
+      return NextResponse.json({
+        success: true,
+        skipped: true,
+        message: 'Local development IP skipped from analytics'
+      });
+    }
+
     // 2. Hash IP for privacy/unique visitor counts
     const ipHash = crypto.createHash('sha256').update(clientIp).digest('hex').substring(0, 16);
 

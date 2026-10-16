@@ -10,6 +10,16 @@ export default function Tracker() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    // Skip analytics tracking if running in localhost / local development
+    if (
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.hostname === '::1' ||
+      window.location.hostname.endsWith('.local')
+    ) {
+      return;
+    }
+
     // 1. Maintain persistent session ID across tabs/pages
     let sessionId = sessionStorage.getItem('analytics_session_id');
     if (!sessionId) {
