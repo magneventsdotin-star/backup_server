@@ -49,17 +49,7 @@ export default function QuickBookingModal() {
       } catch (e) {}
     }
 
-    // Auto-open mandatory form once per tab/session after prompt 1.5s delay
-    let autoOpenTimer
-    if (!hasAutoOpenedInCurrentTab) {
-      autoOpenTimer = setTimeout(() => {
-        setIsOpen(true)
-        hasAutoOpenedInCurrentTab = true
-      }, 1500)
-    }
-
     return () => {
-      if (autoOpenTimer) clearTimeout(autoOpenTimer)
       window.removeEventListener('open-quick-booking', handleOpen)
       window.removeEventListener('open-token-booking', handleOpen)
       window.removeEventListener('open-instant-form', handleOpen)
@@ -67,6 +57,26 @@ export default function QuickBookingModal() {
       window.removeEventListener('hashchange', checkHash)
     }
   }, [])
+
+  // Auto-open mandatory form once per tab/session:
+  // Home page timing is 6 seconds (6000ms), other pages timing is 4 seconds (4000ms)
+  useEffect(() => {
+    if (hasAutoOpenedInCurrentTab) return
+
+    const isHomePage = !pathname || pathname === '/' || pathname === ''
+    const delay = isHomePage ? 6000 : 4000
+
+    const autoOpenTimer = setTimeout(() => {
+      if (!hasAutoOpenedInCurrentTab) {
+        setIsOpen(true)
+        hasAutoOpenedInCurrentTab = true
+      }
+    }, delay)
+
+    return () => {
+      clearTimeout(autoOpenTimer)
+    }
+  }, [pathname])
 
   useEffect(() => {
     setIsOpen(false)
