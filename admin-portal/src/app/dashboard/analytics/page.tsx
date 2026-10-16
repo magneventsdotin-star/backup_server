@@ -23,6 +23,7 @@ import {
   Wifi, 
   BarChart3, 
   Download, 
+  ChevronLeft,
   ChevronRight, 
   ChevronDown,
   TrendingUp, 
@@ -143,40 +144,62 @@ export default function AnalyticsPage() {
 
   const fetchRecords = async (showToast = false) => {
     try {
-      // PostgREST limits single requests to 1000 items. Fetch chunks in parallel to get complete multi-week history.
-      const chunkRanges: [number, number][] = [
-        [0, 999],
-        [1000, 1999],
-        [2000, 2999],
-        [3000, 3999],
-        [4000, 4999]
-      ];
-
-      const [countRes, ...chunkResults] = await Promise.all([
+      // 1. Fast initial fetch: Get exact DB count and the first batch of 1000 records in 1 parallel roundtrip
+      const [countRes, firstChunkRes] = await Promise.all([
         supabase.from('analytics').select('*', { count: 'exact', head: true }),
-        ...chunkRanges.map(([from, to]) =>
-          supabase
-            .from('analytics')
-            .select('*')
-            .order('created_at', { ascending: false })
-            .range(from, to)
-        )
+        supabase
+          .from('analytics')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .range(0, 999)
       ]);
 
-      if (countRes.count !== null && countRes.count !== undefined) {
-        setTotalDbCount(countRes.count);
-      }
+      if (firstChunkRes.error) throw firstChunkRes.error;
 
-      const firstError = chunkResults.find((r) => r.error)?.error;
-      if (firstError) throw firstError;
+      const totalCount = countRes.count ?? (firstChunkRes.data?.length || 0);
+      setTotalDbCount(totalCount);
 
-      const combinedRecords = chunkResults.flatMap((r) => r.data || []);
-      setRecords(combinedRecords);
+      const firstChunk = firstChunkRes.data || [];
+      setRecords(firstChunk);
+      setLoading(false);
+
       if (showToast) {
         toast({ 
           title: 'Refreshed Analytics', 
-          description: `Loaded ${combinedRecords.length} visitor logs across past days (${countRes.count || combinedRecords.length} total in database).` 
+          description: `Loaded ${firstChunk.length} recent visitor logs (${totalCount} total in database).` 
         });
+      }
+
+      // 2. If there are older records in DB beyond the first 1000, fetch only the needed chunks in the background
+      if (totalCount > 1000) {
+        const remainingChunks: [number, number][] = [];
+        const maxPreload = Math.min(totalCount, 5000);
+        for (let from = 1000; from < maxPreload; from += 1000) {
+          remainingChunks.push([from, Math.min(from + 999, maxPreload - 1)]);
+        }
+
+        if (remainingChunks.length > 0) {
+          Promise.all(
+            remainingChunks.map(([from, to]) =>
+              supabase
+                .from('analytics')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .range(from, to)
+            )
+          ).then((chunkResults: any[]) => {
+            const moreRecords: AnalyticsRecord[] = chunkResults.flatMap((r: any) => r.data || []);
+            if (moreRecords.length > 0) {
+              setRecords((prev) => {
+                const existingIds = new Set(prev.map((r) => r.id));
+                const newItems = moreRecords.filter((r) => !existingIds.has(r.id));
+                return [...prev, ...newItems];
+              });
+            }
+          }).catch((err) => {
+            console.error('Background analytics chunk loading error:', err);
+          });
+        }
       }
     } catch (err: any) {
       console.error('Error fetching analytics:', err);
@@ -450,6 +473,33 @@ export default function AnalyticsPage() {
       );
     });
   }, [records, searchQuery, deviceFilter, channelFilter, selectedDate]);
+
+  // Pagination for Visitor Hits (default: 50 items per page)
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(50);
+
+  // Automatically reset to page 1 when search query, filter options, or items per page change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, deviceFilter, channelFilter, selectedDate, itemsPerPage]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredRecords.length / (itemsPerPage || 50)));
+  const safeCurrentPage = Math.min(Math.max(1, currentPage), totalPages);
+  const startIndex = (safeCurrentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, filteredRecords.length);
+
+  const paginatedRecords = useMemo(() => {
+    return filteredRecords.slice(startIndex, endIndex);
+  }, [filteredRecords, startIndex, endIndex]);
+
+  const handlePageChange = (newPage: number) => {
+    const target = Math.max(1, Math.min(totalPages, newPage));
+    setCurrentPage(target);
+    const section = document.getElementById('visitor-hits-section');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   // Overall summary metrics
   const stats = useMemo(() => {
@@ -940,14 +990,59 @@ export default function AnalyticsPage() {
 
           {/* Visitor List Card */}
           <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                Visitor Hits ({filteredRecords.length})
-              </span>
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-slate-400 hidden sm:inline">
-                  Latest extracted logs with Ad / Direct attribution
+            <div id="visitor-hits-section" className="px-4 py-3 border-b border-slate-200 bg-slate-50/50 flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  Visitor Hits ({filteredRecords.length})
                 </span>
+                {filteredRecords.length > 0 && (
+                  <span className="text-xs text-slate-500 bg-white border border-slate-200 px-2.5 py-0.5 rounded-full font-medium shadow-xs">
+                    Page <strong className="text-slate-800">{safeCurrentPage}</strong> of <strong className="text-slate-800">{totalPages}</strong> ({startIndex + 1}–{endIndex})
+                  </span>
+                )}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2.5">
+                {/* Per Page Quick Selector */}
+                <div className="flex items-center gap-1.5 text-xs text-slate-600 bg-white border border-slate-200 px-2 py-1 rounded-lg shadow-sm">
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Per Page:</span>
+                  <select
+                    value={itemsPerPage}
+                    onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                    className="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer"
+                  >
+                    <option value={25}>25</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                    <option value={200}>200</option>
+                  </select>
+                </div>
+
+                {/* Quick Prev / Next Buttons */}
+                {totalPages > 1 && (
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => handlePageChange(safeCurrentPage - 1)}
+                      disabled={safeCurrentPage === 1}
+                      title="Previous Page"
+                      className="p-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition text-slate-700 shadow-sm"
+                    >
+                      <ChevronLeft className="h-3.5 w-3.5" />
+                    </button>
+                    <span className="text-xs font-bold px-2 py-0.5 bg-slate-100 rounded text-slate-700">
+                      {safeCurrentPage}/{totalPages}
+                    </span>
+                    <button
+                      onClick={() => handlePageChange(safeCurrentPage + 1)}
+                      disabled={safeCurrentPage === totalPages}
+                      title="Next Page"
+                      className="p-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition text-slate-700 shadow-sm"
+                    >
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                )}
+
                 <button
                   onClick={handleExportFilteredLogsExcel}
                   disabled={exportingExcel || filteredRecords.length === 0}
@@ -972,7 +1067,7 @@ export default function AnalyticsPage() {
               </div>
             ) : (
               <div className="divide-y divide-slate-100">
-                {filteredRecords.map((record) => {
+                {paginatedRecords.map((record) => {
                   const data = getRecordData(record);
                   const isExpanded = expandedId === record.id;
 
@@ -1142,6 +1237,100 @@ export default function AnalyticsPage() {
                     </div>
                   );
                 })}
+              </div>
+            )}
+
+            {/* Bottom Pagination Bar */}
+            {!loading && filteredRecords.length > 0 && (
+              <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3.5 border-t border-slate-200 bg-slate-50/70 gap-4">
+                <div className="flex items-center gap-3 text-xs text-slate-600 flex-wrap">
+                  <span>
+                    Showing <strong className="font-bold text-slate-900">{startIndex + 1}</strong>–<strong className="font-bold text-slate-900">{endIndex}</strong> of <strong className="font-bold text-slate-900">{filteredRecords.length}</strong> visitor logs
+                    {filteredRecords.length !== records.length && (
+                      <span className="text-slate-400 font-normal ml-1">
+                        (filtered from {records.length} total)
+                      </span>
+                    )}
+                  </span>
+                  <div className="h-4 w-px bg-slate-300 hidden sm:block" />
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Per page:</span>
+                    <select
+                      value={itemsPerPage}
+                      onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                      className="bg-white border border-slate-200 text-slate-700 text-xs font-bold rounded-lg px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer shadow-sm"
+                    >
+                      <option value={25}>25</option>
+                      <option value={50}>50</option>
+                      <option value={100}>100</option>
+                      <option value={200}>200</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Page Navigation Controls */}
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <button
+                    onClick={() => handlePageChange(1)}
+                    disabled={safeCurrentPage === 1}
+                    className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition shadow-sm"
+                    title="First Page"
+                  >
+                    First
+                  </button>
+
+                  <button
+                    onClick={() => handlePageChange(safeCurrentPage - 1)}
+                    disabled={safeCurrentPage === 1}
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition shadow-sm active:scale-95"
+                  >
+                    <ChevronLeft className="h-4 w-4" /> Previous
+                  </button>
+
+                  {/* Page Numbers */}
+                  {totalPages > 1 && (
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1)
+                        .filter((page) => page === 1 || page === totalPages || Math.abs(page - safeCurrentPage) <= 1)
+                        .map((page, idx, arr) => {
+                          const prevPage = arr[idx - 1];
+                          const showEllipsis = prevPage && page - prevPage > 1;
+                          return (
+                            <div key={page} className="flex items-center gap-1">
+                              {showEllipsis && <span className="text-slate-400 text-xs px-1">...</span>}
+                              <button
+                                onClick={() => handlePageChange(page)}
+                                className={`w-8 h-8 rounded-lg text-xs font-bold transition-all shadow-sm flex items-center justify-center ${
+                                  safeCurrentPage === page
+                                    ? 'bg-amber-500 text-slate-900 font-extrabold shadow-amber-500/20 ring-2 ring-amber-400'
+                                    : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                                }`}
+                              >
+                                {page}
+                              </button>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  )}
+
+                  <button
+                    onClick={() => handlePageChange(safeCurrentPage + 1)}
+                    disabled={safeCurrentPage === totalPages}
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition shadow-sm active:scale-95"
+                  >
+                    Next <ChevronRight className="h-4 w-4" />
+                  </button>
+
+                  <button
+                    onClick={() => handlePageChange(totalPages)}
+                    disabled={safeCurrentPage === totalPages}
+                    className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition shadow-sm"
+                    title="Last Page"
+                  >
+                    Last
+                  </button>
+                </div>
               </div>
             )}
           </div>
