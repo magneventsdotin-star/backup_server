@@ -800,11 +800,16 @@ export default function AnalyticsPage() {
   }, [records, dailyStatsList]);
 
   // Helper to map record into a clean, rich Excel row
-  const formatRecordForExcel = (r: AnalyticsRecord) => {
+  const formatRecordForExcel = (r: AnalyticsRecord, customHitCounts?: Record<string, number>) => {
     const d = getRecordData(r);
+    const hitCount = customHitCounts
+      ? (customHitCounts[d.ip] || 1)
+      : (activeIpHitCounts[d.ip] || ipHitCounts[d.ip] || 1);
+
     return {
       'Date & Time': format(new Date(r.created_at), 'yyyy-MM-dd HH:mm:ss'),
       'IP Address': d.ip,
+      'IP Hit Count': hitCount,
       'City': d.city,
       'Region / State': d.region,
       'Country': d.country,
@@ -836,7 +841,7 @@ export default function AnalyticsPage() {
     setExportingExcel(true);
     setExportStatusText('Generating Excel...');
     try {
-      const excelRows = records.map(formatRecordForExcel);
+      const excelRows = records.map((r) => formatRecordForExcel(r, ipHitCounts));
       const dateStr = format(new Date(), 'yyyy-MM-dd');
       await exportToExcel(excelRows, `Magnevents_All_Visitor_Logs_${dateStr}`, 'All Visitor Logs');
       toast({ title: 'Excel Export Successful', description: `Exported all ${excelRows.length} visitor logs across all days to Excel (.xlsx).` });
@@ -858,7 +863,7 @@ export default function AnalyticsPage() {
     setExportingExcel(true);
     setExportStatusText('Exporting View...');
     try {
-      const excelRows = filteredRecords.map(formatRecordForExcel);
+      const excelRows = filteredRecords.map((r) => formatRecordForExcel(r));
       const dateStr = format(new Date(), 'yyyy-MM-dd');
       const suffix = selectedDate ? `_${selectedDate}` : '_Filtered';
       await exportToExcel(excelRows, `Magnevents_Visitor_Logs${suffix}_${dateStr}`, 'Visitor Logs');
@@ -897,7 +902,14 @@ export default function AnalyticsPage() {
       const allDbRecords = results.flatMap((r) => r.data || []);
       
       setExportStatusText('Building Excel...');
-      const excelRows = allDbRecords.map(formatRecordForExcel);
+      const fullDbHitCounts: Record<string, number> = {};
+      allDbRecords.forEach((r) => {
+        const d = getRecordData(r);
+        if (d.ip && d.ip !== 'N/A') {
+          fullDbHitCounts[d.ip] = (fullDbHitCounts[d.ip] || 0) + 1;
+        }
+      });
+      const excelRows = allDbRecords.map((r) => formatRecordForExcel(r, fullDbHitCounts));
       const dateStr = format(new Date(), 'yyyy-MM-dd');
       await exportToExcel(excelRows, `Magnevents_Complete_Database_Requests_${dateStr}`, 'All Requests');
       toast({ title: 'Complete Export Done', description: `Successfully exported ${excelRows.length} total visitor requests to Excel (.xlsx).` });
