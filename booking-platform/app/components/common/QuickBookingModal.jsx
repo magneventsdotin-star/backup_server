@@ -8,6 +8,9 @@ import { bookingService } from '@/app/services/bookingService'
 import { getSilentLocationIfGranted } from '@/app/utils/geolocation'
 import '@/app/styles/components/ContactModal.css'
 
+// Module-scoped flag: isolated to each individual browser tab's JavaScript runtime
+let hasAutoOpenedInCurrentTab = false
+
 export default function QuickBookingModal() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
@@ -39,27 +42,20 @@ export default function QuickBookingModal() {
     checkHash()
     window.addEventListener('hashchange', checkHash)
 
-    // Check first-visit / submission status across routes
-    let hasSubmitted = false
-    let alreadyShownInTab = false
+    // Clear legacy permanent localStorage blocker if set from previous visits/submissions
     if (typeof window !== 'undefined') {
       try {
-        hasSubmitted = localStorage.getItem('mgn_popup_form_submitted') === 'true'
-        alreadyShownInTab = sessionStorage.getItem('mgn_popup_form_tab_shown') === 'true'
+        localStorage.removeItem('mgn_popup_form_submitted')
       } catch (e) {}
     }
 
-    // Auto-open mandatory form after 6 seconds on ANY page/route if not already submitted
+    // Auto-open mandatory form once per tab/session after prompt 1.5s delay
     let autoOpenTimer
-    if (!hasSubmitted && !alreadyShownInTab) {
+    if (!hasAutoOpenedInCurrentTab) {
       autoOpenTimer = setTimeout(() => {
         setIsOpen(true)
-        if (typeof window !== 'undefined') {
-          try {
-            sessionStorage.setItem('mgn_popup_form_tab_shown', 'true')
-          } catch (e) {}
-        }
-      }, 6000)
+        hasAutoOpenedInCurrentTab = true
+      }, 1500)
     }
 
     return () => {
@@ -92,12 +88,8 @@ export default function QuickBookingModal() {
   }, [isOpen])
 
   const onClose = () => {
+    hasAutoOpenedInCurrentTab = true
     setIsOpen(false)
-    if (typeof window !== 'undefined') {
-      try {
-        sessionStorage.setItem('mgn_popup_form_tab_shown', 'true')
-      } catch (e) {}
-    }
   }
 
   return (
@@ -306,8 +298,8 @@ function InnerQuickBookingForm({ onClose }) {
 
       if (typeof window !== 'undefined') {
         try {
-          localStorage.setItem('mgn_popup_form_submitted', 'true')
-          sessionStorage.setItem('mgn_popup_form_tab_shown', 'true')
+          hasAutoOpenedInCurrentTab = true
+          sessionStorage.setItem('mgn_last_booking_ref', generatedRef)
         } catch (e) {}
       }
 
