@@ -122,6 +122,18 @@ export default function PromotionalOfferSection({
             {isContextual ? (
               <a
                 href="#hero-book-99"
+                onClick={(e) => {
+                  if (typeof window !== 'undefined') {
+                    e.preventDefault();
+                    window.dispatchEvent(
+                      new CustomEvent('open-artist-booking', {
+                        detail: {
+                          service: `${category} in ${city}`
+                        }
+                      })
+                    );
+                  }
+                }}
                 className="lux-promo-main-btn"
                 style={{ textDecoration: 'none' }}
               >

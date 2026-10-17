@@ -82,17 +82,23 @@ export default function QuickBookingModal() {
     setIsOpen(false)
   }, [pathname])
 
-  // Lock body scroll when modal is open
+  // Lock body & html scroll when modal is open
   useEffect(() => {
     if (isOpen) {
+      document.documentElement.style.overflow = 'hidden'
       document.body.style.overflow = 'hidden'
+      document.documentElement.classList.add('modal-open')
       document.body.classList.add('modal-open')
     } else {
+      document.documentElement.style.overflow = ''
       document.body.style.overflow = ''
+      document.documentElement.classList.remove('modal-open')
       document.body.classList.remove('modal-open')
     }
     return () => {
+      document.documentElement.style.overflow = ''
       document.body.style.overflow = ''
+      document.documentElement.classList.remove('modal-open')
       document.body.classList.remove('modal-open')
     }
   }, [isOpen])

@@ -1,0 +1,398 @@
+/* ==========================================================================
+   SEODynamicContent.css — Magnevents Color Guidelines Strict Implementation
+   Palette: Coral (#E45F60), Marigold (#E8B943), Soft Charcoal (#29272A),
+   Warm Ivory (#F5F0E9), Wine Red (#7E3044), Rose Stone (#D8C4B7)
+   ========================================================================== */
+
+.seo-dynamic-content {
+  padding: 60px 20px 80px;
+  background: radial-gradient(circle at 50% 0%, rgba(126, 48, 68, 0.14) 0%, rgba(41, 39, 42, 0.95) 45%, var(--bg-base, #1c1a1d) 100%);
+  color: var(--color-ivory, #F5F0E9);
+  position: relative;
+  overflow: hidden;
+}
+
+.seo-dynamic-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+/* --------------------------------------------------------------------------
+   1. Overview Section
+   -------------------------------------------------------------------------- */
+.seo-overview-card {
+  background: linear-gradient(145deg, rgba(41, 39, 42, 0.85) 0%, rgba(28, 26, 29, 0.95) 100%);
+  border: 1px solid rgba(216, 196, 183, 0.22);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.seo-section-tag {
+  color: var(--color-marigold, #E8B943);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(126, 48, 68, 0.25);
+  border: 1px solid rgba(232, 185, 67, 0.35);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.seo-overview-title {
+  font-family: var(--font-display, "Playfair Display", serif);
+  font-size: clamp(2rem, 3.8vw, 2.7rem);
+  margin-bottom: 22px;
+  color: var(--color-ivory, #F5F0E9);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.seo-overview-body {
+  line-height: 1.85;
+  font-size: 1.05rem;
+  color: rgba(245, 240, 233, 0.82);
+}
+
+.seo-overview-body p {
+  margin-bottom: 16px;
+}
+
+.seo-overview-body strong {
+  color: var(--color-marigold, #E8B943);
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   2. Services Section
+   -------------------------------------------------------------------------- */
+.seo-services-head {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.seo-services-title {
+  font-family: var(--font-display, "Playfair Display", serif);
+  font-size: clamp(2rem, 3.2vw, 2.5rem);
+  color: var(--color-ivory, #F5F0E9);
+  margin-top: 10px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.seo-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.seo-service-card {
+  background: linear-gradient(145deg, rgba(41, 39, 42, 0.82) 0%, rgba(26, 24, 28, 0.92) 100%);
+  border: 1px solid rgba(216, 196, 183, 0.20);
+  padding: 32px 28px;
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+
+.seo-service-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(232, 185, 67, 0.45);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.70), 0 0 20px rgba(228, 95, 96, 0.15);
+}
+
+.seo-service-icon-wrap {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(126, 48, 68, 0.35) 0%, rgba(228, 95, 96, 0.2) 100%);
+  border: 1px solid rgba(232, 185, 67, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: var(--color-marigold, #E8B943);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.seo-service-card-title {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: var(--color-ivory, #F5F0E9);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.seo-service-card-desc {
+  color: rgba(245, 240, 233, 0.72);
+  line-height: 1.65;
+  font-size: 0.96rem;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. Mid-content Concierge Quick Booking Callout
+   -------------------------------------------------------------------------- */
+.seo-callout-card {
+  background: linear-gradient(135deg, rgba(126, 48, 68, 0.35) 0%, rgba(41, 39, 42, 0.95) 55%, rgba(24, 22, 26, 0.98) 100%);
+  border: 1.5px solid rgba(232, 185, 67, 0.35);
+  border-radius: 24px;
+  padding: 36px 34px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 35px rgba(126, 48, 68, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.seo-callout-left {
+  flex: 1;
+  min-width: 280px;
+}
+
+.seo-callout-title {
+  color: var(--color-ivory, #F5F0E9);
+  font-size: 1.65rem;
+  margin: 0 0 8px 0;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.seo-callout-desc {
+  color: rgba(245, 240, 233, 0.78);
+  margin: 0;
+  font-size: 1rem;
+  max-width: 620px;
+  line-height: 1.55;
+}
+
+.seo-callout-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Primary Action Button: Celebration Action Gradient */
+.seo-btn-concierge-primary {
+  background: linear-gradient(135deg, var(--color-wine, #7E3044) 0%, var(--color-coral, #E45F60) 100%);
+  color: #FFFFFF;
+  font-weight: 800;
+  padding: 13px 26px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(228, 95, 96, 0.35);
+  transition: all 0.25s ease;
+}
+
+.seo-btn-concierge-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(228, 95, 96, 0.45);
+}
+
+/* WhatsApp Secondary Button */
+.seo-btn-concierge-whatsapp {
+  background: #25D366;
+  color: #FFFFFF;
+  font-weight: 700;
+  padding: 13px 22px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.seo-btn-concierge-whatsapp:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(37, 211, 102, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   4. FAQ Section
+   -------------------------------------------------------------------------- */
+.seo-faqs-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.seo-faqs-head {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.seo-faqs-title {
+  font-family: var(--font-display, "Playfair Display", serif);
+  font-size: clamp(2rem, 3.2vw, 2.5rem);
+  color: var(--color-ivory, #F5F0E9);
+  margin-top: 10px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.seo-faqs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.seo-faq-item {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  background: rgba(41, 39, 42, 0.65);
+  border: 1px solid rgba(216, 196, 183, 0.20);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.seo-faq-item.is-open {
+  background: linear-gradient(135deg, rgba(126, 48, 68, 0.18) 0%, rgba(41, 39, 42, 0.88) 100%);
+  border: 1px solid rgba(232, 185, 67, 0.45);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 20px rgba(232, 185, 67, 0.1);
+}
+
+.seo-faq-trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  background: transparent;
+  color: var(--color-ivory, #F5F0E9);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  text-align: left;
+  gap: 16px;
+  transition: color 0.2s ease;
+}
+
+.seo-faq-item.is-open .seo-faq-trigger {
+  color: var(--color-marigold, #E8B943);
+}
+
+.seo-faq-chevron {
+  color: var(--color-rose-stone, #D8C4B7);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
+  flex-shrink: 0;
+}
+
+.seo-faq-item.is-open .seo-faq-chevron {
+  transform: rotate(180deg);
+  color: var(--color-marigold, #E8B943);
+}
+
+.seo-faq-content {
+  padding: 0 24px 22px;
+  color: rgba(245, 240, 233, 0.82);
+  line-height: 1.7;
+  font-size: 0.98rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. Related Searches
+   -------------------------------------------------------------------------- */
+.seo-related-wrap {
+  text-align: center;
+}
+
+.seo-related-title {
+  font-size: 1.35rem;
+  margin-bottom: 22px;
+  color: rgba(245, 240, 233, 0.85);
+  font-weight: 600;
+}
+
+.seo-related-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.seo-related-chip {
+  padding: 9px 20px;
+  background: rgba(41, 39, 42, 0.7);
+  border: 1px solid rgba(216, 196, 183, 0.25);
+  border-radius: 30px;
+  color: rgba(245, 240, 233, 0.85);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.seo-related-chip:hover {
+  background: rgba(126, 48, 68, 0.28);
+  border-color: rgba(232, 185, 67, 0.5);
+  color: var(--color-marigold, #E8B943);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 768px) {
+  .seo-dynamic-content {
+    padding: 40px 14px 60px;
+  }
+
+  .seo-overview-card {
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .seo-callout-card {
+    padding: 24px 20px;
+    border-radius: 18px;
+  }
+
+  .seo-callout-title {
+    font-size: 1.35rem;
+  }
+
+  .seo-btn-concierge-primary,
+  .seo-btn-concierge-whatsapp {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .seo-faq-trigger {
+    padding: 16px 18px;
+    font-size: 0.98rem;
+  }
+
+  .seo-faq-content {
+    padding: 0 18px 18px;
+  }
+}

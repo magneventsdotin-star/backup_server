@@ -52,10 +52,10 @@
 }
 
 .filter-btn.active {
-  background: #D65050;
+  background: var(--color-coral, #E45F60);
   color: #fff;
-  border-color: #D65050;
-  box-shadow: 0 10px 25px rgba(214, 80, 80, 0.3);
+  border-color: var(--color-coral, #E45F60);
+  box-shadow: 0 10px 25px rgba(228, 95, 96, 0.35);
 }
 
 .artists-grid {
@@ -534,7 +534,7 @@ body.modal-open .booking-bottom-nav-spacer {
 /* Modern Artist Card Styles */
 .modern-artist-card {
   position: relative;
-  background: #0a0a0a;
+  background: var(--color-charcoal, #29272A);
   border-radius: 18px;
   overflow: hidden;
   aspect-ratio: 2/3.15; /* Made 5% taller on desktop */
@@ -542,13 +542,13 @@ body.modal-open .booking-bottom-nav-spacer {
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(216, 196, 183, 0.20);
 }
 
 .modern-artist-card:hover {
   transform: translateY(-6px) scale(1.02);
-  border-color: rgba(232, 185, 67, 0.4);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 20px rgba(232, 185, 67, 0.1);
+  border-color: rgba(232, 185, 67, 0.45);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 20px rgba(228, 95, 96, 0.16);
 }
 
 .modern-img-wrap {
